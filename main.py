@@ -1,3 +1,4 @@
+# coding: utf-8
 import os
 import click
 import jinja2
@@ -24,7 +25,7 @@ def main():
 @click.option("-n", "dry_run", default=False, is_flag=True)
 @click.option("-v", "verbose", default=False, is_flag=True)
 def make(ext, dst, root, dry_run, verbose):
-    for r, d, files in os.walk(here):
+    for r, d, files in os.walk(root):
         for f in files:
             if f.endswith(ext):
                 html = Env(root).get_template(f).render()
