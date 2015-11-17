@@ -9,10 +9,6 @@ extensions = [
     'matplotlib.sphinxext.plot_directive',
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
-    #'matplotlib.sphinxext.ipython_directive',
-    #'ipython_console_highlighting',
-    #'inheritance_diagram',
-    #'numpydoc'
 ]
 
 # Use the MathJax Content Delivery Network (CDN)
@@ -31,8 +27,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Learning'
-copyright = u'2013, her0e1c1'
+project = u'BOKUNMICHI'
+copyright = u'2015, BOKUNMICHI'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
