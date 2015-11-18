@@ -17,4 +17,4 @@ build:
 	sphinx-build -b html .rst .
 
 clean:
-	clean -fr $(OBJS)
+	rm -fr $(OBJS)
