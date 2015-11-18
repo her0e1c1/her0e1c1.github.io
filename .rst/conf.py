@@ -74,8 +74,8 @@ texinfo_documents = [('index', 'Learning', u'Learning Documentation', 'Miscellan
 # on github you can't acceess the url starting with an undersocre.
 sys.path.insert(0, os.path.abspath('.'))
 
-# extensions += ['sphinxcontrib_staticdir_hack']
-# staticdir_name = "static/"
+extensions += ['sphinxcontrib_staticdir_hack']
+staticdir_name = "static/"
 
 
 import sphinx_bootstrap_theme
