@@ -25,8 +25,6 @@
 
    ファイル名が第1の見出しとする
 
-How to use
-==========
 ..
    一つのファイルで収める時の記述::
 
@@ -67,16 +65,39 @@ You can link some words to a section in the same rst file. ::
 
 Here is the `Internal link`_.
 
-.. external:
+..
+   見出しに対してリンクをはる
+   --------------------------
+   一ワードの見出しについて ::
+
+       見出し
+       ======
+
+   と見出しを記述していくと思いますが, この見出しに対して内部リンクを
+   はる場合には, ``見出し_`` と文字の最後にアンダースコアをつけます.
+
+   複数文字について ::
+
+       見出し 見出し
+       -------------
+
+   となりますが, ```見出し 見出し`_`` とバッククオートで囲めば, 空文字が
+   入っていても問題ありません. 
+
+.. _external:
+
+external link
+-------------
+::
+
+   This is `a google link`_.
+   .. _a google link: http://google.com
+
+This is `a google link`_.
+.. _a google link: http://google.com
 
 External link
 -------------
-
-::
-
-   This is a sentence `a link`_.
-   .. _a link: http://example.com/
-
 ::
 
    .. _external:
@@ -116,40 +137,23 @@ sphinxのリンクを作成する ::
 
  dir/*
 
-見出しに対してリンクをはる
---------------------------
-一ワードの見出しについて ::
-
-    見出し
-    ======
-
-と見出しを記述していくと思いますが, この見出しに対して内部リンクを
-はる場合には, ``見出し_`` と文字の最後にアンダースコアをつけます.
-
-複数文字について ::
-
-    見出し 見出し
-    -------------
-
-となりますが, ```見出し 見出し`_`` とバッククオートで囲めば, 空文字が
-入っていても問題ありません. 
-
-外部ファイル読み込み
-====================
-画像
-----
+Import a file
+=============
+image
+-----
 ::
 
  .. image:: path.img
 
-外部ファイルの読み込み
-----------------------
+file
+----
 ::
 
  .. include:: ./test.c
 
-ソースコード読み込み
---------------------
+
+source code
+-----------
 ::
 
  .. literalinclude:: ./test.py
@@ -159,16 +163,14 @@ sphinxのリンクを作成する ::
 
 In Line
 =======
-
 inline ::
 
- **とっても強調**
- *強調*
- ``ソースコード``
+   **emphasize strongly**
+   *emphasize*
+   ``source code``
 
 List
 ====
-
 list::
 
  *  リスト
@@ -223,67 +225,67 @@ list::
 
 Option List
 -----------
+Here are samples about option list.
 
-一行で記述するかしないかでかわるみたいです.::
-
-   -a この記述はない
+::
 
    -f FILENAME
-      全てのダンプをします.とかの説明文
-
-   -d 
-      引数が不要な場合
-
-   --all test
-         test
-
-   --I-am-a-japanese test
-                     日本人ですか？
-
-   -d
-     test
-     test
-
-   -b
-      一行目
-
-      残りの説明
-
--a この記述はない
+      This is a sentence.
 
 -f FILENAME
-   全てのダンプをします.とかの説明文
+   This is a sentence.
+
+::
+
+   -d 
+      no argument
 
 -d 
-   引数が不要な場合
+    no argument
 
---all test
-      test
+::
 
---I-am-a-japanese test
-                  日本人ですか？
+   --option value
+     option needs value
 
--d test
+--option value
+  option needs value
 
-   test
+::
+
+   --This-is-a-long-option value
+     take a long option. and set it to value
+
+--This-is-a-long-option value
+  take a long option. and set it to value
+
+::
+
+   -d
+     first
+     second (but this is one line)
 
 -d
-   test
-   test
+     first
+     second (but this is one line)
+
+::
+
+   -b
+      first line
+
+      the other descriptions
 
 -b
-  一行目
+    first line
 
-  残りの説明
+    the other descriptions
 
--d
-  test
-  test
+::
 
--b
-  一行目
-
-  残りの説明
+   -a WRONG! you need more than one line
+   
+-a WRONG! you need more than one line
 
 Table
 =====
@@ -298,6 +300,28 @@ one to one table
 :Date: 2000/01/01
 :Name: I am a boy
 :File: file.py
+
+one to many table
+-----------------
+::
+
+   :class 1:
+      - aaa
+      - bbb
+      - ccc
+   :class 2:
+      - xxx
+      - yyy
+      - zzz
+
+:class 1:
+    - aaa
+    - bbb
+    - ccc
+:class 2:
+    - xxx
+    - yyy
+    - zzz
 
 csv table
 ---------
@@ -365,38 +389,36 @@ horizontal list table
     * item2
     * item3
 
-個条書きの記述 ::
-
-   :class:
-      - xxx
-      - yyy
-      - zzz
-
 Block
 =====
 
-ソースコードに色づけ ::
+Highlight source code ::
 
  .. code-block:: python
 
-あるいは ::
+    print("hello world")
 
- .. highlight:: python
+.. code-block:: python
 
-Doctest Blocks
+  print("hello world")
+
+doctest blocks
 --------------
 
-一行だけのコードを記述する場合(それとその結果).
-続けて空行を筒づけずに記述すると一つにまとまります.::
+Just one line code ::
 
-    >>> a = 1
+    >>> 10
+    1024
+
+>>> 10
+1024
+
+multi lines code ::
 
     >>> print "hello," 
     hello,
     >>> print "world!"
     world!
-
->>> a = 1
 
 >>> print "hello," 
 hello,
