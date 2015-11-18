@@ -70,3 +70,9 @@ man_pages = [('index', 'learning', u'Learning Documentation',)]
 #man_show_urls = False
 
 texinfo_documents = [('index', 'Learning', u'Learning Documentation', 'Miscellaneous'),]
+
+# on github you can't acceess the url starting with an undersocre.
+sys.path.insert(0, os.path.abspath('.'))
+
+extensions += ['sphinxcontrib_staticdir_hack']
+staticdir_name = "static"
