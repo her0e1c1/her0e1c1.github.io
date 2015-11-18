@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Sphinx Tips &mdash; Python  documentation</title>
+    
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Python  documentation" href="../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-67799795-2', 'auto');
+      ga('send', 'pageview');
+  </script>
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../index.html">
+        MOKUNMICHI</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../products.html">Products</a></li>
+            <li><a href="../index.html">Snippets</a></li>
+            <li><a href="../../about_me.html">About me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="sphinx-tips">
+<h1><a class="toc-backref" href="#id41">Sphinx Tips</a><a class="headerlink" href="#sphinx-tips" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#sphinx-tips" id="id12">Sphinx Tips</a><ul>
+<li><a class="reference internal" href="#how-to-use" id="id13">How to use</a></li>
+<li><a class="reference internal" href="#link" id="id14">Link</a><ul>
+<li><a class="reference internal" href="#footer" id="id15">footer</a></li>
+<li><a class="reference internal" href="#internal-link" id="id16">Internal link</a></li>
+<li><a class="reference internal" href="#external-link" id="id17">External link</a></li>
+<li><a class="reference internal" href="#href" id="id18">Href</a></li>
+<li><a class="reference internal" href="#id1" id="id19">contents</a></li>
+<li><a class="reference internal" href="#toctree" id="id20">toctree</a></li>
+<li><a class="reference internal" href="#id3" id="id21">見出しに対してリンクをはる</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4" id="id22">外部ファイル読み込み</a><ul>
+<li><a class="reference internal" href="#id5" id="id23">画像</a></li>
+<li><a class="reference internal" href="#id6" id="id24">外部ファイルの読み込み</a></li>
+<li><a class="reference internal" href="#id7" id="id25">ソースコード読み込み</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#in-line" id="id26">In Line</a></li>
+<li><a class="reference internal" href="#list" id="id27">List</a><ul>
+<li><a class="reference internal" href="#option-list" id="id28">Option List</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#table" id="id29">Table</a><ul>
+<li><a class="reference internal" href="#one-to-one-table" id="id30">one to one table</a></li>
+<li><a class="reference internal" href="#csv-table" id="id31">csv table</a></li>
+<li><a class="reference internal" href="#vertical-list-table" id="id32">vertical list table</a></li>
+<li><a class="reference internal" href="#horizontal-list-table" id="id33">horizontal list table</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#block" id="id34">Block</a><ul>
+<li><a class="reference internal" href="#doctest-blocks" id="id35">Doctest Blocks</a></li>
+<li><a class="reference internal" href="#quoted-literal-blocks" id="id36">Quoted Literal Blocks</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8" id="id37">コード用Link</a></li>
+<li><a class="reference internal" href="#id9" id="id38">そのほか</a><ul>
+<li><a class="reference internal" href="#todo-list" id="id39">Todo List</a></li>
+<li><a class="reference internal" href="#docstringhtml" id="id40">docstringを全てhtmlで読みたい</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="how-to-use">
+<h2><a class="toc-backref" href="#id42">How to use</a><a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="link">
+<h2><a class="toc-backref" href="#id43">Link</a><a class="headerlink" href="#link" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="footer">
+<h3><a class="toc-backref" href="#id44">footer</a><a class="headerlink" href="#footer" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>[#NAME]_  # Don&#39;t forget to use an underscore
+
+.. [#NAME] this is a text.
+</pre></div>
+</div>
+</div>
+<div class="section" id="internal-link">
+<h3><a class="toc-backref" href="#id45">Internal link</a><a class="headerlink" href="#internal-link" title="Permalink to this headline">¶</a></h3>
+<p>You can link some words to a section in the same rst file.</p>
+<div class="highlight-python"><div class="highlight"><pre>`Internal link`_  # if there are spaces, quote words
+
+Internal link
+-------------
+</pre></div>
+</div>
+<p>Here is the <a class="reference internal" href="#internal-link">Internal link</a>.</p>
+</div>
+<div class="section" id="external-link">
+<h3><a class="toc-backref" href="#id46">External link</a><a class="headerlink" href="#external-link" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>This is a sentence `a link`_.
+.. _a link: http://example.com/
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>.. _external:
+
+External link
+-------------
+</pre></div>
+</div>
+<p>Refer the link.</p>
+<div class="highlight-python"><div class="highlight"><pre>:ref:`external`
+:ref:`Another section name displayed (This need not to be the same rst file) &lt;external&gt;`
+</pre></div>
+</div>
+<p>Here is the <span class="xref std std-ref">external</span>.</p>
+</div>
+<div class="section" id="href">
+<h3><a class="toc-backref" href="#id47">Href</a><a class="headerlink" href="#href" title="Permalink to this headline">¶</a></h3>
+<p>refer aother site url</p>
+<div class="highlight-python"><div class="highlight"><pre>`URL &lt;http://test.com/index.html&gt;`_
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3><a class="toc-backref" href="#id48">contents</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>見出し</p>
+<div class="highlight-python"><div class="highlight"><pre>.. contents::
+</pre></div>
+</div>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#sphinx-tips" id="id41">Sphinx Tips</a><ul>
+<li><a class="reference internal" href="#how-to-use" id="id42">How to use</a></li>
+<li><a class="reference internal" href="#link" id="id43">Link</a><ul>
+<li><a class="reference internal" href="#footer" id="id44">footer</a></li>
+<li><a class="reference internal" href="#internal-link" id="id45">Internal link</a></li>
+<li><a class="reference internal" href="#external-link" id="id46">External link</a></li>
+<li><a class="reference internal" href="#href" id="id47">Href</a></li>
+<li><a class="reference internal" href="#id1" id="id48">contents</a></li>
+<li><a class="reference internal" href="#toctree" id="id49">toctree</a></li>
+<li><a class="reference internal" href="#id3" id="id50">見出しに対してリンクをはる</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4" id="id51">外部ファイル読み込み</a><ul>
+<li><a class="reference internal" href="#id5" id="id52">画像</a></li>
+<li><a class="reference internal" href="#id6" id="id53">外部ファイルの読み込み</a></li>
+<li><a class="reference internal" href="#id7" id="id54">ソースコード読み込み</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#in-line" id="id55">In Line</a></li>
+<li><a class="reference internal" href="#list" id="id56">List</a><ul>
+<li><a class="reference internal" href="#option-list" id="id57">Option List</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#table" id="id58">Table</a><ul>
+<li><a class="reference internal" href="#one-to-one-table" id="id59">one to one table</a></li>
+<li><a class="reference internal" href="#csv-table" id="id60">csv table</a></li>
+<li><a class="reference internal" href="#vertical-list-table" id="id61">vertical list table</a></li>
+<li><a class="reference internal" href="#horizontal-list-table" id="id62">horizontal list table</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#block" id="id63">Block</a><ul>
+<li><a class="reference internal" href="#doctest-blocks" id="id64">Doctest Blocks</a></li>
+<li><a class="reference internal" href="#quoted-literal-blocks" id="id65">Quoted Literal Blocks</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8" id="id66">コード用Link</a></li>
+<li><a class="reference internal" href="#id9" id="id67">そのほか</a><ul>
+<li><a class="reference internal" href="#todo-list" id="id68">Todo List</a></li>
+<li><a class="reference internal" href="#docstringhtml" id="id69">docstringを全てhtmlで読みたい</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="toctree">
+<h3><a class="toc-backref" href="#id49">toctree</a><a class="headerlink" href="#toctree" title="Permalink to this headline">¶</a></h3>
+<p>sphinxのリンクを作成する</p>
+<div class="highlight-python"><div class="highlight"><pre>toctree::
+:maxdepth: 2
+:glob:
+
+dir/*
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3><a class="toc-backref" href="#id50">見出しに対してリンクをはる</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>一ワードの見出しについて</p>
+<div class="highlight-python"><div class="highlight"><pre>見出し
+======
+</pre></div>
+</div>
+<p>と見出しを記述していくと思いますが, この見出しに対して内部リンクを
+はる場合には, <code class="docutils literal"><span class="pre">見出し_</span></code> と文字の最後にアンダースコアをつけます.</p>
+<p>複数文字について</p>
+<div class="highlight-python"><div class="highlight"><pre>見出し 見出し
+-------------
+</pre></div>
+</div>
+<p>となりますが, <code class="docutils literal"><span class="pre">`見出し</span> <span class="pre">見出し`_</span></code> とバッククオートで囲めば, 空文字が
+入っていても問題ありません.</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id51">外部ファイル読み込み</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id52">画像</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>.. image:: path.img
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id53">外部ファイルの読み込み</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>.. include:: ./test.c
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id54">ソースコード読み込み</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>.. literalinclude:: ./test.py
+   :language: python
+   :pyobject: Timer.start
+   :lines: 1,3,5-10, 20-
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="in-line">
+<h2><a class="toc-backref" href="#id55">In Line</a><a class="headerlink" href="#in-line" title="Permalink to this headline">¶</a></h2>
+<p>inline</p>
+<div class="highlight-python"><div class="highlight"><pre>**とっても強調**
+*強調*
+``ソースコード``
+</pre></div>
+</div>
+</div>
+<div class="section" id="list">
+<h2><a class="toc-backref" href="#id56">List</a><a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h2>
+<p>list:</p>
+<div class="highlight-python"><div class="highlight"><pre>*  リスト
+1. 手動ナンバリング
+#. 自動ナンバリング
+</pre></div>
+</div>
+<p>リストのあとに文章</p>
+<div class="highlight-python"><div class="highlight"><pre>* list1 ::
+
+   start
+
+#list1のi番目から始める必要があります。？
+
+一般的
+* list1
+
+  * list2
+  * list3
+
+#4 patterns
+* aaa
+ * bbb
+
+* aaa
+
+ * bbb
+
+* aaa
+  * bbb
+
+* aaa
+
+  * bbb
+
+#. aaa
+
+  * bbb
+
+#. aaa
+
+  * bbb
+
+ #これのみ正しく解釈されます。
+#. aaa
+
+   * bbb
+
+#. aaa
+
+   * bbb
+</pre></div>
+</div>
+<div class="section" id="option-list">
+<h3><a class="toc-backref" href="#id57">Option List</a><a class="headerlink" href="#option-list" title="Permalink to this headline">¶</a></h3>
+<p>一行で記述するかしないかでかわるみたいです.:</p>
+<div class="highlight-python"><div class="highlight"><pre>-a この記述はない
+
+-f FILENAME
+   全てのダンプをします.とかの説明文
+
+-d
+   引数が不要な場合
+
+--all test
+      test
+
+--I-am-a-japanese test
+                  日本人ですか？
+
+-d
+  test
+  test
+
+-b
+   一行目
+
+   残りの説明
+</pre></div>
+</div>
+<p>-a この記述はない</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-f <var>FILENAME</var></span></kbd></td>
+<td>全てのダンプをします.とかの説明文</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-d</span></kbd></td>
+<td>引数が不要な場合</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--all <var>test</var></span></kbd></td>
+<td>test</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--I-am-a-japanese <var>test</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>日本人ですか？</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-d <var>test</var></span></kbd></td>
+<td>test</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-d</span></kbd></td>
+<td>test
+test</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-b</span></kbd></td>
+<td><p class="first">一行目</p>
+<p class="last">残りの説明</p>
+</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-d</span></kbd></td>
+<td>test
+test</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-b</span></kbd></td>
+<td><p class="first">一行目</p>
+<p class="last">残りの説明</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="table">
+<h2><a class="toc-backref" href="#id58">Table</a><a class="headerlink" href="#table" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="one-to-one-table">
+<h3><a class="toc-backref" href="#id59">one to one table</a><a class="headerlink" href="#one-to-one-table" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">2000/01/01</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Name:</th><td class="field-body">I am a boy</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">File:</th><td class="field-body">file.py</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">2000/01/01</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Name:</th><td class="field-body">I am a boy</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">File:</th><td class="field-body">file.py</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="csv-table">
+<h3><a class="toc-backref" href="#id60">csv table</a><a class="headerlink" href="#csv-table" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>.. csv-table:: table_name
+    :header-rows: 1
+    :widths: 1 4
+    :stub-columns: 0
+    :delim: ,
+
+    name, dircotry
+    Bob, /user/bob
+    Tom, /user/tom
+</pre></div>
+</div>
+<table border="1" class="docutils" id="id10">
+<caption><span class="caption-text">table_name</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">name</th>
+<th class="head">dircotry</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Bob</td>
+<td>/user/bob</td>
+</tr>
+<tr class="row-odd"><td>Tom</td>
+<td>/user/tom</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="vertical-list-table">
+<h3><a class="toc-backref" href="#id61">vertical list table</a><a class="headerlink" href="#vertical-list-table" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>.. list-table:: LIST NAME
+    :header-rows: 1
+    :widths: 20 30
+
+  * - h1
+    - h2
+
+  * - r1
+    - r2
+</pre></div>
+</div>
+<table border="1" class="docutils" id="id11">
+<caption><span class="caption-text">LIST NAME</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">h1</th>
+<th class="head">h2</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>r1</td>
+<td>r2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="horizontal-list-table">
+<h3><a class="toc-backref" href="#id62">horizontal list table</a><a class="headerlink" href="#horizontal-list-table" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>.. hlist::
+   :columns: 3
+
+   * item1
+   * item2
+   * item3
+</pre></div>
+</div>
+<table class="hlist"><tr><td><ul class="simple">
+<li>item1</li>
+</ul>
+</td><td><ul class="simple">
+<li>item2</li>
+</ul>
+</td><td><ul class="simple">
+<li>item3</li>
+</ul>
+</td></tr></table>
+<p>個条書きの記述</p>
+<div class="highlight-python"><div class="highlight"><pre>:class:
+   - xxx
+   - yyy
+   - zzz
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="block">
+<h2><a class="toc-backref" href="#id63">Block</a><a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h2>
+<p>ソースコードに色づけ</p>
+<div class="highlight-python"><div class="highlight"><pre>.. code-block:: python
+</pre></div>
+</div>
+<p>あるいは</p>
+<div class="highlight-python"><div class="highlight"><pre>.. highlight:: python
+</pre></div>
+</div>
+<div class="section" id="doctest-blocks">
+<h3><a class="toc-backref" href="#id64">Doctest Blocks</a><a class="headerlink" href="#doctest-blocks" title="Permalink to this headline">¶</a></h3>
+<p>一行だけのコードを記述する場合(それとその結果).
+続けて空行を筒づけずに記述すると一つにまとまります.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;hello,&quot;</span>
+<span class="go">hello,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;world!&quot;</span>
+<span class="go">world!</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;hello,&quot;</span>
+<span class="go">hello,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;world!&quot;</span>
+<span class="go">world!</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="quoted-literal-blocks">
+<h3><a class="toc-backref" href="#id65">Quoted Literal Blocks</a><a class="headerlink" href="#quoted-literal-blocks" title="Permalink to this headline">¶</a></h3>
+<p>インデントを使わずに記号を使って記述する場合</p>
+<div class="highlight-python"><div class="highlight"><pre>これはインデントの代わりに使うテスト::
+
+&gt; 1
+&gt; 2
+&gt; 3
+</pre></div>
+</div>
+<p>これはインデントの代わりに使うテスト:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; 1
+&gt; 2
+&gt; 3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2><a class="toc-backref" href="#id66">コード用Link</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>クラスの記述:</p>
+<div class="highlight-python"><div class="highlight"><pre>.. module:: filename
+.. class:: name
+.. attribute:: name.attr
+.. method:: name.meth
+.. classmethod:: name.meth
+.. staticmethod:: name.meth
+</pre></div>
+</div>
+<p>関数:</p>
+<div class="highlight-python"><div class="highlight"><pre>.. method:: func(arg1, arg2)
+
+ :param arg1: aaa
+ :param arg1: bbb
+ :rtype: return value
+</pre></div>
+</div>
+<p>参照</p>
+<div class="highlight-python"><div class="highlight"><pre>:mod:`filename`
+:class:`name`
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2><a class="toc-backref" href="#id67">そのほか</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="todo-list">
+<h3><a class="toc-backref" href="#id68">Todo List</a><a class="headerlink" href="#todo-list" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>conf.pyに
+extensions = [&#8216;sphinx.ext.todo&#8217; ]
+todo_include_todos=True
+記述</p>
+<p>リストを書く
+.. todo:: ブロック図を書く</p>
+<p>todoをまとめて表示
+.. todolist:</p>
+</div></blockquote>
+</div>
+<div class="section" id="docstringhtml">
+<h3><a class="toc-backref" href="#id69">docstringを全てhtmlで読みたい</a><a class="headerlink" href="#docstringhtml" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>sphinx-apidoc -F -o ./docs/ /path/to/python-module
+cd ./docs &amp;&amp; make html
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">依存モジュール:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>pygments &#8211; python用のコードハイライト</li>
+<li>jinja2 &#8211; htmlへのレンダリング</li>
+<li>docutils &#8211; ファイル変換</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top</a></p>
+    <section id="sns" class="clearfix">
+      <a href=""><i class="fa fa-rss-square", style="font-size: 50px"></i></a>
+      <a href="http://github.com/her0e1c1"><i class="fa fa-github-square", style="font-size: 50px"></i></a>
+      <a href="http://twitter.com/hiroyukiishi1"><i class="fa fa-twitter-square", style="font-size: 50px"></i></a>
+      <a href=""><i class="fa fa-linkedin-square", style="font-size: 50px"></i></a>
+      <a href="http://www.facebook.com/hiroyuki.ishii.71"><i class="fa fa-facebook-square", style="font-size: 50px"></i></a>
+    </section>
+
+    <p>
+        &copy; Copyright 2015, BOKUNMICHI.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
