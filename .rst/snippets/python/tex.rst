@@ -6,23 +6,24 @@
 Settings on sphinx
 ==================
 
-using mathjax [#mathjax]_
+Using mathjax [#mathjax]_
 
-write the settings in ``conf.py``  ::
+And write the settings in ``conf.py`` ::
 
   extensions += ["sphinx.ext.mathjax"]
-  # you need an appropriate url
+  # you should check if the url is valid or not
   mathjax_path = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 
 .. [#mathjax] http://docs.sphinx-users.jp/ext/math.html#module-sphinx.ext.mathjax
 
 How to write
 ============
-::
 
-   you write :math:`\alpha > \beta` as an inline element
+You write math expressions as an inline element ::
 
-you write :math:`\alpha > \beta` as an inline element
+   :math:`\alpha > \beta`
+
+:math:`\alpha > \beta`
 
 Or use math delective like ::
 
