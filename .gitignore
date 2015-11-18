@@ -1,3 +1,4 @@
+*.pyc
 base.html
 *.swp
 .doctrees
