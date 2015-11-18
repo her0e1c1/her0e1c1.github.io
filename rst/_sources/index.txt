@@ -1,8 +1,4 @@
 
-============
- C Language
-============
+Here is my personal page.
 
-.. toctree::
-
-   ./c/index
+You can go to other pages in the header.
