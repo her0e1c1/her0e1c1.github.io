@@ -85,7 +85,7 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 
 html_theme_options = {
     # Navigation bar title. (Default: ``project`` value)
-    'navbar_title': "Demo",
+    'navbar_title': "MOKUNMICHI",
     # Tab name for entire site. (Default: "Site")
     'navbar_site_name': "Site",
     # A list of tuples containing pages or urls to link to.
@@ -96,7 +96,7 @@ html_theme_options = {
     # Note the "1" or "True" value above as the third argument to indicate
     # an arbitrary url.
     'navbar_links': [
-        ("Examples", "examples"),
+        ("About me", "examples"),
         ("Link", "http://example.com", True),
     ],
     # Render the next and previous page links in navbar. (Default: true)
