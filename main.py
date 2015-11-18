@@ -19,6 +19,13 @@ def main():
 
 
 @main.command()
+def rst():
+    src = ".rst"
+    dst = "rst"
+    os.system("sphinx-build -b html %s %s" % (src, dst))
+
+
+@main.command()
 @click.option("-e", "ext", default=".html")
 @click.option("-d", "dst", default=here)
 @click.option("-r", "root", default=here)
