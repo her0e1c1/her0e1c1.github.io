@@ -43,3 +43,22 @@ Expressions
 .. math::
 
   W^{3\beta}_{\delta_1 \rho_1 \sigma_2} \approx U^{3\beta}_{\delta_1 \rho_1}
+
+
+multi lines::
+
+    .. math::
+        :nowrap:
+
+        \begin{eqnarray}
+        y    & = & ax^2 + bx + c \\
+        f(x) & = & x^2 + 2xy + y^2
+        \end{eqnarray}
+
+.. math::
+   :nowrap:
+
+   \begin{eqnarray}
+   y    & = & ax^2 + bx + c \\
+   f(x) & = & x^2 + 2xy + y^2
+   \end{eqnarray}
