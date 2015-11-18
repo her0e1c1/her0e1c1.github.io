@@ -12,6 +12,12 @@ If you want to get more in detail, go to each of the page links.
 - insertAt_ O(n)
 - deleteAt_ O(n)
 
+header
+======
+
+.. literalinclude:: /sample/share/include/vector.h
+   :language: c
+
 indexAt
 =======
 

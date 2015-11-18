@@ -33,23 +33,6 @@ I'll pick up useful things for writing an article.
 
    ファイル名が第1の見出しとする
 
-..
-   一つのファイルで収める時の記述::
-
-       -- ファイルの先頭に記述
-       .. contents::
-           :depth: N
-
-      -- より詳しい説明が必要なものに対してはlocalを使う
-      .. contents::
-           :local:
-
-   .. contents::
-       :depth: N
-
-   .. contents::
-       :local:
-
 Link
 ====
 
