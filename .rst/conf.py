@@ -75,4 +75,4 @@ texinfo_documents = [('index', 'Learning', u'Learning Documentation', 'Miscellan
 sys.path.insert(0, os.path.abspath('.'))
 
 extensions += ['sphinxcontrib_staticdir_hack']
-staticdir_name = "static"
+staticdir_name = "static/"
