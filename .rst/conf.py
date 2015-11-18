@@ -27,7 +27,6 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'BOKUNMICHI'
 copyright = u'2015, BOKUNMICHI'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -35,9 +34,6 @@ copyright = u'2015, BOKUNMICHI'
 # built documents.
 #
 # The short X.Y version.
-version = '1'
-# The full version, including alpha/beta/rc tags.
-release = '1'
 exclude_patterns = ['_build', 'sample']
 
 pygments_style = 'sphinx'
@@ -93,18 +89,16 @@ html_theme_options = {
     #    (name, page)                 # a link to a page
     #    (name, "/aa/bb", 1)          # a link to an arbitrary relative url
     #    (name, "http://example.com", True) # arbitrary absolute url
-    # Note the "1" or "True" value above as the third argument to indicate
-    # an arbitrary url.
+    # Note the "1" or "True" value above as the third argument to indicate an arbitrary url.
     'navbar_links': [
-        ("About me", "examples"),
-        ("Link", "http://example.com", True),
+        ("Products", "products"),
+        ("Snippets", "snippets/index"),
+        ("About me", "about_me"),
     ],
     # Render the next and previous page links in navbar. (Default: true)
     'navbar_sidebarrel': True,
     # Render the current pages TOC in the navbar. (Default: true)
     'navbar_pagenav': True,
-    # Tab name for the current pages TOC. (Default: "Page")
-    'navbar_pagenav_name': "Page",
     # Global TOC depth for "site" navbar tab. (Default: 1)
     # Switching to -1 shows all levels.
     'globaltoc_depth': 2,
