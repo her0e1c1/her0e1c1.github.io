@@ -12,6 +12,9 @@ search.html \
 searchindex.js \
 snippets \
 static \
+images \
+.buildinfo \
+.doctrees \
 
 build:
 	sphinx-build -b html .rst .
