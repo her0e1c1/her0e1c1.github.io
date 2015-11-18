@@ -101,10 +101,10 @@
 <h1>Tex Tips<a class="headerlink" href="#tex-tips" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="settings-on-sphinx">
 <h2>Settings on sphinx<a class="headerlink" href="#settings-on-sphinx" title="Permalink to this headline">¶</a></h2>
-<p>using mathjax <a class="footnote-reference" href="#mathjax" id="id1">[1]</a></p>
-<p>write the settings in <code class="docutils literal"><span class="pre">conf.py</span></code></p>
+<p>Using mathjax <a class="footnote-reference" href="#mathjax" id="id1">[1]</a></p>
+<p>And write the settings in <code class="docutils literal"><span class="pre">conf.py</span></code></p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">extensions</span> <span class="o">+=</span> <span class="p">[</span><span class="s">&quot;sphinx.ext.mathjax&quot;</span><span class="p">]</span>
-<span class="c"># you need an appropriate url</span>
+<span class="c"># you should check if the url is valid or not</span>
 <span class="n">mathjax_path</span> <span class="o">=</span> <span class="s">&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;</span>
 </pre></div>
 </div>
@@ -117,10 +117,11 @@
 </div>
 <div class="section" id="how-to-write">
 <h2>How to write<a class="headerlink" href="#how-to-write" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><div class="highlight"><pre>you write :math:`\alpha &gt; \beta` as an inline element
+<p>You write math expressions as an inline element</p>
+<div class="highlight-python"><div class="highlight"><pre>:math:`\alpha &gt; \beta`
 </pre></div>
 </div>
-<p>you write <span class="math">\(\alpha &gt; \beta\)</span> as an inline element</p>
+<p><span class="math">\(\alpha &gt; \beta\)</span></p>
 <p>Or use math delective like</p>
 <div class="highlight-python"><div class="highlight"><pre>.. math::
 
@@ -137,7 +138,21 @@
 </div>
 <div class="math">
 \[W^{3\beta}_{\delta_1 \rho_1 \sigma_2} \approx U^{3\beta}_{\delta_1 \rho_1}\]</div>
+<p>multi lines:</p>
+<div class="highlight-python"><div class="highlight"><pre>.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+    y    &amp; = &amp; ax^2 + bx + c \\
+    f(x) &amp; = &amp; x^2 + 2xy + y^2
+    \end{eqnarray}
+</pre></div>
 </div>
+<div class="math">
+\[\begin{eqnarray}
+y    & = & ax^2 + bx + c \\
+f(x) & = & x^2 + 2xy + y^2
+\end{eqnarray}\]</div></div>
 </div>
 
 
