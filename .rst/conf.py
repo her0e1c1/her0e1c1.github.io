@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import sys, os
 sys.path.append(os.path.abspath('sphinxext'))
+
 extensions = [
     "sphinx.ext.mathjax",
+    # 'matplotlib.sphinxext.mathmpl',  # conflicts mathjax! Don't use at a time
     # pip install matplotlib ipython
-    'matplotlib.sphinxext.mathmpl',
     'matplotlib.sphinxext.only_directives',
     'matplotlib.sphinxext.plot_directive',
     'sphinx.ext.autodoc',
@@ -13,7 +14,6 @@ extensions = [
 
 # Use the MathJax Content Delivery Network (CDN)
 mathjax_path = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 

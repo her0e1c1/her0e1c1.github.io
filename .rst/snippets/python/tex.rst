@@ -36,10 +36,10 @@ Or use math delective like ::
 
 Expressions
 ===========
-.. math::
+::
 
   W^{3\beta}_{\delta_1 \rho_1 \sigma_2} \approx U^{3\beta}_{\delta_1 \rho_1}
 
-::
+.. math::
 
   W^{3\beta}_{\delta_1 \rho_1 \sigma_2} \approx U^{3\beta}_{\delta_1 \rho_1}
