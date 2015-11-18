@@ -18,3 +18,4 @@ Python
    :maxdepth: 1 
 
    ./python/sphinx
+   ./python/tex
