@@ -3,7 +3,15 @@
  Sphinx Tips
 =============
 
+Introduction
+============
+
+When I write an article, I use sphinx.
+Although there are many functions sphinx has,
+I'll pick up useful things for writing an article.
+
 .. contents::
+   :depth: 3
 
 ..
    文章構成
@@ -91,9 +99,11 @@ external link
 ::
 
    This is `a google link`_.
+
    .. _a google link: http://google.com
 
 This is `a google link`_.
+
 .. _a google link: http://google.com
 
 External link
@@ -120,11 +130,33 @@ refer aother site url ::
 
 contents
 --------
-見出し ::
+Show local contents. This doesn't show outer section than this. ::
 
  .. contents::
+   :local:
 
 .. contents::
+   :local:
+
+~~~~~~~
+local 1
+~~~~~~~
+
+1 in local 1
+~~~~~~~~~~~~
+
+2 in local 1
+~~~~~~~~~~~~
+
+~~~~~~~
+local 2
+~~~~~~~
+
+1 in local 2
+~~~~~~~~~~~~
+
+2 in local 2
+~~~~~~~~~~~~
 
 toctree
 -------
@@ -167,7 +199,13 @@ inline ::
 
    **emphasize strongly**
    *emphasize*
+   `italic`
    ``source code``
+
+**emphasize strongly**
+*emphasize*
+`italic`
+``source code``
 
 List
 ====
@@ -405,20 +443,12 @@ Highlight source code ::
 doctest blocks
 --------------
 
-Just one line code ::
-
-    >>> 10
-    1024
+Just one line code.
 
 >>> 10
 1024
 
-multi lines code ::
-
-    >>> print "hello," 
-    hello,
-    >>> print "world!"
-    world!
+multi lines codes, which are converted to one block.
 
 >>> print "hello," 
 hello,
@@ -442,36 +472,13 @@ Quoted Literal Blocks
 > 2
 > 3
 
-コード用Link
-============
-
-クラスの記述::
-
- .. module:: filename
- .. class:: name
- .. attribute:: name.attr
- .. method:: name.meth
- .. classmethod:: name.meth
- .. staticmethod:: name.meth
-
-関数::
-
- .. method:: func(arg1, arg2)
-
-  :param arg1: aaa
-  :param arg1: bbb
-  :rtype: return value
-
-参照 ::
-
- :mod:`filename`
- :class:`name`
-
-そのほか
-========
+Other tips
+==========
 
 Todo List
 ---------
+
+::
 
  conf.pyに
  extensions = ['sphinx.ext.todo' ]
@@ -484,15 +491,9 @@ Todo List
  todoをまとめて表示
  .. todolist::
 
-docstringを全てhtmlで読みたい
------------------------------
+read docstring as html
+----------------------
 ::
 
     sphinx-apidoc -F -o ./docs/ /path/to/python-module
     cd ./docs && make html
-
-:依存モジュール:
-* pygments -- python用のコードハイライト
-* jinja2 -- htmlへのレンダリング
-* docutils -- ファイル変換
-

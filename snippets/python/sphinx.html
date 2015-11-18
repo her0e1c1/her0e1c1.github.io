@@ -95,62 +95,65 @@
     <div class="col-md-12 content">
       
   <div class="section" id="sphinx-tips">
-<h1><a class="toc-backref" href="#id41">Sphinx Tips</a><a class="headerlink" href="#sphinx-tips" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id8">Sphinx Tips</a><a class="headerlink" href="#sphinx-tips" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2><a class="toc-backref" href="#id9">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>When I write an article, I use sphinx.
+Although there are many functions sphinx has,
+I&#8217;ll pick up useful things for writing an article.</p>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#sphinx-tips" id="id12">Sphinx Tips</a><ul>
-<li><a class="reference internal" href="#how-to-use" id="id13">How to use</a></li>
-<li><a class="reference internal" href="#link" id="id14">Link</a><ul>
-<li><a class="reference internal" href="#footer" id="id15">footer</a></li>
-<li><a class="reference internal" href="#internal-link" id="id16">Internal link</a></li>
-<li><a class="reference internal" href="#external-link" id="id17">External link</a></li>
-<li><a class="reference internal" href="#href" id="id18">Href</a></li>
-<li><a class="reference internal" href="#id1" id="id19">contents</a></li>
-<li><a class="reference internal" href="#toctree" id="id20">toctree</a></li>
-<li><a class="reference internal" href="#id3" id="id21">見出しに対してリンクをはる</a></li>
+<li><a class="reference internal" href="#sphinx-tips" id="id8">Sphinx Tips</a><ul>
+<li><a class="reference internal" href="#introduction" id="id9">Introduction</a></li>
+<li><a class="reference internal" href="#link" id="id10">Link</a><ul>
+<li><a class="reference internal" href="#footer" id="id11">footer</a></li>
+<li><a class="reference internal" href="#internal-link" id="id12">Internal link</a></li>
+<li><a class="reference internal" href="#external-link" id="id13">external link</a></li>
+<li><a class="reference internal" href="#id1" id="id14">External link</a></li>
+<li><a class="reference internal" href="#href" id="id15">Href</a></li>
+<li><a class="reference internal" href="#id2" id="id16">contents</a></li>
+<li><a class="reference internal" href="#toctree" id="id17">toctree</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4" id="id22">外部ファイル読み込み</a><ul>
-<li><a class="reference internal" href="#id5" id="id23">画像</a></li>
-<li><a class="reference internal" href="#id6" id="id24">外部ファイルの読み込み</a></li>
-<li><a class="reference internal" href="#id7" id="id25">ソースコード読み込み</a></li>
+<li><a class="reference internal" href="#import-a-file" id="id18">Import a file</a><ul>
+<li><a class="reference internal" href="#image" id="id19">image</a></li>
+<li><a class="reference internal" href="#file" id="id20">file</a></li>
+<li><a class="reference internal" href="#source-code" id="id21">source code</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#in-line" id="id26">In Line</a></li>
-<li><a class="reference internal" href="#list" id="id27">List</a><ul>
-<li><a class="reference internal" href="#option-list" id="id28">Option List</a></li>
+<li><a class="reference internal" href="#in-line" id="id22">In Line</a></li>
+<li><a class="reference internal" href="#list" id="id23">List</a><ul>
+<li><a class="reference internal" href="#option-list" id="id24">Option List</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#table" id="id29">Table</a><ul>
-<li><a class="reference internal" href="#one-to-one-table" id="id30">one to one table</a></li>
-<li><a class="reference internal" href="#csv-table" id="id31">csv table</a></li>
-<li><a class="reference internal" href="#vertical-list-table" id="id32">vertical list table</a></li>
-<li><a class="reference internal" href="#horizontal-list-table" id="id33">horizontal list table</a></li>
+<li><a class="reference internal" href="#table" id="id25">Table</a><ul>
+<li><a class="reference internal" href="#one-to-one-table" id="id26">one to one table</a></li>
+<li><a class="reference internal" href="#one-to-many-table" id="id27">one to many table</a></li>
+<li><a class="reference internal" href="#csv-table" id="id28">csv table</a></li>
+<li><a class="reference internal" href="#vertical-list-table" id="id29">vertical list table</a></li>
+<li><a class="reference internal" href="#horizontal-list-table" id="id30">horizontal list table</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#block" id="id34">Block</a><ul>
-<li><a class="reference internal" href="#doctest-blocks" id="id35">Doctest Blocks</a></li>
-<li><a class="reference internal" href="#quoted-literal-blocks" id="id36">Quoted Literal Blocks</a></li>
+<li><a class="reference internal" href="#block" id="id31">Block</a><ul>
+<li><a class="reference internal" href="#doctest-blocks" id="id32">doctest blocks</a></li>
+<li><a class="reference internal" href="#quoted-literal-blocks" id="id33">Quoted Literal Blocks</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id8" id="id37">コード用Link</a></li>
-<li><a class="reference internal" href="#id9" id="id38">そのほか</a><ul>
-<li><a class="reference internal" href="#todo-list" id="id39">Todo List</a></li>
-<li><a class="reference internal" href="#docstringhtml" id="id40">docstringを全てhtmlで読みたい</a></li>
+<li><a class="reference internal" href="#other-tips" id="id34">Other tips</a><ul>
+<li><a class="reference internal" href="#todo-list" id="id35">Todo List</a></li>
+<li><a class="reference internal" href="#read-docstring-as-html" id="id36">read docstring as html</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="how-to-use">
-<h2><a class="toc-backref" href="#id42">How to use</a><a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="link">
-<h2><a class="toc-backref" href="#id43">Link</a><a class="headerlink" href="#link" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">Link</a><a class="headerlink" href="#link" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="footer">
-<h3><a class="toc-backref" href="#id44">footer</a><a class="headerlink" href="#footer" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">footer</a><a class="headerlink" href="#footer" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>[#NAME]_  # Don&#39;t forget to use an underscore
 
 .. [#NAME] this is a text.
@@ -158,7 +161,7 @@
 </div>
 </div>
 <div class="section" id="internal-link">
-<h3><a class="toc-backref" href="#id45">Internal link</a><a class="headerlink" href="#internal-link" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id12">Internal link</a><a class="headerlink" href="#internal-link" title="Permalink to this headline">¶</a></h3>
 <p>You can link some words to a section in the same rst file.</p>
 <div class="highlight-python"><div class="highlight"><pre>`Internal link`_  # if there are spaces, quote words
 
@@ -169,11 +172,16 @@ Internal link
 <p>Here is the <a class="reference internal" href="#internal-link">Internal link</a>.</p>
 </div>
 <div class="section" id="external-link">
-<h3><a class="toc-backref" href="#id46">External link</a><a class="headerlink" href="#external-link" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre>This is a sentence `a link`_.
-.. _a link: http://example.com/
+<span id="external"></span><h3><a class="toc-backref" href="#id13">external link</a><a class="headerlink" href="#external-link" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>This is `a google link`_.
+
+.. _a google link: http://google.com
 </pre></div>
 </div>
+<p>This is <a class="reference external" href="http://google.com">a google link</a>.</p>
+</div>
+<div class="section" id="id1">
+<h3><a class="toc-backref" href="#id14">External link</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>.. _external:
 
 External link
@@ -185,72 +193,57 @@ External link
 :ref:`Another section name displayed (This need not to be the same rst file) &lt;external&gt;`
 </pre></div>
 </div>
-<p>Here is the <span class="xref std std-ref">external</span>.</p>
+<p>Here is the <a class="reference internal" href="#external"><span>external link</span></a>.</p>
 </div>
 <div class="section" id="href">
-<h3><a class="toc-backref" href="#id47">Href</a><a class="headerlink" href="#href" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">Href</a><a class="headerlink" href="#href" title="Permalink to this headline">¶</a></h3>
 <p>refer aother site url</p>
 <div class="highlight-python"><div class="highlight"><pre>`URL &lt;http://test.com/index.html&gt;`_
 </pre></div>
 </div>
 </div>
-<div class="section" id="id1">
-<h3><a class="toc-backref" href="#id48">contents</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p>見出し</p>
+<div class="section" id="id2">
+<h3><a class="toc-backref" href="#id16">contents</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Show local contents. This doesn&#8217;t show outer section than this.</p>
 <div class="highlight-python"><div class="highlight"><pre>.. contents::
+  :local:
 </pre></div>
 </div>
-<div class="contents topic" id="id2">
-<p class="topic-title first">Contents</p>
+<div class="contents local topic" id="id3">
 <ul class="simple">
-<li><a class="reference internal" href="#sphinx-tips" id="id41">Sphinx Tips</a><ul>
-<li><a class="reference internal" href="#how-to-use" id="id42">How to use</a></li>
-<li><a class="reference internal" href="#link" id="id43">Link</a><ul>
-<li><a class="reference internal" href="#footer" id="id44">footer</a></li>
-<li><a class="reference internal" href="#internal-link" id="id45">Internal link</a></li>
-<li><a class="reference internal" href="#external-link" id="id46">External link</a></li>
-<li><a class="reference internal" href="#href" id="id47">Href</a></li>
-<li><a class="reference internal" href="#id1" id="id48">contents</a></li>
-<li><a class="reference internal" href="#toctree" id="id49">toctree</a></li>
-<li><a class="reference internal" href="#id3" id="id50">見出しに対してリンクをはる</a></li>
+<li><a class="reference internal" href="#local-1" id="id37">local 1</a><ul>
+<li><a class="reference internal" href="#in-local-1" id="id38">1 in local 1</a></li>
+<li><a class="reference internal" href="#id4" id="id39">2 in local 1</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4" id="id51">外部ファイル読み込み</a><ul>
-<li><a class="reference internal" href="#id5" id="id52">画像</a></li>
-<li><a class="reference internal" href="#id6" id="id53">外部ファイルの読み込み</a></li>
-<li><a class="reference internal" href="#id7" id="id54">ソースコード読み込み</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#in-line" id="id55">In Line</a></li>
-<li><a class="reference internal" href="#list" id="id56">List</a><ul>
-<li><a class="reference internal" href="#option-list" id="id57">Option List</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#table" id="id58">Table</a><ul>
-<li><a class="reference internal" href="#one-to-one-table" id="id59">one to one table</a></li>
-<li><a class="reference internal" href="#csv-table" id="id60">csv table</a></li>
-<li><a class="reference internal" href="#vertical-list-table" id="id61">vertical list table</a></li>
-<li><a class="reference internal" href="#horizontal-list-table" id="id62">horizontal list table</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#block" id="id63">Block</a><ul>
-<li><a class="reference internal" href="#doctest-blocks" id="id64">Doctest Blocks</a></li>
-<li><a class="reference internal" href="#quoted-literal-blocks" id="id65">Quoted Literal Blocks</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id8" id="id66">コード用Link</a></li>
-<li><a class="reference internal" href="#id9" id="id67">そのほか</a><ul>
-<li><a class="reference internal" href="#todo-list" id="id68">Todo List</a></li>
-<li><a class="reference internal" href="#docstringhtml" id="id69">docstringを全てhtmlで読みたい</a></li>
+<li><a class="reference internal" href="#local-2" id="id40">local 2</a><ul>
+<li><a class="reference internal" href="#in-local-2" id="id41">1 in local 2</a></li>
+<li><a class="reference internal" href="#id5" id="id42">2 in local 2</a></li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
+</div>
+<div class="section" id="local-1">
+<h4><a class="toc-backref" href="#id37">local 1</a><a class="headerlink" href="#local-1" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="in-local-1">
+<h5><a class="toc-backref" href="#id38">1 in local 1</a><a class="headerlink" href="#in-local-1" title="Permalink to this headline">¶</a></h5>
+</div>
+<div class="section" id="id4">
+<h5><a class="toc-backref" href="#id39">2 in local 1</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h5>
+</div>
+</div>
+<div class="section" id="local-2">
+<h4><a class="toc-backref" href="#id40">local 2</a><a class="headerlink" href="#local-2" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="in-local-2">
+<h5><a class="toc-backref" href="#id41">1 in local 2</a><a class="headerlink" href="#in-local-2" title="Permalink to this headline">¶</a></h5>
+</div>
+<div class="section" id="id5">
+<h5><a class="toc-backref" href="#id42">2 in local 2</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h5>
+</div>
 </div>
 </div>
 <div class="section" id="toctree">
-<h3><a class="toc-backref" href="#id49">toctree</a><a class="headerlink" href="#toctree" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">toctree</a><a class="headerlink" href="#toctree" title="Permalink to this headline">¶</a></h3>
 <p>sphinxのリンクを作成する</p>
 <div class="highlight-python"><div class="highlight"><pre>toctree::
 :maxdepth: 2
@@ -260,40 +253,23 @@ dir/*
 </pre></div>
 </div>
 </div>
-<div class="section" id="id3">
-<h3><a class="toc-backref" href="#id50">見出しに対してリンクをはる</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>一ワードの見出しについて</p>
-<div class="highlight-python"><div class="highlight"><pre>見出し
-======
-</pre></div>
 </div>
-<p>と見出しを記述していくと思いますが, この見出しに対して内部リンクを
-はる場合には, <code class="docutils literal"><span class="pre">見出し_</span></code> と文字の最後にアンダースコアをつけます.</p>
-<p>複数文字について</p>
-<div class="highlight-python"><div class="highlight"><pre>見出し 見出し
--------------
-</pre></div>
-</div>
-<p>となりますが, <code class="docutils literal"><span class="pre">`見出し</span> <span class="pre">見出し`_</span></code> とバッククオートで囲めば, 空文字が
-入っていても問題ありません.</p>
-</div>
-</div>
-<div class="section" id="id4">
-<h2><a class="toc-backref" href="#id51">外部ファイル読み込み</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id5">
-<h3><a class="toc-backref" href="#id52">画像</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="import-a-file">
+<h2><a class="toc-backref" href="#id18">Import a file</a><a class="headerlink" href="#import-a-file" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="image">
+<h3><a class="toc-backref" href="#id19">image</a><a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>.. image:: path.img
 </pre></div>
 </div>
 </div>
-<div class="section" id="id6">
-<h3><a class="toc-backref" href="#id53">外部ファイルの読み込み</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="file">
+<h3><a class="toc-backref" href="#id20">file</a><a class="headerlink" href="#file" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>.. include:: ./test.c
 </pre></div>
 </div>
 </div>
-<div class="section" id="id7">
-<h3><a class="toc-backref" href="#id54">ソースコード読み込み</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="source-code">
+<h3><a class="toc-backref" href="#id21">source code</a><a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>.. literalinclude:: ./test.py
    :language: python
    :pyobject: Timer.start
@@ -303,16 +279,21 @@ dir/*
 </div>
 </div>
 <div class="section" id="in-line">
-<h2><a class="toc-backref" href="#id55">In Line</a><a class="headerlink" href="#in-line" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id22">In Line</a><a class="headerlink" href="#in-line" title="Permalink to this headline">¶</a></h2>
 <p>inline</p>
-<div class="highlight-python"><div class="highlight"><pre>**とっても強調**
-*強調*
-``ソースコード``
+<div class="highlight-python"><div class="highlight"><pre>**emphasize strongly**
+*emphasize*
+`italic`
+``source code``
 </pre></div>
 </div>
+<p><strong>emphasize strongly</strong>
+<em>emphasize</em>
+<cite>italic</cite>
+<code class="docutils literal"><span class="pre">source</span> <span class="pre">code</span></code></p>
 </div>
 <div class="section" id="list">
-<h2><a class="toc-backref" href="#id56">List</a><a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id23">List</a><a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h2>
 <p>list:</p>
 <div class="highlight-python"><div class="highlight"><pre>*  リスト
 1. 手動ナンバリング
@@ -366,79 +347,103 @@ dir/*
 </pre></div>
 </div>
 <div class="section" id="option-list">
-<h3><a class="toc-backref" href="#id57">Option List</a><a class="headerlink" href="#option-list" title="Permalink to this headline">¶</a></h3>
-<p>一行で記述するかしないかでかわるみたいです.:</p>
-<div class="highlight-python"><div class="highlight"><pre>-a この記述はない
-
--f FILENAME
-   全てのダンプをします.とかの説明文
-
--d
-   引数が不要な場合
-
---all test
-      test
-
---I-am-a-japanese test
-                  日本人ですか？
-
--d
-  test
-  test
-
--b
-   一行目
-
-   残りの説明
+<h3><a class="toc-backref" href="#id24">Option List</a><a class="headerlink" href="#option-list" title="Permalink to this headline">¶</a></h3>
+<p>Here are samples about option list.</p>
+<div class="highlight-python"><div class="highlight"><pre>-f FILENAME
+   This is a sentence.
 </pre></div>
 </div>
-<p>-a この記述はない</p>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">-f <var>FILENAME</var></span></kbd></td>
-<td>全てのダンプをします.とかの説明文</td></tr>
+<td>This is a sentence.</td></tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>-d
+   no argument
+</pre></div>
+</div>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">-d</span></kbd></td>
-<td>引数が不要な場合</td></tr>
+<td>no argument</td></tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>--option value
+  option needs value
+</pre></div>
+</div>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">--all <var>test</var></span></kbd></td>
-<td>test</td></tr>
+<kbd><span class="option">--option <var>value</var></span></kbd></td>
+<td>option needs value</td></tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>--This-is-a-long-option value
+  take a long option. and set it to value
+</pre></div>
+</div>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group" colspan="2">
-<kbd><span class="option">--I-am-a-japanese <var>test</var></span></kbd></td>
+<kbd><span class="option">--This-is-a-long-option <var>value</var></span></kbd></td>
 </tr>
-<tr><td>&nbsp;</td><td>日本人ですか？</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-d <var>test</var></span></kbd></td>
-<td>test</td></tr>
+<tr><td>&nbsp;</td><td>take a long option. and set it to value</td></tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>-d
+  first
+  second (but this is one line)
+</pre></div>
+</div>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">-d</span></kbd></td>
-<td>test
-test</td></tr>
+<td>first
+second (but this is one line)</td></tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>-b
+   first line
+
+   the other descriptions
+</pre></div>
+</div>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">-b</span></kbd></td>
-<td><p class="first">一行目</p>
-<p class="last">残りの説明</p>
-</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-d</span></kbd></td>
-<td>test
-test</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-b</span></kbd></td>
-<td><p class="first">一行目</p>
-<p class="last">残りの説明</p>
+<td><p class="first">first line</p>
+<p class="last">the other descriptions</p>
 </td></tr>
 </tbody>
 </table>
+<div class="highlight-python"><div class="highlight"><pre>-a WRONG! you need more than one line
+</pre></div>
+</div>
+<p>-a WRONG! you need more than one line</p>
 </div>
 </div>
 <div class="section" id="table">
-<h2><a class="toc-backref" href="#id58">Table</a><a class="headerlink" href="#table" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id25">Table</a><a class="headerlink" href="#table" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="one-to-one-table">
-<h3><a class="toc-backref" href="#id59">one to one table</a><a class="headerlink" href="#one-to-one-table" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id26">one to one table</a><a class="headerlink" href="#one-to-one-table" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -466,8 +471,41 @@ test</td></tr>
 </tbody>
 </table>
 </div>
+<div class="section" id="one-to-many-table">
+<h3><a class="toc-backref" href="#id27">one to many table</a><a class="headerlink" href="#one-to-many-table" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>:class 1:
+   - aaa
+   - bbb
+   - ccc
+:class 2:
+   - xxx
+   - yyy
+   - zzz
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">class 1:</th><td class="field-body"><ul class="first simple">
+<li>aaa</li>
+<li>bbb</li>
+<li>ccc</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">class 2:</th><td class="field-body"><ul class="first last simple">
+<li>xxx</li>
+<li>yyy</li>
+<li>zzz</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="csv-table">
-<h3><a class="toc-backref" href="#id60">csv table</a><a class="headerlink" href="#csv-table" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id28">csv table</a><a class="headerlink" href="#csv-table" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>.. csv-table:: table_name
     :header-rows: 1
     :widths: 1 4
@@ -479,8 +517,8 @@ test</td></tr>
     Tom, /user/tom
 </pre></div>
 </div>
-<table border="1" class="docutils" id="id10">
-<caption><span class="caption-text">table_name</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<table border="1" class="docutils" id="id6">
+<caption><span class="caption-text">table_name</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
 <col width="80%" />
@@ -501,7 +539,7 @@ test</td></tr>
 </table>
 </div>
 <div class="section" id="vertical-list-table">
-<h3><a class="toc-backref" href="#id61">vertical list table</a><a class="headerlink" href="#vertical-list-table" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id29">vertical list table</a><a class="headerlink" href="#vertical-list-table" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>.. list-table:: LIST NAME
     :header-rows: 1
     :widths: 20 30
@@ -513,8 +551,8 @@ test</td></tr>
     - r2
 </pre></div>
 </div>
-<table border="1" class="docutils" id="id11">
-<caption><span class="caption-text">LIST NAME</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<table border="1" class="docutils" id="id7">
+<caption><span class="caption-text">LIST NAME</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="40%" />
 <col width="60%" />
@@ -532,7 +570,7 @@ test</td></tr>
 </table>
 </div>
 <div class="section" id="horizontal-list-table">
-<h3><a class="toc-backref" href="#id62">horizontal list table</a><a class="headerlink" href="#horizontal-list-table" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id30">horizontal list table</a><a class="headerlink" href="#horizontal-list-table" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>.. hlist::
    :columns: 3
 
@@ -551,40 +589,27 @@ test</td></tr>
 <li>item3</li>
 </ul>
 </td></tr></table>
-<p>個条書きの記述</p>
-<div class="highlight-python"><div class="highlight"><pre>:class:
-   - xxx
-   - yyy
-   - zzz
-</pre></div>
-</div>
 </div>
 </div>
 <div class="section" id="block">
-<h2><a class="toc-backref" href="#id63">Block</a><a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h2>
-<p>ソースコードに色づけ</p>
+<h2><a class="toc-backref" href="#id31">Block</a><a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h2>
+<p>Highlight source code</p>
 <div class="highlight-python"><div class="highlight"><pre>.. code-block:: python
+
+   print(&quot;hello world&quot;)
 </pre></div>
 </div>
-<p>あるいは</p>
-<div class="highlight-python"><div class="highlight"><pre>.. highlight:: python
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="doctest-blocks">
-<h3><a class="toc-backref" href="#id64">Doctest Blocks</a><a class="headerlink" href="#doctest-blocks" title="Permalink to this headline">¶</a></h3>
-<p>一行だけのコードを記述する場合(それとその結果).
-続けて空行を筒づけずに記述すると一つにまとまります.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;hello,&quot;</span>
-<span class="go">hello,</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;world!&quot;</span>
-<span class="go">world!</span>
+<h3><a class="toc-backref" href="#id32">doctest blocks</a><a class="headerlink" href="#doctest-blocks" title="Permalink to this headline">¶</a></h3>
+<p>Just one line code.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">10</span>
+<span class="go">1024</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
-</pre></div>
-</div>
+<p>multi lines codes, which are converted to one block.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;hello,&quot;</span>
 <span class="go">hello,</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;world!&quot;</span>
@@ -593,7 +618,7 @@ test</td></tr>
 </div>
 </div>
 <div class="section" id="quoted-literal-blocks">
-<h3><a class="toc-backref" href="#id65">Quoted Literal Blocks</a><a class="headerlink" href="#quoted-literal-blocks" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id33">Quoted Literal Blocks</a><a class="headerlink" href="#quoted-literal-blocks" title="Permalink to this headline">¶</a></h3>
 <p>インデントを使わずに記号を使って記述する場合</p>
 <div class="highlight-python"><div class="highlight"><pre>これはインデントの代わりに使うテスト::
 
@@ -610,65 +635,29 @@ test</td></tr>
 </div>
 </div>
 </div>
-<div class="section" id="id8">
-<h2><a class="toc-backref" href="#id66">コード用Link</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
-<p>クラスの記述:</p>
-<div class="highlight-python"><div class="highlight"><pre>.. module:: filename
-.. class:: name
-.. attribute:: name.attr
-.. method:: name.meth
-.. classmethod:: name.meth
-.. staticmethod:: name.meth
-</pre></div>
-</div>
-<p>関数:</p>
-<div class="highlight-python"><div class="highlight"><pre>.. method:: func(arg1, arg2)
-
- :param arg1: aaa
- :param arg1: bbb
- :rtype: return value
-</pre></div>
-</div>
-<p>参照</p>
-<div class="highlight-python"><div class="highlight"><pre>:mod:`filename`
-:class:`name`
-</pre></div>
-</div>
-</div>
-<div class="section" id="id9">
-<h2><a class="toc-backref" href="#id67">そのほか</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="other-tips">
+<h2><a class="toc-backref" href="#id34">Other tips</a><a class="headerlink" href="#other-tips" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="todo-list">
-<h3><a class="toc-backref" href="#id68">Todo List</a><a class="headerlink" href="#todo-list" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><p>conf.pyに
-extensions = [&#8216;sphinx.ext.todo&#8217; ]
+<h3><a class="toc-backref" href="#id35">Todo List</a><a class="headerlink" href="#todo-list" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>conf.pyに
+extensions = [&#39;sphinx.ext.todo&#39; ]
 todo_include_todos=True
-記述</p>
-<p>リストを書く
-.. todo:: ブロック図を書く</p>
-<p>todoをまとめて表示
-.. todolist:</p>
-</div></blockquote>
+記述
+
+リストを書く
+.. todo:: ブロック図を書く
+
+todoをまとめて表示
+.. todolist::
+</pre></div>
 </div>
-<div class="section" id="docstringhtml">
-<h3><a class="toc-backref" href="#id69">docstringを全てhtmlで読みたい</a><a class="headerlink" href="#docstringhtml" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="read-docstring-as-html">
+<h3><a class="toc-backref" href="#id36">read docstring as html</a><a class="headerlink" href="#read-docstring-as-html" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>sphinx-apidoc -F -o ./docs/ /path/to/python-module
 cd ./docs &amp;&amp; make html
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">依存モジュール:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<ul class="simple">
-<li>pygments &#8211; python用のコードハイライト</li>
-<li>jinja2 &#8211; htmlへのレンダリング</li>
-<li>docutils &#8211; ファイル変換</li>
-</ul>
 </div>
 </div>
 </div>
