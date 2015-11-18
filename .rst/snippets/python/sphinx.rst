@@ -192,11 +192,35 @@ inline ::
 
 List
 ====
-list::
+list ::
 
- *  リスト
- 1. 手動ナンバリング
- #. 自動ナンバリング
+ *  item1
+ *  item2
+ *  item3
+
+*  item1
+*  item2
+*  item3
+
+manual numbering ::
+
+ 1. item1 
+ 2. item2 
+ 3. item3 
+
+1. item1 
+2. item2 
+3. item3 
+
+auto numbering ::
+
+ #. item1
+ #. item2
+ #. item3
+
+#. item1
+#. item2
+#. item3
 
 リストのあとに文章 ::
 
@@ -212,20 +236,43 @@ list::
    * list2
    * list3
 
- #4 patterns
+::
+
  * aaa
   * bbb
+
+* aaa
+ * bbb
+
+::
 
  * aaa
 
   * bbb
+
+* aaa
+
+ * bbb
+
+::
 
  * aaa
    * bbb
 
+* aaa
+  * bbb
+
+::
+
  * aaa
 
    * bbb
+
+* aaa
+
+  * bbb
+
+::
 
  #. aaa
 
@@ -235,7 +282,16 @@ list::
 
    * bbb
 
-  #これのみ正しく解釈されます。
+#. aaa
+
+  * bbb
+
+#. aaa
+
+  * bbb
+
+This works ::
+
  #. aaa
 
     * bbb
@@ -243,6 +299,14 @@ list::
  #. aaa
 
     * bbb
+
+#. aaa
+
+   * bbb
+
+#. aaa
+
+   * bbb
 
 Option List
 -----------
