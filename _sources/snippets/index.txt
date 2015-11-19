@@ -19,3 +19,12 @@ Python
 
    ./python/sphinx
    ./python/tex
+   ./python/chart/index
+
+Oneliner
+========
+
+.. toctree::
+   :maxdepth: 1 
+
+   ./oneliner/1
