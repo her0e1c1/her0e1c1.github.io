@@ -38,7 +38,7 @@ exclude_patterns = ['_build', 'sample']
 
 pygments_style = 'sphinx'
 html_theme = 'haiku'
-html_static_path = ['_static']
+html_static_path = ['static']
 htmlhelp_basename = 'Learningdoc'
 
 # -- Options for LaTeX output --------------------------------------------------
