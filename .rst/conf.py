@@ -73,6 +73,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 extensions += ['sphinxcontrib_staticdir_hack']
 staticdir_name = "static/"
+imagedir_name = "images/"
 
 
 import sphinx_bootstrap_theme
