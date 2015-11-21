@@ -1,0 +1,67 @@
+
+================
+ Hiroyuki Ishii
+================
+
+- test@gmail.com
+- https://github.com/her0e1c1
+- http://her0e1c1.github.io/ (personal page)
+
+Background
+==========
+
+I am a software developer. 
+
+I like to..
+
+
+Proficiency
+===========
+
+I have used followings through my 2 years professional experiences as a software engineer.
+
+- Languages
+
+   - Python
+   - JavaScript
+   - LISP Dialects (Emacs Lisp, Gauche)
+
+- Platforms
+
+   - Linux (Ubuntu)
+   - FreeBSD
+
+- Tools
+
+   - Emacs
+   - Zsh
+   - RCS (hg, git, svn)
+
+- etc
+
+  - MySQL
+  - Pylons/Django
+  - jQuery/AngularJS
+  - Vagrant/Ansible
+
+..
+
+   C/C++, Haskell
+
+Education
+=========
+
+Computer Science, B.S. (I learned especially about Bioinformatics)
+
+2009/04 - 2013/03 Tokyo Institute of Technology, Japan
+
+Experience
+==========
+
+* Web Application Engineer - June 20013 to July 2015
+
+  Skills needed in this company are...
+
+    - Python
+    - JavaScript
+    - MySQL
