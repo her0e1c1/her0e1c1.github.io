@@ -11,7 +11,7 @@ C Language
 
    ./c/index
 
-Javascript
+JavaScript
 ==========
 
 .. toctree::
