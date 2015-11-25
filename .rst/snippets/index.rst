@@ -11,14 +11,6 @@ C Language
 
    ./c/index
 
-JavaScript
-==========
-
-.. toctree::
-   :maxdepth: 1 
-
-   ./js/csv
-
 Python
 ======
 
@@ -36,3 +28,11 @@ Oneliner
    :maxdepth: 1 
 
    ./oneliner/1
+
+Parser
+======
+
+.. toctree::
+   :maxdepth: 1 
+
+   ./parser/csv
