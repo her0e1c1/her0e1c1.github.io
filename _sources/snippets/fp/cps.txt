@@ -1,0 +1,3 @@
+
+.. literalinclude:: ../../src/cps/fact.scm
+   :language: scheme
