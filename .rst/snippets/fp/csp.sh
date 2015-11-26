@@ -1,5 +1,3 @@
-SRC="../../src/fp/cps"
-
 cat <<EOF
 ==============
  Continuation
@@ -18,7 +16,7 @@ $(gosh <<EOG
 .. literalinclude:: ~|path|
    :language: scheme
 ")))
-  (glob"$SRC/*"))
+  (glob "$SNIPPETS_SRC/fp/cps/*.scm"))
 EOG
 )
 
