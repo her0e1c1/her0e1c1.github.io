@@ -1,3 +1,4 @@
+
 (add-load-path "." :relative)
 (load "fact.scm")
 (use gauche.test)
