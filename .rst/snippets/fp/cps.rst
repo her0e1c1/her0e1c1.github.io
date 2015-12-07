@@ -55,6 +55,22 @@ leaf-count.scm
    :language: scheme
 
 
+test
+----
+
+.. literalinclude:: ../../src/fp/cps/leaf-count.test.scm
+   :language: scheme
+
+test result  ::
+
+    test (leaf-count/cps 0), expects 1 ==> ok
+    test (leaf-count/cps 1), expects 2 ==> ok
+    test (leaf-count/cps 2), expects 3 ==> ok
+    test (leaf-count/cps 3), expects 5 ==> ok
+    test (leaf-count/cps 4), expects 7 ==> ok
+    test (leaf-count/cps 5), expects 7 ==> ok
+    test (leaf-count/cps 5), expects 8 ==> ok
+
 
 
 flatten.scm
