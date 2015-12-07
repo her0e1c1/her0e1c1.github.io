@@ -21,9 +21,6 @@ header
 indexAt
 =======
 
-Refer nth element.
-
-Using a vector, you can access an element of it for a constant time.
 
 .. literalinclude:: /sample/share/vector/indexAt.c
    :language: c
@@ -31,7 +28,6 @@ Using a vector, you can access an element of it for a constant time.
 insertAt
 ========
 
-You need to move an element one by one from index.
 So complexity is O(n)
 
 .. literalinclude:: /sample/share/vector/insertAt.c

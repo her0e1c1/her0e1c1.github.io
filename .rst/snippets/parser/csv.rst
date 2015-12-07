@@ -53,6 +53,12 @@ So you need an option to check if there is a header or not.
 REGEX
 =====
 
+REGEX can't parse nested contexts and name expressions.
+
+::
+
+   ("[^"]")|
+
 
 SAMPLE
 ======

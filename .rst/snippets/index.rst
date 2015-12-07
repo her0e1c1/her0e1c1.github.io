@@ -36,3 +36,11 @@ Parser
    :maxdepth: 1 
 
    ./parser/csv
+
+misc
+====
+
+.. toctree::
+   :maxdepth: 1 
+
+   ./fp/cps
