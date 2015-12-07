@@ -27,9 +27,9 @@ sphinx-build:
 	sphinx-build -b html .rst .
 
 cp:
-	cp * /home/mbp/Desktop/out
+	cp -r * /home/mbp/Desktop/out
 
 clean:
 	rm -fr $(OBJS)
 
-all: clean create shpinx-build cp
+all: clean create sphinx-build cp
