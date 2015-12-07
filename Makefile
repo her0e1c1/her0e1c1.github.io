@@ -26,7 +26,10 @@ create:
 sphinx-build:
 	sphinx-build -b html .rst .
 
-build: clean create sphinx-build
+cp:
+	cp * /home/mbp/Desktop/out
 
 clean:
 	rm -fr $(OBJS)
+
+all: clean create shpinx-build cp
