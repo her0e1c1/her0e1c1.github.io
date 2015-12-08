@@ -4,9 +4,12 @@
 ==========
 
 Here are my products.
-
-- `pw <https://github.com/her0e1c1/pw>`_
-    a python password manager
   
-- `Napoleon <http://napolo.herokuapp.com/>`_
-    a card game
+- `Napoleon <http://github.com/her0e1c1/Napoleon>`_
+    A card game (`served on heroku <http://napolo.herokuapp.com/>`_)
+
+- `schemejs <https://github.com/her0e1c1/schemejs>`_
+    A Scheme interpriter in JavaScript
+
+- `pwm <https://github.com/her0e1c1/pw>`_
+    A Python password manager
