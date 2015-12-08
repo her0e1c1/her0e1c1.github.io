@@ -11,16 +11,6 @@ C Language
 
    ./c/index
 
-Python
-======
-
-.. toctree::
-   :maxdepth: 1 
-
-   ./python/sphinx
-   ./python/tex
-   ./python/chart/index
-
 Oneliner
 ========
 
@@ -44,3 +34,4 @@ misc
    :maxdepth: 1 
 
    ./fp/cps
+   ./sphinx/index
