@@ -12,29 +12,5 @@ If you want to get more in detail, go to each of the page links.
 - insertAt_ O(n)
 - deleteAt_ O(n)
 
-header
-======
-
-.. literalinclude:: /sample/share/include/vector.h
-   :language: c
-
-indexAt
-=======
-
-
-.. literalinclude:: /sample/share/vector/indexAt.c
-   :language: c
-
-insertAt
-========
-
-So complexity is O(n)
-
-.. literalinclude:: /sample/share/vector/insertAt.c
-   :language: c
-
-deleteAt
-========
-
-.. literalinclude:: /sample/share/vector/deleteAt.c
+.. literalinclude:: ../../src/c/myvector.h
    :language: c

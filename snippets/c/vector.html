@@ -103,64 +103,91 @@
 <p>Here are features of a vector.
 If you want to get more in detail, go to each of the page links.</p>
 <ul class="simple">
-<li><a class="reference internal" href="#indexat">indexAt</a> O(1)</li>
-<li><a class="reference internal" href="#insertat">insertAt</a> O(n)</li>
-<li><a class="reference internal" href="#deleteat">deleteAt</a> O(n)</li>
+<li><a href="#id1"><span class="problematic" id="id2">indexAt_</span></a> O(1)</li>
+<li><a href="#id3"><span class="problematic" id="id4">insertAt_</span></a> O(n)</li>
+<li><a href="#id5"><span class="problematic" id="id6">deleteAt_</span></a> O(n)</li>
 </ul>
-<div class="section" id="header">
-<h2>header<a class="headerlink" href="#header" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c"><div class="highlight"><pre><span class="cp">#ifndef INCLUDED_VECTOR_H</span>
-<span class="cp">#define INCLUDED_VECTOR_H</span>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#ifndef MYVECTOR</span>
+<span class="cp">#define MYVECTOR</span>
 
-<span class="k">struct</span> <span class="n">vector</span> <span class="p">{</span>
+<span class="c1">// Dynamic Array</span>
+
+<span class="cp">#include &quot;myutils.h&quot;</span>
+
+<span class="k">struct</span> <span class="n">_vector</span> <span class="p">{</span>
   <span class="kt">int</span><span class="o">*</span> <span class="n">data</span><span class="p">;</span>
   <span class="kt">size_t</span> <span class="n">size</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">vector</span> <span class="kt">vector_t</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_vector</span> <span class="kt">vector_t</span><span class="p">;</span>
 
-<span class="kt">vector_t</span> <span class="o">*</span><span class="nf">init</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">value</span><span class="p">);</span>
-<span class="kt">vector_t</span> <span class="o">*</span><span class="nf">inits</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">argc</span><span class="p">,</span> <span class="p">...);</span>
-<span class="kt">void</span> <span class="nf">display</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">);</span>
-<span class="kt">void</span> <span class="nf">append</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="kt">int</span> <span class="n">value</span><span class="p">);</span>
-<span class="kt">int</span> <span class="nf">indexAt</span><span class="p">(</span><span class="kt">vector_t</span><span class="o">*</span> <span class="n">head</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">);</span>
-<span class="kt">void</span> <span class="nf">deleteAt</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">);</span>
-<span class="kt">void</span> <span class="nf">insertAt</span><span class="p">(</span><span class="kt">vector_t</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">value</span><span class="p">);</span>
+<span class="kt">vector_t</span> <span class="o">*</span><span class="nf">init</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">vector_t</span><span class="o">*</span> <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">vector_t</span><span class="p">));</span>
+  <span class="kt">int</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">data</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Out of memory&quot;</span><span class="p">);</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">n</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span> 
+  <span class="n">n</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span class="cp">#endif</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="indexat">
-<h2>indexAt<a class="headerlink" href="#indexat" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// IMPLEMENT: vectorの実装(indexAt)</span>
-<span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="cp">#include &lt;stdlib.h&gt;</span>
-<span class="cp">#include &lt;vector.h&gt;</span>
+<span class="kt">vector_t</span> <span class="o">*</span><span class="nf">inits</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+  <span class="c1">// O(n)</span>
+  <span class="kt">vector_t</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="n">init</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+  <span class="kt">va_list</span> <span class="n">list</span><span class="p">;</span>
+  <span class="n">va_start</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">n</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">*</span><span class="n">data</span><span class="o">++</span> <span class="o">=</span> <span class="n">va_arg</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">va_end</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span class="kt">int</span> <span class="nf">indexAt</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">vector_t</span> <span class="o">*</span><span class="nf">from_vector</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">vector_t</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="n">init</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">n</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">to_vector</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">n</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">display</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;&lt;vector&gt; size = %zu: &quot;</span><span class="p">,</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d,&quot;</span><span class="p">,</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">indexAt</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// O(1)</span>
+  <span class="c1">// Using a vector, you can access an element of it for a constant time.</span>
   <span class="k">if</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">index</span> <span class="o">&amp;&amp;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
-
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Out of index&quot;</span><span class="p">);</span>
   <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="insertat">
-<h2>insertAt<a class="headerlink" href="#insertat" title="Permalink to this headline">¶</a></h2>
-<p>So complexity is O(n)</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// IMPLEMENT: insertAt(vector)</span>
-<span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="cp">#include &lt;stdlib.h&gt;</span>
-<span class="cp">#include &lt;vector.h&gt;</span>
 
-<span class="kt">void</span> <span class="nf">insertAt</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">realloc</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+<span class="kt">void</span> <span class="n">insertAt</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// O(n + 1) or O(2n)</span>
+  <span class="c1">// I think if realloc returns aother pinter, it means memcpy is executed so it needs O(n)</span>
+  <span class="kt">int</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="n">realloc</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
     <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-
   <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+
+  <span class="c1">// You need to move an element one by one from index.</span>
   <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span>
   <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
@@ -169,33 +196,41 @@ If you want to get more in detail, go to each of the page links.</p>
   <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
   <span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span><span class="o">++</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="deleteat">
-<h2>deleteAt<a class="headerlink" href="#deleteat" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// IMPLEMENT: deleteAt(vector)</span>
-<span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="cp">#include &lt;stdlib.h&gt;</span>
-<span class="cp">#include &lt;vector.h&gt;</span>
 
-<span class="c1">// 指定したindex以降の順番を一つずつ手前にずらす必要があるため、O(n)</span>
-<span class="kt">void</span> <span class="nf">deleteAt</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">deleteAt</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// O(n)</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
     <span class="k">return</span><span class="p">;</span>
 
+  <span class="c1">// You need to move each item from index to the next</span>
   <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
   <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
     <span class="n">i</span><span class="o">++</span><span class="p">;</span>
   <span class="p">}</span>
-  <span class="n">realloc</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
-  <span class="c1">// head-&gt;data以外はmallocで確保していないのでfreeしてはいけない</span>
+
+  <span class="c1">// I think because space is decreasing, realloc needs O(1)</span>
+  <span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="n">realloc</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+  <span class="c1">// WARN: Don&#39;t free memories but head-&gt;data</span>
   <span class="c1">// free(head-&gt;data + (head-&gt;size - 1));</span>
   <span class="n">head</span><span class="o">-&gt;</span><span class="n">size</span><span class="o">--</span><span class="p">;</span>
 <span class="p">}</span>
+
+<span class="kt">vector_t</span> <span class="o">*</span><span class="n">append</span><span class="p">(</span><span class="kt">vector_t</span> <span class="o">*</span><span class="n">h1</span><span class="p">,</span> <span class="kt">vector_t</span> <span class="o">*</span><span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// O(n + m) M(n + m)</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">h2</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Can&#39;t append&quot;</span><span class="p">);</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="c1">// At first you need the size of h1 + h2 to get memory</span>
+  <span class="kt">size_t</span> <span class="n">s</span> <span class="o">=</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">+</span> <span class="n">h2</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span>
+  <span class="kt">vector_t</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="n">init</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+  <span class="n">memcpy</span><span class="p">(</span><span class="n">n</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+  <span class="n">memcpy</span><span class="p">(</span><span class="n">n</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">+</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">,</span> <span class="n">h2</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">h2</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
 </pre></div>
-</div>
 </div>
 </div>
 
