@@ -10,6 +10,7 @@ C Language
    :maxdepth: 1 
 
    ./c/index
+   ./exp/index
 
 Oneliner
 ========
