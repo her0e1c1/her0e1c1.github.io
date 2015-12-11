@@ -12,6 +12,9 @@
 // format
 // replace
 
+#include <stdio.h>
+#include <stdlib.h>
+
 char *s_reverse(char *str) {
   if (*str == '\0')
     return str;
@@ -41,15 +44,51 @@ char *s_strip(char *str) {
   char *last = str;
   while (*last)
     last++;
-  last--;
+  last--;  // go backword from '\0'
   while (*last == ' ')
     last--;
-  *(++last) = '\0';
+  *++last = '\0';
   return str;
 }
 
-char *s_join(char *str, char delim) {
-  
+int s_strcmp(char *p, char *q) {
+  while (*p && *q) {
+    if (*p < *q)
+      return -1;
+    else if (*p > *q)
+      return 1;
+    p++;
+    q++;
+  }
+  if (*p)
+    return 1;  // q is longer
+  else if (*q)
+    return -1;  // p is longer
+  else
+    return 0; // same length
+}
+
+int s_strlen(char *str) {
+  char *last = str;
+  while (*last) last++;
+  return last - str;
+}
+
+char *s_join(char **str, char delim, int length) {
+  int sum = 0;
+  for (int i = 0; i < length; i++)
+    sum += s_strlen(str[i]);
+  sum += length;  // delim * (length - 1) + '\0'
+
+  char *p, *q;
+  p = q = (char *)malloc(sizeof(char) * sum);
+  for (int i = 0; i < length; i++) {
+    for (char *s = str[i]; *s; s++)
+      *q++ = *s;
+    *q++ = delim;
+  }
+  *--q = '\0';
+  return p;
 }
 
 char *s_lower(char *str) {

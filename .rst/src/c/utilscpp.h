@@ -31,6 +31,7 @@
 
 using namespace std;
 
+#define TEST(x) printf("%s => %s\n", #x, (x) ? "ok" : "no");
 #define FOR(k,a,b) for(__typeof(a) k=(a); k < (b); k++)
 #define REP(k,a) FOR(k,0,a)
 #define ALL(c) (c).begin(), (c).end()  

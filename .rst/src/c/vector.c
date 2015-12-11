@@ -1,9 +1,7 @@
-#ifndef MYVECTOR
-#define MYVECTOR
-
-// Dynamic Array
-
-#include "myutils.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
 
 struct _vector {
   int* data;
@@ -37,28 +35,13 @@ vector_t *inits(size_t size, ...) {
   return n;
 }
 
-vector_t *from_vector(vector<int> v) {
-  vector_t *n = init(v.size());
-  for (int i = 0; i < v.size(); i++)
-    n->data[i] = v[i];
-  return n;
-}
-
-vector<int> to_vector(vector_t *v) {
-  if (v == NULL)
-    return vector<int>();
-  vector<int> n(v->size);
-  for (int i = 0; i < v->size; i++)
-    n[i] = v->data[i];
-  return n;
-}
-
-void display(vector_t *head) {
-  int i;
-  printf("<vector> size = %zu: ", head->size);
-  for (i = 0; i < head->size - 1; i++)
-    printf("%d,", head->data[i]);
-  printf("%d\n", head->data[i]);
+int equal(vector_t *v1, vector_t *v2) {
+  if (v1->size != v2->size)
+    return 0;
+  for (int i = 0; i < v1->size; i++)
+    if (v1->data[i] != v2->data[i])
+      return 0;
+  return 1;
 }
 
 int indexAt(vector_t *head, int index) {
@@ -120,4 +103,11 @@ vector_t *append(vector_t *h1, vector_t *h2) {
   memcpy(n->data + h1->size, h2->data, sizeof(int) * h2->size);
   return n;
 }
-#endif
+
+void display(vector_t *head) {
+  int i;
+  printf("<vector> size = %zu: ", head->size);
+  for (i = 0; i < head->size - 1; i++)
+    printf("%d,", head->data[i]);
+  printf("%d\n", head->data[i]);
+}
