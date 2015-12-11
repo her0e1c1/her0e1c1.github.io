@@ -20,6 +20,7 @@ images \
 rst:
 	for p in `find . -name "*.sh"`;do sh $$p; done
 
+# TODO: rstが存在しているものは作らないようにする
 create:
 	for p in `find . -name "*.sh"`;do sh $$p > `echo $$p | sed s/.sh/.rst/` ;done
 
