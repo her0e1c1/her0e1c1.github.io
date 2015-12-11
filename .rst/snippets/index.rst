@@ -19,14 +19,6 @@ Oneliner
 
    ./oneliner/1
 
-Parser
-======
-
-.. toctree::
-   :maxdepth: 1 
-
-   ./parser/csv
-
 misc
 ====
 
@@ -35,3 +27,4 @@ misc
 
    ./fp/cps
    ./sphinx/index
+   ./parser/index
