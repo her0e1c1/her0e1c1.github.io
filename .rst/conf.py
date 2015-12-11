@@ -94,7 +94,7 @@ html_theme_options = {
     # Note the "1" or "True" value above as the third argument to indicate an arbitrary url.
     'navbar_links': [
         ("Products", "products"),
-        ("Samples", "snippets/index"),
+        ("Snippets", "snippets/index"),
         ("About me", "about_me"),
     ],
     # Render the next and previous page links in navbar. (Default: true)
