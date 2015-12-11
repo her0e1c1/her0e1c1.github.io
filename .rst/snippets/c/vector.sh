@@ -17,7 +17,6 @@ $(gosh -l ~/lib/scheme/init.scm <<EOG
  ((flip$ map) (sphinx "/src/c/vector.c" :cd ROOT)
   (^(alist)
     (let* ((g (pa$ assoc-ref alist))
-           (literal (g 'literalinclude))
            (name (g 'name))
            (func (s-indent (g 'func)))
            (underscore (make-string (string-length name) #\=))
