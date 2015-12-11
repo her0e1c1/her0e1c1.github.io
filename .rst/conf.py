@@ -95,7 +95,7 @@ html_theme_options = {
     'navbar_links': [
         ("Products", "products"),
         ("Snippets", "snippets/index"),
-        ("About me", "about_me"),
+        ("About Me", "about_me"),
     ],
     # Render the next and previous page links in navbar. (Default: true)
     'navbar_sidebarrel': True,
