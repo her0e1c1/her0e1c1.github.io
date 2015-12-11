@@ -18,23 +18,17 @@ $(gosh -l ~/lib/scheme/init.scm <<EOG
   (^(alist)
     (let* ((g (pa$ assoc-ref alist))
            (name (g 'name))
-           (func (s-indent (g 'func)))
+           (func (sphinx-block (g 'func) :code-block "c"))
            (underscore (make-string (string-length name) #\=))
            (path-test (f-join ROOT "src/c/vector" #"~|name|.c"))
            (result-test (or (shinx-section-test path-test :language "c") ""))
            )
       (print #"
-
 ~name
 ~underscore
-
-.. code-block:: c
-
 ~func
-
 ~result-test
-"
- ))))
+"))))
 EOG
 )
 

@@ -11,9 +11,9 @@ If you want to get more in detail, go to each of the page links.
 .. contents::
 
 
-
 init
 ====
+
 
 .. code-block:: c
 
@@ -32,9 +32,9 @@ init
 
 
 
-
 inits
 =====
+
 
 .. code-block:: c
 
@@ -55,6 +55,7 @@ inits
 test
 ----
 
+
 .. code-block:: c
 
     #include "../utils.h"
@@ -69,7 +70,9 @@ test
     }
     
 
-test result ::
+
+
+::
 
     v->size == 3 => ok
     v->data[0] == 1 => ok
@@ -81,6 +84,7 @@ test result ::
 
 equal
 =====
+
 
 .. code-block:: c
 
@@ -97,6 +101,7 @@ equal
 test
 ----
 
+
 .. code-block:: c
 
     #include "../utils.h"
@@ -108,7 +113,9 @@ test
     }
     
 
-test result ::
+
+
+::
 
     equal(inits(3,1,2,3), inits(3,1,2,3)) => ok
     !equal(inits(3,1,2,3), inits(2,1,2)) => ok
@@ -118,6 +125,7 @@ test result ::
 
 indexAt
 =======
+
 
 .. code-block:: c
 
@@ -133,9 +141,9 @@ indexAt
 
 
 
-
 insertAt
 ========
+
 
 .. code-block:: c
 
@@ -160,9 +168,9 @@ insertAt
 
 
 
-
 deleteAt
 ========
+
 
 .. code-block:: c
 
@@ -188,9 +196,9 @@ deleteAt
 
 
 
-
 append
 ======
+
 
 .. code-block:: c
 
@@ -211,9 +219,9 @@ append
 
 
 
-
 display
 =======
+
 
 .. code-block:: c
 

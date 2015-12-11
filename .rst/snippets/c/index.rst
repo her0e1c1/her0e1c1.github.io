@@ -2,3 +2,4 @@
 .. toctree::
 
    vector
+   string
