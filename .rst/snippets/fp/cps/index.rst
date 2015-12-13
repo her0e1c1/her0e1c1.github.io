@@ -12,6 +12,22 @@ flatten.scm
 
 
 
+.. code-block:: scm
+
+    
+    (define (flatten/cps tree k)
+      (cond ((null? tree) (k '()))
+            ((pair? tree)
+             (flatten/cps (car tree)
+                          (lambda (r1)
+                            (flatten/cps
+                             (cdr tree)
+                             (lambda (r2) (k (append r1 r2)))))))
+            (else (k (list tree)))))
+    
+
+
+
 
 test
 ----
@@ -47,6 +63,19 @@ test
 
 fib.scm
 =======
+
+
+
+.. code-block:: scm
+
+    
+    (define (fib/cps n k)
+      (cond ((= n 0) (k 0))
+            ((= n 1) (k 1))
+            (else (fib/cps (- n 1) (lambda (r1)
+                                     (fib/cps (- n 2) (lambda (r2)
+                                                        (k (+ r1 r2)))))))))
+    
 
 
 
@@ -92,6 +121,18 @@ leaf-count.scm
 
 
 
+.. code-block:: scm
+
+    
+    (define (leaf-count/cps tree k)
+      (if (pair? tree)
+          (leaf-count/cps (car tree) (lambda (n)
+                            (leaf-count/cps (cdr tree) (lambda (m) (k (+ n m))))))
+          (k 1)))
+    
+
+
+
 
 test
 ----
@@ -133,6 +174,19 @@ test
 
 fact.scm
 ========
+
+
+
+.. code-block:: scm
+
+    
+    ; m is the result of "(fact (- n 1))"
+    ; In "(count XXX)", XXX is the return value the func returns
+    (define (fact/cps n cont)
+      (if (= n 1)
+          (cont 1)
+          (fact/cps (- n 1) (lambda (m) (cont (* n m))))))
+    
 
 
 

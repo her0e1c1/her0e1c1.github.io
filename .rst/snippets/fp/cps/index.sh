@@ -13,10 +13,12 @@ $(gosh -l ~/lib/scheme/init.scm <<EOG
  (for-each (^ (path)
   (let* [(name (sys-basename path))
          (section (sphinx-section name))
+         (src-block (sphinx-block-path path))
          (test-result (sphinx-section-test (test-name path)))
          ]
    (print #"
 ~section
+~src-block
 ~test-result
 ")))
   (filter (.$ not #/.test.scm$/) (glob "*.scm")))
