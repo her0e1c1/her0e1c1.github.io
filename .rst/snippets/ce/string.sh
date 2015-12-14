@@ -44,6 +44,38 @@ $(go <<EOG
  (p "Error")
  (run "char *a  = {'a', 'b', 'c'};")
 
+ (p "false")
+ (run "if(!0)p(\"false\");")
+ (run "if(!NULL)p(\"false\");")
+ (run "char *s=\"\"; if(!*s)p(\"false\");")
+ (run "if(\"\")p(\"true\");")
+
+ (p (sphinx-section "sizeof"))
+ (p "with %zu print as unsigned decimal")
+ (let1 types '(char short int size_t void* long float double "long float" "long long" "long double" "double double")
+  (dolist (t (map x->string types))
+   (run #"p(\"%zu\", sizeof(~t));")))
+
+ (p "sizeof gets all the memory size, not the length of an array")
+ (run "int b[10]; p(\"%zu\", sizeof(b));")
+
+ ;; int l = sizeof(buff1) / sizeof(buff1[0]);
+ ;; printf("length buff1 = %d\n", l);
+
+ (p (sphinx-section "enum"))
+ (run "enum E{A,B}; enum E e=A; p(\"%d\", e);")
+ (run "enum E{A,B}; enum E e=B; p(\"%d\", e);")
+ (run "enum E{A=10,B}; enum E e=A; p(\"%d\", e);")
+ (run "enum E{A=10,B}; enum E e=B; p(\"%d\", e);")
+ 
+ (p "alias enum")
+ (run "typedef enum E{A,B}F; F e=A; p(\"%d\", e);")
+ (run "typedef enum E{A,B}F; F e=B; p(\"%d\", e);")
+
+ (p "create a variable")
+ (run "enum E{A,B}e; e=A; p(\"%d\", e);")
+ (run "enum E{A,B}e; e=B; p(\"%d\", e);")
+
 EOG
 )
 

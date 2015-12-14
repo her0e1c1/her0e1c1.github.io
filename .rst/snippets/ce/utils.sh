@@ -64,6 +64,12 @@ $(go <<EOG
  ;; mount info
  (run "struct statfs s; statfs(\"/home\", &s); p(\"%s\", s.f_mntonname);")
 
+ (p (sphinx-section "unistd"))
+ (p "stdin 0, stdout 1, stderr 2")
+ (p "in this case, because I run this command as subprocess, these results are NULL.")
+ (run "p(\"%s\", ttyname(0));")
+ (run "p(\"%s\", ttyname(1));")
+ (run "p(\"%s\", ttyname(2));")
 
  (p "l list, v vector, e env")
  (p (sphinx-section "exel"))
@@ -86,6 +92,15 @@ $(go <<EOG
  (run "execlp(\"echo\", \"ECHO\", \"hoge\", NULL);")
  (run "execvp(\"echo\", (char*[]){\"ECHO\", \"hoge\", NULL});")
 
+ (p (sphinx-section "exit"))
+ (run "p(\"%d\", EXIT_SUCCESS);")
+ (run "p(\"%d\", EXIT_FAILURE);")
+ (run "exit(EXIT_SUCCESS); p(\"NOT REACHED\");")
+
+ (p (sphinx-section "env"))
+ (run "p(\"%s\", getenv(\"USER\"));")
+ (p "NULL if the name doesn't exist.")
+ (run "p(\"%s\", getenv(\"user\"));")
 
 EOG
 )

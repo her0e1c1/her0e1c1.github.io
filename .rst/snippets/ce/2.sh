@@ -1,7 +1,7 @@
 HERE=$(dirname $0)
 cat <<EOS
 =======
- macro
+ Misc
 ======= 
 
 $(go <<EOG
@@ -34,7 +34,12 @@ $(go <<EOG
  (p "if adding to the length of the string, you always refer '\0'")
  (run "char *s=\"abc\", *t; t = s + strlen(s); if(!*t) p(\"NULL\");")
 
+ (p (sphinx-section "struct"))
+ (run "typedef struct {char name[64];}S; S s; strcpy(s.name, \"Bob\"); p(\"%s\", s.name);")
 
+ (run "typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=0; p(\"%d\", b.bool);")
+ (run "typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=1; p(\"%d\", b.bool);")
+ (run "typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p(\"%d\", b.bool);")
 
 EOG
 )
