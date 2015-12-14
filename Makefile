@@ -17,12 +17,13 @@ images \
 .buildinfo \
 .doctrees \
 
+# need -i optoin to use an alias for sh
 rst:
-	for p in `find . -name "*.sh"`;do sh $$p; done
+	for p in `find . -name "*.sh"`;do sh -i $$p; done
 
 # TODO: rstが存在しているものは作らないようにする
 create:
-	for p in `find . -name "*.sh"`;do sh $$p > `echo $$p | sed s/.sh/.rst/` ;done
+	for p in `find . -name "*.sh"`;do sh -i $$p > `echo $$p | sed s/.sh/.rst/` ;done
 
 sphinx-build:
 	sphinx-build -b html .rst .
