@@ -1,11 +1,7 @@
+
 =============
  Gauche To C
 =============
-
-  /* memset で初期化するのは0と1のみと考えるべき */
-  printf("Using memset\n");
-  // Initialize with memset
-  int a3[10][10];
 
 Declare
 
@@ -27,7 +23,7 @@ Initialize a 2D array
 
 .. code-block:: sh
 
-    $ ce 'int a[10][10]={10}; p("%d", a[0][0]);'
+    $ ce 'int a[10][10] = {10}; p("%d", a[0][0]);'
     10
 
 Initialize a 2D array
@@ -35,7 +31,7 @@ Initialize a 2D array
 
 .. code-block:: sh
 
-    $ ce 'int a[10][10]={{ 0 }}; p("%d", a[0][0]);'
+    $ ce 'int a[10][10] = {{ 0 }}; p("%d", a[0][0]);'
     0
 
 valc. so you can allocate memroy dynamically even if it is an array
@@ -46,6 +42,7 @@ valc. so you can allocate memroy dynamically even if it is an array
     $ ce 'int k=10; int a[k];'
     
 
+But with static, an error occurs
 
 
 .. code-block:: sh
@@ -57,12 +54,40 @@ valc. so you can allocate memroy dynamically even if it is an array
     1 error generated.
     
 
-  // Fill 0
-  memset(a3, 0, sizeof(a3));
-  printf("a3[0][0]: %d (= 0)\n", a3[0][0]);
-  // Fill -1
-  memset(a3, -1, sizeof(a3));
-  printf("a3[0][0]: %d (= -1)\n", a3[0][0]);
-  // Don't work because memset fills 10 at each byte
-  memset(a3, 10, sizeof(a3));
-  printf("a3[0][0]: %d (!= 10)\n", a3[0][0]);
+
+
+memset
+======
+
+Fill 0
+
+
+.. code-block:: sh
+
+    $ ce 'int a[10][10]; memset(a, 0, sizeof(a)); p("%d", a[0][0]);'
+    0
+
+Fill -1
+
+
+.. code-block:: sh
+
+    $ ce 'int a[10][10]; memset(a, -1, sizeof(a)); p("%d", a[0][0]);'
+    -1
+
+Don't work because memset fills numbers but 0 or -1 at each byte
+
+
+.. code-block:: sh
+
+    $ ce 'int a[10][10]; memset(a, 1, sizeof(a)); p("%d", a[0][0]);'
+    16843009
+
+
+
+.. code-block:: sh
+
+    $ ce 'int a[10][10]; memset(a, 10, sizeof(a)); p("%d", a[0][0]);'
+    168430090
+
+

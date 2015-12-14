@@ -2,7 +2,7 @@ HERE=$(dirname $0)
 cat <<EOS
 
 =============
- Gauche To C
+ Array 
 =============
 
 $(go <<EOG
