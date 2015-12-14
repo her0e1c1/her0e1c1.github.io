@@ -54,7 +54,7 @@ latex_elements = {
 #'preamble': '',
 }
 
-html_title = "BOKUNMICHI"
+html_title = "Hiroyuki Ishii"
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [('index', 'Learning.tex', u'Learning Documentation',)]
@@ -83,7 +83,7 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 
 html_theme_options = {
     # Navigation bar title. (Default: ``project`` value)
-    'navbar_title': "BOKUNMICHI",
+    'navbar_title': "Hiroyuki Ishii",
     # Tab name for entire site. (Default: "Site")
     'navbar_site_name': "Site",
     # A list of tuples containing pages or urls to link to.
