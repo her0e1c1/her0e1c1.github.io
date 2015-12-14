@@ -8,6 +8,7 @@ cat <<EOS
 $(go <<EOG
  (define (run cmd)
    (p (sphinx-block (format "$ ce '~a'\n~a" cmd (run-ce cmd)) :code-block "sh")))
+ (define ce run)
 
  (p (sphinx-section "strcat"))
  (p "Append strings")
@@ -28,6 +29,26 @@ $(go <<EOG
  (run "p(\"(%s)\", strstr(\"\", \"\"));")
  (run "p(\"%s\", strstr(\"abcde\", \"\"));")
  (run "p(\"%s\", strstr(\"abcde\", \"ABC\"));")
+ ; # s1にs2の文字列が一致した場合、その先頭ポインタを返す
+ (ce "ps(strstr(\"123456789\", \"345\"));")
+ (ce "ps(strstr(\"123456789\", \"355\"));")
+
+ (p (sphinx-section "strlen"))
+ (p "Return the length of string but NULL char is not contained.")
+ (ce "p(\"%lu\", strlen(\"abc\"));")
+
+ (p (sphinx-section "strmode"))
+ ;# stat.st_modeを文字列で表示. \0を含めて11文字 (12?)
+ ;# S_IRWXUは、RWX全てのUSR権限なので、読み込み・書き込み・実行の3つの和
+ (ce "char s[12]; strmode(S_IRWXU | S_IWGRP, s); ps(s);")
+ (ce "char s[12]; strmode(S_IRWXU | S_IWGRP, s); ps(s[11]==0? \"NULL\":\"NO\");")
+
+ (p (sphinx-section "strdup"))
+ ;# 文字列をコピーする。freeするのを忘れない。
+ (ce "char* s; if((s=strdup(\"test\")) != NULL){ps(s); free(s);}')")
+
+ (p (sphinx-section "strerror"))
+ (ce "ps(strerror(1));")
 
  (p (sphinx-section "sprintf"))
  (p "Number to string")
@@ -75,6 +96,17 @@ $(go <<EOG
  (p "create a variable")
  (run "enum E{A,B}e; e=A; p(\"%d\", e);")
  (run "enum E{A,B}e; e=B; p(\"%d\", e);")
+
+ (p (sphinx-section "strcmp"))
+ (ce "if(strcmp(\"abc\", \"abc\") == 0) p(\"true\");")
+ (ce "p(\"%d\", strcmp(\"a\", \"z\"));")
+ (ce "p(\"%d\", strcmp(\"z\", \"a\"));")
+
+ (p (sphinx-section "strcpy"))
+ ;# s1にs2の'\0'までコピーする。s1はメモリ確保しておく必要あり。
+ (ce "char s[4];strcpy(s, \"abc\"); p(\"%s\", s);")
+ ;# 適切な配列を確保しなかったので、メモリリーク
+ ;a(){ ce "char s[50];strcpy(s, \"$1\"); printf(\"%s\", s);";}; a `perl -e 'print "x" x 200'`
 
 EOG
 )
