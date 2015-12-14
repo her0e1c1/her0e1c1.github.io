@@ -37,6 +37,13 @@ $(go <<EOG
  (run "char *c =\"Memory allocated static  string\"; c[1] = 'E'; p(\"NOT REACHED => %s\", c);")
  (run "char c[]=\"Memory allocated dynamic string\"; c[1] = 'E'; p(\"REACHED => %s\", c);")
 
+ (p "Declare")
+ (run "char a[] = \"abc\";")
+ (run "char *a  = \"abc\";")
+ (run "char a[] = {'a', 'b', 'c'};")
+ (p "Error")
+ (run "char *a  = {'a', 'b', 'c'};")
+
 EOG
 )
 
