@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>&lt;no title&gt; &mdash; BOKUNMICHI</title>
+    <title>Gauche To C &mdash; Hiroyuki Ishii</title>
     
     <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -30,7 +30,7 @@
     <script type="text/javascript" src="../../static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="BOKUNMICHI" href="../../index.html" />
+    <link rel="top" title="Hiroyuki Ishii" href="../../index.html" />
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 <meta charset='utf-8'>
@@ -65,7 +65,7 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="../../index.html">
-        BOKUNMICHI</a>
+        Hiroyuki Ishii</a>
       <span class="navbar-text navbar-version pull-left"><b></b></span>
     </div>
 
@@ -97,27 +97,18 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <p>// reallocはO(n)じゃないの?</p>
-<p>// mallocも0で初期化されているみたい
-ce &#8216;char*p=malloc(1 &lt;&lt; 10); REP(i,10)if(p[i])printf(&#8220;1&#8221;);&#8217;
-ce &#8216;char*a; __typeof(a) i = &#8220;abc&#8221;;&#8217;</p>
-<p>// fill 0
-ce &#8216;char*p=calloc(10, sizeof(char)); printf(&#8220;%s&#8221;, p);&#8217;</p>
-<p>// 失敗
-ce &#8216;char*p=malloc(1 &lt;&lt; 31); printf(&#8220;A%sA&#8221;,p);&#8217;</p>
-<p>// realloc use copy
-ce &#8216;char*p=malloc(10);memcpy(p, &#8220;abcd&#8221;, 5); printf(&#8220;%s&#8221;, realloc(p, 5));&#8217;
-ce &#8216;char*p=malloc(10);memcpy(p, &#8220;abcd&#8221;, 5); if (realloc(p, 5) != p)printf(&#8220;not same&#8221;);&#8217;</p>
-<p>// &#8216;printf(&#8220;%lud&#8221;,ULONG_MAX);&#8217;</p>
-<p>//
-ce &#8216;printf(&#8220;%d&#8221;,ULONG_MAX == (0UL - 1));&#8217;</p>
-<p>// 8byte == 64bit(111..1) 2^63 + 2^62 + ... + 2^0 == 2^64 - 1
-ce &#8216;printf(&#8220;%lu&#8221;,sizeof(ULONG_MAX));&#8217;</p>
-<p>// 2byte
-ce &#8216;printf(&#8220;%lu&#8221;,sizeof(short int));&#8217;
-ce &#8216;printf(&#8220;%lu&#8221;,sizeof(short));&#8217;</p>
-<p>//-2 ^ 15 + 1
-ce &#8216;printf(&#8220;%d&#8221;,SHRT_MIN);&#8217;</p>
+  <div class="section" id="gauche-to-c">
+<h1>Gauche To C<a class="headerlink" href="#gauche-to-c" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gauche2c/index.html">Gauche To C</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gauche2c/index.html#using-cise">using CiSE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gauche2c/index.html#generate-c">Generate C</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 
 
     </div>

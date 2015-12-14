@@ -37,6 +37,6 @@ C lang
     __func__ = main
     __LINE__ = 13
     __FILE__ = macro.c
-    __DATE__ = Dec 14 2015
-    __TIME__ = 20:03:41
+    __DATE__ = Dec 15 2015
+    __TIME__ = 00:26:51
 

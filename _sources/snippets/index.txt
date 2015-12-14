@@ -25,7 +25,10 @@ misc
 
 .. toctree::
    :maxdepth: 1 
+   :glob:
 
-   ./fp/cps
+   ./fp/cps/index
    ./sphinx/index
    ./parser/index
+   ./gauche/index
+   ./ce/*

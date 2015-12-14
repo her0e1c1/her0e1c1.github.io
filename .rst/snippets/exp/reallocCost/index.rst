@@ -41,12 +41,12 @@
 
 ::
 
-    # time => 0.058119(sec)
+    # time => 0.057627(sec)
     clang reallocCost.c && ./a.out 5 ONE
  
 
 ::
 
-    # time => 0.063427(sec)
+    # time => 0.053298(sec)
     clang reallocCost.c && ./a.out 5 EACH
 

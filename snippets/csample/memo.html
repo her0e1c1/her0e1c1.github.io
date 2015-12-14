@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>C lang &mdash; Hiroyuki Ishii</title>
+    <title>&lt;no title&gt; &mdash; Hiroyuki Ishii</title>
     
     <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -97,57 +97,62 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="c-lang">
-<h1>C lang<a class="headerlink" href="#c-lang" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="vector.html">Implement Vector</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vector.html#all-source-code">All source code</a></li>
+  <p>// reallocはO(n)じゃないの?</p>
+<p>// mallocも0で初期化されているみたい
+ce &#8216;char*p=malloc(1 &lt;&lt; 10); REP(i,10)if(p[i])printf(&#8220;1&#8221;);&#8217;
+ce &#8216;char*a; __typeof(a) i = &#8220;abc&#8221;;&#8217;</p>
+<p>// fill 0
+ce &#8216;char*p=calloc(10, sizeof(char)); printf(&#8220;%s&#8221;, p);&#8217;</p>
+<p>// 失敗
+ce &#8216;char*p=malloc(1 &lt;&lt; 31); printf(&#8220;A%sA&#8221;,p);&#8217;</p>
+<p>// realloc use copy
+ce &#8216;char*p=malloc(10);memcpy(p, &#8220;abcd&#8221;, 5); printf(&#8220;%s&#8221;, realloc(p, 5));&#8217;
+ce &#8216;char*p=malloc(10);memcpy(p, &#8220;abcd&#8221;, 5); if (realloc(p, 5) != p)printf(&#8220;not same&#8221;);&#8217;</p>
+<p>// &#8216;printf(&#8220;%lud&#8221;,ULONG_MAX);&#8217;</p>
+<p>//
+ce &#8216;printf(&#8220;%d&#8221;,ULONG_MAX == (0UL - 1));&#8217;</p>
+<p>// 8byte == 64bit(111..1) 2^63 + 2^62 + ... + 2^0 == 2^64 - 1
+ce &#8216;printf(&#8220;%lu&#8221;,sizeof(ULONG_MAX));&#8217;</p>
+<p>// 2byte
+ce &#8216;printf(&#8220;%lu&#8221;,sizeof(short int));&#8217;
+ce &#8216;printf(&#8220;%lu&#8221;,sizeof(short));&#8217;</p>
+<p>//-2 ^ 15 + 1
+ce &#8216;printf(&#8220;%d&#8221;,SHRT_MIN);&#8217;</p>
+<p>#
+make -m /usr/home/mbp/GDrive/repos/freebsd.git/share/mk/</p>
+<p>rgv[0][0]==&#8217;-&#8216;
+ログインシェルと後に起動したシェルの見分け方はps -f。最初にハイフン「-」がついているシェルがログインシェルのプロセス。</p>
+<dl class="docutils">
+<dt>void sizeof_array(int a[]){</dt>
+<dd>// Warning: a[] of function parameter is a pointer which equals int* a
+//printf(&#8220;%ld&#8221;, sizeof(a));</dd>
+</dl>
+<p>}</p>
+<p>// WARN: (i + j) / 2はオーバーフローするので、 i + (j - i) / 2 とすること</p>
+<ul class="simple">
+<li>2 * 文字数 + 1みたいな領域確保のときに+1し忘れのエラーとなるサンプル用意</li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="string.html">Implement Vector</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="string.html#all-source-code">All source code</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13</pre></div></td><td class="code"><div class="highlight"><pre> <span class="cp">#include &lt;stdio.h&gt;</span>
-
- <span class="c1">// List up pre defined macros</span>
- <span class="cp">#define MACRO(x)                                 \</span>
-<span class="cp">   printf(&quot;#x = %s\n&quot; , #x);                      \</span>
-<span class="cp">   printf(&quot;x  = %d\n&quot; , x);                       \</span>
-<span class="cp">   printf(&quot;__func__ = %s\n&quot; ,__func__);           \</span>
-<span class="cp">   printf(&quot;__LINE__ = %d\n&quot; ,__LINE__);           \</span>
-<span class="cp">   printf(&quot;__FILE__ = %s\n&quot; ,__FILE__);           \</span>
-<span class="cp">   printf(&quot;__DATE__ = %s\n&quot; ,__DATE__);           \</span>
-<span class="cp">   printf(&quot;__TIME__ = %s\n&quot; ,__TIME__);           \</span>
-
- <span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span><span class="n">MACRO</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">));}</span>
-</pre></div>
-</td></tr></table></div>
-<div class="highlight-python"><div class="highlight"><pre>#x = (1 + 2 + 3)
-x  = 6
-__func__ = main
-__LINE__ = 13
-__FILE__ = macro.c
-__DATE__ = Dec 15 2015
-__TIME__ = 00:26:51
-</pre></div>
-</div>
-</div>
+<p>// int <a href="#id1"><span class="problematic" id="id2">*</span></a>a;と宣言したほうが良い
+// int <a href="#id3"><span class="problematic" id="id4">*</span></a>p, <a href="#id5"><span class="problematic" id="id6">*</span></a>q; と複数宣言する場合があるので</p>
+<p>// WARN: pointerを２つ同時に宣言するときはアスターは２ついる
+int main (){</p>
+<blockquote>
+<div>int a = 1;
+int <em>p, *q;
+// int</em> p, q;  // qはint型
+q = &amp;a;</div></blockquote>
+<p>}</p>
+<dl class="docutils">
+<dt>void a(int range){</dt>
+<dd>// int counter[range] = {0}; この宣言はできない
+int counter[range]; // 一度宣言してから全て初期化する必要あり</dd>
+</dl>
+<p>}</p>
+<p># 指定したパスがディレクトリか判定
+ce &#8216;struct stat sb; printf(&#8220;%s&#8221;, stat(argv[1], &amp;sb) == 0 &amp;&amp; S_ISDIR(sb.st_mode) ? &#8220;DIR&#8221; : &#8220;NOT DIR&#8221;);&#8217; ~/.emacs.d</p>
+<p># PATH_MAX(=1024)を超えるとstatは失敗する
+# mkdir a  # 事前にaディレクトリを作成&#8221;a/../&#8221;は5文字なので205回繰り返すと1024は超える
+ce &#8216;struct stat sb; printf(&#8220;%s&#8221;, stat(argv[1], &amp;sb) == 0 &amp;&amp; S_ISDIR(sb.st_mode) ? &#8220;DIR&#8221; : &#8220;NOT DIR&#8221;);&#8217; <cite>perl -e &#8216;print &#8220;a/../&#8221; x 205&#8217;</cite></p>
 
 
     </div>

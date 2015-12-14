@@ -131,6 +131,7 @@
 ; (port-for-each 処理 read-line)
 ; (call-with-input-file "foo.txt" port->string)
 ; (call-with-input-file "foo.txt" port->string-list)
+; (call-with-input-file "file" (lambda (in) something))
 ; (with-input-from-file "README.rst" (^() (port-for-each p read-line)))
 ; (dolist (line (call-with-input-file "Makefile" port->string-list)) (p line))
 ; (with-input-from-file "Makefile" (^() (p (read-line))))

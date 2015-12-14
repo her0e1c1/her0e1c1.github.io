@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Tex Tips &mdash; Hiroyuki Ishii</title>
+    <title>Misc &mdash; Hiroyuki Ishii</title>
     
     <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -97,62 +97,68 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="tex-tips">
-<h1>Tex Tips<a class="headerlink" href="#tex-tips" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="settings-on-sphinx">
-<h2>Settings on sphinx<a class="headerlink" href="#settings-on-sphinx" title="Permalink to this headline">¶</a></h2>
-<p>Using mathjax <a class="footnote-reference" href="#mathjax" id="id1">[1]</a></p>
-<p>And write the settings in <code class="docutils literal"><span class="pre">conf.py</span></code></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">extensions</span> <span class="o">+=</span> <span class="p">[</span><span class="s">&quot;sphinx.ext.mathjax&quot;</span><span class="p">]</span>
-<span class="c"># you should check if the url is valid or not</span>
-<span class="n">mathjax_path</span> <span class="o">=</span> <span class="s">&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;</span>
+  <div class="section" id="misc">
+<h1>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h1>
+<p>Get a size of an array</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;#define SIZE(x) (sizeof(x) / sizeof(x[0]))</span>
+<span class="s1"> int a[] = {1,2,3}; p(&quot;%d&quot;, SIZE(a));&#39;</span>
+3
 </pre></div>
 </div>
-<table class="docutils footnote" frame="void" id="mathjax" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://docs.sphinx-users.jp/ext/math.html#module-sphinx.ext.mathjax">http://docs.sphinx-users.jp/ext/math.html#module-sphinx.ext.mathjax</a></td></tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="how-to-write">
-<h2>How to write<a class="headerlink" href="#how-to-write" title="Permalink to this headline">¶</a></h2>
-<p>You write math expressions as an inline element</p>
-<div class="highlight-python"><div class="highlight"><pre>:math:`\alpha &gt; \beta`
+<p>argc</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, argc);&#39;</span> <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> 5
+6
 </pre></div>
 </div>
-<p><span class="math">\(\alpha &gt; \beta\)</span></p>
-<p>Or use math delective like</p>
-<div class="highlight-python"><div class="highlight"><pre>.. math::
-
-   n_{\mathrm{offset}} = \sum_{k=0}^{N-1} s_k n_k
+<p>argv is a list of argument strings. they are stored in memory. the last item is NULL
+you can also say like char** is [String]</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;while(*argv){p(&quot;%s &quot;, *argv); argv++;}&#39;</span> <span class="m">1</span> <span class="m">2</span> 3
+/tmp/tmp.VcszemUZ <span class="m">1</span> <span class="m">2</span> 3
 </pre></div>
 </div>
-<div class="math">
-\[n_{\mathrm{offset}} = \sum_{k=0}^{N-1} s_k n_k\]</div>
-</div>
-<div class="section" id="expressions">
-<h2>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><div class="highlight"><pre>W^{3\beta}_{\delta_1 \rho_1 \sigma_2} \approx U^{3\beta}_{\delta_1 \rho_1}
+<p>Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;argv += 1; p(&quot;%s&quot;, *argv);&#39;</span> first
+first
 </pre></div>
 </div>
-<div class="math">
-\[W^{3\beta}_{\delta_1 \rho_1 \sigma_2} \approx U^{3\beta}_{\delta_1 \rho_1}\]</div>
-<p>multi lines:</p>
-<div class="highlight-python"><div class="highlight"><pre>.. math::
-    :nowrap:
-
-    \begin{eqnarray}
-    y    &amp; = &amp; ax^2 + bx + c \\
-    f(x) &amp; = &amp; x^2 + 2xy + y^2
-    \end{eqnarray}
+<p>Get the last item</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, argv[argc - 1]);&#39;</span> first secomd last
+last
 </pre></div>
 </div>
-<div class="math">
-\[\begin{eqnarray}
-y    & = & ax^2 + bx + c \\
-f(x) & = & x^2 + 2xy + y^2
-\end{eqnarray}\]</div></div>
+<p>Get values of evriron</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char**e=environ;while(*e){if(!strcmp(*e, &quot;USER=me&quot;))p(&quot;%s&quot;, *e); e++;}&#39;</span>
+<span class="nv">USER</span><span class="o">=</span>me
+</pre></div>
+</div>
+<p>if adding to the length of the string, you always refer &#8216;&#8217;</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *s=&quot;abc&quot;, *t; t = s + strlen(s); if(!*t) p(&quot;NULL&quot;);&#39;</span>
+NULL
+</pre></div>
+</div>
+<div class="section" id="struct">
+<h2>struct<a class="headerlink" href="#struct" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef struct {char name[64];}S; S s; strcpy(s.name, &quot;Bob&quot;); p(&quot;%s&quot;, s.name);&#39;</span>
+Bob
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=0; p(&quot;%d&quot;, b.bool);&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=1; p(&quot;%d&quot;, b.bool);&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p(&quot;%d&quot;, b.bool);&#39;</span>
+&lt;stdin&gt;:38:59: warning: implicit truncation from <span class="s1">&#39;int&#39;</span> to bitfield changes value from <span class="m">2</span> to <span class="m">0</span> <span class="o">[</span>-Wbitfield-constant-conversion<span class="o">]</span>
+    typedef struct <span class="o">{</span>unsigned bool: 1<span class="p">;</span><span class="o">}</span>Bool<span class="p">;</span> Bool b<span class="p">;</span> b.bool<span class="o">=</span>2<span class="p">;</span> p<span class="o">(</span><span class="s2">&quot;%d&quot;</span>, b.bool<span class="o">)</span><span class="p">;</span>
+                                                          ^~
+<span class="m">1</span> warning generated.
+0
+</pre></div>
+</div>
+</div>
 </div>
 
 

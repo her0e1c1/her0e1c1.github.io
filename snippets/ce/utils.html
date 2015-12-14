@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Utils &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../products.html">Products</a></li>
+            <li><a href="../index.html">Snippets</a></li>
+            <li><a href="../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <p>;; ## cat
+;; # getchar(void)は、標準入力から読み込む
+;; # 全て出力
+;; # while(char c = getchar())に宣言しても{}の中から参照できない
+;; # それから一文字ずつ取り出しているが、処理は気になるほど遅くならない(要負荷試験)
+;; ls | ce &#8216;char c;while((c=getchar())&gt;0){printf(&#8220;%c&#8221;, c);}&#8217;
+;; # 1ファイルのみ
+;; ls | ce &#8216;char c;while((c=getchar())&gt;10){printf(&#8220;%c&#8221;, c);}&#8217;</p>
+<p>;; # stderroの方が出力が早いみたい
+;; ce &#8216;fprintf(stdout, &#8220;stdout&#8221;); fprintf(stderr,&#8221;error&#8221;);&#8217;  # errorstdout
+;; # stdoutを先に出力させる
+;; ce &#8216;fprintf(stdout, &#8220;stdout&#8221;); fflush(stdout); fprintf(stderr,&#8221;error&#8221;);&#8217;  # stdouterror</p>
+<p>;; # ttyはターミナルの入出力において、標準入力がキーボード、標準出力・エラーがディスプレイである</p>
+<p>;; # isatty fdがttyであれば1を返す
+;; # isatty(STDIN_FILENO)を使うことでuserが入力できる状態か判別できる
+;; ce &#8216;printf(&#8220;%s&#8221;, isatty(STDIN_FILENO) ? &#8220;tty&#8221; : &#8220;no tty&#8221;);&#8217;  # tty
+;; # 標準入力がキーボードでないので、ttyではない
+;; ls | ce &#8216;printf(&#8220;%s&#8221;, isatty(STDIN_FILENO) ? &#8220;tty&#8221; : &#8220;no tty&#8221;);&#8217;  # no tty</p>
+<p>;; # 標準出力がディスプレイであるか判別
+;; ce &#8216;printf(&#8220;%s&#8221;, isatty(STDOUT_FILENO) ? &#8220;tty&#8221; : &#8220;no tty&#8221;);&#8217;  # tty
+;; # ディスプレイでない場合はファイルやパイプなどを介す必要がある
+;; ce &#8216;printf(&#8220;%s&#8221;, isatty(STDOUT_FILENO) ? &#8220;tty&#8221; : &#8220;no tty&#8221;);&#8217;  | cat  # no tty</p>
+<p>;; unistd
+;; # sysconf
+;; # ARG_MAX
+;; # 「実行するコマンド名 + 引数 + 子プロセスに渡す環境変数」の文字列長の最大値
+;; ce &#8216;printf(&#8220;%ld&#8221;, sysconf(_SC_ARG_MAX));&#8217;  # 262144
+;; getconf ARG_MAX  # 262144
+;; sysctl -A kern.argmax  # 262144</p>
+<p>;; # ignore argument except first but you should not run this
+;; ce &#8216;execl(&#8220;/bin/ls&#8221;, &#8220;-l&#8221;, NULL);&#8217;
+;; # if error occors, return the code
+;; ce &#8216;printf(&#8220;error code is %d&#8221;, execl(&#8220;/bin/&#8221;));&#8217;
+;; # if no error, no code are executed after the execl
+;; ce &#8216;execl(&#8220;/bin/ls&#8221;, &#8220;/bin/ls&#8221;, NULL); printf(&#8220;NOT PRINTED&#8221;);&#8217;
+;; # check the arguments by last pid: 31275;  load averages:  0.71,  0.45,  0.36  up 15+17:15:24    00:27:03
+1175 processes:1 running, 1174 sleeping</p>
+<p>Mem: 258M Active, 34M Inact, 641M Wired, 10M Cache, 110M Buf, 26M Free
+ARC: 135M Total, 5146K MFU, 46M MRU, 238K Anon, 4749K Header, 79M Other
+Swap: 4096M Total, 887M Used, 3209M Free, 21% Inuse</p>
+<blockquote>
+<div>PID USERNAME    THR PRI NICE   SIZE    RES STATE    TIME    WCPU COMMAND</div></blockquote>
+<p>31075 me            1  52    0 49912K  4056K select   0:00   2.98% ssh-agent
+31098 me            1  52    0 49912K  4068K select   0:00   2.98% ssh-agent
+31029 me            1  52    0 49912K  4036K select   0:00   2.98% ssh-agent
+31121 me            1  52    0 49912K  4080K select   0:00   2.98% ssh-agent
+31144 me            1  52    0 49912K  4080K select   0:00   2.98% ssh-agent
+31052 me            1  52    0 49912K  4036K select   0:00   2.98% ssh-agent
+30833 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30740 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30902 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30648 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30948 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30694 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30784 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30856 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30994 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30671 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30879 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+30810 me            1  52    0 49912K  4036K select   0:00   0.98% ssh-agent
+;; ce &#8216;execl(&#8220;/usr/bin/perl&#8221;, &#8220;perl is runnning&#8221;, &#8220;-e&#8221;, &#8220;$ s += ce for 1..100000000; print $ s&#8221;,  NULL);&#8217;</p>
+<p>;; ## execle execve
+;; # 多分、環境変数を上書きする。ただしPATHを変更してもpと同じように動かないみたい。
+;; ce &#8216;execle(&#8220;/usr/bin/perl&#8221;, &#8220;perl&#8221;, &#8220;-e&#8221;, &#8220;print $ ENV{TEST}&#8221;, NULL, (char*[]){&#8220;TEST=/bin&#8221;});&#8217;</p>
+<div class="section" id="utils">
+<h1>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="statfs">
+<h2>statfs<a class="headerlink" href="#statfs" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;struct statfs s; statfs(&quot;/home&quot;, &amp;s); p(&quot;%s&quot;, s.f_mntonname);&#39;</span>
+/
+</pre></div>
+</div>
+</div>
+<div class="section" id="unistd">
+<h2>unistd<a class="headerlink" href="#unistd" title="Permalink to this headline">¶</a></h2>
+<p>stdin 0, stdout 1, stderr 2
+in this case, because I run this command as subprocess, these results are NULL.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, ttyname(0));&#39;</span>
+<span class="o">(</span>null<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, ttyname(1));&#39;</span>
+<span class="o">(</span>null<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, ttyname(2));&#39;</span>
+<span class="o">(</span>null<span class="o">)</span>
+</pre></div>
+</div>
+<p>l list, v vector, e env</p>
+</div>
+<div class="section" id="exel">
+<h2>exel<a class="headerlink" href="#exel" title="Permalink to this headline">¶</a></h2>
+<p>exec path and its arguments. the list must be end with NULL.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execv(&quot;/bin/echo&quot;, (char*[]){&quot;ECHO&quot;, &quot;abc&quot;, &quot;efg&quot;, NULL});&#39;</span>
+abc efg
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execv(&quot;/bin/echo&quot;, (char*[]){&quot;/bin/echo&quot;, &quot;abc&quot;, &quot;efg&quot;, NULL});&#39;</span>
+abc efg
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execv(&quot;echo&quot;, (char*[]){&quot;ECHO&quot;, &quot;abc&quot;, &quot;efg&quot;, NULL});&#39;</span>
+</pre></div>
+</div>
+<p>you don&#8217;t need an absolute path because it searches PATH for the command.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execlp(&quot;echo&quot;, &quot;ECHO&quot;, &quot;hoge&quot;, NULL);&#39;</span>
+hoge
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execvp(&quot;echo&quot;, (char*[]){&quot;ECHO&quot;, &quot;hoge&quot;, NULL});&#39;</span>
+hoge
+</pre></div>
+</div>
+</div>
+<div class="section" id="exit">
+<h2>exit<a class="headerlink" href="#exit" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, EXIT_SUCCESS);&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, EXIT_FAILURE);&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;exit(EXIT_SUCCESS); p(&quot;NOT REACHED&quot;);&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="env">
+<h2>env<a class="headerlink" href="#env" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, getenv(&quot;USER&quot;));&#39;</span>
+me
+</pre></div>
+</div>
+<p>NULL if the name doesn&#8217;t exist.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, getenv(&quot;user&quot;));&#39;</span>
+<span class="o">(</span>null<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
