@@ -6,6 +6,7 @@
 
 
 .. code-block:: c
+   
 
     #include "stdio.h"
     #include "stdlib.h"
@@ -40,12 +41,12 @@
 
 ::
 
-    # time => 0.042547(sec)
+    # time => 0.058119(sec)
     clang reallocCost.c && ./a.out 5 ONE
  
 
 ::
 
-    # time => 0.040122(sec)
+    # time => 0.063427(sec)
     clang reallocCost.c && ./a.out 5 EACH
 

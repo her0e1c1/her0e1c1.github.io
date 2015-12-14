@@ -12,7 +12,7 @@ $(gosh -l ~/lib/scheme/init.scm <<EOG
         (cmd #"gosh ~trn -i ~src -o ~dst")
         (_ (sys-system cmd))
         (cmd-block (sphinx-block cmd :block #t))
-        (src-block (sphinx-block (file->string src) :code-block "c"))
+        (src-block (sphinx-block-path src))
         (dst-block (sphinx-block (file->string dst) :code-block "c"))
         (trn-block (sphinx-block (file->string trn) :code-block "scheme"))
         (result (sphinx-block (run-c dst) :block #t))

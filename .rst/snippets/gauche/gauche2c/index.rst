@@ -12,7 +12,8 @@ using CiSE
     gosh translate.scm -i FizzBuzz.scm -o FizzBuzz.c
  
 
-.. code-block:: c
+.. code-block:: scm
+   
 
     (.include <stdio.h>)
     
@@ -28,6 +29,7 @@ using CiSE
  
 
 .. code-block:: scheme
+   
 
     (use gauche.cgen)
     (use gauche.cgen.cise)
@@ -53,6 +55,7 @@ The comand creates a translated .c file.
 
 
 .. code-block:: c
+   
 
     
     #line 1 "FizzBuzz.scm"

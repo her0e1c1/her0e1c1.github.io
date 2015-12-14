@@ -13,6 +13,7 @@ flatten.scm
 
 
 .. code-block:: scm
+   
 
     
     (define (flatten/cps tree k)
@@ -35,6 +36,7 @@ test
 
 
 .. code-block:: scm
+   
 
     
     (add-load-path "." :relative)
@@ -67,6 +69,7 @@ fib.scm
 
 
 .. code-block:: scm
+   
 
     
     (define (fib/cps n k)
@@ -86,6 +89,7 @@ test
 
 
 .. code-block:: scm
+   
 
     
     (add-load-path "." :relative)
@@ -122,6 +126,7 @@ leaf-count.scm
 
 
 .. code-block:: scm
+   
 
     
     (define (leaf-count/cps tree k)
@@ -140,6 +145,7 @@ test
 
 
 .. code-block:: scm
+   
 
     
     (add-load-path "." :relative)
@@ -178,6 +184,7 @@ fact.scm
 
 
 .. code-block:: scm
+   
 
     
     ; m is the result of "(fact (- n 1))"
@@ -197,6 +204,7 @@ test
 
 
 .. code-block:: scm
+   
 
     
     (add-load-path "." :relative)
