@@ -26,7 +26,7 @@ you can also say like char** is [String]
    
 
     $ ce 'while(*argv){p("%s ", *argv); argv++;}' 1 2 3
-    /tmp/tmp.srCLjdJ8 1 2 3 
+    /tmp/tmp.SsV4GjVw 1 2 3 
 
 Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.
 

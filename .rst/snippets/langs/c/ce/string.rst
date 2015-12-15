@@ -1,4 +1,3 @@
-/usr/home/me/github/her0e1c1.github.io/.rst/snippets/langs/c/ce
 
 ========
  String

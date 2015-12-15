@@ -43,29 +43,29 @@
 ;; ce 'printf("error code is %d", execl("/bin/"));'
 ;; # if no error, no code are executed after the execl
 ;; ce 'execl("/bin/ls", "/bin/ls", NULL); printf("NOT PRINTED");'
-;; # check the arguments by last pid: 75376;  load averages:  0.17,  0.27,  0.28  up 16+09:48:34    01:01:20
-1575 processes:1 running, 1565 sleeping, 7 stopped, 2 zombie
+;; # check the arguments by last pid: 78648;  load averages:  0.34,  0.30,  0.26  up 16+10:05:46    01:18:32
+1577 processes:1 running, 1567 sleeping, 7 stopped, 2 zombie
 
-Mem: 177M Active, 31M Inact, 725M Wired, 8180K Cache, 110M Buf, 30M Free
-ARC: 158M Total, 20M MFU, 54M MRU, 272K Anon, 6456K Header, 78M Other
-Swap: 4096M Total, 1322M Used, 2774M Free, 32% Inuse
+Mem: 143M Active, 43M Inact, 738M Wired, 3480K Cache, 110M Buf, 42M Free
+ARC: 170M Total, 20M MFU, 66M MRU, 489K Anon, 6191K Header, 78M Other
+Swap: 4096M Total, 1351M Used, 2745M Free, 32% Inuse
 
 
   PID USERNAME    THR PRI NICE   SIZE    RES STATE    TIME    WCPU COMMAND
-78052 me            2  30    0   329M 91656K select  24:11   0.98% emacs --daemon -q -l /home/me/github/emacs.d/.emac
-77135 me            1  20    0 46420K  7636K select  10:12   0.98% tmux: server (/tmp/tmux-1001/default) (tmux)
-77103 me            1  20    0 86084K  2000K select   1:01   0.00% sshd: me@pts/0 (sshd)
-77584 me            2  25    0   271M 30152K select   0:08   0.00% emacs --daemon (emacs-24.5)
-77163 me            2  52    0   269M 29492K select   0:07   0.00% emacs --daemon -q -l /home/me/github/emacs.d/.emac
-77453 me            2  24    0   269M 29624K select   0:07   0.00% emacs --daemon -q -l /home/me/github/emacs.d/.emac
-77004 pgsql         1  20    0 39268K  2348K select   0:06   0.00% postgres: stats collector process    (postgres)
+78052 me            2  30    0   331M 92736K select  24:34   2.98% emacs --daemon -q -l /home/me/github/emacs.d/.emac
+77135 me            1  21    0 46420K  7440K select  10:21   0.98% tmux: server (/tmp/tmux-1001/default) (tmux)
+77103 me            1  20    0 86084K  1988K select   1:03   0.00% sshd: me@pts/0 (sshd)
+77584 me            2  25    0   271M  8176K select   0:08   0.00% emacs --daemon (emacs-24.5)
+77163 me            2  52    0   269M 19208K select   0:07   0.00% emacs --daemon -q -l /home/me/github/emacs.d/.emac
+77453 me            2  24    0   269M 28316K select   0:07   0.00% emacs --daemon -q -l /home/me/github/emacs.d/.emac
+77004 pgsql         1  20    0 39268K  2364K select   0:06   0.00% postgres: stats collector process    (postgres)
 48702 me            1  29    0 37476K     0K pause    0:03   0.00% -zsh (<zsh>)
+66026 me            1  44    0 37604K  4816K ttyin    0:03   0.00% zsh
 77003 pgsql         1  20    0   180M  2560K select   0:03   0.00% postgres: autovacuum launcher process    (postgres
-76998 pgsql         1  20    0   180M  2464K select   0:03   0.00% /usr/local/bin/postgres -D /usr/local/pgsql/data
-66026 me            1  33    0 37596K  4496K ttyin    0:03   0.00% zsh
+76998 pgsql         1  20    0   180M  2480K select   0:03   0.00% /usr/local/bin/postgres -D /usr/local/pgsql/data
+61725 me            1  20    0 37476K  3008K pause    0:03   0.00% -zsh (zsh)
 59325 me            1  20    0 37604K     0K pause    0:02   0.00% zsh (<zsh>)
 77002 pgsql         1  20    0   180M  2344K select   0:01   0.00% postgres: wal writer process    (postgres)
-61725 me            1  20    0 37476K     0K pause    0:01   0.00% -zsh (<zsh>)
 77001 pgsql         1  20    0   180M  2356K select   0:01   0.00% postgres: writer process    (postgres)
 77192 me            1  20    0 37604K     0K pause    0:01   0.00% -zsh (<zsh>)
 66522 me            1  52    0 83964K     0K STOP     0:00   0.00% gosh -l /home/me/lib/scheme/init.scm (<gosh>)

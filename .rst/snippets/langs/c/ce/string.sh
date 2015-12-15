@@ -1,4 +1,4 @@
-cd $(dirname $0)
+cd $(dirname $0) > /dev/null 2>&1
 STRINGS=$(ls string/*.scm | perl -pE 's/(.*)/"\\$1"/')
 cat <<EOS
 
