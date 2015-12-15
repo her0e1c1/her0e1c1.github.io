@@ -4,7 +4,7 @@ cat <<EOS
  Gauche To C
 =============
 
-$(gosh -l ~/lib/scheme/init.scm <<EOG
+$(go <<EOG
  (current-directory "$HERE")
  (let* ((src "FizzBuzz.scm")
         (dst "FizzBuzz.c")

@@ -1,15 +1,16 @@
 HERE=$(dirname $0)
 cat <<EOS
-=============
- Gauche To C
-=============
+========
+ Gauche 
+========
 
-$(gosh -l ~/lib/scheme/init.scm <<EOG
+$(go <<EOG
 EOG
 )
 
 .. toctree::
 
    gauche2c/index
+
 
 EOS
