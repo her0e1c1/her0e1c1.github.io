@@ -1,10 +1,9 @@
-cd $(dirname $0) && cat <<EOS
+cd $(dirname $0) > /dev/null 2>&1 && cat <<EOS
 
 ==========
 C Language
 ==========
 
-(go "$HERE/index.scm")
 $(goshe '(p (sphinx-toctree :glob "ce/*"))')
 
 EOS

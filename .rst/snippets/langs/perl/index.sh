@@ -6,5 +6,4 @@ HERE=$(dirname $0) && cat <<EOS
 
 $(go "$HERE/index.scm")
 
-
 EOS
