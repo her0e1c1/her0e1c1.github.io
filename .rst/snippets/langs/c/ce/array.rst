@@ -5,6 +5,44 @@
 
 
 
+argument
+========
+
+argc
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%d", argc);' 1 2 3 4 5
+    6
+
+argv is a list of argument strings. they are stored in memory. the last item is NULL
+you can also say like char** is [String]
+
+.. code-block:: sh
+   
+
+    $ ce 'while(*argv){p("%s ", *argv); argv++;}' 1 2 3
+    /tmp/tmp.JBZsFMd8 1 2 3 
+
+Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.
+
+.. code-block:: sh
+   
+
+    $ ce 'argv += 1; p("%s", *argv);' first
+    first
+
+Get the last item
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%s", argv[argc - 1]);' first secomd last
+    last
+
+
+
 enum
 ====
 
@@ -68,6 +106,92 @@ create a variable
 
 
 
+environ
+=======
+
+Get values of evriron
+
+.. code-block:: sh
+   
+
+    $ ce 'char**e=environ;while(*e){if(!strcmp(*e, "USER=me"))p("%s", *e); e++;}'
+    USER=me
+
+l list, v vector, e env
+
+
+exel
+====
+
+exec path and its arguments. the list must be end with NULL.
+
+.. code-block:: sh
+   
+
+    $ ce 'execv("/bin/echo", (char*[]){"ECHO", "abc", "efg", NULL});'
+    abc efg
+    
+
+
+.. code-block:: sh
+   
+
+    $ ce 'execv("/bin/echo", (char*[]){"/bin/echo", "abc", "efg", NULL});'
+    abc efg
+    
+
+
+.. code-block:: sh
+   
+
+    $ ce 'execv("echo", (char*[]){"ECHO", "abc", "efg", NULL});'
+    
+
+you don't need an absolute path because it searches PATH for the command.
+
+.. code-block:: sh
+   
+
+    $ ce 'execlp("echo", "ECHO", "hoge", NULL);'
+    hoge
+    
+
+
+.. code-block:: sh
+   
+
+    $ ce 'execvp("echo", (char*[]){"ECHO", "hoge", NULL});'
+    hoge
+    
+
+
+
+exit
+====
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%d", EXIT_SUCCESS);'
+    0
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%d", EXIT_FAILURE);'
+    1
+
+
+.. code-block:: sh
+   
+
+    $ ce 'exit(EXIT_SUCCESS); p("NOT REACHED");'
+    
+
+
+
 false
 =====
 
@@ -120,6 +244,26 @@ printf doesn't output until it encounters newline. an error will occur because o
     $ ce 'char*a=NULL, b; p("this is printed."); fflush(stdout); b=*a;'
     this is printed.セグメンテーション違反
     
+
+
+
+env
+===
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%s", getenv("USER"));'
+    me
+
+NULL if the name doesn't exist.
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%s", getenv("user"));'
+    (null)
 
 
 
@@ -311,4 +455,81 @@ sizeof gets all the memory size, not the length of an array
 
     $ ce 'int b[10]; p("%zu", sizeof(b));'
     40
+
+
+
+statfs
+======
+
+
+.. code-block:: sh
+   
+
+    $ ce 'struct statfs s; statfs("/home", &s); p("%s", s.f_mntonname);'
+    /
+
+
+
+struct
+======
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {char name[64];}S; S s; strcpy(s.name, "Bob"); p("%s", s.name);'
+    Bob
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=0; p("%d", b.bool);'
+    0
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=1; p("%d", b.bool);'
+    1
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);'
+    <stdin>:42:59: warning: implicit truncation from 'int' to bitfield changes value from 2 to 0 [-Wbitfield-constant-conversion]
+        typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);
+                                                              ^~
+    1 warning generated.
+    0
+
+
+
+ttyname
+=======
+
+stdin 0, stdout 1, stderr 2
+in this case, because I run this command as subprocess, these results are NULL.
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%s", ttyname(0));'
+    (null)
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%s", ttyname(1));'
+    (null)
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%s", ttyname(2));'
+    (null)
 

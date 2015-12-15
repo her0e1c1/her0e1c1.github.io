@@ -2,7 +2,8 @@
 
 (p (sphinx-section "sizeof"))
 (p "with %zu print as unsigned decimal")
-(let1 types '(char short int size_t void* long float double "long float" "long long" "long double" "double double")
+(let1 types '(char short "short int" int size_t void*
+              long float double "long float" "long long" "long double" "double double")
 (dolist (t (map x->string types))
 (run #"p(\"%zu\", sizeof(~t));")))
 

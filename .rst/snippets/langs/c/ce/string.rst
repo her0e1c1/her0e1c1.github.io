@@ -217,6 +217,14 @@ Return the length of string but NULL char is not contained.
     $ ce 'p("%lu", strlen("abc"));'
     3
 
+if adding to the length of the string, you always refer ''
+
+.. code-block:: sh
+   
+
+    $ ce 'char *s="abc", *t; t = s + strlen(s); if(!*t) p("NULL");'
+    NULL
+
 
 
 strmode
