@@ -1,7 +1,102 @@
+/usr/home/me/github/her0e1c1.github.io/.rst/snippets/langs/c/ce
 
 ========
  String
 ========
+
+.. contents::
+
+
+
+Declare
+=======
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char a[] = "abc";'
+    
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char *a  = "abc";'
+    
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char a[] = {'a', 'b', 'c'};'
+    <stdin>:42:20: error: use of undeclared identifier 'b'
+        char a[] = {a, b, c};
+                       ^
+    <stdin>:42:23: error: use of undeclared identifier 'c'
+        char a[] = {a, b, c};
+                          ^
+    2 errors generated.
+    
+
+
+.. warning::
+
+    Error
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char *a  = {'a', 'b', 'c'};'
+    <stdin>:42:20: error: use of undeclared identifier 'b'
+        char *a  = {a, b, c};
+                       ^
+    <stdin>:42:23: error: use of undeclared identifier 'c'
+        char *a  = {a, b, c};
+                          ^
+    2 errors generated.
+    
+
+
+.. warning::
+
+    In case of static declaration of string, it can't be modified.
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char *c ="Memory allocated static  string"; c[1] = 'E'; p("NOT REACHED => %s", c);'
+    <stdin>:42:56: error: use of undeclared identifier 'E'
+        char *c ="Memory allocated static  string"; c[1] = E; p("NOT REACHED => %s", c);
+                                                           ^
+    1 error generated.
+    
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char c[]="Memory allocated dynamic string"; c[1] = 'E'; p("REACHED => %s", c);'
+    <stdin>:42:56: error: use of undeclared identifier 'E'
+        char c[]="Memory allocated dynamic string"; c[1] = E; p("REACHED => %s", c);
+                                                           ^
+    1 error generated.
+    
+
+
+
+sprintf
+=======
+
+Number to string
+
+.. code-block:: sh
+   
+
+    $ ce 'char b[32]; sprintf(b, "%d", 12345); p("%s", b);'
+    12345
 
 
 
@@ -10,13 +105,11 @@ strcat
 
 Append strings
 
-
 .. code-block:: sh
    
 
     $ ce 'char s[]="abcde", *t="hijk" ; strcat(s, t); p("%s", s);'
     abcdehijk
-
 
 
 .. code-block:: sh
@@ -27,21 +120,20 @@ Append strings
 
 error! if pointer is used, it can't be modified. it is static allocated.
 
-
 .. code-block:: sh
    
 
     $ ce 'char *s="abcde", *t="hijk" ; strcat(s, t); p("%s", s);'
+    セグメンテーション違反
     
-
 
 
 .. code-block:: sh
    
 
     $ ce 'char *s="abcde", t[]="hijk"; strcat(s, t); p("%s", s);'
+    セグメンテーション違反
     
-
 
 
 .. code-block:: sh
@@ -52,18 +144,111 @@ error! if pointer is used, it can't be modified. it is static allocated.
 
 
 
+strcmp
+======
+
+
+.. code-block:: sh
+   
+
+    $ ce 'if(strcmp("abc", "abc") == 0) p("true");'
+    true
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%d", strcmp("a", "z"));'
+    -25
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%d", strcmp("z", "a"));'
+    25
+
+
+
+strcpy
+======
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char s[4];strcpy(s, "abc"); p("%s", s);'
+    abc
+
+
+
+strdup
+======
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char* s; if((s=strdup("test")) != NULL){ps(s); free(s);}')'
+    Syntax error: ")" unexpected
+    
+
+
+
+strerror
+========
+
+
+.. code-block:: sh
+   
+
+    $ ce 'ps(strerror(1));'
+    Operation not permitted
+
+
+
+strlen
+======
+
+Return the length of string but NULL char is not contained.
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%lu", strlen("abc"));'
+    3
+
+
+
+strmode
+=======
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char s[12]; strmode(S_IRWXU | S_IWGRP, s); ps(s);'
+    ?rwx-w---- 
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char s[12]; strmode(S_IRWXU | S_IWGRP, s); ps(s[11]==0? "NULL":"NO");'
+    NULL
+
+
+
 strstr
 ======
 
 if searching an empty string, it is always true.
-
 
 .. code-block:: sh
    
 
     $ ce 'p("(%s)", strstr("", ""));'
     ()
-
 
 
 .. code-block:: sh
@@ -73,7 +258,6 @@ if searching an empty string, it is always true.
     abcde
 
 
-
 .. code-block:: sh
    
 
@@ -81,297 +265,16 @@ if searching an empty string, it is always true.
     (null)
 
 
+.. code-block:: sh
+   
 
-sprintf
-=======
-
-Number to string
+    $ ce 'ps(strstr("123456789", "345"));'
+    3456789
 
 
 .. code-block:: sh
    
 
-    $ ce 'char b[32]; sprintf(b, "%d", 12345); p("%s", b);'
-    12345
-
-In case of static declaration of string, it can't be modified.
-
-
-.. code-block:: sh
-   
-
-    $ ce 'char *c ="Memory allocated static  string"; c[1] = 'E'; p("NOT REACHED => %s", c);'
-    
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'char c[]="Memory allocated dynamic string"; c[1] = 'E'; p("REACHED => %s", c);'
-    REACHED => MEmory allocated dynamic string
-
-Declare
-
-
-.. code-block:: sh
-   
-
-    $ ce 'char a[] = "abc";'
-    
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'char *a  = "abc";'
-    
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'char a[] = {'a', 'b', 'c'};'
-    
-
-Error
-
-
-.. code-block:: sh
-   
-
-    $ ce 'char *a  = {'a', 'b', 'c'};'
-    <stdin>:38:17: warning: incompatible integer to pointer conversion initializing 'char *' with an expression of type 'int' [-Wint-conversion]
-        char *a  = {'a', 'b', 'c'};
-                    ^~~
-    <stdin>:38:22: warning: excess elements in scalar initializer
-        char *a  = {'a', 'b', 'c'};
-                         ^~~
-    2 warnings generated.
-    
-
-false
-
-
-.. code-block:: sh
-   
-
-    $ ce 'if(!0)p("false");'
-    false
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'if(!NULL)p("false");'
-    false
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'char *s=""; if(!*s)p("false");'
-    false
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'if("")p("true");'
-    true
-
-
-
-sizeof
-======
-
-with %zu print as unsigned decimal
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(char));'
-    1
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(short));'
-    2
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(int));'
-    4
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(size_t));'
-    8
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(void*));'
-    8
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(long));'
-    8
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(float));'
-    4
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(double));'
-    8
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(long float));'
-    <stdin>:38:21: error: 'long float' is invalid
-        p("%zu", sizeof(long float));
-                        ^
-    1 error generated.
-    
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(long long));'
-    8
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(long double));'
-    16
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'p("%zu", sizeof(double double));'
-    <stdin>:38:28: error: cannot combine with previous 'double' declaration specifier
-        p("%zu", sizeof(double double));
-                               ^
-    1 error generated.
-    
-
-sizeof gets all the memory size, not the length of an array
-
-
-.. code-block:: sh
-   
-
-    $ ce 'int b[10]; p("%zu", sizeof(b));'
-    40
-
-
-
-enum
-====
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'enum E{A,B}; enum E e=A; p("%d", e);'
-    0
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'enum E{A,B}; enum E e=B; p("%d", e);'
-    1
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'enum E{A=10,B}; enum E e=A; p("%d", e);'
-    10
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'enum E{A=10,B}; enum E e=B; p("%d", e);'
-    11
-
-alias enum
-
-
-.. code-block:: sh
-   
-
-    $ ce 'typedef enum E{A,B}F; F e=A; p("%d", e);'
-    0
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'typedef enum E{A,B}F; F e=B; p("%d", e);'
-    1
-
-create a variable
-
-
-.. code-block:: sh
-   
-
-    $ ce 'enum E{A,B}e; e=A; p("%d", e);'
-    0
-
-
-
-.. code-block:: sh
-   
-
-    $ ce 'enum E{A,B}e; e=B; p("%d", e);'
-    1
+    $ ce 'ps(strstr("123456789", "355"));'
+    (null)
 

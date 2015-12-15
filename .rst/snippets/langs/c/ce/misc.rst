@@ -4,7 +4,6 @@
 
 Get a size of an array
 
-
 .. code-block:: sh
    
 
@@ -13,7 +12,6 @@ Get a size of an array
     3
 
 argc
-
 
 .. code-block:: sh
    
@@ -24,15 +22,13 @@ argc
 argv is a list of argument strings. they are stored in memory. the last item is NULL
 you can also say like char** is [String]
 
-
 .. code-block:: sh
    
 
     $ ce 'while(*argv){p("%s ", *argv); argv++;}' 1 2 3
-    /tmp/tmp.VcszemUZ 1 2 3 
+    /tmp/tmp.srCLjdJ8 1 2 3 
 
 Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.
-
 
 .. code-block:: sh
    
@@ -42,7 +38,6 @@ Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.
 
 Get the last item
 
-
 .. code-block:: sh
    
 
@@ -51,7 +46,6 @@ Get the last item
 
 Get values of evriron
 
-
 .. code-block:: sh
    
 
@@ -59,7 +53,6 @@ Get values of evriron
     USER=me
 
 if adding to the length of the string, you always refer ''
-
 
 .. code-block:: sh
    
@@ -73,13 +66,11 @@ struct
 ======
 
 
-
 .. code-block:: sh
    
 
     $ ce 'typedef struct {char name[64];}S; S s; strcpy(s.name, "Bob"); p("%s", s.name);' 
     Bob
-
 
 
 .. code-block:: sh
@@ -89,7 +80,6 @@ struct
     0
 
 
-
 .. code-block:: sh
    
 
@@ -97,12 +87,11 @@ struct
     1
 
 
-
 .. code-block:: sh
    
 
     $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);' 
-    <stdin>:38:59: warning: implicit truncation from 'int' to bitfield changes value from 2 to 0 [-Wbitfield-constant-conversion]
+    <stdin>:42:59: warning: implicit truncation from 'int' to bitfield changes value from 2 to 0 [-Wbitfield-constant-conversion]
         typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);
                                                               ^~
     1 warning generated.

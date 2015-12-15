@@ -1,13 +1,11 @@
-HERE=$(dirname $0)
-cat <<EOS
+cd $(dirname $0) && cat <<EOS
 
 =======
  Array 
 =======
 
 $(go <<EOG
- (define (run cmd)
-   (p (sphinx-block (format "$ ce '~a'\n~a" cmd (run-ce cmd)) :code-block "sh")))
+ (load-from-current-dirctory "include.scm")
 
  (p "Declare")
  (run "int a[10];")
@@ -30,18 +28,6 @@ $(go <<EOG
  (p "But with static, an error occurs")
  (run "int k=10;static int a[k];")
 
- (p (sphinx-section "memset"))
-
- (p "Fill 0")
- (run "int a[10][10]; memset(a, 0, sizeof(a)); p(\"%d\", a[0][0]);")
- 
- (p "Fill -1")
- (run "int a[10][10]; memset(a, -1, sizeof(a)); p(\"%d\", a[0][0]);")
-
- (p "Don't work because memset fills numbers but 0 or -1 at each byte")
- (run "int a[10][10]; memset(a, 1, sizeof(a)); p(\"%d\", a[0][0]);")
- (run "int a[10][10]; memset(a, 10, sizeof(a)); p(\"%d\", a[0][0]);")
-
 ;; # 16進数から2進数への変換は、f => 1111, 0 => 0000, 1 => 0001と考えるので
 ;; # 00000001が4回繰り返しコピーされていることがわかる
  (run "int i[1]; memset(i, 1, sizeof(int)); printf(\"%x\", i[0]);")
@@ -59,6 +45,8 @@ $(go <<EOG
  (p "printf doesn't output until it encounters newline. an error will occur because of referring null pointer")
  (run "char*a=NULL, b; p(\"this is NOT printed.\"); b=*a;")
  (run "char*a=NULL, b; p(\"this is printed.\"); fflush(stdout); b=*a;")
+
+ 
 
 EOG
 )
