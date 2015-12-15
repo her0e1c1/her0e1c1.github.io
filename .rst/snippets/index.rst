@@ -32,3 +32,4 @@ misc
    ./parser/index
    ./gauche/index
    ./ce/*
+   ./langs/*
