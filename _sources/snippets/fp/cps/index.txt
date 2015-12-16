@@ -11,7 +11,6 @@ flatten.scm
 ===========
 
 
-
 .. code-block:: scm
    
 
@@ -34,7 +33,6 @@ test
 ----
 
 
-
 .. code-block:: scm
    
 
@@ -48,7 +46,6 @@ test
     (test* "(flatten/cps X)" '(a b c d e f g h) (flatten/cps '(a (b (c d) e) (f g) h)) values)
     (test* "(flatten/cps X)" '(a b c d e f g h) (flatten/cps '(a (((b) (c d)) ((e) (f) (((g)))) h)) values))
     
-
 
 
 ::
@@ -65,7 +62,6 @@ test
 
 fib.scm
 =======
-
 
 
 .. code-block:: scm
@@ -87,7 +83,6 @@ test
 ----
 
 
-
 .. code-block:: scm
    
 
@@ -106,7 +101,6 @@ test
     
 
 
-
 ::
 
     test (fib/cps 0), expects 0 ==> ok
@@ -122,7 +116,6 @@ test
 
 leaf-count.scm
 ==============
-
 
 
 .. code-block:: scm
@@ -143,7 +136,6 @@ test
 ----
 
 
-
 .. code-block:: scm
    
 
@@ -160,7 +152,6 @@ test
     (test* "(leaf-count/cps 5)" (+ 2 3 2) (leaf-count/cps '((a . b) (c d) e) values))
     (test* "(leaf-count/cps 5)" (+ 3 3 2) (leaf-count/cps '((a b) (c d) e) values))
     
-
 
 
 ::
@@ -182,7 +173,6 @@ fact.scm
 ========
 
 
-
 .. code-block:: scm
    
 
@@ -202,7 +192,6 @@ test
 ----
 
 
-
 .. code-block:: scm
    
 
@@ -214,7 +203,6 @@ test
     (test* "(fact/cps 1)"  1   (fact/cps 1 values))
     (test* "(fact/cps 10)" 120 (fact/cps 5 values))
     
-
 
 
 ::

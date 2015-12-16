@@ -6,12 +6,10 @@
 using CiSE
 ==========
 
-
 ::
 
     gosh translate.scm -i FizzBuzz.scm -o FizzBuzz.c
  
-
 .. code-block:: scm
    
 
@@ -27,7 +25,6 @@ using CiSE
       (return 0))
     
  
-
 .. code-block:: scheme
    
 
@@ -52,7 +49,6 @@ using CiSE
 Generate C
 ==========
 The comand creates a translated .c file.
-
 
 .. code-block:: c
    
@@ -86,7 +82,6 @@ The comand creates a translated .c file.
     
 
 So you can run it.
-
 
 ::
 

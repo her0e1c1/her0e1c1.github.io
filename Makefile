@@ -1,4 +1,3 @@
-export SNIPPETS_SRC=.rst/src
 
 OBJS = \
 _images \
