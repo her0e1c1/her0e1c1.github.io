@@ -4,7 +4,6 @@
 ==============
 
 
-
 .. code-block:: c
    
 
@@ -38,15 +37,13 @@
     }
     
  
-
 ::
 
-    # time => 0.057627(sec)
+    # time => 0.034854(sec)
     clang reallocCost.c && ./a.out 5 ONE
  
-
 ::
 
-    # time => 0.053298(sec)
+    # time => 0.19854(sec)
     clang reallocCost.c && ./a.out 5 EACH
 
