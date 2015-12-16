@@ -10,6 +10,180 @@ C Language
     ce/*
 
 
+map.c
+=====
+
+
+.. code-block:: c
+   
+
+    // map.c
+    #include <stdio.h>
+    
+    // 引数に関数の型を指定(Int -> Int)
+    int* map(int (* f)(int), int* list){
+      int* p = list;
+      while(*list){
+        *list = f(*list);
+        list++;
+      }
+      return p;
+    }
+    
+    int doubleInt(int x){
+      return x * x;
+    }
+    
+    int main(){
+      int v[] = {1, 2, 3, 0};
+      int* rv = map(doubleInt, v);
+      for(int* p = rv; *p; p++){
+        printf("%d, ", *p);
+      }
+    }
+
+
+::
+
+    $ clang map.c && ./a.out
+    1, 4, 9, 
+
+
+
+declare and initialize
+======================
+
+
+.. warning::
+
+    You can't declare like this.
+
+
+.. code-block:: c
+   
+
+    // error.c
+    void a(int range){
+      int c[range] = {0};
+    }
+    int main() {a(10);}
+
+
+::
+
+    $ clang error.c && ./a.out
+    <stdin>:2:9: error: variable-sized object may not be initialized
+      int c[range] = {0};
+            ^~~~~
+    1 error generated.
+    
+
+You need to initialize each item.
+
+.. code-block:: c
+   
+
+    // ok.c
+    void a(int range){
+      
+      int c[range];
+      for (int i = 0; i < range; i++) c[i] = 0;
+    
+    }
+    int main() {a(10);}
+
+
+::
+
+    $ clang ok.c && ./a.out
+    
+
+
+
+macro
+=====
+
+
+.. code-block:: c
+   
+
+    // code
+    #include <stdio.h>
+    
+    // List up pre defined macros
+    #define MACRO(x)                                 \
+      printf("#x = %s\n" , #x);                      \
+      printf("x  = %d\n" , x);                       \
+      printf("__func__ = %s\n" ,__func__);           \
+      printf("__LINE__ = %d\n" ,__LINE__);           \
+      printf("__FILE__ = %s\n" ,__FILE__);           \
+      printf("__DATE__ = %s\n" ,__DATE__);           \
+      printf("__TIME__ = %s\n" ,__TIME__);           \
+    
+    int main(){MACRO((1 + 2 + 3));}
+
+
+::
+
+    $ clang code && ./a.out
+    #x = (1 + 2 + 3)
+    x  = 6
+    __func__ = main
+    __LINE__ = 13
+    __FILE__ = <stdin>
+    __DATE__ = Dec 16 2015
+    __TIME__ = 15:52:33
+    
+
+
+
+declare array in signature
+==========================
+
+
+.. warning::
+
+    a[] of function parameter is a pointer which equals int* a
+
+
+.. code-block:: c
+   
+
+    // code
+    #include <stdio.h>
+    int f(int a[]){
+      return sizeof(a);
+    }
+    int main(){
+      int a[] = {1,2,3,4,5};
+      printf("%d != %d", sizeof(a), f(a));
+    }
+
+
+::
+
+    $ clang code && ./a.out
+    <stdin>:3:16: warning: sizeof on array function parameter will return size of 'int *' instead of 'int []' [-Wsizeof-array-argument]
+      return sizeof(a);
+                   ^
+    <stdin>:2:11: note: declared here
+    int f(int a[]){
+              ^
+    <stdin>:7:22: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
+      printf("%d != %d", sizeof(a), f(a));
+              ~~         ^~~~~~~~~
+              %lu
+    2 warnings generated.
+    20 != 8
+
+
+
+malloc size
+===========
+
+.. todo:: 2 * 文字数 + 1みたいな領域確保のときに+1し忘れのエラーとなるサンプル用意
+
+
 ifdef
 =====
 
@@ -67,6 +241,30 @@ ifdef else endifはソースコードをコンパイルする前の前処理.
 
     $ clang ifdef.c && ./a.out
     DEBUG!
+
+
+
+over flow about div 2
+=====================
+
+
+.. warning::
+
+    (i + j) / 2はオーバーフローするので、 i + (j - i) / 2 とすること
+
+
+.. code-block:: sh
+   
+
+    $ ce 'unsigned char s=200, t=200; p("%d", (unsigned char) (s + t) / 2);'
+    72
+
+
+.. code-block:: sh
+   
+
+    $ ce 'unsigned char s=200, t=200; p("%d", (unsigned char) s + (t - s) / 2);'
+    200
 
 
 
