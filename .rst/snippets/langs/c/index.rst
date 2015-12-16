@@ -123,10 +123,6 @@ declare pointers
 ================
 
 
-``int *p, *q;`` と複数宣言する場合があるので
-``int *a;`` と宣言したほうが良い
-
-
 .. warning::
 
     pointerを２つ同時に宣言するときはアスターは２ついる
@@ -180,4 +176,9 @@ declare pointers
                    ^~
     1 warning and 1 error generated.
     
+
+なお、
+``int *p, *q;`` と複数宣言する場合があるので
+``int* a;`` よりも
+``int *a;`` と宣言したほうが良い
 
