@@ -18,16 +18,16 @@ $(goshe '
    (p it))
 ')
 
-C Language
-==========
+Algorithm
+=========
 
 .. toctree::
    :maxdepth: 1 
 
-   ./c/index
-   ./exp/index
+   ./algo/index
+   ./struct/index
 
-misc
+Misc
 ====
 
 .. toctree::
@@ -38,5 +38,6 @@ misc
    ./parser/index
    ./fp/cps/index
    ./sphinx/index
+   ./exp/index
 
 EOS
