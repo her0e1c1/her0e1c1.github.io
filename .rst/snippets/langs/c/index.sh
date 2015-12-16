@@ -5,6 +5,7 @@ C Language
 ==========
 
 $(goshe '(p (sphinx-toctree :glob "ce/*"))')
+$(goshe '(load-from-current-dirctory "index.scm")')
 
 EOS
 

@@ -23,7 +23,7 @@ you can also say like char** is [String]
    
 
     $ ce 'while(*argv){p("%s ", *argv); argv++;}' 1 2 3
-    /tmp/tmp.JBZsFMd8 1 2 3 
+    /tmp/tmp.CWM6abmU 1 2 3 
 
 Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.
 
@@ -368,6 +368,13 @@ with %zu print as unsigned decimal
    
 
     $ ce 'p("%zu", sizeof(short));'
+    2
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(short int));'
     2
 
 
