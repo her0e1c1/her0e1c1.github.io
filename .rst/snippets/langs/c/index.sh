@@ -9,3 +9,7 @@ $(goshe '(load-from-current-dirctory "index.scm")')
 
 EOS
 
+### MEMO
+# make -m /usr/home/mbp/GDrive/repos/freebsd.git/share/mk/ 
+# rgv[0][0]=='-' ログインシェルと後に起動したシェルの見分け方はps -f。最初にハイフン「-」がついているシェルがログインシェルのプロセス。
+
