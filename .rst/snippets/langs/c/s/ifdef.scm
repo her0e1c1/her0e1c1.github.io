@@ -32,5 +32,3 @@ EOS
 
 (p "``#define DEBUG``を明示する (-DDEBUGと同じ効果)")
 (oneliner-run+ #"clang ~path && ./a.out")
-
-

@@ -13,18 +13,6 @@ void sizeof_array(int a[]){
 // WARN: (i + j) / 2はオーバーフローするので、 i + (j - i) / 2 とすること
 
 - 2 * 文字数 + 1みたいな領域確保のときに+1し忘れのエラーとなるサンプル用意
-
-// int *a;と宣言したほうが良い
-// int *p, *q; と複数宣言する場合があるので
-
-// WARN: pointerを２つ同時に宣言するときはアスターは２ついる
-int main (){
-  int a = 1;
-  int *p, *q;
-  // int* p, q;  // qはint型
-  q = &a;
-}
-
 void a(int range){
   // int counter[range] = {0}; この宣言はできない
   int counter[range]; // 一度宣言してから全て初期化する必要あり
