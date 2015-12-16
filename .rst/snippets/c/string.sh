@@ -12,7 +12,7 @@ If you want to get more in detail, go to each of the page links.
 
 .. contents::
 
-$(gosh -l ~/lib/scheme/init.scm <<EOG
+$(go <<EOG
  (define ROOT "$HERE/../../")
  ((flip$ map) (sphinx "/src/c/string.c" :cd ROOT)
   (^(alist)
