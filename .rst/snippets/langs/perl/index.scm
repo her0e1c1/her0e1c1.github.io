@@ -1,6 +1,6 @@
 (define (run cmd)
   (let1 ret (oneliner-run cmd)
-        (p (sphinx-block #"~cmd\n~ret" :block #t))))
+        (p (sphinx-block #"~cmd\n~ret" :code-block "sh"))))
 
 (p (sphinx-warn "Don't use double quote which extend $ in sh or escape it"))
 (run "perl -e \"$a=1; print $a\"")
