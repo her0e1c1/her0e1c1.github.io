@@ -10,13 +10,3 @@ Serve static files
 ::
 
    python -c 'import bottle as b;  b.route("<f:path>")(lambda f: b.static_file(f, root="."));  b.run(host="0.0.0.0", port=8000)'
-
-
-..
-   ..
-
-      # $(gosh -e "; (print (quote $SRC))" -Eexit)
-
-# パスの長さ(ディレクトリは含めない)
-getconf _POSIX_PATH_MAX  # 256
-perl -e 'print "a" x 256' |xargs touch  # 文字長を１文字超えているのでエラー

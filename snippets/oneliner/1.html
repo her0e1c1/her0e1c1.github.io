@@ -105,9 +105,6 @@
 <div class="highlight-python"><div class="highlight"><pre>python -c &#39;import bottle as b;  b.route(&quot;&lt;f:path&gt;&quot;)(lambda f: b.static_file(f, root=&quot;.&quot;));  b.run(host=&quot;0.0.0.0&quot;, port=8000)&#39;
 </pre></div>
 </div>
-<p># パスの長さ(ディレクトリは含めない)
-getconf _POSIX_PATH_MAX  # 256
-perl -e &#8216;print &#8220;a&#8221; x 256&#8217; <a href="#id1"><span class="problematic" id="id2">|</span></a>xargs touch  # 文字長を１文字超えているのでエラー</p>
 </div>
 </div>
 
