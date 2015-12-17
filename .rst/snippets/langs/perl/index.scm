@@ -22,3 +22,6 @@
 (p "$\"")
 (p "This is a \"@array\" delimiter")
 (run "perl -E '$\" = \" - \"; @a=1..5; say \"@a\"'")
+
+;; execute shell command
+;; perl -e 'system "zsh -i -c 'll'"'
