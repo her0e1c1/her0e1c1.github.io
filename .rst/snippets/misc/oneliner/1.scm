@@ -21,7 +21,7 @@
 (define cmd "perl -E 'system qq#sudo ssh -fN -i ~/path/to/key -L $_:192.168.56.2:$_ root\@192.168.56.2# for @ARGV'")
 (run #"~cmd 80 8000 8080" :dummy #t)
 (p "specify a range argument")
-(run "~cmd `seq 8000 8010`" :dummy #t)
+(run #"~cmd `seq 8000 8010`" :dummy #t)
 
 (ps "set ~/.bashrc")
 (run "cd && curl https://raw.githubusercontent.com/her0e1c1/home/master/.bashrc -O" :dummy #t)
