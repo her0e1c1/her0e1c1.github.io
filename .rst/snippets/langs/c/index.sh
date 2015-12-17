@@ -6,7 +6,7 @@ C Language
 
 $(goshe '(sphinx-contents :depth 1)')
 $(goshe '(p (sphinx-toctree :glob "ce/*"))')
-$(goshe '(load-list (glob "./s/*.scm"))')
+$(goshe '(sphinx-include-scm-list (sort (glob "./s/*.scm")))')
 
 EOS
 
