@@ -11,4 +11,7 @@ C Language
 
     ce/*
 
+.. toctree::
+
+    ./s/index.rst
 

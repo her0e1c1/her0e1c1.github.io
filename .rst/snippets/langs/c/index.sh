@@ -4,10 +4,9 @@ cd $(dirname $0) > /dev/null 2>&1 && cat <<EOS
 C Language
 ==========
 
-$(goshe '(sphinx-contents :depth 1)')
 $(goshe '(p (sphinx-toctree :glob "ce/*"))')
 $(goshe '
- (join-line (list (sphinx-section "misc" :up #t) (sphinx-contents :depth 1)))
+ (join-line (list (sphinx-section "misc" :up #t) (sphinx-contents :depth 2)))
  (sphinx-include-scm-list (sort (glob "./s/*.scm")) "./s/index.rst" :header it)
 ')
 
