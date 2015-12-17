@@ -6,8 +6,13 @@ C Language
 
 $(goshe '(p (sphinx-toctree :glob "ce/*"))')
 $(goshe '
- (join-line (list (sphinx-section "misc" :up #t) (sphinx-contents :depth 2)))
- (sphinx-include-scm-list (sort (glob "./s/*.scm")) "./s/index.rst" :header it)
+ (let ((f (^x
+          (let1 it (join-line (list (sphinx-section x :up #t) (sphinx-contents :depth 2)))
+           (print (sphinx-include-scm-list (sort (glob #"./s/~|x|/*.scm")) #"~|x|.rst" :header it))))))
+ (f "array")
+ (f "string")
+ (f "misc")
+ )
 ')
 
 EOS
