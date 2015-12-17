@@ -1,0 +1,26 @@
+
+======
+fp/cps
+======
+
+.. contents::
+    :depth: 2
+
+test (fact/cps 1), expects 1 ==> ok
+test (fact/cps 10), expects 120 ==> ok
+test (fib/cps 0), expects 0 ==> ok
+test (fib/cps 1), expects 1 ==> ok
+test (fib/cps 2), expects 1 ==> ok
+test (fib/cps 8), expects 21 ==> ok
+test (fib/cps 10), expects 55 ==> ok
+test (flatten/cps X), expects () ==> ok
+test (flatten/cps X), expects (a b c) ==> ok
+test (flatten/cps X), expects (a b c d e f g h) ==> ok
+test (flatten/cps X), expects (a b c d e f g h) ==> ok
+test (leaf-count/cps 0), expects 1 ==> ok
+test (leaf-count/cps 1), expects 2 ==> ok
+test (leaf-count/cps 2), expects 3 ==> ok
+test (leaf-count/cps 3), expects 5 ==> ok
+test (leaf-count/cps 4), expects 7 ==> ok
+test (leaf-count/cps 5), expects 7 ==> ok
+test (leaf-count/cps 5), expects 8 ==> ok

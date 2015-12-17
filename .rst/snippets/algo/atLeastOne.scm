@@ -1,6 +1,6 @@
 (load-from-current-dirctory "include.scm")
 
-(p (sphinx-section "少なくとも1回、要素が出現したか?"))
+(p (sphinx-section "配列の要素が、少なくとも1回、それぞれ出現したか?"))
 
 (define code #!HEREDOCUMENT EOS
 
@@ -23,4 +23,4 @@ int f(vector<int> A) {
 EOS
 )
 
-(p code)
+; (p code)

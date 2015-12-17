@@ -1,0 +1,25 @@
+
+====
+Misc
+====
+
+
+.. toctree::
+
+
+    oneliner.rst
+
+
+.. toctree::
+
+
+    regex.rst
+
+Functional Programming
+======================
+
+.. toctree::
+
+
+    fp/cps/index.rst
+

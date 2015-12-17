@@ -5,30 +5,46 @@
 
 
 
-少なくとも1回、要素が出現したか?
-=================
+配列の要素が、少なくとも1回、それぞれ出現したか?
+=========================
+
+..
+
+    min f(x) = sigma |ai| + s |aj|
+
+    min x in Z s.t. x >= a/b
+
+    the missing one == ((n+1)n/2 - sigma |aj|)
+
+    #{i| A<=i<=B, i mod K = 0}
+    A = km + n <= K*j <=B = km' + n'
+    <=> m + n/k <= j <= m' + n'/k
+    0 <= n/k, n'/k < 1
+    j in (m, m']
+    j in [m, m'] if n/k == 0
+
+    (B / K) - (A / K) + (A % K == 0 ? 1 : 0);
 
 
-int f(vector<int> A) {
-  int N = A.size();
-  // c[0] is dummy
-  vector<int>c(X+1, 0);
-  int leaves = 0;
-  for (int i = 0; i < N; i++) {
-      int pos = A[i];
-      if (pos > X) continue;
-      c[pos]++;
-      if (c[pos] == 1)
-         leaves++;  // first found
-      if (leaves == X)
-         return i;
-  }
-  return -1;
-}
 
-min f(x) = sigma |ai| + s |aj|
+    0 <= i < Nのとき
+    Si = a0 + ... + ai
+    をまとめて求める.
 
-min x in Z s.t. x >= a/b
+    A<=i<=B => (B-A+1)
+    A<i<B => (B-A-1)
 
-the missing one == ((n+1)n/2 - sigma |aj|)
+    prefix sum == scan
+
+    triplet
+    max(A[i] * A[j] * A[k]) == A.sort() (0,1,-1) (-1,-2,-3)
+
+    三角形の存在条件
+    sorted(A); A[i] + A[i+1] > A[i+2]
+
+    parse
+    "(()(())())"
+    parse
+    "(()){[]}"
+
 

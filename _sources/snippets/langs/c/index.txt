@@ -5,26 +5,31 @@ C Language
 
 
 .. toctree::
+
     :glob:
 
     ce/*
 
 .. toctree::
 
+
     array.rst
 
 
 .. toctree::
+
 
     string.rst
 
 
 .. toctree::
 
+
     grammer.rst
 
 
 .. toctree::
+
 
     misc.rst
 

@@ -27,16 +27,13 @@ Algorithm
    ./algo/index
    ./struct/index
 
-Misc
+
+====
+misc
 ====
 
 .. toctree::
-   :maxdepth: 1 
-   :glob:
+    :maxdepth: 1
 
-   ./oneliner/1
-   ./parser/index
-   ./fp/cps/index
-   ./sphinx/index
-   ./exp/index
+    misc/index.rst
 

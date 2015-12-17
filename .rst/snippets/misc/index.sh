@@ -16,5 +16,4 @@ Functional Programming
 ======================
 $(goshe '(p (sphinx-toctree :path "fp/cps/index.rst"))')
 
-
 EOS

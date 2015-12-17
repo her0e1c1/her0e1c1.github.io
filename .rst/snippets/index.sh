@@ -27,17 +27,7 @@ Algorithm
    ./algo/index
    ./struct/index
 
-Misc
-====
-
-.. toctree::
-   :maxdepth: 1 
-   :glob:
-
-   ./oneliner/1
-   ./parser/index
-   ./fp/cps/index
-   ./sphinx/index
-   ./exp/index
+$(goshe '(p (sphinx-section "misc" :up #t))')
+$(goshe '(p (sphinx-toctree :path "misc/index.rst" :maxdepth 1))')
 
 EOS

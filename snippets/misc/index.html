@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Algorithm &mdash; Hiroyuki Ishii</title>
+    <title>Misc &mdash; Hiroyuki Ishii</title>
     
     <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -97,36 +97,59 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="algorithm">
-<h1>Algorithm<a class="headerlink" href="#algorithm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>配列の要素が、少なくとも1回、それぞれ出現したか?<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><p>min f(x) = sigma <a href="#id2"><span class="problematic" id="id3">|ai|</span></a> + s <a href="#id4"><span class="problematic" id="id5">|aj|</span></a></p>
-<p>min x in Z s.t. x &gt;= a/b</p>
-<p>the missing one == ((n+1)n/2 - sigma <a href="#id6"><span class="problematic" id="id7">|aj|</span></a>)</p>
-<p>#{i| A&lt;=i&lt;=B, i mod K = 0}
-A = km + n &lt;= K*j &lt;=B = km&#8217; + n&#8217;
-&lt;=&gt; m + n/k &lt;= j &lt;= m&#8217; + n&#8217;/k
-0 &lt;= n/k, n&#8217;/k &lt; 1
-j in (m, m&#8217;]
-j in [m, m&#8217;] if n/k == 0</p>
-<p>(B / K) - (A / K) + (A % K == 0 ? 1 : 0);</p>
-<p>0 &lt;= i &lt; Nのとき
-Si = a0 + ... + ai
-をまとめて求める.</p>
-<p>A&lt;=i&lt;=B =&gt; (B-A+1)
-A&lt;i&lt;B =&gt; (B-A-1)</p>
-<p>prefix sum == scan</p>
-<p>triplet
-max(A[i] * A[j] * A[k]) == A.sort() (0,1,-1) (-1,-2,-3)</p>
-<p>三角形の存在条件
-sorted(A); A[i] + A[i+1] &gt; A[i+2]</p>
-<p>parse
-&#8220;(()(())())&#8221;
-parse
-&#8220;(()){[]}&#8221;</p>
-</div></blockquote>
+  <div class="section" id="misc">
+<h1>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oneliner.html">oneliner</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="oneliner.html#serve-static-files">Serve static files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oneliner.html#count-up-when-the-string-perl-appears-in-history">Count up when the string perl appears in history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oneliner.html#hello-world-in-c">Hello world in C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oneliner.html#port-forwad-at-one-time">port forwad at one time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oneliner.html#set-bashrc">set ~/.bashrc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oneliner.html#check-whether-a-command-exists-or-not">Check whether a command exists or not</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="regex.html">regex</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="regex.html#id1">2の倍数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regex.html#converttabtotwospaces">ConvertTabToTwoSpaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regex.html#get-basename">Get basename</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regex.html#get-dirname">Get dirname</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regex.html#get-ext">Get ext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regex.html#id2">2に&#8217;がマッチ、$4に&#8217;&gt;がマッチ</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="functional-programming">
+<h2>Functional Programming<a class="headerlink" href="#functional-programming" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fp/cps/index.html">Continuation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fp/cps/index.html#flatten-scm">flatten.scm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fp/cps/index.html#test">test</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fp/cps/index.html#fib-scm">fib.scm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fp/cps/index.html#id1">test</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fp/cps/index.html#leaf-count-scm">leaf-count.scm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fp/cps/index.html#id2">test</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fp/cps/index.html#fact-scm">fact.scm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fp/cps/index.html#id3">test</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 </div>
 
