@@ -18,15 +18,16 @@ Languages
     langs/php/index
     langs/ruby/index
 
-Structure
-==========
+Algorithm
+=========
 
 .. toctree::
    :maxdepth: 1 
 
-   ./c/index
+   ./algo/index
+   ./struct/index
 
-misc
+Misc
 ====
 
 .. toctree::
@@ -36,6 +37,6 @@ misc
    ./oneliner/1
    ./parser/index
    ./fp/cps/index
-   ./exp/index
    ./sphinx/index
+   ./exp/index
 

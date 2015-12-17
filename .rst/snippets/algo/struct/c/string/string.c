@@ -108,6 +108,8 @@ char *s_upper(char *str) {
   }
   return str;
 }
+  /* char s0[] = "abcd1234ABCD )(あiu"; */
+  /* printf("%s\n", toUpper(s0)); */
 
 int s_is_substring(char *ps, char *qs) {
   char *p, *q;
@@ -125,3 +127,39 @@ int s_is_substring(char *ps, char *qs) {
   }
   return -1;
 }
+  /* printf("%d\n", isSubstring("abcdefg", "cde")); */
+  /* printf("%d\n", isSubstring("abcdefg", "ced")); */
+  /* printf("%d\n", isSubstring("abcdefg", "")); */
+  /* printf("%d\n", isSubstring("abc", "abcdefg")); */
+
+
+/* ポインタに対して*で参照と代入を行う。 */
+/* ++は式の評価の最後に行われる。 */
+/* 代入の値が =式の戻り値になるので、*s2=='¥0'でwhileを抜ける */
+void strcpy(char* s1, char* s2){ while(*s1++ = *s2++); }
+
+
+// vectorの扱いも関数型を意識してプログラムを組む
+// consしない代わりに、すでにbufferが確保されているものと考える
+// 要素を順に読み取るpointerと結果を格納するpointerを２つ使う
+
+char* myremove(char c, char* str) {
+  char *dst = str;
+  for (char *it = str; *it ;it++) {
+    if (*it != c)
+      *dst++ = *it;
+  }
+  *dst = '\0';
+  return str;
+}
+  /* char s1[] = "abcabc"; */
+  /* printf("%s\n", myremove('c', s1)); */
+
+  /* char s2[] = "abcabc"; */
+  /* printf("%s\n", myremove('Z', s2)); */
+
+  /* char s3[] = ""; */
+  /* printf("%s\n", myremove('Z', s3)); */
+
+  /* char s4[] = "abcabc"; */
+  /* printf("%s\n", myremove('b', s4)); */
