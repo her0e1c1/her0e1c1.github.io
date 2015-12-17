@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Perl &mdash; Hiroyuki Ishii</title>
+    <title>array &mdash; Hiroyuki Ishii</title>
     
     <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -97,55 +97,65 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="perl">
-<h1><a class="toc-backref" href="#id1">Perl</a><a class="headerlink" href="#perl" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="array">
+<h1><a class="toc-backref" href="#id1">array</a><a class="headerlink" href="#array" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#perl" id="id1">Perl</a><ul>
-<li><a class="reference internal" href="#options" id="id2">options</a></li>
-<li><a class="reference internal" href="#special-characters" id="id3">special characters</a></li>
+<li><a class="reference internal" href="#array" id="id1">array</a><ul>
+<li><a class="reference internal" href="#declare" id="id2">Declare</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="declare">
+<h2><a class="toc-backref" href="#id2">Declare</a><a class="headerlink" href="#declare" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int a[10];&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;static int a[10];&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int a[] = {1,2,3};&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int a[] = {1,2,3}; int *b=a;&#39;</span>
+</pre></div>
+</div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">Don&#8217;t use double quote which extend $ in sh or escape it</p>
+<p class="last">However you can&#8217;t assign a vector to a pointer directly.</p>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">=1; print </span><span class="nv">$a</span><span class="s2">&quot;</span>
-syntax error at -e line 1, near <span class="s2">&quot;=&quot;</span>
-Execution of -e aborted due to compilation errors.
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int *a  = {1,2,3};&#39;</span>
+&lt;stdin&gt;:42:16: warning: incompatible integer to pointer conversion initializing <span class="s1">&#39;int *&#39;</span> with an expression of <span class="nb">type</span> <span class="s1">&#39;int&#39;</span> <span class="o">[</span>-Wint-conversion<span class="o">]</span>
+    int *a  <span class="o">=</span> <span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span>
+               ^
+&lt;stdin&gt;:42:18: warning: excess elements in scalar initializer
+    int *a  <span class="o">=</span> <span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span>
+                 ^
+<span class="m">2</span> warnings generated.
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s2">&quot;\$a=1; print \$a&quot;</span>
-1
+<p>Initialize a 2D array</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int a[10][10] = {10}; p(&quot;%d&quot;, a[0][0]);&#39;</span>
+10
 </pre></div>
 </div>
-<div class="section" id="options">
-<h2><a class="toc-backref" href="#id2">options</a><a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
-<p>With -0 option delimiter is NULL
-With -0777 you can&#8217;t use any option delimiter.</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;a</span>
-<span class="s2">a</span>
-<span class="s2">a&quot;</span><span class="p">|</span>perl -p0777E <span class="s1">&#39;s/a/b/&#39;</span>
-b
-a
-a
+<p>Initialize a 2D array</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int a[10][10] = {{ 0 }}; p(&quot;%d&quot;, a[0][0]);&#39;</span>
+0
 </pre></div>
 </div>
-<p>Display warning</p>
-<div class="highlight-sh"><div class="highlight"><pre>perl -we <span class="s1">&#39;print @a&#39;</span>
-Name <span class="s2">&quot;main::a&quot;</span> used only once: possible typo at -e line 1.
+<p>valc. so you can allocate memroy dynamically even if it is an array</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int k=10; int a[k];&#39;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="special-characters">
-<h2><a class="toc-backref" href="#id3">special characters</a><a class="headerlink" href="#special-characters" title="Permalink to this headline">¶</a></h2>
-<p>$&#8221;
-This is a &#8220;&#64;array&#8221; delimiter</p>
-<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;$&quot; = &quot; - &quot;; @a=1..5; say &quot;@a&quot;&#39;</span>
-<span class="m">1</span> - <span class="m">2</span> - <span class="m">3</span> - <span class="m">4</span> - 5
+<p>But with static, an error occurs</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int k=10;static int a[k];&#39;</span>
+&lt;stdin&gt;:42:25: error: variable length array declaration can not have <span class="s1">&#39;static&#39;</span> storage duration
+    int <span class="nv">k</span><span class="o">=</span>10<span class="p">;</span>static int a<span class="o">[</span>k<span class="o">]</span><span class="p">;</span>
+                        ^ ~
+<span class="m">1</span> error generated.
 </pre></div>
 </div>
 </div>

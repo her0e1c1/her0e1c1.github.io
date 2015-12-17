@@ -100,312 +100,71 @@
   <div class="section" id="c-language">
 <h1>C Language<a class="headerlink" href="#c-language" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ce/array.html">Array</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#argument">argument</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#enum">enum</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#environ">environ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#exel">exel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#exit">exit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#false">false</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#fflush">fflush</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#env">env</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#group-from-gid">group_from_gid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#memset">memset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#realpath">realpath</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#sizeof">sizeof</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#statfs">statfs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#struct">struct</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/array.html#ttyname">ttyname</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ce/string.html">String</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#declare">Declare</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#sprintf">sprintf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#strcat">strcat</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#strcmp">strcmp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#strcpy">strcpy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#strdup">strdup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#strerror">strerror</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#strlen">strlen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#strmode">strmode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ce/string.html#strstr">strstr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="array.html">array</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="array.html#declare">Declare</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="map-c">
-<h2>map.c<a class="headerlink" href="#map-c" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// map.c</span>
-<span class="cp">#include &lt;stdio.h&gt;</span>
-
-<span class="c1">// 引数に関数の型を指定(Int -&gt; Int)</span>
-<span class="kt">int</span><span class="o">*</span> <span class="nf">map</span><span class="p">(</span><span class="kt">int</span> <span class="p">(</span><span class="o">*</span> <span class="n">f</span><span class="p">)(</span><span class="kt">int</span><span class="p">),</span> <span class="kt">int</span><span class="o">*</span> <span class="n">list</span><span class="p">){</span>
-  <span class="kt">int</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">list</span><span class="p">;</span>
-  <span class="k">while</span><span class="p">(</span><span class="o">*</span><span class="n">list</span><span class="p">){</span>
-    <span class="o">*</span><span class="n">list</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">list</span><span class="p">);</span>
-    <span class="n">list</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">p</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">doubleInt</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span>
-  <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-  <span class="kt">int</span> <span class="n">v</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
-  <span class="kt">int</span><span class="o">*</span> <span class="n">rv</span> <span class="o">=</span> <span class="n">map</span><span class="p">(</span><span class="n">doubleInt</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">rv</span><span class="p">;</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span> <span class="n">p</span><span class="o">++</span><span class="p">){</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d, &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="string.html">string</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="string.html#declare">Declare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#sprintf">sprintf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#strcat">strcat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#strcmp">strcmp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#strcpy">strcpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#strdup">strdup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#strerror">strerror</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#strlen">strlen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#strmode">strmode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#strstr">strstr</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>$ clang map.c &amp;&amp; ./a.out
-1, 4, 9,
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grammer.html">grammer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#argument">argument</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#enum">enum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#environ">environ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#exel">exel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#exit">exit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#false">false</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#fflush">fflush</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#env">env</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#group-from-gid">group_from_gid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#memset">memset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#realpath">realpath</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#sizeof">sizeof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#statfs">statfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#struct">struct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammer.html#ttyname">ttyname</a></li>
+</ul>
+</li>
+</ul>
 </div>
-</div>
-<div class="section" id="declare-and-initialize">
-<h2>declare and initialize<a class="headerlink" href="#declare-and-initialize" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">You can&#8217;t declare like this.</p>
-</div>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// error.c</span>
-<span class="kt">void</span> <span class="nf">a</span><span class="p">(</span><span class="kt">int</span> <span class="n">range</span><span class="p">){</span>
-  <span class="kt">int</span> <span class="n">c</span><span class="p">[</span><span class="n">range</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="p">}</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span><span class="n">a</span><span class="p">(</span><span class="mi">10</span><span class="p">);}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>$ clang error.c &amp;&amp; ./a.out
-&lt;stdin&gt;:2:9: error: variable-sized object may not be initialized
-  int c[range] = {0};
-        ^~~~~
-1 error generated.
-</pre></div>
-</div>
-<p>You need to initialize each item.</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// ok.c</span>
-<span class="kt">void</span> <span class="nf">a</span><span class="p">(</span><span class="kt">int</span> <span class="n">range</span><span class="p">){</span>
-
-  <span class="kt">int</span> <span class="n">c</span><span class="p">[</span><span class="n">range</span><span class="p">];</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">range</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="p">}</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span><span class="n">a</span><span class="p">(</span><span class="mi">10</span><span class="p">);}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>$ clang ok.c &amp;&amp; ./a.out
-</pre></div>
-</div>
-</div>
-<div class="section" id="macro">
-<h2>macro<a class="headerlink" href="#macro" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// code</span>
-<span class="cp">#include &lt;stdio.h&gt;</span>
-
-<span class="c1">// List up pre defined macros</span>
-<span class="cp">#define MACRO(x)                                 \</span>
-<span class="cp">  printf(&quot;#x = %s\n&quot; , #x);                      \</span>
-<span class="cp">  printf(&quot;x  = %d\n&quot; , x);                       \</span>
-<span class="cp">  printf(&quot;__func__ = %s\n&quot; ,__func__);           \</span>
-<span class="cp">  printf(&quot;__LINE__ = %d\n&quot; ,__LINE__);           \</span>
-<span class="cp">  printf(&quot;__FILE__ = %s\n&quot; ,__FILE__);           \</span>
-<span class="cp">  printf(&quot;__DATE__ = %s\n&quot; ,__DATE__);           \</span>
-<span class="cp">  printf(&quot;__TIME__ = %s\n&quot; ,__TIME__);           \</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span><span class="n">MACRO</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">));}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>$ clang code &amp;&amp; ./a.out
-#x = (1 + 2 + 3)
-x  = 6
-__func__ = main
-__LINE__ = 13
-__FILE__ = &lt;stdin&gt;
-__DATE__ = Dec 17 2015
-__TIME__ = 00:17:01
-</pre></div>
-</div>
-</div>
-<div class="section" id="declare-array-in-signature">
-<h2>declare array in signature<a class="headerlink" href="#declare-array-in-signature" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">a[] of function parameter is a pointer which equals int* a</p>
-</div>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// code</span>
-<span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="kt">int</span> <span class="nf">f</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[]){</span>
-  <span class="k">return</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-  <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d != %d&quot;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>$ clang code &amp;&amp; ./a.out
-&lt;stdin&gt;:3:16: warning: sizeof on array function parameter will return size of &#39;int *&#39; instead of &#39;int []&#39; [-Wsizeof-array-argument]
-  return sizeof(a);
-               ^
-&lt;stdin&gt;:2:11: note: declared here
-int f(int a[]){
-          ^
-&lt;stdin&gt;:7:22: warning: format specifies type &#39;int&#39; but the argument has type &#39;unsigned long&#39; [-Wformat]
-  printf(&quot;%d != %d&quot;, sizeof(a), f(a));
-          ~~         ^~~~~~~~~
-          %lu
-2 warnings generated.
-20 != 8
-</pre></div>
-</div>
-</div>
-<div class="section" id="malloc-size">
-<h2>malloc size<a class="headerlink" href="#malloc-size" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="ifdef">
-<h2>ifdef<a class="headerlink" href="#ifdef" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="c1">// #define DEBUG</span>
-<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
-<span class="cp">#ifdef DEBUG</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;DEBUG!&quot;</span><span class="p">);</span>
-<span class="cp">#else</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;NOT DEBUG!&quot;</span><span class="p">);</span>
-<span class="cp">#endif</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>ifdef else endifはソースコードをコンパイルする前の前処理.
-オプションを渡すことでdefineされる</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>clang -DDEBUG ifdef.c <span class="o">&amp;&amp;</span> ./a.out
-DEBUG!
-</pre></div>
-</div>
-<p>引数を渡さなかった場合はelseが呼ばれる</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>clang ifdef.c <span class="o">&amp;&amp;</span> ./a.out
-NOT DEBUG!
-</pre></div>
-</div>
-<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="cp">#define DEBUG</span>
-<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
-<span class="cp">#ifdef DEBUG</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;DEBUG!&quot;</span><span class="p">);</span>
-<span class="cp">#else</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;NOT DEBUG!&quot;</span><span class="p">);</span>
-<span class="cp">#endif</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a>#define DEBUG``を明示する (-DDEBUGと同じ効果)</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>clang ifdef.c <span class="o">&amp;&amp;</span> ./a.out
-DEBUG!
-</pre></div>
-</div>
-</div>
-<div class="section" id="over-flow-about-div-2">
-<h2>over flow about div 2<a class="headerlink" href="#over-flow-about-div-2" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">(i + j) / 2はオーバーフローするので、 i + (j - i) / 2 とすること</p>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;unsigned char s=200, t=200; p(&quot;%d&quot;, (unsigned char) (s + t) / 2);&#39;</span>
-72
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;unsigned char s=200, t=200; p(&quot;%d&quot;, (unsigned char) s + (t - s) / 2);&#39;</span>
-200
-</pre></div>
-</div>
-</div>
-<div class="section" id="null">
-<h2>NULL<a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">You need to inlcude stdio.h to use NULL.</p>
-</div>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// NULL.c</span>
-<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>$ clang NULL.c &amp;&amp; ./a.out
-&lt;stdin&gt;:2:3: warning: implicitly declaring library function &#39;printf&#39; with type &#39;int (const char *, ...)&#39;
-  printf(&quot;%p&quot;, NULL);
-  ^
-&lt;stdin&gt;:2:3: note: please include the header &lt;stdio.h&gt; or explicitly provide a declaration for &#39;printf&#39;
-&lt;stdin&gt;:2:16: error: use of undeclared identifier &#39;NULL&#39;
-  printf(&quot;%p&quot;, NULL);
-               ^
-1 warning and 1 error generated.
-</pre></div>
-</div>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// NULL2.c</span>
-<span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>$ clang NULL2.c &amp;&amp; ./a.out
-0x0
-</pre></div>
-</div>
-</div>
-<div class="section" id="declare-pointers">
-<h2>declare pointers<a class="headerlink" href="#declare-pointers" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">pointerを２つ同時に宣言するときはアスターは２ついる</p>
-</div>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// pointer.c</span>
-<span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="kt">int</span> <span class="nf">main</span> <span class="p">(){</span>
-  <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span><span class="p">;</span>
-  <span class="n">q</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>$ clang pointer.c &amp;&amp; ./a.out
-1
-</pre></div>
-</div>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">type of q is int</p>
-</div>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// pointer2.c</span>
-<span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="kt">int</span> <span class="nf">main</span> <span class="p">(){</span>
-  <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">;</span>
-  <span class="n">q</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>$ clang pointer2.c &amp;&amp; ./a.out
-&lt;stdin&gt;:5:5: warning: incompatible pointer to integer conversion assigning to &#39;int&#39; from &#39;int *&#39;; remove &amp; [-Wint-conversion]
-  q = &amp;a;
-    ^ ~~
-&lt;stdin&gt;:6:16: error: indirection requires pointer operand (&#39;int&#39; invalid)
-  printf(&quot;%d&quot;, *q);
-               ^~
-1 warning and 1 error generated.
-</pre></div>
-</div>
-<p>なお、
-<code class="docutils literal"><span class="pre">int</span> <span class="pre">*p,</span> <span class="pre">*q;</span></code> と複数宣言する場合があるので
-<code class="docutils literal"><span class="pre">int*</span> <span class="pre">a;</span></code> よりも
-<code class="docutils literal"><span class="pre">int</span> <span class="pre">*a;</span></code> と宣言したほうが良い</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">misc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="misc.html#declare-array-in-signature">declare array in signature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc.html#declare-pointers">declare pointers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc.html#over-flow-about-div-2">over flow about div 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc.html#declare-and-initialize">declare and initialize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc.html#ifdef">ifdef</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc.html#macro">macro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc.html#malloc-size">malloc size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc.html#map-c">map.c</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc.html#null">NULL</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 

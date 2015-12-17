@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>string &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="string">
+<h1><a class="toc-backref" href="#id1">string</a><a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#string" id="id1">string</a><ul>
+<li><a class="reference internal" href="#declare" id="id2">Declare</a></li>
+<li><a class="reference internal" href="#sprintf" id="id3">sprintf</a></li>
+<li><a class="reference internal" href="#strcat" id="id4">strcat</a></li>
+<li><a class="reference internal" href="#strcmp" id="id5">strcmp</a></li>
+<li><a class="reference internal" href="#strcpy" id="id6">strcpy</a></li>
+<li><a class="reference internal" href="#strdup" id="id7">strdup</a></li>
+<li><a class="reference internal" href="#strerror" id="id8">strerror</a></li>
+<li><a class="reference internal" href="#strlen" id="id9">strlen</a></li>
+<li><a class="reference internal" href="#strmode" id="id10">strmode</a></li>
+<li><a class="reference internal" href="#strstr" id="id11">strstr</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="declare">
+<h2><a class="toc-backref" href="#id2">Declare</a><a class="headerlink" href="#declare" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char a[] = &quot;abc&quot;;&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *a  = &quot;abc&quot;;&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char a[] = {&#39;</span>a<span class="s1">&#39;, &#39;</span>b<span class="s1">&#39;, &#39;</span>c<span class="s1">&#39;};&#39;</span>
+&lt;stdin&gt;:42:20: error: use of undeclared identifier <span class="s1">&#39;b&#39;</span>
+    char a<span class="o">[]</span> <span class="o">=</span> <span class="o">{</span>a, b, c<span class="o">}</span><span class="p">;</span>
+                   ^
+&lt;stdin&gt;:42:23: error: use of undeclared identifier <span class="s1">&#39;c&#39;</span>
+    char a<span class="o">[]</span> <span class="o">=</span> <span class="o">{</span>a, b, c<span class="o">}</span><span class="p">;</span>
+                      ^
+<span class="m">2</span> errors generated.
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Error</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *a  = {&#39;</span>a<span class="s1">&#39;, &#39;</span>b<span class="s1">&#39;, &#39;</span>c<span class="s1">&#39;};&#39;</span>
+&lt;stdin&gt;:42:20: error: use of undeclared identifier <span class="s1">&#39;b&#39;</span>
+    char *a  <span class="o">=</span> <span class="o">{</span>a, b, c<span class="o">}</span><span class="p">;</span>
+                   ^
+&lt;stdin&gt;:42:23: error: use of undeclared identifier <span class="s1">&#39;c&#39;</span>
+    char *a  <span class="o">=</span> <span class="o">{</span>a, b, c<span class="o">}</span><span class="p">;</span>
+                      ^
+<span class="m">2</span> errors generated.
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">In case of static declaration of string, it can&#8217;t be modified.</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *c =&quot;Memory allocated static  string&quot;; c[1] = &#39;</span>E<span class="s1">&#39;; p(&quot;NOT REACHED =&gt; %s&quot;, c);&#39;</span>
+&lt;stdin&gt;:42:56: error: use of undeclared identifier <span class="s1">&#39;E&#39;</span>
+    char *c <span class="o">=</span><span class="s2">&quot;Memory allocated static  string&quot;</span><span class="p">;</span> c<span class="o">[</span>1<span class="o">]</span> <span class="o">=</span> E<span class="p">;</span> p<span class="o">(</span><span class="s2">&quot;NOT REACHED =&gt; %s&quot;</span>, c<span class="o">)</span><span class="p">;</span>
+                                                       ^
+<span class="m">1</span> error generated.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char c[]=&quot;Memory allocated dynamic string&quot;; c[1] = &#39;</span>E<span class="s1">&#39;; p(&quot;REACHED =&gt; %s&quot;, c);&#39;</span>
+&lt;stdin&gt;:42:56: error: use of undeclared identifier <span class="s1">&#39;E&#39;</span>
+    char c<span class="o">[]=</span><span class="s2">&quot;Memory allocated dynamic string&quot;</span><span class="p">;</span> c<span class="o">[</span>1<span class="o">]</span> <span class="o">=</span> E<span class="p">;</span> p<span class="o">(</span><span class="s2">&quot;REACHED =&gt; %s&quot;</span>, c<span class="o">)</span><span class="p">;</span>
+                                                       ^
+<span class="m">1</span> error generated.
+</pre></div>
+</div>
+</div>
+<div class="section" id="sprintf">
+<h2><a class="toc-backref" href="#id3">sprintf</a><a class="headerlink" href="#sprintf" title="Permalink to this headline">¶</a></h2>
+<p>Number to string</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char b[32]; sprintf(b, &quot;%d&quot;, 12345); p(&quot;%s&quot;, b);&#39;</span>
+12345
+</pre></div>
+</div>
+</div>
+<div class="section" id="strcat">
+<h2><a class="toc-backref" href="#id4">strcat</a><a class="headerlink" href="#strcat" title="Permalink to this headline">¶</a></h2>
+<p>Append strings</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char s[]=&quot;abcde&quot;, *t=&quot;hijk&quot; ; strcat(s, t); p(&quot;%s&quot;, s);&#39;</span>
+abcdehijk
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char s[]=&quot;abcde&quot;, t[]=&quot;hijk&quot;; strcat(s, t); p(&quot;%s&quot;, s);&#39;</span>
+abcdehijk
+</pre></div>
+</div>
+<p>error! if pointer is used, it can&#8217;t be modified. it is static allocated.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *s=&quot;abcde&quot;, *t=&quot;hijk&quot; ; strcat(s, t); p(&quot;%s&quot;, s);&#39;</span>
+セグメンテーション違反
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *s=&quot;abcde&quot;, t[]=&quot;hijk&quot;; strcat(s, t); p(&quot;%s&quot;, s);&#39;</span>
+セグメンテーション違反
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char s[]=&quot;&quot;, t[]=&quot;abcde&quot;; strcat(s, t); p(&quot;%s&quot;, s);&#39;</span>
+abcde
+</pre></div>
+</div>
+</div>
+<div class="section" id="strcmp">
+<h2><a class="toc-backref" href="#id5">strcmp</a><a class="headerlink" href="#strcmp" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;if(strcmp(&quot;abc&quot;, &quot;abc&quot;) == 0) p(&quot;true&quot;);&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, strcmp(&quot;a&quot;, &quot;z&quot;));&#39;</span>
+-25
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, strcmp(&quot;z&quot;, &quot;a&quot;));&#39;</span>
+25
+</pre></div>
+</div>
+</div>
+<div class="section" id="strcpy">
+<h2><a class="toc-backref" href="#id6">strcpy</a><a class="headerlink" href="#strcpy" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char s[4];strcpy(s, &quot;abc&quot;); p(&quot;%s&quot;, s);&#39;</span>
+abc
+</pre></div>
+</div>
+</div>
+<div class="section" id="strdup">
+<h2><a class="toc-backref" href="#id7">strdup</a><a class="headerlink" href="#strdup" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre>$ ce &#39;char* s; if((s=strdup(&quot;test&quot;)) != NULL){ps(s); free(s);}&#39;)&#39;
+Syntax error: &quot;)&quot; unexpected
+</pre></div>
+</div>
+</div>
+<div class="section" id="strerror">
+<h2><a class="toc-backref" href="#id8">strerror</a><a class="headerlink" href="#strerror" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;ps(strerror(1));&#39;</span>
+Operation not permitted
+</pre></div>
+</div>
+</div>
+<div class="section" id="strlen">
+<h2><a class="toc-backref" href="#id9">strlen</a><a class="headerlink" href="#strlen" title="Permalink to this headline">¶</a></h2>
+<p>Return the length of string but NULL char is not contained.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%lu&quot;, strlen(&quot;abc&quot;));&#39;</span>
+3
+</pre></div>
+</div>
+<p>if adding to the length of the string, you always refer &#8216;&#8217;</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *s=&quot;abc&quot;, *t; t = s + strlen(s); if(!*t) p(&quot;NULL&quot;);&#39;</span>
+NULL
+</pre></div>
+</div>
+</div>
+<div class="section" id="strmode">
+<h2><a class="toc-backref" href="#id10">strmode</a><a class="headerlink" href="#strmode" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char s[12]; strmode(S_IRWXU | S_IWGRP, s); ps(s);&#39;</span>
+?rwx-w----
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char s[12]; strmode(S_IRWXU | S_IWGRP, s); ps(s[11]==0? &quot;NULL&quot;:&quot;NO&quot;);&#39;</span>
+NULL
+</pre></div>
+</div>
+</div>
+<div class="section" id="strstr">
+<h2><a class="toc-backref" href="#id11">strstr</a><a class="headerlink" href="#strstr" title="Permalink to this headline">¶</a></h2>
+<p>if searching an empty string, it is always true.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;(%s)&quot;, strstr(&quot;&quot;, &quot;&quot;));&#39;</span>
+<span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, strstr(&quot;abcde&quot;, &quot;&quot;));&#39;</span>
+abcde
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, strstr(&quot;abcde&quot;, &quot;ABC&quot;));&#39;</span>
+<span class="o">(</span>null<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;ps(strstr(&quot;123456789&quot;, &quot;345&quot;));&#39;</span>
+3456789
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;ps(strstr(&quot;123456789&quot;, &quot;355&quot;));&#39;</span>
+<span class="o">(</span>null<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

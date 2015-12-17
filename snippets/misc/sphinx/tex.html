@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Perl &mdash; Hiroyuki Ishii</title>
+    <title>Tex Tips &mdash; Hiroyuki Ishii</title>
     
     <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -97,58 +97,62 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="perl">
-<h1><a class="toc-backref" href="#id1">Perl</a><a class="headerlink" href="#perl" title="Permalink to this headline">¶</a></h1>
-<div class="contents topic" id="contents">
-<p class="topic-title first">Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#perl" id="id1">Perl</a><ul>
-<li><a class="reference internal" href="#options" id="id2">options</a></li>
-<li><a class="reference internal" href="#special-characters" id="id3">special characters</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Don&#8217;t use double quote which extend $ in sh or escape it</p>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">=1; print </span><span class="nv">$a</span><span class="s2">&quot;</span>
-syntax error at -e line 1, near <span class="s2">&quot;=&quot;</span>
-Execution of -e aborted due to compilation errors.
+  <div class="section" id="tex-tips">
+<h1>Tex Tips<a class="headerlink" href="#tex-tips" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="settings-on-sphinx">
+<h2>Settings on sphinx<a class="headerlink" href="#settings-on-sphinx" title="Permalink to this headline">¶</a></h2>
+<p>Using mathjax <a class="footnote-reference" href="#mathjax" id="id1">[1]</a></p>
+<p>And write the settings in <code class="docutils literal"><span class="pre">conf.py</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">extensions</span> <span class="o">+=</span> <span class="p">[</span><span class="s">&quot;sphinx.ext.mathjax&quot;</span><span class="p">]</span>
+<span class="c"># you should check if the url is valid or not</span>
+<span class="n">mathjax_path</span> <span class="o">=</span> <span class="s">&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s2">&quot;\$a=1; print \$a&quot;</span>
-1
+<table class="docutils footnote" frame="void" id="mathjax" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://docs.sphinx-users.jp/ext/math.html#module-sphinx.ext.mathjax">http://docs.sphinx-users.jp/ext/math.html#module-sphinx.ext.mathjax</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="how-to-write">
+<h2>How to write<a class="headerlink" href="#how-to-write" title="Permalink to this headline">¶</a></h2>
+<p>You write math expressions as an inline element</p>
+<div class="highlight-python"><div class="highlight"><pre>:math:`\alpha &gt; \beta`
 </pre></div>
 </div>
-<div class="section" id="options">
-<h2><a class="toc-backref" href="#id2">options</a><a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
-<p>With -0 option delimiter is NULL
-With -0777 you can&#8217;t use any option delimiter.</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;a</span>
-<span class="s2">a</span>
-<span class="s2">a&quot;</span><span class="p">|</span>perl -p0777E <span class="s1">&#39;s/a/b/&#39;</span>
-b
-a
-a
+<p><span class="math">\(\alpha &gt; \beta\)</span></p>
+<p>Or use math delective like</p>
+<div class="highlight-python"><div class="highlight"><pre>.. math::
+
+   n_{\mathrm{offset}} = \sum_{k=0}^{N-1} s_k n_k
 </pre></div>
 </div>
-<p>Display warning</p>
-<div class="highlight-sh"><div class="highlight"><pre>perl -we <span class="s1">&#39;print @a&#39;</span>
-Name <span class="s2">&quot;main::a&quot;</span> used only once: possible typo at -e line 1.
+<div class="math">
+\[n_{\mathrm{offset}} = \sum_{k=0}^{N-1} s_k n_k\]</div>
+</div>
+<div class="section" id="expressions">
+<h2>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre>W^{3\beta}_{\delta_1 \rho_1 \sigma_2} \approx U^{3\beta}_{\delta_1 \rho_1}
 </pre></div>
 </div>
-</div>
-<div class="section" id="special-characters">
-<h2><a class="toc-backref" href="#id3">special characters</a><a class="headerlink" href="#special-characters" title="Permalink to this headline">¶</a></h2>
-<p>$&#8221;
-This is a &#8220;&#64;array&#8221; delimiter</p>
-<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;$&quot; = &quot; - &quot;; @a=1..5; say &quot;@a&quot;&#39;</span>
-<span class="m">1</span> - <span class="m">2</span> - <span class="m">3</span> - <span class="m">4</span> - 5
+<div class="math">
+\[W^{3\beta}_{\delta_1 \rho_1 \sigma_2} \approx U^{3\beta}_{\delta_1 \rho_1}\]</div>
+<p>multi lines:</p>
+<div class="highlight-python"><div class="highlight"><pre>.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+    y    &amp; = &amp; ax^2 + bx + c \\
+    f(x) &amp; = &amp; x^2 + 2xy + y^2
+    \end{eqnarray}
 </pre></div>
 </div>
-</div>
+<div class="math">
+\[\begin{eqnarray}
+y    & = & ax^2 + bx + c \\
+f(x) & = & x^2 + 2xy + y^2
+\end{eqnarray}\]</div></div>
 </div>
 
 

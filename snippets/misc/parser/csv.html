@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>csv parser &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="csv-parser">
+<h1><a class="toc-backref" href="#id1">csv parser</a><a class="headerlink" href="#csv-parser" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#csv-parser" id="id1">csv parser</a><ul>
+<li><a class="reference internal" href="#demo" id="id2">DEMO</a></li>
+<li><a class="reference internal" href="#bnf" id="id3">BNF</a></li>
+<li><a class="reference internal" href="#regex" id="id4">REGEX</a></li>
+<li><a class="reference internal" href="#sample" id="id5">SAMPLE</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="demo">
+<h2><a class="toc-backref" href="#id2">DEMO</a><a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h2>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="../../static/js/csv.js"></script>
+<textarea id="input" rows="10" cols="50">
+A
+a, b,  c , d
+e,f, " g ,
+end" , h
+</textarea>
+<button onclick="runCsvParser()">Run</button>
+<div id="output"></div>
+<script src="csv.js"></script></div>
+<div class="section" id="bnf">
+<h2><a class="toc-backref" href="#id3">BNF</a><a class="headerlink" href="#bnf" title="Permalink to this headline">¶</a></h2>
+<p>Refer <a class="reference external" href="http://www.ietf.org/rfc/rfc4180.txt">http://www.ietf.org/rfc/rfc4180.txt</a></p>
+<div class="highlight-python"><div class="highlight"><pre>file = [header CRLF] record *(CRLF record) [CRLF]
+header = name *(COMMA name)  ; same as record
+record = field *(COMMA field)
+name = field
+field = (escaped / non-escaped)
+escaped = DQUOTE *(TEXTDATA / COMMA / CR / LF / 2DQUOTE) DQUOTE
+non-escaped = *TEXTDATA
+COMMA = %x2C
+CR = %x0D
+DQUOTE =  %x22
+LF = %x0A
+CRLF = CR LF
+TEXTDATA =  %x20-21 / %x23-2B / %x2D-7E  ; except for &quot; and ,
+</pre></div>
+</div>
+<p>You can&#8217;t distinguish header from record.
+So you need an option to check if there is a header or not.</p>
+</div>
+<div class="section" id="regex">
+<h2><a class="toc-backref" href="#id4">REGEX</a><a class="headerlink" href="#regex" title="Permalink to this headline">¶</a></h2>
+<p>REGEX can&#8217;t parse nested contexts and name expressions.</p>
+<div class="highlight-python"><div class="highlight"><pre>(&quot;[^&quot;]&quot;)|
+</pre></div>
+</div>
+</div>
+<div class="section" id="sample">
+<h2><a class="toc-backref" href="#id5">SAMPLE</a><a class="headerlink" href="#sample" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">import</span> <span class="nn">System.Environment</span>
+<span class="kr">import</span> <span class="nn">Control.Applicative</span> <span class="p">((</span><span class="o">&lt;*</span><span class="p">),(</span><span class="o">*&gt;</span><span class="p">))</span>
+<span class="kr">import</span> <span class="nn">Text.Parsec</span> <span class="k">hiding</span> <span class="p">(</span><span class="nf">crlf</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">Text.Parsec.String</span>
+
+<span class="nf">csv</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="p">[[</span><span class="kt">String</span><span class="p">]]</span>
+<span class="nf">csv</span> <span class="ow">=</span> <span class="n">sepBy1</span> <span class="n">record</span> <span class="n">crlf</span>
+
+<span class="nf">record</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span>
+<span class="nf">record</span> <span class="ow">=</span> <span class="n">sepBy1</span> <span class="n">field</span> <span class="n">comma</span>
+
+<span class="nf">field</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">String</span>
+<span class="nf">field</span> <span class="ow">=</span> <span class="n">escaped</span> <span class="o">&lt;|&gt;</span> <span class="n">nonEscaped</span>
+
+<span class="nf">escaped</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">String</span>
+<span class="nf">escaped</span> <span class="ow">=</span> <span class="n">dquote</span> <span class="o">*&gt;</span> <span class="n">many</span> <span class="p">(</span><span class="n">textdata</span> <span class="o">&lt;|&gt;</span> <span class="n">comma</span> <span class="o">&lt;|&gt;</span> <span class="n">cr</span> <span class="o">&lt;|&gt;</span> <span class="n">lf</span> <span class="o">&lt;|&gt;</span> <span class="n">try</span> <span class="p">(</span><span class="n">dquote</span> <span class="o">*&gt;</span> <span class="n">dquote</span><span class="p">))</span> <span class="o">&lt;*</span> <span class="n">dquote</span>
+
+<span class="nf">nonEscaped</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">String</span>
+<span class="nf">nonEscaped</span> <span class="ow">=</span> <span class="n">many</span> <span class="n">textdata</span>
+
+<span class="c1">-- ATOM</span>
+
+<span class="nf">comma</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
+<span class="nf">comma</span> <span class="ow">=</span> <span class="n">char</span> <span class="sc">&#39;,&#39;</span>
+
+<span class="nf">lf</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
+<span class="nf">lf</span> <span class="ow">=</span> <span class="n">char</span> <span class="sc">&#39;</span><span class="se">\n</span><span class="sc">&#39;</span>
+
+<span class="nf">cr</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
+<span class="nf">cr</span> <span class="ow">=</span> <span class="n">char</span> <span class="sc">&#39;</span><span class="se">\r</span><span class="sc">&#39;</span>
+
+<span class="nf">crlf</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
+<span class="nf">crlf</span> <span class="ow">=</span> <span class="n">cr</span> <span class="o">*&gt;</span> <span class="n">lf</span> <span class="o">&lt;|&gt;</span> <span class="n">lf</span>
+<span class="c1">-- crlf = cr *&gt; lf</span>
+
+<span class="nf">dquote</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
+<span class="nf">dquote</span> <span class="ow">=</span> <span class="n">char</span> <span class="sc">&#39;&quot;&#39;</span>
+
+<span class="nf">textdata</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
+<span class="nf">textdata</span> <span class="ow">=</span> <span class="n">oneOf</span> <span class="p">(</span><span class="s">&quot; !&quot;</span> <span class="o">++</span> <span class="p">[</span><span class="sc">&#39;#&#39;</span><span class="o">..</span><span class="sc">&#39;+&#39;</span><span class="p">]</span> <span class="o">++</span> <span class="p">[</span><span class="sc">&#39;-&#39;</span><span class="o">..</span><span class="sc">&#39;~&#39;</span><span class="p">])</span>
+
+<span class="c1">-- </span>
+
+<span class="nf">readExpr</span><span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+<span class="nf">readExpr</span> <span class="n">input</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">parse</span> <span class="n">parseExpr</span> <span class="s">&quot;csv&quot;</span> <span class="n">input</span> <span class="kr">of</span>
+    <span class="kt">Left</span> <span class="n">err</span> <span class="ow">-&gt;</span> <span class="s">&quot;No match&quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">err</span>
+    <span class="kt">Right</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="n">show</span> <span class="n">val</span>
+
+<span class="nf">parseExpr</span> <span class="ow">=</span> <span class="n">csv</span>
+
+<span class="nf">main</span><span class="ow">::</span> <span class="kt">IO</span><span class="nb">()</span>
+<span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">args</span> <span class="ow">&lt;-</span> <span class="n">getArgs</span>
+          <span class="n">putStrLn</span> <span class="p">(</span><span class="n">readExpr</span> <span class="p">(</span><span class="n">args</span> <span class="o">!!</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
