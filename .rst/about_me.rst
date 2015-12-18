@@ -5,6 +5,9 @@
 
 I am a software engineer.
 
+SNS Links
+=========
+
 .. raw:: html
 
     <section id="sns" class="clearfix">
@@ -15,3 +18,10 @@ I am a software engineer.
       <a href="http://www.facebook.com/hiroyuki.ishii.71"><i class="fa fa-facebook-square", style="font-size: 50px"></i></a>
     </section>
 
+
+Resume
+======
+
+.. toctree::
+
+   resume
