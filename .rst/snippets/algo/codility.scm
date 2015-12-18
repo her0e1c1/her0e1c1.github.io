@@ -110,4 +110,42 @@ vector<int> solution(int N, vector<int> &A) {
     }
     return c;
 }
+
+
+// NumberSolitaire
+// 最大で6進む(NILがないからMINがやりずらい)
+// 必ずゴールまで行く必要があるので、1進める必要あり(maを設定)
+
+int MIN = -1 << 31;
+int N;
+vector<int> MEMO, AA;
+
+int dfs(int depth) {
+    if (MEMO[depth] != MIN)
+        return MEMO[depth];
+
+    if (depth == N-1)
+        return AA[depth];
+    // you can go one ahead
+    int ma = dfs(depth + 1);
+    int d = N - depth;
+    if (d > 6) d = 6;
+    for (int i = 2; i <= d ; i++) {
+        int next = depth + i;
+        if (next > N-1) continue;
+        int r = dfs(next);
+        if (r > ma)
+            ma = r;
+    }
+    return MEMO[depth] = ma + AA[depth];
+}
+
+int solution(vector<int> &A) {
+    // write your code in C++11
+    N = A.size();
+    AA = A;
+    MEMO = vector<int>(N, MIN);
+
+    return dfs(0);
+}
 |#
