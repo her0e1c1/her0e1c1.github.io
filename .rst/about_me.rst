@@ -5,6 +5,10 @@
 
 I am a software engineer.
 
+I think simple is best for programming.
+
+I like oneliner.
+
 SNS Links
 =========
 
