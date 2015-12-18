@@ -9,6 +9,9 @@ So I hacked it a little bit.
 
 Build
 =====
-::
+rst files are created by Gauche.
 
-    make clean && make
+Install Gauche and set some setting files and run this::
+
+    make all
+
