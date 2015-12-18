@@ -1,5 +1,4 @@
-HERE=$(dirname $0)
-cat <<EOS
+cd $(dirname $0) > /dev/null && cat <<EOS
 ========
  Gauche 
 ========
@@ -12,5 +11,6 @@ EOG
 
    gauche2c/index
 
+$(go "index.scm")
 
 EOS

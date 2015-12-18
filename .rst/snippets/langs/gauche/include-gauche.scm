@@ -8,3 +8,9 @@
         (oneliner-run+ c)))
 
 (define run run-gauche+)
+
+(define (run-gauche2 cmd)
+  (let1 c #"gosh -e \"~cmd\" -Eexit"
+        (oneliner-run+ c)))
+
+(define run2 run-gauche2)

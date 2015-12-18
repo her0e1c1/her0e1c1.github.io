@@ -25,3 +25,7 @@
           (ret (sphinx-block (format "$ clang ~a && ./a.out\n~a" ',str cmd) :block #t))
           (code (sphinx-block (format "// ~a\n~a" ',str ,str) :code-block "c")))
      (print #"~code\n~ret")))
+
+; for typeless
+(define ps ($ print $ sphinx-section $))
+(define pw ($ print $ sphinx-warn $))
