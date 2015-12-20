@@ -1,6 +1,4 @@
-(load-from-current-dirctory "include.scm")
-(define run oneliner-run+)
-(define (run+ cmd) (let1 c #"cpe '~cmd'" (oneliner-run+ c)))
+(load-from-current-dirctory "include-cpp.scm")
 
 (ps "vector")
 
