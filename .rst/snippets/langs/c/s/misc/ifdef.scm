@@ -30,5 +30,5 @@ EOS
 (create-file-from-string path ifdef2.c)
 (sphinx-block-c+ path)
 
-(p "``#define DEBUG``を明示する (-DDEBUGと同じ効果)")
+(p "``#define DEBUG`` を明示する (-DDEBUGと同じ効果)")
 (oneliner-run+ #"clang ~path && ./a.out")

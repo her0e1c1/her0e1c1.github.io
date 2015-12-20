@@ -28,3 +28,14 @@ int main() {
 EOS
 )
 (run-cpp-from-string+ code.c)
+
+(sw "index参照するメソッドはない")
+(run+ "list<int> l{1,2,3};")
+
+(run+ "list<int> l;P(l.empty())")
+(run+ "list<int> l; REP(i, 3) l.push_back(i);")
+
+(sw "pop_back/pop_frontの戻り値はvoid")
+(p "pop from back")
+(run+ "list<int> l{1,2,3}; while(!l.empty()){P(l.back()); l.pop_back();}")
+(run+ "list<int> l{1,2,3}; while(!l.empty()){P(l.front()); l.pop_front();}")

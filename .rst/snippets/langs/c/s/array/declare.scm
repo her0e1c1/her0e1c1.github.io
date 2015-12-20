@@ -21,3 +21,8 @@
 
 (p "But with static, an error occurs")
 (run "int k=10;static int a[k];")
+
+(ps "Initialize")
+(run "int i[30] = {0};")
+(run "int i; for(int k=0; k<30; k++)i[k]=0;")
+(run "int i[30]; memset(i, 0, sizeof(i));")

@@ -1,4 +1,8 @@
 /usr/home/me/github/her0e1c1.github.io/.rst/snippets/langs/ruby
+class.rb
+index.rst
+index.scm
+index.sh
 
 ======
  Ruby

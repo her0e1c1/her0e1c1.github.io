@@ -69,3 +69,41 @@ This is a "@array" delimiter
     1 - 2 - 3 - 4 - 5
     
 
+execute shell command. you need -i option
+
+.. code-block:: sh
+   
+
+    perl -e 'system qq#sh -ic "ll /lib/libc.so.*"#'
+    -r--r--r--  1 root  wheel  1567216  1月 17  2014 /lib/libc.so.7
+    
+
+
+
+escape quote in sh
+==================
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say'\''HOGE HOGE'\'''
+    HOGE HOGE
+    
+
+
+.. code-block:: sh
+   
+
+    perl -M'File::Basename' -E 'say basename qq#/path/to/text.txt#'
+    text.txt
+    
+
+
+.. code-block:: sh
+   
+
+    perl -M'File::Spec' -E 'say File::Spec->catfile(q#/path/to#, q#text.txt#)'
+    /path/to/text.txt
+    
+
