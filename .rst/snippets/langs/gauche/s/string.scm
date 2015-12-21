@@ -49,4 +49,8 @@
 ;; ; ls | s '((tr "a-z" "A-Z"))'
 ;; ; string使う
 (runs (string-tr "ABC" "AB" "00"))
-;; ; ls | s '(read-line)'
+
+(ps "serialize")
+(p "オブジェクトを文字列にする")
+(runs (write-to-string '(1 foo "abc")))
+(runs (read-from-string "(1 foo \"abc\")"))

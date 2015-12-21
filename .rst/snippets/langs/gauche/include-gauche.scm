@@ -26,3 +26,9 @@
      (oneliner-run+ c)))
 
 (define runs run-gauche++)
+
+;; (define-macro (run-gauche+++ cmd)
+;;   `(let* ((e (quote-expression ,cmd :quote #\'))
+;;           (c #"~e"))
+;;      (oneliner-run+ c)))
+(define s oneliner-run+)

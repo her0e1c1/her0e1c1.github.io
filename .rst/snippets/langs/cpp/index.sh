@@ -21,3 +21,5 @@ EOS
 
 # :FreeBSD: ``usr/src/contrib/libc++``
 # vectorなどの実装は、 `/usr/src/contrib/libc++/include/vector` あたりにある
+
+# cpe 'P(isatty(10))'  ; 単純にwrapしてるだけ

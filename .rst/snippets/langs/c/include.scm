@@ -35,3 +35,4 @@
 ; for typeless
 (define ps ($ print $ sphinx-section $))
 (define pw ($ print $ sphinx-warn $))
+(define ptodo ($ print $ sphinx-todo $))
