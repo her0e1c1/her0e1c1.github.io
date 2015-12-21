@@ -3,14 +3,26 @@
 ; ''でくくると(quote )とバティングする!
 ; ""でくくると`が展開される
 (define (run-gauche+ cmd)
-  ; (let1 c #"gosh -e '(print (begin ~cmd))' -Eexit"
-  (let1 c #"gosh -e \"(print (begin ~cmd))\" -Eexit"
-        (oneliner-run+ c)))
+  (let* ((p #"(print (begin ~cmd))")
+         (e (quote-expression p :quote #\'))
+         (c #"gosh -e ~e -Eexit"))
+         (oneliner-run+ c)))
 
-(define run run-gauche+)
+(define runS run-gauche+)
 
 (define (run-gauche2 cmd)
-  (let1 c #"gosh -e \"~cmd\" -Eexit"
-        (oneliner-run+ c)))
+  (let* ((p #"(print (begin ~cmd))")
+         (e (quote-expression p :quote #\"))
+         (c #"gosh -e ~e -Eexit"))
+         (oneliner-run+ c)))
 
-(define run2 run-gauche2)
+(define runD run-gauche2)
+
+
+(define-macro (run-gauche++ cmd)
+  `(let* ((p (format "(print (begin ~s))" ',cmd))
+          (e (quote-expression p :quote #\'))
+          (c #"gosh -e ~e -Eexit"))
+     (oneliner-run+ c)))
+
+(define runs run-gauche++)
