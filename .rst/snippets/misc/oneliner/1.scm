@@ -32,3 +32,7 @@
 
 (p (sphinx-todo "ログを正規表現でフィルターして、tail -f"))
 (p (sphinx-todo "先頭行に特定の文字列を挿入.sh"))
+
+
+; json
+echo '{"foo": "lorem", "bar": "ipsum"}' | python -mjson.tool

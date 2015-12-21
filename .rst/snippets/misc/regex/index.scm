@@ -21,3 +21,6 @@
 
 (ps "\2に'がマッチ、$4に'>がマッチ")
 ; (run "perl -E '$_=shift; s#(<a.*?href=([\"'']))(.*?)(\2.*?>)#$1$3/$4# and say' \"<a href='/path/to'>\"")
+
+;;  perl -E "\$_=shift; say if m#$__REGEX_DATETIME#" "2015-05-22 13:59:04"
+;; __REGEX_DATETIME='^(?P<Y>\d{4})(?P<d1>[-/])(?P<m>\d{1,2})\g{d1}(?P<d>\d{1,2})\s+(?P<H>\d{1,2})(?P<d2>:)(?P<M>\d{1,2})\g{d2}(?P<S>\d{1,2})$'
