@@ -1,4 +1,5 @@
 a.out
+*.bak
 *.o
 *.pyc
 *.pdf
