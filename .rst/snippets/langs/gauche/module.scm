@@ -43,3 +43,10 @@
 
 ;; (describe 1)
 ;; 1 is an instance of class <integer>
+
+
+(define-macro (import-only module . syms)
+  `(begin
+     ,@(map (lambda (sym) `(define ,sym (with-module ,module ,sym))) syms)))
+
+(import-only gauche.internal extended-pair? extended-cons pair-attribute-get pair-attribute-set! pair-attributes)

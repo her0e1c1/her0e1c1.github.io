@@ -54,3 +54,21 @@
 
 
 (if-let1 it (+ 1 2 3) (* it 10) 1)  ; 60
+
+;; (define-macro (rva a)
+;;   `(recieve ret ,a ret))
+
+; (define-values (a b . c) (values 1 2 3 4))
+
+
+; ... は 0 個を含む任意個の式 (,@の代わりっぽい)
+
+; (guard (var cond) cddr)
+; (guard (exc) 1)
+; (guard (exc) (/ 1 0))
+; (guard (exc (else 0)) (/ 1 0))
+
+; 関数にすると、ローカル変数に代入する意味のないものになる
+;; (define-macro (null! x)
+;;   (guard (_ (else `(define ,x '())))
+;;           x `(set! ,x '())))

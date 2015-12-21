@@ -19,3 +19,14 @@
 (iota 10)  ; (0 1 2 3 4 5 6 7 8 9)
 (liota 10) ;(0 1 2 3 4 5 6 7 8 9)
 (map + (iota 5) (iota 5))  ; (0 2 ... 8)
+
+; (df a (lcons* 1 2 3 (sys-sleep 10) 5))
+; size-of
+;; (define (len obj)
+;;   (cond
+;;    ((string? obj) (string-length obj))
+;;    ((pair? obj) (length obj))
+;;    (else 0)))
+
+; TODO: lazy let*
+; (llet* ((a 1) (b 2)) (if #t a b))  ; 必要になってから評価

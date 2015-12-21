@@ -63,3 +63,30 @@ s '(begin (define a (open-output-string)) (format a "test") (get-output-string a
 
 ; 逆順
 ; ls|s "(port-fold cons '() read-line)"
+
+
+
+; (port-for-each 処理 read-line)
+; (call-with-input-file "foo.txt" port->string)
+; (call-with-input-file "foo.txt" port->string-list)
+; (call-with-input-file "file" (lambda (in) something))
+; (with-input-from-file "README.rst" (^() (port-for-each p read-line)))
+; (dolist (line (call-with-input-file "Makefile" port->string-list)) (p line))
+; (with-input-from-file "Makefile" (^() (p (read-line))))
+
+
+;; 標準出力を文字列に
+;; (p (call-with-output-string
+;;   (lambda (out) (write "HOGE" out))))
+
+;; fileのportを受け取る
+;; (call-with-output-file "./test.txt"
+;;   (lambda (out) (write "this is a test" out)))
+
+;; (with-output-to-file "./test.txt"
+;;   (lambda () (print "this is a test")))
+
+; (process-output->string cmd :error (current-error-port))
+
+ ;; (flush)
+ ;; (sys-system cmd)

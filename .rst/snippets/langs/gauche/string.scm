@@ -86,3 +86,24 @@ s '(sys-system "ls")'
 ; ls | s '(read-line)'
 
 (eqt "abcdef" (string-append "abc" "def"))
+
+; 結果違う
+; (list->string (quote (#\a #\b)))
+; (x->string (quote (#\a #\b)))
+
+; (list->string (to #\あ #\ん))
+; (char-set->list #[a-z])
+; (char-set->list #[あ-ん])
+
+
+; 正規化あった
+; (sys-normalize-pathname "~//a/./d/b" :expand #t :absolute #t :canonicalize #t)
+; "/home/me/a/d/b"
+
+
+; ((rxmatch) 1) ; => aに束縛とかよさげ?
+; #"~a~b"
+; (#/REGEX/ "strng")
+
+; #[^a-b]
+; (char-set-complement #[a-b])

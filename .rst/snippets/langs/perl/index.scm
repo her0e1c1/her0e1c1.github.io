@@ -76,9 +76,9 @@
 (p "コマンドを実行し、失敗した場合にのみ制御が戻る")
 (run "perl -E 'exec \"echo 1\" ;say \"NOT PRINTED\"'")
 
-;; perl -E 'say $a || "" || 0'  # undefinedもfalse
-
-;; perl -E 'say for split ":", $ENV{PATH}'
+(ps "false")
+(run "perl -E 'say $a || \"\" || 0'")
+(run "perl -E 'say for split \":\", $ENV{PATH}'")
 
 (p "変数が未定義であることを確認")
 (run "perl -E 'say \"undefined\" if !defined($a)'")
@@ -104,8 +104,8 @@
 ;; perl -E 'say 0b1000'
 ;; perl -M"File::Copy qw(cp)" -e 'cp $_, $_.".bak" for grep {-f} glob("*")'
 
-;; # Create backup files in current directory
-;; perl -E 'say 1 if 1 ~~ [1,2,3]'
+(run "Create backup files in current directory")
+(run "perl -E 'say 1 if 1 ~~ [1,2,3]'")
 
 ;; perl -E 'grep{$_ eq 1} qw(1 2 3) and say 1'perl -E 'say grep {$_ % 2 == 0} 1..5'perl -E 'sub f{$a=shift; for(glob($a."/*")){say if -f; f($_) if -d}}; f(shift);' ~/perl -M"List::Util qw(reduce)" -E 'say reduce {$a+$b} (1,2,3)'perl -e 'print "hello world"'
 ;; perl -e 'print qq/hello world/'
@@ -116,9 +116,14 @@
 ;; findd  ./ -print0 | perl -MFile::Copy -MFile::Basename -l0ne 'move($_, "/path/to/" . basename($_)'
 
 ;; # ファイルシステムをまたいでmoveperl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'perl -E 'print qq/\x1b[38;5;${_}mC$_ / for 0..255; say'perl -E '$s=chr 39;for$p(house, land){for$i(1..10){$n="${p}_$i"; $a=qq/insert into property_group (name, type, g_id) values ($s$n$s, $s$p$s,$i)/; say qq/mysql -u USER DB -e "$a"/}}'perl -E 'say rand for 1..5'
-;; perl -e 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")'
-;; # 引数が@_に格納されてるので、そのどれかを取り出す感じperl -e 'system "echo 1" for 1..3'perl -E 'say "abc" x 3'  #  abcabcabc
-;; # 文字列の場合perl -E 'say scalar reverse shift' hoge
+
+(p "引数が@_に格納されてるので、そのどれかを取り出す感じ")
+(run "perl -e 'sub {print $_[rand @_] for 1 .. 255}->(\"a\" .. \"z\", 0 .. 9, \"A\" .. \"Z\")'")
+
+;; perl -e 'system "echo 1" for 1..3'perl -E 'say "abc" x 3'
+
+;; # 文字列の場合
+;; perl -E 'say scalar reverse shift' hoge
 ;; # reverse関数に文字列として評価させたいのでscalar必要perl -E 'say for 1..3'
 ;; perl -E 'say join " " , map {sprintf "%03d", $_} 1..10'perl -E '@a=(split " ", "a b c d e")[2..4]; say @a'  # cde
 ;; perl -E '@a=(split " ", "a b c d e")[-1]; say @a'  # e
