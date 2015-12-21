@@ -40,3 +40,5 @@
 (run "python -c 'print([1,2,3,4,5][1:])'")
 (run "python -c 'print(\" \".join([\"%s.%s\" % (x,y) for x in [\"a\", \"b\", \"c\"] for y in [\"txt\", \"csv\"]]))'")
 (run "python -c 'print(list(zip(*[(1,4),(2,5),(3,6)])))'")
+
+;; python -c 'import re; print(re.match(r"""(["''])abc\1""", """\"abc\"""").group())'
