@@ -2,5 +2,5 @@
 
 (define run oneliner-run+)
 (define (run+ cmd)
-  (let1 cmd+ (regexp-replace-all #/'/ cmd "\"")
+  (let1 cmd+ (quote-single->double cmd)
         (oneliner-simple-run-print #"ruby -e '~cmd+'")))
