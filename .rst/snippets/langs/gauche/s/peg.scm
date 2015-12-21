@@ -1,3 +1,4 @@
+(load-from-current-dirctory "include-gauche.scm")
 
 
 ;; (p (peg-parse-string ($string "abc") "abc"))

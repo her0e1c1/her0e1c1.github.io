@@ -1,3 +1,4 @@
+(load-from-current-dirctory "include-gauche.scm")
 
 
 ; ファイル読み込み
