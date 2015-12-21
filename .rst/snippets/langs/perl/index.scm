@@ -109,7 +109,7 @@
 
 (run "perl -E 'grep{$_ eq 1} qw(1 2 3) and say 1'")
 (run "perl -E 'say grep {$_ % 2 == 0} 1..5'")
-(run "perl -E 'sub f{$a=shift; for(glob($a.\"/*\")){say if -f; f($_) if -d}}; f(shift);' ~/")
+; (run "perl -E 'sub f{$a=shift; for(glob($a.\"/*\")){say if -f; f($_) if -d}}; f(shift);' ~/")
 (run "perl -M\"List::Util qw(reduce)\" -E 'say reduce {$a+$b} (1,2,3)'")
 (run "perl -e 'print \"hello world\"'")
 (run "perl -e 'print qq/hello world/'")
