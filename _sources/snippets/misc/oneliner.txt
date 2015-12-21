@@ -29,7 +29,7 @@ Count up when the string perl appears in history
    
 
     cat ~/.zsh_history |perl -nle '/perl/ and $p++; END{print $p}'
-    134
+    216
     
 
 

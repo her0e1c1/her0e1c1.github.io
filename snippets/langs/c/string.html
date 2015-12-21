@@ -126,10 +126,10 @@
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char a[] = {&#39;</span>a<span class="s1">&#39;, &#39;</span>b<span class="s1">&#39;, &#39;</span>c<span class="s1">&#39;};&#39;</span>
-&lt;stdin&gt;:42:20: error: use of undeclared identifier <span class="s1">&#39;b&#39;</span>
+&lt;stdin&gt;:40:20: error: use of undeclared identifier <span class="s1">&#39;b&#39;</span>
     char a<span class="o">[]</span> <span class="o">=</span> <span class="o">{</span>a, b, c<span class="o">}</span><span class="p">;</span>
                    ^
-&lt;stdin&gt;:42:23: error: use of undeclared identifier <span class="s1">&#39;c&#39;</span>
+&lt;stdin&gt;:40:23: error: use of undeclared identifier <span class="s1">&#39;c&#39;</span>
     char a<span class="o">[]</span> <span class="o">=</span> <span class="o">{</span>a, b, c<span class="o">}</span><span class="p">;</span>
                       ^
 <span class="m">2</span> errors generated.
@@ -140,10 +140,10 @@
 <p class="last">Error</p>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *a  = {&#39;</span>a<span class="s1">&#39;, &#39;</span>b<span class="s1">&#39;, &#39;</span>c<span class="s1">&#39;};&#39;</span>
-&lt;stdin&gt;:42:20: error: use of undeclared identifier <span class="s1">&#39;b&#39;</span>
+&lt;stdin&gt;:40:20: error: use of undeclared identifier <span class="s1">&#39;b&#39;</span>
     char *a  <span class="o">=</span> <span class="o">{</span>a, b, c<span class="o">}</span><span class="p">;</span>
                    ^
-&lt;stdin&gt;:42:23: error: use of undeclared identifier <span class="s1">&#39;c&#39;</span>
+&lt;stdin&gt;:40:23: error: use of undeclared identifier <span class="s1">&#39;c&#39;</span>
     char *a  <span class="o">=</span> <span class="o">{</span>a, b, c<span class="o">}</span><span class="p">;</span>
                       ^
 <span class="m">2</span> errors generated.
@@ -154,14 +154,14 @@
 <p class="last">In case of static declaration of string, it can&#8217;t be modified.</p>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *c =&quot;Memory allocated static  string&quot;; c[1] = &#39;</span>E<span class="s1">&#39;; p(&quot;NOT REACHED =&gt; %s&quot;, c);&#39;</span>
-&lt;stdin&gt;:42:56: error: use of undeclared identifier <span class="s1">&#39;E&#39;</span>
+&lt;stdin&gt;:40:56: error: use of undeclared identifier <span class="s1">&#39;E&#39;</span>
     char *c <span class="o">=</span><span class="s2">&quot;Memory allocated static  string&quot;</span><span class="p">;</span> c<span class="o">[</span>1<span class="o">]</span> <span class="o">=</span> E<span class="p">;</span> p<span class="o">(</span><span class="s2">&quot;NOT REACHED =&gt; %s&quot;</span>, c<span class="o">)</span><span class="p">;</span>
                                                        ^
 <span class="m">1</span> error generated.
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char c[]=&quot;Memory allocated dynamic string&quot;; c[1] = &#39;</span>E<span class="s1">&#39;; p(&quot;REACHED =&gt; %s&quot;, c);&#39;</span>
-&lt;stdin&gt;:42:56: error: use of undeclared identifier <span class="s1">&#39;E&#39;</span>
+&lt;stdin&gt;:40:56: error: use of undeclared identifier <span class="s1">&#39;E&#39;</span>
     char c<span class="o">[]=</span><span class="s2">&quot;Memory allocated dynamic string&quot;</span><span class="p">;</span> c<span class="o">[</span>1<span class="o">]</span> <span class="o">=</span> E<span class="p">;</span> p<span class="o">(</span><span class="s2">&quot;REACHED =&gt; %s&quot;</span>, c<span class="o">)</span><span class="p">;</span>
                                                        ^
 <span class="m">1</span> error generated.

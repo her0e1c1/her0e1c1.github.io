@@ -132,7 +132,7 @@
 <p>argv is a list of argument strings. they are stored in memory. the last item is NULL
 you can also say like char** is [String]</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;while(*argv){p(&quot;%s &quot;, *argv); argv++;}&#39;</span> <span class="m">1</span> <span class="m">2</span> 3
-/tmp/tmp.3w8G7LvX <span class="m">1</span> <span class="m">2</span> 3
+/tmp/tmp.cCcOJlZo <span class="m">1</span> <span class="m">2</span> 3
 </pre></div>
 </div>
 <p>Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.</p>
@@ -371,7 +371,7 @@ wheel
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(long float));&#39;</span>
-&lt;stdin&gt;:42:21: error: <span class="s1">&#39;long float&#39;</span> is invalid
+&lt;stdin&gt;:40:21: error: <span class="s1">&#39;long float&#39;</span> is invalid
     p<span class="o">(</span><span class="s2">&quot;%zu&quot;</span>, sizeof<span class="o">(</span>long float<span class="o">))</span><span class="p">;</span>
                     ^
 <span class="m">1</span> error generated.
@@ -386,7 +386,7 @@ wheel
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(double double));&#39;</span>
-&lt;stdin&gt;:42:28: error: cannot combine with previous <span class="s1">&#39;double&#39;</span> declaration specifier
+&lt;stdin&gt;:40:28: error: cannot combine with previous <span class="s1">&#39;double&#39;</span> declaration specifier
     p<span class="o">(</span><span class="s2">&quot;%zu&quot;</span>, sizeof<span class="o">(</span>double double<span class="o">))</span><span class="p">;</span>
                            ^
 <span class="m">1</span> error generated.
@@ -420,7 +420,7 @@ Bob
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p(&quot;%d&quot;, b.bool);&#39;</span>
-&lt;stdin&gt;:42:59: warning: implicit truncation from <span class="s1">&#39;int&#39;</span> to bitfield changes value from <span class="m">2</span> to <span class="m">0</span> <span class="o">[</span>-Wbitfield-constant-conversion<span class="o">]</span>
+&lt;stdin&gt;:40:59: warning: implicit truncation from <span class="s1">&#39;int&#39;</span> to bitfield changes value from <span class="m">2</span> to <span class="m">0</span> <span class="o">[</span>-Wbitfield-constant-conversion<span class="o">]</span>
     typedef struct <span class="o">{</span>unsigned bool: 1<span class="p">;</span><span class="o">}</span>Bool<span class="p">;</span> Bool b<span class="p">;</span> b.bool<span class="o">=</span>2<span class="p">;</span> p<span class="o">(</span><span class="s2">&quot;%d&quot;</span>, b.bool<span class="o">)</span><span class="p">;</span>
                                                           ^~
 <span class="m">1</span> warning generated.
@@ -433,7 +433,7 @@ Bob
 <p>stdin 0, stdout 1, stderr 2
 in this case, because I run this command as subprocess, these results are NULL.</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, ttyname(0));&#39;</span>
-/dev/pts/4
+/dev/pts/5
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, ttyname(1));&#39;</span>

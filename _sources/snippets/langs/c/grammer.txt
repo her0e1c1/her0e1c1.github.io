@@ -26,7 +26,7 @@ you can also say like char** is [String]
    
 
     $ ce 'while(*argv){p("%s ", *argv); argv++;}' 1 2 3
-    /tmp/tmp.3w8G7LvX 1 2 3 
+    /tmp/tmp.cCcOJlZo 1 2 3 
 
 Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.
 
@@ -436,7 +436,7 @@ with %zu print as unsigned decimal
    
 
     $ ce 'p("%zu", sizeof(long float));'
-    <stdin>:42:21: error: 'long float' is invalid
+    <stdin>:40:21: error: 'long float' is invalid
         p("%zu", sizeof(long float));
                         ^
     1 error generated.
@@ -461,7 +461,7 @@ with %zu print as unsigned decimal
    
 
     $ ce 'p("%zu", sizeof(double double));'
-    <stdin>:42:28: error: cannot combine with previous 'double' declaration specifier
+    <stdin>:40:28: error: cannot combine with previous 'double' declaration specifier
         p("%zu", sizeof(double double));
                                ^
     1 error generated.
@@ -518,7 +518,7 @@ struct
    
 
     $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);'
-    <stdin>:42:59: warning: implicit truncation from 'int' to bitfield changes value from 2 to 0 [-Wbitfield-constant-conversion]
+    <stdin>:40:59: warning: implicit truncation from 'int' to bitfield changes value from 2 to 0 [-Wbitfield-constant-conversion]
         typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);
                                                               ^~
     1 warning generated.
@@ -536,7 +536,7 @@ in this case, because I run this command as subprocess, these results are NULL.
    
 
     $ ce 'p("%s", ttyname(0));'
-    /dev/pts/4
+    /dev/pts/5
 
 
 .. code-block:: sh

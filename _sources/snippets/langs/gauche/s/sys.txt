@@ -1,0 +1,14 @@
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (sys-system "ls")))' -Eexit
+    gauche2c
+    include-gauche.scm
+    index.rst
+    index.scm
+    index.sh
+    s
+    0
+    
+

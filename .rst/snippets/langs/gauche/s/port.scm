@@ -8,10 +8,7 @@
 (s "echo hoge |s '(p (read-char) (read-char) (read-char))'")
 
 (p "2行読む")
-;; ls|s '(p (read-line) (read-line))'
-
-; # port取得
-(s "ls |s '(current-input-port)'")
+(s "ls|s '(p (read-line) (read-line))'")
 
 (p "port名")
 (s "s '(port-name (current-input-port))'")
@@ -26,6 +23,7 @@
 (s "s '(sys-isatty 0)'")
 (p "use pipe. so this is not a tty")
 (s "ls | s '(sys-isatty (standard-input-port))'")
+(s "ls | s '(read-line)'")
 (s "s '(sys-isatty (standard-output-port))' |cat")
 
 (ptodo "fix.")
@@ -73,7 +71,6 @@
 ; (runs (process-output->string cmd :error (current-error-port)))
 ;;  ;; (flush)
 ;;  ;; (sys-system cmd)
-;; ; ls | s '(read-line)'
 
 ; finalize
 (remove-file "t")

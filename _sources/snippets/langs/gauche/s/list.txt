@@ -1,0 +1,99 @@
+
+
+assq assv assoc
+===============
+
+eq?
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (assq 'a '((a . 1) (b . 2) (c . 3)))))" -Eexit
+    (a . 1)
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (acons 'b  2 '((a . 1)))))" -Eexit
+    ((b . 2) (a . 1))
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (assoc-ref '((a . 1)) 'a)))" -Eexit
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (assoc-ref '((a . 1)) 'b)))" -Eexit
+    #f
+    
+
+
+
+and-let*
+========
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (and-let* ((a 1) (b (+ a 1))) (+ a b))))" -Eexit
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (and-let* ((a 1) (b #f)) (+ a b))))" -Eexit
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (iota 10)))" -Eexit
+    (0 1 2 3 4 5 6 7 8 9)
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (iota 10 5)))" -Eexit
+    (5 6 7 8 9 10 11 12 13 14)
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (iota 10 5 2)))" -Eexit
+    (5 7 9 11 13 15 17 19 21 23)
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (map + (iota 5) (iota 5))))" -Eexit
+    (0 2 4 6 8)
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (liota 10)))" -Eexit
+    (0 1 2 3 4 5 6 7 8 9)
+    
+

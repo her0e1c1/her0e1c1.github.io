@@ -98,13 +98,17 @@
     <div class="col-md-12 content">
       
   <div class="section" id="perl">
-<h1><a class="toc-backref" href="#id1">Perl</a><a class="headerlink" href="#perl" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id9">Perl</a><a class="headerlink" href="#perl" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#perl" id="id1">Perl</a><ul>
-<li><a class="reference internal" href="#options" id="id2">options</a></li>
-<li><a class="reference internal" href="#special-characters" id="id3">special characters</a></li>
+<li><a class="reference internal" href="#perl" id="id9">Perl</a><ul>
+<li><a class="reference internal" href="#options" id="id10">options</a></li>
+<li><a class="reference internal" href="#special-characters" id="id11">special characters</a></li>
+<li><a class="reference internal" href="#escape-quote-in-sh" id="id12">escape quote in sh</a></li>
+<li><a class="reference internal" href="#hash" id="id13">hash</a></li>
+<li><a class="reference internal" href="#exec" id="id14">exec</a></li>
+<li><a class="reference internal" href="#false" id="id15">false</a></li>
 </ul>
 </li>
 </ul>
@@ -123,7 +127,7 @@ Execution of -e aborted due to compilation errors.
 </pre></div>
 </div>
 <div class="section" id="options">
-<h2><a class="toc-backref" href="#id2">options</a><a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">options</a><a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
 <p>With -0 option delimiter is NULL
 With -0777 you can&#8217;t use any option delimiter.</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;a</span>
@@ -141,11 +145,454 @@ Name <span class="s2">&quot;main::a&quot;</span> used only once: possible typo a
 </div>
 </div>
 <div class="section" id="special-characters">
-<h2><a class="toc-backref" href="#id3">special characters</a><a class="headerlink" href="#special-characters" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">special characters</a><a class="headerlink" href="#special-characters" title="Permalink to this headline">¶</a></h2>
 <p>$&#8221;
 This is a &#8220;&#64;array&#8221; delimiter</p>
 <div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;$&quot; = &quot; - &quot;; @a=1..5; say &quot;@a&quot;&#39;</span>
 <span class="m">1</span> - <span class="m">2</span> - <span class="m">3</span> - <span class="m">4</span> - 5
+</pre></div>
+</div>
+<p>execute shell command. you need -i option</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;system qq#sh -ic &quot;ll /lib/libc.so.*&quot;#&#39;</span>
+-r--r--r--  <span class="m">1</span> root  wheel  <span class="m">1567216</span>  1月 <span class="m">17</span>  <span class="m">2014</span> /lib/libc.so.7
+</pre></div>
+</div>
+</div>
+<div class="section" id="escape-quote-in-sh">
+<h2><a class="toc-backref" href="#id12">escape quote in sh</a><a class="headerlink" href="#escape-quote-in-sh" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE HOGE&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+HOGE HOGE
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -M<span class="s1">&#39;File::Basename&#39;</span> -E <span class="s1">&#39;say basename qq#/path/to/text.txt#&#39;</span>
+text.txt
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -M<span class="s1">&#39;File::Spec&#39;</span> -E <span class="s1">&#39;say File::Spec-&gt;catfile(q#/path/to#, q#text.txt#)&#39;</span>
+/path/to/text.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="hash">
+<h2><a class="toc-backref" href="#id13">hash</a><a class="headerlink" href="#hash" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;%a=(a=&gt;1); say exists($a{&quot;a&quot;})&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;%a=(a=&gt;1, b=&gt;2); say $a{a}&#39;</span>
+1
+</pre></div>
+</div>
+<p>get all hash keys</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;%a=(a=&gt;1, b=&gt;2); say keys %a&#39;</span>
+ba
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;%a=(a=&gt;1); say exists($a{a})&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;%a=(a=&gt;1); say %a ~~ /^a$/&#39;</span>
+Smartmatch is experimental at -e line 1.
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;%a=(a=&gt;1, b=&gt;2); while(($k, $v) =each %a){say &quot;$k = $v&quot;}&#39;</span>
+<span class="nv">a</span> <span class="o">=</span> 1
+<span class="nv">b</span> <span class="o">=</span> 2
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say &quot;abc&quot;.&quot;efg&quot;&#39;</span>
+abcefg
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say 1 if &quot;a&quot; eq &quot;a&quot;&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say sprintf(&quot;%s, %s&quot;, &quot;hello&quot;, &quot;world&quot;)&#39;</span>
+hello, world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say join &quot; &quot;, 1..10&#39;</span>
+<span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> 10
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say split /s/, &quot;a b c&quot;&#39;</span>
+a b c
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;print qq/hello world/&#39;</span>
+hello world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say ord(&quot;a&quot;)&#39;</span>
+97
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say substr + (join &quot;&quot;, a..f), 1, -1&#39;</span>
+bcde
+</pre></div>
+</div>
+<p>perlの場合文字列を+で評価すると型を数値とする
+なお、文字列の結合は.を使うので注意
+また、数値でないものは0として扱われる</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say &quot;1&quot; + &quot;2&quot;&#39;</span>
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say &quot;a1a&quot; + &quot;2&quot;&#39;</span>
+2
+</pre></div>
+</div>
+<p>when you want to execute other commands, then use system</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say `echo TEST`&#39;</span>
+TEST
+</pre></div>
+</div>
+</div>
+<div class="section" id="exec">
+<h2><a class="toc-backref" href="#id14">exec</a><a class="headerlink" href="#exec" title="Permalink to this headline">¶</a></h2>
+<p>System and go last</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;system &quot;echo TEST&quot; ;say &quot;print&quot;&#39;</span>
+TEST
+print
+</pre></div>
+</div>
+<p>コマンドを実行し、失敗した場合にのみ制御が戻る</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;exec &quot;echo 1&quot; ;say &quot;NOT PRINTED&quot;&#39;</span>
+1
+</pre></div>
+</div>
+</div>
+<div class="section" id="false">
+<h2><a class="toc-backref" href="#id15">false</a><a class="headerlink" href="#false" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say $a || &quot;&quot; || 0&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say for split &quot;:&quot;, $ENV{PATH}&#39;</span>
+/usr/local/heroku/bin
+/usr/local/heroku/bin
+/usr/local/heroku/bin
+/sbin
+/bin
+/usr/sbin
+/usr/bin
+/usr/games
+/usr/local/sbin
+/usr/local/bin
+/home/me/bin
+/home/me/.cask/bin
+/home/me/lib/
+/home/me/.cabal/bin
+/home/me/.cask/bin
+/home/me/lib/
+/home/me/.cabal/bin
+/home/me/.cask/bin
+/home/me/lib/
+/home/me/.cabal/bin
+</pre></div>
+</div>
+<p>変数が未定義であることを確認</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say &quot;undefined&quot; if !defined($a)&#39;</span>
+undefined
+</pre></div>
+</div>
+<p>未定義の場合に代入</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;$a//=1; say $a&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say 1 ? &quot;ok&quot; : &quot;no&quot;&#39;</span>
+ok
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -M<span class="s2">&quot;File::Basename&quot;</span> -E <span class="s1">&#39;say basename &quot;/path/to/file.txt&quot;&#39;</span>
+file.txt
+</pre></div>
+</div>
+<p>Change permissions recursively Note write in 8 digit notion</p>
+<div class="highlight-sh"><div class="highlight"><pre>find . <span class="p">|</span>perl -nlE <span class="s1">&#39;chmod 0701, $_ if -d;&#39;</span>
+</pre></div>
+</div>
+<p>permissions for apache about static files</p>
+<div class="highlight-sh"><div class="highlight"><pre>find . <span class="p">|</span>perl -nlE <span class="s1">&#39;chmod 0755, $_ if -d; chmod 0644, $_ if -f&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;$_=&quot;/home&quot;; say if -d&#39;</span>
+/home
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;a,b</span>
+<span class="s2">c,d&quot;</span> <span class="p">|</span>perl -F<span class="s1">&#39;/,s*/&#39;</span> -alnE <span class="s1">&#39;say join &quot;/&quot;, @F&#39;</span>
+a/b
+c/d
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;a</span>
+<span class="s2">b</span>
+
+<span class="s2">c</span>
+<span class="s2">d&quot;</span><span class="p">|</span>perl -00 -pE <span class="s1">&#39;say &quot;-&quot; x 20&#39;</span>
+--------------------
+a
+b
+
+--------------------
+c
+d
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>ls <span class="p">|</span>perl -E <span class="s1">&#39;say reverse &lt;&gt;&#39;</span>perl -E <span class="s1">&#39;say &quot;sample.CsV&quot; =~ /.*.csv/i&#39;</span>
+Bareword found where operator expected at -e line 1, near <span class="s2">&quot;&lt;&gt;perl&quot;</span>
+    <span class="o">(</span>Missing operator before perl?<span class="o">)</span>
+syntax error at -e line 2, near <span class="s2">&quot;&lt;&gt;perl</span>
+<span class="s2">&quot;</span>
+Execution of -e aborted due to compilation errors.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;@a=(1, 2, 3); push @a, 4; say @a&#39;</span>
+1234
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>  curl yahoo.co.jp <span class="p">|</span>perl -nlE <span class="s1">&#39;s#(?&lt;=href=)([&quot;&#39;&#39;])/aiuie/(?=1)#${1}{{ &#39;&#39;index&#39;&#39;) }}#; say&#39;</span>
+    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                   Dload  Upload   Total   Spent    Left  Speed
+
+<span class="m">0</span>     <span class="m">0</span>    <span class="m">0</span>     <span class="m">0</span>    <span class="m">0</span>     <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span> --:--:-- --:--:-- --:--:--     0
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>100  3262  100  3262    0     0   7539      0 &#8211;:&#8211;:&#8211; &#8211;:&#8211;:&#8211; &#8211;:&#8211;:&#8211;  7568</dt>
+<dd><p class="first">&lt;!doctype html public &#8220;-//W3C//DTD HTML 4.01//EN&#8221; &#8220;<a class="reference external" href="http://www.w3.org/TR/html4/strict.dtd">http://www.w3.org/TR/html4/strict.dtd</a>&#8220;&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Yahoo! - 301 Moved Permanently&lt;/title&gt;&lt;style&gt;
+/* nn4 hide <em>/
+/</em>/<em>/
+body {font:small/1.2em arial,helvetica,clean,sans-serif;font:x-small;text-align:center;}table {font-size:inherit;font:x-small;}
+html&gt;body {font:83%/1.2em arial,helvetica,clean,sans-serif;}input {font-size:100%;vertical-align:middle;}p, form {margin:0;padding:0;}
+p {padding-bottom:6px;margin-bottom:10px;}#doc {width:48.5em;margin:0 auto;border:1px solid #fff;text-align:center;}#ygma {text-align:right;margin-bottom:53px}
+#ygma img {float:left;}#ygma div {border-bottom:1px solid #ccc;padding-bottom:8px;margin-left:152px;}#bd {clear:both;text-align:left;width:75%;margin:0 auto 20px;}
+h1 {font-size:135%;text-align:center;margin:0 0 15px;}legend {display:none;}fieldset {border:0 solid #fff;padding:.8em 0 .8em 4.5em;}
+form {position:relative;background:#eee;margin-bottom:15px;border:1px solid #ccc;border-width:1px 0;}
+#s1p {width:15em;margin-right:.1em;}
+form span {position:absolute;left:70%;top:.8em;}form a {font:78%/1.2em arial;display:block;padding-left:.8em;white-space:nowrap;background: url(http://l.yimg.com/a/i/s/bullet.gif) no-repeat left center;}
+form .sep {display:none;}.more {text-align:center;}#ft {padding-top:10px;border-top:1px solid #999;}#ft p {text-align:center;font:78% arial;}
+/</em> end nn4 hide <em>/
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;&lt;div id=&#8221;doc&#8221;&gt;
+&lt;div id=&#8221;ygma&#8221;&gt;&lt;a href=&#8221;http://us.rd.yahoo.com/301/*http://www.yahoo.com&#8221;&gt;&lt;img src=http://l.yimg.com/a/i/yahoo.gif width=147 height=31 border=0 alt=&#8221;Yahoo!&#8221;&gt;&lt;/a&gt;&lt;div&gt;&lt;a href=&#8221;http://us.rd.yahoo.com/301/*http://www.yahoo.com&#8221;&gt;Yahoo!&lt;/a&gt; - &lt;a href=&#8221;http://us.rd.yahoo.com/301/*http://help.yahoo.com&#8221;&gt;Help&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;div id=&#8221;bd&#8221;&gt;&lt;p&gt;The document has moved &lt;a href=&#8221;http://www.yahoo.co.jp/&#8221;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Please check the URL for proper spelling and capitalization. If
+you&#8217;re having trouble locating a destination on Yahoo!, try visiting the
+&lt;strong&gt;&lt;a
+href=&#8221;http://us.rd.yahoo.com/301/*http://www.yahoo.com&#8221;&gt;Yahoo! home
+page&lt;/a&gt;&lt;/strong&gt; or look through a list of &lt;strong&gt;&lt;a
+href=&#8221;http://us.rd.yahoo.com/301/*http://docs.yahoo.com/docs/family/more/&#8221;&gt;Yahoo!&#8217;s
+online services&lt;/a&gt;&lt;/strong&gt;. Also, you may find what you&#8217;re looking for
+if you try searching below.&lt;/p&gt;
+&lt;form name=&#8221;s1&#8221; action=&#8221;http://us.rd.yahoo.com/301/</em>-<a class="reference external" href="http://search.yahoo.com/search">http://search.yahoo.com/search</a>&#8220;&gt;&lt;fieldset&gt;
+&lt;legend&gt;&lt;label for=&#8221;s1p&#8221;&gt;Search the Web&lt;/label&gt;&lt;/legend&gt;
+&lt;input type=&#8221;text&#8221; size=30 name=&#8221;p&#8221; id=&#8221;s1p&#8221; title=&#8221;enter search terms here&#8221;&gt;
+&lt;input type=&#8221;submit&#8221; value=&#8221;Search&#8221;&gt;
+&lt;span&gt;&lt;a href=&#8221;<a class="reference external" href="http://us.rd.yahoo.com/301/">http://us.rd.yahoo.com/301/</a><a href="#id1"><span class="problematic" id="id2">*</span></a><a class="reference external" href="http://search.yahoo.com/search/options?p=">http://search.yahoo.com/search/options?p=</a>&#8220;&gt;advanced search&lt;/a&gt; &lt;span class=sep&gt;|&lt;/span&gt; &lt;/span&gt;
+&lt;/fieldset&gt;&lt;/form&gt;
+&lt;p class=&#8221;more&#8221;&gt;Please try &lt;strong&gt;&lt;a href=&#8221;<a class="reference external" href="http://us.rd.yahoo.com/301/">http://us.rd.yahoo.com/301/</a><a href="#id3"><span class="problematic" id="id4">*</span></a><a class="reference external" href="http://help.yahoo.com">http://help.yahoo.com</a>&#8220;&gt;Yahoo! Help Central&lt;/a&gt;&lt;/strong&gt; if you need more assistance.&lt;/p&gt;
+&lt;/div&gt;&lt;div id=&#8221;ft&#8221;&gt;&lt;p&gt;Copyright &amp;copy; 2015 Yahoo! Inc. All rights reserved. &lt;a href=&#8221;<a class="reference external" href="http://us.rd.yahoo.com/301/">http://us.rd.yahoo.com/301/</a><a href="#id5"><span class="problematic" id="id6">*</span></a><a class="reference external" href="http://privacy.yahoo.com">http://privacy.yahoo.com</a>&#8220;&gt;Privacy Policy&lt;/a&gt; - &lt;a href=&#8221;<a class="reference external" href="http://us.rd.yahoo.com/301/">http://us.rd.yahoo.com/301/</a><a href="#id7"><span class="problematic" id="id8">*</span></a><a class="reference external" href="http://info.yahoo.com/legal/us/yahoo/utos/terms/">http://info.yahoo.com/legal/us/yahoo/utos/terms/</a>&#8220;&gt;Terms of Service&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;</p>
+<p class="last">&lt;!&#8211; p03.f1.top.kks.yahoo.co.jp Tue Dec 22 00:35:35 JST 2015 &#8211;&gt;</p>
+</dd>
+</dl>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say 0b1000&#39;</span>
+8
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -M<span class="s2">&quot;File::Copy qw(cp)&quot;</span> -e <span class="s1">&#39;cp $_, $_.&quot;.bak&quot; for grep {-f} glob(&quot;*&quot;)&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>Create backup files in current directory
+Create: not found
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say 1 if 1 ~~ [1,2,3]&#39;</span>
+Smartmatch is experimental at -e line 1.
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;grep{$_ eq 1} qw(1 2 3) and say 1&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say grep {$_ % 2 == 0} 1..5&#39;</span>
+24
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -M<span class="s2">&quot;List::Util qw(reduce)&quot;</span> -E <span class="s1">&#39;say reduce {$a+$b} (1,2,3)&#39;</span>
+6
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;print &quot;hello world&quot;&#39;</span>
+hello world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;print qq/hello world/&#39;</span>
+hello world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say &quot;hello world&quot;&#39;</span>perl -E <span class="s1">&#39;say qw/1 2 3/&#39;</span>perl -E <span class="s1">&#39;@a=(1,2,3); say $#a+1&#39;</span>
+Bareword found where operator expected at -e line 1, near <span class="s2">&quot;&quot;</span>hello world<span class="s2">&quot;perl&quot;</span>
+    <span class="o">(</span>Missing operator before perl?<span class="o">)</span>
+Bareword found where operator expected at -e line 2, near <span class="s2">&quot;qw/1 2 3/perl&quot;</span>
+Array found where operator expected at -e line 3, at end of line
+    <span class="o">(</span>Missing semicolon on previous line?<span class="o">)</span>
+syntax error at -e line 2, near <span class="s2">&quot;&quot;</span>hello world<span class="s2">&quot;perl</span>
+<span class="s2">&quot;</span>
+Execution of -e aborted due to compilation errors.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;@a=(1,2,3); say scalar @a&#39;</span>perl -E <span class="s1">&#39;say for glob(&quot;*&quot;)&#39;</span>perl -E <span class="s1">&#39;say for map {$_ + 1} 1..3&#39;</span>  <span class="c"># mapの第二引数は配列</span>
+Bareword found where operator expected at -e line 2, near <span class="s2">&quot;)perl&quot;</span>
+    <span class="o">(</span>Missing operator before perl?<span class="o">)</span>
+syntax error at -e line 2, near <span class="s2">&quot;@aperl</span>
+<span class="s2">say&quot;</span>
+Execution of -e aborted due to compilation errors.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say $_ + 1 for 1..10&#39;</span>
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;for(&lt;*.txt&gt;){$a=$_; s/.txt/.csv/; rename $a, $_}&#39;</span>
+</pre></div>
+</div>
+<p>ファイルシステムをまたいでmove</p>
+<div class="highlight-sh"><div class="highlight"><pre>find ./ -print0 <span class="p">|</span> perl -MFile::Copy -MFile::Basename -l0ne <span class="s1">&#39;move($_, &quot;/path/to/&quot; . basename($_)&#39;</span>
+syntax error at -e line 1, at EOF
+Execution of -e aborted due to compilation errors.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say keys %{{map {$_ =&gt; 1} (1,1,1,2,2,3)}}&#39;</span>
+312
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;print qq/[38;5;${_}mC$_ / for 0..255; say&#39;</span>
+<span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>0mC0 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>1mC1 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>2mC2 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>3mC3 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>4mC4 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>5mC5 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>6mC6 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>7mC7 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>8mC8 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>9mC9 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>10mC10 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>11mC11 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>12mC12 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>13mC13 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>14mC14 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>15mC15 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>16mC16 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>17mC17 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>18mC18 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>19mC19 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>20mC20 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>21mC21 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>22mC22 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>23mC23 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>24mC24 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>25mC25 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>26mC26 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>27mC27 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>28mC28 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>29mC29 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>30mC30 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>31mC31 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>32mC32 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>33mC33 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>34mC34 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>35mC35 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>36mC36 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>37mC37 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>38mC38 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>39mC39 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>40mC40 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>41mC41 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>42mC42 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>43mC43 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>44mC44 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>45mC45 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>46mC46 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>47mC47 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>48mC48 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>49mC49 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>50mC50 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>51mC51 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>52mC52 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>53mC53 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>54mC54 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>55mC55 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>56mC56 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>57mC57 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>58mC58 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>59mC59 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>60mC60 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>61mC61 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>62mC62 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>63mC63 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>64mC64 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>65mC65 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>66mC66 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>67mC67 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>68mC68 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>69mC69 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>70mC70 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>71mC71 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>72mC72 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>73mC73 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>74mC74 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>75mC75 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>76mC76 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>77mC77 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>78mC78 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>79mC79 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>80mC80 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>81mC81 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>82mC82 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>83mC83 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>84mC84 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>85mC85 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>86mC86 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>87mC87 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>88mC88 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>89mC89 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>90mC90 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>91mC91 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>92mC92 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>93mC93 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>94mC94 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>95mC95 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>96mC96 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>97mC97 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>98mC98 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>99mC99 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>100mC100 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>101mC101 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>102mC102 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>103mC103 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>104mC104 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>105mC105 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>106mC106 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>107mC107 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>108mC108 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>109mC109 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>110mC110 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>111mC111 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>112mC112 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>113mC113 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>114mC114 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>115mC115 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>116mC116 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>117mC117 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>118mC118 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>119mC119 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>120mC120 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>121mC121 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>122mC122 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>123mC123 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>124mC124 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>125mC125 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>126mC126 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>127mC127 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>128mC128 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>129mC129 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>130mC130 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>131mC131 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>132mC132 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>133mC133 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>134mC134 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>135mC135 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>136mC136 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>137mC137 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>138mC138 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>139mC139 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>140mC140 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>141mC141 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>142mC142 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>143mC143 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>144mC144 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>145mC145 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>146mC146 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>147mC147 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>148mC148 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>149mC149 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>150mC150 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>151mC151 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>152mC152 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>153mC153 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>154mC154 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>155mC155 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>156mC156 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>157mC157 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>158mC158 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>159mC159 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>160mC160 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>161mC161 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>162mC162 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>163mC163 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>164mC164 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>165mC165 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>166mC166 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>167mC167 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>168mC168 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>169mC169 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>170mC170 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>171mC171 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>172mC172 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>173mC173 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>174mC174 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>175mC175 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>176mC176 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>177mC177 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>178mC178 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>179mC179 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>180mC180 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>181mC181 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>182mC182 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>183mC183 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>184mC184 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>185mC185 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>186mC186 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>187mC187 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>188mC188 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>189mC189 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>190mC190 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>191mC191 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>192mC192 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>193mC193 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>194mC194 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>195mC195 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>196mC196 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>197mC197 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>198mC198 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>199mC199 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>200mC200 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>201mC201 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>202mC202 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>203mC203 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>204mC204 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>205mC205 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>206mC206 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>207mC207 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>208mC208 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>209mC209 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>210mC210 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>211mC211 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>212mC212 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>213mC213 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>214mC214 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>215mC215 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>216mC216 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>217mC217 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>218mC218 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>219mC219 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>220mC220 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>221mC221 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>222mC222 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>223mC223 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>224mC224 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>225mC225 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>226mC226 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>227mC227 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>228mC228 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>229mC229 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>230mC230 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>231mC231 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>232mC232 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>233mC233 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>234mC234 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>235mC235 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>236mC236 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>237mC237 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>238mC238 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>239mC239 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>240mC240 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>241mC241 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>242mC242 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>243mC243 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>244mC244 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>245mC245 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>246mC246 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>247mC247 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>248mC248 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>249mC249 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>250mC250 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>251mC251 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>252mC252 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>253mC253 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>254mC254 <span class="o">[</span>38<span class="p">;</span>5<span class="p">;</span>255mC255
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say rand for 1..5&#39;</span>
+0.702893869093717
+0.0464607946082367
+0.954160317118419
+0.555173615549343
+0.330180140573322
+</pre></div>
+</div>
+<p>引数が&#64;_に格納されてるので、そのどれかを取り出す感じ</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;sub {print $_[rand @_] for 1 .. 255}-&gt;(&quot;a&quot; .. &quot;z&quot;, 0 .. 9, &quot;A&quot; .. &quot;Z&quot;)&#39;</span>
+1KcCveeNKHmBKLcPlaxoBOqeazFyQBN6cW4yOO9hsPpa2SLj8e06BUglUhcCrb17pKGP5MWg02WsWZy6tZdH7FJg0GUt2ykztokNBnEaguamSKfWUh3cvyHKC7mfxD1HpJnpYajgggsGLC869Y1Rw05yMCC1HAJXRXqvrW5zAIh0EUvXXFNeFnZLt8rS6sh8xexFng3zb2SNBDFS7DrtKTSqtXlKhJKS0aRvn3PUULML3hONHUMkbqzPnECqnoU
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;system &quot;echo 1&quot; for 1..3&#39;</span>
+1
+1
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say &quot;abc&quot; x 3&#39;</span>
+abcabcabc
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say scalar reverse shift&#39;</span> hoge
+egoh
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say for 1..3&#39;</span>
+1
+2
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say join &quot; &quot; , map {sprintf &quot;%03d&quot;, $_} 1..10&#39;</span>
+<span class="m">001</span> <span class="m">002</span> <span class="m">003</span> <span class="m">004</span> <span class="m">005</span> <span class="m">006</span> <span class="m">007</span> <span class="m">008</span> <span class="m">009</span> 010
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;@a=(split &quot; &quot;, &quot;a b c d e&quot;)[2..4]; say @a&#39;</span>
+cde
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;@a=(split &quot; &quot;, &quot;a b c d e&quot;)[-1]; say @a&#39;</span>
+e
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;@a=(split &quot; &quot;, &quot;a b c d e&quot;)[-1, 0]; say @a&#39;</span>
+ea
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say join &quot; &quot;, glob(&quot;{a,b,c}.{txt,csv}&quot;)&#39;</span>
+a.txt a.csv b.txt b.csv c.txt c.csv
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;for $i (qw/a b c/){for(qw/txt csv/){`echo $i.$_`}}&#39;</span>
+</pre></div>
+</div>
+<p>// .. // operator</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;a</span>
+<span class="s2">b</span>
+<span class="s2">START</span>
+<span class="s2">c</span>
+<span class="s2">END</span>
+<span class="s2">e&quot;</span> <span class="p">|</span>perl -nle <span class="s1">&#39;print if /^START$/ .. /^END$/&#39;</span>
+START
+c
+END
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say length shift&#39;</span> 1234567890
+10
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;$_=shift; say if /([&quot;&#39;&#39;])abc1/ &#39;</span> <span class="s1">&#39;&quot;abc&quot;&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;$_=shift; say if /([&quot;&#39;&#39;])abcg1/ &#39;</span> <span class="s1">&#39;&quot;abc&quot;&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;$_=shift; say if /([&quot;&#39;&#39;])abcg{1}/ &#39;</span> <span class="s1">&#39;&quot;abc&quot;&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -nlE <span class="s1">&#39;say if /(&quot;([\].|[^\&quot;])*&quot;)/&#39;</span> <span class="o">&lt;&lt;&lt;</span> <span class="s1">&#39;&quot;abc&quot;&#39;</span>
+Syntax error: redirection unexpected <span class="o">(</span>expecting word<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;123456        b</span>
+<span class="s2">c   d&quot;</span> <span class="p">|</span> perl -aF<span class="s1">&#39;  &#39;</span> -nlE <span class="s1">&#39;say join(&quot;, &quot;, map(sprintf(&quot;%5s&quot;, substr($_, 0, 5)), @F))&#39;</span>
+Unrecognized switch: -        <span class="o">(</span>-h will show valid options<span class="o">)</span>.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;sub {print &quot;@_&quot;}-&gt;(&quot;a&quot; .. &quot;z&quot;, 0 .. 9, &quot;A&quot; .. &quot;Z&quot;)&#39;</span>
+a b c d e f g h i j k l m n o p q r s t u v w x y z <span class="m">0</span> <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>ps aux <span class="p">|</span> perl -anle <span class="s1">&#39;print $F[1]&#39;</span> <span class="p">|</span> head -n2
+PID
+60848
+</pre></div>
+</div>
+<p>print 0 ~ 4 columns in the argument file</p>
+<div class="highlight-sh"><div class="highlight"><pre>perl -le <span class="s1">&#39;print unpack(&quot;H*&quot;, $ARGV[0]);&#39;</span> <span class="s1">&#39;あいうえお&#39;</span>
+e38182e38184e38186e38188e3818a
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say unpack(&quot;B*&quot;, &quot;A&quot;);&#39;</span>
+01000001
 </pre></div>
 </div>
 </div>

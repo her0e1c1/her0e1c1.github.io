@@ -1,0 +1,157 @@
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eof-object)))' -Eexit
+    #<eof>
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (values)))' -Eexit
+    0
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin "#| comment |#"))' -Eexit
+    #| comment |#
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin "; inline ;; top level ;;; module level"))' -Eexit
+    ; inline ;; top level ;;; module level
+    
+
+
+.. warning::
+
+    quoteの引数の数は、一つだけ ; 二つ以上とるとエラーになるので注意!
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (quote 1 2)))' -Eexit
+    gosh: "error": Compile Error: syntax-error: malformed quote: (quote 1 2)
+    "(input string port)":1:(print (begin (quote 1 2)))
+    
+    
+
+
+
+eq?
+===
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''1 '\''1)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''1 '\''1)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''1 1)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''(1) '\''(1))))' -Eexit
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''(1) '\''(1))))' -Eexit
+    #f
+    
+
+
+
+apply
+=====
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply + '\''(1 3 3))))' -Eexit
+    7
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply + `,(list 1 (+ 1 2) 3))))' -Eexit
+    7
+    
+
+内側評価されない
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply + '\''(1 (+ 1 2) 3))))' -Eexit
+    gosh: "error": operation + is not defined between 1 and (+ 1 2)
+    
+
+1の関数が呼ばれてしまう
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply + `,(1 (+ 1 2) 3))))' -Eexit
+    gosh: "error": invalid application: (1 3 3)
+    
+
+
+.. warning::
+
+    特殊形式andにはapplyが使えない
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply and '\''(#t #f))))' -Eexit
+    gosh: "error": invalid application: (#<syntax and> #t #f)
+    
+
+
+
+recieve
+=======
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (receive (a b) (values 1 2) (+ a b))))' -Eexit
+    3
+    
+

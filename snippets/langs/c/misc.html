@@ -98,26 +98,26 @@
     <div class="col-md-12 content">
       
   <div class="section" id="misc">
-<h1><a class="toc-backref" href="#id3">misc</a><a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id1">misc</a><a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#misc" id="id3">misc</a><ul>
-<li><a class="reference internal" href="#declare-array-in-signature" id="id4">declare array in signature</a></li>
-<li><a class="reference internal" href="#declare-pointers" id="id5">declare pointers</a></li>
-<li><a class="reference internal" href="#over-flow-about-div-2" id="id6">over flow about div 2</a></li>
-<li><a class="reference internal" href="#declare-and-initialize" id="id7">declare and initialize</a></li>
-<li><a class="reference internal" href="#ifdef" id="id8">ifdef</a></li>
-<li><a class="reference internal" href="#macro" id="id9">macro</a></li>
-<li><a class="reference internal" href="#malloc-size" id="id10">malloc size</a></li>
-<li><a class="reference internal" href="#map-c" id="id11">map.c</a></li>
-<li><a class="reference internal" href="#null" id="id12">NULL</a></li>
+<li><a class="reference internal" href="#misc" id="id1">misc</a><ul>
+<li><a class="reference internal" href="#declare-array-in-signature" id="id2">declare array in signature</a></li>
+<li><a class="reference internal" href="#declare-pointers" id="id3">declare pointers</a></li>
+<li><a class="reference internal" href="#over-flow-about-div-2" id="id4">over flow about div 2</a></li>
+<li><a class="reference internal" href="#declare-and-initialize" id="id5">declare and initialize</a></li>
+<li><a class="reference internal" href="#ifdef" id="id6">ifdef</a></li>
+<li><a class="reference internal" href="#macro" id="id7">macro</a></li>
+<li><a class="reference internal" href="#malloc-size" id="id8">malloc size</a></li>
+<li><a class="reference internal" href="#map-c" id="id9">map.c</a></li>
+<li><a class="reference internal" href="#null" id="id10">NULL</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="declare-array-in-signature">
-<h2><a class="toc-backref" href="#id4">declare array in signature</a><a class="headerlink" href="#declare-array-in-signature" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">declare array in signature</a><a class="headerlink" href="#declare-array-in-signature" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">a[] of function parameter is a pointer which equals int* a</p>
@@ -150,7 +150,7 @@ int f(int a[]){
 </div>
 </div>
 <div class="section" id="declare-pointers">
-<h2><a class="toc-backref" href="#id5">declare pointers</a><a class="headerlink" href="#declare-pointers" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">declare pointers</a><a class="headerlink" href="#declare-pointers" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">pointerを２つ同時に宣言するときはアスターは２ついる</p>
@@ -199,7 +199,7 @@ int f(int a[]){
 <code class="docutils literal"><span class="pre">int</span> <span class="pre">*a;</span></code> と宣言したほうが良い</p>
 </div>
 <div class="section" id="over-flow-about-div-2">
-<h2><a class="toc-backref" href="#id6">over flow about div 2</a><a class="headerlink" href="#over-flow-about-div-2" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">over flow about div 2</a><a class="headerlink" href="#over-flow-about-div-2" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">(i + j) / 2はオーバーフローするので、 i + (j - i) / 2 とすること</p>
@@ -214,7 +214,7 @@ int f(int a[]){
 </div>
 </div>
 <div class="section" id="declare-and-initialize">
-<h2><a class="toc-backref" href="#id7">declare and initialize</a><a class="headerlink" href="#declare-and-initialize" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">declare and initialize</a><a class="headerlink" href="#declare-and-initialize" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">You can&#8217;t declare like this.</p>
@@ -249,7 +249,7 @@ int f(int a[]){
 </div>
 </div>
 <div class="section" id="ifdef">
-<h2><a class="toc-backref" href="#id8">ifdef</a><a class="headerlink" href="#ifdef" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">ifdef</a><a class="headerlink" href="#ifdef" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
 <span class="c1">// #define DEBUG</span>
 <span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
@@ -283,14 +283,14 @@ NOT DEBUG!
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a>#define DEBUG``を明示する (-DDEBUGと同じ効果)</p>
+<p><code class="docutils literal"><span class="pre">#define</span> <span class="pre">DEBUG</span></code> を明示する (-DDEBUGと同じ効果)</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>clang ifdef.c <span class="o">&amp;&amp;</span> ./a.out
 DEBUG!
 </pre></div>
 </div>
 </div>
 <div class="section" id="macro">
-<h2><a class="toc-backref" href="#id9">macro</a><a class="headerlink" href="#macro" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">macro</a><a class="headerlink" href="#macro" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c"><div class="highlight"><pre><span class="c1">// code</span>
 <span class="cp">#include &lt;stdio.h&gt;</span>
 
@@ -313,16 +313,16 @@ x  = 6
 __func__ = main
 __LINE__ = 13
 __FILE__ = &lt;stdin&gt;
-__DATE__ = Dec 19 2015
-__TIME__ = 08:31:04
+__DATE__ = Dec 22 2015
+__TIME__ = 00:35:17
 </pre></div>
 </div>
 </div>
 <div class="section" id="malloc-size">
-<h2><a class="toc-backref" href="#id10">malloc size</a><a class="headerlink" href="#malloc-size" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">malloc size</a><a class="headerlink" href="#malloc-size" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="map-c">
-<h2><a class="toc-backref" href="#id11">map.c</a><a class="headerlink" href="#map-c" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">map.c</a><a class="headerlink" href="#map-c" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c"><div class="highlight"><pre><span class="c1">// map.c</span>
 <span class="cp">#include &lt;stdio.h&gt;</span>
 
@@ -355,7 +355,7 @@ __TIME__ = 08:31:04
 </div>
 </div>
 <div class="section" id="null">
-<h2><a class="toc-backref" href="#id12">NULL</a><a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">NULL</a><a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">You need to inlcude stdio.h to use NULL.</p>

@@ -1,0 +1,6 @@
+衛生的マクロ(hygienic macro)
+
+
+define-syntax
+=============
+

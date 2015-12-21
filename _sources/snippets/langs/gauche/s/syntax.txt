@@ -1,0 +1,131 @@
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (case 5 ((2 4 6 8) => (cut + <> 1)) (else => (cut - <> 1)))))' -Eexit
+    4
+    
+
+
+
+cut
+===
+
+*I think cut is not neccesary. Use lamba*
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (map (cut + <> 10) (iota 5))))' -Eexit
+    (10 11 12 13 14)
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (map (cut + <> <>) (iota 5) (iota 5))))' -Eexit
+    (0 2 4 6 8)
+    
+
+Use lamba as well
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (map (lambda (x y) (+ x y)) (iota 5) (iota 5))))' -Eexit
+    (0 2 4 6 8)
+    
+
+^[]で引数指定
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (map (^ (x y) (+ x y)) (iota 5) (iota 5))))' -Eexit
+    (0 2 4 6 8)
+    
+
+
+
+match
+=====
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (match 1 (1 2))))' -Eexit
+    2
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (match 10 (1 2) (else 0))))' -Eexit
+    0
+    
+
+
+
+do
+==
+
+(= a 10)が終了条件
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (do ((a 1 (+ a 1))) ((= a 10) '\''ok) (print a))))' -Eexit
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    ok
+    
+
+
+
+guard
+=====
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (guard (var cond) cddr)))' -Eexit
+    gosh: "error": Compile Error: malformed guard clause cond
+    "(input string port)":1:(print (begin (guard (var cond) cddr)))
+    
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (guard (exc) 1)))' -Eexit
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (guard (exc) (/ 1 0))))' -Eexit
+    gosh: "error": attempt to calculate a division by zero
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (guard (exc (else 0)) (/ 1 0))))' -Eexit
+    0
+    
+

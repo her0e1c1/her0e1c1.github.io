@@ -108,61 +108,79 @@
 </li>
 </ul>
 </div>
-<div class="section" id="apply">
-<h2>apply<a class="headerlink" href="#apply" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (apply + &#39;(1 3 3))))&quot;</span> -Eexit
-7
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="s/list.html">assq assv assoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/list.html#and-let">and-let*</a></li>
+</ul>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (apply + \`,(list 1 (+ 1 2) 3))))&quot;</span> -Eexit
-7
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="s/string.html">expand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/string.html#number-notation">number notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/string.html#format">format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/string.html#index">index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/string.html#length">length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/string.html#join">join</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/string.html#tr">tr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/string.html#serialize">serialize</a></li>
+</ul>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (apply + &#39;(1 (+ 1 2) 3))))&quot;</span> -Eexit
-gosh: <span class="s2">&quot;error&quot;</span>: operation + is not defined between <span class="m">1</span> and <span class="o">(</span>+ <span class="m">1</span> 2<span class="o">)</span>
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (apply + \`,(1 (+ 1 2) 3))))&quot;</span> -Eexit
-gosh: <span class="s2">&quot;error&quot;</span>: invalid application: <span class="o">(</span><span class="m">1</span> <span class="m">3</span> 3<span class="o">)</span>
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="s/file.html">normalize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/file.html#is">is?</a></li>
+</ul>
 </div>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">特殊形式andにはapplyが使えない</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (apply and &#39;(#t #f))))&quot;</span> -Eexit
-gosh: <span class="s2">&quot;error&quot;</span>: invalid application: <span class="o">(</span><span class="c">#&lt;syntax and&gt; #t #f)</span>
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="s/basic.html">eq?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/basic.html#apply">apply</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/basic.html#recieve">recieve</a></li>
+</ul>
 </div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="s/fp.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/fp.html#pairtial">pairtial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/fp.html#foldl">foldl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/fp.html#composite-function">composite function</a></li>
+</ul>
 </div>
-<div class="section" id="recieve">
-<h2>recieve<a class="headerlink" href="#recieve" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (receive (a b) (values 1 2) (+ a b))))&quot;</span> -Eexit
-3
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="s/port.html">port type</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/port.html#isatty">isatty</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/port.html#string-port">string port</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/port.html#call-with-file">call-with-*-file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/port.html#with-file">with-*-file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/port.html#process">process</a></li>
+</ul>
 </div>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
 </div>
-<div class="section" id="define-syntax">
-<h2>define-syntax<a class="headerlink" href="#define-syntax" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (define-syntax S (syntax-rules () ((_ a) (+ a 1)) ((_ a b) (+ a b)))) (S 2)))&quot;</span> -Eexit
-3
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="s/char.html">char</a></li>
+</ul>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (define-syntax S (syntax-rules () ((_ a) (+ a 1)) ((_ a b) (+ a b)))) (S 10 20)))&quot;</span> -Eexit
-30
-</pre></div>
-</div>
-<p>(literal ...)
-HOGE becomes a keyword</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (define-syntax S (syntax-rules (HOGE) ((_ a HOGE) (+ a 1)))) (S 10 HOGE)))&quot;</span> -Eexit
-11
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s2">&quot;(print (begin (define-syntax S (syntax-rules (HOGE) ((_ a HOGE) (+ a 1)))) (S 10 H)))&quot;</span> -Eexit
-gosh: <span class="s2">&quot;error&quot;</span>: Compile Error: malformed S: <span class="o">(</span>S <span class="m">10</span> H<span class="o">)</span>
-<span class="s2">&quot;(input string port)&quot;</span>:1:<span class="o">(</span>print <span class="o">(</span>begin <span class="o">(</span>define-syntax S <span class="o">(</span>synt ...
-</pre></div>
-</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="s/syntax.html">cut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/syntax.html#match">match</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/syntax.html#do">do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s/syntax.html#guard">guard</a></li>
+</ul>
 </div>
 </div>
 

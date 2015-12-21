@@ -69,3 +69,750 @@ This is a "@array" delimiter
     1 - 2 - 3 - 4 - 5
     
 
+execute shell command. you need -i option
+
+.. code-block:: sh
+   
+
+    perl -e 'system qq#sh -ic "ll /lib/libc.so.*"#'
+    -r--r--r--  1 root  wheel  1567216  1月 17  2014 /lib/libc.so.7
+    
+
+
+
+escape quote in sh
+==================
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say'\''HOGE HOGE'\'''
+    HOGE HOGE
+    
+
+
+.. code-block:: sh
+   
+
+    perl -M'File::Basename' -E 'say basename qq#/path/to/text.txt#'
+    text.txt
+    
+
+
+.. code-block:: sh
+   
+
+    perl -M'File::Spec' -E 'say File::Spec->catfile(q#/path/to#, q#text.txt#)'
+    /path/to/text.txt
+    
+
+
+
+hash
+====
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1); say exists($a{"a"})'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1, b=>2); say $a{a}'
+    1
+    
+
+get all hash keys
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1, b=>2); say keys %a'
+    ba
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1); say exists($a{a})'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1); say %a ~~ /^a$/'
+    Smartmatch is experimental at -e line 1.
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1, b=>2); while(($k, $v) =each %a){say "$k = $v"}'
+    a = 1
+    b = 2
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say "abc"."efg"'
+    abcefg
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say 1 if "a" eq "a"'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say sprintf("%s, %s", "hello", "world")'
+    hello, world
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say join " ", 1..10'
+    1 2 3 4 5 6 7 8 9 10
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say split /s/, "a b c"'
+    a b c
+    
+
+
+.. code-block:: sh
+   
+
+    perl -e 'print qq/hello world/'
+    hello world
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say ord("a")'
+    97
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say substr + (join "", a..f), 1, -1'
+    bcde
+    
+
+perlの場合文字列を+で評価すると型を数値とする
+なお、文字列の結合は.を使うので注意
+また、数値でないものは0として扱われる
+
+.. code-block:: sh
+   
+
+    perl -E 'say "1" + "2"'
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say "a1a" + "2"'
+    2
+    
+
+when you want to execute other commands, then use system
+
+.. code-block:: sh
+   
+
+    perl -E 'say `echo TEST`'
+    TEST
+    
+    
+
+
+
+exec
+====
+
+System and go last
+
+.. code-block:: sh
+   
+
+    perl -E 'system "echo TEST" ;say "print"'
+    TEST
+    print
+    
+
+コマンドを実行し、失敗した場合にのみ制御が戻る
+
+.. code-block:: sh
+   
+
+    perl -E 'exec "echo 1" ;say "NOT PRINTED"'
+    1
+    
+
+
+
+false
+=====
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say $a || "" || 0'
+    0
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say for split ":", $ENV{PATH}'
+    /usr/local/heroku/bin
+    /usr/local/heroku/bin
+    /usr/local/heroku/bin
+    /sbin
+    /bin
+    /usr/sbin
+    /usr/bin
+    /usr/games
+    /usr/local/sbin
+    /usr/local/bin
+    /home/me/bin
+    /home/me/.cask/bin
+    /home/me/lib/
+    /home/me/.cabal/bin
+    /home/me/.cask/bin
+    /home/me/lib/
+    /home/me/.cabal/bin
+    /home/me/.cask/bin
+    /home/me/lib/
+    /home/me/.cabal/bin
+    
+
+変数が未定義であることを確認
+
+.. code-block:: sh
+   
+
+    perl -E 'say "undefined" if !defined($a)'
+    undefined
+    
+
+未定義の場合に代入
+
+.. code-block:: sh
+   
+
+    perl -E '$a//=1; say $a'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say 1 ? "ok" : "no"'
+    ok
+    
+
+
+.. code-block:: sh
+   
+
+    perl -M"File::Basename" -E 'say basename "/path/to/file.txt"'
+    file.txt
+    
+
+Change permissions recursively Note write in 8 digit notion
+
+.. code-block:: sh
+   
+
+    find . |perl -nlE 'chmod 0701, $_ if -d;'
+    
+
+permissions for apache about static files
+
+.. code-block:: sh
+   
+
+    find . |perl -nlE 'chmod 0755, $_ if -d; chmod 0644, $_ if -f'
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '$_="/home"; say if -d'
+    /home
+    
+
+
+.. code-block:: sh
+   
+
+    echo "a,b
+    c,d" |perl -F'/,s*/' -alnE 'say join "/", @F'
+    a/b
+    c/d
+    
+
+
+.. code-block:: sh
+   
+
+    echo "a
+    b
+    
+    c
+    d"|perl -00 -pE 'say "-" x 20'
+    --------------------
+    a
+    b
+    
+    --------------------
+    c
+    d
+    
+
+
+.. code-block:: sh
+   
+
+    ls |perl -E 'say reverse <>'perl -E 'say "sample.CsV" =~ /.*.csv/i'
+    Bareword found where operator expected at -e line 1, near "<>perl"
+    	(Missing operator before perl?)
+    syntax error at -e line 2, near "<>perl
+    "
+    Execution of -e aborted due to compilation errors.
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '@a=(1, 2, 3); push @a, 4; say @a'
+    1234
+    
+
+
+.. code-block:: sh
+   
+
+    curl yahoo.co.jp |perl -nlE 's#(?<=href=)(["''])/aiuie/(?=1)#${1}{{ ''index'') }}#; say'
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  3262  100  3262    0     0   7539      0 --:--:-- --:--:-- --:--:--  7568
+    <!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+    <html><head><title>Yahoo! - 301 Moved Permanently</title><style>
+    /* nn4 hide */ 
+    /*/*/
+    body {font:small/1.2em arial,helvetica,clean,sans-serif;font:x-small;text-align:center;}table {font-size:inherit;font:x-small;}
+    html>body {font:83%/1.2em arial,helvetica,clean,sans-serif;}input {font-size:100%;vertical-align:middle;}p, form {margin:0;padding:0;}
+    p {padding-bottom:6px;margin-bottom:10px;}#doc {width:48.5em;margin:0 auto;border:1px solid #fff;text-align:center;}#ygma {text-align:right;margin-bottom:53px}
+    #ygma img {float:left;}#ygma div {border-bottom:1px solid #ccc;padding-bottom:8px;margin-left:152px;}#bd {clear:both;text-align:left;width:75%;margin:0 auto 20px;}
+    h1 {font-size:135%;text-align:center;margin:0 0 15px;}legend {display:none;}fieldset {border:0 solid #fff;padding:.8em 0 .8em 4.5em;}
+    form {position:relative;background:#eee;margin-bottom:15px;border:1px solid #ccc;border-width:1px 0;}
+    #s1p {width:15em;margin-right:.1em;}
+    form span {position:absolute;left:70%;top:.8em;}form a {font:78%/1.2em arial;display:block;padding-left:.8em;white-space:nowrap;background: url(http://l.yimg.com/a/i/s/bullet.gif) no-repeat left center;} 
+    form .sep {display:none;}.more {text-align:center;}#ft {padding-top:10px;border-top:1px solid #999;}#ft p {text-align:center;font:78% arial;}
+    /* end nn4 hide */
+    </style></head>
+    <body><div id="doc">
+    <div id="ygma"><a href="http://us.rd.yahoo.com/301/*http://www.yahoo.com"><img src=http://l.yimg.com/a/i/yahoo.gif width=147 height=31 border=0 alt="Yahoo!"></a><div><a href="http://us.rd.yahoo.com/301/*http://www.yahoo.com">Yahoo!</a> - <a href="http://us.rd.yahoo.com/301/*http://help.yahoo.com">Help</a></div></div><div id="bd"><p>The document has moved <a href="http://www.yahoo.co.jp/">here</a>.</p>
+    <p>Please check the URL for proper spelling and capitalization. If
+    you're having trouble locating a destination on Yahoo!, try visiting the
+    <strong><a
+    href="http://us.rd.yahoo.com/301/*http://www.yahoo.com">Yahoo! home
+    page</a></strong> or look through a list of <strong><a
+    href="http://us.rd.yahoo.com/301/*http://docs.yahoo.com/docs/family/more/">Yahoo!'s
+    online services</a></strong>. Also, you may find what you're looking for
+    if you try searching below.</p>
+    <form name="s1" action="http://us.rd.yahoo.com/301/*-http://search.yahoo.com/search"><fieldset>
+    <legend><label for="s1p">Search the Web</label></legend>
+    <input type="text" size=30 name="p" id="s1p" title="enter search terms here">
+    <input type="submit" value="Search">
+    <span><a href="http://us.rd.yahoo.com/301/*http://search.yahoo.com/search/options?p=">advanced search</a> <span class=sep>|</span> </span>
+    </fieldset></form>
+    <p class="more">Please try <strong><a href="http://us.rd.yahoo.com/301/*http://help.yahoo.com">Yahoo! Help Central</a></strong> if you need more assistance.</p>
+    </div><div id="ft"><p>Copyright &copy; 2015 Yahoo! Inc. All rights reserved. <a href="http://us.rd.yahoo.com/301/*http://privacy.yahoo.com">Privacy Policy</a> - <a href="http://us.rd.yahoo.com/301/*http://info.yahoo.com/legal/us/yahoo/utos/terms/">Terms of Service</a></p></div>
+    </div></body></html>
+    
+    <!-- p03.f1.top.kks.yahoo.co.jp Tue Dec 22 00:35:35 JST 2015 -->
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say 0b1000'
+    8
+    
+
+
+.. code-block:: sh
+   
+
+    perl -M"File::Copy qw(cp)" -e 'cp $_, $_.".bak" for grep {-f} glob("*")'
+    
+
+
+.. code-block:: sh
+   
+
+    Create backup files in current directory
+    Create: not found
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say 1 if 1 ~~ [1,2,3]'
+    Smartmatch is experimental at -e line 1.
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'grep{$_ eq 1} qw(1 2 3) and say 1'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say grep {$_ % 2 == 0} 1..5'
+    24
+    
+
+
+.. code-block:: sh
+   
+
+    perl -M"List::Util qw(reduce)" -E 'say reduce {$a+$b} (1,2,3)'
+    6
+    
+
+
+.. code-block:: sh
+   
+
+    perl -e 'print "hello world"'
+    hello world
+
+
+.. code-block:: sh
+   
+
+    perl -e 'print qq/hello world/'
+    hello world
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say "hello world"'perl -E 'say qw/1 2 3/'perl -E '@a=(1,2,3); say $#a+1'
+    Bareword found where operator expected at -e line 1, near ""hello world"perl"
+    	(Missing operator before perl?)
+    Bareword found where operator expected at -e line 2, near "qw/1 2 3/perl"
+    Array found where operator expected at -e line 3, at end of line
+    	(Missing semicolon on previous line?)
+    syntax error at -e line 2, near ""hello world"perl
+    "
+    Execution of -e aborted due to compilation errors.
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '@a=(1,2,3); say scalar @a'perl -E 'say for glob("*")'perl -E 'say for map {$_ + 1} 1..3'  # mapの第二引数は配列
+    Bareword found where operator expected at -e line 2, near ")perl"
+    	(Missing operator before perl?)
+    syntax error at -e line 2, near "@aperl
+    say"
+    Execution of -e aborted due to compilation errors.
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say $_ + 1 for 1..10'
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+    
+
+
+.. code-block:: sh
+   
+
+    perl -e 'for(<*.txt>){$a=$_; s/.txt/.csv/; rename $a, $_}'
+    
+
+ファイルシステムをまたいでmove
+
+.. code-block:: sh
+   
+
+    find ./ -print0 | perl -MFile::Copy -MFile::Basename -l0ne 'move($_, "/path/to/" . basename($_)'
+    syntax error at -e line 1, at EOF
+    Execution of -e aborted due to compilation errors.
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
+    312
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'print qq/[38;5;${_}mC$_ / for 0..255; say'
+    [38;5;0mC0 [38;5;1mC1 [38;5;2mC2 [38;5;3mC3 [38;5;4mC4 [38;5;5mC5 [38;5;6mC6 [38;5;7mC7 [38;5;8mC8 [38;5;9mC9 [38;5;10mC10 [38;5;11mC11 [38;5;12mC12 [38;5;13mC13 [38;5;14mC14 [38;5;15mC15 [38;5;16mC16 [38;5;17mC17 [38;5;18mC18 [38;5;19mC19 [38;5;20mC20 [38;5;21mC21 [38;5;22mC22 [38;5;23mC23 [38;5;24mC24 [38;5;25mC25 [38;5;26mC26 [38;5;27mC27 [38;5;28mC28 [38;5;29mC29 [38;5;30mC30 [38;5;31mC31 [38;5;32mC32 [38;5;33mC33 [38;5;34mC34 [38;5;35mC35 [38;5;36mC36 [38;5;37mC37 [38;5;38mC38 [38;5;39mC39 [38;5;40mC40 [38;5;41mC41 [38;5;42mC42 [38;5;43mC43 [38;5;44mC44 [38;5;45mC45 [38;5;46mC46 [38;5;47mC47 [38;5;48mC48 [38;5;49mC49 [38;5;50mC50 [38;5;51mC51 [38;5;52mC52 [38;5;53mC53 [38;5;54mC54 [38;5;55mC55 [38;5;56mC56 [38;5;57mC57 [38;5;58mC58 [38;5;59mC59 [38;5;60mC60 [38;5;61mC61 [38;5;62mC62 [38;5;63mC63 [38;5;64mC64 [38;5;65mC65 [38;5;66mC66 [38;5;67mC67 [38;5;68mC68 [38;5;69mC69 [38;5;70mC70 [38;5;71mC71 [38;5;72mC72 [38;5;73mC73 [38;5;74mC74 [38;5;75mC75 [38;5;76mC76 [38;5;77mC77 [38;5;78mC78 [38;5;79mC79 [38;5;80mC80 [38;5;81mC81 [38;5;82mC82 [38;5;83mC83 [38;5;84mC84 [38;5;85mC85 [38;5;86mC86 [38;5;87mC87 [38;5;88mC88 [38;5;89mC89 [38;5;90mC90 [38;5;91mC91 [38;5;92mC92 [38;5;93mC93 [38;5;94mC94 [38;5;95mC95 [38;5;96mC96 [38;5;97mC97 [38;5;98mC98 [38;5;99mC99 [38;5;100mC100 [38;5;101mC101 [38;5;102mC102 [38;5;103mC103 [38;5;104mC104 [38;5;105mC105 [38;5;106mC106 [38;5;107mC107 [38;5;108mC108 [38;5;109mC109 [38;5;110mC110 [38;5;111mC111 [38;5;112mC112 [38;5;113mC113 [38;5;114mC114 [38;5;115mC115 [38;5;116mC116 [38;5;117mC117 [38;5;118mC118 [38;5;119mC119 [38;5;120mC120 [38;5;121mC121 [38;5;122mC122 [38;5;123mC123 [38;5;124mC124 [38;5;125mC125 [38;5;126mC126 [38;5;127mC127 [38;5;128mC128 [38;5;129mC129 [38;5;130mC130 [38;5;131mC131 [38;5;132mC132 [38;5;133mC133 [38;5;134mC134 [38;5;135mC135 [38;5;136mC136 [38;5;137mC137 [38;5;138mC138 [38;5;139mC139 [38;5;140mC140 [38;5;141mC141 [38;5;142mC142 [38;5;143mC143 [38;5;144mC144 [38;5;145mC145 [38;5;146mC146 [38;5;147mC147 [38;5;148mC148 [38;5;149mC149 [38;5;150mC150 [38;5;151mC151 [38;5;152mC152 [38;5;153mC153 [38;5;154mC154 [38;5;155mC155 [38;5;156mC156 [38;5;157mC157 [38;5;158mC158 [38;5;159mC159 [38;5;160mC160 [38;5;161mC161 [38;5;162mC162 [38;5;163mC163 [38;5;164mC164 [38;5;165mC165 [38;5;166mC166 [38;5;167mC167 [38;5;168mC168 [38;5;169mC169 [38;5;170mC170 [38;5;171mC171 [38;5;172mC172 [38;5;173mC173 [38;5;174mC174 [38;5;175mC175 [38;5;176mC176 [38;5;177mC177 [38;5;178mC178 [38;5;179mC179 [38;5;180mC180 [38;5;181mC181 [38;5;182mC182 [38;5;183mC183 [38;5;184mC184 [38;5;185mC185 [38;5;186mC186 [38;5;187mC187 [38;5;188mC188 [38;5;189mC189 [38;5;190mC190 [38;5;191mC191 [38;5;192mC192 [38;5;193mC193 [38;5;194mC194 [38;5;195mC195 [38;5;196mC196 [38;5;197mC197 [38;5;198mC198 [38;5;199mC199 [38;5;200mC200 [38;5;201mC201 [38;5;202mC202 [38;5;203mC203 [38;5;204mC204 [38;5;205mC205 [38;5;206mC206 [38;5;207mC207 [38;5;208mC208 [38;5;209mC209 [38;5;210mC210 [38;5;211mC211 [38;5;212mC212 [38;5;213mC213 [38;5;214mC214 [38;5;215mC215 [38;5;216mC216 [38;5;217mC217 [38;5;218mC218 [38;5;219mC219 [38;5;220mC220 [38;5;221mC221 [38;5;222mC222 [38;5;223mC223 [38;5;224mC224 [38;5;225mC225 [38;5;226mC226 [38;5;227mC227 [38;5;228mC228 [38;5;229mC229 [38;5;230mC230 [38;5;231mC231 [38;5;232mC232 [38;5;233mC233 [38;5;234mC234 [38;5;235mC235 [38;5;236mC236 [38;5;237mC237 [38;5;238mC238 [38;5;239mC239 [38;5;240mC240 [38;5;241mC241 [38;5;242mC242 [38;5;243mC243 [38;5;244mC244 [38;5;245mC245 [38;5;246mC246 [38;5;247mC247 [38;5;248mC248 [38;5;249mC249 [38;5;250mC250 [38;5;251mC251 [38;5;252mC252 [38;5;253mC253 [38;5;254mC254 [38;5;255mC255 
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say rand for 1..5'
+    0.702893869093717
+    0.0464607946082367
+    0.954160317118419
+    0.555173615549343
+    0.330180140573322
+    
+
+引数が@_に格納されてるので、そのどれかを取り出す感じ
+
+.. code-block:: sh
+   
+
+    perl -e 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")'
+    1KcCveeNKHmBKLcPlaxoBOqeazFyQBN6cW4yOO9hsPpa2SLj8e06BUglUhcCrb17pKGP5MWg02WsWZy6tZdH7FJg0GUt2ykztokNBnEaguamSKfWUh3cvyHKC7mfxD1HpJnpYajgggsGLC869Y1Rw05yMCC1HAJXRXqvrW5zAIh0EUvXXFNeFnZLt8rS6sh8xexFng3zb2SNBDFS7DrtKTSqtXlKhJKS0aRvn3PUULML3hONHUMkbqzPnECqnoU
+
+
+.. code-block:: sh
+   
+
+    perl -e 'system "echo 1" for 1..3'
+    1
+    1
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say "abc" x 3'
+    abcabcabc
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say scalar reverse shift' hoge
+    egoh
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say for 1..3'
+    1
+    2
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say join " " , map {sprintf "%03d", $_} 1..10'
+    001 002 003 004 005 006 007 008 009 010
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '@a=(split " ", "a b c d e")[2..4]; say @a'
+    cde
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '@a=(split " ", "a b c d e")[-1]; say @a'
+    e
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '@a=(split " ", "a b c d e")[-1, 0]; say @a'
+    ea
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say join " ", glob("{a,b,c}.{txt,csv}")'
+    a.txt a.csv b.txt b.csv c.txt c.csv
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'for $i (qw/a b c/){for(qw/txt csv/){`echo $i.$_`}}'
+    
+
+// .. // operator
+
+.. code-block:: sh
+   
+
+    echo "a
+    b
+    START
+    c
+    END
+    e" |perl -nle 'print if /^START$/ .. /^END$/'
+    START
+    c
+    END
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say length shift' 1234567890
+    10
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '$_=shift; say if /(["''])abc1/ ' '"abc"'
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '$_=shift; say if /(["''])abcg1/ ' '"abc"'
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '$_=shift; say if /(["''])abcg{1}/ ' '"abc"'
+    
+
+
+.. code-block:: sh
+   
+
+    perl -nlE 'say if /("([\].|[^\"])*")/' <<< '"abc"'
+    Syntax error: redirection unexpected (expecting word)
+    
+
+
+.. code-block:: sh
+   
+
+    echo "123456	b
+    c	d" | perl -aF'	' -nlE 'say join(", ", map(sprintf("%5s", substr($_, 0, 5)), @F))'
+    Unrecognized switch: -	  (-h will show valid options).
+    
+
+
+.. code-block:: sh
+   
+
+    perl -e 'sub {print "@_"}->("a" .. "z", 0 .. 9, "A" .. "Z")'
+    a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+
+
+.. code-block:: sh
+   
+
+    ps aux | perl -anle 'print $F[1]' | head -n2
+    PID
+    60848
+    
+
+print 0 ~ 4 columns in the argument file
+
+.. code-block:: sh
+   
+
+    perl -le 'print unpack("H*", $ARGV[0]);' 'あいうえお' 
+    e38182e38184e38186e38188e3818a
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say unpack("B*", "A");'
+    01000001
+    
+

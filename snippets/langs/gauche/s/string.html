@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>expand &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../../products.html">Products</a></li>
+            <li><a href="../../../index.html">Snippets</a></li>
+            <li><a href="../../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="expand">
+<h1>expand<a class="headerlink" href="#expand" title="Permalink to this headline">¶</a></h1>
+<p><a href="#id1"><span class="problematic" id="id2">|</span></a>NAME|とすることで、文字をすぐ後ろへつなげる</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (let1 name 123 (string-append &quot;a test &quot; (x-&gt;string name) &quot;.&quot;))))&#39;</span> -Eexit
+a <span class="nb">test </span>123.
+</pre></div>
+</div>
+<p>reader macroの確認</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (let1 name 123 &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(string-append &quot;a test &quot; (x-&gt;string name) &quot;.&quot;))))&#39;</span> -Eexit
+<span class="o">(</span>string-append a <span class="nb">test</span>  <span class="o">(</span>x-&gt;string name<span class="o">)</span> .<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (string-append &quot;&quot; (x-&gt;string (+ 1 2 3)) &quot;&quot;)))&#39;</span> -Eexit
+6
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (string-every #\space &quot;   &quot;)))&#39;</span> -Eexit
+<span class="c">#t</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (string-null? &quot;&quot;)))&#39;</span> -Eexit
+<span class="c">#t</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="number-notation">
+<h1>number notation<a class="headerlink" href="#number-notation" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin 15))&#39;</span> -Eexit
+15
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin 511))&#39;</span> -Eexit
+511
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin 65535))&#39;</span> -Eexit
+65535
+</pre></div>
+</div>
+<p>10 ^ 3  ; (expt 10 3)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin 1000))&#39;</span> -Eexit
+1000
+</pre></div>
+</div>
+</div>
+<div class="section" id="format">
+<h1>format<a class="headerlink" href="#format" title="Permalink to this headline">¶</a></h1>
+<p>~%改行</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (format #t &quot;~D ~B ~O ~X~%&quot; 256 256 256 256)))&#39;</span> -Eexit
+<span class="m">256</span> <span class="m">100000000</span> <span class="m">400</span> 100
+<span class="c">#&lt;undef&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (format #f &quot;~b ~b&quot; 105 100)))&#39;</span> -Eexit
+<span class="m">1101001</span> 1100100
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin #\ሴ))&#39;</span> -Eexit
+ሴ
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (make-string 5 #\ふ)))&#39;</span> -Eexit
+ふふふふふ
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (substring &quot;abc&quot; 0 1)))&#39;</span> -Eexit
+a
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">error</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (substring &quot;&quot; 0 1)))&#39;</span> -Eexit
+gosh: <span class="s2">&quot;error&quot;</span>: end argument out of range: 1
+</pre></div>
+</div>
+</div>
+<div class="section" id="index">
+<h1>index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (~ &quot;abc&quot; 0)))&#39;</span> -Eexit
+a
+</pre></div>
+</div>
+</div>
+<div class="section" id="length">
+<h1>length<a class="headerlink" href="#length" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (string-length &quot;あいうえお&quot;)))&#39;</span> -Eexit
+5
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (string-length &quot;test&quot;)))&#39;</span> -Eexit
+4
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (string-trim-both &quot; abc &quot;)))&#39;</span> -Eexit
+abc
+</pre></div>
+</div>
+</div>
+<div class="section" id="join">
+<h1>join<a class="headerlink" href="#join" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (string-join (list &quot;a&quot; &quot;b&quot; &quot;c&quot;) &quot;-&quot;)))&#39;</span> -Eexit
+a-b-c
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (string-append &quot;abc&quot; &quot;def&quot;)))&#39;</span> -Eexit
+abcdef
+</pre></div>
+</div>
+</div>
+<div class="section" id="tr">
+<h1>tr<a class="headerlink" href="#tr" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (string-tr &quot;ABC&quot; &quot;AB&quot; &quot;00&quot;)))&#39;</span> -Eexit
+00C
+</pre></div>
+</div>
+</div>
+<div class="section" id="serialize">
+<h1>serialize<a class="headerlink" href="#serialize" title="Permalink to this headline">¶</a></h1>
+<p>オブジェクトを文字列にする</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (write-to-string &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 foo &quot;abc&quot;))))&#39;</span> -Eexit
+<span class="o">(</span><span class="m">1</span> foo <span class="s2">&quot;abc&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (read-from-string &quot;(1 foo \&quot;abc\&quot;)&quot;)))&#39;</span> -Eexit
+<span class="o">(</span><span class="m">1</span> foo abc<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

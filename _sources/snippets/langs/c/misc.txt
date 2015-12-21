@@ -238,7 +238,7 @@ ifdef else endifはソースコードをコンパイルする前の前処理.
     }
     
 
-``#define DEBUG``を明示する (-DDEBUGと同じ効果)
+``#define DEBUG`` を明示する (-DDEBUGと同じ効果)
 
 .. code-block:: sh
    
@@ -279,8 +279,8 @@ macro
     __func__ = main
     __LINE__ = 13
     __FILE__ = <stdin>
-    __DATE__ = Dec 19 2015
-    __TIME__ = 08:31:04
+    __DATE__ = Dec 22 2015
+    __TIME__ = 00:35:17
     
 
 
