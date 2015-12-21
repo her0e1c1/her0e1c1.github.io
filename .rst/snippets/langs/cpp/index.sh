@@ -18,3 +18,6 @@ EOS
 # pair<T1,T2> make_pair (T1 x, T2 y) {
 #   return ( pair<T1,T2>(x,y) );
 # }
+
+# :FreeBSD: ``usr/src/contrib/libc++``
+# vectorなどの実装は、 `/usr/src/contrib/libc++/include/vector` あたりにある
