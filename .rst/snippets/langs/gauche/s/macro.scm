@@ -15,3 +15,9 @@
 (p "HOGE becomes a keyword")
 (runs (define-syntax S (syntax-rules (HOGE) ((_ a HOGE) (+ a 1)))) (S 10 HOGE))
 (runs (define-syntax S (syntax-rules (HOGE) ((_ a HOGE) (+ a 1)))) (S 10 H))
+
+
+;; ; 関数にすると、ローカル変数に代入する意味のないものになる
+;; ;; (define-macro (null! x)
+;; ;;   (guard (_ (else `(define ,x '())))
+;; ;;           x `(set! ,x '())))

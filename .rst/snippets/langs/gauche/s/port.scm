@@ -1,9 +1,8 @@
 (load-from-current-dirctory "include-gauche.scm")
 
-
 ; ファイル読み込み
-(call-with-input-file (string-append (home-directory) "/.emacs") port->string)
-(call-with-input-file (string-append (home-directory) "/.emacs") port->string-list)
+;; (call-with-input-file (string-append (home-directory) "/.emacs") port->string)
+;; (call-with-input-file (string-append (home-directory) "/.emacs") port->string-list)
 
 # port取得
 ls |s '(current-input-port)'
@@ -61,11 +60,8 @@ s '(begin (define a (open-output-string)) (format a "test") (get-output-string a
 # 元に戻す
 # (read-from-string "(1 foo \"abc\")")   ; => (1 foo "abc")
 
-
 ; 逆順
 ; ls|s "(port-fold cons '() read-line)"
-
-
 
 ; (port-for-each 処理 read-line)
 ; (call-with-input-file "foo.txt" port->string)

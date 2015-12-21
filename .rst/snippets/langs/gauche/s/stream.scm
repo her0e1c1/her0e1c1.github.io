@@ -1,3 +1,5 @@
+(load-from-current-dirctory "include-gauche.scm")
+
 ;; stream-consは第２引数を直前まで評価しない特殊形式
 
 (define-syntax -stream-cons
@@ -7,8 +9,7 @@
 
 リストの内側から評価すると、不要な計算が発生します。 ::
 
- (car (cdr (filter prime?
-                  (enumerate-interval 10000 1000000))))
+ (car (cdr (filter prime? (enumerate-interval 10000 1000000))))
 
 10000から1000000の数のうち素数になる要素を持つリストの２番目を返すという計算をしています。
 リストの内側から評価すると(10000, 100001,,,1000000)のリストを作成しますが、明らかに無駄です。
