@@ -1,4 +1,4 @@
-cd $(dirname $0) && cat <<EOS
+cd $(dirname $0) > /dev/null && cat <<EOS
 
 ======
  Ruby

@@ -8,6 +8,9 @@
 (run+ "for(int i: {1,2,3}) P(i);")
 (run+ "for(char ch: \"abcde\") P(ch);")
 
+(ps "reverse")
+(run+ "VIa={1,2,3}; reverse(a.begin(), a.end()); PE(a)'")
+
 (ps "sort")
 (p "Sort by asc")
 (run+ "VI v{5,2,3,4,1}; sort(v.begin(), v.end()); PE(v);")

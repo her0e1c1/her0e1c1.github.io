@@ -1,7 +1,4 @@
-(load-from-current-dirctory "include.scm")
-(define (run cmd)
-  (let1 ret (oneliner-run cmd)
-        (p (sphinx-block #"~cmd\n~ret" :code-block "sh"))))
+(load-from-current-dirctory "include-perl.scm")
 
 (p (sphinx-warn "Don't use double quote which extend $ in sh or escape it"))
 (run "perl -e \"$a=1; print $a\"")
@@ -175,3 +172,4 @@
 
 (run "perl -le 'print unpack(\"H*\", $ARGV[0]);' 'あいうえお' ")
 (run "perl -E 'say unpack(\"B*\", \"A\");'")
+

@@ -127,5 +127,3 @@ int main() {
 EOS
 )
 (run-cpp-from-string+ code.c)
-
-; cpe 'vector<int>a={1,2,3}; reverse(a.begin(), a.end()); PC(a)'

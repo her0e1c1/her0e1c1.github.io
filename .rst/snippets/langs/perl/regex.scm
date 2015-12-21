@@ -1,3 +1,4 @@
+(load-from-current-dirctory "include-perl.scm")
 
 (run "perl -E '$_=shift; /(?<l>.*?line)/ and say $+{l}' 'aaalinebbb'")
 (run "perl -E '@r=\"abcdefghijk\"=~/.{1,4}/g; say join \"-\", @r'")

@@ -50,3 +50,34 @@
 ;;  (rx-to-string (car '((* any))) t)  ; => ".*"
 ;;  (rx-to-string (car '((* any))))  ; => "\\(?:.*\\)"
  
+
+
+  (prefix-numeric-value 10)  ; 10
+  (prefix-numeric-value -5)  ; 5
+  (prefix-numeric-value 10.0)  ; 1
+  (prefix-numeric-value -5.0)  ; -1
+  (prefix-numeric-value "10")  ;1
+  (prefix-numeric-value "asdf")  ;1
+  (prefix-numeric-value '(10 20 30))  ; 10
+
+ (type-of 42)
+ (type-of 3.14)
+ (type-of "foo")
+ (type-of '(1 2))
+ (type-of '[1 2])
+ (type-of 'foo)
+ (type-of ?a)  ; Cの'a'相当。内部的には数値
+
+
+ (symbolp 'foo)    ; シンボルか否かの判定。tが真。nilが偽。(後述)
+ (symbol-name 'foo)
+ (symbol-value 'foo)
+ (boundp 'foo)   ; 値セルに値があればt、なければnil
+ (fboundp 'foo)  ; 関数セルに関数があればt、なければnil
+ (symbol-function 'foo)
+
+ ;(goto-char beg)
+ (while (< (point) end)
+    ;BODY
+    ;一行ずつ実行します。
+    (forward-line))
