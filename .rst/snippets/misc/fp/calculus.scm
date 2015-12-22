@@ -31,3 +31,14 @@
  (toInt zero)     ;=> 0
  (toInt one)      ;=> 1
  (toInt two)      ;=> 2
+
+
+; 0 := λ f x . x
+; 1 := λ f x . f x
+; 2 := λ f x . f f x
+
+(define zero (lambda (f) (lambda (x) x)))
+(define one  (lambda (f) (lambda (x) (f x))))
+(define two  (lambda (f) (lambda (x) (f (f x)))))
+
+((two (lambda(x)(+ x 1))) 0)  ; 2

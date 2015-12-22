@@ -1,7 +1,5 @@
 (load-from-current-dirctory "include.scm")
 
-; ''でくくると(quote )とバティングする!
-; ""でくくると`が展開される
 (define (run-gauche+ cmd)
   (let* ((p #"(print (begin ~cmd))")
          (e (quote-expression p :quote #\'))
@@ -25,15 +23,14 @@
           (c #"gosh -e ~e -Eexit"))
      (oneliner-run+ c)))
 
+; (define rund run-gauche++)
 (define runs run-gauche++)
 
-;; (define-macro (run-gauche+++ cmd)
-;;   `(let* ((e (quote-expression ,cmd :quote #\'))
-;;           (c #"~e"))
-;;      (oneliner-run+ c)))
 (define s oneliner-run+)
 
 (define-macro (runm str)
   `(let* ((ret (sphinx-block (run-gauche-from-string ,str) :code-block "sh"))
           (scmd (sphinx-block ,str :code-block "scheme")))
      (print #"~scmd\n~ret")))
+
+(define rs runs)

@@ -1,0 +1,20 @@
+(load-from-current-dirctory "include-gauche.scm")
+
+(ps "eq?")
+(p "参照先が同じはeq?を使う")
+(runs (eq? 0.1 0.1))
+(runs (eq? "a" "a"))
+(runs (eq? 'a 'a))
+(runs (eq? '1 (quote 1)))
+(runs (eq? '1 '1))
+(runs (eq? '1 1))
+(runs (eq? '(1) (quote (1))))
+(runs (eq? '(1) '(1)))
+
+(ps "eqv?")
+(p "シンボルと数値")
+(runs (eqv? '1 1))
+
+(ps "=")
+(p "数値同士の場合は=")
+(runs (= 1 1.0))

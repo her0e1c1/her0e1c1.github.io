@@ -1,0 +1,27 @@
+# 以下のコマンドで共有ライブラリを作成、実行
+# clang -fPIC -shared -I include structure/stack/stack.c -o lib/libstack.so
+# clang -L lib structure/stack/main.c -lstack -I include
+# env LD_LIBRARY_PATH=./lib:$LD_LIBRARY_PATH ./a.out
+
+# rootからは以下のようにコンパイル実行
+# clang -I share/include -L share/lib list/reverse/reverse.c -llinkedList
+# exportは一回だけでよい
+# export LD_LIBRARY_PATH=`pwd`/share/lib:$LD_LIBRARY_PATH
+
+SO = linkedList.so stack.so vector.so
+
+all: $(SO)
+
+# prefixのときに.soを取り除かれるよう.soを登録
+.SUFFIXES : .so
+
+$(SO):
+	clang -fPIC -shared -I include $(.PREFIX)/*.c -o "lib/lib$(.PREFIX).so"
+
+# それぞれのcファイルからsoを作成
+# .SUFFIXES : .c .so
+# .c.so:
+# clang -fPIC -shared -I include $(.PREFIX)/*.c -o "lib/lib$(.PREFIX).so"
+
+clean:
+	rm -fr lib/*

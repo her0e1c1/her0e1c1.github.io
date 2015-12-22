@@ -24,3 +24,32 @@
 ;; [a]
 
 ;; (1::Int) == (1::Integer)
+
+;; a <- return (Just 1)
+;; ghc -e 'writeFile "$FILENAME" ""'
+;; ghc -e 'System.Cmd.system $ "touch " ++ unwords [[x, ''.''] ++ y | x <- [''a''..''c''], y <- ["csv", "txt"]]'
+;; ghc -e '1:[2,3]'
+;; ghc -e "drop 1 [1,2,3]"
+;; 2^63::Int
+;; Data.Map.fromListWith (++) [(1, "a"), (1, "b"), (2, "c")]
+;; ghc -e 'print "hello world"'
+;; ghc -e "tail [1,2,3,4,5]"
+;; ghc -e '[1,2,3] ++ [4]'
+;; ghc -e 'all even [0,2,4]'
+;; ghc -e 'any even [1,2,3]'
+;; ghc -e 'any id [True,False,False]'
+;; ghc -e "concatMap (\a->[a, ',']) ['a'..'e']"  # "a,b,c,d,e,"
+;; ghc -e 'Data.List.nub [1,1,1,2,2,3]'
+;; let add :: Int -> Int -> Int; add x y = x + y in add 1 2
+;; 2^100 ::Float
+;; ghc -e 'head [1,2,3]'
+;; ghc -e 'length [1,2,3]'
+;; ghc -e 'reverse [1,2,3]'
+;; ghc -e 'foldl1 (+) [1,2,3]'
+;; ghc -e 'putStr $ reverse "hoge"'
+;; ghc -e 'putStr $ unlines $ map show [1..3]'
+;; ghc -e 'foldl (flip (:)) [] [1,2,3]'
+;; ghc -e 'last [1,2,3]'
+;; ghc -e 'System.Directory.getDirectoryContents "." >>= return . unlines >>= putStr'
+;; ghc -e 'replicate 3 1'
+;; ghc -e 'elem 1 [1,2,3]'

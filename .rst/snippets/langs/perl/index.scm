@@ -99,7 +99,7 @@
 (run "perl -E '@a=(1, 2, 3); push @a, 4; say @a'")
 (run "curl yahoo.co.jp |perl -nlE 's#(?<=href=)([\"''])/aiuie/(?=\1)#${1}{{ ''index'') }}#; say'")
 (run "perl -E 'say 0b1000'")
-(run "perl -M\"File::Copy qw(cp)\" -e 'cp $_, $_.\".bak\" for grep {-f} glob(\"*\")'")
+; (run "perl -M\"File::Copy qw(cp)\" -e 'cp $_, $_.\".bak\" for grep {-f} glob(\"*\")'")
 
 (run "Create backup files in current directory")
 (run "perl -E 'say 1 if 1 ~~ [1,2,3]'")
