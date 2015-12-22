@@ -36,3 +36,14 @@
 
 ; json
 echo '{"foo": "lorem", "bar": "ipsum"}' | python -mjson.tool
+
+
+# sync selected directories in the two directories
+perl -E 'for ("css", "fonts", "js"){ system "rsync -avz --delete src/html/$_ dest/public/" }'
+
+
+# tree
+pwd;find . | sort | sed '1d;s/^\.//;s/\/\([^/]*\)$/|--\1/;s/\/[^/|]*/|  /g'
+
+# LINUX
+while true ; do clear ; df -h ; sleep 5 ; done

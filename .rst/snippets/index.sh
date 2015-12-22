@@ -25,7 +25,6 @@ Algorithm
    :maxdepth: 1 
 
    ./algo/index
-   ./struct/index
 
 $(goshe '(p (sphinx-section "misc" :up #t))')
 $(goshe '(p (sphinx-toctree :path "misc/index.rst" :maxdepth 1))')
