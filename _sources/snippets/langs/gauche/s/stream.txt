@@ -1,1 +1,0 @@
-ERROR: ./s/stream.scm => #<error "unbound variable: リストの内側から評価する">

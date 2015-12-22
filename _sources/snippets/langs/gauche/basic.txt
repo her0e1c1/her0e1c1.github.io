@@ -1,0 +1,270 @@
+
+=====
+basic
+=====
+
+.. contents::
+    :depth: 2
+
+
+
+apply
+=====
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply + '\''(1 3 3))))' -Eexit
+    7
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply + `,(list 1 (+ 1 2) 3))))' -Eexit
+    7
+    
+
+内側評価されない
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply + '\''(1 (+ 1 2) 3))))' -Eexit
+    gosh: "error": operation + is not defined between 1 and (+ 1 2)
+    
+
+1の関数が呼ばれてしまう
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply + `,(1 (+ 1 2) 3))))' -Eexit
+    gosh: "error": invalid application: (1 3 3)
+    
+
+
+.. warning::
+
+    特殊形式andにはapplyが使えない
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (apply and '\''(#t #f))))' -Eexit
+    gosh: "error": invalid application: (#<syntax and> #t #f)
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin "#| comment |#"))' -Eexit
+    #| comment |#
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin "; inline ;; top level ;;; module level"))' -Eexit
+    ; inline ;; top level ;;; module level
+    
+
+n => 10
+n => 9
+n => 8
+n => 7
+n => 6
+n => 5
+n => 4
+n => 3
+n => 2
+n => 1
+
+
+eq?
+===
+
+参照先が同じはeq?を使う
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? 0.1 0.1)))' -Eexit
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? "a" "a")))' -Eexit
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''a '\''a)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''1 '\''1)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''1 '\''1)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''1 1)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''(1) '\''(1))))' -Eexit
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''(1) '\''(1))))' -Eexit
+    #f
+    
+
+
+
+eqv?
+====
+
+シンボルと数値
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eqv? '\''1 1)))' -Eexit
+    #t
+    
+
+
+
+=
+=
+
+数値同士の場合は=
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (= 1 1.0)))' -Eexit
+    #t
+    
+
+
+.. warning::
+
+    nullはfalseとして扱われない!
+
+see http://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_8.html
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (if #f #t)))' -Eexit
+    #<undef>
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (if 0 #t)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (if "" #t)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (if () #t)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (if #<eof> #t)))' -Eexit
+    gosh: "read-error": Read error at "(input string port)":line 1: unsupported #-syntax: #<
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (if #<undef> #t)))' -Eexit
+    gosh: "read-error": Read error at "(input string port)":line 1: unsupported #-syntax: #<
+    
+
+
+.. warning::
+
+    quoteの引数の数は、一つだけ ; 二つ以上とるとエラーになるので注意!
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (quote 1 2)))' -Eexit
+    gosh: "error": Compile Error: syntax-error: malformed quote: (quote 1 2)
+    "(input string port)":1:(print (begin (quote 1 2)))
+    
+    
+
+
+
+recieve
+=======
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (receive (a b) (values 1 2) (+ a b))))' -Eexit
+    3
+    
+
+((5 . 6) (1 . 2) (3 . 4))
+#0=(((5 . 6) . #0#) (3 . 4))
+((1 . 2) (5 . 6) (3 . 4))
+ERROR: ./s/basic/set-car.scm => #<error "unbound variable: test-sequenc">

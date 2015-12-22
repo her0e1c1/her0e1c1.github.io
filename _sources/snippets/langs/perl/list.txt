@@ -1,0 +1,156 @@
+
+====
+list
+====
+
+.. contents::
+    :depth: 2
+
+
+
+filter(grep)
+============
+
+
+.. code-block:: sh
+   
+
+    perl -E 'grep{$_ eq 1} qw(1 2 3) and say 1'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say grep {$_ % 2 == 0} 1..5'
+    24
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say for glob("*")'
+    basic.rst
+    hash.rst
+    include-perl.scm
+    index.rst
+    index.sh
+    list.rst
+    regex.rst
+    s
+    string.rst
+    sys.rst
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say for map {$_ + 1} 1..3'  # mapの第二引数は配列
+    2
+    3
+    4
+    
+
+
+
+index
+=====
+
+
+.. code-block:: sh
+   
+
+    perl -E '@a=(1, 2, 3); push @a, 4; say @a'
+    1234
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say 1 if 1 ~~ [1,2,3]'
+    Smartmatch is experimental at -e line 1.
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say qw/1 2 3/'
+    123
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '@a=(1,2,3); say $#a+1'
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '@a=(1,2,3); say scalar @a'
+    3
+    
+
+
+
+range
+=====
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say $_ + 1 for 1..10'
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say for 1..3'
+    1
+    2
+    3
+    
+
+
+
+reduce
+======
+
+
+.. code-block:: sh
+   
+
+    perl -M"List::Util qw(reduce)" -E 'say reduce {$a+$b} (1,2,3)'
+    6
+    
+
+reverse関数に文字列として評価させたいのでscalar必要
+
+.. code-block:: sh
+   
+
+    perl -E 'say scalar reverse shift' hoge
+    egoh
+    
+

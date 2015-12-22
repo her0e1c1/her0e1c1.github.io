@@ -29,7 +29,7 @@ Count up when the string perl appears in history
    
 
     cat ~/.zsh_history |perl -nle '/perl/ and $p++; END{print $p}'
-    228
+    238
     
 
 
@@ -99,4 +99,25 @@ Check whether a command exists or not
 
 .. todo:: ログを正規表現でフィルターして、tail -f
 .. todo:: 先頭行に特定の文字列を挿入.sh
-ERROR: ./oneliner/1.scm => #<error "unbound variable: echo">
+
+
+json
+====
+
+ERROR: ./oneliner/1.scm => #<error "unbound variable: run+">
+
+.. code-block:: sh
+   
+
+    $ ce 'curl yahoo.co.jp |perl -nlE 's#(?<=href=)(["''])/aiuie/(?=1)#${1}{{ ''index'') }}#; say''
+    Syntax error: "(" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ ce 'echo abc | perl -nlE 'say if /("([\].|[^\"])*")/''
+    Syntax error: "(" unexpected
+    
+

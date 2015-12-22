@@ -1,0 +1,76 @@
+
+====
+char
+====
+
+.. contents::
+    :depth: 2
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (list->string (to #\あ #\ん))))' -Eexit
+    あぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをん
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (char-set->list #[a-z])))' -Eexit
+    (z y x w v u t s r q p o n m l k j i h g f e d c b a)
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (char-set->list #[あ-ん])))' -Eexit
+    (ん を ゑ ゐ わ ゎ ろ れ る り ら よ ょ ゆ ゅ や ゃ も め む み ま ぽ ぼ ほ ぺ べ へ ぷ ぶ ふ ぴ び ひ ぱ ば は の ね ぬ に な ど と で て づ つ っ ぢ ち だ た ぞ そ ぜ せ ず す じ し ざ さ ご こ げ け ぐ く ぎ き が か お ぉ え ぇ う ぅ い ぃ あ)
+    
+
+#[^a-b]
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (char-set-complement #[ab])))' -Eexit
+    #[\u0000-`c-\u007f\u0080-\U00ffffff]
+    
+
+
+
+char
+====
+
+#\一文字 はchar
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (char=? #\x #\a)))' -Eexit
+    #f
+    
+
+
+.. warning::
+
+    結果違う
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (list->string '\''(#\a #\b))))' -Eexit
+    ab
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (x->string '\''(#\a #\b))))' -Eexit
+    (a b)
+    
+

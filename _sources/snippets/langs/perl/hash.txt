@@ -1,0 +1,72 @@
+
+====
+hash
+====
+
+.. contents::
+    :depth: 2
+
+
+
+hash
+====
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1); say exists($a{"a"})'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1, b=>2); say $a{a}'
+    1
+    
+
+get all hash keys
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1, b=>2); say keys %a'
+    ab
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1); say exists($a{a})'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1); say %a ~~ /^a$/'
+    Smartmatch is experimental at -e line 1.
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E '%a=(a=>1, b=>2); while(($k, $v) =each %a){say "$k = $v"}'
+    a = 1
+    b = 2
+    
+
+
+.. code-block:: sh
+   
+
+    perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
+    321
+    
+

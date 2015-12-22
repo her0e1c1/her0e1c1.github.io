@@ -1,0 +1,82 @@
+
+=====
+basic
+=====
+
+.. contents::
+    :depth: 2
+
+
+
+hello world
+===========
+
+
+.. code-block:: sh
+   
+
+    $ cpe '[](){ cout << "hello world" << endl; }();'
+    hello world
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe '[]{ cout << "hello world" << endl; }();'
+    hello world
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'cout << bitset<8>(10) << endl;'
+    00001010
+    
+
+
+cout stands for console output
+
+likewise,
+cin  is console input
+cerr is console error
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'cout << "str";'
+    str
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'cout << flush;'
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'cout << endl;'
+    
+    
+
+Don't worry about type like int, string, or bool etc.
+
+.. code-block:: sh
+   
+
+    $ cpe 'cout << "bool: true " << true << ", false " << false << endl;'
+    bool: true 1, false 0
+    
+
+
+bool型があります。
+#define true 1
+#define false 0
+
+ERROR: ./s/basic/basic.scm => #<error "unbound variable: //">
+ERROR: ./s/basic/memory.scm => #<error "unbound variable: new/delete演算">

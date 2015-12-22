@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>port &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="port">
+<h1><a class="toc-backref" href="#id5">port</a><a class="headerlink" href="#port" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#port" id="id5">port</a><ul>
+<li><a class="reference internal" href="#port-type" id="id6">port type</a></li>
+<li><a class="reference internal" href="#isatty" id="id7">isatty</a></li>
+<li><a class="reference internal" href="#string-port" id="id8">string port</a></li>
+<li><a class="reference internal" href="#call-with-file" id="id9">call-with-*-file</a></li>
+<li><a class="reference internal" href="#with-file" id="id10">with-*-file</a></li>
+<li><a class="reference internal" href="#process" id="id11">process</a></li>
+<li><a class="reference internal" href="#flush" id="id12">flush</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>3文字読む</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo </span>hoge <span class="p">|</span>s <span class="s1">&#39;(p (read-char) (read-char) (read-char))&#39;</span>
+hog
+</pre></div>
+</div>
+<p>2行読む</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ls<span class="p">|</span>s <span class="s1">&#39;(p (read-line) (read-line))&#39;</span>
+basic.rstchar.rst
+</pre></div>
+</div>
+<p>port名</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-name (current-input-port))&#39;</span>
+<span class="o">(</span>standard input<span class="o">)</span>
+</pre></div>
+</div>
+<div class="section" id="port-type">
+<h2><a class="toc-backref" href="#id6">port type</a><a class="headerlink" href="#port-type" title="Permalink to this headline">¶</a></h2>
+<p>file, string, proc</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-type (current-input-port))&#39;</span>
+file
+</pre></div>
+</div>
+</div>
+<div class="section" id="isatty">
+<h2><a class="toc-backref" href="#id7">isatty</a><a class="headerlink" href="#isatty" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-isatty (standard-input-port))&#39;</span>
+<span class="c">#t</span>
+</pre></div>
+</div>
+<p>integer</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-isatty 0)&#39;</span>
+<span class="c">#t</span>
+</pre></div>
+</div>
+<p>use pipe. so this is not a tty</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ls <span class="p">|</span> s <span class="s1">&#39;(sys-isatty (standard-input-port))&#39;</span>
+<span class="c">#f</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ls <span class="p">|</span> s <span class="s1">&#39;(read-line)&#39;</span>
+basic.rst
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-isatty (standard-output-port))&#39;</span> <span class="p">|</span>cat
+<span class="c">#f</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-isatty (standard-output-port))&#39;</span>
+<span class="c">#f</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-isatty (standard-error-port))&#39;</span>
+<span class="c">#f</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-ttyname 1)&#39;</span>
+<span class="c">#f</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-ttyname 2)&#39;</span>
+<span class="c">#f</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(standard-input-port)&#39;</span>
+<span class="c">#&lt;iport (standard input) 0x717d80&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(eq? (current-input-port) (standard-input-port))&#39;</span>
+<span class="c">#t</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-file-number (current-input-port))&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-file-number (current-output-port))&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-file-number (current-error-port))&#39;</span>
+2
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-file-number (standard-input-port))&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-file-number (standard-output-port))&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-file-number (standard-error-port))&#39;</span>
+2
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-ttyname 0)&#39;</span>
+/dev/pts/7
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ls<span class="p">|</span>s <span class="s1">&#39;(sys-ttyname 0)&#39;</span>
+<span class="c">#f</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="string-port">
+<h2><a class="toc-backref" href="#id8">string port</a><a class="headerlink" href="#string-port" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-type (open-input-string &quot;test&quot;))&#39;</span>
+string
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(port-file-number (open-input-string &quot;test&quot;))&#39;</span>
+<span class="c">#f</span>
+</pre></div>
+</div>
+<p>string portは、文字列を蓄積させていくことができる(buffに溜まる感じ)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(begin (define a (open-output-string)) (format a &quot;test&quot;) (format a &quot;HOGE&quot;) (get-output-string a))&#39;</span>
+testHOGE
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo </span>HOGE <span class="p">|</span> s <span class="s1">&#39;(port-for-each print read-char)&#39;</span>
+H
+O
+G
+E
+</pre></div>
+</div>
+<p>逆順</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo </span>HOGE <span class="p">|</span> s <span class="s2">&quot;(port-fold cons &#39;() read-char)&quot;</span>
+<span class="o">(</span>
+ E G O H<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (call-with-output-string (^o (write &quot;HOGE&quot; o) (write &quot;FOO&quot; o)))))&#39;</span> -Eexit
+<span class="s2">&quot;HOGE&quot;&quot;FOO&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="call-with-file">
+<h2><a class="toc-backref" href="#id9">call-with-<a href="#id1"><span class="problematic" id="id2">*</span></a>-file</a><a class="headerlink" href="#call-with-file" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (call-with-output-file &quot;t&quot; (^o (write &quot;this is a test&quot; o)))))&#39;</span> -Eexit
+<span class="c">#&lt;undef&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (call-with-input-file &quot;t&quot; port-&gt;string)))&#39;</span> -Eexit
+<span class="s2">&quot;this is a test&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (call-with-input-file &quot;t&quot; port-&gt;string-list)))&#39;</span> -Eexit
+<span class="o">(</span><span class="s2">&quot;this is a test&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (call-with-input-file &quot;t&quot; (^i (p (read-char i) (read-char i))))))&#39;</span> -Eexit
+<span class="s2">&quot;t</span>
+<span class="s2">#&lt;undef&gt;</span>
+</pre></div>
+</div>
+<p>&#8220;this is a test&#8221;</p>
+</div>
+<div class="section" id="with-file">
+<h2><a class="toc-backref" href="#id10">with-<a href="#id3"><span class="problematic" id="id4">*</span></a>-file</a><a class="headerlink" href="#with-file" title="Permalink to this headline">¶</a></h2>
+<p>you don&#8217;t take a port object as argument but change a current port instead</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (with-output-to-file &quot;t&quot; (^ () (p &quot;this is a test (with-output-to-file)&quot;)))))&#39;</span> -Eexit
+<span class="c">#&lt;undef&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (with-input-from-file &quot;t&quot; (^ () (port-for-each p read-line)))))&#39;</span> -Eexit
+this is a <span class="nb">test</span> <span class="o">(</span>with-output-to-file<span class="o">)</span>
+<span class="c">#&lt;undef&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="process">
+<h2><a class="toc-backref" href="#id11">process</a><a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (process-output-&gt;string &quot;ls&quot;)))&#39;</span> -Eexit
+basic.rst char.rst class.rst file.rst fp.rst gauche2c hash.rst include-gauche.scm index.rst index.scm index.sh install.rst lazy.rst macro.rst module.rst peg.rst port.rst regex.rst s stream.rst string.rst syntax.rst sys.rst t
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (sys-system &quot;ls&quot;)))&#39;</span> -Eexit
+basic.rst
+char.rst
+class.rst
+file.rst
+fp.rst
+gauche2c
+hash.rst
+include-gauche.scm
+index.rst
+index.scm
+index.sh
+install.rst
+lazy.rst
+macro.rst
+module.rst
+peg.rst
+port.rst
+regex.rst
+s
+stream.rst
+string.rst
+syntax.rst
+sys.rst
+t
+0
+</pre></div>
+</div>
+</div>
+<div class="section" id="flush">
+<h2><a class="toc-backref" href="#id12">flush</a><a class="headerlink" href="#flush" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (write &quot;hoge&quot; (current-output-port)) (/ 1 0)))&#39;</span> -Eexit
+gosh: <span class="s2">&quot;error&quot;</span>: attempt to calculate a division by zero
+<span class="s2">&quot;hoge&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (write &quot;hoge&quot; (current-output-port)) (flush) (/ 1 0)))&#39;</span> -Eexit
+<span class="s2">&quot;hoge&quot;</span>gosh: <span class="s2">&quot;error&quot;</span>: attempt to calculate a division by zero
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

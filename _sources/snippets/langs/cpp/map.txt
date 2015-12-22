@@ -1,0 +1,113 @@
+
+===
+map
+===
+
+.. contents::
+    :depth: 2
+
+
+
+Initialize
+==========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m("a", 1); P(m["a"])'
+    <stdin>:44:21: error: no matching constructor for initialization of 'map<string, int>'
+        map<string, int>m("a", 1); P(m["a"])
+                        ^ ~~~~~~
+    /usr/include/c++/v1/map:739:14: note: candidate constructor not viable: no known conversion from 'const char [2]' to 'const key_compare' (aka 'const std::__1::less<std::__1::basic_string<char> >') for 1st argument
+        explicit map(const key_compare& __comp, const allocator_type& __a)
+                 ^
+    /usr/include/c++/v1/map:790:5: note: candidate constructor not viable: no known conversion from 'const char [2]' to 'std::__1::map<std::__1::basic_string<char>, int, std::__1::less<std::__1::basic_string<char> >, std::__1::allocator<std::__1::pair<const std::__1::basic_string<char>, int> > >' for 1st argument
+        map(map&& __m, const allocator_type& __a);
+        ^
+    /usr/include/c++/v1/map:805:5: note: candidate constructor not viable: no known conversion from 'const char [2]' to 'initializer_list<value_type>' for 1st argument
+        map(initializer_list<value_type> __il, const key_compare& __comp = key_compare())
+        ^
+    /usr/include/c++/v1/map:834:5: note: candidate constructor not viable: no known conversion from 'const char [2]' to 'const std::__1::map<std::__1::basic_string<char>, int, std::__1::less<std::__1::basic_string<char> >, std::__1::allocator<std::__1::pair<const std::__1::basic_string<char>, int> > >' for 1st argument
+        map(const map& __m, const allocator_type& __a)
+        ^
+    /usr/include/c++/v1/map:744:9: note: candidate template ignored: deduced conflicting types for parameter '_InputIterator' ('const char *' vs. 'int')
+            map(_InputIterator __f, _InputIterator __l,
+            ^
+    /usr/include/c++/v1/map:753:9: note: candidate constructor template not viable: requires 4 arguments, but 2 were provided
+            map(_InputIterator __f, _InputIterator __l,
+            ^
+    /usr/include/c++/v1/map:731:14: note: candidate constructor not viable: allows at most single argument '__comp', but 2 arguments were provided
+        explicit map(const key_compare& __comp = key_compare())
+                 ^
+    /usr/include/c++/v1/map:761:5: note: candidate constructor not viable: requires single argument '__m', but 2 arguments were provided
+        map(const map& __m)
+        ^
+    /usr/include/c++/v1/map:784:5: note: candidate constructor not viable: requires single argument '__m', but 2 arguments were provided
+        map(map&& __m)
+        ^
+    /usr/include/c++/v1/map:812:5: note: candidate constructor not viable: requires 3 arguments, but 2 were provided
+        map(initializer_list<value_type> __il, const key_compare& __comp, const allocator_type& __a)
+        ^
+    /usr/include/c++/v1/map:828:14: note: candidate constructor not viable: requires single argument '__a', but 2 arguments were provided
+        explicit map(const allocator_type& __a)
+                 ^
+    1 error generated.
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}, {"b", 2}}; P(m["a"])'
+    m["a"] = 1
+    
+
+
+
+insert
+======
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(map<string,int>::value_type("b", 2)); P(m["b"])'
+    m["b"] = 2
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(make_pair("b", 2)); P(m["b"])'
+    m["b"] = 2
+    
+
+
+
+update
+======
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; m["a"]=2; P(m["a"])'
+    m["a"] = 2
+    
+
+
+
+find
+====
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; P(m.find("a") != m.end())'
+    m.find("a") != m.end() = 1
+    
+
+ERROR: ./s/map/map.scm => #<error "unbound variable: map<int">

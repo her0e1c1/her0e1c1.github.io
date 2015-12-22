@@ -1,7 +1,0 @@
-3
-4
-3
-30
-21
-#<module A>
-ERROR: ./s/module.scm => #<error "#<hash-table eq? 0x6f2c30> doe">

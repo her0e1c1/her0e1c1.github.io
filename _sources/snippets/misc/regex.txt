@@ -83,3 +83,5 @@ Get ext
 2に'がマッチ、$4に'>がマッチ
 =================
 
+# (?:...)は、グループをつくるが、キャプチャしない
+ERROR: ./regex/no-capture.scm => #<error "unbound variable: run+">
