@@ -8,6 +8,7 @@
     index.rst
     index.scm
     index.sh
+    install.rst
     s
     0
     

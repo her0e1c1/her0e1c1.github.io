@@ -2,6 +2,13 @@
  Gauche 
 ========
 
+emacs
+-----
+1. 起動 M-x run-scheme
+2. ファイルを読み込む C-c C-l
+3. M-x package-install scheme-complete
+4. scheme-smart-complete
+
 
 
 .. toctree::
@@ -14,13 +21,211 @@
 .. toctree::
 
 
-    ./s/list.rst
+    ./s/list/range.rst
+
+
+.. toctree::
+
+
+    ./s/list/zip.rst
+
+
+.. toctree::
+
+
+    ./s/list/append.rst
+
+
+.. toctree::
+
+
+    ./s/list/map.rst
+
+
+.. toctree::
+
+
+    ./s/lazy/1.rst
+
+
+.. toctree::
+
+
+    ./s/sys/sleep.rst
+
+
+.. toctree::
+
+
+    ./s/module/import1.rst
+
+
+.. toctree::
+
+
+    ./s/module/module.rst
+
+
+.. toctree::
+
+
+    ./s/module/import.rst
+
+
+.. toctree::
+
+
+    ./s/module/import2.rst
+
+
+.. toctree::
+
+
+    ./s/module/load.rst
+
+
+.. toctree::
+
+
+    ./s/module/import3.rst
+
+
+.. toctree::
+
+
+    ./s/basic/comment.rst
+
+
+.. toctree::
+
+
+    ./s/basic/match.rst
+
+
+.. toctree::
+
+
+    ./s/basic/define.rst
+
+
+.. toctree::
+
+
+    ./s/basic/false.rst
+
+
+.. toctree::
+
+
+    ./s/basic/let.rst
+
+
+.. toctree::
+
+
+    ./s/basic/variadic.rst
+
+
+.. toctree::
+
+
+    ./s/basic/set-car.rst
+
+
+.. toctree::
+
+
+    ./s/basic/eq.rst
+
+
+.. toctree::
+
+
+    ./s/basic/apply.rst
+
+
+.. toctree::
+
+
+    ./s/basic/debug.rst
+
+
+.. toctree::
+
+
+    ./s/basic/hello.rst
+
+
+.. toctree::
+
+
+    ./s/basic/index.rst
+
+
+.. toctree::
+
+
+    ./s/macro/intern.rst
+
+
+.. toctree::
+
+
+    ./s/macro/quote-lambda.rst
+
+
+.. toctree::
+
+
+    ./s/macro/and-let.rst
+
+
+.. toctree::
+
+
+    ./s/macro/side-effect.rst
+
+
+.. toctree::
+
+
+    ./s/macro/backquote.rst
+
+
+.. toctree::
+
+
+    ./s/string/join.rst
+
+
+.. toctree::
+
+
+    ./s/hash/1.rst
+
+
+.. toctree::
+
+
+    ./s/class/1.rst
+
+
+.. toctree::
+
+
+    ./s/class/2.rst
 
 
 .. toctree::
 
 
     ./s/string.rst
+
+
+.. toctree::
+
+
+    ./s/stream.rst
 
 
 .. toctree::
@@ -38,13 +243,19 @@
 .. toctree::
 
 
-    ./s/regex.rst
+    ./s/macro.rst
 
 
 .. toctree::
 
 
-    ./s/basic.rst
+    ./s/module.rst
+
+
+.. toctree::
+
+
+    ./s/regex.rst
 
 
 .. toctree::

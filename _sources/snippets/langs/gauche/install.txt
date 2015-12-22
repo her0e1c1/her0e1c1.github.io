@@ -1,0 +1,17 @@
+
+install
+-------
+
+freebsd ::
+
+  sudo pkg install gauche
+
+.. note:: コマンド名はgoshになります。
+
+mac ::
+
+  sudo port install gauche
+
+ubuntu ::
+
+ sudo apt-get install gauche

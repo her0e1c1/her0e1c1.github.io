@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>&lt;no title&gt; &mdash; Hiroyuki Ishii</title>
+    <title>regexp-replace &mdash; Hiroyuki Ishii</title>
     
     <link rel="stylesheet" href="../../../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../../static/pygments.css" type="text/css" />
@@ -97,7 +97,64 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  
+  <div class="section" id="regexp-replace">
+<h1>regexp-replace<a class="headerlink" href="#regexp-replace" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (regexp-replace #/(.)bc/ &quot;abcAbc&quot; &quot;\\1-\\0&quot;)))&#39;</span> -Eexit
+a-abcAbc
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (regexp-replace-all #/(.)bc/ &quot;abcAbc&quot; &quot;\\1-\\0&quot;)))&#39;</span> -Eexit
+a-abcA-Abc
+</pre></div>
+</div>
+</div>
+<div class="section" id="rxmatch-let">
+<h1>rxmatch-let<a class="headerlink" href="#rxmatch-let" title="Permalink to this headline">¶</a></h1>
+<p>マッチした文字列をバインド</p>
+<div class="highlight-scheme"><div class="highlight"><pre>(rxmatch-let (rxmatch #/(\d+):(\d+):(\d+)/
+                      &quot;Jan  1 23:59:58, 2001&quot;)
+             (time hh mm ss)
+             (list time hh mm ss))
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="o">(</span><span class="s2">&quot;23:59:58&quot;</span> <span class="s2">&quot;23&quot;</span> <span class="s2">&quot;59&quot;</span> <span class="s2">&quot;58&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rxmatch-if">
+<h1>rxmatch-if<a class="headerlink" href="#rxmatch-if" title="Permalink to this headline">¶</a></h1>
+<p>マッチしなかったら場合の初期値指定</p>
+<div class="highlight-scheme"><div class="highlight"><pre>(rxmatch-if (rxmatch #/(\d+:\d+)/ &quot;Jan 1 11:22:33&quot;)
+            (time)
+            (format #f #&quot;time is ~time&quot;)
+            &quot;unknown time&quot;)
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="s2">&quot;time is 11:22&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-scheme"><div class="highlight"><pre>(rxmatch-if (rxmatch #/(\d+:\d+)/ &quot;HOGE:HOGE&quot;)
+            (time)
+            (format #f #&quot;time is ~time&quot;)
+            &quot;unknown time&quot;)
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="s2">&quot;unknown time&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="match">
+<h1>match<a class="headerlink" href="#match" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (#/str/ &quot;strng&quot;)))&#39;</span> -Eexit
+<span class="c">#&lt;&lt;regmatch&gt; 0x15825a0&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin ((#/str/ &quot;strng&quot;) 0)))&#39;</span> -Eexit
+str
+</pre></div>
+</div>
+</div>
+
 
     </div>
       

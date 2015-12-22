@@ -193,7 +193,7 @@ gauche2c
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-ttyname 0)&#39;</span>
-/dev/pts/6
+/dev/pts/7
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ls<span class="p">|</span>s <span class="s1">&#39;(sys-ttyname 0)&#39;</span>
@@ -271,7 +271,31 @@ this is a <span class="nb">test</span> <span class="o">(</span>with-output-to-fi
 <div class="section" id="process">
 <h1>process<a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (process-output-&gt;string &quot;ls&quot;)))&#39;</span> -Eexit
-gauche2c include-gauche.scm index.rst index.scm index.sh s t
+gauche2c include-gauche.scm index.rst index.scm index.sh install.rst s t
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (sys-system &quot;ls&quot;)))&#39;</span> -Eexit
+gauche2c
+include-gauche.scm
+index.rst
+index.scm
+index.sh
+install.rst
+s
+t
+0
+</pre></div>
+</div>
+</div>
+<div class="section" id="flush">
+<h1>flush<a class="headerlink" href="#flush" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (write &quot;hoge&quot; (current-output-port)) (/ 1 0)))&#39;</span> -Eexit
+gosh: <span class="s2">&quot;error&quot;</span>: attempt to calculate a division by zero
+<span class="s2">&quot;hoge&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (write &quot;hoge&quot; (current-output-port)) (flush) (/ 1 0)))&#39;</span> -Eexit
+<span class="s2">&quot;hoge&quot;</span>gosh: <span class="s2">&quot;error&quot;</span>: attempt to calculate a division by zero
 </pre></div>
 </div>
 </div>

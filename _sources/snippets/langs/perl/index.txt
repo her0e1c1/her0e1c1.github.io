@@ -432,7 +432,7 @@ permissions for apache about static files
     curl yahoo.co.jp |perl -nlE 's#(?<=href=)(["''])/aiuie/(?=1)#${1}{{ ''index'') }}#; say'
       % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                      Dload  Upload   Total   Spent    Left  Speed
-      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  3262  100  3262    0     0   7539      0 --:--:-- --:--:-- --:--:--  7568
+      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  3262  100  3262    0     0  25226      0 --:--:-- --:--:-- --:--:-- 26520
     <!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
     <html><head><title>Yahoo! - 301 Moved Permanently</title><style>
     /* nn4 hide */ 
@@ -468,7 +468,7 @@ permissions for apache about static files
     </div><div id="ft"><p>Copyright &copy; 2015 Yahoo! Inc. All rights reserved. <a href="http://us.rd.yahoo.com/301/*http://privacy.yahoo.com">Privacy Policy</a> - <a href="http://us.rd.yahoo.com/301/*http://info.yahoo.com/legal/us/yahoo/utos/terms/">Terms of Service</a></p></div>
     </div></body></html>
     
-    <!-- p03.f1.top.kks.yahoo.co.jp Tue Dec 22 00:35:35 JST 2015 -->
+    <!-- p08.f1.top.kks.yahoo.co.jp Tue Dec 22 18:01:20 JST 2015 -->
     
 
 
@@ -477,13 +477,6 @@ permissions for apache about static files
 
     perl -E 'say 0b1000'
     8
-    
-
-
-.. code-block:: sh
-   
-
-    perl -M"File::Copy qw(cp)" -e 'cp $_, $_.".bak" for grep {-f} glob("*")'
     
 
 
@@ -607,7 +600,7 @@ permissions for apache about static files
    
 
     perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
-    312
+    321
     
 
 
@@ -623,11 +616,11 @@ permissions for apache about static files
    
 
     perl -E 'say rand for 1..5'
-    0.702893869093717
-    0.0464607946082367
-    0.954160317118419
-    0.555173615549343
-    0.330180140573322
+    0.0339738657503439
+    0.583978298909159
+    0.607546719527942
+    0.985611640006887
+    0.250450374454051
     
 
 引数が@_に格納されてるので、そのどれかを取り出す感じ
@@ -636,7 +629,7 @@ permissions for apache about static files
    
 
     perl -e 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")'
-    1KcCveeNKHmBKLcPlaxoBOqeazFyQBN6cW4yOO9hsPpa2SLj8e06BUglUhcCrb17pKGP5MWg02WsWZy6tZdH7FJg0GUt2ykztokNBnEaguamSKfWUh3cvyHKC7mfxD1HpJnpYajgggsGLC869Y1Rw05yMCC1HAJXRXqvrW5zAIh0EUvXXFNeFnZLt8rS6sh8xexFng3zb2SNBDFS7DrtKTSqtXlKhJKS0aRvn3PUULML3hONHUMkbqzPnECqnoU
+    chuXqLCxCcqwvXHNCpnOY42OUcm41vhbsCW6V3PWdk5bSJp6OxT4MP8NSetA8lmzimMVXuRkXq4QstPoEERFIA0PPw89bYiSrycUd6WwjGlYJd9aP2q9eALX4A1BjXGgOdi3pXXWTatUKqJj5xvAiKKG1gOM0wkSo9zUaHbp3dFadofGQNhQCsDeccDv4MmZhUveye8jdqN4feFF24hvoofaUEt5INdudWx6V5Da9nEmAtmm5YBgmxYcF6n4C8L
 
 
 .. code-block:: sh
@@ -796,7 +789,7 @@ permissions for apache about static files
 
     ps aux | perl -anle 'print $F[1]' | head -n2
     PID
-    60848
+    22475
     
 
 print 0 ~ 4 columns in the argument file

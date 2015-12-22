@@ -29,7 +29,7 @@ Count up when the string perl appears in history
    
 
     cat ~/.zsh_history |perl -nle '/perl/ and $p++; END{print $p}'
-    216
+    228
     
 
 
@@ -99,3 +99,4 @@ Check whether a command exists or not
 
 .. todo:: ログを正規表現でフィルターして、tail -f
 .. todo:: 先頭行に特定の文字列を挿入.sh
+ERROR: ./oneliner/1.scm => #<error "unbound variable: echo">

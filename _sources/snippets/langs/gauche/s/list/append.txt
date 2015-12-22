@@ -1,0 +1,27 @@
+
+
+append!
+=======
+
+末尾に要素を加える
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (define a '\''(1 2)) (append! a '\''(3))))' -Eexit
+    (1 2 3)
+    
+
+
+.. warning::
+
+    NULLの場合は書き変わらないので注意
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (define a '\''()) (append! a '\''(1))))' -Eexit
+    (1)
+    
+

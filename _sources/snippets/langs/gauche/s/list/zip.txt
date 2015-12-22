@@ -1,0 +1,13 @@
+
+
+zip
+===
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (zip '\''(1 2 3) '\''(4 5 6))))' -Eexit
+    ((1 4) (2 5) (3 6))
+    
+

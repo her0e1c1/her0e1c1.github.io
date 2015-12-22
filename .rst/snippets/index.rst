@@ -26,7 +26,6 @@ Algorithm
    :maxdepth: 1 
 
    ./algo/index
-   ./struct/index
 
 
 ====

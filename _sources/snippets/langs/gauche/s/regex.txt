@@ -1,0 +1,102 @@
+
+
+regexp-replace
+==============
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (regexp-replace #/(.)bc/ "abcAbc" "\\1-\\0")))' -Eexit
+    a-abcAbc
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (regexp-replace-all #/(.)bc/ "abcAbc" "\\1-\\0")))' -Eexit
+    a-abcA-Abc
+    
+
+
+
+rxmatch-let
+===========
+
+マッチした文字列をバインド
+
+.. code-block:: scheme
+   
+
+    (rxmatch-let (rxmatch #/(\d+):(\d+):(\d+)/
+                          "Jan  1 23:59:58, 2001")
+                 (time hh mm ss)
+                 (list time hh mm ss))
+
+
+.. code-block:: sh
+   
+
+    ("23:59:58" "23" "59" "58")
+    
+
+
+
+rxmatch-if
+==========
+
+マッチしなかったら場合の初期値指定
+
+.. code-block:: scheme
+   
+
+    (rxmatch-if (rxmatch #/(\d+:\d+)/ "Jan 1 11:22:33")
+                (time)
+                (format #f #"time is ~time")
+                "unknown time")
+
+
+.. code-block:: sh
+   
+
+    "time is 11:22"
+    
+
+
+.. code-block:: scheme
+   
+
+    (rxmatch-if (rxmatch #/(\d+:\d+)/ "HOGE:HOGE")
+                (time)
+                (format #f #"time is ~time")
+                "unknown time")
+
+
+.. code-block:: sh
+   
+
+    "unknown time"
+    
+
+
+
+match
+=====
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (#/str/ "strng")))' -Eexit
+    #<<regmatch> 0x15825a0>
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin ((#/str/ "strng") 0)))' -Eexit
+    str
+    
+

@@ -6,3 +6,6 @@ stdlib
 .. contents::
     :depth: 2
 
+ERROR: ./s/stdlib/calloc.scm => #<error "unbound variable: //">
+ERROR: ./s/stdlib/malloc.scm => #<error "unbound variable: //">
+ERROR: ./s/stdlib/realloc.scm => #<error "unbound variable: //">

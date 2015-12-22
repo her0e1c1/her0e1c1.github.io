@@ -1,0 +1,7 @@
+Bob
+Bob
+rename Bob
+new Bob
+new Bob says hi
+test get-name by accessor, expects "Bob" ==> ok
+test get-name by define, expects "HOGE" ==> ok

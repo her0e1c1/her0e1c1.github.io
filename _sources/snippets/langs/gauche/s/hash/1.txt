@@ -1,0 +1,1 @@
+ERROR: ./s/hash/1.scm => #<error "unbound variable: test-sequenc">

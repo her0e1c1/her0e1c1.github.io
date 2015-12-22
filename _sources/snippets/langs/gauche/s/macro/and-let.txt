@@ -1,0 +1,21 @@
+
+
+and-let*
+========
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (and-let* ((a 1) (b (+ a 1))) (+ a b))))" -Eexit
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (and-let* ((a 1) (b #f)) (+ a b))))" -Eexit
+    #f
+    
+

@@ -1,0 +1,98 @@
+
+
+eq?
+===
+
+参照先が同じはeq?を使う
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? 0.1 0.1)))' -Eexit
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? "a" "a")))' -Eexit
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''a '\''a)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''1 '\''1)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''1 '\''1)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''1 1)))' -Eexit
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''(1) '\''(1))))' -Eexit
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eq? '\''(1) '\''(1))))' -Eexit
+    #f
+    
+
+
+
+eqv?
+====
+
+シンボルと数値
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (eqv? '\''1 1)))' -Eexit
+    #t
+    
+
+
+
+=
+=
+
+数値同士の場合は=
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (= 1 1.0)))' -Eexit
+    #t
+    
+

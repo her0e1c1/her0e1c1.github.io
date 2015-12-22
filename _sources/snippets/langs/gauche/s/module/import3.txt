@@ -1,0 +1,2 @@
+0
+ERROR: ./s/module/import3.scm => #<error "Compile Error: cannot find "./">

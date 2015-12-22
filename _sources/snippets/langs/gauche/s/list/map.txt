@@ -1,0 +1,30 @@
+
+
+map
+===
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (map cons '\''(1 2 3) '\''(4 5 6))))' -Eexit
+    ((1 . 4) (2 . 5) (3 . 6))
+    
+
+１つ以上のリストを引数に取れる
+
+.. code-block:: sh
+   
+
+    $ gosh -e '(print (begin (map (lambda (x y) (+ x y)) '\''(1 2 3) '\''(4 5 6))))' -Eexit
+    (5 7 9)
+    
+
+
+.. code-block:: sh
+   
+
+    $ gosh -e "(print (begin (map + (iota 5) (iota 5))))" -Eexit
+    (0 2 4 6 8)
+    
+

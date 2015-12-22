@@ -364,7 +364,7 @@ Execution of -e aborted due to compilation errors.
 </pre></div>
 </div>
 <dl class="docutils">
-<dt>100  3262  100  3262    0     0   7539      0 &#8211;:&#8211;:&#8211; &#8211;:&#8211;:&#8211; &#8211;:&#8211;:&#8211;  7568</dt>
+<dt>100  3262  100  3262    0     0  25226      0 &#8211;:&#8211;:&#8211; &#8211;:&#8211;:&#8211; &#8211;:&#8211;:&#8211; 26520</dt>
 <dd><p class="first">&lt;!doctype html public &#8220;-//W3C//DTD HTML 4.01//EN&#8221; &#8220;<a class="reference external" href="http://www.w3.org/TR/html4/strict.dtd">http://www.w3.org/TR/html4/strict.dtd</a>&#8220;&gt;
 &lt;html&gt;&lt;head&gt;&lt;title&gt;Yahoo! - 301 Moved Permanently&lt;/title&gt;&lt;style&gt;
 /* nn4 hide <em>/
@@ -399,14 +399,11 @@ if you try searching below.&lt;/p&gt;
 &lt;p class=&#8221;more&#8221;&gt;Please try &lt;strong&gt;&lt;a href=&#8221;<a class="reference external" href="http://us.rd.yahoo.com/301/">http://us.rd.yahoo.com/301/</a><a href="#id3"><span class="problematic" id="id4">*</span></a><a class="reference external" href="http://help.yahoo.com">http://help.yahoo.com</a>&#8220;&gt;Yahoo! Help Central&lt;/a&gt;&lt;/strong&gt; if you need more assistance.&lt;/p&gt;
 &lt;/div&gt;&lt;div id=&#8221;ft&#8221;&gt;&lt;p&gt;Copyright &amp;copy; 2015 Yahoo! Inc. All rights reserved. &lt;a href=&#8221;<a class="reference external" href="http://us.rd.yahoo.com/301/">http://us.rd.yahoo.com/301/</a><a href="#id5"><span class="problematic" id="id6">*</span></a><a class="reference external" href="http://privacy.yahoo.com">http://privacy.yahoo.com</a>&#8220;&gt;Privacy Policy&lt;/a&gt; - &lt;a href=&#8221;<a class="reference external" href="http://us.rd.yahoo.com/301/">http://us.rd.yahoo.com/301/</a><a href="#id7"><span class="problematic" id="id8">*</span></a><a class="reference external" href="http://info.yahoo.com/legal/us/yahoo/utos/terms/">http://info.yahoo.com/legal/us/yahoo/utos/terms/</a>&#8220;&gt;Terms of Service&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;/body&gt;&lt;/html&gt;</p>
-<p class="last">&lt;!&#8211; p03.f1.top.kks.yahoo.co.jp Tue Dec 22 00:35:35 JST 2015 &#8211;&gt;</p>
+<p class="last">&lt;!&#8211; p08.f1.top.kks.yahoo.co.jp Tue Dec 22 18:01:20 JST 2015 &#8211;&gt;</p>
 </dd>
 </dl>
 <div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say 0b1000&#39;</span>
 8
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre>perl -M<span class="s2">&quot;File::Copy qw(cp)&quot;</span> -e <span class="s1">&#39;cp $_, $_.&quot;.bak&quot; for grep {-f} glob(&quot;*&quot;)&#39;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>Create backup files in current directory
@@ -480,7 +477,7 @@ Execution of -e aborted due to compilation errors.
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say keys %{{map {$_ =&gt; 1} (1,1,1,2,2,3)}}&#39;</span>
-312
+321
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;print qq/[38;5;${_}mC$_ / for 0..255; say&#39;</span>
@@ -488,16 +485,16 @@ Execution of -e aborted due to compilation errors.
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>perl -E <span class="s1">&#39;say rand for 1..5&#39;</span>
-0.702893869093717
-0.0464607946082367
-0.954160317118419
-0.555173615549343
-0.330180140573322
+0.0339738657503439
+0.583978298909159
+0.607546719527942
+0.985611640006887
+0.250450374454051
 </pre></div>
 </div>
 <p>引数が&#64;_に格納されてるので、そのどれかを取り出す感じ</p>
 <div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;sub {print $_[rand @_] for 1 .. 255}-&gt;(&quot;a&quot; .. &quot;z&quot;, 0 .. 9, &quot;A&quot; .. &quot;Z&quot;)&#39;</span>
-1KcCveeNKHmBKLcPlaxoBOqeazFyQBN6cW4yOO9hsPpa2SLj8e06BUglUhcCrb17pKGP5MWg02WsWZy6tZdH7FJg0GUt2ykztokNBnEaguamSKfWUh3cvyHKC7mfxD1HpJnpYajgggsGLC869Y1Rw05yMCC1HAJXRXqvrW5zAIh0EUvXXFNeFnZLt8rS6sh8xexFng3zb2SNBDFS7DrtKTSqtXlKhJKS0aRvn3PUULML3hONHUMkbqzPnECqnoU
+chuXqLCxCcqwvXHNCpnOY42OUcm41vhbsCW6V3PWdk5bSJp6OxT4MP8NSetA8lmzimMVXuRkXq4QstPoEERFIA0PPw89bYiSrycUd6WwjGlYJd9aP2q9eALX4A1BjXGgOdi3pXXWTatUKqJj5xvAiKKG1gOM0wkSo9zUaHbp3dFadofGQNhQCsDeccDv4MmZhUveye8jdqN4feFF24hvoofaUEt5INdudWx6V5Da9nEmAtmm5YBgmxYcF6n4C8L
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>perl -e <span class="s1">&#39;system &quot;echo 1&quot; for 1..3&#39;</span>
@@ -583,7 +580,7 @@ a b c d e f g h i j k l m n o p q r s t u v w x y z <span class="m">0</span> <sp
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>ps aux <span class="p">|</span> perl -anle <span class="s1">&#39;print $F[1]&#39;</span> <span class="p">|</span> head -n2
 PID
-60848
+22475
 </pre></div>
 </div>
 <p>print 0 ~ 4 columns in the argument file</p>

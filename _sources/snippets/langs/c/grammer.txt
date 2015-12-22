@@ -26,7 +26,7 @@ you can also say like char** is [String]
    
 
     $ ce 'while(*argv){p("%s ", *argv); argv++;}' 1 2 3
-    /tmp/tmp.cCcOJlZo 1 2 3 
+    /tmp/tmp.gHxxuTuF 1 2 3 
 
 Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.
 
@@ -43,6 +43,100 @@ Get the last item
 
     $ ce 'p("%s", argv[argc - 1]);' first secomd last
     last
+
+
+
+double
+======
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%f", (double)(1 << 30));'
+    1073741824.000000
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%lf", (double)(1UL << 52));'
+    4503599627370496.000000
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%lf", (double)(1UL << 63));'
+    9223372036854775808.000000
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%f", (double)(1 << 50));'
+    <stdin>:40:24: warning: shift count >= width of type [-Wshift-count-overflow]
+        p("%f", (double)(1 << 50));
+                           ^  ~~
+    1 warning generated.
+    0.000000
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%lf", (double)(1 << 50));'
+    <stdin>:40:25: warning: shift count >= width of type [-Wshift-count-overflow]
+        p("%lf", (double)(1 << 50));
+                            ^  ~~
+    1 warning generated.
+    0.000000
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%lf", (long)(1 << 40));'
+    <stdin>:40:23: warning: shift count >= width of type [-Wshift-count-overflow]
+        p("%lf", (long)(1 << 40));
+                          ^  ~~
+    1 warning generated.
+    0.000000
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%lf", (double)(1 << 50));'
+    <stdin>:40:25: warning: shift count >= width of type [-Wshift-count-overflow]
+        p("%lf", (double)(1 << 50));
+                            ^  ~~
+    1 warning generated.
+    0.000000
+
+not 0.1 but 0.125?
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%lf", (double)((1UL << 49) + 0.1));'
+    562949953421312.125000
+
+
+.. warning::
+
+    warn
+
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%lf", (double)(1UL << 64));'
+    <stdin>:40:27: warning: shift count >= width of type [-Wshift-count-overflow]
+        p("%lf", (double)(1UL << 64));
+                              ^  ~~
+    1 warning generated.
+    0.000000
 
 
 
@@ -349,6 +443,7 @@ Don't work because memset fills numbers but 0 or -1 at each byte
     $ ce 'int i[1]; memset(i, 1, sizeof(int)); printf("%x", i[0]);'
     1010101
 
+ERROR: ./s/grammer/pointer.scm => #<read-error "Read error at "./s/grammer/poi">
 
 
 realpath
@@ -475,6 +570,7 @@ sizeof gets all the memory size, not the length of an array
     $ ce 'int b[10]; p("%zu", sizeof(b));'
     40
 
+ERROR: ./s/grammer/stack.scm => #<error "unbound variable: //">
 
 
 statfs
@@ -536,7 +632,7 @@ in this case, because I run this command as subprocess, these results are NULL.
    
 
     $ ce 'p("%s", ttyname(0));'
-    /dev/pts/5
+    /dev/pts/2
 
 
 .. code-block:: sh
@@ -552,3 +648,4 @@ in this case, because I run this command as subprocess, these results are NULL.
     $ ce 'p("%s", ttyname(2));'
     (null)
 
+ERROR: ./s/grammer/type.scm => #<read-error "Read error at "./s/grammer/typ">
