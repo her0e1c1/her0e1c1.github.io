@@ -14,13 +14,10 @@ $(go <<EOG
 EOG
 )
 
+$(goshe '(sphinx-import-each-directory "s")')
+
 .. toctree::
 
    gauche2c/index
 
-$(go "index.scm")
-
-$(goshe '(for-each (^x (ignore (print (sphinx-include-scm-list (list x))))) (glob "./s/**/*.scm"))')
-
 EOS
-

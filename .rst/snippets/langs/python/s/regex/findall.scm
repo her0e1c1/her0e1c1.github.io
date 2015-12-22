@@ -7,3 +7,7 @@ assert re.findall(r'(\w+)', u'word word, word') == [u'word', u'word', u'word']
 
 # グループがあると、タプルで返す
 assert re.findall(r'(\w+) (\w+)', u'wo wo, wo wo') == [(u'wo', u'wo'), (u'wo', u'wo')]
+
+
+
+python -c 'import re; print(re.match(r".", "\n", re.DOTALL))'

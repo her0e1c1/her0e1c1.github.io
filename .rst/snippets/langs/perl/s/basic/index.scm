@@ -6,15 +6,9 @@
 (run+ "@a=qw(11 10 1 2);say for sort @a")
 (run+ "@a=qw(11 10 1 2); @b=sort{$a<=>$b}@a; say qq/@b/")
 
-(run+ "rand(10)")
-(run+ "int(rand(10))")
-
-;; use String::Random;
-;; String::Random->new->randregex('[A-Za-z0-9]{32}');
-
-mkdir("./lockdir", 0755)
-rmdir("./lockdir")
-chdir('/home/user1') or die $!;
+;; mkdir("./lockdir", 0755)
+;; rmdir("./lockdir")
+;; chdir('/home/user1') or die $!;
 
 
  ;; || die "ディレクトリ生成失敗 : $!";
@@ -29,3 +23,4 @@ chdir('/home/user1') or die $!;
 
 ;; .. warning::
 ;;    ``print FH $line;`` ここの,はいらない
+

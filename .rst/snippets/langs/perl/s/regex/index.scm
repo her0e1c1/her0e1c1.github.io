@@ -44,12 +44,6 @@ wget www.yahoo.co.jp -O -|perl -nlE 'say $& if /<img.*?(gif|png).*?>/'
 # $&はマッチした文字列全体
 # "-O -" means stdout instead of a file
 
-
-#tag: neta, fizzbuzz
-perl -E 'say +(Fizz)[$_%3].(Buzz)[$_%5]||$_ for 1..100'
-# plus separetes say and (Fizz)  # 単項プラス演算子
-
-
 # csvの特定列を抽出
 perl -nE 'say $2if /("(.*?)",[^"]*){20}/' < FILEPATH
 
@@ -73,11 +67,6 @@ EOF
 # If you run below and cat -v, you can see ^M
 # perl -pE 's/\n/\n/'
 # sh THIS_FILE|cat -v
-
-
-# (?:...)は、グループをつくるが、キャプチャしない
-perl -E '$_=@ARGV[0]; /(a)(?:b)(c)/ and say "1 => $1, 2 => $2, 3 => $3"' abc
-
 
 # Using brace means escaping dot
 perl -E "say 'aab' =~ m/a[.]b/"  # 0
@@ -146,10 +135,6 @@ perl -E 'say split /(\d+)/, "a 1 b 2 c 4";'
 perl -E 'say split /\d+/, "a 1 b 2 c 4"'
 ruby -pe 'sub(/\r\n/, "\n")' s1.txt# translate
 
-# d option
-# delete it if you cant map a char
-perl -E '$_="abc"; tr/ac/A/d; say'  # Ab
-
 # s option
 # map continuous chars as one char to another char
 perl -E '$_="aaabc"; tr/ac/A/s; say'  # AbA
@@ -158,18 +143,6 @@ perl -E '$_="aaabc"; tr/ac/A/s; say'  # AbA
 perl -E 'tr/a-zA-Z/A-Za-z/'
 
 
-# gは、全てマッチ
-# With g option it match more than once
-
-# マッチ位置はマッチするごとに動くので、loopできる
-# *は0文字とマッチするので空文字が含まれる
-perl -E '$_="abc"; print "$_," for (/.*?/g)'  # ,a,,b,,c,,
-perl -E '$_="abc"; print "$_," for /.+?/g'  # a,b,c,
-
-# while
-perl -E '$_="abc"; while(/.(?=(.*))/g){print $&.$1.","}'  # abc,bc,c,# With s option . matches also \n character
-perl -E 'say "\n" =~ /./s'  # 1
-python -c 'import re; print(re.match(r".", "\n", re.DOTALL))'
 
 # . matches also dot character
 perl -E 'say "." =~ /./'  # 1

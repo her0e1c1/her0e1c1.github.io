@@ -1,8 +1,8 @@
 cd $(dirname $0) > /dev/null 2>&1 && cat <<EOS
 
-====
-Perl
-====
+=======
+Haskell
+=======
 
 $(goshe '(sphinx-import-each-directory "s")')
 
