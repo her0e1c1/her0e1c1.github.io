@@ -1,0 +1,2 @@
+
+(node "typeof a === \"undefined\"")
