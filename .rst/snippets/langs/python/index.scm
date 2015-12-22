@@ -42,3 +42,17 @@
 (run "python -c 'print(list(zip(*[(1,4),(2,5),(3,6)])))'")
 
 ;; python -c 'import re; print(re.match(r"""(["''])abc\1""", """\"abc\"""").group())'
+
+python -c 'print("a" in {"a": 1})'
+
+python -c 'print({"a": 1, "b": 2}["a"])'
+
+# シンボルがない
+python -c '{a: 1}'  # error
+
+python -c 'import math; print(math.pi)'
+
+# 文字を数値に変換
+python -c "print(ord('a'))"  # 97
+
+python -c 'import os; print(os.path.sep)'

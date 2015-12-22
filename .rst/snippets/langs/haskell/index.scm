@@ -53,3 +53,15 @@
 ;; ghc -e 'System.Directory.getDirectoryContents "." >>= return . unlines >>= putStr'
 ;; ghc -e 'replicate 3 1'
 ;; ghc -e 'elem 1 [1,2,3]'
+
+# あ〜かを出力
+ghc -e "putStrLn $ unwords $ map (\x -> [x]) ['あ' .. 'か']"  # あ ぃ い ぅ う ぇ え ぉ お か
+
+ghc -e 'print(read "10" :: Integer)'
+
+ghc -e 'map Data.Char.toUpper "abc def"'
+
+ghc -e 'System.FilePath.takeFileName "/path/to/file.txt"'
+
+# ~/.emacsを文字列で読み込む
+ghc -e 'System.Directory.getHomeDirectory >>= \x -> return (x ++ "/.emacs") >>= readFile'

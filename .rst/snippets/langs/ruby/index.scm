@@ -53,3 +53,29 @@
 ; h |ruby -0777nle 'p split("\n")[-1][/  (.*)/, 1]'
 ;; require "csv"; CSV.foreach(ARGV[0]) do |a| puts a[1] end' $FILEPATH
 ;; Dir.glob("*.txt").each{|i| o=i.sub("\.txt", "\.csv"); File.rename i, o}
+
+; ruby -e 'puts ({:a => 1}.key? :a)'
+ruby -e 'print({:a=>1, :b=>2}[:a])'
+
+# シンボルと文字列を区別する
+ruby -e 'puts ({:a => 1}.key? "a")'  # false
+
+# 破壊的
+ruby -e 'a="abc"; a << "efg"; puts a'
+ruby -e 'puts "abc".concat("efg")'  # << と同じ
+
+# 基本的に文字列の宣言は""で括る
+ruby -e '%q(hello wolrd).display'
+
+# %Q()と%()は"で括るのと同じで変数展開可能
+ruby -e "a='hello'; %(#{a} world).display"
+# 括るのは() !! {} [] ##
+ruby -e "%Q#hello world#.display"
+
+ruby -e 'puts File.basename("/path/to/file.txt")'  # file.txt
+
+# ファイルパスのデリミタ
+ruby -e 'puts File::Separator'
+
+ruby -r tmpdir -e 'p Dir.mktmpdir do |d| puts end'  # "/tmp/d20150516-10476-pixcro"
+ruby -r tmpdir -e 'p Dir.tmpdir'  # /tmp

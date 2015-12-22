@@ -31,6 +31,8 @@
 ;; let a=a+1
 
 (ps "set!")
+(run ": ${A=1} && echo $A")
+
 (p "${NAME:=VAL} if variable is undefined, then set a value.")
 (run ": ${NULL:='NULL'} && echo $NULL")
 
@@ -46,6 +48,8 @@
 (ps "colon")
 (p "colon(:) is similar to pass in Python")
 (run "if true; then :; fi")
+(pw "代入式などに使用する. コマンドを実行しないようにする")
+(run "${A=1} && echo $A")
 
 (ps "passArgsWithStdin")
 (run "echo 'echo $1, $2'| sh /dev/stdin 100 1")
@@ -151,3 +155,38 @@ fi
 ;; # -e をつけないと、そのまま表示される(sh/bash)
 ;; echo -e "\033[31mRED FOREROUND\033[0m"
 ;; echo -e "\033[41mRED BACKGROUND\033[0m"
+
+
+
+a="a b c"; set -- $a; for i in $a; do echo $i;done
+# shellのsplitについて補足
+# 文字列の分割は、 set -- $var で行う
+# 初期値の区切り文字は、$IFS
+echo -n $IFS | cat -vte
+# ^I$
+#^@
+
+# zshだと上記でsplitできないのでechoで対応(互換あり)
+a="a b c"; for i in `echo $a`; do echo $i;done
+
+IFS=":"  # delimter
+for p in $PATH; do echo "$p\n" ; done
+
+# when you want to execute other commands, then use system 
+echo `echo TEST`
+echo $(echo TEST)
+
+# You can nest commands if using $()
+echo $(echo $(echo 1) 2) 3
+
+
+test -z "$__THIS__IS__NOT__DEFINED" && echo "undefined"
+# 定義を確認
+test -n "$PATH" && echo "defined"
+# shの注意
+# 文字列として認識させるため"$VAR"とすること
+# test -n a a && echo 1
+# test -n "a a" && echo 1
+
+# 一時ディレクトリを作成
+mktemp -d  # /tmp/tmp.DC3v9kEX

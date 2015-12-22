@@ -81,3 +81,5 @@
     ;BODY
     ;一行ずつ実行します。
     (forward-line))
+
+echo "(1 2 3)" | emacs -Q -batch -eval "(print (apply '+ (read standard-input)))"
