@@ -1,0 +1,1 @@
+(locate-user-emacs-file ".cask")  ; "~/.emacs.d/.cask"

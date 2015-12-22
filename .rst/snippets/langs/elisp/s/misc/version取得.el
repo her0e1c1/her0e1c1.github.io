@@ -1,0 +1,1 @@
+(princ emacs-version)  ; "24.3.1"

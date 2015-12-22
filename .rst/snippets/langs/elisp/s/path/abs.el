@@ -1,0 +1,1 @@
+(f-full ".")  ; return current directory

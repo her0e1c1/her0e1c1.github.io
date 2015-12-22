@@ -11,7 +11,6 @@ Languages
     :maxdepth: 1
 
     langs/c/index
-    langs/cpp/index
     langs/elisp/index
     langs/gauche/index
     langs/nodejs/index
