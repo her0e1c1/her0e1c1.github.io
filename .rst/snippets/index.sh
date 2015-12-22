@@ -7,16 +7,7 @@ cd $(dirname $0) > /dev/null && cat <<EOS
 Languages
 =========
 
-$(goshe '
-  (-->
-   ((flip$ filter-map) (ls "langs")
-    (^x (and-let* ((_ (file-exists? #"~|x|/index.rst"))
-                   (p #"~|x|/index"))
-                  p)))
-   (sort it)
-   (sphinx-block (string-join it "\n") :toctree #t :maxdepth 1)
-   (p it))
-')
+$(goshe '(print (sphinx-toctree-directory "langs"))'
 
 Algorithm
 =========
