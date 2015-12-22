@@ -1,0 +1,51 @@
+### COMENT
+### INDENT must be a TAB not spaces
+
+### Define variables like
+### NAME = VALUE
+### Using $(NAME) is extended
+
+SHELL_FILES = match.sh special_varialbes.sh
+
+### Warning
+### If using bash variables, make sure escape them with prefix $$ of them (like $$var)
+
+# TARGET: DEPENDENCIES
+#     COMMAND1
+#     COMMAND2
+#     ...
+# If all DEPENDENCIES exists, then commands are executed
+
+# Make sure there are no files named 'hello' using .PHONY
+.PHONY: hello
+hello:
+	echo "hello world!"
+
+.PHONY: echo1
+echo1:
+	echo "Executed command shown."
+	@echo "Using @ at the first of the executed command, it's not shown."
+
+ECHO2 = echo "hi"
+.PHONY: echo2
+echo2:
+	@$(ECHO2)
+
+# Multi lines
+.PHONY: echo3
+echo3:
+	@if [ -e "." ]; then\
+		echo "direcory . exists";\
+	fi
+	@for i in a b c; do\
+		echo $$i;\
+	done
+
+# Run "make basic.sh"
+# $$ escapes $
+basic.sh: $(SHELL_FILES)
+	@echo '$$@ = ' $@  ' # target'
+	@echo '$$* = ' $*  ' # target without extension' 
+	@echo '$$^ = ' $^  ' # all dependencies'
+	@echo '$$< = ' $<  ' # first dependency'
+	@echo '$$? = ' $*  ' # dependency?'
