@@ -18,9 +18,9 @@
 
 (define runD run-gauche2)
 
-
-(define-macro (run-gauche++ cmd)
-  `(let* ((p (format "(print (begin ~s))" ',cmd))
+(define-macro (run-gauche++ . cmds)
+  `(let* ((cmd ,(string-join (map (^x (format "~s" x)) cmds) " "))
+          (p (format "(print (begin ~a))" cmd))
           (e (quote-expression p :quote #\'))
           (c #"gosh -e ~e -Eexit"))
      (oneliner-run+ c)))
@@ -32,3 +32,8 @@
 ;;           (c #"~e"))
 ;;      (oneliner-run+ c)))
 (define s oneliner-run+)
+
+(define-macro (runm str)
+  `(let* ((ret (sphinx-block (run-gauche-from-string ,str) :code-block "sh"))
+          (scmd (sphinx-block ,str :code-block "scheme")))
+     (print #"~scmd\n~ret")))

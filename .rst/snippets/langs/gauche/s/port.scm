@@ -69,8 +69,13 @@
 (ps "process")
 (runs (process-output->string "ls"))
 ; (runs (process-output->string cmd :error (current-error-port)))
-;;  ;; (flush)
-;;  ;; (sys-system cmd)
+(runs (sys-system "ls"))
+
+(ps "flush")
+(runs (write "hoge" (current-output-port)) (/ 1 0))
+(runs (write "hoge" (current-output-port)) (flush) (/ 1 0))
 
 ; finalize
 (remove-file "t")
+
+; (let loop (ch (read-char))) BODY)

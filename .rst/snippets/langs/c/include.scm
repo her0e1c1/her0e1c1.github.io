@@ -36,3 +36,6 @@
 (define ps ($ print $ sphinx-section $))
 (define pw ($ print $ sphinx-warn $))
 (define ptodo ($ print $ sphinx-todo $))
+
+(define (template$ str)
+  (pa$ regexp-replace #/REPLACE/ str))
