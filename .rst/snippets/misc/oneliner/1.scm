@@ -33,17 +33,32 @@
 (p (sphinx-todo "ログを正規表現でフィルターして、tail -f"))
 (p (sphinx-todo "先頭行に特定の文字列を挿入.sh"))
 
-
-; json
-echo '{"foo": "lorem", "bar": "ipsum"}' | python -mjson.tool
-
-
-# sync selected directories in the two directories
-perl -E 'for ("css", "fonts", "js"){ system "rsync -avz --delete src/html/$_ dest/public/" }'
+(ps "json")
+(run+ "echo '{\"foo\": \"lorem\", \"bar\": \"ipsum\"}' | python -mjson.tool")
 
 
-# tree
-pwd;find . | sort | sed '1d;s/^\.//;s/\/\([^/]*\)$/|--\1/;s/\/[^/|]*/|  /g'
+(p "sync selected directories in the two directories")
+; perl -E 'for ("css", "fonts", "js"){ system "rsync -avz --delete src/html/$_ dest/public/" }'
 
-# LINUX
-while true ; do clear ; df -h ; sleep 5 ; done
+
+(ps "tree")
+; pwd;find . | sort | sed '1d;s/^\.//;s/\/\([^/]*\)$/|--\1/;s/\/[^/|]*/|  /g'
+
+;; # LINUX
+;; while true ; do clear ; df -h ; sleep 5 ; done
+
+(ps "color")
+(run "perl -E 'print qq/\x1b[38;5;${_}mC$_ / for 0..255; say'")
+
+(ps "fizz buzz")
+(p "plus separetes say and (Fizz)  # 単項プラス演算子")
+(run "perl -E 'say +(Fizz)[$_%3].(Buzz)[$_%5]||$_ for 1..100'")
+
+(p "Change permissions recursively Note write in 8 digit notion")
+(run "find . |perl -nlE 'chmod 0701, $_ if -d;'")
+
+(p "permissions for apache about static files")
+(run "find . |perl -nlE 'chmod 0755, $_ if -d; chmod 0644, $_ if -f'")
+
+(p "find")
+; (run "perl -E 'sub f{$a=shift; for(glob($a.\"/*\")){say if -f; f($_) if -d}}; f(shift);' ~/")
