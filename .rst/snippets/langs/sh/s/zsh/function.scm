@@ -39,11 +39,3 @@
 ;; autoload -U add-zsh-hook
 ;; # add-zsh-hook (chpwd precmd preexec periodic zshaddhistory zshexit)
 ;; add-zsh-hook precmd echo_buffer
-
-;; # Relate b and B
-;; typeset -T b B
-;; b=1
-;; echo $B  # 1
-
-;; # Dump a variable
-;; typeset -p A  # 

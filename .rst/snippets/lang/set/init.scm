@@ -6,3 +6,5 @@
 (cpp "string str = \"abede\"; set<char> s(str.begin(), str.end()); EACHP(s)")
 
 (zsh "typeset -U s; s=(1 2 3 4 1 2); echo $s")
+(zsh "typeset -T b B; b=1; echo $B" :msg "alias B as b")
+(zsh "typeset -A y; y=(a 1 b 2 c 3); typeset -p y" :msg "Dump a variable")
