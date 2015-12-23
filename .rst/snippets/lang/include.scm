@@ -6,6 +6,7 @@
 ; psにインクルード文追加
 ; (ps "msg" :inlucde)
 
+; (group みたにして囲むべきかな(階層))
 ; warnを全てに設定するのはよいが、全てに出力したくないね (dataとしては持っていてよいのか)
 ; (run "" :msg :quote :warn :tags :zsh :dummy :language :args :stdin :file)
 

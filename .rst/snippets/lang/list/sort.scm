@@ -28,7 +28,7 @@
 (p "You can also use string as well")
 (cpp "string s = \"ebacd\"; sort(ALL(s)); PE(s);")
 
-(cpp #!HEREDOCUMENT EOS
+(cpp #!DOC EOS
 #include "myutils.h"
 int main() {
   vector<pair<int, int>> v = {{1, 1}, {-2, 5}, {1, -1}, {3, 10}};

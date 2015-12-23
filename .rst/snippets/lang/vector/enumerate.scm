@@ -1,5 +1,5 @@
 
-(cpp #!HEREDOCUMENT EOS
+(cpp #!DOC EOS
 #include "myutils.h"
 int main() {
               //0 1 2 3 4

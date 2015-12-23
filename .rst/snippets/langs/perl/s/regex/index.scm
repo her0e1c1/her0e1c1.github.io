@@ -6,6 +6,7 @@
 (p "file.min.js => file.js")
 (run "ls -1 dir |perl -nlE perl -nlE '/\.min/;say qq/$`$''/'")
 
+
 ;; # Remove a part of a file name string # To escape ' is to double it
 ;; # Append a string after .js and before ' or "
 find . -type f -name "*.js" |perl -nlE 's/(?<=\.js)(?=["''])/{{ query() }}/ and say'
@@ -51,19 +52,6 @@ perl -nE 'say $2if /("(.*?)",[^"]*){20}/' < FILEPATH
 perl -nE '$b=$_;$a=qq/("(.*?)",[^"]*)/; say join " ", map{$k=qq/$a\{$_}/;$b=~/$k/;$2} qw/1 20/ '
 
 
-# /path/to => /path/to/
-perl -E '$_=shift; m#<a.*?href=(["''])(.*?)\1.*?>#; $a=$2; substr($_, $-[2], $+[2] - $-[2]) = $a."/"; say' "<a href='/path/to'>"
-# $-[]マッチ開始位置かな, $+[]マッチ終了位置
-
-
-#tag: warn
-perl -pE 's/\r\n/\n/' << EOF
-aaa
-bbb
-ccc
-EOF
-# Warn: Don't use -l option, which chomps "\n" , "\r\n" or "\r"
-
 # If you run below and cat -v, you can see ^M
 # perl -pE 's/\n/\n/'
 # sh THIS_FILE|cat -v
@@ -72,10 +60,7 @@ EOF
 perl -E "say 'aab' =~ m/a[.]b/"  # 0
 perl -E "say 'a.b' =~ m/a[.]b/"  # 1
 perl -E "say 'a.b' =~ m/a\.b/"  # 1# 括弧でグループ化
-# 順番は左から
-perl -E '"1234" =~ /((((1)2)3)4)/; say "$1 $2 $3 $4"'  # 1234 123 12 1
-pythonn -c 'import re; print(re.match(r"((((1)2)3)4)", "1234").groups())'  # ('1234', '123', '12', '1')# 先読み
-# 文字列を特定するのと、特定の文字列を置換することの分離
+
 
 # 続く文字列にマッチした場合に、マッチ
 perl -E '$_=shift; say $& if /abc(?=def)/' abcdef  # abc
@@ -93,65 +78,20 @@ python -c 'import re; print(re.match(r"abc(?!def)", "abcdf").group())'# あと�
 # src="../ => src="/
 perl -plE 's#(?<=src=[''"])../#/#' file
 
-# (?P<NAME>REGEX)でグループに名前をつける
-# (?P=NAME)で参照(内部参照)
-perl -E '$_=shift; say if /(?P<name>a)b\g{name}/ ' aba
-perl -E '$_=shift; say if /(?P<name>a)b(?P=name)/ ' aba
-python -c 'import re; print(re.match(r"(?P<name>a)b(?P=name)", "aba").group())'
-
-
-# 外部参照
-perl -E '$_=shift; say "$+{name}" if /(?P<name>a)/ ' a# (?:REGEX)
-# Don't group
-perl -E 'shift =~ /(a)(?:b)(c)/; say $1.$2' abc  # ac
-python -c 'import re; print(re.match(r"(a)(?:b)(c)", "abc").groups())'  # ('a', 'c')# 先読み
-# 後に続く文字列が条件に合致した場合に、その手前にマッチさせる
-
-
-## Error
-# Variable length lookbehind not implemented in regex
-# 後読みの中で正規表現は使えない
-perl -E '"test" =~ m#(?<=.*?)e#'
-perl -E '"abcde" =~ /(?<=.*?c).*/; say $&'
-
-# You can subsutitute lookbind with \K option
-perl -E '"abcde" =~ /(.*?c)\K.*/; say $&'
-
-
 # Match a string not starting with abc
 echo abcdefg| perl -nlE '/^(?!abc).*/ and say'
 echo bcdefg| perl -nlE '/^(?!abc).*/ and say'  # bcdefg
 echo abcdefg|egrep -v '^abc'# $'
-# 最後にマッチした部分に続く文字列
-perl -E '"pre 1234 post"=~/\d+/; say $'''  #\ post
 
 # pythonには存在しないのでsplitで代用
 python -c 'import re; print(re.split(r"(\d+)", "pre 1234 post", 1))'  # ['pre ', '1234', ' post']# マッチした文字列で分割していく(マッチ文字も含む)
 pythonn -c 'import re; print(re.split(r"(\d+)", "a 1 b 2 c 4"))'  # ['a ', '1', ' b ', '2', ' c ', '4', '']
+
 perl -E 'say split /(\d+)/, "a 1 b 2 c 4";'
 
 
 # マッチした文字列で分割していく(マッチ文字を含まない)
 perl -E 'say split /\d+/, "a 1 b 2 c 4"'
 ruby -pe 'sub(/\r\n/, "\n")' s1.txt# translate
-
-# s option
-# map continuous chars as one char to another char
-perl -E '$_="aaabc"; tr/ac/A/s; say'  # AbA
-
-# big <=> small
-perl -E 'tr/a-zA-Z/A-Za-z/'
-
-
-
-# . matches also dot character
-perl -E 'say "." =~ /./'  # 1
-
-
-(p"
-. doesn't match \n character
-Ignore white words( \n\r\t)
-")
-(run "perl -E 'say \"\n\" =~ /./'")
 
 (run "perl -E '$_=\"abc\"; /a   b c/x; say $&'")
