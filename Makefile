@@ -34,3 +34,6 @@ clean:
 	rm -fr $(OBJS)
 
 all: clean create sphinx-build cp
+
+rmrst:
+	find .rst/snippets/lang/ -name "*.rst" -delete 
