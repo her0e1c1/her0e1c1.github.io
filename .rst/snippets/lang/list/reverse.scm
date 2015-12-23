@@ -6,5 +6,7 @@
 (run "ghc -e 'reverse [1,2,3]'")
 (run "ghc -e 'putStr $ reverse \"hoge\"'")
 
-(p "reverse関数に文字列として評価させたいのでscalar必要")
-(run "perl -E 'say scalar reverse shift' hoge")
+(run "perl -E 'say scalar reverse shift' hoge"
+     :msg "reverse関数に文字列として評価させたいのでscalar必要")
+
+(cpp "VIa={1,2,3}; reverse(a.begin(), a.end()); PE(a)'")

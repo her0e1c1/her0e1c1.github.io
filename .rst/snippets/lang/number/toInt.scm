@@ -1,9 +1,9 @@
 
-;; read "10"
-;; reads "10"   "read ""10"" :: Int
-;; reads "10" :: [(Int, String)]"    型を指定する必要あり
+(ghc "read \"10\"")
+(ghc "reads \"10\"")
+(ghc "reads \"10\" :: [(Int, String)]" :msg "型を指定する必要あり")
+(run "ghc -e 'print(read \"10\" :: Integer)'")
 
-ghc -e 'print(read "10" :: Integer)'
 
 (p "文字列を数値に変換する")
 (node "Number('123')")
@@ -13,3 +13,9 @@ ghc -e 'print(read "10" :: Integer)'
 
 (node "1 + (+ '22')")
 (node "'100' | 0")
+
+(p "perlの場合文字列を+で評価すると型を数値とする
+なお、文字列の結合は.を使うので注意
+また、数値でないものは0として扱われる")
+(run "perl -E 'say \"1\" + \"2\"'")
+(run "perl -E 'say \"a1a\" + \"2\"'")
