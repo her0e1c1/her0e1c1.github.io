@@ -1,11 +1,10 @@
 
+(node "P('a=1:b=2:c=3'.split(':').map(function(e){return e.split('=');}))")
 
+(perl "say split /\s/, \"a b c\"")
 
-;; var c = [];
-;; document.cookie.split(":").forEach(function(e){
-;;   c.push(e.split("="));
-;; })
+(sh "a='a b c'; set -- $a; for i in $a; do echo $i;done"
+    :msg "shellのsplitについて補足 文字列の分割は、 set -- $var で行う 初期値の区切り文字は、$IFS")
 
-
-
-(run "perl -E 'say split /\s/, \"a b c\"'")
+(zsh "a=\"a b c\"; for i in ${(s/ /)a}; do echo $i; done")
+(zsh "A='a b c' && for i in ${(s: :)A}; do echo $i; done")

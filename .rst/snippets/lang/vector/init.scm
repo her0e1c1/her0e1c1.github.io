@@ -27,3 +27,6 @@
 ;;   V(mv, 1, 2, 3, 4, 5);
 ;;   print(mv, "mv");
 ;; }
+
+
+(zsh "typeset -a s; s=(1 2 3 4 1 2); echo $s")

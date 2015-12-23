@@ -24,3 +24,6 @@
 (pw "[] can access index out of range")
 (cpp  "VI v{1,2,3}; P(v[100000000]);")
 (cpp  "VI v{1,2,3}; P(v[100]);")
+
+(py "P([1,2,3][1])")
+(zsh ("a=(1 2 3); echo ${a[1]}")

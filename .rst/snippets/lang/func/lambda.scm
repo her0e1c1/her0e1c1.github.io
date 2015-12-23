@@ -1,11 +1,17 @@
 
 (p "引数が@_に格納されてるので、そのどれかを取り出す感じ")
-(run "perl -e 'sub {print $_[rand @_] for 1 .. 255}->(\"a\" .. \"z\", 0 .. 9, \"A\" .. \"Z\")'")
-(run "perl -e 'sub {print \"@_\"}->(\"a\" .. \"z\", 0 .. 9, \"A\" .. \"Z\")'")
-
+(perl "sub {print $_[rand @_] for 1 .. 255}->(\"a\" .. \"z\", 0 .. 9, \"A\" .. \"Z\")")
+(perl "sub {print \"@_\"}->(\"a\" .. \"z\", 0 .. 9, \"A\" .. \"Z\")")
 
 (cpp "[](){ cout << \"hello world\" << endl; }();")
 (cpp "[]{ cout << \"hello world\" << endl; }();")
+
+(zsh "(){echo 'hello'}" :msg "関数定義しただけでなく、実行もされる")
+
+(sh "a(){ echo \"$1\";}; a 'hello world'"
+    :warn "sh/bashは、匿名関数使えない. 仕方がないので1回呼ぶので対応")
+
+
 
 ;; // return忘れない。最後にセミコロン必要
 ;; #include "myutils.h"

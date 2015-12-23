@@ -1,0 +1,2 @@
+
+(sh "eval \"echo $HOME\"")

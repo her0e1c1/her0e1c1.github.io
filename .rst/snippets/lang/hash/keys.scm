@@ -13,3 +13,4 @@
 ;; }
 
 
+(zsh "typeset -A y; y=(a 1 b 2 c 3); echo ${(@k)y}")

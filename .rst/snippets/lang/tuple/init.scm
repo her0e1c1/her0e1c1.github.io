@@ -9,3 +9,6 @@
      :warn "同じ表現でも初期化できるが、forと組み合わせできない")
 (cpp "vector<pair<int, int>> v = {{1, -1}, {-2, 5}, {3, 10}};
       EACH(it, v) cout << it->first << \", \" << it->second << endl;")
+
+;; haskellでは同じ要素
+;; [1,True]

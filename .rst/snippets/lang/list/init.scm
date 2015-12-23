@@ -1,8 +1,4 @@
 
-
-;; haskellでは同じ要素
-;; [1,True]
-
-
-
-(run "perl -E 'say qw/1 2 3/'")
+(perl "say qw/1 2 3/")
+(zsh "arr=(a b c d e)")
+(zsh "arr = (a b c d e)" :warn "Don't insert spaces around = operator")

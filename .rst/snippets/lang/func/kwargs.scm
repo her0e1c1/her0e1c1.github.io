@@ -1,6 +1,6 @@
 
 (template-map
- (cut cpp <> :msg "デフォルト引数はもっとも右側に指定していく" :file #t)
+ (cut cpp <> :msg "デフォルト引数はもっとも右側に指定していく" :str #t)
  '("hello();" "hello(\"John\");")
 #!DOC EOS
 #include <iostream>

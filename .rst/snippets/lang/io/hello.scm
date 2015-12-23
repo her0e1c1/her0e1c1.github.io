@@ -3,3 +3,4 @@
 ;; ghc -e 'print "hello world"'
 
 (node "\"hello world\"")
+(sh "echo \"hello world\"")

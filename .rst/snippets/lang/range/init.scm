@@ -20,3 +20,5 @@
 
 ;; # {"key": " => {"key": u"
 ;; perl -i -pE '461 .. 488 and s/(?<=: )(?!u)/u/' filepath
+
+(zsh "echo {1..10}")
