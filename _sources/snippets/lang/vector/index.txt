@@ -1,0 +1,462 @@
+
+
+vector
+======
+
+
+=========
+slice.scm
+=========
+
+
+
+begin, end
+==========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.begin(), v.end())'
+    v.begin() ~ v.end() => 1, 2, 3, 4, 5, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.begin(), v.begin())'
+    v.begin() ~ v.begin() => 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 1)'
+    v.begin() ~ v.begin() + 1 => 1, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 2)'
+    v.begin() ~ v.begin() + 2 => 1, 2, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 3)'
+    v.begin() ~ v.begin() + 3 => 1, 2, 3, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 4)'
+    v.begin() ~ v.begin() + 4 => 1, 2, 3, 4, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 5)'
+    v.begin() ~ v.begin() + 5 => 1, 2, 3, 4, 5, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.end(), v.end())'
+    v.end() ~ v.end() => 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.end() - 1, v.end())'
+    v.end() - 1 ~ v.end() => 5, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.end() - 2, v.end())'
+    v.end() - 2 ~ v.end() => 4, 5, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.end() - 3, v.end())'
+    v.end() - 3 ~ v.end() => 3, 4, 5, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.end() - 4, v.end())'
+    v.end() - 4 ~ v.end() => 2, 3, 4, 5, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.end() - 5, v.end())'
+    v.end() - 5 ~ v.end() => 1, 2, 3, 4, 5, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.begin() + 1, v.end() - 1)'
+    v.begin() + 1 ~ v.end() - 1 => 2, 3, 4, 
+    
+
+
+
+rbegin, rend
+============
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.rbegin(), v.rend())'
+    v.rbegin() ~ v.rend() => 5, 4, 3, 2, 1, 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; PIT(v.rbegin() + 1, v.rend() - 1)'
+    v.rbegin() + 1 ~ v.rend() - 1 => 4, 3, 2, 
+    
+
+
+
+compare (r)begin and (r)end
+===========================
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; P(v.begin() == v.end() - 5)'
+    v.begin() == v.end() - 5 = 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3,4,5}; P(v.rbegin() == v.rend() - 5)'
+    v.rbegin() == v.rend() - 5 = 1
+    
+
+
+========
+find.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; P(find(v.begin(), v.end(), 3) != v.end());'
+    find(v.begin(), v.end(), 3) != v.end() = 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; P(find(ALL(v), 3) != v.end());'
+    find(ALL(v), 3) != v.end() = 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; P(find(v, v + v.size(), 3) != v.end());'
+    <stdin>:44:30: error: invalid operands to binary expression ('VI' (aka 'vector<int>') and 'size_type' (aka 'unsigned long'))
+        VI v{1,2,3}; P(find(v, v + v.size(), 3) != v.end());
+                               ~ ^ ~~~~~~~~
+    /home/me/lib/cpp/myutils.h:61:38: note: expanded from macro 'P'
+    #define P(x) cout << #x << " = " << (x) << endl;
+                                         ^
+    /usr/include/c++/v1/iterator:614:1: note: candidate template ignored: could not match 'reverse_iterator<type-parameter-0-0>' against 'unsigned long'
+    operator+(typename reverse_iterator<_Iter>::difference_type __n, const reverse_iterator<_Iter>& __x)
+    ^
+    /usr/include/c++/v1/iterator:1009:1: note: candidate template ignored: could not match 'move_iterator<type-parameter-0-0>' against 'unsigned long'
+    operator+(typename move_iterator<_Iter>::difference_type __n, const move_iterator<_Iter>& __x)
+    ^
+    /usr/include/c++/v1/iterator:1365:1: note: candidate template ignored: could not match '__wrap_iter<type-parameter-0-0>' against 'unsigned long'
+    operator+(typename __wrap_iter<_Iter>::difference_type __n,
+    ^
+    /usr/include/c++/v1/string:3858:1: note: candidate template ignored: could not match 'basic_string' against 'vector'
+    operator+(const basic_string<_CharT, _Traits, _Allocator>& __lhs,
+    ^
+    /usr/include/c++/v1/string:3871:1: note: candidate template ignored: could not match 'const _CharT *' against 'VI' (aka 'vector<int>')
+    operator+(const _CharT* __lhs , const basic_string<_CharT,_Traits,_Allocator>& __rhs)
+    ^
+    /usr/include/c++/v1/string:3883:1: note: candidate template ignored: could not match 'basic_string<type-parameter-0-0, type-parameter-0-1, type-parameter-0-2>' against 'unsigned long'
+    operator+(_CharT __lhs, const basic_string<_CharT,_Traits,_Allocator>& __rhs)
+    ^
+    /usr/include/c++/v1/string:3894:1: note: candidate template ignored: could not match 'basic_string' against 'vector'
+    operator+(const basic_string<_CharT, _Traits, _Allocator>& __lhs, const _CharT* __rhs)
+    ^
+    /usr/include/c++/v1/string:3906:1: note: candidate template ignored: could not match 'basic_string' against 'vector'
+    operator+(const basic_string<_CharT, _Traits, _Allocator>& __lhs, _CharT __rhs)
+    ^
+    /usr/include/c++/v1/string:3920:1: note: candidate template ignored: could not match 'basic_string' against 'vector'
+    operator+(basic_string<_CharT, _Traits, _Allocator>&& __lhs, const basic_string<_CharT, _Traits, _Allocator>& __rhs)
+    ^
+    /usr/include/c++/v1/string:3928:1: note: candidate template ignored: could not match 'basic_string' against 'vector'
+    operator+(const basic_string<_CharT, _Traits, _Allocator>& __lhs, basic_string<_CharT, _Traits, _Allocator>&& __rhs)
+    ^
+    /usr/include/c++/v1/string:3936:1: note: candidate template ignored: could not match 'basic_string' against 'vector'
+    operator+(basic_string<_CharT, _Traits, _Allocator>&& __lhs, basic_string<_CharT, _Traits, _Allocator>&& __rhs)
+    ^
+    /usr/include/c++/v1/string:3944:1: note: candidate template ignored: could not match 'const _CharT *' against 'VI' (aka 'vector<int>')
+    operator+(const _CharT* __lhs , basic_string<_CharT,_Traits,_Allocator>&& __rhs)
+    ^
+    /usr/include/c++/v1/string:3952:1: note: candidate template ignored: could not match 'basic_string<type-parameter-0-0, type-parameter-0-1, type-parameter-0-2>' against 'unsigned long'
+    operator+(_CharT __lhs, basic_string<_CharT,_Traits,_Allocator>&& __rhs)
+    ^
+    /usr/include/c++/v1/string:3961:1: note: candidate template ignored: could not match 'basic_string' against 'vector'
+    operator+(basic_string<_CharT, _Traits, _Allocator>&& __lhs, const _CharT* __rhs)
+    ^
+    /usr/include/c++/v1/string:3969:1: note: candidate template ignored: could not match 'basic_string' against 'vector'
+    operator+(basic_string<_CharT, _Traits, _Allocator>&& __lhs, _CharT __rhs)
+    ^
+    1 error generated.
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; P(find(v.begin(), v.end(), 100) != v.end());'
+    find(v.begin(), v.end(), 100) != v.end() = 0
+    
+
+
+==========
+insert.scm
+==========
+
+
+=========
+equal.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v1(10, 1), v2(10, 1); P(v1 == v2)'
+    v1 == v2 = 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v1(10, 1), v2(10, 0); P(v1 == v2)'
+    v1 == v2 = 0
+    
+
+
+==========
+length.scm
+==========
+
+
+=========
+index.scm
+=========
+
+
+
+front
+=====
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; P(v.front());'
+    v.front() = 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; P(v[0]);'
+    v[0] = 1
+    
+
+
+
+back
+====
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; P(v.back());'
+    v.back() = 3
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; P(v[v.size() - 1]);'
+    v[v.size() - 1] = 3
+    
+
+
+
+at
+==
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; P(v.at(0));'
+    v.at(0) = 1
+    
+
+
+=========
+clear.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; v.clear(); PE(v);'
+    
+    
+
+
+========
+copy.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'vector<int>v(3, 7); vector<int> c(v); PE(c)'
+    7, 7, 7, 
+    
+
+
+=========
+count.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,1,1,2,2,3}; P(count(v.begin(), v.end(), 1));'
+    count(v.begin(), v.end(), 1) = 3
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,1,1,2,2,3}; P(count(ALL(v), 2));'
+    count(ALL(v), 2) = 2
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,1,1,2,2,3}; P(count(ALL(v), 10));'
+    count(ALL(v), 10) = 0
+    
+
+
+=============
+enumerate.scm
+=============
+
+
+========
+iter.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; for(int i=0; i<v.size(); i++)P(v[i]);'
+    v[i] = 1
+    v[i] = 2
+    v[i] = 3
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; for(vector<int>::iterator it=v.begin(); it!=v.end(); it++)P(*it);'
+    *it = 1
+    *it = 2
+    *it = 3
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'VI v{1,2,3}; for(vector<int>::reverse_iterator rit=v.rbegin(); rit!=v.rend(); rit++)P(*rit);'
+    *rit = 3
+    *rit = 2
+    *rit = 1
+    
+
+
+========
+init.scm
+========
+
+Declare a variable but it's empty.
+
+.. code-block:: sh
+   
+
+    $ cpe 'vector<int>v; P(v.empty())'
+    v.empty() = 1
+    
+
+
+.. warning::
+
+    pointerとして初期化できない
+

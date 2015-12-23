@@ -1,0 +1,20 @@
+
+
+special_variables
+=================
+
+
+=========
+index.scm
+=========
+
+$"
+This is a "@array" delimiter
+
+.. code-block:: sh
+   
+
+    $ perl -E '$" = " - "; @a=1..5; say "@a"'
+    1 - 2 - 3 - 4 - 5
+    
+

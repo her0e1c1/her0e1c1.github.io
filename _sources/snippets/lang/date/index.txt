@@ -1,0 +1,56 @@
+
+
+date
+====
+
+
+========
+init.scm
+========
+
+
+
+date
+====
+
+現在の時刻のインスタンス作成
+
+.. code-block:: sh
+   
+
+    $ ne 'new Date();'
+    [eval]:1
+    console.log(new Date();)
+                         ^
+    
+    SyntaxError: missing ) after argument list
+        at Object.exports.runInThisContext (vm.js:53:16)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+特定の日付
+
+.. code-block:: sh
+   
+
+    $ ne 'new Date(2000, 0, 1)'
+    Sat Jan 01 2000 00:00:00 GMT+0900 (JST)
+    
+
+
+=======
+cmp.scm
+=======
+
+
+.. code-block:: sh
+   
+
+    $ ne 'new Date(2000, 0, 1) < new Date(2000, 11, 31)'
+    true
+    
+

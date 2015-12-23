@@ -7,59 +7,6 @@
 
 
 
-flatten.scm
-===========
-
-
-.. code-block:: scm
-   
-
-    
-    (define (flatten/cps tree k)
-      (cond ((null? tree) (k '()))
-            ((pair? tree)
-             (flatten/cps (car tree)
-                          (lambda (r1)
-                            (flatten/cps
-                             (cdr tree)
-                             (lambda (r2) (k (append r1 r2)))))))
-            (else (k (list tree)))))
-    
-
-
-
-
-test
-----
-
-
-.. code-block:: scm
-   
-
-    
-    (add-load-path "." :relative)
-    (load "flatten.scm")
-    (use gauche.test)
-    
-    (test* "(flatten/cps X)" '() (flatten/cps '() values))
-    (test* "(flatten/cps X)" '(a b c) (flatten/cps '(a b c) values))
-    (test* "(flatten/cps X)" '(a b c d e f g h) (flatten/cps '(a (b (c d) e) (f g) h)) values)
-    (test* "(flatten/cps X)" '(a b c d e f g h) (flatten/cps '(a (((b) (c d)) ((e) (f) (((g)))) h)) values))
-    
-
-
-::
-
-    test (flatten/cps X), expects () ==> ok
-    test (flatten/cps X), expects (a b c) ==> ok
-    test (flatten/cps X), expects (a b c d e f g h) ==> ok
-    test (flatten/cps X), expects (a b c d e f g h) ==> ok
-
-
-
-
-
-
 fib.scm
 =======
 
@@ -163,6 +110,59 @@ test
     test (leaf-count/cps 4), expects 7 ==> ok
     test (leaf-count/cps 5), expects 7 ==> ok
     test (leaf-count/cps 5), expects 8 ==> ok
+
+
+
+
+
+
+flatten.scm
+===========
+
+
+.. code-block:: scm
+   
+
+    
+    (define (flatten/cps tree k)
+      (cond ((null? tree) (k '()))
+            ((pair? tree)
+             (flatten/cps (car tree)
+                          (lambda (r1)
+                            (flatten/cps
+                             (cdr tree)
+                             (lambda (r2) (k (append r1 r2)))))))
+            (else (k (list tree)))))
+    
+
+
+
+
+test
+----
+
+
+.. code-block:: scm
+   
+
+    
+    (add-load-path "." :relative)
+    (load "flatten.scm")
+    (use gauche.test)
+    
+    (test* "(flatten/cps X)" '() (flatten/cps '() values))
+    (test* "(flatten/cps X)" '(a b c) (flatten/cps '(a b c) values))
+    (test* "(flatten/cps X)" '(a b c d e f g h) (flatten/cps '(a (b (c d) e) (f g) h)) values)
+    (test* "(flatten/cps X)" '(a b c d e f g h) (flatten/cps '(a (((b) (c d)) ((e) (f) (((g)))) h)) values))
+    
+
+
+::
+
+    test (flatten/cps X), expects () ==> ok
+    test (flatten/cps X), expects (a b c) ==> ok
+    test (flatten/cps X), expects (a b c d e f g h) ==> ok
+    test (flatten/cps X), expects (a b c d e f g h) ==> ok
 
 
 

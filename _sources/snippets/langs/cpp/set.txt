@@ -1,9 +1,0 @@
-
-===
-set
-===
-
-.. contents::
-    :depth: 2
-
-ERROR: ./s/set/set.scm => #<error "unbound variable: set<int>">

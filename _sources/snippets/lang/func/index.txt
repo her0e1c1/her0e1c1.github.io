@@ -1,0 +1,61 @@
+
+
+func
+====
+
+
+==========
+define.scm
+==========
+
+
+==========
+lambda.scm
+==========
+
+引数が@_に格納されてるので、そのどれかを取り出す感じ
+
+.. code-block:: sh
+   
+
+    $ perl -e 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")'
+    fxXq1sqbvmzO5yqMM0zoDYVe0VB0eeVDueKkRaCB1aHYjUuthkjqXsfrNhpg71chy5mMO6n2JIfyV2AyynXXB3iCBvkmTDPu6UgD5tCbYhenWwy2GbzIoaVF0fqolojEf9nsowJDjQDHyEZSuZXStpBl2k8y78luCfUuz13qaFAH2gT5xf9nw9cqwXQNQdjy3v6GV3OkXBoDLcCafx3lJSv9SLmsBVEDKVdGIkfSSEcxYYhMc2zZdF8j2Ty1dET
+
+
+.. code-block:: sh
+   
+
+    $ perl -e 'sub {print "@_"}->("a" .. "z", 0 .. 9, "A" .. "Z")'
+    a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+
+
+.. code-block:: sh
+   
+
+    $ cpe '[](){ cout << "hello world" << endl; }();'
+    hello world
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe '[]{ cout << "hello world" << endl; }();'
+    hello world
+    
+
+
+==========
+kwargs.scm
+==========
+
+
+=============
+prototype.scm
+=============
+
+
+==========
+return.scm
+==========
+

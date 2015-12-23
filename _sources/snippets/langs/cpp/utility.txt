@@ -1,9 +1,0 @@
-
-=======
-utility
-=======
-
-.. contents::
-    :depth: 2
-
-ERROR: ./s/utility/utility.scm => #<error "unbound variable: //">

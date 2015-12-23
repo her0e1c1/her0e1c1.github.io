@@ -1,0 +1,366 @@
+
+
+op
+==
+
+
+=========
+false.scm
+=========
+
+
+
+false
+=====
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say $a || "" || 0'
+    0
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'undefined || null || "" || 0 || false'
+    false
+    
+
+
+======
+eq.scm
+======
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof "s" === "string"'
+    true
+    
+
+NaN stands for Not a Number
+
+.. code-block:: sh
+   
+
+    $ ne 'isNaN(NaN)'
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '(NaN === 1)'
+    false
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '(NaN === NaN)'
+    false
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 == "1"'
+    true
+    
+
+=== needs strict type
+
+.. code-block:: sh
+   
+
+    $ ne '1 === "1"'
+    false
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 / 0 === Infinity'
+    true
+    
+
+= --  値が等しい
+
+.. code-block:: sh
+   
+
+    $ ne '1 == "1"'
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 == 1'
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 === 1'
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 === "1"'
+    false
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '{} == {}'
+    false
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '[] == []'
+    false
+    
+
+Infinity
+
+.. code-block:: sh
+   
+
+    $ ne '1/0 === 2/0'
+    true
+    
+
+NaNvar
+
+.. code-block:: sh
+   
+
+    $ ne '0/0 === 0/0'
+    false
+    
+
+
+=============
+undefined.scm
+=============
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof a === "undefined"'
+    true
+    
+
+変数が未定義であることを確認
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say "undefined" if !defined($a)'
+    undefined
+    
+
+未定義の場合に代入
+
+.. code-block:: sh
+   
+
+    $ perl -E '$a//=1; say $a'
+    1
+    
+
+
+==========
+typeof.scm
+==========
+
+
+
+typeof
+======
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof(true)'
+    boolean
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof(123)'
+    number
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof('abc')'
+    undefined
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof({})'
+    object
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof([])'
+    object
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof /regexp/'
+    object
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof function(){}'
+    function
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof null'
+    object
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof undefined'
+    undefined
+    
+
+
+==============
+instanceof.scm
+==============
+
+
+
+instanceof
+==========
+
+
+.. code-block:: sh
+   
+
+    $ ne '[] instanceof Array'
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '/regexp/ instanceof RegExp'
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '/regexp/ instanceof Function'
+    false
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '(function(){}) instanceof Function'
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'undefined instanceof Object'
+    false
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'null instanceof Object'
+    false
+    
+
+
+======
+if.scm
+======
+
+
+.. code-block:: sh
+   
+
+    $ ne 'true && "ok" || "no"'
+    ok
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say 1 ? "ok" : "no"'
+    ok
+    
+
+
+=========
+apply.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Math.min.apply(null, [1,2,-1,3])'
+    -1
+    
+

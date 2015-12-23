@@ -6,4 +6,8 @@ hash
 .. contents::
     :depth: 2
 
-ERROR: ./s/hash/1.scm => #<error "unbound variable: test-sequenc">
+
+=====
+1.scm
+=====
+

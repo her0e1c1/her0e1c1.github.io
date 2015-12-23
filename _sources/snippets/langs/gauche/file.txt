@@ -7,45 +7,7 @@ file
     :depth: 2
 
 
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (path-extension "/path/to/text.txt")))' -Eexit
-    txt
-    
-
-parse only one dot
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (path-extension "/foo/bar.c.a")))' -Eexit
-    a
-    
-
-
-
-normalize
-=========
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (sys-normalize-pathname "~//a/./d/b" :expand #t :absolute #t :canonicalize #t)))' -Eexit
-    /home/me/a/d/b
-    
-
-
-
-is?
-===
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (file-is-directory? ".")))' -Eexit
-    #t
-    
+========
+file.scm
+========
 

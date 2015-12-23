@@ -1,1 +1,0 @@
-ERROR: ./s/macro/backquote.scm => #<error "unbound variable: eqt">

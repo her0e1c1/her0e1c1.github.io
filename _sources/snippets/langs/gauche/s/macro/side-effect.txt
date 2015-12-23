@@ -1,1 +1,0 @@
-ERROR: ./s/macro/side-effect.scm => #<error "unbound variable: 例えば次の関数は慣習に従">

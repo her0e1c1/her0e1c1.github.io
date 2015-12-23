@@ -1,1 +1,0 @@
-ERROR: ./s/macro/intern.scm => #<error "unbound variable: test-sequenc">

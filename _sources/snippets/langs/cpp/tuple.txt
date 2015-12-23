@@ -1,9 +1,0 @@
-
-=====
-tuple
-=====
-
-.. contents::
-    :depth: 2
-
-ERROR: ./s/tuple/tuple.scm => #<error "unbound variable: vector<pair<">

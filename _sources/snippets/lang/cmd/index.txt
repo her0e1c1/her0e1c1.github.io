@@ -1,0 +1,69 @@
+
+
+cmd
+===
+
+
+=========
+mkdir.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ perl 'mkdir('./lockdir', 0755)'
+    Can't open perl script "mkdir(./lockdir, 0755)": そのようなファイルまたはディレクトリはありません
+    
+
+
+======
+mv.scm
+======
+
+ファイルシステムをまたいでmove
+
+.. code-block:: sh
+   
+
+    $ find ./ -print0 | perl -MFile::Copy -MFile::Basename -l0ne 'move($_, "/path/to/" . basename($_)'
+    syntax error at -e line 1, at EOF
+    Execution of -e aborted due to compilation errors.
+    
+
+
+======
+ls.scm
+======
+
+
+======
+cd.scm
+======
+
+
+.. code-block:: sh
+   
+
+    $ perl 'chdir('/home/user1') or die $!;'
+    Can't open perl script "chdir(/home/user1) or die $!;": そのようなファイルまたはディレクトリはありません
+    
+
+
+======
+cp.scm
+======
+
+
+=========
+rmdir.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ perl 'rmdir('./lockdir')'
+    Can't open perl script "rmdir(./lockdir)": そのようなファイルまたはディレクトリはありません
+    
+

@@ -7,7 +7,7 @@ cd $(dirname $0) > /dev/null && cat <<EOS
 Languages
 =========
 
-$(goshe '(print (sphinx-toctree-directory "langs"))'
+$(goshe '(print (sphinx-toctree-directory "lang"))')
 
 Algorithm
 =========

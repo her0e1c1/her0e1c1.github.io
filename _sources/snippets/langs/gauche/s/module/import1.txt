@@ -1,7 +1,0 @@
-3
-4
-3
-30
-21
-#<module A>
-ERROR: ./s/module/import1.scm => #<error "Compile Error: #<hash-table eq">

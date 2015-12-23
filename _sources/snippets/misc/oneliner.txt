@@ -7,6 +7,11 @@ oneliner
     :depth: 2
 
 
+=====
+1.scm
+=====
+
+
 
 Serve static files
 ==================
@@ -29,7 +34,7 @@ Count up when the string perl appears in history
    
 
     cat ~/.zsh_history |perl -nle '/perl/ and $p++; END{print $p}'
-    238
+    243
     
 
 
@@ -104,7 +109,11 @@ Check whether a command exists or not
 json
 ====
 
-ERROR: ./oneliner/1.scm => #<error "unbound variable: run+">
+
+=========
+regex.scm
+=========
+
 
 .. code-block:: sh
    
@@ -120,4 +129,9 @@ ERROR: ./oneliner/1.scm => #<error "unbound variable: run+">
     $ ce 'echo abc | perl -nlE 'say if /("([\].|[^\"])*")/''
     Syntax error: "(" unexpected
     
+
+
+=======
+sql.scm
+=======
 

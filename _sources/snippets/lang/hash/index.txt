@@ -1,0 +1,312 @@
+
+
+hash
+====
+
+
+==========
+update.scm
+==========
+
+
+.. code-block:: sh
+   
+
+    $ ne 'a['forth'] = 1;'
+    [eval]:1
+    console.log(a[forth] = 1;)
+                           ^
+    
+    SyntaxError: missing ) after argument list
+        at Object.exports.runInThisContext (vm.js:53:16)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; m["a"]=2; P(m["a"])'
+    m["a"] = 2
+    
+
+
+=========
+items.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '%a=(a=>1, b=>2); while(($k, $v) =each %a){say "$k = $v"}'
+    a = 1
+    b = 2
+    
+
+
+========
+keys.scm
+========
+
+get all hash keys
+
+.. code-block:: sh
+   
+
+    $ perl -E '%a=(a=>1, b=>2); say keys %a'
+    ab
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
+    132
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Object.keys({a:1, b:2});'
+    [eval]:1
+    console.log(Object.keys({a:1, b:2});)
+                                      ^
+    
+    SyntaxError: missing ) after argument list
+        at Object.exports.runInThisContext (vm.js:53:16)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+==========
+hasKey.scm
+==========
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'print("a" in {"a": 1})'
+    True
+    
+
+シンボルと文字列を区別する
+
+.. code-block:: sh
+   
+
+    $ ruby -e 'puts ({:a => 1}.key? "a")'
+    false
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '{a: 1}.hasOwnProperty("a")'
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '"a" in {a: 1}'
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '%a=(a=>1); say exists($a{a})'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '%a=(a=>1); say exists($a{"a"})'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '%a=(a=>1); say %a ~~ /^a$/'
+    Smartmatch is experimental at -e line 1.
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; P(m.find("a") != m.end())'
+    m.find("a") != m.end() = 1
+    
+
+
+=======
+get.scm
+=======
+
+
+
+get
+===
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'print({"a": 1, "b": 2}["a"])'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '{a: 1, b: 2}.a'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '{a: 1, b: 2}[a]'
+    [eval]:1
+    console.log({a: 1, b: 2}[a])
+                             ^
+    
+    ReferenceError: a is not defined
+        at [eval]:1:26
+        at Object.exports.runInThisContext (vm.js:54:17)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '{a: 1, b: 2}['a']'
+    [eval]:1
+    console.log({a: 1, b: 2}[a])
+                             ^
+    
+    ReferenceError: a is not defined
+        at [eval]:1:26
+        at Object.exports.runInThisContext (vm.js:54:17)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '%a=(a=>1, b=>2); say $a{a}'
+    1
+    
+
+
+==========
+insert.scm
+==========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(map<string,int>::value_type("b", 2)); P(m["b"])'
+    m["b"] = 2
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(make_pair("b", 2)); P(m["b"])'
+    m["b"] = 2
+    
+
+
+========
+iter.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ cpe '
+      map<int, string>::iterator it = m.begin();
+      for(; it != m.end(); it++){
+        cout << (*it).first << ": " << it->second << endl;
+    '
+    <stdin>:45:35: error: use of undeclared identifier 'm'
+      map<int, string>::iterator it = m.begin();
+                                      ^
+    <stdin>:46:15: error: use of undeclared identifier 'm'
+      for(; it != m.end(); it++){
+                  ^
+    <stdin>:50:2: error: expected '}'
+    }
+     ^
+    <stdin>:43:33: note: to match this '{'
+    int main(int argc, char* argv[]){
+                                    ^
+    3 errors generated.
+    
+
+
+========
+init.scm
+========
+
+
+==========
+toHash.scm
+==========
+
+string => json. keyは""で囲むこと
+
+.. code-block:: sh
+   
+
+    $ ne 'JSON.parse('{"key": "val"}')'
+    [eval]:1
+    console.log(JSON.parse({key:)
+                                ^
+    
+    SyntaxError: Unexpected token )
+        at Object.exports.runInThisContext (vm.js:53:16)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+

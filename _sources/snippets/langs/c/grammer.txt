@@ -7,6 +7,11 @@ grammer
     :depth: 2
 
 
+========
+args.scm
+========
+
+
 
 argument
 ========
@@ -26,7 +31,7 @@ you can also say like char** is [String]
    
 
     $ ce 'while(*argv){p("%s ", *argv); argv++;}' 1 2 3
-    /tmp/tmp.fXd3TuTx 1 2 3 
+    /tmp/tmp.UZH0z1fR 1 2 3 
 
 Increment pointer. ++ and +=1 are no different. btw argv[0] is exec path.
 
@@ -43,6 +48,11 @@ Get the last item
 
     $ ce 'p("%s", argv[argc - 1]);' first secomd last
     last
+
+
+==========
+double.scm
+==========
 
 
 
@@ -139,6 +149,11 @@ not 0.1 but 0.125?
     0.000000
 
 
+========
+enum.scm
+========
+
+
 
 enum
 ====
@@ -202,6 +217,11 @@ create a variable
     1
 
 
+===========
+environ.scm
+===========
+
+
 
 environ
 =======
@@ -213,6 +233,11 @@ Get values of evriron
 
     $ ce 'char**e=environ;while(*e){if(!strcmp(*e, "USER=me"))p("%s", *e); e++;}'
     USER=me
+
+
+========
+exec.scm
+========
 
 l list, v vector, e env
 
@@ -262,6 +287,11 @@ you don't need an absolute path because it searches PATH for the command.
     
 
 
+========
+exit.scm
+========
+
+
 
 exit
 ====
@@ -286,6 +316,11 @@ exit
 
     $ ce 'exit(EXIT_SUCCESS); p("NOT REACHED");'
     
+
+
+=========
+false.scm
+=========
 
 
 
@@ -321,6 +356,11 @@ false
     true
 
 
+==========
+fflush.scm
+==========
+
+
 
 fflush
 ======
@@ -343,6 +383,11 @@ printf doesn't output until it encounters newline. an error will occur because o
     
 
 
+==========
+getenv.scm
+==========
+
+
 
 env
 ===
@@ -361,6 +406,11 @@ NULL if the name doesn't exist.
 
     $ ce 'p("%s", getenv("user"));'
     (null)
+
+
+==================
+gruop_from_gid.scm
+==================
 
 
 
@@ -391,6 +441,16 @@ Or just return NULL if the second argument is nonzero
     $ ce 'p("%s", group_from_gid(123456, 1));'
     (null)
 
+
+=========
+limit.scm
+=========
+
+
+=========
+macro.scm
+=========
+
 Get a size of an array
 
 .. code-block:: sh
@@ -399,6 +459,16 @@ Get a size of an array
     $ ce '#define SIZE(x) (sizeof(x) / sizeof(x[0]))
      int a[] = {1,2,3}; p("%d", SIZE(a));'
     3
+
+
+==========
+memcpy.scm
+==========
+
+
+==========
+memset.scm
+==========
 
 
 
@@ -443,7 +513,16 @@ Don't work because memset fills numbers but 0 or -1 at each byte
     $ ce 'int i[1]; memset(i, 1, sizeof(int)); printf("%x", i[0]);'
     1010101
 
-ERROR: ./s/grammer/pointer.scm => #<read-error "Read error at "./s/grammer/poi">
+
+===========
+pointer.scm
+===========
+
+
+============
+realpath.scm
+============
+
 
 
 realpath
@@ -456,6 +535,11 @@ Normalize path. I think return value is the same as a buff-stored value.
 
     $ ce 'char s[PATH_MAX]; p("%s", realpath("/home/../home/././.", s));'
     /usr/home
+
+
+==========
+sizeof.scm
+==========
 
 
 
@@ -570,7 +654,16 @@ sizeof gets all the memory size, not the length of an array
     $ ce 'int b[10]; p("%zu", sizeof(b));'
     40
 
-ERROR: ./s/grammer/stack.scm => #<error "unbound variable: //">
+
+=========
+stack.scm
+=========
+
+
+==========
+statfs.scm
+==========
+
 
 
 statfs
@@ -582,6 +675,11 @@ statfs
 
     $ ce 'struct statfs s; statfs("/home", &s); p("%s", s.f_mntonname);'
     /
+
+
+==========
+struct.scm
+==========
 
 
 
@@ -621,6 +719,11 @@ struct
     0
 
 
+===========
+ttyname.scm
+===========
+
+
 
 ttyname
 =======
@@ -632,7 +735,7 @@ in this case, because I run this command as subprocess, these results are NULL.
    
 
     $ ce 'p("%s", ttyname(0));'
-    /dev/pts/2
+    /dev/pts/5
 
 
 .. code-block:: sh
@@ -648,4 +751,8 @@ in this case, because I run this command as subprocess, these results are NULL.
     $ ce 'p("%s", ttyname(2));'
     (null)
 
-ERROR: ./s/grammer/type.scm => #<read-error "Read error at "./s/grammer/typ">
+
+========
+type.scm
+========
+

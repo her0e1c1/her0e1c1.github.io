@@ -1,9 +1,0 @@
-
-=====
-stack
-=====
-
-.. contents::
-    :depth: 2
-
-ERROR: ./s/stack/stack.scm => #<error "unbound variable: stack<int>">

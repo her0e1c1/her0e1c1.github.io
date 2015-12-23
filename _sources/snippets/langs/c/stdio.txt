@@ -6,4 +6,8 @@ stdio
 .. contents::
     :depth: 2
 
-ERROR: ./s/stdio/dup.scm => #<read-error "Read error at "./s/stdio/dup.s">
+
+=======
+dup.scm
+=======
+

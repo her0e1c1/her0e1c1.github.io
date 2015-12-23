@@ -102,36 +102,13 @@
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#file" id="id1">file</a><ul>
-<li><a class="reference internal" href="#normalize" id="id2">normalize</a></li>
-<li><a class="reference internal" href="#is" id="id3">is?</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#file" id="id1">file</a></li>
+<li><a class="reference internal" href="#file-scm" id="id2">file.scm</a></li>
 </ul>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (path-extension &quot;/path/to/text.txt&quot;)))&#39;</span> -Eexit
-txt
-</pre></div>
 </div>
-<p>parse only one dot</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (path-extension &quot;/foo/bar.c.a&quot;)))&#39;</span> -Eexit
-a
-</pre></div>
-</div>
-<div class="section" id="normalize">
-<h2><a class="toc-backref" href="#id2">normalize</a><a class="headerlink" href="#normalize" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (sys-normalize-pathname &quot;~//a/./d/b&quot; :expand #t :absolute #t :canonicalize #t)))&#39;</span> -Eexit
-/home/me/a/d/b
-</pre></div>
-</div>
-</div>
-<div class="section" id="is">
-<h2><a class="toc-backref" href="#id3">is?</a><a class="headerlink" href="#is" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>gosh -e <span class="s1">&#39;(print (begin (file-is-directory? &quot;.&quot;)))&#39;</span> -Eexit
-<span class="c">#t</span>
-</pre></div>
-</div>
-</div>
+<div class="section" id="file-scm">
+<h1><a class="toc-backref" href="#id2">file.scm</a><a class="headerlink" href="#file-scm" title="Permalink to this headline">¶</a></h1>
 </div>
 
 

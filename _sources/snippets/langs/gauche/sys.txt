@@ -7,29 +7,12 @@ sys
     :depth: 2
 
 
-.. code-block:: sh
-   
+=========
+sleep.scm
+=========
 
-    $ gosh -e '(print (begin (sys-system "ls")))' -Eexit
-    basic.rst
-    char.rst
-    class.rst
-    fp.rst
-    gauche2c
-    hash.rst
-    include-gauche.scm
-    index.rst
-    index.scm
-    index.sh
-    install.rst
-    macro.rst
-    module.rst
-    peg.rst
-    regex.rst
-    s
-    stream.rst
-    string.rst
-    sys.rst
-    0
-    
+
+=======
+sys.scm
+=======
 

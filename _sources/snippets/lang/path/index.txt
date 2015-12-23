@@ -1,0 +1,124 @@
+
+
+path
+====
+
+
+==========
+tmpdir.scm
+==========
+
+
+========
+join.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ perl -M'File::Spec' -E 'say File::Spec->catfile(q#/path/to#, q#text.txt#)'
+    /path/to/text.txt
+    
+
+
+========
+glob.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'import os; print("
+    ".join(os.listdir(".")))'
+      File "<string>", line 1
+        import os; print("
+                         ^
+    SyntaxError: EOL while scanning string literal
+    
+
+
+.. code-block:: sh
+   
+
+    $ ghc -e 'System.Directory.getDirectoryContents "." >>= return . unlines >>= putStr'
+    .
+    ..
+    set
+    char
+    op
+    math
+    index.sh
+    bit
+    tuple
+    regex
+    number
+    index.rst
+    memory
+    exception
+    special_variables
+    hash
+    index.scm
+    string
+    range
+    stack
+    list
+    .gitignore
+    char-set
+    cmd
+    io
+    vector
+    date
+    func
+    path
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say for glob("*")'
+    bit
+    char
+    char-set
+    cmd
+    date
+    exception
+    func
+    hash
+    index.rst
+    index.scm
+    index.sh
+    io
+    list
+    math
+    memory
+    number
+    op
+    path
+    range
+    regex
+    set
+    special_variables
+    stack
+    string
+    tuple
+    vector
+    
+
+
+============
+basename.scm
+============
+
+
+
+basename
+========
+
+
+=======
+sep.scm
+=======
+

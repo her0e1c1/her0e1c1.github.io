@@ -1,0 +1,600 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>string &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="string">
+<h1>string<a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="expand-scm">
+<h2>expand.scm<a class="headerlink" href="#expand-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ruby -e <span class="s2">&quot;a=&#39;hello&#39;; %(#{a} world).display&quot;</span>
+hello world
+</pre></div>
+</div>
+</div>
+<div class="section" id="tag-scm">
+<h2>tag.scm<a class="headerlink" href="#tag-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>太字<span class="s1">&#39;.bold()&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>太字.bold<span class="o">())</span>
+            ^
+
+ReferenceError: 太字 is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>斜体<span class="s1">&#39;.italics()&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>斜体.italics<span class="o">())</span>
+            ^
+
+ReferenceError: 斜体 is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>固定幅フォント<span class="s1">&#39;.fixed()&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>固定幅フォント.fixed<span class="o">())</span>
+            ^
+
+ReferenceError: 固定幅フォント is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>大きなフォント<span class="s1">&#39;.big()&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>大きなフォント.big<span class="o">())</span>
+            ^
+
+ReferenceError: 大きなフォント is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>小さなフォント<span class="s1">&#39;.small()&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>小さなフォント.small<span class="o">())</span>
+            ^
+
+ReferenceError: 小さなフォント is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>ブリンク<span class="s1">&#39;.blink()&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>ブリンク.blink<span class="o">())</span>
+            ^
+
+ReferenceError: ブリンク is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>打ち消し線<span class="s1">&#39;.strike()&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>打ち消し線.strike<span class="o">())</span>
+            ^
+
+ReferenceError: 打ち消し線 is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>上付き<span class="s1">&#39;.sup()&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>上付き.sup<span class="o">())</span>
+            ^
+
+ReferenceError: 上付き is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>下付き<span class="s1">&#39;.sub()&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>下付き.sub<span class="o">())</span>
+            ^
+
+ReferenceError: 下付き is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>赤い文字<span class="s1">&#39;.fontcolor(&#39;</span>red<span class="s1">&#39;)&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>赤い文字.fontcolor<span class="o">(</span>red<span class="o">))</span>
+            ^
+
+ReferenceError: 赤い文字 is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>フォントサイズ7の文字<span class="s1">&#39;.fontsize(7)&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>フォントサイズ7の文字.fontsize<span class="o">(</span>7<span class="o">))</span>
+            ^
+
+ReferenceError: フォントサイズ7の文字 is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>アンカー<span class="s1">&#39;.anchor(&#39;</span>xxx<span class="s1">&#39;)&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>アンカー.anchor<span class="o">(</span>xxx<span class="o">))</span>
+            ^
+
+ReferenceError: アンカー is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>リンク<span class="s1">&#39;.link(&#39;</span>index.html<span class="s1">&#39;)&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
+console.log<span class="o">(</span>リンク.link<span class="o">(</span>index.html<span class="o">))</span>
+            ^
+
+ReferenceError: リンク is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
+    at node.js:576:27
+    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
+    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="replicate-scm">
+<h2>replicate.scm<a class="headerlink" href="#replicate-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;abc&quot; x 3&#39;</span>
+abcabcabc
+</pre></div>
+</div>
+</div>
+<div class="section" id="init-scm">
+<h2>init.scm<a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ruby -e <span class="s1">&#39;%q(hello wolrd).display&#39;</span>
+hello wolrd
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ruby -e <span class="s1">&#39;%Q#hello world#.display&#39;</span>
+hello world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s1">&#39;print &quot;hello world&quot;&#39;</span>
+hello world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s1">&#39;print qq/hello world/&#39;</span>
+hello world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;hello world&quot;&#39;</span>
+hello world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s = &quot;test&quot;; P(s)&#39;</span>
+<span class="nv">s</span> <span class="o">=</span> <span class="nb">test</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s(&quot;test&quot;); P(s)&#39;</span>
+<span class="nv">s</span> <span class="o">=</span> <span class="nb">test</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;char s[] = &quot;test&quot;; string t(s); P(t)&#39;</span>
+<span class="nv">t</span> <span class="o">=</span> <span class="nb">test</span>
+</pre></div>
+</div>
+<p>指定した文字で初期化します。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s(5, &#39;</span>0<span class="s1">&#39;); P(s)&#39;</span>
+<span class="nv">s</span> <span class="o">=</span>      
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s=&quot;hoge&quot;; P((s[0]-&#39;</span>0<span class="s1">&#39;)+(s[1]-&#39;</span>0<span class="s1">&#39;) == (s[0]+s[1]-2*&#39;</span>0<span class="s1">&#39;))&#39;</span>
+<span class="o">(</span>s<span class="o">[</span>0<span class="o">]</span>-0<span class="o">)</span>+<span class="o">(</span>s<span class="o">[</span>1<span class="o">]</span>-0<span class="o">)</span> <span class="o">==</span> <span class="o">(</span>s<span class="o">[</span>0<span class="o">]</span>+s<span class="o">[</span>1<span class="o">]</span>-2*0<span class="o">)</span> <span class="o">=</span> 1
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-scm">
+<h2>update.scm<a class="headerlink" href="#update-scm" title="Permalink to this headline">¶</a></h2>
+<p>一文字だけ書き換えることができます。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s=&quot;abcdefg&quot;; s[3]=&#39;</span>z<span class="s1">&#39;; P(s)&#39;</span>
+&lt;stdin&gt;:44:30: error: use of undeclared identifier <span class="s1">&#39;z&#39;</span>
+    string <span class="nv">s</span><span class="o">=</span><span class="s2">&quot;abcdefg&quot;</span><span class="p">;</span> s<span class="o">[</span>3<span class="o">]=</span>z<span class="p">;</span> P<span class="o">(</span>s<span class="o">)</span>
+                             ^
+<span class="m">1</span> error generated.
+</pre></div>
+</div>
+</div>
+<div class="section" id="substr-scm">
+<h2>substr.scm<a class="headerlink" href="#substr-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say substr + (join &quot;&quot;, a..f), 1, -1&#39;</span>
+bcde
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s = &quot;test&quot;; string t(s,1,2); P(t)&#39;</span>
+<span class="nv">t</span> <span class="o">=</span> es
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s = &quot;test&quot;; string t(s.begin()+1, s.begin()+2); P(t)&#39;</span>
+<span class="nv">t</span> <span class="o">=</span> e
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s=&quot;abcdefghi&quot;; P(s.substr(0, 5));&#39;</span>
+s.substr<span class="o">(</span>0, 5<span class="o">)</span> <span class="o">=</span> abcde
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s=&quot;abcdefghi&quot;; P(s.substr(5, 10));&#39;</span>
+s.substr<span class="o">(</span>5, 10<span class="o">)</span> <span class="o">=</span> fghi
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">開始位置が範囲外の場合は例外を出します。</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s=&quot;abcdefghi&quot;; P(s.substr(10, 5));&#39;</span>
+s.substr<span class="o">(</span>10, 5<span class="o">)</span> <span class="o">=</span> アボートトラップ
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s=&quot;abcdefghi&quot;; P(s.substr(10, 1000));&#39;</span>
+s.substr<span class="o">(</span>10, 1000<span class="o">)</span> <span class="o">=</span> アボートトラップ
+</pre></div>
+</div>
+</div>
+<div class="section" id="format-scm">
+<h2>format.scm<a class="headerlink" href="#format-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say sprintf(&quot;%s, %s&quot;, &quot;hello&quot;, &quot;world&quot;)&#39;</span>
+hello, world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -le <span class="s1">&#39;print unpack(&quot;H*&quot;, $ARGV[0]);&#39;</span> <span class="s1">&#39;あいうえお&#39;</span>
+e38182e38184e38186e38188e3818a
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say unpack(&quot;B*&quot;, &quot;A&quot;);&#39;</span>
+01000001
+</pre></div>
+</div>
+</div>
+<div class="section" id="tostring-scm">
+<h2>toString.scm<a class="headerlink" href="#tostring-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;JSON.stringify({&quot;key&quot;: &quot;val&quot;})&#39;</span>
+<span class="o">{</span><span class="s2">&quot;key&quot;</span>:<span class="s2">&quot;val&quot;</span><span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;std::ostringstream oss; oss &lt;&lt; 12345; P(oss.str());&#39;</span>
+oss.str<span class="o">()</span> <span class="o">=</span> 12345
+</pre></div>
+</div>
+</div>
+<div class="section" id="equal-scm">
+<h2>equal.scm<a class="headerlink" href="#equal-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say 1 if &quot;a&quot; eq &quot;a&quot;&#39;</span>
+1
+</pre></div>
+</div>
+</div>
+<div class="section" id="count-scm">
+<h2>count.scm<a class="headerlink" href="#count-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s=&quot;abcaba&quot;; P(count(s.begin(), s.end(), &#39;</span>a<span class="s1">&#39;));&#39;</span>
+&lt;stdin&gt;:44:52: error: use of undeclared identifier <span class="s1">&#39;a&#39;</span>
+    string <span class="nv">s</span><span class="o">=</span><span class="s2">&quot;abcaba&quot;</span><span class="p">;</span> P<span class="o">(</span>count<span class="o">(</span>s.begin<span class="o">()</span>, s.end<span class="o">()</span>, a<span class="o">))</span><span class="p">;</span>
+                                                   ^
+/home/me/lib/cpp/myutils.h:61:38: note: expanded from macro <span class="s1">&#39;P&#39;</span>
+<span class="c">#define P(x) cout &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; (x) &lt;&lt; endl;</span>
+                                     ^
+<span class="m">1</span> error generated.
+</pre></div>
+</div>
+<p>count up each charactor</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;vector&lt;int&gt;d(&#39;</span>Z<span class="s1">&#39;-&#39;</span>A<span class="s1">&#39;+1,0); string s=&quot;AAABBC&quot;; for(char c = s;c;c++) d[c-&#39;</span>A<span class="s1">&#39;]++; PE(d)&#39;</span>
+&lt;stdin&gt;:44:18: error: use of undeclared identifier <span class="s1">&#39;Z&#39;</span>
+    vector&lt;int&gt;d<span class="o">(</span>Z-A+1,0<span class="o">)</span><span class="p">;</span> string <span class="nv">s</span><span class="o">=</span><span class="s2">&quot;AAABBC&quot;</span><span class="p">;</span> <span class="k">for</span><span class="o">(</span>char <span class="nv">c</span> <span class="o">=</span> s<span class="p">;</span>c<span class="p">;</span>c++<span class="o">)</span> d<span class="o">[</span>c-A<span class="o">]</span>++<span class="p">;</span> PE<span class="o">(</span>d<span class="o">)</span>
+                 ^
+&lt;stdin&gt;:44:20: error: use of undeclared identifier <span class="s1">&#39;A&#39;</span>
+    vector&lt;int&gt;d<span class="o">(</span>Z-A+1,0<span class="o">)</span><span class="p">;</span> string <span class="nv">s</span><span class="o">=</span><span class="s2">&quot;AAABBC&quot;</span><span class="p">;</span> <span class="k">for</span><span class="o">(</span>char <span class="nv">c</span> <span class="o">=</span> s<span class="p">;</span>c<span class="p">;</span>c++<span class="o">)</span> d<span class="o">[</span>c-A<span class="o">]</span>++<span class="p">;</span> PE<span class="o">(</span>d<span class="o">)</span>
+                   ^
+&lt;stdin&gt;:44:56: error: no viable conversion from <span class="s1">&#39;string&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;basic_string&lt;char, char_traits&lt;char&gt;, allocator&lt;char&gt; &gt;&#39;</span><span class="o">)</span> to <span class="s1">&#39;char&#39;</span>
+    vector&lt;int&gt;d<span class="o">(</span>Z-A+1,0<span class="o">)</span><span class="p">;</span> string <span class="nv">s</span><span class="o">=</span><span class="s2">&quot;AAABBC&quot;</span><span class="p">;</span> <span class="k">for</span><span class="o">(</span>char <span class="nv">c</span> <span class="o">=</span> s<span class="p">;</span>c<span class="p">;</span>c++<span class="o">)</span> d<span class="o">[</span>c-A<span class="o">]</span>++<span class="p">;</span> PE<span class="o">(</span>d<span class="o">)</span>
+                                                       ^   ~
+&lt;stdin&gt;:44:73: error: use of undeclared identifier <span class="s1">&#39;A&#39;</span>
+    vector&lt;int&gt;d<span class="o">(</span>Z-A+1,0<span class="o">)</span><span class="p">;</span> string <span class="nv">s</span><span class="o">=</span><span class="s2">&quot;AAABBC&quot;</span><span class="p">;</span> <span class="k">for</span><span class="o">(</span>char <span class="nv">c</span> <span class="o">=</span> s<span class="p">;</span>c<span class="p">;</span>c++<span class="o">)</span> d<span class="o">[</span>c-A<span class="o">]</span>++<span class="p">;</span> PE<span class="o">(</span>d<span class="o">)</span>
+                                                                        ^
+<span class="m">4</span> errors generated.
+</pre></div>
+</div>
+</div>
+<div class="section" id="split-scm">
+<h2>split.scm<a class="headerlink" href="#split-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say split /s/, &quot;a b c&quot;&#39;</span>
+a b c
+</pre></div>
+</div>
+</div>
+<div class="section" id="length-scm">
+<h2>length.scm<a class="headerlink" href="#length-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say length shift&#39;</span> 1234567890
+10
+</pre></div>
+</div>
+</div>
+<div class="section" id="find-scm">
+<h2>find.scm<a class="headerlink" href="#find-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;P(string::npos == -1)&#39;</span>
+string::npos <span class="o">==</span> -1 <span class="o">=</span> 1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s = &quot;this is a test.&quot;; P(s.find(&quot;is&quot;) != string::npos)&#39;</span>
+s.find<span class="o">(</span><span class="s2">&quot;is&quot;</span><span class="o">)</span> !<span class="o">=</span> string::npos <span class="o">=</span> 1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s = &quot;this is a test.&quot;; P(s.find(&quot;IS&quot;) != string::npos)&#39;</span>
+s.find<span class="o">(</span><span class="s2">&quot;IS&quot;</span><span class="o">)</span> !<span class="o">=</span> string::npos <span class="o">=</span> 0
+</pre></div>
+</div>
+<p>char is also available</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s = &quot;this is a test.&quot;; P(s.find(&#39;</span>.<span class="s1">&#39;) != string::npos)&#39;</span>
+&lt;stdin&gt;:44:44: error: expected expression
+    string <span class="nv">s</span> <span class="o">=</span> <span class="s2">&quot;this is a test.&quot;</span><span class="p">;</span> P<span class="o">(</span>s.find<span class="o">(</span>.<span class="o">)</span> !<span class="o">=</span> string::npos<span class="o">)</span>
+                                           ^
+/home/me/lib/cpp/myutils.h:61:38: note: expanded from macro <span class="s1">&#39;P&#39;</span>
+<span class="c">#define P(x) cout &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; (x) &lt;&lt; endl;</span>
+                                     ^
+<span class="m">1</span> error generated.
+</pre></div>
+</div>
+</div>
+<div class="section" id="upper-scm">
+<h2>upper.scm<a class="headerlink" href="#upper-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="cmp-scm">
+<h2>cmp.scm<a class="headerlink" href="#cmp-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;P(&quot;aaa&quot; &lt; &quot;bbb&quot;)&#39;</span>
+<span class="s2">&quot;aaa&quot;</span> &lt; <span class="s2">&quot;bbb&quot;</span> <span class="o">=</span> 1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;P(&quot;aaa&quot; &lt;= &quot;aaa&quot;)&#39;</span>
+<span class="s2">&quot;aaa&quot;</span> &lt;<span class="o">=</span> <span class="s2">&quot;aaa&quot;</span> <span class="o">=</span> 1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;P(&quot;aaa&quot; &lt; &quot;aab&quot;)&#39;</span>
+<span class="s2">&quot;aaa&quot;</span> &lt; <span class="s2">&quot;aab&quot;</span> <span class="o">=</span> 1
+</pre></div>
+</div>
+</div>
+<div class="section" id="tr-scm">
+<h2>tr.scm<a class="headerlink" href="#tr-scm" title="Permalink to this headline">¶</a></h2>
+<p>d option is to delete it if you cant map a char</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=qq/abc/; tr/ac/A/d; say&#39;</span>
+Ab
+</pre></div>
+</div>
+</div>
+<div class="section" id="join-scm">
+<h2>join.scm<a class="headerlink" href="#join-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>python -c <span class="s1">&#39;print(&quot; &quot;.join([&quot;%s.%s&quot; % (x,y) for x in [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] for y in [&quot;txt&quot;, &quot;csv&quot;]]))&#39;</span>
+a.txt a.csv b.txt b.csv c.txt c.csv
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say join &quot; &quot;, 1..10&#39;</span>
+<span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> 10
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say join &quot; &quot; , map {sprintf &quot;%03d&quot;, $_} 1..10&#39;</span>
+<span class="m">001</span> <span class="m">002</span> <span class="m">003</span> <span class="m">004</span> <span class="m">005</span> <span class="m">006</span> <span class="m">007</span> <span class="m">008</span> <span class="m">009</span> 010
+</pre></div>
+</div>
+</div>
+<div class="section" id="concat-scm">
+<h2>concat.scm<a class="headerlink" href="#concat-scm" title="Permalink to this headline">¶</a></h2>
+<p>破壊的</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ruby -e <span class="s1">&#39;a=%Q/abc/; a &lt;&lt; %Q/efg/; puts a&#39;</span>
+abcefg
+</pre></div>
+</div>
+<p>&lt;&lt; と同じ</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ruby -e <span class="s1">&#39;puts %Q/abc/.concat(%Q/efg/)&#39;</span>
+abcefg
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&quot;abc&quot; + &quot;efg&quot;&#39;</span>
+abcefg
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;abc&quot;.&quot;efg&quot;&#39;</span>
+abcefg
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s; for(char ch = &#39;</span>a<span class="s1">&#39;; ch &lt;= &#39;</span>z<span class="s1">&#39;; ch++) s += ch; P(s)&#39;</span>
+&lt;stdin&gt;:44:29: error: use of undeclared identifier <span class="s1">&#39;a&#39;</span>
+    string s<span class="p">;</span> <span class="k">for</span><span class="o">(</span>char <span class="nv">ch</span> <span class="o">=</span> a<span class="p">;</span> ch &lt;<span class="o">=</span> z<span class="p">;</span> ch++<span class="o">)</span> s +<span class="o">=</span> ch<span class="p">;</span> P<span class="o">(</span>s<span class="o">)</span>
+                            ^
+&lt;stdin&gt;:44:38: error: use of undeclared identifier <span class="s1">&#39;z&#39;</span>
+    string s<span class="p">;</span> <span class="k">for</span><span class="o">(</span>char <span class="nv">ch</span> <span class="o">=</span> a<span class="p">;</span> ch &lt;<span class="o">=</span> z<span class="p">;</span> ch++<span class="o">)</span> s +<span class="o">=</span> ch<span class="p">;</span> P<span class="o">(</span>s<span class="o">)</span>
+                                     ^
+<span class="m">2</span> errors generated.
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

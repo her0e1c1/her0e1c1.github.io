@@ -103,15 +103,15 @@
 <p class="topic-title first">Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#continuation" id="id4">Continuation</a><ul>
-<li><a class="reference internal" href="#flatten-scm" id="id5">flatten.scm</a><ul>
+<li><a class="reference internal" href="#fib-scm" id="id5">fib.scm</a><ul>
 <li><a class="reference internal" href="#test" id="id6">test</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#fib-scm" id="id7">fib.scm</a><ul>
+<li><a class="reference internal" href="#leaf-count-scm" id="id7">leaf-count.scm</a><ul>
 <li><a class="reference internal" href="#id1" id="id8">test</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#leaf-count-scm" id="id9">leaf-count.scm</a><ul>
+<li><a class="reference internal" href="#flatten-scm" id="id9">flatten.scm</a><ul>
 <li><a class="reference internal" href="#id2" id="id10">test</a></li>
 </ul>
 </li>
@@ -123,41 +123,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="flatten-scm">
-<h2><a class="toc-backref" href="#id5">flatten.scm</a><a class="headerlink" href="#flatten-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-scm"><div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">flatten/cps</span> <span class="nv">tree</span> <span class="nv">k</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">k</span> <span class="o">&#39;</span><span class="p">()))</span>
-        <span class="p">((</span><span class="nb">pair? </span><span class="nv">tree</span><span class="p">)</span>
-         <span class="p">(</span><span class="nf">flatten/cps</span> <span class="p">(</span><span class="nb">car </span><span class="nv">tree</span><span class="p">)</span>
-                      <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">r1</span><span class="p">)</span>
-                        <span class="p">(</span><span class="nf">flatten/cps</span>
-                         <span class="p">(</span><span class="nb">cdr </span><span class="nv">tree</span><span class="p">)</span>
-                         <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">r2</span><span class="p">)</span> <span class="p">(</span><span class="nf">k</span> <span class="p">(</span><span class="nb">append </span><span class="nv">r1</span> <span class="nv">r2</span><span class="p">)))))))</span>
-        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">k</span> <span class="p">(</span><span class="nb">list </span><span class="nv">tree</span><span class="p">)))))</span>
-</pre></div>
-</div>
-<div class="section" id="test">
-<h3><a class="toc-backref" href="#id6">test</a><a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-scm"><div class="highlight"><pre><span class="p">(</span><span class="nf">add-load-path</span> <span class="s">&quot;.&quot;</span> <span class="nv">:relative</span><span class="p">)</span>
-<span class="p">(</span><span class="nb">load </span><span class="s">&quot;flatten.scm&quot;</span><span class="p">)</span>
-<span class="p">(</span><span class="nf">use</span> <span class="nv">gauche</span><span class="o">.</span><span class="nv">test</span><span class="p">)</span>
-
-<span class="p">(</span><span class="nf">test*</span> <span class="s">&quot;(flatten/cps X)&quot;</span> <span class="o">&#39;</span><span class="p">()</span> <span class="p">(</span><span class="nf">flatten/cps</span> <span class="o">&#39;</span><span class="p">()</span> <span class="nv">values</span><span class="p">))</span>
-<span class="p">(</span><span class="nf">test*</span> <span class="s">&quot;(flatten/cps X)&quot;</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span> <span class="p">(</span><span class="nf">flatten/cps</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span> <span class="nv">values</span><span class="p">))</span>
-<span class="p">(</span><span class="nf">test*</span> <span class="s">&quot;(flatten/cps X)&quot;</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span> <span class="nv">g</span> <span class="nv">h</span><span class="p">)</span> <span class="p">(</span><span class="nf">flatten/cps</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="p">(</span><span class="nf">b</span> <span class="p">(</span><span class="nf">c</span> <span class="nv">d</span><span class="p">)</span> <span class="nv">e</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">g</span><span class="p">)</span> <span class="nv">h</span><span class="p">))</span> <span class="nv">values</span><span class="p">)</span>
-<span class="p">(</span><span class="nf">test*</span> <span class="s">&quot;(flatten/cps X)&quot;</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span> <span class="nv">g</span> <span class="nv">h</span><span class="p">)</span> <span class="p">(</span><span class="nf">flatten/cps</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="p">(((</span><span class="nf">b</span><span class="p">)</span> <span class="p">(</span><span class="nf">c</span> <span class="nv">d</span><span class="p">))</span> <span class="p">((</span><span class="nf">e</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(((</span><span class="nf">g</span><span class="p">))))</span> <span class="nv">h</span><span class="p">))</span> <span class="nv">values</span><span class="p">))</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>test (flatten/cps X), expects () ==&gt; ok
-test (flatten/cps X), expects (a b c) ==&gt; ok
-test (flatten/cps X), expects (a b c d e f g h) ==&gt; ok
-test (flatten/cps X), expects (a b c d e f g h) ==&gt; ok
-</pre></div>
-</div>
-</div>
-</div>
 <div class="section" id="fib-scm">
-<h2><a class="toc-backref" href="#id7">fib.scm</a><a class="headerlink" href="#fib-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">fib.scm</a><a class="headerlink" href="#fib-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-scm"><div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib/cps</span> <span class="nv">n</span> <span class="nv">k</span><span class="p">)</span>
   <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">k</span> <span class="mi">0</span><span class="p">))</span>
         <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">k</span> <span class="mi">1</span><span class="p">))</span>
@@ -166,8 +133,8 @@ test (flatten/cps X), expects (a b c d e f g h) ==&gt; ok
                                                     <span class="p">(</span><span class="nf">k</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">r1</span> <span class="nv">r2</span><span class="p">)))))))))</span>
 </pre></div>
 </div>
-<div class="section" id="id1">
-<h3><a class="toc-backref" href="#id8">test</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="test">
+<h3><a class="toc-backref" href="#id6">test</a><a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scm"><div class="highlight"><pre><span class="p">(</span><span class="nf">add-load-path</span> <span class="s">&quot;.&quot;</span> <span class="nv">:relative</span><span class="p">)</span>
 <span class="p">(</span><span class="nb">load </span><span class="s">&quot;fib.scm&quot;</span><span class="p">)</span>
 <span class="p">(</span><span class="nf">use</span> <span class="nv">gauche</span><span class="o">.</span><span class="nv">test</span><span class="p">)</span>
@@ -191,7 +158,7 @@ test (fib/cps 10), expects 55 ==&gt; ok
 </div>
 </div>
 <div class="section" id="leaf-count-scm">
-<h2><a class="toc-backref" href="#id9">leaf-count.scm</a><a class="headerlink" href="#leaf-count-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">leaf-count.scm</a><a class="headerlink" href="#leaf-count-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-scm"><div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">leaf-count/cps</span> <span class="nv">tree</span> <span class="nv">k</span><span class="p">)</span>
   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">tree</span><span class="p">)</span>
       <span class="p">(</span><span class="nf">leaf-count/cps</span> <span class="p">(</span><span class="nb">car </span><span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">n</span><span class="p">)</span>
@@ -199,8 +166,8 @@ test (fib/cps 10), expects 55 ==&gt; ok
       <span class="p">(</span><span class="nf">k</span> <span class="mi">1</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="section" id="id2">
-<h3><a class="toc-backref" href="#id10">test</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h3><a class="toc-backref" href="#id8">test</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scm"><div class="highlight"><pre><span class="p">(</span><span class="nf">add-load-path</span> <span class="s">&quot;.&quot;</span> <span class="nv">:relative</span><span class="p">)</span>
 <span class="p">(</span><span class="nb">load </span><span class="s">&quot;leaf-count.scm&quot;</span><span class="p">)</span>
 <span class="p">(</span><span class="nf">use</span> <span class="nv">gauche</span><span class="o">.</span><span class="nv">test</span><span class="p">)</span>
@@ -221,6 +188,39 @@ test (leaf-count/cps 3), expects 5 ==&gt; ok
 test (leaf-count/cps 4), expects 7 ==&gt; ok
 test (leaf-count/cps 5), expects 7 ==&gt; ok
 test (leaf-count/cps 5), expects 8 ==&gt; ok
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="flatten-scm">
+<h2><a class="toc-backref" href="#id9">flatten.scm</a><a class="headerlink" href="#flatten-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scm"><div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">flatten/cps</span> <span class="nv">tree</span> <span class="nv">k</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">k</span> <span class="o">&#39;</span><span class="p">()))</span>
+        <span class="p">((</span><span class="nb">pair? </span><span class="nv">tree</span><span class="p">)</span>
+         <span class="p">(</span><span class="nf">flatten/cps</span> <span class="p">(</span><span class="nb">car </span><span class="nv">tree</span><span class="p">)</span>
+                      <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">r1</span><span class="p">)</span>
+                        <span class="p">(</span><span class="nf">flatten/cps</span>
+                         <span class="p">(</span><span class="nb">cdr </span><span class="nv">tree</span><span class="p">)</span>
+                         <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">r2</span><span class="p">)</span> <span class="p">(</span><span class="nf">k</span> <span class="p">(</span><span class="nb">append </span><span class="nv">r1</span> <span class="nv">r2</span><span class="p">)))))))</span>
+        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">k</span> <span class="p">(</span><span class="nb">list </span><span class="nv">tree</span><span class="p">)))))</span>
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h3><a class="toc-backref" href="#id10">test</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-scm"><div class="highlight"><pre><span class="p">(</span><span class="nf">add-load-path</span> <span class="s">&quot;.&quot;</span> <span class="nv">:relative</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">load </span><span class="s">&quot;flatten.scm&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">use</span> <span class="nv">gauche</span><span class="o">.</span><span class="nv">test</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">test*</span> <span class="s">&quot;(flatten/cps X)&quot;</span> <span class="o">&#39;</span><span class="p">()</span> <span class="p">(</span><span class="nf">flatten/cps</span> <span class="o">&#39;</span><span class="p">()</span> <span class="nv">values</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">test*</span> <span class="s">&quot;(flatten/cps X)&quot;</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span> <span class="p">(</span><span class="nf">flatten/cps</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span> <span class="nv">values</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">test*</span> <span class="s">&quot;(flatten/cps X)&quot;</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span> <span class="nv">g</span> <span class="nv">h</span><span class="p">)</span> <span class="p">(</span><span class="nf">flatten/cps</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="p">(</span><span class="nf">b</span> <span class="p">(</span><span class="nf">c</span> <span class="nv">d</span><span class="p">)</span> <span class="nv">e</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">g</span><span class="p">)</span> <span class="nv">h</span><span class="p">))</span> <span class="nv">values</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">test*</span> <span class="s">&quot;(flatten/cps X)&quot;</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span> <span class="nv">g</span> <span class="nv">h</span><span class="p">)</span> <span class="p">(</span><span class="nf">flatten/cps</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="p">(((</span><span class="nf">b</span><span class="p">)</span> <span class="p">(</span><span class="nf">c</span> <span class="nv">d</span><span class="p">))</span> <span class="p">((</span><span class="nf">e</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(((</span><span class="nf">g</span><span class="p">))))</span> <span class="nv">h</span><span class="p">))</span> <span class="nv">values</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>test (flatten/cps X), expects () ==&gt; ok
+test (flatten/cps X), expects (a b c) ==&gt; ok
+test (flatten/cps X), expects (a b c d e f g h) ==&gt; ok
+test (flatten/cps X), expects (a b c d e f g h) ==&gt; ok
 </pre></div>
 </div>
 </div>

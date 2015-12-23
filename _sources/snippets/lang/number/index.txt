@@ -1,0 +1,74 @@
+
+
+number
+======
+
+
+=========
+toInt.scm
+=========
+
+
+=========
+equal.scm
+=========
+
+
+=======
+int.scm
+=======
+
+
+=======
+bin.scm
+=======
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say 0b1000'
+    8
+    
+
+
+=======
+inf.scm
+=======
+
+
+.. code-block:: sh
+   
+
+    $ ne 'a = 1/0;'
+    [eval]:1
+    console.log(a = 1/0;)
+                      ^
+    
+    SyntaxError: missing ) after argument list
+        at Object.exports.runInThisContext (vm.js:53:16)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+=========
+float.scm
+=========
+
+
+=======
+nan.scm
+=======
+
+
+.. code-block:: sh
+   
+
+    $ ne 'NaN !== NaN'
+    true
+    
+

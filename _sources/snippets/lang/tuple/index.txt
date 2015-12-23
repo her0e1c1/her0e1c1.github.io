@@ -1,0 +1,59 @@
+
+
+tuple
+=====
+
+
+========
+init.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'pair<int, string> pis(10,"str");'
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'pair<int, string> pis; pis = make_pair(1000, "str");'
+    
+
+need to #include <utility>
+
+.. code-block:: sh
+   
+
+    $ cpe 'vector<pair<int, int>> v = {{1, -1}, {-2, 5}, {3, 10}};'
+    
+
+
+=========
+index.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;'
+    <stdin>:44:46: error: use of undeclared identifier 'pii'; did you mean 'pis'?
+        pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;
+                                                 ^~~
+                                                 pis
+    <stdin>:44:23: note: 'pis' declared here
+        pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;
+                          ^
+    <stdin>:44:66: error: use of undeclared identifier 'pii'; did you mean 'pis'?
+        pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;
+                                                                     ^~~
+                                                                     pis
+    <stdin>:44:23: note: 'pis' declared here
+        pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;
+                          ^
+    2 errors generated.
+    
+

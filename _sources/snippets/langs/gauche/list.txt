@@ -7,115 +7,22 @@ list
     :depth: 2
 
 
+==========
+append.scm
+==========
 
-append!
+
+=======
+map.scm
 =======
 
-末尾に要素を加える
 
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (define a '\''(1 2)) (append! a '\''(3))))' -Eexit
-    (1 2 3)
-    
+=========
+range.scm
+=========
 
 
-.. warning::
-
-    NULLの場合は書き変わらないので注意
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (define a '\''()) (append! a '\''(1))))' -Eexit
-    (1)
-    
-
-
-
-map
-===
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (map cons '\''(1 2 3) '\''(4 5 6))))' -Eexit
-    ((1 . 4) (2 . 5) (3 . 6))
-    
-
-１つ以上のリストを引数に取れる
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (map (lambda (x y) (+ x y)) '\''(1 2 3) '\''(4 5 6))))' -Eexit
-    (5 7 9)
-    
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e "(print (begin (map + (iota 5) (iota 5))))" -Eexit
-    (0 2 4 6 8)
-    
-
-
-
-range
-=====
-
-vはloop変数みたいなもの0から4までの値が順次格納
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (list-ec (:range v 5) v)))' -Eexit
-    (0 1 2 3 4)
-    
-
-
-
-iota
-====
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (iota 10)))' -Eexit
-    (0 1 2 3 4 5 6 7 8 9)
-    
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (iota 10 5)))' -Eexit
-    (5 6 7 8 9 10 11 12 13 14)
-    
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (iota 10 5 2)))' -Eexit
-    (5 7 9 11 13 15 17 19 21 23)
-    
-
-
-
-zip
-===
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (zip '\''(1 2 3) '\''(4 5 6))))' -Eexit
-    ((1 4) (2 5) (3 6))
-    
+=======
+zip.scm
+=======
 

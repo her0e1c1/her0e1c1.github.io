@@ -7,93 +7,35 @@ macro
     :depth: 2
 
 
-
-and-let*
-========
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e "(print (begin (and-let* ((a 1) (b (+ a 1))) (+ a b))))" -Eexit
-    3
-    
+===========
+and-let.scm
+===========
 
 
-.. code-block:: sh
-   
-
-    $ gosh -e "(print (begin (and-let* ((a 1) (b #f)) (+ a b))))" -Eexit
-    #f
-    
-
-ERROR: ./s/macro/backquote.scm => #<error "unbound variable: eqt">
-ERROR: ./s/macro/intern.scm => #<error "unbound variable: test-sequenc">
-衛生的マクロ(hygienic macro)
-
-
-define-syntax
+=============
+backquote.scm
 =============
 
 
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (define-syntax S (syntax-rules () ((_ a) (+ a 1)) ((_ a b) (+ a b)))) (S 2)))' -Eexit
-    3
-    
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (define-syntax S (syntax-rules () ((_ a) (+ a 1)) ((_ a b) (+ a b)))) (S 10 20)))' -Eexit
-    30
-    
-
-(literal ...)
-HOGE becomes a keyword
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (define-syntax S (syntax-rules (HOGE) ((_ a HOGE) (+ a 1)))) (S 10 HOGE)))' -Eexit
-    11
-    
-
-
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (define-syntax S (syntax-rules (HOGE) ((_ a HOGE) (+ a 1)))) (S 10 H)))' -Eexit
-    gosh: "error": Compile Error: malformed S: (S 10 H)
-    "(input string port)":1:(print (begin (define-syntax S (synt ...
-    
-    
-
-
-
-let-syntax
+==========
+intern.scm
 ==========
 
 
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (let ((f (lambda (x) (+ x 1)))) (let-syntax ((f (syntax-rules () ((_ x) x))) (g (syntax-rules () ((_ x) (f x))))) (list (f 1) (g 1))))))' -Eexit
-    (1 2)
-    
+=========
+macro.scm
+=========
 
 
-.. code-block:: sh
-   
-
-    $ gosh -e '(print (begin (let ((f (lambda (x) (+ x 1)))) (letrec-syntax ((f (syntax-rules () ((_ x) x))) (g (syntax-rules () ((_ x) (f x))))) (list (f 1) (g 1))))))' -Eexit
-    (1 1)
-    
+================
+quote-lambda.scm
+================
 
 1 => 1
 (+ 1 1) => 2
 3 => 3
-ERROR: ./s/macro/quote-lambda.scm => #<error "unbound variable: eqt">
-ERROR: ./s/macro/side-effect.scm => #<error "unbound variable: 例えば次の関数は慣習に従">
+
+===============
+side-effect.scm
+===============
+

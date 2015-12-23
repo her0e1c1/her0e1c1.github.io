@@ -7,6 +7,11 @@ regex
     :depth: 2
 
 
+=========
+index.scm
+=========
+
+
 
 2の倍数
 ====
@@ -83,5 +88,9 @@ Get ext
 2に'がマッチ、$4に'>がマッチ
 =================
 
+
+==============
+no-capture.scm
+==============
+
 # (?:...)は、グループをつくるが、キャプチャしない
-ERROR: ./regex/no-capture.scm => #<error "unbound variable: run+">

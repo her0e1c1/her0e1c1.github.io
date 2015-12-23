@@ -6,27 +6,53 @@ module
 .. contents::
     :depth: 2
 
+
+==========
+import.scm
+==========
+
 3
 4
 3
 30
 21
 #<module A>
-ERROR: ./s/module/import.scm => #<error "Compile Error: #<hash-table eq">
+
+===========
+import1.scm
+===========
+
 3
 4
 3
 30
 21
 #<module A>
-ERROR: ./s/module/import1.scm => #<error "Compile Error: #<hash-table eq">
+
+===========
+import2.scm
+===========
+
 1
+
+===========
+import3.scm
+===========
+
 0
-ERROR: ./s/module/import3.scm => #<error "Compile Error: cannot find "./">
+
+========
+load.scm
+========
+
+
+==========
+module.scm
+==========
+
 3
 4
 3
 30
 21
 #<module A>
-ERROR: ./s/module/module.scm => #<error "#<hash-table eq? 0x6f2c30> doe">

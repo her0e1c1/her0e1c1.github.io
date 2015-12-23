@@ -19,7 +19,19 @@ C Language
 .. toctree::
 
 
+    string.rst
+
+
+.. toctree::
+
+
     stdlib.rst
+
+
+.. toctree::
+
+
+    misc.rst
 
 
 .. toctree::
@@ -31,17 +43,5 @@ C Language
 .. toctree::
 
 
-    string.rst
-
-
-.. toctree::
-
-
     stdio.rst
-
-
-.. toctree::
-
-
-    misc.rst
 

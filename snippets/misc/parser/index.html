@@ -108,6 +108,39 @@
 <ul class="simple">
 <li><a class="reference external" href="https://ja.wikipedia.org/wiki/Parsing_Expression_Grammar">https://ja.wikipedia.org/wiki/Parsing_Expression_Grammar</a></li>
 </ul>
+<blockquote>
+<div><p>RE_KEYWORD = re.compile(r&#8217;(&#8221;.+?&#8221;<a href="#id1"><span class="problematic" id="id2">|</span></a>S+)&#8217;, re.UNICODE)</p>
+<dl class="docutils">
+<dt>def parse(kw):</dt>
+<dd><p class="first">start = 0
+matching_keywords = []
+while True:</p>
+<blockquote>
+<div><p>match = RE_KEYWORD.search(kw, start)
+if match:</p>
+<blockquote>
+<div><p>start = match.end()
+m = match.group()
+if m.startswith(&#8216;&#8221;&#8217;):</p>
+<blockquote>
+<div># &#8220;&#8221;で囲まれた場合は、前後の&#8221;を除外
+# &#8220;が連続した場合もまとめて削除
+m = m.strip(&#8216;&#8221;&#8217;)
+# 空文字の場合を除外</div></blockquote>
+<p>m = m.strip()
+if m:</p>
+<blockquote>
+<div>matching_keywords.append(m)</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<dl class="docutils">
+<dt>else:</dt>
+<dd>break</dd>
+</dl>
+<p class="last">return matching_keywords</p>
+</dd>
+</dl>
+</div></blockquote>
 </div>
 </div>
 

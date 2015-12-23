@@ -1,0 +1,79 @@
+
+
+set
+===
+
+
+========
+find.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'char str[] = "abcde"; set<char> s(str, str + 5); P(s.find('b') != s.end())'
+    <stdin>:44:63: error: use of undeclared identifier 'b'
+        char str[] = "abcde"; set<char> s(str, str + 5); P(s.find(b) != s.end())
+                                                                  ^
+    /home/me/lib/cpp/myutils.h:61:38: note: expanded from macro 'P'
+    #define P(x) cout << #x << " = " << (x) << endl;
+                                         ^
+    1 error generated.
+    
+
+
+========
+init.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'print(set([1,1,1,2,2,3]))'
+    set([1, 2, 3])
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'set<int> s; s.insert(1); s.insert(2); s.insert(3); s.insert(1); PE(s)'
+    <stdin>:44:69: error: type 'set<int>' does not provide a subscript operator
+        set<int> s; s.insert(1); s.insert(2); s.insert(3); s.insert(1); PE(s)
+                                                                        ^~~~~
+    /home/me/lib/cpp/myutils.h:64:16: note: expanded from macro 'PE'
+        cout << (x)[i] << ", "; \
+                ~~~^~
+    1 error generated.
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'int a[] = {0, 1, 2, 3}; set<int> s1(a, a + 4); PE(a)'
+    <stdin>:44:52: error: member reference base type 'int [4]' is not a structure or union
+        int a[] = {0, 1, 2, 3}; set<int> s1(a, a + 4); PE(a)
+                                                       ^~~~~
+    /home/me/lib/cpp/myutils.h:63:28: note: expanded from macro 'PE'
+      {for (int i = 0 ; i < (x).size(); i++){       \
+                            ~~~^~~~~
+    1 error generated.
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'string str = "abede"; set<char> s(str.begin(), str.end()); PE(s)'
+    <stdin>:44:64: error: type 'set<char>' does not provide a subscript operator
+        string str = "abede"; set<char> s(str.begin(), str.end()); PE(s)
+                                                                   ^~~~~
+    /home/me/lib/cpp/myutils.h:64:16: note: expanded from macro 'PE'
+        cout << (x)[i] << ", "; \
+                ~~~^~
+    1 error generated.
+    
+

@@ -1,0 +1,18 @@
+
+
+bit
+===
+
+
+========
+init.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'cout << bitset<8>(10) << endl;'
+    00001010
+    
+

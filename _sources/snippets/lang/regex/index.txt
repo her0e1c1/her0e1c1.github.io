@@ -1,0 +1,300 @@
+
+
+regex
+=====
+
+
+========
+name.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say qq/$+{name}/ if /(?P<name>a)/ ' a
+    a
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(?P<name>a)bg{name}/ ' aba
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(?P<name>a)b(?P=name)/ ' aba
+    aba
+    
+
+
+.. code-block:: sh
+   
+
+    $ python -c "import re; print(re.match(r'(?P<name>a)b(?P=name)', 'aba').group())"
+    aba
+    
+
+
+=======
+pos.scm
+=======
+
+$-[]マッチ開始位置かな, $+[]マッチ終了位置. /path/to => /path/to/
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; m#<a.*?href=(["''])(.*?)1.*?>#; $a=$2; substr($_, $-[2], $+[2] - $-[2]) = $a."/"; say' "<a href='/path/to'>"
+    /<a href='/path/to'>
+    
+
+
+==========
+dotall.scm
+==========
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'import re; print(re.match(r".", "
+    ", re.DOTALL))'
+      File "<string>", line 1
+        import re; print(re.match(r".", "
+                                        ^
+    SyntaxError: EOL while scanning string literal
+    
+
+. matches also dot character
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say q/./ =~ /./'
+    1
+    
+
+
+=========
+group.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'import re; print(re.match(r'''(["''])abc1''', '''"abc"''').group())'
+    Syntax error: "(" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'import re; print(re.match(r"((((1)2)3)4)", "1234").groups())'
+    ('1234', '123', '12', '1')
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(["''])abc1/ ' '"abc"'
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(["''])abcg1/ ' '"abc"'
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(["''])abcg{1}/ ' '"abc"'
+    
+
+順番は左から
+
+.. code-block:: sh
+   
+
+    $ perl -E 'qq/1234/ =~ /((((1)2)3)4)/; say qq/$1 $2 $3 $4/'
+    1234 123 12 1
+    
+
+
+========
+word.scm
+========
+
+
+===========
+replace.scm
+===========
+
+
+.. code-block:: sh
+   
+
+    $ ne 'replace(/aaa/g, 'bbb');'
+    [eval]:1
+    console.log(replace(/aaa/g, bbb);)
+                                   ^
+    
+    SyntaxError: missing ) after argument list
+        at Object.exports.runInThisContext (vm.js:53:16)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+=========
+after.scm
+=========
+
+
+=============
+noCapture.scm
+=============
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'shift =~ /(a)(?:b)(c)/; say $1.$2' abc
+    ac
+    
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'import re; print(re.match(r"(a)(?:b)(c)", "abc").groups())'
+    ('a', 'c')
+    
+
+
+==============
+lookbehind.scm
+==============
+
+
+=========
+match.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ ne ''ABCDEF'.match(/DEF/i)'
+    [eval]:1
+    console.log(ABCDEF.match(/DEF/i))
+                ^
+    
+    ReferenceError: ABCDEF is not defined
+        at [eval]:1:13
+        at Object.exports.runInThisContext (vm.js:54:17)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne ''abc'.match(/a.c/)'
+    [eval]:1
+    console.log(abc.match(/a.c/))
+                ^
+    
+    ReferenceError: abc is not defined
+        at [eval]:1:13
+        at Object.exports.runInThisContext (vm.js:54:17)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+===========
+findall.scm
+===========
+
+
+=====
+g.scm
+=====
+
+
+
+g
+=
+
+gは、全てマッチ
+With g option it match more than once
+マッチ位置はマッチするごとに動くので、loopできる
+*は0文字とマッチするので空文字が含まれる
+
+
+for
+===
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_="abc"; print "$_," for (/.*?/g)'
+    ,a,,b,,c,,
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_="abc"; print "$_," for /.+?/g'
+    a,b,c,
+
+
+
+while
+=====
+
+With s option . matches also 
+ character
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_="abc"; while(/.(?=(.*))/g){print $&.$1.","}'
+    abc,bc,c,
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say "
+    " =~ /./s'
+    1
+    
+
+
+==============
+whitespace.scm
+==============
+

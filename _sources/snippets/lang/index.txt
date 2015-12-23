@@ -1,0 +1,35 @@
+
+=========
+Languages
+=========
+
+
+
+.. toctree::
+    :maxdepth: 1
+
+    bit/index
+    char-set/index
+    char/index
+    cmd/index
+    date/index
+    exception/index
+    func/index
+    hash/index
+    io/index
+    list/index
+    math/index
+    memory/index
+    number/index
+    op/index
+    path/index
+    range/index
+    regex/index
+    set/index
+    special_variables/index
+    stack/index
+    string/index
+    tuple/index
+    vector/index
+
+

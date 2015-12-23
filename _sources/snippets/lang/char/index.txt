@@ -1,0 +1,53 @@
+
+
+char
+====
+
+
+=======
+ord.scm
+=======
+
+
+.. code-block:: sh
+   
+
+    $ python -c "print(ord('a'))"
+    97
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say ord("a")'
+    97
+    
+
+
+========
+init.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'string s; s=char('A' + 1); P(s)'
+    <stdin>:44:22: error: use of undeclared identifier 'A'
+        string s; s=char(A + 1); P(s)
+                         ^
+    1 error generated.
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'string s; s='A'+1; P(s)'
+    <stdin>:44:17: error: use of undeclared identifier 'A'
+        string s; s=A+1; P(s)
+                    ^
+    1 error generated.
+    
+

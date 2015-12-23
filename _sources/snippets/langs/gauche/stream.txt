@@ -6,4 +6,8 @@ stream
 .. contents::
     :depth: 2
 
-ERROR: ./s/stream/stream.scm => #<error "unbound variable: リストの内側から評価する">
+
+==========
+stream.scm
+==========
+

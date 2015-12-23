@@ -154,61 +154,6 @@ So you need an option to check if there is a header or not.</p>
 </div>
 <div class="section" id="sample">
 <h2><a class="toc-backref" href="#id5">SAMPLE</a><a class="headerlink" href="#sample" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">import</span> <span class="nn">System.Environment</span>
-<span class="kr">import</span> <span class="nn">Control.Applicative</span> <span class="p">((</span><span class="o">&lt;*</span><span class="p">),(</span><span class="o">*&gt;</span><span class="p">))</span>
-<span class="kr">import</span> <span class="nn">Text.Parsec</span> <span class="k">hiding</span> <span class="p">(</span><span class="nf">crlf</span><span class="p">)</span>
-<span class="kr">import</span> <span class="nn">Text.Parsec.String</span>
-
-<span class="nf">csv</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="p">[[</span><span class="kt">String</span><span class="p">]]</span>
-<span class="nf">csv</span> <span class="ow">=</span> <span class="n">sepBy1</span> <span class="n">record</span> <span class="n">crlf</span>
-
-<span class="nf">record</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span>
-<span class="nf">record</span> <span class="ow">=</span> <span class="n">sepBy1</span> <span class="n">field</span> <span class="n">comma</span>
-
-<span class="nf">field</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">String</span>
-<span class="nf">field</span> <span class="ow">=</span> <span class="n">escaped</span> <span class="o">&lt;|&gt;</span> <span class="n">nonEscaped</span>
-
-<span class="nf">escaped</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">String</span>
-<span class="nf">escaped</span> <span class="ow">=</span> <span class="n">dquote</span> <span class="o">*&gt;</span> <span class="n">many</span> <span class="p">(</span><span class="n">textdata</span> <span class="o">&lt;|&gt;</span> <span class="n">comma</span> <span class="o">&lt;|&gt;</span> <span class="n">cr</span> <span class="o">&lt;|&gt;</span> <span class="n">lf</span> <span class="o">&lt;|&gt;</span> <span class="n">try</span> <span class="p">(</span><span class="n">dquote</span> <span class="o">*&gt;</span> <span class="n">dquote</span><span class="p">))</span> <span class="o">&lt;*</span> <span class="n">dquote</span>
-
-<span class="nf">nonEscaped</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">String</span>
-<span class="nf">nonEscaped</span> <span class="ow">=</span> <span class="n">many</span> <span class="n">textdata</span>
-
-<span class="c1">-- ATOM</span>
-
-<span class="nf">comma</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
-<span class="nf">comma</span> <span class="ow">=</span> <span class="n">char</span> <span class="sc">&#39;,&#39;</span>
-
-<span class="nf">lf</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
-<span class="nf">lf</span> <span class="ow">=</span> <span class="n">char</span> <span class="sc">&#39;</span><span class="se">\n</span><span class="sc">&#39;</span>
-
-<span class="nf">cr</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
-<span class="nf">cr</span> <span class="ow">=</span> <span class="n">char</span> <span class="sc">&#39;</span><span class="se">\r</span><span class="sc">&#39;</span>
-
-<span class="nf">crlf</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
-<span class="nf">crlf</span> <span class="ow">=</span> <span class="n">cr</span> <span class="o">*&gt;</span> <span class="n">lf</span> <span class="o">&lt;|&gt;</span> <span class="n">lf</span>
-<span class="c1">-- crlf = cr *&gt; lf</span>
-
-<span class="nf">dquote</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
-<span class="nf">dquote</span> <span class="ow">=</span> <span class="n">char</span> <span class="sc">&#39;&quot;&#39;</span>
-
-<span class="nf">textdata</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
-<span class="nf">textdata</span> <span class="ow">=</span> <span class="n">oneOf</span> <span class="p">(</span><span class="s">&quot; !&quot;</span> <span class="o">++</span> <span class="p">[</span><span class="sc">&#39;#&#39;</span><span class="o">..</span><span class="sc">&#39;+&#39;</span><span class="p">]</span> <span class="o">++</span> <span class="p">[</span><span class="sc">&#39;-&#39;</span><span class="o">..</span><span class="sc">&#39;~&#39;</span><span class="p">])</span>
-
-<span class="c1">-- </span>
-
-<span class="nf">readExpr</span><span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
-<span class="nf">readExpr</span> <span class="n">input</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">parse</span> <span class="n">parseExpr</span> <span class="s">&quot;csv&quot;</span> <span class="n">input</span> <span class="kr">of</span>
-    <span class="kt">Left</span> <span class="n">err</span> <span class="ow">-&gt;</span> <span class="s">&quot;No match&quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">err</span>
-    <span class="kt">Right</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="n">show</span> <span class="n">val</span>
-
-<span class="nf">parseExpr</span> <span class="ow">=</span> <span class="n">csv</span>
-
-<span class="nf">main</span><span class="ow">::</span> <span class="kt">IO</span><span class="nb">()</span>
-<span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">args</span> <span class="ow">&lt;-</span> <span class="n">getArgs</span>
-          <span class="n">putStrLn</span> <span class="p">(</span><span class="n">readExpr</span> <span class="p">(</span><span class="n">args</span> <span class="o">!!</span> <span class="mi">0</span><span class="p">))</span>
-</pre></div>
-</div>
 </div>
 </div>
 

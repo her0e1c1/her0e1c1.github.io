@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>io &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="io">
+<h1>io<a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="env-scm">
+<h2>env.scm<a class="headerlink" href="#env-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="env">
+<h1>env<a class="headerlink" href="#env" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say for split &quot;:&quot;, $ENV{PATH}&#39;</span>
+/usr/local/heroku/bin
+/usr/local/heroku/bin
+/usr/local/heroku/bin
+/sbin
+/bin
+/usr/sbin
+/usr/bin
+/usr/games
+/usr/local/sbin
+/usr/local/bin
+/home/me/bin
+/home/me/.cask/bin
+/home/me/lib/
+/home/me/.cabal/bin
+/home/me/.cask/bin
+/home/me/lib/
+/home/me/.cabal/bin
+/home/me/.cask/bin
+/home/me/lib/
+/home/me/.cabal/bin
+</pre></div>
+</div>
+<div class="section" id="option-scm">
+<h2>option.scm<a class="headerlink" href="#option-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="options">
+<h1>options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h1>
+<p>With -0 option delimiter is NULL
+With -0777 you can&#8217;t use any option delimiter.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;a</span>
+<span class="s2">a</span>
+<span class="s2">a&quot;</span><span class="p">|</span>perl -p0777E <span class="s1">&#39;s/a/b/&#39;</span>
+b
+a
+a
+</pre></div>
+</div>
+</div>
+<div class="section" id="display-warning">
+<h1>Display warning<a class="headerlink" href="#display-warning" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -we <span class="s1">&#39;print @a&#39;</span>
+Name <span class="s2">&quot;main::a&quot;</span> used only once: possible typo at -e line 1.
+</pre></div>
+</div>
+</div>
+<div class="section" id="f-option">
+<h1>F option<a class="headerlink" href="#f-option" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;123456      b</span>
+<span class="s2">c   d&quot;</span> <span class="p">|</span> perl -aF<span class="s1">&#39;  &#39;</span> -nlE <span class="s1">&#39;say join(&quot;, &quot;, map(sprintf(&quot;%5s&quot;, substr($_, 0, 5)), @F))&#39;</span>
+Unrecognized switch: -        <span class="o">(</span>-h will show valid options<span class="o">)</span>.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ps aux <span class="p">|</span> perl -anle <span class="s1">&#39;print $F[1]&#39;</span> <span class="p">|</span> head -n2
+PID
+15496
+</pre></div>
+</div>
+<p>print 0 ~ 4 columns in the argument file</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;a,b</span>
+<span class="s2">c,d&quot;</span> <span class="p">|</span>perl -F<span class="s1">&#39;/,s*/&#39;</span> -alnE <span class="s1">&#39;say join &quot;/&quot;, @F&#39;</span>
+a/b
+c/d
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h1>-00<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;a</span>
+<span class="s2">b</span>
+
+<span class="s2">c</span>
+<span class="s2">d&quot;</span><span class="p">|</span>perl -00 -pE <span class="s1">&#39;say &quot;-&quot; x 20&#39;</span>
+--------------------
+a
+b
+
+--------------------
+c
+d
+</pre></div>
+</div>
+<div class="section" id="read-line-scm">
+<h2>read-line.scm<a class="headerlink" href="#read-line-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="diamond-operator">
+<h1>diamond operator<a class="headerlink" href="#diamond-operator" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s1">&#39;for(&lt;*.txt&gt;){$a=$_; s/.txt/.csv/; rename $a, $_}&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ls <span class="p">|</span>perl -E <span class="s1">&#39;say reverse &lt;&gt;&#39;</span>perl -E <span class="s1">&#39;say &quot;sample.CsV&quot; =~ /.*.csv/i&#39;</span>
+Bareword found where operator expected at -e line 1, near <span class="s2">&quot;&lt;&gt;perl&quot;</span>
+    <span class="o">(</span>Missing operator before perl?<span class="o">)</span>
+syntax error at -e line 2, near <span class="s2">&quot;&lt;&gt;perl</span>
+<span class="s2">&quot;</span>
+Execution of -e aborted due to compilation errors.
+</pre></div>
+</div>
+<div class="section" id="random-scm">
+<h2>random.scm<a class="headerlink" href="#random-scm" title="Permalink to this headline">¶</a></h2>
+<p>Return a value between 0 and 1 (not including 1)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Math.random()&#39;</span>
+0.4677368556149304
+</pre></div>
+</div>
+<p>Return a value from 0 to 6</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Math.floor(Math.random() * 7)&#39;</span>
+4
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ perl &#39;rand(10)&#39;
+Can&#39;t open perl script &quot;rand(10)&quot;: そのようなファイルまたはディレクトリはありません
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ perl &#39;int(rand(10))&#39;
+Can&#39;t open perl script &quot;int(rand(10))&quot;: そのようなファイルまたはディレクトリはありません
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say rand for 1..5&#39;</span>
+0.236388069651188
+0.379802791725041
+0.755267302776826
+0.169408431832331
+0.38185942022854
+</pre></div>
+</div>
+</div>
+<div class="section" id="hello-scm">
+<h2>hello.scm<a class="headerlink" href="#hello-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>python -c <span class="s1">&#39;print(&quot;hello world&quot;)&#39;</span>
+hello world
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&quot;hello world&quot;&#39;</span>
+hello world
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-scm">
+<h2>read.scm<a class="headerlink" href="#read-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="exit-scm">
+<h2>exit.scm<a class="headerlink" href="#exit-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="exit">
+<h1>exit<a class="headerlink" href="#exit" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="system-scm">
+<h2>system.scm<a class="headerlink" href="#system-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="exec">
+<h1>exec<a class="headerlink" href="#exec" title="Permalink to this headline">¶</a></h1>
+<p>execute shell command. you need -i option</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s1">&#39;system qq#sh -ic &quot;ll /lib/libc.so.*&quot;#&#39;</span>
+-r--r--r--  <span class="m">1</span> root  wheel  <span class="m">1567216</span>  1月 <span class="m">17</span>  <span class="m">2014</span> /lib/libc.so.7
+</pre></div>
+</div>
+<p>System and go last</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;system &quot;echo TEST&quot; ;say &quot;print&quot;&#39;</span>
+TEST
+print
+</pre></div>
+</div>
+<p>コマンドを実行し、失敗した場合にのみ制御が戻る</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;exec &quot;echo 1&quot; ;say &quot;NOT PRINTED&quot;&#39;</span>
+1
+</pre></div>
+</div>
+<p>when you want to execute other commands, then use system</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say `echo TEST`&#39;</span>
+TEST
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s1">&#39;system &quot;echo 1&quot; for 1..3&#39;</span>
+1
+1
+1
+</pre></div>
+</div>
+<div class="section" id="escape-scm">
+<h2>escape.scm<a class="headerlink" href="#escape-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="don-t-use-double-quote-which-extend-in-sh-or-escape-it">
+<h1>Don&#8217;t use double quote which extend $ in sh or escape it<a class="headerlink" href="#don-t-use-double-quote-which-extend-in-sh-or-escape-it" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">=1; print </span><span class="nv">$a</span><span class="s2">&quot;</span>
+syntax error at -e line 1, near <span class="s2">&quot;=&quot;</span>
+Execution of -e aborted due to compilation errors.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s2">&quot;\$a=1; print \$a&quot;</span>
+1
+</pre></div>
+</div>
+</div>
+<div class="section" id="escape-quote-in-sh">
+<h1>escape quote in sh<a class="headerlink" href="#escape-quote-in-sh" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE HOGE&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+HOGE HOGE
+</pre></div>
+</div>
+<div class="section" id="write-scm">
+<h2>write.scm<a class="headerlink" href="#write-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;cout &lt;&lt; &quot;str&quot;;&#39;</span>
+str
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;cout &lt;&lt; flush;&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;cout &lt;&lt; endl;&#39;</span>
+</pre></div>
+</div>
+<p>Don&#8217;t worry about type like int, string, or bool etc.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;cout &lt;&lt; &quot;bool: true &quot; &lt;&lt; true &lt;&lt; &quot;, false &quot; &lt;&lt; false &lt;&lt; endl;&#39;</span>
+bool: <span class="nb">true </span>1, <span class="nb">false </span>0
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
