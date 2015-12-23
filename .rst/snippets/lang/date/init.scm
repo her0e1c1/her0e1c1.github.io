@@ -1,11 +1,5 @@
 
-(ps "date")
-
-(p "現在の時刻のインスタンス作成")
-(node "new Date();")
-
-(p "特定の日付")
-(node "new Date(2000, 0, 1)")
-
-;; aday = new Date(2000, 12, 31);
-;; new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1);
+(node "P(new Date())" :msg "create a date instance")
+(node "P(new Date(2000, 0, 1))" :msg "a concrete day")
+(node "d=new Date(2000, 12, 31); P(new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1))"
+      :msg "next day")
