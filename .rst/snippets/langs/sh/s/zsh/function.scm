@@ -1,14 +1,6 @@
 (load-from-current-dirctory "include-sh.scm")
 
 
-;; # 関数定義しただけでなく、実行もされる
-;; (){echo "hello"}
-
-;; # sh/bashは、匿名関数使えない
-;; # 仕方がないので1回呼ぶので対応
-;; a(){ echo "$1";}; a "hello world"
-
-
 ;; function a1 {
 ;;   BUFFER=""
 ;;   # Refresh the current buffer
@@ -55,6 +47,3 @@
 
 ;; # Dump a variable
 ;; typeset -p A  # 
-
-;; # zsh lambda
-;; () { ls }
