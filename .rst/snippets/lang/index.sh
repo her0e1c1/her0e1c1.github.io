@@ -10,4 +10,10 @@ $(gosh index.scm -q `perl -E 'for(glob("*")){say if -d}'`)
 $(goshe "(sphinx-toctree-directory)")
 
 
+REPL
+====
+::
+
+  curl -O psysh.org/psysh && php psysh
+
 EOS

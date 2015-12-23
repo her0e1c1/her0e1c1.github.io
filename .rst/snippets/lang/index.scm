@@ -11,7 +11,9 @@
                 (files (glob #"~|path_or_dir|/*.scm")))
            (cond ((null? files) (qprint #"EMPTY: ~path_or_dir"))
                  ((or f (not (file-exists? path)))
-                  (sphinx-scm->rst (filter file-is-regular? files) path :header (sphinx-section #"~|path_or_dir|")))
+                  (sphinx-scm->rst (filter file-is-regular? files)
+                                   path
+                                   :header (sphinx-section #"~|path_or_dir|" :up #t)))
                  (else (qprint #"SKIP: ~path already exists")))))
         ((and (not only-directory) (file-is-regular? path_or_dir) (#/\.scm/ path_or_dir))
          (sphinx-scm->rst path_or_dir))
