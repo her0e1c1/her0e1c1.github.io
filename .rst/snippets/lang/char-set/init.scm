@@ -1,3 +1,3 @@
 
-ghc -e "putStrLn $ unwords $ map (\x -> [x]) ['あ' .. 'か']"
-(run "perl -E 'say substr + (join \"\", a..f), 1, -1'")
+(ghc "putStrLn $ unwords $ map (\x -> [x]) ['あ' .. 'か']")
+(perl "say substr + (join qq//, a..f), 1, -1")
