@@ -12,3 +12,7 @@
 (node "'フォントサイズ7の文字'.fontsize(7)")
 (node "'アンカー'.anchor('xxx')")
 (node "'リンク'.link('index.html')")
+
+(node "$(\"tag\").data(\"NAME\");")
+
+; $.param({"id": 1, "mode": 2})

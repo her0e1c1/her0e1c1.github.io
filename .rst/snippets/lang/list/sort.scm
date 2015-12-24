@@ -38,3 +38,23 @@ int main() {
 }
 EOS
 :file #t)
+
+;; #include "myutils.h"
+
+;; bool cmp1(pair<int, int> v1, pair<int, int> v2){
+;;   //secondをkeyにした昇順
+;;   return make_pair(v1.second, v1.first) < make_pair(v2.second, v2.first);
+;;   //本来 return PII(v1.first, v1.second) < PII(v2.first, v2.second);
+;;   //降順 return PII(v1.first, v1.second) > PII(v2.first, v2.second);
+;; }
+
+;; int main() {
+;;   vector<pair<int, int>> v;
+;;   string s1 = "403569271";
+;;   string s2 = "391856902";
+;;   for(int i = 0; i < s1.size(); i++)
+;;     v.push_back(make_pair(s1[i] - '0', s2[i] - '0'));
+;;   sort(v.begin(), v.end(), cmp1);
+;;   EACH(it, v)
+;;     cout << it->first << ", " << it->second << endl;
+;; }
