@@ -1,8 +1,8 @@
 
 (run "python -c 'print(\"a\" in {\"a\": 1})'")
 (run "ruby -e 'puts ({:a => 1}.key? \"a\")'" :msg "シンボルと文字列を区別する")
-(node "{a: 1}.hasOwnProperty(\"a\")")
-(node "\"a\" in {a: 1}")
+(node "P({a: 1}.hasOwnProperty(\"a\"))")
+(node "P(\"a\" in {a: 1})")
 (run "perl -E '%a=(a=>1); say exists($a{a})'")
 (run "perl -E '%a=(a=>1); say exists($a{\"a\"})'")
 (run "perl -E '%a=(a=>1); say %a ~~ /^a$/'")

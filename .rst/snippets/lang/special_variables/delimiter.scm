@@ -6,3 +6,7 @@
 
 (p "delimter")
 (sh "IFS=':' && for p in $PATH; do echo $p ; done")
+
+(p "$\"")
+(p "This is a \"@array\" delimiter")
+(run "perl -E '$\" = \" - \"; @a=1..5; say \"@a\"'")
