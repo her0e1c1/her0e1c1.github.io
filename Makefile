@@ -22,7 +22,7 @@ rst:
 
 # TODO: rstが存在しているものは作らないようにする
 create:
-	- for p in `find . -name "*.sh"`;do sh -i $$p > `echo $$p | sed s/.sh/.rst/` ;done
+	- for p in `find . -name "*.sh" | tail -r`;do sh -i $$p > `echo $$p | sed s/.sh/.rst/` ;done
 
 sphinx-build:
 	sphinx-build -b html .rst .
