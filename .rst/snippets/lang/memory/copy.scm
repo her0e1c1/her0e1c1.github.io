@@ -14,5 +14,4 @@
 00000001が4回繰り返しコピーされていることがわかる
 ")
 
-
-(c "char p[]=\"abcde\", q[]=\"AAA\"; memcpy(p,q,3+1); p(sp);")
+(c "char p[]=\"abcde\", q[]=\"AAA\"; memcpy(p,q,3+1); p(p);" :msg "You can update each char of the string with an array")

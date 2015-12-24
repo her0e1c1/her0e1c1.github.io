@@ -26,6 +26,7 @@ Languages
     lang/number/index
     lang/op/index
     lang/path/index
+    lang/pointer/index
     lang/range/index
     lang/regex/index
     lang/set/index
@@ -33,6 +34,7 @@ Languages
     lang/stack/index
     lang/string/index
     lang/tuple/index
+    lang/type/index
     lang/vector/index
 
 Algorithm
