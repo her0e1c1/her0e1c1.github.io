@@ -41,3 +41,5 @@
 (p "you don't need an absolute path because it searches PATH for the command.")
 (c "execlp(\"echo\", \"ECHO\", \"hoge\", NULL);")
 (c "execvp(\"echo\", (char*[]){\"ECHO\", \"hoge\", NULL});")
+
+(gosh (sys-system "echo 1"))

@@ -21,3 +21,5 @@
 int main(){MACRO((1 + 2 + 3));}
 EOS
 :str #t)
+
+(gosh *program-name*)

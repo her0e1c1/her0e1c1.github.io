@@ -5,3 +5,5 @@ ghc -e 'System.FilePath.takeFileName "/path/to/file.txt"'
 
 (run "perl -M'File::Basename' -E 'say basename qq#/path/to/text.txt#'")
 (run "perl -M\"File::Basename\" -E 'say basename \"/path/to/file.txt\"'")
+
+(gosh (sys-basename "foo/bar/bar.z"))
