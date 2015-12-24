@@ -8,3 +8,9 @@
 ;; # s option
 ;; # map continuous chars as one char to another char
 ;; perl -E '$_="aaabc"; tr/ac/A/s; say'  # AbA
+
+
+;; ; stdinにしか使えない?
+;; ; ls | s '((tr "a-z" "A-Z"))'
+;; ; string使う
+(gosh (string-tr "ABC" "AB" "00"))

@@ -1,5 +1,9 @@
 
 (perl "say for map {$_ + 1} 1..3")
+(gosh (map cons '(1 2 3) '(4 5 6)))
+(gosh (map (lambda (x y) (+ x y)) '(1 2 3) '(4 5 6)) :msg "１つ以上のリストを引数に取れる")
+(gosh (map + (iota 5) (iota 5)))
+
 
 (c #!DOC EOS
 #include <stdio.h>

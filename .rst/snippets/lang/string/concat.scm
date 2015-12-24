@@ -7,3 +7,5 @@
 (node "\"abc\" + \"efg\"")
 (run "perl -E 'say \"abc\".\"efg\"'")
 (cpp "string s; for(char ch = 'a'; ch <= 'z'; ch++) s += ch; P(s)")
+
+(gosh (string-append "abc" "def"))

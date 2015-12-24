@@ -10,3 +10,7 @@
 (pw "開始位置が範囲外の場合は例外を出します。")
 (cpp "string s=\"abcdefghi\"; P(s.substr(10, 5));")
 (cpp "string s=\"abcdefghi\"; P(s.substr(10, 1000));")
+
+
+(gosh (substring "abc" 0 1))
+(gosh (substring "" 0 1))

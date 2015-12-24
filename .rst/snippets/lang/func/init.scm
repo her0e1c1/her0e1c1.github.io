@@ -19,3 +19,16 @@ int main(){
 EOS
 :warn "a[] of function parameter is a pointer which equals int* a"
 )
+
+(gosh
+ (begin
+   (define (a)
+     (define b 1)
+     (define c 1)
+     (set! b (+ b c))
+     (+ b c)
+     (set! c (+ b c 10)))
+   (a)))
+
+(gosh (define (a2) 1 (define b 1))
+      :warn "toplevelにしか、defineは記述できない (set!はOK)")

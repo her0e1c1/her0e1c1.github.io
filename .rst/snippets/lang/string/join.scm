@@ -7,3 +7,6 @@
 (run "perl -E 'say join \" \" , map {sprintf \"%03d\", $_} 1..10'")
 
 (zsh "a=(a b c d e); echo ${(j/, /)a}")
+
+(gosh (string-join (list "a" "b" "c") "-"))
+

@@ -1,0 +1,2 @@
+
+(gosh (string-null? ""))

@@ -36,3 +36,6 @@ EOS" :warn "変数を使いたい場合、変数展開されないようにす�
 (sh "VAR=1 && cat <<'EOS'
 $VAR=$VAR
 EOS" :msg "Don't expand variables with quotes")
+
+
+(gosh (make-string 5 #\ふ))

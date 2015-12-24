@@ -17,3 +17,12 @@
 
 (p "Not quoted string")
 (sh "[ hoge = hoge ]     && echo 'true'")
+
+
+(ps "eqv?")
+(p "シンボルと数値")
+(gosh (eqv? '1 1))
+
+(ps "=")
+(p "数値同士の場合は=")
+(gosh (= 1 1.0))

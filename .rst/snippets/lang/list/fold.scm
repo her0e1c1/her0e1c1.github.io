@@ -6,3 +6,4 @@
 (run "ghc -e 'foldl (flip (:)) [] [1,2,3]'")
 (run "ghc -e 'foldl1 (+) [1,2,3]'")
 
+(gosh (fold (^(a b) (cons a b)) '() (i 10)))

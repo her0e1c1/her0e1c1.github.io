@@ -18,3 +18,6 @@
 (pw "結果違う")
 (gosh (list->string (quote (#\a #\b))))
 (gosh (x->string (quote (#\a #\b))))
+
+(gosh #\U1234)
+;(gosh #\U12345678)
