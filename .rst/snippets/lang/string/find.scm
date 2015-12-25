@@ -1,5 +1,4 @@
 
-
 (cpp "P(string::npos == -1)")
 (cpp  "string s = \"this is a test.\"; P(s.find(\"is\") != string::npos)")
 (cpp  "string s = \"this is a test.\"; P(s.find(\"IS\") != string::npos)")
@@ -25,3 +24,15 @@
 ;;     cout << "The first non-alphabetic character is " << str[found];
 ;;     cout << " at position " << found << '\n';
 ;;   }
+
+(ps "strstr")
+
+(p "if searching an empty string, it is always true.")
+(c "p(\"(%s)\", strstr(\"\", \"\"));")
+(c "p(\"%s\", strstr(\"abcde\", \"\"));")
+(c "p(\"%s\", strstr(\"abcde\", \"ABC\"));")
+
+(c "ps(strstr(\"123456789\", \"345\"));"
+   :msg "s1にs2の文字列が一致した場合、その先頭ポインタを返す")
+(c "ps(strstr(\"123456789\", \"355\"));")
+(c "char *p=\"abcdebce\", *q=\"bc\"; printf(\"%p\", strstr(p, q));")

@@ -1,7 +1,4 @@
 
-
-(run "perl -E 'say sprintf(\"%s, %s\", \"hello\", \"world\")'")
-
 (run "perl -le 'print unpack(\"H*\", $ARGV[0]);' 'あいうえお' ")
 (run "perl -E 'say unpack(\"B*\", \"A\");'")
 
@@ -11,3 +8,9 @@
 
 (p "break line")
 (gosh (format "~%"))
+
+(ps "sprintf")
+(p "Number to string")
+(c "char b[32]; sprintf(b, \"%d\", 12345); p(\"%s\", b);")
+
+(run "perl -E 'say sprintf(\"%s, %s\", \"hello\", \"world\")'")

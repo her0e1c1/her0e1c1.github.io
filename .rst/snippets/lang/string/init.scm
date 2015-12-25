@@ -39,3 +39,13 @@ EOS" :msg "Don't expand variables with quotes")
 
 
 (gosh (make-string 5 #\ふ))
+
+
+(c "char a[] = \"abc\";")
+(c "char *a  = \"abc\";")
+(c "char a[] = {'a', 'b', 'c'};")
+(c "char *a = {'a', 'b', 'c'};" :warn "error")
+
+(p (sphinx-warn "In case of static declaration of string, it can't be modified."))
+(c "char *c =\"Memory allocated static  string\"; c[1] = 'E'; p(\"NOT REACHED => %s\", c);")
+(c "char c[]=\"Memory allocated dynamic string\"; c[1] = 'E'; p(\"REACHED => %s\", c);")

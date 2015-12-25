@@ -60,6 +60,10 @@ REGEX can't parse nested contexts and name expressions.
    ("[^"]")|
 
 
+csvの特定列を抽出 ::
+
+  perl -nE 'say $2if /("(.*?)",[^"]*){20}/' < FILEPATH
+
 SAMPLE
 ======
 

@@ -8,3 +8,8 @@
 
 (run "perl -E 'qq/1234/ =~ /((((1)2)3)4)/; say qq/$1 $2 $3 $4/'"
      :msg "順番は左から")
+
+
+(p "(?(NUMBER)REGEX)  If the group NUMBER is matched, REGEX is active")
+(run "perl -E 'say $& if shift =~ /(<)\w+@\w+(?:\.\w+)+(?(1)>)/' '<abc@aaa.com>'")
+

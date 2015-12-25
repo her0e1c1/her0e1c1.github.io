@@ -14,3 +14,5 @@
 
 # # -v マッチしないものがマッチ
 # find . -type d| egrep -v 'hg|\.$'
+
+# echo abcdefg|egrep -v '^abc'# $'

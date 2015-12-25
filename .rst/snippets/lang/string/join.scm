@@ -9,4 +9,3 @@
 (zsh "a=(a b c d e); echo ${(j/, /)a}")
 
 (gosh (string-join (list "a" "b" "c") "-"))
-
