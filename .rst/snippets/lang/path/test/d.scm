@@ -7,3 +7,5 @@
 
 (zsh "echo ~/.emacs.d(N/)" :warn "not following a symbol link so empty string")
 (zsh "echo ~/.emacs.d(N-/)" :msg "this is recommended")
+
+(gosh (file-is-directory? "."))

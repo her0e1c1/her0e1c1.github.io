@@ -1,45 +1,61 @@
 
+(run "perl -E '0 || die qq/エラー : $!/'")
+
+(ps "guard")
+(gosh (guard (var cond) cddr))
+(gosh (guard (exc) 1))
+(gosh (guard (exc) (/ 1 0)))
+(gosh (guard (exc (else 0)) (/ 1 0)))
 
 
-;; || die "ディレクトリ生成失敗 : $!";
-;; || die "ディレクトリ削除失敗 : $!";
+(cpp #!DOC EOS
+#include "myutils.h"
+int main () {
+  try {
+    throw "error";
+  } catch (const char* msg) {
+    cout << msg;
+  }
+}
+EOS
+:msg "char*型は不可" :str #t)
 
-;; #include <iostream>
-;; #include <string>
+(cpp #!DOC EOS
+#include "myutils.h"
+int main () {
+  try {
+    throw string("error 1");
+  } catch (string msg){
+    cout << msg;
+  }
+  try {
+    throw new string("error 2");
+  } catch (string* msg){
+    cout << *msg;
+  }
+}
+EOS
+:str #t)
 
-;; using namespace std;
+(cpp #!DOC EOS
+#include "myutils.h"
+int main () {
+  try {
+    throw "ANY";
+  } catch (...){
+    cout << "error";
+  }
+}
+EOS
+:str #t)
 
-;; int main () {
-;;   try {
-;;     throw "error 1\n";
-;;   } catch (const char* msg){
-;;     // char*型は不可
-;;     cout << msg;
-;;   }
-;;   try {
-;;     throw string("error 2\n");
-;;   } catch (string msg){
-;;     cout << msg;
-;;   }
-;;   try {
-;;     throw new string("error 3\n");
-;;   } catch (string* msg){
-;;     cout << *msg;
-;;   }
-;;   try {
-;;     throw "";
-;;   } catch (...){
-;;     cout << "error 4\n";
-;;   }
-;; }
 
-;; // throw null
-;; function throw_null(){
-;;     throw null;
-;; }
-;; try{
-;;     throw_null();
-;; } catch (e) {
-;;     if (e === null)
-;;         console.log("throw null");
-;; }
+(node #!DOC EOS
+try{
+    throw null;
+} catch (e) {
+    if (e === null)
+        console.log("NULL!");
+}
+EOS
+:str #t)
