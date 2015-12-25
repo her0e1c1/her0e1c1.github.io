@@ -1,5 +1,4 @@
 
-
 (run "python -c '{a: 1}'" :warn "シンボルをkeyに指定できない")
 (ghc "Data.Map.fromListWith (++) [(1, \"a\"), (1, \"b\"), (2, \"c\")]")
 
@@ -13,3 +12,10 @@
 (php "$dict = array(5 => 1, 12 => 2); echo \"$dict[5]\";")
 
 (zsh "typeset -A y; y=(a 1 b 2 c 3)" :msg "Make associativ array named y")
+
+(p "
+assq => eq?
+assoc => equal?
+assv => eqv?
+")
+(gosh (make-hash-table 'eq?))
