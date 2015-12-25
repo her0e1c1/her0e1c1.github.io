@@ -83,3 +83,19 @@
     (forward-line))
 
 echo "(1 2 3)" | emacs -Q -batch -eval "(print (apply '+ (read standard-input)))"
+
+(destructuring-bind (x y z) '(1 2 3) (+ x y z))
+(destructuring-bind ((x) y z) '(1 2 3) (+ x y z))
+(destructuring-bind ((x) y z . w) '((1) 2 3 . 4) (+ x y z w))
+
+(prog1 1 2 3)  ; 1
+(prog2 1 2 3)  ; 2
+(progn 1 2 3)  ; 3
+
+(format nil "~:D" 1000) ; "1,000"
+(format nil "~D" 1000)  ; "1000"
+(unintern 'test)
+
+(defmacro test (name)
+  `(defun ,(intern (concat "test-" name "-p") )
+          ()))
