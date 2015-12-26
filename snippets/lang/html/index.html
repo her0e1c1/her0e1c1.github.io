@@ -101,26 +101,43 @@
 <h1>html<a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="init-scm">
 <h2>init.scm<a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">you can&#8217;t nest form tags</p>
+</div>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&#39;/&#39;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&#39;/&#39;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&#39;submit&#39;</span> <span class="na">value=</span><span class="s">&#39;WORK?&#39;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;/form&gt;</span>
+ <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&#39;submit&#39;</span> <span class="na">value=</span><span class="s">&#39;NOT WORK&#39;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
 </pre></div>
 </div>
-<button id='G2192'>RUN</button>
+<form action='/'>
+ <form action='/'>
+  <input type='submit' value='WORK?'>
+ </form>
+ <input type='submit' value='NOT WORK'>
+</form><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<button id='G2201'>RUN</button>
 <script>
-  $('#G2192').on('click', function(){ alert('hello') });
+  $('#G2201').on('click', function(){ alert('hello') });
 </script><p>&lt;=&gt; forward</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">history</span><span class="p">.</span><span class="nx">back</span><span class="p">()</span>
 </pre></div>
 </div>
-<button id='G2193'>RUN</button>
+<button id='G2202'>RUN</button>
 <script>
-  $('#G2193').on('click', function(){ history.back() });
+  $('#G2202').on('click', function(){ history.back() });
 </script><p>Scroll to 1000px from the top in 1.2 sec. (arguments are px and time)</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;html,body&#39;</span><span class="p">).</span><span class="nx">animate</span><span class="p">({</span><span class="nx">scrollTop</span><span class="o">:</span><span class="mi">1000</span><span class="p">},</span> <span class="mi">1200</span><span class="p">);</span>
 </pre></div>
 </div>
-<button id='G2194'>RUN</button>
+<button id='G2203'>RUN</button>
 <script>
-  $('#G2194').on('click', function(){ $('html,body').animate({scrollTop:1000}, 1200); });
+  $('#G2203').on('click', function(){ $('html,body').animate({scrollTop:1000}, 1200); });
 </script><p>HOGE</p>
 <p>HOGE</p>
 <p>HOGE</p>
@@ -225,9 +242,9 @@
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;html,body&#39;</span><span class="p">).</span><span class="nx">animate</span><span class="p">({</span><span class="nx">scrollTop</span><span class="o">:</span><span class="mi">0</span><span class="p">},</span> <span class="mi">2000</span><span class="p">);</span>
 </pre></div>
 </div>
-<button id='G2195'>RUN</button>
+<button id='G2204'>RUN</button>
 <script>
-  $('#G2195').on('click', function(){ $('html,body').animate({scrollTop:0}, 2000); });
+  $('#G2204').on('click', function(){ $('html,body').animate({scrollTop:0}, 2000); });
 </script></div>
 </div>
 

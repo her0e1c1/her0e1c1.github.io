@@ -9,6 +9,37 @@ init.scm
 ========
 
 
+.. warning::
+
+    you can't nest form tags
+
+
+
+.. code-block:: html
+   
+
+    
+    <form action='/'>
+     <form action='/'>
+      <input type='submit' value='WORK?'>
+     </form>
+     <input type='submit' value='NOT WORK'>
+    </form>
+    
+
+
+.. raw:: html
+
+    
+    <form action='/'>
+     <form action='/'>
+      <input type='submit' value='WORK?'>
+     </form>
+     <input type='submit' value='NOT WORK'>
+    </form>
+    
+
+
 
 .. code-block:: javascript
    
@@ -18,9 +49,9 @@ init.scm
 
 .. raw:: html
 
-   <button id='G2192'>RUN</button>
+   <button id='G2201'>RUN</button>
    <script>
-     $('#G2192').on('click', function(){ alert('hello') });
+     $('#G2201').on('click', function(){ alert('hello') });
    </script> 
 
 <=> forward
@@ -34,9 +65,9 @@ init.scm
 
 .. raw:: html
 
-   <button id='G2193'>RUN</button>
+   <button id='G2202'>RUN</button>
    <script>
-     $('#G2193').on('click', function(){ history.back() });
+     $('#G2202').on('click', function(){ history.back() });
    </script> 
 
 Scroll to 1000px from the top in 1.2 sec. (arguments are px and time)
@@ -50,9 +81,9 @@ Scroll to 1000px from the top in 1.2 sec. (arguments are px and time)
 
 .. raw:: html
 
-   <button id='G2194'>RUN</button>
+   <button id='G2203'>RUN</button>
    <script>
-     $('#G2194').on('click', function(){ $('html,body').animate({scrollTop:1000}, 1200); });
+     $('#G2203').on('click', function(){ $('html,body').animate({scrollTop:1000}, 1200); });
    </script> 
 
 HOGE
@@ -366,8 +397,8 @@ Scroll to 0px in 2 sec
 
 .. raw:: html
 
-   <button id='G2195'>RUN</button>
+   <button id='G2204'>RUN</button>
    <script>
-     $('#G2195').on('click', function(){ $('html,body').animate({scrollTop:0}, 2000); });
+     $('#G2204').on('click', function(){ $('html,body').animate({scrollTop:0}, 2000); });
    </script> 
 

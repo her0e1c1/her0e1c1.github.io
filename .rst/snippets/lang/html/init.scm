@@ -1,4 +1,13 @@
-;; .. warning:: formタグはネストできません。
+
+(html "
+<form action='/'>
+ <form action='/'>
+  <input type='submit' value='WORK?'>
+ </form>
+ <input type='submit' value='NOT WORK'>
+</form>
+"
+:warn "you can't nest form tags")
 
 (js "alert('hello')")
 
