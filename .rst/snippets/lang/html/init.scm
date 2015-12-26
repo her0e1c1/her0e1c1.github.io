@@ -5,3 +5,5 @@
 
 ;; history.back();
 ;; history.forward();
+
+;; .. warning:: formタグはネストできません。
