@@ -7,66 +7,7 @@ misc
     :depth: 2
 
 
-===========================
-declareArrayInSignature.scm
-===========================
 
-
-
-declare array in signature
-==========================
-
-
-==================
-declarePointer.scm
-==================
-
-
-
-declare pointers
-================
-
-
-========
-div2.scm
-========
-
-
-
-over flow about div 2
-=====================
-
-
-.. warning::
-
-    (i + j) / 2はオーバーフローするので、 i + (j - i) / 2 とすること
-
-
-.. code-block:: sh
-   
-
-    $ ce 'unsigned char s=200, t=200; p("%d", (unsigned char) (s + t) / 2);'
-    72
-
-
-.. code-block:: sh
-   
-
-    $ ce 'unsigned char s=200, t=200; p("%d", (unsigned char) s + (t - s) / 2);'
-    200
-
-
-======
-f1.scm
-======
-
-
-
-declare and initialize
-======================
-
-
-=========
 ifdef.scm
 =========
 
@@ -74,50 +15,4 @@ ifdef.scm
 
 ifdef
 =====
-
-
-=========
-macro.scm
-=========
-
-
-
-macro
-=====
-
-
-==============
-mallocSize.scm
-==============
-
-
-
-malloc size
-===========
-
-.. todo:: 2 * 文字数 + 1みたいな領域確保のときに+1し忘れのエラーとなるサンプル用意
-
-=======
-map.scm
-=======
-
-
-
-map.c
-=====
-
-
-========
-null.scm
-========
-
-
-
-NULL
-====
-
-
-.. warning::
-
-    You need to inlcude stdio.h to use NULL.
 

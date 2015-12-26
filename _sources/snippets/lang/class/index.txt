@@ -1,0 +1,120 @@
+
+=====
+class
+=====
+
+
+
+init.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ php -r 'class A {public $v = '\''val'\'';} $a=new A(); echo "$a->v";' 
+    val
+
+
+.. code-block:: ruby
+   
+
+    class Human
+      def initialize(name="")
+        @name = name
+      end
+      attr_accessor :name
+    end
+    puts (Human.new "Bob").name
+
+.. code-block:: sh
+   
+
+    Bob
+    
+
+
+
+struct.scm
+==========
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {char name[64];}S; S s; strcpy(s.name, "Bob"); p("%s", s.name);' 
+    Bob
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=0; p("%d", b.bool);' 
+    0
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=1; p("%d", b.bool);' 
+    1
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);' 
+    <stdin>:40:59: warning: implicit truncation from 'int' to bitfield changes value from 2 to 0 [-Wbitfield-constant-conversion]
+        typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);
+                                                              ^~
+    1 warning generated.
+    0
+
+
+
+get.scm
+=======
+
+*A->Bの評価のされ方は、*(A->B)となる. つまり、A->Bは、Bのpointerを表す(->の方が結合力ある)
+
+.. code-block:: c
+   
+
+    #include <stdio.h>
+    int main() {
+      typedef struct _t {int* B;} t;
+      int value = 1;
+      t data;
+      data.B = &value;
+      t* A = &data;
+      printf("%d == %d\n", *A->B, *(A->B));
+    }
+
+.. code-block:: sh
+   
+
+    1 == 1
+    
+
+(*A)->Bは、pointer->Bと評価(Bの値が返る). **A = &pointer (つまり、Aはpointerのpointer)
+
+.. code-block:: c
+   
+
+    #include <stdio.h>
+    int main() {
+      typedef struct _t {int B;} t;
+      t data;
+      data.B = 1;
+      t* pointer = &data;
+      t** A = &pointer;
+      printf("%d\n", (*A)->B);
+      // printf("%d\n", *A->B);
+    }
+
+.. code-block:: sh
+   
+
+    1
+    
+

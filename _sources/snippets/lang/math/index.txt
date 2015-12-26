@@ -1,10 +1,10 @@
 
-
+====
 math
 ====
 
 
-========
+
 ceil.scm
 ========
 
@@ -12,20 +12,18 @@ ceil.scm
 .. code-block:: sh
    
 
-    $ ne 'Math.ceil(5.5)'
-    6
+    $ ne 'Math.ceil(5.5)' 
     
 
 
 .. code-block:: sh
    
 
-    $ ne 'Math.ceil(-5.5)'
-    -5
+    $ ne 'Math.ceil(-5.5)' 
     
 
 
-=========
+
 floor.scm
 =========
 
@@ -33,20 +31,18 @@ floor.scm
 .. code-block:: sh
    
 
-    $ ne 'Math.floor(-5.5)'
-    -6
+    $ ne 'Math.floor(-5.5)' 
     
 
 
 .. code-block:: sh
    
 
-    $ ne 'Math.floor(5.5)'
-    5
+    $ ne 'Math.floor(5.5)' 
     
 
 
-======
+
 pi.scm
 ======
 
@@ -62,12 +58,11 @@ pi.scm
 .. code-block:: sh
    
 
-    $ ne 'Math.PI'
-    3.141592653589793
+    $ ne 'Math.PI' 
     
 
 
-=====
+
 e.scm
 =====
 
@@ -75,7 +70,6 @@ e.scm
 .. code-block:: sh
    
 
-    $ ne 'Math.E'
-    2.718281828459045
+    $ ne 'Math.E' 
     
 

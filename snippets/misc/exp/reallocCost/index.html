@@ -99,44 +99,6 @@
       
   <div class="section" id="realloc-cost">
 <h1>Realloc Cost<a class="headerlink" href="#realloc-cost" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &quot;stdio.h&quot;</span>
-<span class="cp">#include &quot;stdlib.h&quot;</span>
-<span class="cp">#include &quot;string.h&quot;</span>
-
-<span class="k">typedef</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ll</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">ll</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1UL</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">?</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">:</span> <span class="mi">5</span><span class="p">);</span>
-
-  <span class="n">ll</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">ll</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">ll</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Out of memory</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Nothing to do</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s">&quot;ONE&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Get all the memory at one time</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">ll</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s">&quot;EACH&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Get sizeof(int) each time</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">ll</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">ll</span> <span class="o">*</span><span class="p">)</span><span class="n">realloc</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">ll</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
-      <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre># time =&gt; 0.088496(sec)
-clang reallocCost.c &amp;&amp; ./a.out 5 ONE
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre># time =&gt; 0.044327(sec)
-clang reallocCost.c &amp;&amp; ./a.out 5 EACH
-</pre></div>
-</div>
 </div>
 
 

@@ -1,10 +1,10 @@
 
-
+=====
 regex
 =====
 
 
-========
+
 name.scm
 ========
 
@@ -40,7 +40,7 @@ name.scm
     
 
 
-=======
+
 pos.scm
 =======
 
@@ -54,7 +54,7 @@ $-[]マッチ開始位置かな, $+[]マッチ終了位置. /path/to => /path/to
     
 
 
-==========
+
 dotall.scm
 ==========
 
@@ -80,7 +80,23 @@ dotall.scm
     
 
 
-=========
+.. warning::
+
+     . doesn't match 
+     character Ignore white words( 
+    	) 
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say "
+    " =~ /./'
+    
+    
+
+
+
 group.scm
 =========
 
@@ -131,12 +147,25 @@ group.scm
     
 
 
-========
+
+sub.scm
+=======
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'a='\''hoge'\''; echo ${a/ho/HO}' 
+    HOge
+    
+
+
+
 word.scm
 ========
 
 
-===========
+
 replace.scm
 ===========
 
@@ -144,13 +173,14 @@ replace.scm
 .. code-block:: sh
    
 
-    $ ne 'replace(/aaa/g, 'bbb');'
-    [eval]:1
-    console.log(replace(/aaa/g, bbb);)
-                                   ^
+    $ ne 'replace(/aaa/g, '\''bbb'\'');' 
+    [eval]:7
+    replace(/aaa/g, 'bbb');
+    ^
     
-    SyntaxError: missing ) after argument list
-        at Object.exports.runInThisContext (vm.js:53:16)
+    ReferenceError: replace is not defined
+        at [eval]:7:1
+        at Object.exports.runInThisContext (vm.js:54:17)
         at Object.<anonymous> ([eval]-wrapper:6:22)
         at Module._compile (module.js:435:26)
         at node.js:576:27
@@ -159,15 +189,57 @@ replace.scm
     
 
 
-=========
+
+greedy.scm
+==========
+
+remove if it's matched from the left side(greedy)
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'f=/home/usr/test.txt; echo ${f##*/}' 
+    test.txt
+    
+
+remove if it's matched from the left side(non greedy)
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'f=/home/usr/test.txt; echo ${f#*/}' 
+    home/usr/test.txt
+    
+
+remove if it's matched from the right side(greedy)
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'f=/home/usr/test.txt; echo ${f%%*/}' 
+    /home/usr/test.txt
+    
+
+remove if it's matched from the right side(non greedy)
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'f=/home/usr/test.txt; echo ${f%*/}' 
+    /home/usr/test.txt
+    
+
+
+
 after.scm
 =========
 
 
-=============
+
 noCapture.scm
 =============
 
+use : for no capture
 
 .. code-block:: sh
    
@@ -180,17 +252,47 @@ noCapture.scm
 .. code-block:: sh
    
 
-    $ python -c 'import re; print(re.match(r"(a)(?:b)(c)", "abc").groups())'
+    $ py 'P(match(r"(a)(?:b)(c)", "abc").groups())' 
     ('a', 'c')
     
 
 
-==============
+
 lookbehind.scm
 ==============
 
 
-=========
+.. warning::
+
+    Variable length lookbehind not implemented in regex
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'qq/test/ =~ m#(?<=.*?)e#'
+    Variable length lookbehind not implemented in regex m/(?<=.*?)e/ at -e line 1.
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'q/abcde/ =~ /(?<=.*?c).*/; say $&'
+    Variable length lookbehind not implemented in regex m/(?<=.*?c).*/ at -e line 1.
+    
+
+You can subsutitute lookbind with K option
+
+.. code-block:: sh
+   
+
+    $ perl -E 'q/abcde/ =~ /(.*?c)K.*/; say $&'
+    
+    
+
+
+
 match.scm
 =========
 
@@ -198,47 +300,23 @@ match.scm
 .. code-block:: sh
    
 
-    $ ne ''ABCDEF'.match(/DEF/i)'
-    [eval]:1
-    console.log(ABCDEF.match(/DEF/i))
-                ^
-    
-    ReferenceError: ABCDEF is not defined
-        at [eval]:1:13
-        at Object.exports.runInThisContext (vm.js:54:17)
-        at Object.<anonymous> ([eval]-wrapper:6:22)
-        at Module._compile (module.js:435:26)
-        at node.js:576:27
-        at doNTCallback0 (node.js:417:9)
-        at process._tickCallback (node.js:346:13)
+    $ ne ''\''ABCDEF'\''.match(/DEF/i)' 
     
 
 
 .. code-block:: sh
    
 
-    $ ne ''abc'.match(/a.c/)'
-    [eval]:1
-    console.log(abc.match(/a.c/))
-                ^
-    
-    ReferenceError: abc is not defined
-        at [eval]:1:13
-        at Object.exports.runInThisContext (vm.js:54:17)
-        at Object.<anonymous> ([eval]-wrapper:6:22)
-        at Module._compile (module.js:435:26)
-        at node.js:576:27
-        at doNTCallback0 (node.js:417:9)
-        at process._tickCallback (node.js:346:13)
+    $ ne ''\''abc'\''.match(/a.c/)' 
     
 
 
-===========
+
 findall.scm
 ===========
 
 
-=====
+
 g.scm
 =====
 
@@ -294,7 +372,36 @@ With s option . matches also
     
 
 
-==============
+
+lookahead.scm
+=============
+
+後に続く文字列が条件に合致した場合に、その手前にマッチさせる
+
+
 whitespace.scm
 ==============
+
+
+.. warning::
+
+    Don't use -l option, which chomps "
+    " , "
+    " or ""
+
+
+.. code-block:: sh
+   
+
+    $ perl -pE 's/
+    /
+    /' << EOS
+    aaa
+    bbb
+    ccc
+    EOS
+    aaa
+    bbb
+    ccc
+    
 

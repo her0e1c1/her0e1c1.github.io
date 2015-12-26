@@ -102,114 +102,18 @@
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#misc" id="id1">misc</a></li>
-<li><a class="reference internal" href="#declarearrayinsignature-scm" id="id2">declareArrayInSignature.scm</a><ul>
-<li><a class="reference internal" href="#declare-array-in-signature" id="id3">declare array in signature</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#declarepointer-scm" id="id4">declarePointer.scm</a><ul>
-<li><a class="reference internal" href="#declare-pointers" id="id5">declare pointers</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#div2-scm" id="id6">div2.scm</a><ul>
-<li><a class="reference internal" href="#over-flow-about-div-2" id="id7">over flow about div 2</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#f1-scm" id="id8">f1.scm</a><ul>
-<li><a class="reference internal" href="#declare-and-initialize" id="id9">declare and initialize</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#ifdef-scm" id="id10">ifdef.scm</a><ul>
-<li><a class="reference internal" href="#ifdef" id="id11">ifdef</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#macro-scm" id="id12">macro.scm</a><ul>
-<li><a class="reference internal" href="#macro" id="id13">macro</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#mallocsize-scm" id="id14">mallocSize.scm</a><ul>
-<li><a class="reference internal" href="#malloc-size" id="id15">malloc size</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#map-scm" id="id16">map.scm</a><ul>
-<li><a class="reference internal" href="#map-c" id="id17">map.c</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#null-scm" id="id18">null.scm</a><ul>
-<li><a class="reference internal" href="#null" id="id19">NULL</a></li>
+<li><a class="reference internal" href="#misc" id="id1">misc</a><ul>
+<li><a class="reference internal" href="#ifdef-scm" id="id2">ifdef.scm</a></li>
+<li><a class="reference internal" href="#ifdef" id="id3">ifdef</a></li>
 </ul>
 </li>
 </ul>
-</div>
-</div>
-<div class="section" id="declarearrayinsignature-scm">
-<h1><a class="toc-backref" href="#id2">declareArrayInSignature.scm</a><a class="headerlink" href="#declarearrayinsignature-scm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="declare-array-in-signature">
-<h2><a class="toc-backref" href="#id3">declare array in signature</a><a class="headerlink" href="#declare-array-in-signature" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
-<div class="section" id="declarepointer-scm">
-<h1><a class="toc-backref" href="#id4">declarePointer.scm</a><a class="headerlink" href="#declarepointer-scm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="declare-pointers">
-<h2><a class="toc-backref" href="#id5">declare pointers</a><a class="headerlink" href="#declare-pointers" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
-<div class="section" id="div2-scm">
-<h1><a class="toc-backref" href="#id6">div2.scm</a><a class="headerlink" href="#div2-scm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="over-flow-about-div-2">
-<h2><a class="toc-backref" href="#id7">over flow about div 2</a><a class="headerlink" href="#over-flow-about-div-2" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">(i + j) / 2はオーバーフローするので、 i + (j - i) / 2 とすること</p>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;unsigned char s=200, t=200; p(&quot;%d&quot;, (unsigned char) (s + t) / 2);&#39;</span>
-72
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;unsigned char s=200, t=200; p(&quot;%d&quot;, (unsigned char) s + (t - s) / 2);&#39;</span>
-200
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="f1-scm">
-<h1><a class="toc-backref" href="#id8">f1.scm</a><a class="headerlink" href="#f1-scm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="declare-and-initialize">
-<h2><a class="toc-backref" href="#id9">declare and initialize</a><a class="headerlink" href="#declare-and-initialize" title="Permalink to this headline">¶</a></h2>
-</div>
 </div>
 <div class="section" id="ifdef-scm">
-<h1><a class="toc-backref" href="#id10">ifdef.scm</a><a class="headerlink" href="#ifdef-scm" title="Permalink to this headline">¶</a></h1>
+<h2><a class="toc-backref" href="#id2">ifdef.scm</a><a class="headerlink" href="#ifdef-scm" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="ifdef">
-<h2><a class="toc-backref" href="#id11">ifdef</a><a class="headerlink" href="#ifdef" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
-<div class="section" id="macro-scm">
-<h1><a class="toc-backref" href="#id12">macro.scm</a><a class="headerlink" href="#macro-scm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="macro">
-<h2><a class="toc-backref" href="#id13">macro</a><a class="headerlink" href="#macro" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
-<div class="section" id="mallocsize-scm">
-<h1><a class="toc-backref" href="#id14">mallocSize.scm</a><a class="headerlink" href="#mallocsize-scm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="malloc-size">
-<h2><a class="toc-backref" href="#id15">malloc size</a><a class="headerlink" href="#malloc-size" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
-<div class="section" id="map-scm">
-<h1><a class="toc-backref" href="#id16">map.scm</a><a class="headerlink" href="#map-scm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="map-c">
-<h2><a class="toc-backref" href="#id17">map.c</a><a class="headerlink" href="#map-c" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
-<div class="section" id="null-scm">
-<h1><a class="toc-backref" href="#id18">null.scm</a><a class="headerlink" href="#null-scm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="null">
-<h2><a class="toc-backref" href="#id19">NULL</a><a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">You need to inlcude stdio.h to use NULL.</p>
-</div>
+<h2><a class="toc-backref" href="#id3">ifdef</a><a class="headerlink" href="#ifdef" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

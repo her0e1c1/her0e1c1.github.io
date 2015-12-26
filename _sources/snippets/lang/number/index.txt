@@ -1,25 +1,225 @@
 
-
+======
 number
 ======
 
 
-=========
+
 toInt.scm
 =========
 
 
-=========
+.. code-block:: sh
+   
+
+    $ ghc -e 'read "10"' 
+    <interactive>: Prelude.read: no parse
+    
+
+
+.. code-block:: sh
+   
+
+    $ ghc -e 'reads "10"' 
+    []
+    
+
+型を指定する必要あり
+
+.. code-block:: sh
+   
+
+    $ ghc -e 'reads "10" :: [(Int, String)]' 
+    [(10,"")]
+    
+
+
+.. code-block:: sh
+   
+
+    $ ghc -e 'print(read "10" :: Integer)'
+    10
+    
+
+文字列を数値に変換する
+
+.. code-block:: sh
+   
+
+    $ ne 'Number('\''123'\'')' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'parseInt('\''123'\'', 10)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'parseFloat('\''123'\'')' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'parseInt('\''100px'\''.replace('\''px'\'', '\'''\''))' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 + (+ '\''22'\'')' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne ''\''100'\'' | 0' 
+    
+
+perlの場合文字列を+で評価すると型を数値とする
+なお、文字列の結合は.を使うので注意
+また、数値でないものは0として扱われる
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say "1" + "2"'
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say "a1a" + "2"'
+    2
+    
+
+
+
 equal.scm
 =========
 
 
-=======
+.. code-block:: sh
+   
+
+    $ ghc -e '(1::Int) == (1::Integer)' 
+    
+    <interactive>:1:14:
+        Couldn't match expected type ‘Int’ with actual type ‘Integer’
+        In the second argument of ‘(==)’, namely ‘(1 :: Integer)’
+        In the expression: (1 :: Int) == (1 :: Integer)
+        In an equation for ‘it’: it = (1 :: Int) == (1 :: Integer)
+    
+
+-eq, -gt, are operators for number. NOT STRING!
+
+.. warning::
+
+    [ and ] need spaces around each of them
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ 1 -eq 1 ] && echo '\''true'\''' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ 2 -gt 1 ] && echo '\''true'\''' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ 2 -ge 2 ] && echo '\''true'\''' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ 1 -lt 2 ] && echo '\''true'\''' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ 2 -le 2 ] && echo '\''true'\''' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ '\''hoge'\'' -eq '\''hoge'\'' ] && echo '\''true'\''' 
+    [: hoge: bad number
+    
+
+
+.. warning::
+
+    Not == operator
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ '\''str'\'' = '\''str'\'' ]     && echo '\''true'\''' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ '\''str'\'' != '\''string'\'' ] && echo '\''true'\''' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ 1 = 1 ]     && echo '\''true'\''' 
+    true
+    
+
+Not quoted string
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ hoge = hoge ]     && echo '\''true'\''' 
+    true
+    
+
+
+
 int.scm
 =======
 
 
-=======
+
 bin.scm
 =======
 
@@ -32,7 +232,7 @@ bin.scm
     
 
 
-=======
+
 inf.scm
 =======
 
@@ -40,27 +240,16 @@ inf.scm
 .. code-block:: sh
    
 
-    $ ne 'a = 1/0;'
-    [eval]:1
-    console.log(a = 1/0;)
-                      ^
-    
-    SyntaxError: missing ) after argument list
-        at Object.exports.runInThisContext (vm.js:53:16)
-        at Object.<anonymous> ([eval]-wrapper:6:22)
-        at Module._compile (module.js:435:26)
-        at node.js:576:27
-        at doNTCallback0 (node.js:417:9)
-        at process._tickCallback (node.js:346:13)
+    $ ne 'a = 1/0;' 
     
 
 
-=========
+
 float.scm
 =========
 
 
-=======
+
 nan.scm
 =======
 
@@ -68,7 +257,6 @@ nan.scm
 .. code-block:: sh
    
 
-    $ ne 'NaN !== NaN'
-    true
+    $ ne 'NaN !== NaN' 
     
 

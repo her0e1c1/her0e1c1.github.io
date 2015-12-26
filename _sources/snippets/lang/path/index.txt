@@ -1,15 +1,30 @@
 
-
+====
 path
 ====
 
 
-==========
+
+end.scm
+=======
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say 1
+    __END__
+    say2' 
+    1
+    
+
+
+
 tmpdir.scm
 ==========
 
 
-========
+
 join.scm
 ========
 
@@ -22,7 +37,7 @@ join.scm
     
 
 
-========
+
 glob.scm
 ========
 
@@ -52,6 +67,7 @@ glob.scm
     index.sh
     bit
     tuple
+    class
     regex
     number
     index.rst
@@ -67,8 +83,10 @@ glob.scm
     .gitignore
     char-set
     cmd
+    pointer
     io
     vector
+    type
     date
     func
     path
@@ -82,6 +100,7 @@ glob.scm
     bit
     char
     char-set
+    class
     cmd
     date
     exception
@@ -97,6 +116,7 @@ glob.scm
     number
     op
     path
+    pointer
     range
     regex
     set
@@ -104,11 +124,25 @@ glob.scm
     stack
     string
     tuple
+    type
     vector
     
 
 
-============
+
+normalize.scm
+=============
+
+Normalize path. I think return value is the same as a buff-stored value.
+
+.. code-block:: sh
+   
+
+    $ ce 'char s[PATH_MAX]; p("%s", realpath("/home/../home/././.", s));' 
+    /usr/home
+
+
+
 basename.scm
 ============
 
@@ -118,7 +152,7 @@ basename
 ========
 
 
-=======
+
 sep.scm
 =======
 

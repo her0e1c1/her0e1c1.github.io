@@ -151,6 +151,10 @@ So you need an option to check if there is a header or not.</p>
 <div class="highlight-python"><div class="highlight"><pre>(&quot;[^&quot;]&quot;)|
 </pre></div>
 </div>
+<p>csvの特定列を抽出</p>
+<div class="highlight-python"><div class="highlight"><pre>perl -nE &#39;say $2if /(&quot;(.*?)&quot;,[^&quot;]*){20}/&#39; &lt; FILEPATH
+</pre></div>
+</div>
 </div>
 <div class="section" id="sample">
 <h2><a class="toc-backref" href="#id5">SAMPLE</a><a class="headerlink" href="#sample" title="Permalink to this headline">¶</a></h2>

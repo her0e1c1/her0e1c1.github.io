@@ -1,48 +1,42 @@
 
-
+====
 date
 ====
 
 
-========
+
 init.scm
 ========
 
-
-
-date
-====
-
-現在の時刻のインスタンス作成
+create a date instance
 
 .. code-block:: sh
    
 
-    $ ne 'new Date();'
-    [eval]:1
-    console.log(new Date();)
-                         ^
-    
-    SyntaxError: missing ) after argument list
-        at Object.exports.runInThisContext (vm.js:53:16)
-        at Object.<anonymous> ([eval]-wrapper:6:22)
-        at Module._compile (module.js:435:26)
-        at node.js:576:27
-        at doNTCallback0 (node.js:417:9)
-        at process._tickCallback (node.js:346:13)
+    $ ne 'P(new Date())' 
+    Thu Dec 24 2015 10:46:51 GMT+0900 (JST)
     
 
-特定の日付
+a concrete day
 
 .. code-block:: sh
    
 
-    $ ne 'new Date(2000, 0, 1)'
+    $ ne 'P(new Date(2000, 0, 1))' 
     Sat Jan 01 2000 00:00:00 GMT+0900 (JST)
     
 
+next day
 
-=======
+.. code-block:: sh
+   
+
+    $ ne 'd=new Date(2000, 12, 31); P(new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1))' 
+    Thu Feb 01 2001 00:00:00 GMT+0900 (JST)
+    
+
+
+
 cmp.scm
 =======
 
@@ -50,7 +44,7 @@ cmp.scm
 .. code-block:: sh
    
 
-    $ ne 'new Date(2000, 0, 1) < new Date(2000, 11, 31)'
+    $ ne 'P(new Date(2000, 0, 1) < new Date(2000, 11, 31))' 
     true
     
 

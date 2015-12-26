@@ -1,15 +1,93 @@
 
-
+====
 func
 ====
 
 
-==========
+
 define.scm
 ==========
 
 
-==========
+
+init.scm
+========
+
+declare minimum
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){}' 
+    
+
+
+.. warning::
+
+    missing ;
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){ echo 1 }; f' 
+    Syntax error: end of file unexpected (expecting "}")
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){ echo 1;}; f' 
+    1
+    
+
+
+.. warning::
+
+    need a space after {
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){echo 1;} ;f' 
+    Syntax error: "}" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){ echo 1;};f' 
+    1
+    
+
+
+.. warning::
+
+    a[] of function parameter is a pointer which equals int* a
+
+
+.. code-block:: sh
+   
+
+    $ ce '#include <stdio.h>
+    int f(int a[]){
+      return sizeof(a);
+    }
+    int main(){
+      int a[] = {1,2,3,4,5};
+      printf("%d != %d", sizeof(a), f(a));
+    }' 
+    <stdin>:41:15: error: function definition is not allowed here
+    int f(int a[]){
+                  ^
+    1 error generated.
+    
+
+
+
 lambda.scm
 ==========
 
@@ -18,21 +96,21 @@ lambda.scm
 .. code-block:: sh
    
 
-    $ perl -e 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")'
-    fxXq1sqbvmzO5yqMM0zoDYVe0VB0eeVDueKkRaCB1aHYjUuthkjqXsfrNhpg71chy5mMO6n2JIfyV2AyynXXB3iCBvkmTDPu6UgD5tCbYhenWwy2GbzIoaVF0fqolojEf9nsowJDjQDHyEZSuZXStpBl2k8y78luCfUuz13qaFAH2gT5xf9nw9cqwXQNQdjy3v6GV3OkXBoDLcCafx3lJSv9SLmsBVEDKVdGIkfSSEcxYYhMc2zZdF8j2Ty1dET
+    $ perl -E 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
+    xhK6WfCTsPuVOzYjsdr8P5qxhG5ZXcgdvdQoZpp6qv7oPwMox8Zo8rOx7i9GrsxGaSJypL98HNuVCW9TjXVLP4LTUbgvc5XVtKKDj3bzmqAIQxFopQreODz02sw1rQlNWuu0Ka7qoeHmVYsldflMbxx3AAOW77JXrP8fRiaI5UW0ObZWp1vPEJjFKzO9Ko0Gec8erd74aelMxK0stfO8q80aZzW6ZE6QzOkc1eDuGi4XnPGD8YlXn9XJGIEBHhU
 
 
 .. code-block:: sh
    
 
-    $ perl -e 'sub {print "@_"}->("a" .. "z", 0 .. 9, "A" .. "Z")'
+    $ perl -E 'sub {print "@_"}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
     a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 
 
 .. code-block:: sh
    
 
-    $ cpe '[](){ cout << "hello world" << endl; }();'
+    $ cpe '[](){ cout << "hello world" << endl; }();' 
     hello world
     
 
@@ -40,22 +118,82 @@ lambda.scm
 .. code-block:: sh
    
 
-    $ cpe '[]{ cout << "hello world" << endl; }();'
+    $ cpe '[]{ cout << "hello world" << endl; }();' 
+    hello world
+    
+
+関数定義しただけでなく、実行もされる
+
+.. code-block:: sh
+   
+
+    $ zsh -c '(){echo '\''hello'\''}' 
+    hello
+    
+
+
+.. warning::
+
+    sh/bashは、匿名関数使えない. 仕方がないので1回呼ぶので対応
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'a(){ echo "$1";}; a '\''hello world'\''' 
     hello world
     
 
 
-==========
+
 kwargs.scm
 ==========
 
+デフォルト引数はもっとも右側に指定していく
 
-=============
+.. code-block:: cpp
+   
+
+    #include <iostream>
+    #include <string>
+    using namespace std;
+    void hello(string h = "Ben", string s = "hello, world") {
+      cout << h << " says " << s << endl;
+    }
+    int main() { hello(); }
+
+.. code-block:: sh
+   
+
+    Ben says hello, world
+    
+
+デフォルト引数はもっとも右側に指定していく
+
+.. code-block:: cpp
+   
+
+    #include <iostream>
+    #include <string>
+    using namespace std;
+    void hello(string h = "Ben", string s = "hello, world") {
+      cout << h << " says " << s << endl;
+    }
+    int main() { hello("John"); }
+
+.. code-block:: sh
+   
+
+    John says hello, world
+    
+
+
+
 prototype.scm
 =============
 
 
-==========
+
 return.scm
 ==========
 

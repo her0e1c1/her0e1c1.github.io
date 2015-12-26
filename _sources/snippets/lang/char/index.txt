@@ -1,10 +1,10 @@
 
-
+====
 char
 ====
 
 
-=======
+
 ord.scm
 =======
 
@@ -25,7 +25,7 @@ ord.scm
     
 
 
-========
+
 init.scm
 ========
 
@@ -33,21 +33,43 @@ init.scm
 .. code-block:: sh
    
 
-    $ cpe 'string s; s=char('A' + 1); P(s)'
-    <stdin>:44:22: error: use of undeclared identifier 'A'
-        string s; s=char(A + 1); P(s)
-                         ^
-    1 error generated.
+    $ cpe 'string s; s=char('\''A'\'' + 1); P(s)' 
+    s = B
     
 
 
 .. code-block:: sh
    
 
-    $ cpe 'string s; s='A'+1; P(s)'
-    <stdin>:44:17: error: use of undeclared identifier 'A'
-        string s; s=A+1; P(s)
-                    ^
+    $ cpe 'string s; s='\''A'\''+1; P(s)' 
+    s = B
+    
+
+
+.. warning::
+
+    cannot declare with char
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'string s='\''A'\''+1;' 
+    <stdin>:44:12: error: no viable conversion from 'int' to 'string' (aka 'basic_string<char, char_traits<char>, allocator<char> >')
+        string s='A'+1;
+               ^ ~~~~~
+    /usr/include/c++/v1/string:1186:5: note: candidate constructor not viable: no known conversion from 'int' to 'const std::__1::basic_string<char> &' for 1st argument
+        basic_string(const basic_string& __str);
+        ^
+    /usr/include/c++/v1/string:1190:5: note: candidate constructor not viable: no known conversion from 'int' to 'std::__1::basic_string<char> &&' for 1st argument
+        basic_string(basic_string&& __str)
+        ^
+    /usr/include/c++/v1/string:1195:31: note: candidate constructor not viable: no known conversion from 'int' to 'const value_type *' (aka 'const char *') for 1st argument
+        _LIBCPP_INLINE_VISIBILITY basic_string(const value_type* __s);
+                                  ^
+    /usr/include/c++/v1/string:1216:5: note: candidate constructor not viable: no known conversion from 'int' to 'initializer_list<value_type>' for 1st argument
+        basic_string(initializer_list<value_type> __il);
+        ^
     1 error generated.
     
 

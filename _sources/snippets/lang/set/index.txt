@@ -1,10 +1,10 @@
 
-
+===
 set
 ===
 
 
-========
+
 find.scm
 ========
 
@@ -12,18 +12,12 @@ find.scm
 .. code-block:: sh
    
 
-    $ cpe 'char str[] = "abcde"; set<char> s(str, str + 5); P(s.find('b') != s.end())'
-    <stdin>:44:63: error: use of undeclared identifier 'b'
-        char str[] = "abcde"; set<char> s(str, str + 5); P(s.find(b) != s.end())
-                                                                  ^
-    /home/me/lib/cpp/myutils.h:61:38: note: expanded from macro 'P'
-    #define P(x) cout << #x << " = " << (x) << endl;
-                                         ^
-    1 error generated.
+    $ cpe 'char str[] = "abcde"; set<char> s(str, str + 5); P(s.find('\''b'\'') != s.end())' 
+    s.find('b') != s.end() = 1
     
 
 
-========
+
 init.scm
 ========
 
@@ -31,49 +25,69 @@ init.scm
 .. code-block:: sh
    
 
-    $ python -c 'print(set([1,1,1,2,2,3]))'
-    set([1, 2, 3])
+    $ py 'P(set([1,1,1,2,2,3])' 
+      File "<string>", line 11
+        
+        ^
+    SyntaxError: invalid syntax
     
 
 
 .. code-block:: sh
    
 
-    $ cpe 'set<int> s; s.insert(1); s.insert(2); s.insert(3); s.insert(1); PE(s)'
-    <stdin>:44:69: error: type 'set<int>' does not provide a subscript operator
-        set<int> s; s.insert(1); s.insert(2); s.insert(3); s.insert(1); PE(s)
-                                                                        ^~~~~
-    /home/me/lib/cpp/myutils.h:64:16: note: expanded from macro 'PE'
-        cout << (x)[i] << ", "; \
-                ~~~^~
-    1 error generated.
+    $ cpe 'set<int> s; s.insert(1); s.insert(2); s.insert(3); s.insert(1); EACHP(s)' 
+    *i = 1
+    *i = 2
+    *i = 3
     
 
 
 .. code-block:: sh
    
 
-    $ cpe 'int a[] = {0, 1, 2, 3}; set<int> s1(a, a + 4); PE(a)'
-    <stdin>:44:52: error: member reference base type 'int [4]' is not a structure or union
-        int a[] = {0, 1, 2, 3}; set<int> s1(a, a + 4); PE(a)
-                                                       ^~~~~
-    /home/me/lib/cpp/myutils.h:63:28: note: expanded from macro 'PE'
-      {for (int i = 0 ; i < (x).size(); i++){       \
-                            ~~~^~~~~
-    1 error generated.
+    $ cpe 'int a[]={0,1,2,3}; set<int> s(a, a+4); EACHP(s)' 
+    *i = 0
+    *i = 1
+    *i = 2
+    *i = 3
     
 
 
 .. code-block:: sh
    
 
-    $ cpe 'string str = "abede"; set<char> s(str.begin(), str.end()); PE(s)'
-    <stdin>:44:64: error: type 'set<char>' does not provide a subscript operator
-        string str = "abede"; set<char> s(str.begin(), str.end()); PE(s)
-                                                                   ^~~~~
-    /home/me/lib/cpp/myutils.h:64:16: note: expanded from macro 'PE'
-        cout << (x)[i] << ", "; \
-                ~~~^~
-    1 error generated.
+    $ cpe 'string str = "abede"; set<char> s(str.begin(), str.end()); EACHP(s)' 
+    *i = a
+    *i = b
+    *i = d
+    *i = e
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -U s; s=(1 2 3 4 1 2); echo $s' 
+    1 2 3 4
+    
+
+alias B as b
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -T b B; b=1; echo $B' 
+    1
+    
+
+Dump a variable
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); typeset -p y' 
+    typeset -A y
+    y=( a 1 b 2 c 3 )
     
 

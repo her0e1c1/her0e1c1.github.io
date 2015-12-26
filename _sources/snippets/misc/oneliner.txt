@@ -7,7 +7,7 @@ oneliner
     :depth: 2
 
 
-=====
+
 1.scm
 =====
 
@@ -34,7 +34,7 @@ Count up when the string perl appears in history
    
 
     cat ~/.zsh_history |perl -nle '/perl/ and $p++; END{print $p}'
-    243
+    368
     
 
 
@@ -110,28 +110,12 @@ json
 ====
 
 
-=========
+
 regex.scm
 =========
 
 
-.. code-block:: sh
-   
 
-    $ ce 'curl yahoo.co.jp |perl -nlE 's#(?<=href=)(["''])/aiuie/(?=1)#${1}{{ ''index'') }}#; say''
-    Syntax error: "(" unexpected
-    
-
-
-.. code-block:: sh
-   
-
-    $ ce 'echo abc | perl -nlE 'say if /("([\].|[^\"])*")/''
-    Syntax error: "(" unexpected
-    
-
-
-=======
 sql.scm
 =======
 

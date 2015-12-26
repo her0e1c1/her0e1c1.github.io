@@ -1,10 +1,10 @@
 
-
+====
 hash
 ====
 
 
-==========
+
 update.scm
 ==========
 
@@ -12,30 +12,20 @@ update.scm
 .. code-block:: sh
    
 
-    $ ne 'a['forth'] = 1;'
-    [eval]:1
-    console.log(a[forth] = 1;)
-                           ^
-    
-    SyntaxError: missing ) after argument list
-        at Object.exports.runInThisContext (vm.js:53:16)
-        at Object.<anonymous> ([eval]-wrapper:6:22)
-        at Module._compile (module.js:435:26)
-        at node.js:576:27
-        at doNTCallback0 (node.js:417:9)
-        at process._tickCallback (node.js:346:13)
+    $ ne 'a={a:1};a[a]=2;P(a[a])' 
+    2
     
 
 
 .. code-block:: sh
    
 
-    $ cpe 'map<string, int>m={{"a", 1}}; m["a"]=2; P(m["a"])'
+    $ cpe 'map<string, int>m={{"a", 1}}; m["a"]=2; P(m["a"])' 
     m["a"] = 2
     
 
 
-=========
+
 items.scm
 =========
 
@@ -49,7 +39,15 @@ items.scm
     
 
 
-========
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@kv)y}' 
+    a 1 b 2 c 3
+    
+
+
+
 keys.scm
 ========
 
@@ -59,7 +57,7 @@ get all hash keys
    
 
     $ perl -E '%a=(a=>1, b=>2); say keys %a'
-    ab
+    ba
     
 
 
@@ -67,29 +65,26 @@ get all hash keys
    
 
     $ perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
-    132
+    123
     
 
 
 .. code-block:: sh
    
 
-    $ ne 'Object.keys({a:1, b:2});'
-    [eval]:1
-    console.log(Object.keys({a:1, b:2});)
-                                      ^
-    
-    SyntaxError: missing ) after argument list
-        at Object.exports.runInThisContext (vm.js:53:16)
-        at Object.<anonymous> ([eval]-wrapper:6:22)
-        at Module._compile (module.js:435:26)
-        at node.js:576:27
-        at doNTCallback0 (node.js:417:9)
-        at process._tickCallback (node.js:346:13)
+    $ ne 'Object.keys({a:1, b:2});' 
     
 
 
-==========
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@k)y}' 
+    a b c
+    
+
+
+
 hasKey.scm
 ==========
 
@@ -114,7 +109,7 @@ hasKey.scm
 .. code-block:: sh
    
 
-    $ ne '{a: 1}.hasOwnProperty("a")'
+    $ ne 'P({a: 1}.hasOwnProperty("a"))' 
     true
     
 
@@ -122,7 +117,7 @@ hasKey.scm
 .. code-block:: sh
    
 
-    $ ne '"a" in {a: 1}'
+    $ ne 'P("a" in {a: 1})' 
     true
     
 
@@ -155,12 +150,12 @@ hasKey.scm
 .. code-block:: sh
    
 
-    $ cpe 'map<string, int>m={{"a", 1}}; P(m.find("a") != m.end())'
+    $ cpe 'map<string, int>m={{"a", 1}}; P(m.find("a") != m.end())' 
     m.find("a") != m.end() = 1
     
 
 
-=======
+
 get.scm
 =======
 
@@ -173,7 +168,7 @@ get
 .. code-block:: sh
    
 
-    $ python -c 'print({"a": 1, "b": 2}["a"])'
+    $ py 'P({"a": 1, "b": 2}["a"])' 
     1
     
 
@@ -181,7 +176,7 @@ get
 .. code-block:: sh
    
 
-    $ ne '{a: 1, b: 2}.a'
+    $ ne 'P({a: 1, b: 2}.a)' 
     1
     
 
@@ -189,13 +184,13 @@ get
 .. code-block:: sh
    
 
-    $ ne '{a: 1, b: 2}[a]'
-    [eval]:1
-    console.log({a: 1, b: 2}[a])
-                             ^
+    $ ne 'P({a: 1, b: 2}[a])' 
+    [eval]:7
+    P({a: 1, b: 2}[a])
+                   ^
     
     ReferenceError: a is not defined
-        at [eval]:1:26
+        at [eval]:7:16
         at Object.exports.runInThisContext (vm.js:54:17)
         at Object.<anonymous> ([eval]-wrapper:6:22)
         at Module._compile (module.js:435:26)
@@ -208,19 +203,8 @@ get
 .. code-block:: sh
    
 
-    $ ne '{a: 1, b: 2}['a']'
-    [eval]:1
-    console.log({a: 1, b: 2}[a])
-                             ^
-    
-    ReferenceError: a is not defined
-        at [eval]:1:26
-        at Object.exports.runInThisContext (vm.js:54:17)
-        at Object.<anonymous> ([eval]-wrapper:6:22)
-        at Module._compile (module.js:435:26)
-        at node.js:576:27
-        at doNTCallback0 (node.js:417:9)
-        at process._tickCallback (node.js:346:13)
+    $ ne 'P({a: 1, b: 2}['\''a'\''])' 
+    1
     
 
 
@@ -232,7 +216,52 @@ get
     
 
 
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo $y[a]' 
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${${(@M)y}[1]}' 
+    1
+    
+
+
+
+values.scm
 ==========
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo $y' 
+    1 2 3
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@v)y}' 
+    1 2 3
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@M)y}' 
+    1 2 3
+    
+
+
+
 insert.scm
 ==========
 
@@ -240,7 +269,7 @@ insert.scm
 .. code-block:: sh
    
 
-    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(map<string,int>::value_type("b", 2)); P(m["b"])'
+    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(map<string,int>::value_type("b", 2)); P(m["b"])' 
     m["b"] = 2
     
 
@@ -248,12 +277,12 @@ insert.scm
 .. code-block:: sh
    
 
-    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(make_pair("b", 2)); P(m["b"])'
+    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(make_pair("b", 2)); P(m["b"])' 
     m["b"] = 2
     
 
 
-========
+
 iter.scm
 ========
 
@@ -265,7 +294,7 @@ iter.scm
       map<int, string>::iterator it = m.begin();
       for(; it != m.end(); it++){
         cout << (*it).first << ": " << it->second << endl;
-    '
+    ' 
     <stdin>:45:35: error: use of undeclared identifier 'm'
       map<int, string>::iterator it = m.begin();
                                       ^
@@ -282,12 +311,69 @@ iter.scm
     
 
 
-========
+
+extend.scm
+==========
+
+
+
 init.scm
 ========
 
 
-==========
+.. warning::
+
+    シンボルをkeyに指定できない
+
+
+.. code-block:: sh
+   
+
+    $ python -c '{a: 1}'
+    Traceback (most recent call last):
+      File "<string>", line 1, in <module>
+    NameError: name 'a' is not defined
+    
+
+
+.. code-block:: sh
+   
+
+    $ ghc -e 'Data.Map.fromListWith (++) [(1, "a"), (1, "b"), (2, "c")]' 
+    fromList [(1,"ba"),(2,"c")]
+    
+
+書く時には"key"とクオテーションで括らなくても良いです。
+
+.. warning::
+
+    jsonデータは改行など、余計な文字が入ってはいけません。
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}, {"b", 2}}; P(m["a"])' 
+    m["a"] = 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ php -r '$dict = array(5 => 1, 12 => 2); echo "$dict[5]";' 
+    1
+
+Make associativ array named y
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3)' 
+    
+
+
+
 toHash.scm
 ==========
 
@@ -296,17 +382,6 @@ string => json. keyは""で囲むこと
 .. code-block:: sh
    
 
-    $ ne 'JSON.parse('{"key": "val"}')'
-    [eval]:1
-    console.log(JSON.parse({key:)
-                                ^
-    
-    SyntaxError: Unexpected token )
-        at Object.exports.runInThisContext (vm.js:53:16)
-        at Object.<anonymous> ([eval]-wrapper:6:22)
-        at Module._compile (module.js:435:26)
-        at node.js:576:27
-        at doNTCallback0 (node.js:417:9)
-        at process._tickCallback (node.js:346:13)
+    $ ne 'JSON.parse('\''{"key": "val"}'\'')' 
     
 

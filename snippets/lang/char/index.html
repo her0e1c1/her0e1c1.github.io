@@ -112,17 +112,34 @@
 </div>
 <div class="section" id="init-scm">
 <h2>init.scm<a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s; s=char(&#39;</span>A<span class="s1">&#39; + 1); P(s)&#39;</span>
-&lt;stdin&gt;:44:22: error: use of undeclared identifier <span class="s1">&#39;A&#39;</span>
-    string s<span class="p">;</span> <span class="nv">s</span><span class="o">=</span>char<span class="o">(</span>A + 1<span class="o">)</span><span class="p">;</span> P<span class="o">(</span>s<span class="o">)</span>
-                     ^
-<span class="m">1</span> error generated.
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s; s=char(&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;A&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; + 1); P(s)&#39;</span>
+<span class="nv">s</span> <span class="o">=</span> B
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s; s=&#39;</span>A<span class="s1">&#39;+1; P(s)&#39;</span>
-&lt;stdin&gt;:44:17: error: use of undeclared identifier <span class="s1">&#39;A&#39;</span>
-    string s<span class="p">;</span> <span class="nv">s</span><span class="o">=</span>A+1<span class="p">;</span> P<span class="o">(</span>s<span class="o">)</span>
-                ^
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s; s=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;A&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+1; P(s)&#39;</span>
+<span class="nv">s</span> <span class="o">=</span> B
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">cannot declare with char</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;A&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+1;&#39;</span>
+&lt;stdin&gt;:44:12: error: no viable conversion from <span class="s1">&#39;int&#39;</span> to <span class="s1">&#39;string&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;basic_string&lt;char, char_traits&lt;char&gt;, allocator&lt;char&gt; &gt;&#39;</span><span class="o">)</span>
+    string <span class="nv">s</span><span class="o">=</span><span class="s1">&#39;A&#39;</span>+1<span class="p">;</span>
+           ^ ~~~~~
+/usr/include/c++/v1/string:1186:5: note: candidate constructor not viable: no known conversion from <span class="s1">&#39;int&#39;</span> to <span class="s1">&#39;const std::__1::basic_string&lt;char&gt; &amp;&#39;</span> <span class="k">for</span> 1st argument
+    basic_string<span class="o">(</span>const basic_string<span class="p">&amp;</span> __str<span class="o">)</span><span class="p">;</span>
+    ^
+/usr/include/c++/v1/string:1190:5: note: candidate constructor not viable: no known conversion from <span class="s1">&#39;int&#39;</span> to <span class="s1">&#39;std::__1::basic_string&lt;char&gt; &amp;&amp;&#39;</span> <span class="k">for</span> 1st argument
+    basic_string<span class="o">(</span>basic_string<span class="o">&amp;&amp;</span> __str<span class="o">)</span>
+    ^
+/usr/include/c++/v1/string:1195:31: note: candidate constructor not viable: no known conversion from <span class="s1">&#39;int&#39;</span> to <span class="s1">&#39;const value_type *&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;const char *&#39;</span><span class="o">)</span> <span class="k">for</span> 1st argument
+    _LIBCPP_INLINE_VISIBILITY basic_string<span class="o">(</span>const value_type* __s<span class="o">)</span><span class="p">;</span>
+                              ^
+/usr/include/c++/v1/string:1216:5: note: candidate constructor not viable: no known conversion from <span class="s1">&#39;int&#39;</span> to <span class="s1">&#39;initializer_list&lt;value_type&gt;&#39;</span> <span class="k">for</span> 1st argument
+    basic_string<span class="o">(</span>initializer_list&lt;value_type&gt; __il<span class="o">)</span><span class="p">;</span>
+    ^
 <span class="m">1</span> error generated.
 </pre></div>
 </div>

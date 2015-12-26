@@ -1,10 +1,35 @@
 
-
+===
 cmd
 ===
 
 
+
+cat.scm
+=======
+
+
+
+grep.scm
+========
+
+
+
+head.scm
+========
+
+
+
+xargs.scm
 =========
+
+
+
+seq.scm
+=======
+
+
+
 mkdir.scm
 =========
 
@@ -12,12 +37,11 @@ mkdir.scm
 .. code-block:: sh
    
 
-    $ perl 'mkdir('./lockdir', 0755)'
-    Can't open perl script "mkdir(./lockdir, 0755)": そのようなファイルまたはディレクトリはありません
+    $ perl -E 'mkdir('\''./lockdir'\'', 0755)' 
     
 
 
-======
+
 mv.scm
 ======
 
@@ -32,12 +56,27 @@ mv.scm
     
 
 
+
+uuidgen.scm
+===========
+
+
+
+rm.scm
 ======
+
+
+
+printf.scm
+==========
+
+
+
 ls.scm
 ======
 
 
-======
+
 cd.scm
 ======
 
@@ -45,17 +84,27 @@ cd.scm
 .. code-block:: sh
    
 
-    $ perl 'chdir('/home/user1') or die $!;'
-    Can't open perl script "chdir(/home/user1) or die $!;": そのようなファイルまたはディレクトリはありません
+    $ perl -E 'chdir('\''/home/user1'\'') or die $!;' 
+    そのようなファイルまたはディレクトリはありません at -e line 1.
     
 
 
+
+tr.scm
 ======
+
+
+
 cp.scm
 ======
 
 
-=========
+
+wc.scm
+======
+
+
+
 rmdir.scm
 =========
 
@@ -63,7 +112,11 @@ rmdir.scm
 .. code-block:: sh
    
 
-    $ perl 'rmdir('./lockdir')'
-    Can't open perl script "rmdir(./lockdir)": そのようなファイルまたはディレクトリはありません
+    $ perl -E 'rmdir('\''./lockdir'\'')' 
     
+
+
+
+crontab.scm
+===========
 

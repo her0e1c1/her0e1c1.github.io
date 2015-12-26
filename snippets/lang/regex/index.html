@@ -140,6 +140,17 @@ aba
 1
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>. doesn&#8217;t match
+character Ignore white words(</p>
+<blockquote class="last">
+<div>)</div></blockquote>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;</span>
+<span class="s1">&quot; =~ /./&#39;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="group-scm">
 <h2>group.scm<a class="headerlink" href="#group-scm" title="Permalink to this headline">¶</a></h2>
@@ -166,23 +177,54 @@ aba
 </pre></div>
 </div>
 </div>
+<div class="section" id="sub-scm">
+<h2>sub.scm<a class="headerlink" href="#sub-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;a=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;hoge&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;; echo ${a/ho/HO}&#39;</span>
+HOge
+</pre></div>
+</div>
+</div>
 <div class="section" id="word-scm">
 <h2>word.scm<a class="headerlink" href="#word-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="replace-scm">
 <h2>replace.scm<a class="headerlink" href="#replace-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;replace(/aaa/g, &#39;</span>bbb<span class="s1">&#39;);&#39;</span>
-<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
-console.log<span class="o">(</span>replace<span class="o">(</span>/aaa/g, bbb<span class="o">)</span><span class="p">;</span><span class="o">)</span>
-                               ^
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;replace(/aaa/g, &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;bbb&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;);&#39;</span>
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:7
+replace<span class="o">(</span>/aaa/g, <span class="s1">&#39;bbb&#39;</span><span class="o">)</span><span class="p">;</span>
+^
 
-SyntaxError: missing <span class="o">)</span> after argument list
-    at Object.exports.runInThisContext <span class="o">(</span>vm.js:53:16<span class="o">)</span>
+ReferenceError: replace is not defined
+    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:7:1
+    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
     at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
     at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
     at node.js:576:27
     at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
     at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="greedy-scm">
+<h2>greedy.scm<a class="headerlink" href="#greedy-scm" title="Permalink to this headline">¶</a></h2>
+<p>remove if it&#8217;s matched from the left side(greedy)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;f=/home/usr/test.txt; echo ${f##*/}&#39;</span>
+test.txt
+</pre></div>
+</div>
+<p>remove if it&#8217;s matched from the left side(non greedy)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;f=/home/usr/test.txt; echo ${f#*/}&#39;</span>
+home/usr/test.txt
+</pre></div>
+</div>
+<p>remove if it&#8217;s matched from the right side(greedy)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;f=/home/usr/test.txt; echo ${f%%*/}&#39;</span>
+/home/usr/test.txt
+</pre></div>
+</div>
+<p>remove if it&#8217;s matched from the right side(non greedy)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;f=/home/usr/test.txt; echo ${f%*/}&#39;</span>
+/home/usr/test.txt
 </pre></div>
 </div>
 </div>
@@ -191,48 +233,41 @@ SyntaxError: missing <span class="o">)</span> after argument list
 </div>
 <div class="section" id="nocapture-scm">
 <h2>noCapture.scm<a class="headerlink" href="#nocapture-scm" title="Permalink to this headline">¶</a></h2>
+<p>use : for no capture</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;shift =~ /(a)(?:b)(c)/; say $1.$2&#39;</span> abc
 ac
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>python -c <span class="s1">&#39;import re; print(re.match(r&quot;(a)(?:b)(c)&quot;, &quot;abc&quot;).groups())&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(match(r&quot;(a)(?:b)(c)&quot;, &quot;abc&quot;).groups())&#39;</span>
 <span class="o">(</span><span class="s1">&#39;a&#39;</span>, <span class="s1">&#39;c&#39;</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="lookbehind-scm">
 <h2>lookbehind.scm<a class="headerlink" href="#lookbehind-scm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Variable length lookbehind not implemented in regex</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;qq/test/ =~ m#(?&lt;=.*?)e#&#39;</span>
+Variable length lookbehind not implemented in regex m/<span class="o">(</span>?&lt;<span class="o">=</span>.*?<span class="o">)</span>e/ at -e line 1.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;q/abcde/ =~ /(?&lt;=.*?c).*/; say $&amp;&#39;</span>
+Variable length lookbehind not implemented in regex m/<span class="o">(</span>?&lt;<span class="o">=</span>.*?c<span class="o">)</span>.*/ at -e line 1.
+</pre></div>
+</div>
+<p>You can subsutitute lookbind with K option</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;q/abcde/ =~ /(.*?c)K.*/; say $&amp;&#39;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="match-scm">
 <h2>match.scm<a class="headerlink" href="#match-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>ABCDEF<span class="s1">&#39;.match(/DEF/i)&#39;</span>
-<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
-console.log<span class="o">(</span>ABCDEF.match<span class="o">(</span>/DEF/i<span class="o">))</span>
-            ^
-
-ReferenceError: ABCDEF is not defined
-    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
-    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
-    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
-    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
-    at node.js:576:27
-    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
-    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;ABCDEF&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.match(/DEF/i)&#39;</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span>abc<span class="s1">&#39;.match(/a.c/)&#39;</span>
-<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
-console.log<span class="o">(</span>abc.match<span class="o">(</span>/a.c/<span class="o">))</span>
-            ^
-
-ReferenceError: abc is not defined
-    at <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1:13
-    at Object.exports.runInThisContext <span class="o">(</span>vm.js:54:17<span class="o">)</span>
-    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
-    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
-    at node.js:576:27
-    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
-    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;abc&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.match(/a.c/)&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -242,16 +277,15 @@ ReferenceError: abc is not defined
 <div class="section" id="g-scm">
 <h2>g.scm<a class="headerlink" href="#g-scm" title="Permalink to this headline">¶</a></h2>
 </div>
-</div>
 <div class="section" id="g">
-<h1>g<a class="headerlink" href="#g" title="Permalink to this headline">¶</a></h1>
+<h2>g<a class="headerlink" href="#g" title="Permalink to this headline">¶</a></h2>
 <p>gは、全てマッチ
 With g option it match more than once
 マッチ位置はマッチするごとに動くので、loopできる
 <a href="#id1"><span class="problematic" id="id2">*</span></a>は0文字とマッチするので空文字が含まれる</p>
 </div>
 <div class="section" id="for">
-<h1>for<a class="headerlink" href="#for" title="Permalink to this headline">¶</a></h1>
+<h2>for<a class="headerlink" href="#for" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=&quot;abc&quot;; print &quot;$_,&quot; for (/.*?/g)&#39;</span>
 ,a,,b,,c,,
 </pre></div>
@@ -262,7 +296,7 @@ a,b,c,
 </div>
 </div>
 <div class="section" id="while">
-<h1>while<a class="headerlink" href="#while" title="Permalink to this headline">¶</a></h1>
+<h2>while<a class="headerlink" href="#while" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt>With s option . matches also</dt>
 <dd>character</dd>
@@ -276,8 +310,32 @@ abc,bc,c,
 1
 </pre></div>
 </div>
+</div>
+<div class="section" id="lookahead-scm">
+<h2>lookahead.scm<a class="headerlink" href="#lookahead-scm" title="Permalink to this headline">¶</a></h2>
+<p>後に続く文字列が条件に合致した場合に、その手前にマッチさせる</p>
+</div>
 <div class="section" id="whitespace-scm">
 <h2>whitespace.scm<a class="headerlink" href="#whitespace-scm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Don&#8217;t use -l option, which chomps &#8221;
+&#8221; , &#8221;
+&#8221; or &#8220;</p>
+</div>
+<p>&#8220;</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -pE <span class="s1">&#39;s/</span>
+<span class="s1">/</span>
+<span class="s1">/&#39;</span> <span class="s">&lt;&lt; EOS</span>
+<span class="s">aaa</span>
+<span class="s">bbb</span>
+<span class="s">ccc</span>
+<span class="s">EOS</span>
+aaa
+bbb
+ccc
+</pre></div>
+</div>
 </div>
 </div>
 

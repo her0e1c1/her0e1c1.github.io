@@ -99,12 +99,58 @@
       
   <div class="section" id="io">
 <h1>io<a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="stdin-scm">
+<h2>stdin.scm<a class="headerlink" href="#stdin-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="passargswithstdin">
+<h2>passArgsWithStdin<a class="headerlink" href="#passargswithstdin" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;echo $1, $2&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;| sh /dev/stdin 100 1&#39;</span>
+100, 1
+</pre></div>
+</div>
+<p>better</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;echo $1, $2&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;| sh -s - 100 1&#39;</span>
+100, 1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;cat &lt;&lt;&lt; &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;STRING&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+STRING
+</pre></div>
+</div>
+</div>
+<div class="section" id="stdout-scm">
+<h2>stdout.scm<a class="headerlink" href="#stdout-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="stdout">
+<h2>STDOUT<a class="headerlink" href="#stdout" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;This text is not shown&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; &gt; /dev/null&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;This text is not shown&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; 1&gt;&amp;2 /dev/null&#39;</span>
+This text is not shown /dev/null
+</pre></div>
+</div>
+</div>
+<div class="section" id="flush-scm">
+<h2>flush.scm<a class="headerlink" href="#flush-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="fflush">
+<h2>fflush<a class="headerlink" href="#fflush" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">printf doesn&#8217;t output until it encounters newline. an error will occur because of referring null pointer</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char*a=NULL, b; p(&quot;this is NOT printed.&quot;); b=*a;&#39;</span>
+セグメンテーション違反
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char*a=NULL, b; p(&quot;this is printed.&quot;); fflush(stdout); b=*a;&#39;</span>
+this is printed.セグメンテーション違反
+</pre></div>
+</div>
+</div>
 <div class="section" id="env-scm">
 <h2>env.scm<a class="headerlink" href="#env-scm" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
-<div class="section" id="env">
-<h1>env<a class="headerlink" href="#env" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say for split &quot;:&quot;, $ENV{PATH}&#39;</span>
 /usr/local/heroku/bin
 /usr/local/heroku/bin
@@ -128,12 +174,39 @@
 /home/me/.cabal/bin
 </pre></div>
 </div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char**e=environ;while(*e){if(!strcmp(*e, &quot;USER=me&quot;))p(&quot;%s&quot;, *e); e++;}&#39;</span>
+<span class="nv">USER</span><span class="o">=</span>me
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, getenv(&quot;USER&quot;));&#39;</span>
+me
+</pre></div>
+</div>
+<p>NULL if the name doesn&#8217;t exist.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, getenv(&quot;user&quot;));&#39;</span>
+<span class="o">(</span>null<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="redirect-scm">
+<h2>redirect.scm<a class="headerlink" href="#redirect-scm" title="Permalink to this headline">¶</a></h2>
+<p>;`/usr/src/usr.sbin/bsdinstall/scripts/hostname`</p>
+<p>;; exec 3&gt;&amp;1
+;; HOSTNAME=`dialog &#8211;backtitle &#8216;FreeBSD Installer&#8217; &#8211;title &#8216;Set Hostname&#8217; &#8211;nocancel &#8211;inputbox msg 0 0 $(hostname) 2&gt;&amp;1 1&gt;&amp;3`
+;; exec 3&gt;&amp;-</p>
+</div>
+<div class="section" id="signal-scm">
+<h2>signal.scm<a class="headerlink" href="#signal-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say keys %SIG&#39;</span>
+WINCHCONTFPETERMPIPEINFOBUSIOCHLDTTINALRMSTOPTSTPUSR1XFSZQUITIOTSEGVABRTVTALRMXCPUUSR2KILLTTOUEMTTHRHUPSYSTRAPPROFINTURGILL
+</pre></div>
+</div>
+</div>
 <div class="section" id="option-scm">
 <h2>option.scm<a class="headerlink" href="#option-scm" title="Permalink to this headline">¶</a></h2>
 </div>
-</div>
 <div class="section" id="options">
-<h1>options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h1>
+<h2>options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
 <p>With -0 option delimiter is NULL
 With -0777 you can&#8217;t use any option delimiter.</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;a</span>
@@ -146,14 +219,14 @@ a
 </div>
 </div>
 <div class="section" id="display-warning">
-<h1>Display warning<a class="headerlink" href="#display-warning" title="Permalink to this headline">¶</a></h1>
+<h2>Display warning<a class="headerlink" href="#display-warning" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -we <span class="s1">&#39;print @a&#39;</span>
 Name <span class="s2">&quot;main::a&quot;</span> used only once: possible typo at -e line 1.
 </pre></div>
 </div>
 </div>
 <div class="section" id="f-option">
-<h1>F option<a class="headerlink" href="#f-option" title="Permalink to this headline">¶</a></h1>
+<h2>F option<a class="headerlink" href="#f-option" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;123456      b</span>
 <span class="s2">c   d&quot;</span> <span class="p">|</span> perl -aF<span class="s1">&#39;  &#39;</span> -nlE <span class="s1">&#39;say join(&quot;, &quot;, map(sprintf(&quot;%5s&quot;, substr($_, 0, 5)), @F))&#39;</span>
 Unrecognized switch: -        <span class="o">(</span>-h will show valid options<span class="o">)</span>.
@@ -161,7 +234,7 @@ Unrecognized switch: -        <span class="o">(</span>-h will show valid options
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ps aux <span class="p">|</span> perl -anle <span class="s1">&#39;print $F[1]&#39;</span> <span class="p">|</span> head -n2
 PID
-15496
+20427
 </pre></div>
 </div>
 <p>print 0 ~ 4 columns in the argument file</p>
@@ -173,7 +246,7 @@ c/d
 </div>
 </div>
 <div class="section" id="id1">
-<h1>-00<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h2>-00<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;a</span>
 <span class="s2">b</span>
 
@@ -188,12 +261,12 @@ c
 d
 </pre></div>
 </div>
+</div>
 <div class="section" id="read-line-scm">
 <h2>read-line.scm<a class="headerlink" href="#read-line-scm" title="Permalink to this headline">¶</a></h2>
 </div>
-</div>
 <div class="section" id="diamond-operator">
-<h1>diamond operator<a class="headerlink" href="#diamond-operator" title="Permalink to this headline">¶</a></h1>
+<h2>diamond operator<a class="headerlink" href="#diamond-operator" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s1">&#39;for(&lt;*.txt&gt;){$a=$_; s/.txt/.csv/; rename $a, $_}&#39;</span>
 </pre></div>
 </div>
@@ -205,32 +278,46 @@ syntax error at -e line 2, near <span class="s2">&quot;&lt;&gt;perl</span>
 Execution of -e aborted due to compilation errors.
 </pre></div>
 </div>
+</div>
+<div class="section" id="tty-scm">
+<h2>tty.scm<a class="headerlink" href="#tty-scm" title="Permalink to this headline">¶</a></h2>
+<p>stdin 0, stdout 1, stderr 2
+in this case, because I run this command as subprocess, these results are NULL.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;ps(ttyname(0));&#39;</span>
+/dev/pts/7
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;ps(ttyname(1));&#39;</span>
+<span class="o">(</span>null<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;ps(ttyname(2));&#39;</span>
+<span class="o">(</span>null<span class="o">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="random-scm">
 <h2>random.scm<a class="headerlink" href="#random-scm" title="Permalink to this headline">¶</a></h2>
 <p>Return a value between 0 and 1 (not including 1)</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Math.random()&#39;</span>
-0.4677368556149304
 </pre></div>
 </div>
 <p>Return a value from 0 to 6</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Math.floor(Math.random() * 7)&#39;</span>
-4
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>$ perl &#39;rand(10)&#39;
-Can&#39;t open perl script &quot;rand(10)&quot;: そのようなファイルまたはディレクトリはありません
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;rand(10)&#39;</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>$ perl &#39;int(rand(10))&#39;
-Can&#39;t open perl script &quot;int(rand(10))&quot;: そのようなファイルまたはディレクトリはありません
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;int(rand(10))&#39;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say rand for 1..5&#39;</span>
-0.236388069651188
-0.379802791725041
-0.755267302776826
-0.169408431832331
-0.38185942022854
+0.222553711691038
+0.661245357801334
+0.52293380772802
+0.812968118904742
+0.76729433391036
 </pre></div>
 </div>
 </div>
@@ -241,7 +328,95 @@ hello world
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&quot;hello world&quot;&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo &quot;hello world&quot;&#39;</span>
 hello world
+</pre></div>
+</div>
+</div>
+<div class="section" id="color-scm">
+<h2>color.scm<a class="headerlink" href="#color-scm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">check your terminal</p>
+</div>
+<p># 複数の組み合わせをする場合は、;で区切る</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo -e &quot;e[1;31;42m Yes it is awful e[0m&quot;&#39;</span>
+e<span class="o">[</span>1<span class="p">;</span>31<span class="p">;</span>42m Yes it is awful e<span class="o">[</span>0m
+</pre></div>
+</div>
+<p># 以下のように、;でなくても一つ一つネストさせてよい
+# e[0mで全てキャンセルされるので、ネスト分だけ用意しなくてよい</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo -e &quot;e[1me[31;42m Yes it is awful e[0m&quot;&#39;</span>
+e<span class="o">[</span>1me<span class="o">[</span>31<span class="p">;</span>42m Yes it is awful e<span class="o">[</span>0m
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo -e &quot;e[1me[31me[42m Yes it is awful e[0m&quot;&#39;</span>
+e<span class="o">[</span>1me<span class="o">[</span>31me<span class="o">[</span>42m Yes it is awful e<span class="o">[</span>0m
+</pre></div>
+</div>
+<p>以下の区切り文字で囲むことで、その範囲の文字列の色を変更できる
+33[数字m
+33[0m</p>
+<p>数値は以下の通り
+30 黒文字
+31 赤文字
+40 黒背景
+41 赤背景</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">-e をつけないと、そのまま表示される(sh/bash)</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo -e &quot; 33[31mRED FOREROUND 33[0m&quot;&#39;</span>
+Syntax error: Unterminated quoted string
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo -e &quot; 33[41mRED BACKGROUND 33[0m&quot;&#39;</span>
+Syntax error: Unterminated quoted string
+</pre></div>
+</div>
+</div>
+<div class="section" id="dup-scm">
+<h2>dup.scm<a class="headerlink" href="#dup-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="main-argv-scm">
+<h2>main-argv.scm<a class="headerlink" href="#main-argv-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;P(process.argv)&#39;</span> <span class="m">1</span> <span class="m">2</span> 3
+<span class="o">[</span> <span class="s1">&#39;/usr/local/bin/node&#39;</span>, <span class="s1">&#39;1&#39;</span>, <span class="s1">&#39;2&#39;</span>, <span class="s1">&#39;3&#39;</span> <span class="o">]</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(argv)&#39;</span> <span class="m">1</span> <span class="m">2</span> 3
+<span class="o">[</span><span class="s1">&#39;-c&#39;</span>, <span class="s1">&#39;1&#39;</span>, <span class="s1">&#39;2&#39;</span>, <span class="s1">&#39;3&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ruby -e <span class="s1">&#39;p ARGV&#39;</span> <span class="m">1</span> <span class="m">2</span> 3
+<span class="o">[</span><span class="s2">&quot;1&quot;</span>, <span class="s2">&quot;2&quot;</span>, <span class="s2">&quot;3&quot;</span><span class="o">]</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say for @ARGV&#39;</span> <span class="m">1</span> <span class="m">2</span> 3
+1
+2
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, argc);&#39;</span> <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> 5
+6
+</pre></div>
+</div>
+<p>argv is a list of argument strings. they are stored in memory. the last item is NULL.
+you can also say like char** is [String]</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;while(*argv){p(&quot;%s &quot;, *argv); argv++;}&#39;</span> <span class="m">1</span> <span class="m">2</span> 3
+/tmp/tmp.1jQd1nEy <span class="m">1</span> <span class="m">2</span> 3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;argv += 1; p(&quot;%s&quot;, *argv);&#39;</span> Increment pointer. ++ and +<span class="o">=</span><span class="m">1</span> are no different. btw argv<span class="o">[</span>0<span class="o">]</span> is <span class="nb">exec </span>path.
+Increment
+</pre></div>
+</div>
+<p>Get the last item</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%s&quot;, argv[argc - 1]);&#39;</span> first secomd last
+last
 </pre></div>
 </div>
 </div>
@@ -250,16 +425,34 @@ hello world
 </div>
 <div class="section" id="exit-scm">
 <h2>exit.scm<a class="headerlink" href="#exit-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ruby -e <span class="s1">&#39;exit&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ruby -e <span class="s1">&#39;exit!&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ruby -e <span class="s1">&#39;exec &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;echo 1&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;; p &quot;NOT PRINTED&quot;&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, EXIT_SUCCESS);&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, EXIT_FAILURE);&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;exit(EXIT_SUCCESS); p(&quot;NOT REACHED&quot;);&#39;</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="exit">
-<h1>exit<a class="headerlink" href="#exit" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="system-scm">
 <h2>system.scm<a class="headerlink" href="#system-scm" title="Permalink to this headline">¶</a></h2>
-</div>
+<p>when you want to execute other commands, then use system</p>
 </div>
 <div class="section" id="exec">
-<h1>exec<a class="headerlink" href="#exec" title="Permalink to this headline">¶</a></h1>
+<h2>exec<a class="headerlink" href="#exec" title="Permalink to this headline">¶</a></h2>
 <p>execute shell command. you need -i option</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s1">&#39;system qq#sh -ic &quot;ll /lib/libc.so.*&quot;#&#39;</span>
 -r--r--r--  <span class="m">1</span> root  wheel  <span class="m">1567216</span>  1月 <span class="m">17</span>  <span class="m">2014</span> /lib/libc.so.7
@@ -287,12 +480,52 @@ TEST
 1
 </pre></div>
 </div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo `echo TEST`&#39;</span>
+TEST
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo $(echo TEST)&#39;</span>
+TEST
+</pre></div>
+</div>
+<p>You can nest commands if using $()</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo $(echo $(echo 1) 2) 3&#39;</span>
+<span class="m">1</span> <span class="m">2</span> 3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ghc -e <span class="s1">&#39;System.Cmd.system $ &quot;echo &quot; ++ unwords [[x, &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;] ++ y | x &lt;-[&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;..&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;c&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;], y &lt;- [&quot;csv&quot;, &quot;txt&quot;]]&#39;</span>
+a.csv a.txt b.csv b.txt c.csv c.txt
+ExitSuccess
+</pre></div>
+</div>
+<p>l list, v vector, e env
+exec path and its arguments. the list must be end with NULL.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execv(&quot;/bin/echo&quot;, (char*[]){&quot;ECHO&quot;, &quot;abc&quot;, &quot;efg&quot;, NULL});&#39;</span>
+abc efg
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execv(&quot;/bin/echo&quot;, (char*[]){&quot;/bin/echo&quot;, &quot;abc&quot;, &quot;efg&quot;, NULL});&#39;</span>
+abc efg
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execv(&quot;echo&quot;, (char*[]){&quot;ECHO&quot;, &quot;abc&quot;, &quot;efg&quot;, NULL});&#39;</span>
+</pre></div>
+</div>
+<p>you don&#8217;t need an absolute path because it searches PATH for the command.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execlp(&quot;echo&quot;, &quot;ECHO&quot;, &quot;hoge&quot;, NULL);&#39;</span>
+hoge
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;execvp(&quot;echo&quot;, (char*[]){&quot;ECHO&quot;, &quot;hoge&quot;, NULL});&#39;</span>
+hoge
+</pre></div>
+</div>
+</div>
 <div class="section" id="escape-scm">
 <h2>escape.scm<a class="headerlink" href="#escape-scm" title="Permalink to this headline">¶</a></h2>
 </div>
-</div>
 <div class="section" id="don-t-use-double-quote-which-extend-in-sh-or-escape-it">
-<h1>Don&#8217;t use double quote which extend $ in sh or escape it<a class="headerlink" href="#don-t-use-double-quote-which-extend-in-sh-or-escape-it" title="Permalink to this headline">¶</a></h1>
+<h2>Don&#8217;t use double quote which extend $ in sh or escape it<a class="headerlink" href="#don-t-use-double-quote-which-extend-in-sh-or-escape-it" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -e <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">=1; print </span><span class="nv">$a</span><span class="s2">&quot;</span>
 syntax error at -e line 1, near <span class="s2">&quot;=&quot;</span>
 Execution of -e aborted due to compilation errors.
@@ -304,10 +537,11 @@ Execution of -e aborted due to compilation errors.
 </div>
 </div>
 <div class="section" id="escape-quote-in-sh">
-<h1>escape quote in sh<a class="headerlink" href="#escape-quote-in-sh" title="Permalink to this headline">¶</a></h1>
+<h2>escape quote in sh<a class="headerlink" href="#escape-quote-in-sh" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE HOGE&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
 HOGE HOGE
 </pre></div>
+</div>
 </div>
 <div class="section" id="write-scm">
 <h2>write.scm<a class="headerlink" href="#write-scm" title="Permalink to this headline">¶</a></h2>

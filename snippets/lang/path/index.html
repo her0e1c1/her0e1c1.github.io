@@ -99,6 +99,15 @@
       
   <div class="section" id="path">
 <h1>path<a class="headerlink" href="#path" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="end-scm">
+<h2>end.scm<a class="headerlink" href="#end-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say 1</span>
+<span class="s1">__END__</span>
+<span class="s1">say2&#39;</span>
+1
+</pre></div>
+</div>
+</div>
 <div class="section" id="tmpdir-scm">
 <h2>tmpdir.scm<a class="headerlink" href="#tmpdir-scm" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -129,6 +138,7 @@ math
 index.sh
 bit
 tuple
+class
 regex
 number
 index.rst
@@ -144,8 +154,10 @@ list
 .gitignore
 char-set
 cmd
+pointer
 io
 vector
+<span class="nb">type</span>
 date
 func
 path
@@ -155,6 +167,7 @@ path
 bit
 char
 char-set
+class
 cmd
 date
 exception
@@ -170,6 +183,7 @@ memory
 number
 op
 path
+pointer
 range
 regex
 <span class="nb">set</span>
@@ -177,16 +191,25 @@ special_variables
 stack
 string
 tuple
+<span class="nb">type</span>
 vector
+</pre></div>
+</div>
+</div>
+<div class="section" id="normalize-scm">
+<h2>normalize.scm<a class="headerlink" href="#normalize-scm" title="Permalink to this headline">¶</a></h2>
+<p>Normalize path. I think return value is the same as a buff-stored value.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char s[PATH_MAX]; p(&quot;%s&quot;, realpath(&quot;/home/../home/././.&quot;, s));&#39;</span>
+/usr/home
 </pre></div>
 </div>
 </div>
 <div class="section" id="basename-scm">
 <h2>basename.scm<a class="headerlink" href="#basename-scm" title="Permalink to this headline">¶</a></h2>
 </div>
-</div>
 <div class="section" id="basename">
-<h1>basename<a class="headerlink" href="#basename" title="Permalink to this headline">¶</a></h1>
+<h2>basename<a class="headerlink" href="#basename" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="sep-scm">
 <h2>sep.scm<a class="headerlink" href="#sep-scm" title="Permalink to this headline">¶</a></h2>
 </div>

@@ -1,10 +1,126 @@
 
-
+======
 memory
 ======
 
 
-========
+
 init.scm
 ========
+
+
+
+copy.scm
+========
+
+
+
+memset
+======
+
+Fill 0
+
+.. code-block:: sh
+   
+
+    $ ce 'int a[10][10]; memset(a, 0, sizeof(a)); p("%d", a[0][0]);' 
+    0
+
+Fill -1
+
+.. code-block:: sh
+   
+
+    $ ce 'int a[10][10]; memset(a, -1, sizeof(a)); p("%d", a[0][0]);' 
+    -1
+
+
+.. warning::
+
+    Don't work because memset fills numbers but 0 or -1 at each byte
+
+
+.. code-block:: sh
+   
+
+    $ ce 'int a[10][10]; memset(a, 1, sizeof(a)); p("%d", a[0][0]);' 
+    16843009
+
+
+.. code-block:: sh
+   
+
+    $ ce 'int a[10][10]; memset(a, 10, sizeof(a)); p("%d", a[0][0]);' 
+    168430090
+
+
+16進数から2進数への変換は、f => 1111, 0 => 0000, 1 => 0001と考えるので
+00000001が4回繰り返しコピーされていることがわかる
+
+
+.. code-block:: sh
+   
+
+    $ ce 'int i[1]; memset(i, 1, sizeof(int)); printf("%x", i[0]);' 
+    1010101
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char p[]="abcde", q[]="AAA"; memcpy(p,q,3+1); p(sp);' 
+    <stdin>:40:53: error: use of undeclared identifier 'sp'
+        char p[]="abcde", q[]="AAA"; memcpy(p,q,3+1); p(sp);
+                                                        ^
+    1 error generated.
+    
+
+
+
+malloc.scm
+==========
+
+.. todo:: 2 * 文字数 + 1みたいな領域確保のときに+1し忘れのエラーとなるサンプル用意
+fill 0
+
+.. code-block:: sh
+   
+
+    $ ce 'char*p=calloc(10, sizeof(char)); ps(p);' 
+    
+
+reallocはO(n)じゃないの?; realloc uses copy
+
+.. code-block:: sh
+   
+
+    $ ce 'char*p=malloc(10);memcpy(p, "abcd", 5); printf("%s", realloc(p, 5));' 
+    abcd
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char*p=malloc(10);memcpy(p, "abcd", 5); if (realloc(p, 5) != p) ps("not same");' 
+    not same
+
+mallocも0で初期化されているみたい
+
+.. code-block:: sh
+   
+
+    $ ce 'char*p=malloc(1 << 10); REP(i,10) if(p[i]) ps("1");' 
+    
+
+
+.. warning::
+
+    Can't get enough memory
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char*p=malloc(1 << 31); printf("A%sA",p);' 
+    A(null)A
 

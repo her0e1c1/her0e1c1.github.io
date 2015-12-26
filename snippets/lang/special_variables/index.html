@@ -99,12 +99,161 @@
       
   <div class="section" id="special-variables">
 <h1>special_variables<a class="headerlink" href="#special-variables" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="index-scm">
-<h2>index.scm<a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="lineno-scm">
+<h2>lineno.scm<a class="headerlink" href="#lineno-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say __LINE__</span>
+<span class="s1">say __LINE__&#39;</span>
+syntax error at -e line 2, near <span class="s2">&quot;__LINE__</span>
+<span class="s2">say&quot;</span>
+Execution of -e aborted due to compilation errors.
+</pre></div>
+</div>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">);}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>&lt;stdin&gt;:2:25: warning: format specifies <span class="nb">type</span> <span class="s1">&#39;char *&#39;</span> but the argument has <span class="nb">type</span> <span class="s1">&#39;int&#39;</span> <span class="o">[</span>-Wformat<span class="o">]</span>
+int main<span class="o">(){</span><span class="nb">printf</span><span class="o">(</span><span class="s2">&quot;%s&quot;</span>, __LINE__<span class="o">)</span><span class="p">;</span><span class="o">}</span>
+                   ~~   ^~~~~~~~
+                   %d
+&lt;scratch space&gt;:8:1: note: expanded from here
+2
+^
+<span class="m">1</span> warning generated.
+セグメンテーション違反
+</pre></div>
+</div>
+</div>
+<div class="section" id="length-of-arguments-scm">
+<h2>length-of-arguments.scm<a class="headerlink" href="#length-of-arguments-scm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">等しいに文字列の=を使わない!</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;</span>
+<span class="s1">f(){</span>
+<span class="s1">     [ $# -eq 1 ] &amp;&amp; echo one</span>
+<span class="s1">     [ $# -eq 2 ] &amp;&amp; echo two</span>
+<span class="s1">   }</span>
+<span class="s1">f 1</span>
+<span class="s1">f 1 2</span>
+<span class="s1">&#39;</span>
+one
+two
+</pre></div>
+</div>
+</div>
+<div class="section" id="delimiter-scm">
+<h2>delimiter.scm<a class="headerlink" href="#delimiter-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo -n $IFS | cat -vte&#39;</span>
+</pre></div>
+</div>
+<p>zshだと上記でsplitできないのでechoで対応(互換あり)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;a=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a b c&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;; for i in `echo $a`; do echo $i;done&#39;</span>
+a
+b
+c
+</pre></div>
+</div>
+<p>delimter</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;IFS=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;:&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; &amp;&amp; for p in $PATH; do echo $p ; done&#39;</span>
+/usr/local/heroku/bin
+/usr/local/heroku/bin
+/usr/local/heroku/bin
+/sbin
+/bin
+/usr/sbin
+/usr/bin
+/usr/games
+/usr/local/sbin
+/usr/local/bin
+/home/me/bin
+/home/me/.cask/bin
+/home/me/lib/
+/home/me/.cabal/bin
+/home/me/.cask/bin
+/home/me/lib/
+/home/me/.cabal/bin
+/home/me/.cask/bin
+/home/me/lib/
+/home/me/.cabal/bin
+</pre></div>
+</div>
 <p>$&#8221;
 This is a &#8220;&#64;array&#8221; delimiter</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$&quot; = &quot; - &quot;; @a=1..5; say &quot;@a&quot;&#39;</span>
 <span class="m">1</span> - <span class="m">2</span> - <span class="m">3</span> - <span class="m">4</span> - 5
+</pre></div>
+</div>
+</div>
+<div class="section" id="filenpath-scm">
+<h2>filenpath.scm<a class="headerlink" href="#filenpath-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">,</span> <span class="n">__FILE__</span><span class="p">);}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>&lt;stdin&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="index-scm">
+<h2>index.scm<a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$HISTSIZE</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$PWD</span>
+/usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$HOME</span>
+/home/me
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$OLDPATH</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$SECONDS</span>
+</pre></div>
+</div>
+<p>/home/USER</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo $(echo ~)(:a)&#39;</span>
+/home/me
+</pre></div>
+</div>
+<p>expand symbol link</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo $(echo ~/.emacs.d)(:A)&#39;</span>
+/usr/home/me/github/emacs.d/.emacs.d
+</pre></div>
+</div>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="c1">// List up pre defined macros</span>
+<span class="cp">#define MACRO(x)                                 \</span>
+<span class="cp">  printf(&quot;#x = %s\n&quot; , #x);                      \</span>
+<span class="cp">  printf(&quot;x  = %d\n&quot; , x);                       \</span>
+<span class="cp">  printf(&quot;__func__ = %s\n&quot; ,__func__);           \</span>
+<span class="cp">  printf(&quot;__DATE__ = %s\n&quot; ,__DATE__);           \</span>
+<span class="cp">  printf(&quot;__TIME__ = %s\n&quot; ,__TIME__);           \</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span><span class="n">MACRO</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">));}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="c">#x = (1 + 2 + 3)</span>
+<span class="nv">x</span>  <span class="o">=</span> 6
+<span class="nv">__func__</span> <span class="o">=</span> main
+<span class="nv">__DATE__</span> <span class="o">=</span> Dec <span class="m">24</span> 2015
+<span class="nv">__TIME__</span> <span class="o">=</span> 10:48:29
+</pre></div>
+</div>
+</div>
+<div class="section" id="process-id-scm">
+<h2>process-id.scm<a class="headerlink" href="#process-id-scm" title="Permalink to this headline">¶</a></h2>
+<p>getCurrentPID</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say $$&#39;</span>
+27245
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$$</span>
+27264
 </pre></div>
 </div>
 </div>

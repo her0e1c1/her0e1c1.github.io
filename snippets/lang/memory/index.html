@@ -102,6 +102,75 @@
 <div class="section" id="init-scm">
 <h2>init.scm<a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="copy-scm">
+<h2>copy.scm<a class="headerlink" href="#copy-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="memset">
+<h2>memset<a class="headerlink" href="#memset" title="Permalink to this headline">¶</a></h2>
+<p>Fill 0</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int a[10][10]; memset(a, 0, sizeof(a)); p(&quot;%d&quot;, a[0][0]);&#39;</span>
+0
+</pre></div>
+</div>
+<p>Fill -1</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int a[10][10]; memset(a, -1, sizeof(a)); p(&quot;%d&quot;, a[0][0]);&#39;</span>
+-1
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Don&#8217;t work because memset fills numbers but 0 or -1 at each byte</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int a[10][10]; memset(a, 1, sizeof(a)); p(&quot;%d&quot;, a[0][0]);&#39;</span>
+16843009
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int a[10][10]; memset(a, 10, sizeof(a)); p(&quot;%d&quot;, a[0][0]);&#39;</span>
+168430090
+</pre></div>
+</div>
+<p>16進数から2進数への変換は、f =&gt; 1111, 0 =&gt; 0000, 1 =&gt; 0001と考えるので
+00000001が4回繰り返しコピーされていることがわかる</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int i[1]; memset(i, 1, sizeof(int)); printf(&quot;%x&quot;, i[0]);&#39;</span>
+1010101
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char p[]=&quot;abcde&quot;, q[]=&quot;AAA&quot;; memcpy(p,q,3+1); p(sp);&#39;</span>
+&lt;stdin&gt;:40:53: error: use of undeclared identifier <span class="s1">&#39;sp&#39;</span>
+    char p<span class="o">[]=</span><span class="s2">&quot;abcde&quot;</span>, q<span class="o">[]=</span><span class="s2">&quot;AAA&quot;</span><span class="p">;</span> memcpy<span class="o">(</span>p,q,3+1<span class="o">)</span><span class="p">;</span> p<span class="o">(</span>sp<span class="o">)</span><span class="p">;</span>
+                                                    ^
+<span class="m">1</span> error generated.
+</pre></div>
+</div>
+</div>
+<div class="section" id="malloc-scm">
+<h2>malloc.scm<a class="headerlink" href="#malloc-scm" title="Permalink to this headline">¶</a></h2>
+<p>fill 0</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char*p=calloc(10, sizeof(char)); ps(p);&#39;</span>
+</pre></div>
+</div>
+<p>reallocはO(n)じゃないの?; realloc uses copy</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char*p=malloc(10);memcpy(p, &quot;abcd&quot;, 5); printf(&quot;%s&quot;, realloc(p, 5));&#39;</span>
+abcd
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char*p=malloc(10);memcpy(p, &quot;abcd&quot;, 5); if (realloc(p, 5) != p) ps(&quot;not same&quot;);&#39;</span>
+not same
+</pre></div>
+</div>
+<p>mallocも0で初期化されているみたい</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char*p=malloc(1 &lt;&lt; 10); REP(i,10) if(p[i]) ps(&quot;1&quot;);&#39;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Can&#8217;t get enough memory</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char*p=malloc(1 &lt;&lt; 31); printf(&quot;A%sA&quot;,p);&#39;</span>
+A<span class="o">(</span>null<span class="o">)</span>A
+</pre></div>
+</div>
+</div>
 </div>
 
 

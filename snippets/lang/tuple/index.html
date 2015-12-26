@@ -111,6 +111,24 @@
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;vector&lt;pair&lt;int, int&gt;&gt; v = {{1, -1}, {-2, 5}, {3, 10}};&#39;</span>
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">同じ表現でも初期化できるが、forと組み合わせできない</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;for(pair&lt;int, int&gt; x: {{1,2}, {2,5}});&#39;</span>
+&lt;stdin&gt;:44:27: error: cannot use <span class="nb">type</span> <span class="s1">&#39;void&#39;</span> as a range
+    <span class="k">for</span><span class="o">(</span>pair&lt;int, int&gt; x: <span class="o">{{</span>1,2<span class="o">}</span>, <span class="o">{</span>2,5<span class="o">}})</span><span class="p">;</span>
+                          ^
+<span class="m">1</span> error generated.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;vector&lt;pair&lt;int, int&gt;&gt; v = {{1, -1}, {-2, 5}, {3, 10}};</span>
+<span class="s1">      EACH(it, v) cout &lt;&lt; it-&gt;first &lt;&lt; &quot;, &quot; &lt;&lt; it-&gt;second &lt;&lt; endl;&#39;</span>
+1, -1
+-2, 5
+3, 10
+</pre></div>
+</div>
 </div>
 <div class="section" id="index-scm">
 <h2>index.scm<a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>

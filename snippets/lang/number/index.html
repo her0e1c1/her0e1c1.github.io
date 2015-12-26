@@ -101,9 +101,115 @@
 <h1>number<a class="headerlink" href="#number" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="toint-scm">
 <h2>toInt.scm<a class="headerlink" href="#toint-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ghc -e <span class="s1">&#39;read &quot;10&quot;&#39;</span>
+&lt;interactive&gt;: Prelude.read: no parse
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ghc -e <span class="s1">&#39;reads &quot;10&quot;&#39;</span>
+<span class="o">[]</span>
+</pre></div>
+</div>
+<p>型を指定する必要あり</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ghc -e <span class="s1">&#39;reads &quot;10&quot; :: [(Int, String)]&#39;</span>
+<span class="o">[(</span>10,<span class="s2">&quot;&quot;</span><span class="o">)]</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ghc -e <span class="s1">&#39;print(read &quot;10&quot; :: Integer)&#39;</span>
+10
+</pre></div>
+</div>
+<p>文字列を数値に変換する</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Number(&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;123&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;parseInt(&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;123&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;, 10)&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;parseFloat(&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;123&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;parseInt(&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;100px&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.replace(&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;px&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;, &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;))&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;1 + (+ &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;22&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;100&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; | 0&#39;</span>
+</pre></div>
+</div>
+<p>perlの場合文字列を+で評価すると型を数値とする
+なお、文字列の結合は.を使うので注意
+また、数値でないものは0として扱われる</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;1&quot; + &quot;2&quot;&#39;</span>
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;a1a&quot; + &quot;2&quot;&#39;</span>
+2
+</pre></div>
+</div>
 </div>
 <div class="section" id="equal-scm">
 <h2>equal.scm<a class="headerlink" href="#equal-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre>$ ghc -e &#39;(1::Int) == (1::Integer)&#39;
+
+&lt;interactive&gt;:1:14:
+    Couldn&#39;t match expected type ‘Int’ with actual type ‘Integer’
+    In the second argument of ‘(==)’, namely ‘(1 :: Integer)’
+    In the expression: (1 :: Int) == (1 :: Integer)
+    In an equation for ‘it’: it = (1 :: Int) == (1 :: Integer)
+</pre></div>
+</div>
+<p>-eq, -gt, are operators for number. NOT STRING!</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">[ and ] need spaces around each of them</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ 1 -eq 1 ] &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ 2 -gt 1 ] &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ 2 -ge 2 ] &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ 1 -lt 2 ] &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ 2 -le 2 ] &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;hoge&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; -eq &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;hoge&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; ] &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="o">[</span>: hoge: bad number
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Not == operator</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;str&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; = &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;str&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; ]     &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;str&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; != &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;string&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; ] &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ 1 = 1 ]     &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<p>Not quoted string</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ hoge = hoge ]     &amp;&amp; echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="int-scm">
 <h2>int.scm<a class="headerlink" href="#int-scm" title="Permalink to this headline">¶</a></h2>
@@ -118,17 +224,6 @@
 <div class="section" id="inf-scm">
 <h2>inf.scm<a class="headerlink" href="#inf-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;a = 1/0;&#39;</span>
-<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:1
-console.log<span class="o">(</span><span class="nv">a</span> <span class="o">=</span> 1/0<span class="p">;</span><span class="o">)</span>
-                  ^
-
-SyntaxError: missing <span class="o">)</span> after argument list
-    at Object.exports.runInThisContext <span class="o">(</span>vm.js:53:16<span class="o">)</span>
-    at Object.&lt;anonymous&gt; <span class="o">([</span><span class="nb">eval</span><span class="o">]</span>-wrapper:6:22<span class="o">)</span>
-    at Module._compile <span class="o">(</span>module.js:435:26<span class="o">)</span>
-    at node.js:576:27
-    at doNTCallback0 <span class="o">(</span>node.js:417:9<span class="o">)</span>
-    at process._tickCallback <span class="o">(</span>node.js:346:13<span class="o">)</span>
 </pre></div>
 </div>
 </div>
@@ -138,7 +233,6 @@ SyntaxError: missing <span class="o">)</span> after argument list
 <div class="section" id="nan-scm">
 <h2>nan.scm<a class="headerlink" href="#nan-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;NaN !== NaN&#39;</span>
-<span class="nb">true</span>
 </pre></div>
 </div>
 </div>

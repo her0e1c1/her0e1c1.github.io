@@ -13,24 +13,6 @@ C Language
 .. toctree::
 
 
-    array.rst
-
-
-.. toctree::
-
-
-    string.rst
-
-
-.. toctree::
-
-
-    stdlib.rst
-
-
-.. toctree::
-
-
     misc.rst
 
 
@@ -38,10 +20,4 @@ C Language
 
 
     grammer.rst
-
-
-.. toctree::
-
-
-    stdio.rst
 

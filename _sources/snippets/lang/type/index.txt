@@ -1,0 +1,185 @@
+
+====
+type
+====
+
+
+
+init.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char*a; __typeof(a) i = "abc"; ps(i);' 
+    abc
+
+
+
+sizeof.scm
+==========
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(char));' 
+    1
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(short));' 
+    2
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(short int));' 
+    2
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(int));' 
+    4
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(size_t));' 
+    8
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(void*));' 
+    8
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(long));' 
+    8
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(float));' 
+    4
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(double));' 
+    8
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(long float));' 
+    <stdin>:40:21: error: 'long float' is invalid
+        p("%zu", sizeof(long float));
+                        ^
+    1 error generated.
+    
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(long long));' 
+    8
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(long double));' 
+    16
+
+with %zu print as unsigned decimal
+
+.. code-block:: sh
+   
+
+    $ ce 'p("%zu", sizeof(double double));' 
+    <stdin>:40:28: error: cannot combine with previous 'double' declaration specifier
+        p("%zu", sizeof(double double));
+                               ^
+    1 error generated.
+    
+
+sizeof gets all the memory size, not the length of an array
+
+.. code-block:: sh
+   
+
+    $ ce 'int b[10]; p("%zu", sizeof(b));' 
+    40
+
+
+
+null.scm
+========
+
+You need to inlcude stdio.h to use NULL.
+
+.. code-block:: c
+   
+
+    
+    int main () {
+      printf("%p", NULL);
+    }
+
+.. code-block:: sh
+   
+
+    <stdin>:3:3: warning: implicitly declaring library function 'printf' with type 'int (const char *, ...)'
+      printf("%p", NULL);
+      ^
+    <stdin>:3:3: note: please include the header <stdio.h> or explicitly provide a declaration for 'printf'
+    <stdin>:3:16: error: use of undeclared identifier 'NULL'
+      printf("%p", NULL);
+                   ^
+    1 warning and 1 error generated.
+    
+
+You need to inlcude stdio.h to use NULL.
+
+.. code-block:: c
+   
+
+    #include <stdio.h>
+    int main () {
+      printf("%p", NULL);
+    }
+
+.. code-block:: sh
+   
+
+    0x0
+
