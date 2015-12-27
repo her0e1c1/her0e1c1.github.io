@@ -3,6 +3,11 @@
 ; 戻り値は関数なので、さらに関数呼び出しする
 
 (sh "eval \"echo $HOME\"")
+(sh "
+CMD=/bin/echo
+ARG1=HOGE
+\\$CMD \\$ARG1
+" :str #t)
 
 (gosh (eval (read-from-string "(print 1)") (interaction-environment))
       :msg "read string as S expressions")
