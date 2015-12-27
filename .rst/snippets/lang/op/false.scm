@@ -9,6 +9,8 @@
 (c "char *s=\"\"; if(!*s)p(\"false\");")
 (c "if(\"\")p(\"true\");")
 
+(sh "ls HOGE && echo 1" :msg "exit non 0 means false")
+(sh "ls HOGE || echo 1")
 
 (pw "nullはfalseとして扱われない!")
 (p "see http://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_8.html")
