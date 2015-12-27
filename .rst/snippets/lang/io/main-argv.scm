@@ -17,3 +17,6 @@ you can also say like char** is [String]")
 (c "p(\"%s\", argv[argc - 1]);"
    :argv "first secomd last"
    :msg "Get the last item")
+
+
+(sh "echo 'while getopts ab OPT; do echo $OPT ; done' | sh /dev/stdin -abcd")
