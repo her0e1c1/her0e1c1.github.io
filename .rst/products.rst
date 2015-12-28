@@ -15,3 +15,6 @@ Here are my products.
 
 - `pwm <https://github.com/her0e1c1/pw>`_
     A Python password manager
+
+- `kickstart <https://github.com/her0e1c1/kickstart>`_
+    My development for FreeBSD and Ubuntu
