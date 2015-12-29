@@ -19,3 +19,11 @@
 また、数値でないものは0として扱われる")
 (run "perl -E 'say \"1\" + \"2\"'")
 (run "perl -E 'say \"a1a\" + \"2\"'")
+
+(emacs (prefix-numeric-value 10))
+(emacs (prefix-numeric-value -5))
+(emacs (prefix-numeric-value 10.0))
+(emacs (prefix-numeric-value -5.0))
+(emacs (prefix-numeric-value "10"))
+(emacs (prefix-numeric-value "asdf"))
+(emacs (prefix-numeric-value '(10 20 30)))

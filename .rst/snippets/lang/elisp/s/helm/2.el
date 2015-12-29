@@ -21,9 +21,6 @@
  :buffer b1
  )
 
-(defun mfilter(c)
-  nil)
-
 (defun call ()
   (with-current-buffer b1
     (start-process-shell-command "name" (current-buffer) "find ~/work")))
@@ -35,9 +32,6 @@
 
 (defun _cmd (patterns result &optional limit)
   (if (s-blank? result)
-      (with-temp-buffer 
-        (insert "find ~/Desktop")
-        (buffer-string))
     (if (not (s-blank? patterns))
         (insert (s-join  " " (--> (s-split " " patterns) (-remove 's-blank? it)(--map (format "|grep %s" it) it))))))
 

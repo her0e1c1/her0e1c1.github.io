@@ -14,3 +14,6 @@
 
 (gosh (substring "abc" 0 1))
 (gosh (substring "" 0 1))
+
+(emacs (substring "abc" 0 1))
+(emacs (substring-no-properties "text" 1 -1))

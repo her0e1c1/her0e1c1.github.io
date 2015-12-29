@@ -1,33 +1,17 @@
 
-
-        (int-to-string 11)
-         (string-match "str" "string")
-
-  
-(substring "abcdef" 0 2) ; "ab" 
-
- 
-;; (encode-coding-string "漢字です" 'sjis)
 ;; (encode-coding-string "漢字です" 'euc-jp)
 ;; (encode-coding-string "漢字です" 'utf-8)
 ;; (encode-coding-string "漢字です" 'emacs-mule)
- 
 
 (decode-coding-string (encode-coding-string "漢字です" 'utf-8) 'utf-8)
-
-     
-(substring-no-properties "'this is a test'" 1 -1)
-
-       
 (read-string "PROMPT: " "STR1")
 
-        ;; (setq w (selected-window))
-        ;; (setq w2 (split-window w 30))
-        ;; (setq w3 (split-window w 70 t))
+;; (setq w (selected-window))
+;; (setq w2 (split-window w 30))
+;; (setq w3 (split-window w 70 t))
 
 ;; 一部をread-onlyにする::
-
-;;     (put-text-property (line-beginning-position) (point) 'read-only t)
+;; (put-text-property (line-beginning-position) (point) 'read-only t)
 
 ;; (inhibit-read-only t)としないと変更できない. ::
 
@@ -50,47 +34,12 @@
 ;;  (rx-to-string (car '((* any))) t)  ; => ".*"
 ;;  (rx-to-string (car '((* any))))  ; => "\\(?:.*\\)"
  
-
-
-  (prefix-numeric-value 10)  ; 10
-  (prefix-numeric-value -5)  ; 5
-  (prefix-numeric-value 10.0)  ; 1
-  (prefix-numeric-value -5.0)  ; -1
-  (prefix-numeric-value "10")  ;1
-  (prefix-numeric-value "asdf")  ;1
-  (prefix-numeric-value '(10 20 30))  ; 10
-
- (type-of 42)
- (type-of 3.14)
- (type-of "foo")
- (type-of '(1 2))
- (type-of '[1 2])
- (type-of 'foo)
- (type-of ?a)  ; Cの'a'相当。内部的には数値
-
-
- (symbolp 'foo)    ; シンボルか否かの判定。tが真。nilが偽。(後述)
- (symbol-name 'foo)
- (symbol-value 'foo)
- (boundp 'foo)   ; 値セルに値があればt、なければnil
- (fboundp 'foo)  ; 関数セルに関数があればt、なければnil
- (symbol-function 'foo)
-
  ;(goto-char beg)
- (while (< (point) end)
-    ;BODY
-    ;一行ずつ実行します。
-    (forward-line))
+ ;BODY
+ ;一行ずつ実行します。
+ (while (< (point) end) (forward-line))
 
 echo "(1 2 3)" | emacs -Q -batch -eval "(print (apply '+ (read standard-input)))"
-
-(destructuring-bind (x y z) '(1 2 3) (+ x y z))
-(destructuring-bind ((x) y z) '(1 2 3) (+ x y z))
-(destructuring-bind ((x) y z . w) '((1) 2 3 . 4) (+ x y z w))
-
-(prog1 1 2 3)  ; 1
-(prog2 1 2 3)  ; 2
-(progn 1 2 3)  ; 3
 
 (format nil "~:D" 1000) ; "1,000"
 (format nil "~D" 1000)  ; "1000"

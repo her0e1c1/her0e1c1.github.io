@@ -6,3 +6,6 @@
 
 (gosh (sys-getenv "HOME"))
 (gosh (sys-getenv "HOM"))
+
+(emacs (getenv "HOME"))
+
