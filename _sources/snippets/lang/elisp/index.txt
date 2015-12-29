@@ -5,6 +5,94 @@ elisp
 
 
 
+move.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "ho\nge\n") (previous-line) (point))' 
+    4
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "ho\nge\n") (point))' 
+    7
+
+
+
+buffer.scm
+==========
+
+in case of oneliner, buffer is *scratch*
+
+.. code-block:: sh
+   
+
+    $ ee '(current-buffer)' 
+    *scratch*
+
+
+.. code-block:: sh
+   
+
+    $ ee '(buffer-name (current-buffer))' 
+    *scratch*
+
+
+.. code-block:: sh
+   
+
+    $ ee '(bufferp (current-buffer))' 
+    t
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "hoge") (buffer-string))' 
+    hoge
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "hoge") (erase-buffer) (buffer-string))' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "hoge") (buffer-size))' 
+    4
+
+
+.. code-block:: sh
+   
+
+    $ ee '(get-buffer "HOGE")' 
+    nil
+
+
+.. code-block:: sh
+   
+
+    $ ee '(get-buffer "*scratch*")' 
+    *scratch*
+
+
+.. code-block:: sh
+   
+
+    $ ee '(buffer-list)' 
+    (*scratch*  *Minibuf-0* *Messages*  *code-conversion-work*)
+
+
+
 index.scm
 =========
 

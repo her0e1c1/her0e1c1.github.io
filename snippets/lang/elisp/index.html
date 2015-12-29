@@ -99,6 +99,56 @@
       
   <div class="section" id="elisp">
 <h1>elisp<a class="headerlink" href="#elisp" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="move-scm">
+<h2>move.scm<a class="headerlink" href="#move-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;ho\nge\n&quot;) (previous-line) (point))&#39;</span>
+4
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;ho\nge\n&quot;) (point))&#39;</span>
+7
+</pre></div>
+</div>
+</div>
+<div class="section" id="buffer-scm">
+<h2>buffer.scm<a class="headerlink" href="#buffer-scm" title="Permalink to this headline">¶</a></h2>
+<p>in case of oneliner, buffer is <em>scratch</em></p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(current-buffer)&#39;</span>
+*scratch*
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(buffer-name (current-buffer))&#39;</span>
+*scratch*
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(bufferp (current-buffer))&#39;</span>
+t
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;hoge&quot;) (buffer-string))&#39;</span>
+hoge
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;hoge&quot;) (erase-buffer) (buffer-string))&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;hoge&quot;) (buffer-size))&#39;</span>
+4
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(get-buffer &quot;HOGE&quot;)&#39;</span>
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(get-buffer &quot;*scratch*&quot;)&#39;</span>
+*scratch*
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(buffer-list)&#39;</span>
+<span class="o">(</span>*scratch*  *Minibuf-0* *Messages*  *code-conversion-work*<span class="o">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="index-scm">
 <h2>index.scm<a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 </div>
