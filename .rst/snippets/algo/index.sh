@@ -4,9 +4,10 @@ cd $(dirname $0) > /dev/null 2>&1 && cat <<EOS
  Algorithm
 ===========
 
-$(goshe '(for-each (^x (load (abs x))) (glob "*.scm"))')
+$(goshe '(print (sphinx-toctree-directory "sort"))')
 
 ..
+
 
     min f(x) = sigma |ai| + s |aj|
 

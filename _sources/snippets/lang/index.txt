@@ -39,6 +39,7 @@ Languages
     special_variables/index
     stack/index
     string/index
+    test/index
     tuple/index
     type/index
     vector/index

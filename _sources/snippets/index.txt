@@ -41,6 +41,7 @@ Languages
     lang/special_variables/index
     lang/stack/index
     lang/string/index
+    lang/test/index
     lang/tuple/index
     lang/type/index
     lang/vector/index
