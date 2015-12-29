@@ -20,3 +20,5 @@
 
 (sh "[ ! false ] && echo true " :warn "WRONG SYNTAX")
 (sh "! false && echo true ")
+
+(emacs (or '() nil) :warn "goshでは'()は真として扱われるが、elispでは偽として扱われるので注意")

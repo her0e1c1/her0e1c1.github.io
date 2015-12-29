@@ -8,4 +8,4 @@
 (gosh (sys-getenv "HOM"))
 
 (emacs (getenv "HOME"))
-
+(emacs (setenv "HOGE" 1))

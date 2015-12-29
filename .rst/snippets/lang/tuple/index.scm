@@ -8,3 +8,4 @@
 (emacs (destructuring-bind (x y z) '(1 2 3) (+ x y z)))
 (emacs (destructuring-bind ((x) y z) '(1 2 3) (+ x y z)))
 (emacs (destructuring-bind ((x) y z . w) '((1) 2 3 . 4) (+ x y z w)))
+(emacs (multiple-value-bind (q r) (truncate* 10 3) (format "(%s, %s)" q r)))

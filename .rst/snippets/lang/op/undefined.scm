@@ -19,3 +19,7 @@
 
 (zsh "echo ${+PATH}" :msg "if a variable is defiend, then return 1")
 (zsh "echo ${+HOGEHOGE}")
+
+
+(emacs (boundp 'HOGE))
+(emacs (progn (boundp 'HOGE) (setq HOGE 1) HOGE))
