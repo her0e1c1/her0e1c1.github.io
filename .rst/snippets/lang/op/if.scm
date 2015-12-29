@@ -3,6 +3,8 @@
 (run "perl -E 'say 1 ? \"ok\" : \"no\"'")
 (php "if (1) {echo \"true\";}")
 
+(emacs (if t 1 2))
+(emacs (if nil 1 2))
 
 (sh "if true  ; then echo 'true'; else echo 'false'; fi")
 (sh "if false ; then echo 'true'; else echo 'false'; fi")

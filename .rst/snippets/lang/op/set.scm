@@ -13,6 +13,8 @@
 (p "${NAME:=VAL} if variable is defined, then evaluate a value but not set it.")
 (sh "echo ${NULL:+'NULL AGAIN'}")
 
+(emacs (set 'a 1) :msg "setはシンボルを引数にとる")
+
 (zsh ": ${a::=1}; echo $a")
 
 ;; echo ${a:-a is not defined}
