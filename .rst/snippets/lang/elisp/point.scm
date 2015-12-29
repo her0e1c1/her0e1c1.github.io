@@ -36,3 +36,12 @@
 ;; (line-end-position)
 ;; (current-column)
 ;; (current-indentation)
+
+
+;; ; Save current buffer, current point
+;; (save-excursion
+;;   ; save current narrowing
+;;   (save-restriction
+;;     (widen)
+;;     ; code
+;;     ))

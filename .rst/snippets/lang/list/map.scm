@@ -1,8 +1,13 @@
 
 (perl "say for map {$_ + 1} 1..3")
+
 (gosh (map cons '(1 2 3) '(4 5 6)))
-(gosh (map (lambda (x y) (+ x y)) '(1 2 3) '(4 5 6)) :msg "１つ以上のリストを引数に取れる")
+(gosh (map (lambda (x y) (+ x y)) '(1 2 3) '(4 5 6))
+      :msg "１つ以上のリストを引数に取れる")
 (gosh (map + (iota 5) (iota 5)))
+
+(emacs (mapcar (lambda (x) (+ x 1)) '(1 2 3)))
+(emacs (--map (+ 1 it) '(1 2 3)))
 
 
 (c #!DOC EOS

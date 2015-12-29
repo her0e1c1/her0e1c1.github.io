@@ -7,6 +7,7 @@
 (perl "@a=qw(11 10 1 2);say for sort @a")
 (perl "@a=qw(11 10 1 2); @b=sort{$a<=>$b}@a; say qq/@b/")
 
+(emacs (sort '(1 4 2 5 6 7 3) #'<))
 
 ;; C = function(val){
 ;;     this.val = val;

@@ -5,3 +5,6 @@
 
 
 ;; ghc -e 'replicate 3 1'
+
+
+(emacs (-repeat 3 1))  ; (1 1 1)

@@ -20,3 +20,8 @@
 (node "var l = [10,20,30]; for (var j in l) console.log(l[j]);")
 (node "for (var n in [10,20,30]) console.log(n);"
       :warn "With for-in just return 1, 2, 3 ...")
+
+
+; リストの要素に順にアクセス
+(emacs (--each '(1 2 3) (print it)))
+(emacs (dolist (it '(1 2 3)) (print it)))

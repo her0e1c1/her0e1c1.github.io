@@ -4,3 +4,5 @@
 
 ;; ghc -e 'any id [True,False,False]'
 ;; ghc -e 'any even [1,2,3]'
+
+(emacs (--any? (evenp it) '(1 2 3)))

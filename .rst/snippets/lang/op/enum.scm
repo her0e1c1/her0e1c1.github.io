@@ -11,3 +11,7 @@
 (p "create a variable")
 (c "enum E{A,B}e; e=A; p(\"%d\", e);")
 (c "enum E{A,B}e; e=B; p(\"%d\", e);")
+
+
+(emacs (progn (deftype color() '(member red bule green)) (typep 'red 'color)))
+(emacs (progn (deftype color() '(member red bule green)) (typep 'apple 'color)))

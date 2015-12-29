@@ -55,3 +55,11 @@ EOS
 
 ;; (define hanako (make-cat "hanako"))
 ;; (hanako 'say)
+
+;; emacs
+;; (cl-defstruct person name age)
+;; (setq p1 (make-person :name "Bob" :age 20))
+;; (person-p p1)  ; t
+;; (person-age p1)  ; 20
+;; (setf (person-age p1) 10)
+;; (person-age p1)  ; 10

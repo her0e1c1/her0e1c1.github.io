@@ -9,3 +9,5 @@
 (c "#define SIZE(x) (sizeof(x) / sizeof(x[0]))\n int a[] = {1,2,3}; p(\"%d\", SIZE(a));")
 
 (zsh "a=(a b c d e); echo $#a")
+
+(emacs (length '(1 2 3)))

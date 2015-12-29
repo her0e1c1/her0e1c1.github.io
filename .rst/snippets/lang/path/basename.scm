@@ -8,3 +8,4 @@
 
 (gosh (sys-basename "foo/bar/bar.z"))
 (emacs (f-filename "/root/file/text.txt"))
+(emacs (f-base "/root/file/text.txt"))

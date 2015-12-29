@@ -10,7 +10,3 @@
 (add3_)
 ;; (ad-enable-advice 'sample 'around 'echo)
 ;; (ad-activate 'sample)
-
-
-;; (setq ol (make-overlay 1 10))
-;; (overlay-put ol 'face 'stripes-face)

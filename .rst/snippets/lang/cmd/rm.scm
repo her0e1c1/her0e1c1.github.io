@@ -19,3 +19,6 @@
 # rm `find .`
 # find . -exec "rm {}" +
 # find . | xargs rm
+
+
+(emacs (f-delete "./test.txt"))

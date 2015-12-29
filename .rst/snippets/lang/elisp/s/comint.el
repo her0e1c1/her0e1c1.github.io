@@ -1,5 +1,4 @@
 
-
 (comint-send-string (get-buffer-process "*buffer*") nil '())
 (apply 'make-comint <buffer> <program> nil args)
 (comint-kill-subjob)
