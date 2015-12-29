@@ -1,1 +1,0 @@
-(f-expand "~/work")  ; HOMEDIR/work

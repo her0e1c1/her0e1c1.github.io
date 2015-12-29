@@ -1,1 +1,0 @@
-(f-dirname "/root/file/text.txt")  ; "/root/file"

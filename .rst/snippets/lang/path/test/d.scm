@@ -9,3 +9,4 @@
 (zsh "echo ~/.emacs.d(N-/)" :msg "this is recommended")
 
 (gosh (file-is-directory? "."))
+(emacs (f-dir? "/"))

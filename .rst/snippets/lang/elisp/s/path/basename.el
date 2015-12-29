@@ -1,1 +1,0 @@
-(f-filename "/root/file/text.txt")  ; "text.txt"
