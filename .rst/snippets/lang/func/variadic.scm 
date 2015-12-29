@@ -1,3 +1,4 @@
 
-(define (add . args)
-  (apply + args))
+(gosh (begin (define (add . args) (apply + args)) (add 1 2 3)))
+(emacs (progn (defun add (&rest body) (apply '+ body)) (add 1 2 3))
+       :warn "You can't use &body in elisp. (defun f (&body body) ...)")
