@@ -173,6 +173,8 @@ int main() {
 }
 ")
 
+(p "O(nlogn)")
+(p "O(n^2)")
 
 (ps "c")
 (c (format c-template code1 test1) :str #t)
