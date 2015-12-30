@@ -63,3 +63,20 @@ multi lines::
    y    & = & ax^2 + bx + c \\
    f(x) & = & x^2 + 2xy + y^2
    \end{eqnarray}
+
+
+Print as it is
+
+.. math::
+   :nowrap:
+
+   \begin{eqnarray}
+     #{1, 2, 3, ... (n-1)}
+   \end{eqnarray}
+
+
+..
+   ;; 要素数 = $begin{cases}
+   ;;   m $leqq j $le m' & (n/K = 0) $$ 
+   ;;   m $le j $le m' & (else)
+   ;; $end{cases}

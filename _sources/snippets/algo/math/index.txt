@@ -1,7 +1,7 @@
 
-====
+============
 math
-====
+============
 
 .. contents::
     :depth: 2
@@ -9,5 +9,133 @@ math
 
 
 formula.scm
-===========
+=================================
+
+
+
+配列の３つの積の最大値は?
+---------------------------------------
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \max_{i,j,k \in N} a[i] \times a[j] \times a[k]
+    \end{eqnarray}
+
+
+.. code-block:: gosh
+   
+
+    (print
+        (let1 l (pa$ at (sort '(-5 -3 3 7 -6 -1 -5 -10 -2 2)))
+           (max (* (l -1) (l -2) (l -3))
+                (* (l 0) (l 1) (l -1)))))
+
+.. code-block:: sh
+   
+
+    420
+    
+
+
+
+特定の区間にある整数
+------------------------------
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \# \{i| A \leqq i \leqq B \}
+    \end{eqnarray}
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 f (^ (A B) (if (>= A B) 0 (+ (- B A) 1))) (f 3 9))' 
+    7
+    
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \# \{i| A < i < B \}
+    \end{eqnarray}
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 f (^ (A B) (if (>= A B) 0 (+ (- B A) -1))) (f 3 9))' 
+    5
+    
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \# \{i| A < i \leqq B \}
+    \end{eqnarray}
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \# \{i| A \leqq i < B \}
+    \end{eqnarray}
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 f (^ (A B) (if (>= A B) 0 (- B A))) (f 3 9))' 
+    6
+    
+
+
+
+特定の区間にあるKの倍数の数
+------------------------------------------
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \# \{i| A \leqq i \leqq B, i \bmod K = 0 \}
+    \end{eqnarray}
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\A = Km + n \leqq & i = K*j & \leqq B = Km' + n' & <=>
+    \\m + n/K    \leqq & j   & \leqq m' + n'/K
+    \\
+    \\以下を考慮
+    \\0 \leqq & n/K, n'/K & < 1
+    \\
+    \\Kの倍数から整数に帰着
+    \\m \leqq & j & \leqq m' & (n/K = 0)
+    \\m <     & j & \leqq m' & (else)
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 f (^ (A B K) (+ (- (div B K) (div A K)) (if (= (mod A K) 0) 1 0))) (f 3 10 3))' 
+    3
+    
 

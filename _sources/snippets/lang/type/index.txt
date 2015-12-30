@@ -1,7 +1,7 @@
 
-====
+============
 type
-====
+============
 
 .. contents::
     :depth: 2
@@ -9,7 +9,7 @@ type
 
 
 init.scm
-========
+========================
 
 
 .. code-block:: sh
@@ -20,7 +20,7 @@ init.scm
         char*a; __typeof(a) i = "abc"; ps(i);
                                        ^
     1 warning generated.
-    /tmp/--JL08t5.o: In function `main':
+    /tmp/--ryPBba.o: In function `main':
     -:(.text+0x311): undefined reference to `ps'
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
@@ -28,7 +28,7 @@ init.scm
 
 
 limit.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -62,7 +62,7 @@ limit.scm
 
 
 null.scm
-========
+========================
 
 You need to inlcude stdio.h to use NULL.
 
@@ -105,7 +105,7 @@ You need to inlcude stdio.h to use NULL.
 
 
 sizeof.scm
-==========
+==============================
 
 with %zu print as unsigned decimal
 
@@ -230,12 +230,12 @@ sizeof gets all the memory size, not the length of an array
 
 
 toString.scm
-============
+====================================
 
 
 
 RTTI (Run Time Type Identification)
-===================================
+---------------------------------------------------------------------------------------------------------
 
 
 .. code-block:: sh
@@ -248,7 +248,7 @@ RTTI (Run Time Type Identification)
 
 
 type.scm
-========
+========================
 
 
 .. code-block:: sh

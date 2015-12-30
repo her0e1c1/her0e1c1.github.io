@@ -1,7 +1,7 @@
 
-======
+==================
 memory
-======
+==================
 
 .. contents::
     :depth: 2
@@ -9,12 +9,12 @@ memory
 
 
 copy.scm
-========
+========================
 
 
 
 memset
-======
+==================
 
 Fill 0
 
@@ -77,12 +77,12 @@ You can update each char of the string with an array
 
 
 init.scm
-========
+========================
 
 
 
 malloc.scm
-==========
+==============================
 
 .. todo:: 2 * 文字数 + 1みたいな領域確保のときに+1し忘れのエラーとなるサンプル用意
 fill 0
@@ -95,7 +95,7 @@ fill 0
         char*p=calloc(10, sizeof(char)); ps(p);
                                          ^
     1 warning generated.
-    /tmp/--g3jOgH.o: In function `main':
+    /tmp/--HJelLr.o: In function `main':
     -:(.text+0x328): undefined reference to `ps'
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
@@ -117,7 +117,7 @@ reallocはO(n)じゃないの?; realloc uses copy
         char*p=malloc(10);memcpy(p, "abcd", 5); if (realloc(p, 5) != p) ps("not same");
                                                                         ^
     1 warning generated.
-    /tmp/--gxUu2N.o: In function `main':
+    /tmp/--JZNhYh.o: In function `main':
     -:(.text+0x34b): undefined reference to `ps'
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
@@ -132,7 +132,7 @@ mallocも0で初期化されているみたい
         char*p=malloc(1 << 10); REP(i,10) if(p[i]) ps("1");
                                                    ^
     1 warning generated.
-    /tmp/--oN2z2j.o: In function `main':
+    /tmp/--gNtXft.o: In function `main':
     -:(.text+0x33d): undefined reference to `ps'
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     

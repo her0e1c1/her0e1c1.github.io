@@ -110,19 +110,11 @@
 <li><a class="reference internal" href="#equal-scm" id="id6">equal.scm</a></li>
 <li><a class="reference internal" href="#find-scm" id="id7">find.scm</a></li>
 <li><a class="reference internal" href="#index-scm" id="id8">index.scm</a></li>
-<li><a class="reference internal" href="#front" id="id9">front</a></li>
-<li><a class="reference internal" href="#back" id="id10">back</a></li>
-<li><a class="reference internal" href="#at" id="id11">at</a></li>
-<li><a class="reference internal" href="#refer-out-of-index" id="id12">refer out of index</a></li>
-<li><a class="reference internal" href="#init-scm" id="id13">init.scm</a></li>
-<li><a class="reference internal" href="#initialize" id="id14">Initialize</a></li>
-<li><a class="reference internal" href="#insert-scm" id="id15">insert.scm</a></li>
-<li><a class="reference internal" href="#iter-scm" id="id16">iter.scm</a></li>
-<li><a class="reference internal" href="#length-scm" id="id17">length.scm</a></li>
-<li><a class="reference internal" href="#slice-scm" id="id18">slice.scm</a></li>
-<li><a class="reference internal" href="#begin-end" id="id19">begin, end</a></li>
-<li><a class="reference internal" href="#rbegin-rend" id="id20">rbegin, rend</a></li>
-<li><a class="reference internal" href="#compare-r-begin-and-r-end" id="id21">compare (r)begin and (r)end</a></li>
+<li><a class="reference internal" href="#init-scm" id="id9">init.scm</a></li>
+<li><a class="reference internal" href="#insert-scm" id="id10">insert.scm</a></li>
+<li><a class="reference internal" href="#iter-scm" id="id11">iter.scm</a></li>
+<li><a class="reference internal" href="#length-scm" id="id12">length.scm</a></li>
+<li><a class="reference internal" href="#slice-scm" id="id13">slice.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -357,9 +349,8 @@ operator&lt;&lt;<span class="o">(</span>basic_ostream&lt;_CharT, _Traits&gt;<spa
 </div>
 <div class="section" id="index-scm">
 <h2><a class="toc-backref" href="#id8">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="front">
-<h2><a class="toc-backref" href="#id9">front</a><a class="headerlink" href="#front" title="Permalink to this headline">¶</a></h2>
+<h3>front<a class="headerlink" href="#front" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; P(v.front());&#39;</span>
 v.front<span class="o">()</span> <span class="o">=</span> 1
 </pre></div>
@@ -370,7 +361,7 @@ v<span class="o">[</span>0<span class="o">]</span> <span class="o">=</span> 1
 </div>
 </div>
 <div class="section" id="back">
-<h2><a class="toc-backref" href="#id10">back</a><a class="headerlink" href="#back" title="Permalink to this headline">¶</a></h2>
+<h3>back<a class="headerlink" href="#back" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; P(v.back());&#39;</span>
 v.back<span class="o">()</span> <span class="o">=</span> 3
 </pre></div>
@@ -381,7 +372,7 @@ v<span class="o">[</span>v.size<span class="o">()</span> - 1<span class="o">]</s
 </div>
 </div>
 <div class="section" id="at">
-<h2><a class="toc-backref" href="#id11">at</a><a class="headerlink" href="#at" title="Permalink to this headline">¶</a></h2>
+<h3>at<a class="headerlink" href="#at" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; P(v.at(0));&#39;</span>
 v.at<span class="o">(</span>0<span class="o">)</span> <span class="o">=</span> 1
 </pre></div>
@@ -400,7 +391,7 @@ v.at<span class="o">(</span>10<span class="o">)</span> <span class="o">=</span> 
 </div>
 </div>
 <div class="section" id="refer-out-of-index">
-<h2><a class="toc-backref" href="#id12">refer out of index</a><a class="headerlink" href="#refer-out-of-index" title="Permalink to this headline">¶</a></h2>
+<h3>refer out of index<a class="headerlink" href="#refer-out-of-index" title="Permalink to this headline">¶</a></h3>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">[] can access index out of range</p>
@@ -418,8 +409,9 @@ v<span class="o">[</span>100<span class="o">]</span> <span class="o">=</span> 0
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="init-scm">
-<h2><a class="toc-backref" href="#id13">init.scm</a><a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">init.scm</a><a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
 <p>Declare a variable but it&#8217;s empty.</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;vector&lt;int&gt;v; P(v.empty())&#39;</span>
 v.empty<span class="o">()</span> <span class="o">=</span> 1
@@ -539,9 +531,8 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 <span class="m">1</span> error generated.
 </pre></div>
 </div>
-</div>
 <div class="section" id="initialize">
-<h2><a class="toc-backref" href="#id14">Initialize</a><a class="headerlink" href="#initialize" title="Permalink to this headline">¶</a></h2>
+<h3>Initialize<a class="headerlink" href="#initialize" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int i[30] = {0};&#39;</span>
 </pre></div>
 </div>
@@ -582,8 +573,9 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="insert-scm">
-<h2><a class="toc-backref" href="#id15">insert.scm</a><a class="headerlink" href="#insert-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">insert.scm</a><a class="headerlink" href="#insert-scm" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">Even if you don&#8217;t alocate memroy, you can set it</p>
@@ -594,7 +586,7 @@ v<span class="o">[</span>100<span class="o">]</span> <span class="o">=</span> 1
 </div>
 </div>
 <div class="section" id="iter-scm">
-<h2><a class="toc-backref" href="#id16">iter.scm</a><a class="headerlink" href="#iter-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">iter.scm</a><a class="headerlink" href="#iter-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; for(int i=0; i&lt;v.size(); i++)P(v[i]);&#39;</span>
 v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 1
 v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 2
@@ -615,7 +607,7 @@ v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 3
 </div>
 </div>
 <div class="section" id="length-scm">
-<h2><a class="toc-backref" href="#id17">length.scm</a><a class="headerlink" href="#length-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">length.scm</a><a class="headerlink" href="#length-scm" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">iはマクロで使われているので別の変数にすること</p>
@@ -654,10 +646,9 @@ v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 3
 </div>
 </div>
 <div class="section" id="slice-scm">
-<h2><a class="toc-backref" href="#id18">slice.scm</a><a class="headerlink" href="#slice-scm" title="Permalink to this headline">¶</a></h2>
-</div>
+<h2><a class="toc-backref" href="#id13">slice.scm</a><a class="headerlink" href="#slice-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="begin-end">
-<h2><a class="toc-backref" href="#id19">begin, end</a><a class="headerlink" href="#begin-end" title="Permalink to this headline">¶</a></h2>
+<h3>begin, end<a class="headerlink" href="#begin-end" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.end())&#39;</span>
 v.begin<span class="o">()</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 1, 2, 3, 4, 5,
 </pre></div>
@@ -716,7 +707,7 @@ v.begin<span class="o">()</span> + <span class="m">1</span> ~ v.end<span class="
 </div>
 </div>
 <div class="section" id="rbegin-rend">
-<h2><a class="toc-backref" href="#id20">rbegin, rend</a><a class="headerlink" href="#rbegin-rend" title="Permalink to this headline">¶</a></h2>
+<h3>rbegin, rend<a class="headerlink" href="#rbegin-rend" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.rbegin(), v.rend())&#39;</span>
 v.rbegin<span class="o">()</span> ~ v.rend<span class="o">()</span> <span class="o">=</span>&gt; 5, 4, 3, 2, 1,
 </pre></div>
@@ -727,7 +718,7 @@ v.rbegin<span class="o">()</span> + <span class="m">1</span> ~ v.rend<span class
 </div>
 </div>
 <div class="section" id="compare-r-begin-and-r-end">
-<h2><a class="toc-backref" href="#id21">compare (r)begin and (r)end</a><a class="headerlink" href="#compare-r-begin-and-r-end" title="Permalink to this headline">¶</a></h2>
+<h3>compare (r)begin and (r)end<a class="headerlink" href="#compare-r-begin-and-r-end" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; P(v.begin() == v.end() - 5)&#39;</span>
 v.begin<span class="o">()</span> <span class="o">==</span> v.end<span class="o">()</span> - <span class="nv">5</span> <span class="o">=</span> 1
 </pre></div>
@@ -749,6 +740,7 @@ v.rbegin<span class="o">()</span> <span class="o">==</span> v.rend<span class="o
                                      ^
 <span class="m">1</span> error generated.
 </pre></div>
+</div>
 </div>
 </div>
 </div>

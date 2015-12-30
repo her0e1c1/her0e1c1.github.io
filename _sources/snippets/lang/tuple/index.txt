@@ -1,7 +1,7 @@
 
-=====
+===============
 tuple
-=====
+===============
 
 .. contents::
     :depth: 2
@@ -9,7 +9,7 @@ tuple
 
 
 index.scm
-=========
+===========================
 
 multiple values
 
@@ -68,7 +68,7 @@ multiple values
 
 
 init.scm
-========
+========================
 
 
 .. code-block:: sh

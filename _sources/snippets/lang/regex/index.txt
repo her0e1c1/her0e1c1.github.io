@@ -1,7 +1,7 @@
 
-=====
+===============
 regex
-=====
+===============
 
 .. contents::
     :depth: 2
@@ -9,7 +9,7 @@ regex
 
 
 after.scm
-=========
+===========================
 
 最後にマッチした部分に続く文字列
 
@@ -45,7 +45,7 @@ file.min.js => file.js
 
 
 dotall.scm
-==========
+==============================
 
 
 .. code-block:: sh
@@ -87,22 +87,22 @@ dotall.scm
 
 
 escape.scm
-==========
+==============================
 
 
 
 findall.scm
-===========
+=================================
 
 
 
 g.scm
-=====
+===============
 
 
 
 g
-=
+---
 
 gは、全てマッチ
 With g option it match more than once
@@ -111,7 +111,7 @@ With g option it match more than once
 
 
 for
-===
+---------
 
 
 .. code-block:: sh
@@ -130,7 +130,7 @@ for
 
 
 while
-=====
+---------------
 
 With s option . matches also 
  character
@@ -153,7 +153,7 @@ With s option . matches also
 
 
 greedy.scm
-==========
+==============================
 
 remove if it's matched from the left side(greedy)
 
@@ -194,7 +194,7 @@ remove if it's matched from the right side(non greedy)
 
 
 group.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -253,7 +253,7 @@ group.scm
 
 
 lookahead-negative.scm
-======================
+==================================================================
 
 if string does not match (?!...), then match
 
@@ -329,7 +329,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "abcdef"))' 
-    #<<regmatch> 0x15f51b0>
+    #<<regmatch> 0x160dc00>
     #<undef>
     
 
@@ -338,7 +338,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "ABCdef"))' 
-    #<<regmatch> 0x15f1e70>
+    #<<regmatch> 0x160dc30>
     #<undef>
     
 
@@ -356,14 +356,14 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/abc(?!def)/ "abcDEF"))' 
-    #<<regmatch> 0x15f51b0>
+    #<<regmatch> 0x160dc30>
     #<undef>
     
 
 
 
 lookahead.scm
-=============
+=======================================
 
 後に続く文字列が条件に合致した場合に、その手前にマッチさせる
 
@@ -402,7 +402,7 @@ No match
 
 
 lookbehind-negative.scm
-=======================
+=====================================================================
 
 
 .. code-block:: sh
@@ -451,7 +451,7 @@ lookbehind-negative.scm
 
 
 lookbehind.scm
-==============
+==========================================
 
 positive
 置換などで、マッチさせずに置換対象を狭めるのに使う
@@ -511,7 +511,7 @@ You can subsutitute lookbind with \K option
 
 
 match.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -532,7 +532,7 @@ match.scm
    
 
     $ s '(#/str/ "strng")' 
-    #<<regmatch> 0x15f55a0>
+    #<<regmatch> 0x1604030>
     
 
 
@@ -546,13 +546,13 @@ match.scm
 
 
 rxmatch-let
-===========
+---------------------------------
 
 マッチした文字列をバインド
 
 
 name.scm
-========
+========================
 
 
 .. code-block:: sh
@@ -603,7 +603,7 @@ name.scm
 
 
 noCapture.scm
-=============
+=======================================
 
 use : for no capture
 
@@ -625,12 +625,12 @@ use : for no capture
 
 
 peg.scm
-=======
+=====================
 
 
 
 pos.scm
-=======
+=====================
 
 $-[]マッチ開始位置かな, $+[]マッチ終了位置. /path/to => /path/to/
 
@@ -644,7 +644,7 @@ $-[]マッチ開始位置かな, $+[]マッチ終了位置. /path/to => /path/to
 
 
 replace.scm
-===========
+=================================
 
 
 .. code-block:: sh
@@ -668,7 +668,7 @@ replace.scm
 
 
 split.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -723,7 +723,7 @@ split.scm
 
 
 sub.scm
-=======
+=====================
 
 
 .. code-block:: sh
@@ -744,7 +744,7 @@ sub.scm
 
 
 regexp-replace
-==============
+------------------------------------------
 
 
 .. code-block:: sh
@@ -765,7 +765,7 @@ regexp-replace
 
 
 whitespace.scm
-==============
+==========================================
 
 
 .. warning::
@@ -793,12 +793,12 @@ whitespace.scm
 
 
 word.scm
-========
+========================
 
 
 
 x.scm
-=====
+===============
 
 with x option, ignore whitespace
 

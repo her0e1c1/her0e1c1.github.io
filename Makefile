@@ -16,6 +16,8 @@ images \
 .buildinfo \
 .doctrees \
 
+all: clean create sphinx-build cp
+
 # need -i optoin to use an alias for sh
 rst:
 	for p in `find . -name "*.sh"`;do sh -i $$p; done
@@ -32,8 +34,6 @@ cp:
 
 clean:
 	rm -fr $(OBJS)
-
-all: clean create sphinx-build cp
 
 rmrst:
 	find .rst/snippets/lang/ -name "*.rst" -delete 

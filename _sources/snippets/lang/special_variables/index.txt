@@ -1,7 +1,7 @@
 
-=================
+===================================================
 special_variables
-=================
+===================================================
 
 .. contents::
     :depth: 2
@@ -9,7 +9,7 @@ special_variables
 
 
 bin.scm
-=======
+=====================
 
 
 .. code-block:: sh
@@ -21,7 +21,7 @@ bin.scm
 
 
 delimiter.scm
-=============
+=======================================
 
 
 .. code-block:: sh
@@ -82,7 +82,7 @@ This is a "@array" delimiter
 
 
 error.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -103,7 +103,7 @@ error.scm
 
 
 filenpath.scm
-=============
+=======================================
 
 
 .. code-block:: c
@@ -120,7 +120,7 @@ filenpath.scm
 
 
 index.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -202,7 +202,7 @@ expand symbol link
     x  = 6
     __func__ = main
     __DATE__ = Dec 30 2015
-    __TIME__ = 13:45:52
+    __TIME__ = 18:07:31
     
 
 
@@ -216,7 +216,7 @@ expand symbol link
 
 
 length-of-arguments.scm
-=======================
+=====================================================================
 
 
 .. warning::
@@ -242,7 +242,7 @@ length-of-arguments.scm
 
 
 lineno.scm
-==========
+==============================
 
 
 .. code-block:: sh
@@ -269,7 +269,7 @@ lineno.scm
 
 
 load.scm
-========
+========================
 
 
 .. code-block:: sh
@@ -281,7 +281,7 @@ load.scm
 
 
 process-id.scm
-==============
+==========================================
 
 getCurrentPID
 
@@ -289,7 +289,7 @@ getCurrentPID
    
 
     $ perl -E 'say $$' 
-    80531
+    11115
     
 
 
@@ -297,6 +297,6 @@ getCurrentPID
    
 
     $ echo $$
-    80550
+    11134
     
 

@@ -1,7 +1,7 @@
 
-====
+============
 func
-====
+============
 
 .. contents::
     :depth: 2
@@ -9,7 +9,7 @@ func
 
 
 define.scm
-==========
+==============================
 
 
 .. code-block:: sh
@@ -29,17 +29,17 @@ define.scm
 
 
 dot_list.scm
-============
+====================================
 
 
 
 funcall.scm
-===========
+=================================
 
 
 
 init.scm
-========
+========================
 
 declare minimum
 
@@ -143,7 +143,7 @@ declare minimum
 
 
 kwargs.scm
-==========
+==============================
 
 デフォルト引数はもっとも右側に指定していく
 
@@ -201,7 +201,7 @@ kwargs.scm
 
 
 lambda.scm
-==========
+==============================
 
 引数が@_に格納されてるので、そのどれかを取り出す感じ
 
@@ -209,7 +209,7 @@ lambda.scm
    
 
     $ perl -E 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
-    DGNORqdXcU96SiCKBZ2Y6iUFLGCnDD1DLCIdeE3vUpkkf3zMHTVrOm7zuSS3eHfqv6iyfjxDl4WVcfjkVLbukP6rPECJaECmUxMAVGZ8OS9GojRWXGrxPtQqrMSPGua7DcuAiwPW0rnELstrh1aJl4FHHiN7MX1yqpbASQr2QsKOi69YRZZwnVS2eNoGoAkRMNXqh8OnX33VFi9Twkoehy7jQ0pcZHHZyOTX2zlMBfRxqqFL2VjEPW7ZC26spMe
+    BtDveA66pMWqhhcDqc8v2puW829gMg2fW209Y342UJUaUeBNm0BDk3nqwW4kVppcq4sTrvnwvIui3SmNFGnPbPrv5Gvkg5tnVtljOmqDm8slIll9vFeOJbvUTUBjI70KuwS7uR3Vlvti9NE3aBBJGXwmSAIsYf9YTGFHG14VFG9XP9SAc8DCoZVolBRaQxGzJaGUV3XW6LCA7uXsTlg3yuKU1hoNGOTHBjAtnGJXXjeKJ2wbpXw4xmsWVHHtA0P
 
 
 .. code-block:: sh
@@ -259,7 +259,7 @@ lambda.scm
 
 
 optional.scm
-============
+====================================
 
 
 .. code-block:: sh
@@ -288,10 +288,10 @@ clをloadすればcl-の接頭辞不要
 
 
 prototype.scm
-=============
+=======================================
 
 
 
 return.scm
-==========
+==============================
 

@@ -55,9 +55,9 @@ Algorithm
    ./algo/index
 
 
-====
+============
 misc
-====
+============
 
 .. toctree::
     :maxdepth: 1

@@ -1,7 +1,7 @@
 
-===
+=========
 cmd
-===
+=========
 
 .. contents::
     :depth: 2
@@ -9,12 +9,12 @@ cmd
 
 
 cat.scm
-=======
+=====================
 
 
 
 cd.scm
-======
+==================
 
 
 .. code-block:: sh
@@ -27,27 +27,27 @@ cd.scm
 
 
 cp.scm
-======
+==================
 
 
 
 crontab.scm
-===========
+=================================
 
 
 
 grep.scm
-========
+========================
 
 
 
 head.scm
-========
+========================
 
 
 
 ls.scm
-======
+==================
 
 current files
 
@@ -55,7 +55,7 @@ current files
    
 
     $ ee '(f-files ".")' 
-    (/usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/.gitignore /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/haskell.scm /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/index.rst /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/index.scm /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/index.sh /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/java.scm)
+    (/usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/.gitignore /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/haskell.scm /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/hook.sh.tmp /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/index.rst /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/index.scm /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/index.sh /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/java.scm)
 
 current files
 
@@ -63,12 +63,12 @@ current files
    
 
     $ ee '(f-directories ".")' 
-    (/usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/async /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/bit /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/byte /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/char /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/char-set /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/class /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/cmd /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/date /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/elisp /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/exception /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/func /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/hash /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/html /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/http /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/io /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/lazy /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/list /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/macro /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/math /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/memory /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/module /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/number /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/op /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/path /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/pointer /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/range /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/regex /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/set /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/special_variables /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/stack /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/string /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/sys /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/test /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/tuple /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/type /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/vector)
+    (/usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/async /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/bit /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/byte /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/char /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/char-set /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/class /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/cmd /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/date /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/elisp /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/exception /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/func /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/hash /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/html /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/http /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/io /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/lazy /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/list /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/macro /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/math /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/memory /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/module /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/number /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/op /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/path /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/pointer /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/range /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/regex /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/set /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/special_variables /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/stack /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/string /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/sys /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/test /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/test.tmp /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/tuple /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/type /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/vector)
 
 
 
 mkdir.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -82,7 +82,15 @@ mkdir.scm
    
 
     $ s '(sys-mkdir "test.tmp" 777)' 
-    #<undef>
+    *** SYSTEM-ERROR: mkdir failed on test.tmp: File exists
+    Stack Trace:
+    _______________________________________
+      0  (sys-mkdir "test.tmp" 777)
+            [unknown location]
+      1  (print-string (|-->| (undefined) list (sys-mkdir "test.tmp" 777)))
+            [unknown location]
+      2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 mkdir -p PATH
@@ -97,14 +105,14 @@ mkdir -p PATH
 
 
 mktemp.scm
-==========
+==============================
 
 
 .. code-block:: sh
    
 
     $ s '(receive (oport name) (sys-mkstemp "/tmp/test"))' 
-    #<oport /tmp/testQB3T2m 0x1849600>
+    #<oport /tmp/testt11M78 0x1832240>
     
 
 just filename
@@ -113,12 +121,12 @@ just filename
    
 
     $ ee '(make-temp-name "/tmp/")' 
-    /tmp/65525M_1
+    /tmp/96472305
 
 
 
 mv.scm
-======
+==================
 
 ファイルシステムをまたいでmove
 
@@ -133,17 +141,17 @@ mv.scm
 
 
 printf.scm
-==========
+==============================
 
 
 
 rm.scm
-======
+==================
 
 
 
 rmdir.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -155,12 +163,12 @@ rmdir.scm
 
 
 seq.scm
-=======
+=====================
 
 
 
 sleep.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -188,25 +196,25 @@ sleep.scm
 
 
 tr.scm
-======
+==================
 
 
 
 ulimit.scm
-==========
+==============================
 
 
 
 uuidgen.scm
-===========
+=================================
 
 
 
 wc.scm
-======
+==================
 
 
 
 xargs.scm
-=========
+===========================
 

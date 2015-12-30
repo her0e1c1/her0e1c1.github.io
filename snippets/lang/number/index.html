@@ -106,17 +106,15 @@
 <li><a class="reference internal" href="#bin-scm" id="id3">bin.scm</a></li>
 <li><a class="reference internal" href="#cmp-scm" id="id4">cmp.scm</a></li>
 <li><a class="reference internal" href="#equal-scm" id="id5">equal.scm</a></li>
-<li><a class="reference internal" href="#eqv" id="id6">eqv?</a></li>
-<li><a class="reference internal" href="#id1" id="id7">=</a></li>
-<li><a class="reference internal" href="#float-scm" id="id8">float.scm</a></li>
-<li><a class="reference internal" href="#hex-scm" id="id9">hex.scm</a></li>
-<li><a class="reference internal" href="#inf-scm" id="id10">inf.scm</a></li>
-<li><a class="reference internal" href="#int-scm" id="id11">int.scm</a></li>
-<li><a class="reference internal" href="#nan-scm" id="id12">nan.scm</a></li>
-<li><a class="reference internal" href="#oct-scm" id="id13">oct.scm</a></li>
-<li><a class="reference internal" href="#pow-scm" id="id14">pow.scm</a></li>
-<li><a class="reference internal" href="#toint-scm" id="id15">toInt.scm</a></li>
-<li><a class="reference internal" href="#tostring-scm" id="id16">toString.scm</a></li>
+<li><a class="reference internal" href="#float-scm" id="id6">float.scm</a></li>
+<li><a class="reference internal" href="#hex-scm" id="id7">hex.scm</a></li>
+<li><a class="reference internal" href="#inf-scm" id="id8">inf.scm</a></li>
+<li><a class="reference internal" href="#int-scm" id="id9">int.scm</a></li>
+<li><a class="reference internal" href="#nan-scm" id="id10">nan.scm</a></li>
+<li><a class="reference internal" href="#oct-scm" id="id11">oct.scm</a></li>
+<li><a class="reference internal" href="#pow-scm" id="id12">pow.scm</a></li>
+<li><a class="reference internal" href="#toint-scm" id="id13">toInt.scm</a></li>
+<li><a class="reference internal" href="#tostring-scm" id="id14">toString.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -200,9 +198,8 @@
 <span class="nb">true</span>
 </pre></div>
 </div>
-</div>
 <div class="section" id="eqv">
-<h2><a class="toc-backref" href="#id6">eqv?</a><a class="headerlink" href="#eqv" title="Permalink to this headline">¶</a></h2>
+<h3>eqv?<a class="headerlink" href="#eqv" title="Permalink to this headline">¶</a></h3>
 <p>シンボルと数値</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(eqv? &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;1 1)&#39;</span>
 <span class="c">#t</span>
@@ -210,25 +207,26 @@
 </div>
 </div>
 <div class="section" id="id1">
-<h2><a class="toc-backref" href="#id7">=</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h3>=<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>数値同士の場合は=</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(= 1 1.0)&#39;</span>
 <span class="c">#t</span>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="float-scm">
-<h2><a class="toc-backref" href="#id8">float.scm</a><a class="headerlink" href="#float-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">float.scm</a><a class="headerlink" href="#float-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="hex-scm">
-<h2><a class="toc-backref" href="#id9">hex.scm</a><a class="headerlink" href="#hex-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">hex.scm</a><a class="headerlink" href="#hex-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;65535&#39;</span>
 65535
 </pre></div>
 </div>
 </div>
 <div class="section" id="inf-scm">
-<h2><a class="toc-backref" href="#id10">inf.scm</a><a class="headerlink" href="#inf-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">inf.scm</a><a class="headerlink" href="#inf-scm" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">Not an error</p>
@@ -236,25 +234,29 @@
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;a = 1/0;&#39;</span>
 </pre></div>
 </div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(&gt; +inf.0 1 0 -1 -inf.0)&#39;</span>
+<span class="c">#t</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="int-scm">
-<h2><a class="toc-backref" href="#id11">int.scm</a><a class="headerlink" href="#int-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">int.scm</a><a class="headerlink" href="#int-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="nan-scm">
-<h2><a class="toc-backref" href="#id12">nan.scm</a><a class="headerlink" href="#nan-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">nan.scm</a><a class="headerlink" href="#nan-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;NaN !== NaN&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="oct-scm">
-<h2><a class="toc-backref" href="#id13">oct.scm</a><a class="headerlink" href="#oct-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">oct.scm</a><a class="headerlink" href="#oct-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;511&#39;</span>
 511
 </pre></div>
 </div>
 </div>
 <div class="section" id="pow-scm">
-<h2><a class="toc-backref" href="#id14">pow.scm</a><a class="headerlink" href="#pow-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">pow.scm</a><a class="headerlink" href="#pow-scm" title="Permalink to this headline">¶</a></h2>
 <p>10 ^ 3  ; (expt 10 3)</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;1000&#39;</span>
 1000
@@ -262,7 +264,7 @@
 </div>
 </div>
 <div class="section" id="toint-scm">
-<h2><a class="toc-backref" href="#id15">toInt.scm</a><a class="headerlink" href="#toint-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">toInt.scm</a><a class="headerlink" href="#toint-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ghc -e <span class="s1">&#39;read &quot;10&quot;&#39;</span>
 &lt;interactive&gt;: Prelude.read: no parse
 </pre></div>
@@ -340,7 +342,7 @@
 </div>
 </div>
 <div class="section" id="tostring-scm">
-<h2><a class="toc-backref" href="#id16">toString.scm</a><a class="headerlink" href="#tostring-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">toString.scm</a><a class="headerlink" href="#tostring-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(int-to-string 1)&#39;</span>
 1
 </pre></div>

@@ -1,7 +1,7 @@
 
-====
+============
 hash
-====
+============
 
 .. contents::
     :depth: 2
@@ -9,17 +9,17 @@ hash
 
 
 extend.scm
-==========
+==============================
 
 
 
 get.scm
-=======
+=====================
 
 
 
 get
-===
+---------
 
 
 .. code-block:: sh
@@ -110,7 +110,7 @@ get
    
 
     $ s '(let1 t (make-hash-table) (hash-table-get t '\''no-key))' 
-    *** ERROR: #<hash-table eq? 0x1756b90> doesn't have an entry for key no-key
+    *** ERROR: #<hash-table eq? 0x175a1e0> doesn't have an entry for key no-key
     Stack Trace:
     _______________________________________
       0  (hash-table-get t 'no-key)
@@ -149,7 +149,7 @@ get
 
 
 hasKey.scm
-==========
+==============================
 
 
 .. code-block:: sh
@@ -220,7 +220,7 @@ hasKey.scm
 
 
 init.scm
-========
+========================
 
 
 .. warning::
@@ -284,13 +284,13 @@ assv => eqv?
    
 
     $ s '(make-hash-table '\''eq?)' 
-    #<hash-table eq? 0x1756dc0>
+    #<hash-table eq? 0x178b370>
     
 
 
 
 insert.scm
-==========
+==============================
 
 
 .. code-block:: sh
@@ -320,7 +320,7 @@ insert.scm
 
 
 items.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -342,7 +342,7 @@ items.scm
 
 
 iter.scm
-========
+========================
 
 
 .. code-block:: sh
@@ -371,7 +371,7 @@ iter.scm
 
 
 keys.scm
-========
+========================
 
 get all hash keys
 
@@ -387,7 +387,7 @@ get all hash keys
    
 
     $ perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
-    312
+    132
     
 
 
@@ -408,7 +408,7 @@ get all hash keys
 
 
 toHash.scm
-==========
+==============================
 
 string => json. keyは""で囲むこと
 
@@ -421,7 +421,7 @@ string => json. keyは""で囲むこと
 
 
 update.scm
-==========
+==============================
 
 
 .. code-block:: sh
@@ -453,14 +453,14 @@ update.scm
    
 
     $ s '(let1 t (make-hash-table) (hash-table-put! t '\''k 1) (describe t))' 
-    #<hash-table eq? 0x1756b90> is an instance of class <hash-table>
+    #<hash-table eq? 0x178b140> is an instance of class <hash-table>
     #t
     
 
 
 
 values.scm
-==========
+==============================
 
 
 .. code-block:: sh

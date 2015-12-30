@@ -1,7 +1,7 @@
 
-====
+============
 path
-====
+============
 
 .. contents::
     :depth: 2
@@ -9,12 +9,12 @@ path
 
 
 basename.scm
-============
+====================================
 
 
 
 basename
-========
+------------------------
 
 
 .. code-block:: sh
@@ -73,7 +73,7 @@ basename
 
 
 dirname.scm
-===========
+=================================
 
 
 .. code-block:: sh
@@ -92,7 +92,7 @@ dirname.scm
 
 
 end.scm
-=======
+=====================
 
 
 .. code-block:: sh
@@ -107,7 +107,7 @@ end.scm
 
 
 expand.scm
-==========
+==============================
 
 
 .. code-block:: sh
@@ -126,7 +126,7 @@ expand.scm
 
 
 ext.scm
-=======
+=====================
 
 
 .. code-block:: sh
@@ -178,7 +178,7 @@ parse only one dot
 
 
 glob.scm
-========
+========================
 
 
 .. code-block:: sh
@@ -329,7 +329,7 @@ glob.scm
 
 
 join.scm
-========
+========================
 
 
 .. code-block:: sh
@@ -357,7 +357,7 @@ join.scm
 
 
 normalize.scm
-=============
+=======================================
 
 Normalize path. I think return value is the same as a buff-stored value.
 
@@ -378,12 +378,12 @@ Normalize path. I think return value is the same as a buff-stored value.
 
 
 sep.scm
-=======
+=====================
 
 
 
 split.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -403,5 +403,5 @@ split.scm
 
 
 tmpdir.scm
-==========
+==============================
 

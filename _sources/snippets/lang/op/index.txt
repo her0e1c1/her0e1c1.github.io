@@ -1,7 +1,7 @@
 
-==
+======
 op
-==
+======
 
 .. contents::
     :depth: 2
@@ -9,7 +9,7 @@ op
 
 
 add.scm
-=======
+=====================
 
 
 .. warning::
@@ -33,7 +33,7 @@ add.scm
 
 
 apply.scm
-=========
+===========================
 
 
 .. code-block:: sh
@@ -195,7 +195,7 @@ apply.scm
 
 
 case.scm
-========
+========================
 
 
 .. code-block:: sh
@@ -255,7 +255,7 @@ case.scm
 
 
 comment.scm
-===========
+=================================
 
 
 .. code-block:: sh
@@ -276,12 +276,12 @@ comment.scm
 
 
 debug.scm
-=========
+===========================
 
 
 
 enum.scm
-========
+========================
 
 
 .. code-block:: sh
@@ -358,7 +358,7 @@ create a variable
 
 
 eq.scm
-======
+==================
 
 
 .. code-block:: sh
@@ -484,12 +484,12 @@ NaNvar
 
 
 false.scm
-=========
+===========================
 
 
 
 false
-=====
+---------------
 
 
 .. code-block:: sh
@@ -655,7 +655,7 @@ see http://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_8.html
 
 
 for.scm
-=======
+=====================
 
 
 .. code-block:: sh
@@ -780,7 +780,7 @@ for.scm
 
 
 if.scm
-======
+==================
 
 
 .. code-block:: sh
@@ -886,7 +886,7 @@ Multi liners
 
 
 using var
-=========
+---------------------------
 
 
 .. code-block:: sh
@@ -948,12 +948,12 @@ bash conditions evaluate as true in case of an exit code of 0
 
 
 instanceof.scm
-==============
+==========================================
 
 
 
 instanceof
-==========
+------------------------------
 
 
 .. code-block:: sh
@@ -1000,17 +1000,17 @@ instanceof
 
 
 let.scm
-=======
+=====================
 
 
 
 pass.scm
-========
+========================
 
 
 
 colon
-=====
+---------------
 
 colon(:) is similar to pass in Python
 
@@ -1036,12 +1036,12 @@ colon(:) is similar to pass in Python
 
 
 set.scm
-=======
+=====================
 
 
 
 assign
-======
+------------------
 
 
 .. code-block:: sh
@@ -1113,12 +1113,12 @@ setはシンボルを引数にとる
 
 
 typeof.scm
-==========
+==============================
 
 
 
 typeof
-======
+------------------
 
 
 .. code-block:: sh
@@ -1186,7 +1186,7 @@ typeof
 
 
 undefined.scm
-=============
+=======================================
 
 
 .. code-block:: sh
@@ -1286,7 +1286,7 @@ if a variable is defiend, then return 1
 
 
 when.scm
-========
+========================
 
 
 .. code-block:: sh

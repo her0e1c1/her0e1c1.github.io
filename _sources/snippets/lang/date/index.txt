@@ -1,7 +1,7 @@
 
-====
+============
 date
-====
+============
 
 .. contents::
     :depth: 2
@@ -9,7 +9,7 @@ date
 
 
 cmp.scm
-=======
+=====================
 
 
 .. code-block:: sh
@@ -22,14 +22,14 @@ cmp.scm
 
 
 epoch.scm
-=========
+===========================
 
 
 .. code-block:: sh
    
 
     $ py 'P(int(time.time()))' 
-    1451450327
+    1451466048
     
 
 
@@ -37,13 +37,13 @@ epoch.scm
    
 
     $ s '(x->integer (current-second))' 
-    1451450356
+    1451466077
     
 
 
 
 init.scm
-========
+========================
 
 create a date instance
 
@@ -51,7 +51,7 @@ create a date instance
    
 
     $ ne 'P(new Date())' 
-    Wed Dec 30 2015 13:38:50 GMT+0900 (JST)
+    Wed Dec 30 2015 18:00:51 GMT+0900 (JST)
     
 
 a concrete day

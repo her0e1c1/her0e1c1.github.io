@@ -1,7 +1,7 @@
 
-====
+============
 test
-====
+============
 
 .. contents::
     :depth: 2
@@ -9,7 +9,7 @@ test
 
 
 index.scm
-=========
+===========================
 
 To test function sample, type `'M-x ert RET`'
 
