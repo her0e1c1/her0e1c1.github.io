@@ -3,6 +3,79 @@
 pointer
 =======
 
+.. contents::
+    :depth: 2
+
+
+
+equal.scm
+=========
+
+参照先が同じはeq?を使う
+
+.. code-block:: sh
+   
+
+    $ s '(eq? 0.1 0.1)' 
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(eq? "a" "a")' 
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(eq? '\''a '\''a)' 
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(eq? '\''1 '\''1)' 
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(eq? '\''1 '\''1)' 
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(eq? '\''1 1)' 
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(eq? '\''(1) '\''(1))' 
+    #f
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(eq? '\''(1) '\''(1))' 
+    #f
+    
+
 
 
 init.scm
@@ -12,4 +85,23 @@ init.scm
 ``int *p, *q;`` と複数宣言する場合があるので
 ``int* a;`` よりも
 ``int *a;`` と宣言したほうが良い
+
+
+
+reference.scm
+=============
+
+
+
+smart-pointer.scm
+=================
+
+変数のスコープを出る時に，内部がnullでなければdelete
+
+.. code-block:: sh
+   
+
+    $ cpe 'unique_ptr<int> i(new int(123)); P(*i.get())' 
+    *i.get() = 123
+    
 

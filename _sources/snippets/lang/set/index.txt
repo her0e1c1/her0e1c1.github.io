@@ -3,6 +3,9 @@
 set
 ===
 
+.. contents::
+    :depth: 2
+
 
 
 find.scm
@@ -25,11 +28,8 @@ init.scm
 .. code-block:: sh
    
 
-    $ py 'P(set([1,1,1,2,2,3])' 
-      File "<string>", line 11
-        
-        ^
-    SyntaxError: invalid syntax
+    $ py 'P(set([1,1,1,2,2,3]))' 
+    set([1, 2, 3])
     
 
 

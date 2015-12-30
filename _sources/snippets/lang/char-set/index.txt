@@ -3,6 +3,9 @@
 char-set
 ========
 
+.. contents::
+    :depth: 2
+
 
 
 init.scm

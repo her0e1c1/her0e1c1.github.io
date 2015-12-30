@@ -3,6 +3,68 @@
 tuple
 =====
 
+.. contents::
+    :depth: 2
+
+
+
+index.scm
+=========
+
+multiple values
+
+.. code-block:: sh
+   
+
+    $ cpe 'pair<int, string> pis(10,"str"); cout << pis.first << " " << pis.second << endl;' 
+    10 str
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(receive (a b) (values 1 2) (+ a b))' 
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(define-values (a b . c) (values 1 2 3 4))' 
+    (3 4)
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(destructuring-bind (x y z) '\''(1 2 3) (+ x y z))' 
+    6
+
+
+.. code-block:: sh
+   
+
+    $ ee '(destructuring-bind ((x) y z) '\''(1 2 3) (+ x y z))' 
+    Wrong type argument: sequencep, 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(destructuring-bind ((x) y z . w) '\''((1) 2 3 . 4) (+ x y z w))' 
+    10
+
+
+.. code-block:: sh
+   
+
+    $ ee '(multiple-value-bind (q r) (truncate* 10 3) (format "(%s, %s)" q r))' 
+    (3, 1)
+
 
 
 init.scm
@@ -40,7 +102,7 @@ need to #include <utility>
    
 
     $ cpe 'for(pair<int, int> x: {{1,2}, {2,5}});' 
-    <stdin>:44:27: error: cannot use type 'void' as a range
+    <stdin>:45:27: error: cannot use type 'void' as a range
         for(pair<int, int> x: {{1,2}, {2,5}});
                               ^
     1 error generated.
@@ -55,32 +117,5 @@ need to #include <utility>
     1, -1
     -2, 5
     3, 10
-    
-
-
-
-index.scm
-=========
-
-
-.. code-block:: sh
-   
-
-    $ cpe 'pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;' 
-    <stdin>:44:46: error: use of undeclared identifier 'pii'; did you mean 'pis'?
-        pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;
-                                                 ^~~
-                                                 pis
-    <stdin>:44:23: note: 'pis' declared here
-        pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;
-                          ^
-    <stdin>:44:66: error: use of undeclared identifier 'pii'; did you mean 'pis'?
-        pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;
-                                                                     ^~~
-                                                                     pis
-    <stdin>:44:23: note: 'pis' declared here
-        pair<int, string> pis(10,"str"); cout << pii.first << " " << pii.second << endl;
-                          ^
-    2 errors generated.
     
 

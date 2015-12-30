@@ -10,14 +10,4 @@ C Language
 
     ce/*
 
-.. toctree::
-
-
-    misc.rst
-
-
-.. toctree::
-
-
-    grammer.rst
 

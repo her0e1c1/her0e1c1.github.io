@@ -3,10 +3,38 @@
 func
 ====
 
+.. contents::
+    :depth: 2
+
 
 
 define.scm
 ==========
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (setf (symbol-function '\''double) '\''(lambda (x) (* x 2))) (double 5))' 
+    10
+
+外部から参照されないローカル関数
+
+.. code-block:: sh
+   
+
+    $ ee '(labels ((fact (n) (if (= n 1) n (* n (fact (- n 1)))))) (fact 5))' 
+    120
+
+
+
+dot_list.scm
+============
+
+
+
+funcall.scm
+===========
 
 
 
@@ -80,11 +108,95 @@ declare minimum
       int a[] = {1,2,3,4,5};
       printf("%d != %d", sizeof(a), f(a));
     }' 
-    <stdin>:41:15: error: function definition is not allowed here
+    <stdin>:4:15: error: function definition is not allowed here
     int f(int a[]){
                   ^
     1 error generated.
     
+
+
+.. code-block:: sh
+   
+
+    $ s '(begin (define (a) (define b 1) (define c 1) (set! b (+ b c)) (+ b c) (set! c (+ b c 10))) (a))' 
+    13
+    
+
+
+.. warning::
+
+    toplevelにしか、defineは記述できない (set!はOK)
+
+
+.. code-block:: sh
+   
+
+    $ s '(define (a2) 1 (define b 1))' 
+    *** ERROR: Compile Error: syntax-error: the form can appear only in the toplevel: (define b 1)
+    
+    Stack Trace:
+    _______________________________________
+      0  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+
+kwargs.scm
+==========
+
+デフォルト引数はもっとも右側に指定していく
+
+.. code-block:: cpp
+   
+
+    #include <iostream>
+    #include <string>
+    using namespace std;
+    void hello(string h = "Ben", string s = "hello, world") {
+      cout << h << " says " << s << endl;
+    }
+    int main() { hello(); }
+
+.. code-block:: sh
+   
+
+    Ben says hello, world
+    
+
+デフォルト引数はもっとも右側に指定していく
+
+.. code-block:: cpp
+   
+
+    #include <iostream>
+    #include <string>
+    using namespace std;
+    void hello(string h = "Ben", string s = "hello, world") {
+      cout << h << " says " << s << endl;
+    }
+    int main() { hello("John"); }
+
+.. code-block:: sh
+   
+
+    John says hello, world
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(begin (define (add :key (a 1) (b 2)) (+ a b)) (add :a 3))' 
+    5
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (cl-defun add (&key (a 1) (b 2)) (+ a b)) (add :a 3))' 
+    5
 
 
 
@@ -97,7 +209,7 @@ lambda.scm
    
 
     $ perl -E 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
-    xhK6WfCTsPuVOzYjsdr8P5qxhG5ZXcgdvdQoZpp6qv7oPwMox8Zo8rOx7i9GrsxGaSJypL98HNuVCW9TjXVLP4LTUbgvc5XVtKKDj3bzmqAIQxFopQreODz02sw1rQlNWuu0Ka7qoeHmVYsldflMbxx3AAOW77JXrP8fRiaI5UW0ObZWp1vPEJjFKzO9Ko0Gec8erd74aelMxK0stfO8q80aZzW6ZE6QzOkc1eDuGi4XnPGD8YlXn9XJGIEBHhU
+    DGNORqdXcU96SiCKBZ2Y6iUFLGCnDD1DLCIdeE3vUpkkf3zMHTVrOm7zuSS3eHfqv6iyfjxDl4WVcfjkVLbukP6rPECJaECmUxMAVGZ8OS9GojRWXGrxPtQqrMSPGua7DcuAiwPW0rnELstrh1aJl4FHHiN7MX1yqpbASQr2QsKOi69YRZZwnVS2eNoGoAkRMNXqh8OnX33VFi9Twkoehy7jQ0pcZHHZyOTX2zlMBfRxqqFL2VjEPW7ZC26spMe
 
 
 .. code-block:: sh
@@ -146,45 +258,31 @@ lambda.scm
 
 
 
-kwargs.scm
-==========
+optional.scm
+============
 
-デフォルト引数はもっとも右側に指定していく
-
-.. code-block:: cpp
-   
-
-    #include <iostream>
-    #include <string>
-    using namespace std;
-    void hello(string h = "Ben", string s = "hello, world") {
-      cout << h << " says " << s << endl;
-    }
-    int main() { hello(); }
 
 .. code-block:: sh
    
 
-    Ben says hello, world
+    $ s '(begin (define (add a :optional b (c 3)) (+ a b c)) (add 1 2))' 
+    6
     
 
-デフォルト引数はもっとも右側に指定していく
-
-.. code-block:: cpp
-   
-
-    #include <iostream>
-    #include <string>
-    using namespace std;
-    void hello(string h = "Ben", string s = "hello, world") {
-      cout << h << " says " << s << endl;
-    }
-    int main() { hello("John"); }
+clをloadすればcl-の接頭辞不要
 
 .. code-block:: sh
    
 
-    John says hello, world
+    $ ee '(progn (cl-defun add (a &optional b (c 3)) (+ a b c)) (add 1 2))' 
+    6
+
+
+.. code-block:: sh
+   
+
+    $ py 'add=lambda a,b,c=3:a+b+c; P(add(1,2))' 
+    6
     
 
 

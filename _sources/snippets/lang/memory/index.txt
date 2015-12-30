@@ -3,10 +3,8 @@
 memory
 ======
 
-
-
-init.scm
-========
+.. contents::
+    :depth: 2
 
 
 
@@ -64,16 +62,22 @@ Fill -1
     $ ce 'int i[1]; memset(i, 1, sizeof(int)); printf("%x", i[0]);' 
     1010101
 
+You can update each char of the string with an array
 
 .. code-block:: sh
    
 
-    $ ce 'char p[]="abcde", q[]="AAA"; memcpy(p,q,3+1); p(sp);' 
-    <stdin>:40:53: error: use of undeclared identifier 'sp'
-        char p[]="abcde", q[]="AAA"; memcpy(p,q,3+1); p(sp);
-                                                        ^
+    $ ce 'char p[]="abcde", q[]="AAA"; memcpy(p,q,3+1); p(p);' 
+    <stdin>:3:52: error: called object type 'char *' is not a function or function pointer
+        char p[]="abcde", q[]="AAA"; memcpy(p,q,3+1); p(p);
+                                                      ~^
     1 error generated.
     
+
+
+
+init.scm
+========
 
 
 
@@ -87,6 +91,13 @@ fill 0
    
 
     $ ce 'char*p=calloc(10, sizeof(char)); ps(p);' 
+    <stdin>:3:38: warning: implicit declaration of function 'ps' is invalid in C99 [-Wimplicit-function-declaration]
+        char*p=calloc(10, sizeof(char)); ps(p);
+                                         ^
+    1 warning generated.
+    /tmp/--g3jOgH.o: In function `main':
+    -:(.text+0x328): undefined reference to `ps'
+    clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
 
 reallocはO(n)じゃないの?; realloc uses copy
@@ -102,7 +113,14 @@ reallocはO(n)じゃないの?; realloc uses copy
    
 
     $ ce 'char*p=malloc(10);memcpy(p, "abcd", 5); if (realloc(p, 5) != p) ps("not same");' 
-    not same
+    <stdin>:3:69: warning: implicit declaration of function 'ps' is invalid in C99 [-Wimplicit-function-declaration]
+        char*p=malloc(10);memcpy(p, "abcd", 5); if (realloc(p, 5) != p) ps("not same");
+                                                                        ^
+    1 warning generated.
+    /tmp/--gxUu2N.o: In function `main':
+    -:(.text+0x34b): undefined reference to `ps'
+    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+    
 
 mallocも0で初期化されているみたい
 
@@ -110,6 +128,13 @@ mallocも0で初期化されているみたい
    
 
     $ ce 'char*p=malloc(1 << 10); REP(i,10) if(p[i]) ps("1");' 
+    <stdin>:3:48: warning: implicit declaration of function 'ps' is invalid in C99 [-Wimplicit-function-declaration]
+        char*p=malloc(1 << 10); REP(i,10) if(p[i]) ps("1");
+                                                   ^
+    1 warning generated.
+    /tmp/--oN2z2j.o: In function `main':
+    -:(.text+0x33d): undefined reference to `ps'
+    clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
 
 

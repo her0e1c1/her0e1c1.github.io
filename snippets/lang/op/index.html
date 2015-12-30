@@ -98,9 +98,40 @@
     <div class="col-md-12 content">
       
   <div class="section" id="op">
-<h1>op<a class="headerlink" href="#op" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id1">op</a><a class="headerlink" href="#op" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#op" id="id1">op</a><ul>
+<li><a class="reference internal" href="#add-scm" id="id2">add.scm</a></li>
+<li><a class="reference internal" href="#apply-scm" id="id3">apply.scm</a></li>
+<li><a class="reference internal" href="#case-scm" id="id4">case.scm</a></li>
+<li><a class="reference internal" href="#comment-scm" id="id5">comment.scm</a></li>
+<li><a class="reference internal" href="#debug-scm" id="id6">debug.scm</a></li>
+<li><a class="reference internal" href="#enum-scm" id="id7">enum.scm</a></li>
+<li><a class="reference internal" href="#eq-scm" id="id8">eq.scm</a></li>
+<li><a class="reference internal" href="#false-scm" id="id9">false.scm</a></li>
+<li><a class="reference internal" href="#false" id="id10">false</a></li>
+<li><a class="reference internal" href="#for-scm" id="id11">for.scm</a></li>
+<li><a class="reference internal" href="#if-scm" id="id12">if.scm</a></li>
+<li><a class="reference internal" href="#using-var" id="id13">using var</a></li>
+<li><a class="reference internal" href="#instanceof-scm" id="id14">instanceof.scm</a></li>
+<li><a class="reference internal" href="#instanceof" id="id15">instanceof</a></li>
+<li><a class="reference internal" href="#let-scm" id="id16">let.scm</a></li>
+<li><a class="reference internal" href="#pass-scm" id="id17">pass.scm</a></li>
+<li><a class="reference internal" href="#colon" id="id18">colon</a></li>
+<li><a class="reference internal" href="#set-scm" id="id19">set.scm</a></li>
+<li><a class="reference internal" href="#assign" id="id20">assign</a></li>
+<li><a class="reference internal" href="#typeof-scm" id="id21">typeof.scm</a></li>
+<li><a class="reference internal" href="#typeof" id="id22">typeof</a></li>
+<li><a class="reference internal" href="#undefined-scm" id="id23">undefined.scm</a></li>
+<li><a class="reference internal" href="#when-scm" id="id24">when.scm</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="add-scm">
-<h2>add.scm<a class="headerlink" href="#add-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">add.scm</a><a class="headerlink" href="#add-scm" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last"><code class="docutils literal"><span class="pre">(i</span> <span class="pre">+</span> <span class="pre">j)</span> <span class="pre">/</span> <span class="pre">2</span></code> becomes overflow. use <code class="docutils literal"><span class="pre">i</span> <span class="pre">+</span> <span class="pre">(j</span> <span class="pre">-</span> <span class="pre">i)</span> <span class="pre">/</span> <span class="pre">2</span></code></p>
@@ -114,72 +145,203 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="set-scm">
-<h2>set.scm<a class="headerlink" href="#set-scm" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="assign">
-<h2>assign<a class="headerlink" href="#assign" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;: ${A=1} &amp;&amp; echo $A&#39;</span>
-1
+<div class="section" id="apply-scm">
+<h2><a class="toc-backref" href="#id3">apply.scm</a><a class="headerlink" href="#apply-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Math.min.apply(null, [1,2,-1,3])&#39;</span>
 </pre></div>
 </div>
-<p>${NAME:=VAL} if variable is undefined, then set a value.</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;: ${NULL:=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;} &amp;&amp; echo $NULL&#39;</span>
-NULL
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(apply + &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 3 3))&#39;</span>
+7
 </pre></div>
 </div>
-<p>${NAME:-VAL} if variable is undefined, then evaluate a value but not set it.</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo ${NULL:-&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;}&#39;</span>
-NULL
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(apply + `,(list 1 (+ 1 2) 3))&#39;</span>
+7
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;: ${NULL:-&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;}; echo $NULL&#39;</span>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">内側評価されない</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ s &#39;(apply + &#39;\&#39;&#39;(1 (+ 1 2) 3))&#39;
+*** ERROR: operation + is not defined between 1 and (+ 1 2)
+Stack Trace:
+_______________________________________
+  0  (apply + &#39;(1 (+ 1 2) 3))
+        [unknown location]
+  1  (print-string (|--&gt;| (undefined) list (apply + &#39;(1 (+ 1 2) 3))))
+        [unknown location]
+  2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
+        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;NULL=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; &amp;&amp; echo ${NULL:-&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;}&#39;</span>
-HOGE
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">1の関数が呼ばれてしまう</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ s &#39;(apply + `,(1 (+ 1 2) 3))&#39;
+*** ERROR: invalid application: (1 3 3)
+Stack Trace:
+_______________________________________
+  0  (1 (+ 1 2) 3)
+        At line 1 of &quot;(input string port)&quot;
+  1  (apply + `,(1 (+ 1 2) 3))
+        [unknown location]
+  2  (print-string (|--&gt;| (undefined) list (apply + `,(1 (+ 1 2) 3))))
+        [unknown location]
+  3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
+        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
-<p>${NAME:=VAL} if variable is defined, then evaluate a value but not set it.</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo ${NULL:+&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL AGAIN&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;}&#39;</span>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">特殊形式andにはapplyが使えない</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ s &#39;(apply and &#39;\&#39;&#39;(#t #f))&#39;
+*** ERROR: invalid application: (#&lt;syntax and&gt; #t #f)
+Stack Trace:
+_______________________________________
+  0  (apply and &#39;(#t #f))
+        [unknown location]
+  1  (print-string (|--&gt;| (undefined) list (apply and &#39;(#t #f))))
+        [unknown location]
+  2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
+        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;: ${a::=1}; echo $a&#39;</span>
-1
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(+ 1 2)&#39;</span>
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(funcall &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+ 1 2)&#39;</span>
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+ &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+ 1 &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(2))&#39;</span>
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+ 1 2 &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;())&#39;</span>
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply (symbol-function &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply (lambda (x y) (+ x y)) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(lambda (x y) (+ x y)) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+3
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">function must be quoted</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ ee &#39;(apply + &#39;\&#39;&#39;(1 2))&#39;
+Symbol&#39;s value as variable is void: +
 </pre></div>
 </div>
 </div>
-<div class="section" id="false-scm">
-<h2>false.scm<a class="headerlink" href="#false-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="case-scm">
+<h2><a class="toc-backref" href="#id4">case.scm</a><a class="headerlink" href="#case-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;apple&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in a*) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;starts with a&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
+starts with a
+</pre></div>
 </div>
-<div class="section" id="false">
-<h2>false<a class="headerlink" href="#false" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say $a || &quot;&quot; || 0&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;apple&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in a*) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;starts with a&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
+starts with a
+</pre></div>
+</div>
+<p>? is any one char</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;Xapple&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in ?a*) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;starts with a&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
+starts with a
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;empty string&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
+empty string
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;banana&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in apple|banana) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;I want banana&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
+I want banana
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(pcase 1 (1 &quot;one&quot;) (_ &quot;else&quot;))&#39;</span>
+one
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(pcase 2 (1 &quot;one&quot;) (_ &quot;else&quot;))&#39;</span>
+<span class="k">else</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="comment-scm">
+<h2><a class="toc-backref" href="#id5">comment.scm</a><a class="headerlink" href="#comment-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;&quot;#| comment |#&quot;&#39;</span>
+<span class="c">#| comment |#</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;&quot;; inline ;; top level ;;; module level&quot;&#39;</span>
+<span class="p">;</span> inline <span class="p">;;</span> top level <span class="p">;;;</span> module level
+</pre></div>
+</div>
+</div>
+<div class="section" id="debug-scm">
+<h2><a class="toc-backref" href="#id6">debug.scm</a><a class="headerlink" href="#debug-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="enum-scm">
+<h2><a class="toc-backref" href="#id7">enum.scm</a><a class="headerlink" href="#enum-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A,B}; enum E e=A; p(&quot;%d&quot;, e);&#39;</span>
 0
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;undefined || null || &quot;&quot; || 0 || false&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A,B}; enum E e=B; p(&quot;%d&quot;, e);&#39;</span>
+1
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;if(!0)p(&quot;false&quot;);&#39;</span>
-<span class="nb">false</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A=10,B}; enum E e=A; p(&quot;%d&quot;, e);&#39;</span>
+10
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;if(!NULL)p(&quot;false&quot;);&#39;</span>
-<span class="nb">false</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A=10,B}; enum E e=B; p(&quot;%d&quot;, e);&#39;</span>
+11
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *s=&quot;&quot;; if(!*s)p(&quot;false&quot;);&#39;</span>
-<span class="nb">false</span>
+<p>alias enum</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef enum E{A,B}F; F e=A; p(&quot;%d&quot;, e);&#39;</span>
+0
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;if(&quot;&quot;)p(&quot;true&quot;);&#39;</span>
-<span class="nb">true</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef enum E{A,B}F; F e=B; p(&quot;%d&quot;, e);&#39;</span>
+1
+</pre></div>
+</div>
+<p>create a variable</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A,B}e; e=A; p(&quot;%d&quot;, e);&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A,B}e; e=B; p(&quot;%d&quot;, e);&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (deftype color () &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(member red bule green)) (typep &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;red &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;color))&#39;</span>
+t
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (deftype color () &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(member red bule green)) (typep &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;apple &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;color))&#39;</span>
+nil
 </pre></div>
 </div>
 </div>
 <div class="section" id="eq-scm">
-<h2>eq.scm<a class="headerlink" href="#eq-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">eq.scm</a><a class="headerlink" href="#eq-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof &quot;s&quot; === &quot;string&quot;&#39;</span>
 </pre></div>
 </div>
@@ -217,7 +379,7 @@ HOGE
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;{} == {}&#39;</span>
-<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:7
+<span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:8
 <span class="o">{}</span> <span class="o">==</span> <span class="o">{}</span>
    ^^
 
@@ -242,150 +404,109 @@ SyntaxError: Unexpected <span class="nv">token</span> <span class="o">==</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="pass-scm">
-<h2>pass.scm<a class="headerlink" href="#pass-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="false-scm">
+<h2><a class="toc-backref" href="#id9">false.scm</a><a class="headerlink" href="#false-scm" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="colon">
-<h2>colon<a class="headerlink" href="#colon" title="Permalink to this headline">¶</a></h2>
-<p>colon(:) is similar to pass in Python</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;if true; then :; fi&#39;</span>
+<div class="section" id="false">
+<h2><a class="toc-backref" href="#id10">false</a><a class="headerlink" href="#false" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say $a || &quot;&quot; || 0&#39;</span>
+0
 </pre></div>
 </div>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">代入式などに使用する. コマンドを実行しないようにする</p>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;${A=1} &amp;&amp; echo $A&#39;</span>
-1: not found
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;undefined || null || &quot;&quot; || 0 || false&#39;</span>
 </pre></div>
 </div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;if(!0)p(&quot;false&quot;);&#39;</span>
+<span class="nb">false</span>
+</pre></div>
 </div>
-<div class="section" id="undefined-scm">
-<h2>undefined.scm<a class="headerlink" href="#undefined-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;P(typeof a === &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;undefined&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;if(!NULL)p(&quot;false&quot;);&#39;</span>
+<span class="nb">false</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char *s=&quot;&quot;; if(!*s)p(&quot;false&quot;);&#39;</span>
+<span class="nb">false</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;if(&quot;&quot;)p(&quot;true&quot;);&#39;</span>
 <span class="nb">true</span>
 </pre></div>
 </div>
-<p>変数が未定義であることを確認</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;undefined&quot; if !defined($a)&#39;</span>
-undefined
+<p>exit non 0 means false</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;ls HOGE &amp;&amp; echo 1&#39;</span>
+ls: HOGE: そのようなファイルまたはディレクトリはありません
 </pre></div>
 </div>
-<p>未定義の場合に代入</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$a//=1; say $a&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;! ls HOGE &amp;&amp; echo 1&#39;</span>
+ls: HOGE: そのようなファイルまたはディレクトリはありません
 1
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">shの注意 # 文字列として認識させるため&#8221;$VAR&#8221;とすること</p>
+<p class="last">nullはfalseとして扱われない!</p>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -z &quot;$__THIS__IS__NOT__DEFINED&quot; &amp;&amp; echo &quot;undefined&quot;&#39;</span>
-undefined
+<p>see <a class="reference external" href="http://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_8.html">http://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_8.html</a></p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(if #f #t)&#39;</span>
+<span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
-<p>定義を確認</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n &quot;$PATH&quot; &amp;&amp; echo &quot;defined&quot;&#39;</span>
-defined
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(if 0 #t)&#39;</span>
+<span class="c">#t</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n a a &amp;&amp; echo 1&#39;</span>
-<span class="nb">test</span>: a: unexpected operator
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(if &quot;&quot; #t)&#39;</span>
+<span class="c">#t</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n &quot;a a&quot; &amp;&amp; echo 1&#39;</span>
-1
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(if () #t)&#39;</span>
+<span class="c">#t</span>
 </pre></div>
 </div>
-<p>if a variable is defiend, then return 1</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo ${+PATH}&#39;</span>
-1
+<div class="highlight-sh"><div class="highlight"><pre>$ s &#39;(if #&lt;eof&gt; #t)&#39;
+*** ERROR: Compile Error: Read error at &quot;(input string port)&quot;:line 1: unsupported #-syntax: #&lt;
+
+Stack Trace:
+_______________________________________
+  0  (read-from-string (string-append &quot;(list &quot; (x-&gt;string exp) &quot;)&quot;))
+        At line 94 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+  1  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
+        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo ${+HOGEHOGE}&#39;</span>
-0
+<div class="highlight-sh"><div class="highlight"><pre>$ s &#39;(if #&lt;undef&gt; #t)&#39;
+*** ERROR: Compile Error: Read error at &quot;(input string port)&quot;:line 1: unsupported #-syntax: #&lt;
+
+Stack Trace:
+_______________________________________
+  0  (read-from-string (string-append &quot;(list &quot; (x-&gt;string exp) &quot;)&quot;))
+        At line 94 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+  1  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
+        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">WRONG SYNTAX</p>
 </div>
-<div class="section" id="enum-scm">
-<h2>enum.scm<a class="headerlink" href="#enum-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A,B}; enum E e=A; p(&quot;%d&quot;, e);&#39;</span>
-0
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;[ ! false ] &amp;&amp; echo true &#39;</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A,B}; enum E e=B; p(&quot;%d&quot;, e);&#39;</span>
-1
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;! false &amp;&amp; echo true &#39;</span>
+<span class="nb">true</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A=10,B}; enum E e=A; p(&quot;%d&quot;, e);&#39;</span>
-10
-</pre></div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">goshでは&#8217;()は真として扱われるが、elispでは偽として扱われるので注意</p>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A=10,B}; enum E e=B; p(&quot;%d&quot;, e);&#39;</span>
-11
-</pre></div>
-</div>
-<p>alias enum</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef enum E{A,B}F; F e=A; p(&quot;%d&quot;, e);&#39;</span>
-0
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef enum E{A,B}F; F e=B; p(&quot;%d&quot;, e);&#39;</span>
-1
-</pre></div>
-</div>
-<p>create a variable</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A,B}e; e=A; p(&quot;%d&quot;, e);&#39;</span>
-0
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;enum E{A,B}e; e=B; p(&quot;%d&quot;, e);&#39;</span>
-1
-</pre></div>
-</div>
-</div>
-<div class="section" id="typeof-scm">
-<h2>typeof.scm<a class="headerlink" href="#typeof-scm" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="typeof">
-<h2>typeof<a class="headerlink" href="#typeof" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof(true)&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof(123)&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof(&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;abc&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof({})&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof([])&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof /regexp/&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof function(){}&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof null&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof undefined&#39;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="eval-scm">
-<h2>eval.scm<a class="headerlink" href="#eval-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;eval &quot;echo $HOME&quot;&#39;</span>
-/home/me
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(or &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;() nil)&#39;</span>
+nil
 </pre></div>
 </div>
 </div>
 <div class="section" id="for-scm">
-<h2>for.scm<a class="headerlink" href="#for-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">for.scm</a><a class="headerlink" href="#for-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;for i in 1 2 3; do echo $i; done&#39;</span>
 1
 2
@@ -399,67 +520,88 @@ defined
 </div>
 <p>区切り文字を$IFSとして、配列を生成し、行つきの結果を表示</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;cnt=0; for i in `ls`; do echo &quot;$cnt $i&quot;; cnt=$((cnt + 1)); done&#39;</span>
-<span class="m">0</span> bit
-<span class="m">1</span> char
-<span class="m">2</span> char-set
-<span class="m">3</span> class
-<span class="m">4</span> cmd
-<span class="m">5</span> date
-<span class="m">6</span> exception
-<span class="m">7</span> func
-<span class="m">8</span> <span class="nb">hash</span>
-<span class="m">9</span> index.rst
-<span class="m">10</span> index.scm
-<span class="m">11</span> index.sh
-<span class="m">12</span> io
-<span class="m">13</span> list
-<span class="m">14</span> math
-<span class="m">15</span> memory
-<span class="m">16</span> number
-<span class="m">17</span> op
-<span class="m">18</span> path
-<span class="m">19</span> pointer
-<span class="m">20</span> range
-<span class="m">21</span> regex
-<span class="m">22</span> <span class="nb">set</span>
-<span class="m">23</span> special_variables
-<span class="m">24</span> stack
-<span class="m">25</span> string
-<span class="m">26</span> tuple
-<span class="m">27</span> <span class="nb">type</span>
-<span class="m">28</span> vector
+<span class="m">0</span> async
+<span class="m">1</span> bit
+<span class="m">2</span> byte
+<span class="m">3</span> char
+<span class="m">4</span> char-set
+<span class="m">5</span> class
+<span class="m">6</span> cmd
+<span class="m">7</span> date
+<span class="m">8</span> elisp
+<span class="m">9</span> exception
+<span class="m">10</span> func
+<span class="m">11</span> <span class="nb">hash</span>
+<span class="m">12</span> haskell.scm
+<span class="m">13</span> hook.sh.tmp
+<span class="m">14</span> html
+<span class="m">15</span> http
+<span class="m">16</span> index.rst
+<span class="m">17</span> index.scm
+<span class="m">18</span> index.sh
+<span class="m">19</span> io
+<span class="m">20</span> java.scm
+<span class="m">21</span> lazy
+<span class="m">22</span> list
+<span class="m">23</span> macro
+<span class="m">24</span> math
+<span class="m">25</span> memory
+<span class="m">26</span> module
+<span class="m">27</span> number
+<span class="m">28</span> op
+<span class="m">29</span> path
+<span class="m">30</span> pointer
+<span class="m">31</span> range
+<span class="m">32</span> regex
+<span class="m">33</span> <span class="nb">set</span>
+<span class="m">34</span> special_variables
+<span class="m">35</span> stack
+<span class="m">36</span> string
+<span class="m">37</span> sys
+<span class="m">38</span> <span class="nb">test</span>
+<span class="m">39</span> test.tmp
+<span class="m">40</span> tuple
+<span class="m">41</span> <span class="nb">type</span>
+<span class="m">42</span> vector
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">During iteration, you should not modify the list</p>
 </div>
-<div class="section" id="instanceof-scm">
-<h2>instanceof.scm<a class="headerlink" href="#instanceof-scm" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="instanceof">
-<h2>instanceof<a class="headerlink" href="#instanceof" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;[] instanceof Array&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;var l = [10,20,30]; for (var j in l) console.log(l[j]);&#39;</span>
+10
+20
+30
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;/regexp/ instanceof RegExp&#39;</span>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">With for-in just return 1, 2, 3 ...</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;for (var n in [10,20,30]) console.log(n);&#39;</span>
+0
+1
+2
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;/regexp/ instanceof Function&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre>$ ee &#39;(|--each| &#39;\&#39;&#39;(1 2 3) (print it))&#39;
+Symbol&#39;s function definition is void: |--each|
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;(function(){}) instanceof Function&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(dolist (it &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2 3)) (print it))&#39;</span>
+
+1
+
+2
+
+3
+nil
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;undefined instanceof Object&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;null instanceof Object&#39;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="let-scm">
-<h2>let.scm<a class="headerlink" href="#let-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="if-scm">
-<h2>if.scm<a class="headerlink" href="#if-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">if.scm</a><a class="headerlink" href="#if-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;true &amp;&amp; &quot;ok&quot; || &quot;no&quot;&#39;</span>
 </pre></div>
 </div>
@@ -469,6 +611,14 @@ ok
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>php -r <span class="s1">&#39;if (1) {echo &quot;true&quot;;}&#39;</span>
 <span class="nb">true</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(if t 1 2)&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(if nil 1 2)&#39;</span>
+2
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;if true  ; then echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;true&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;; else echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;false&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;; fi&#39;</span>
@@ -518,7 +668,7 @@ ok
 </div>
 </div>
 <div class="section" id="using-var">
-<h2>using var<a class="headerlink" href="#using-var" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">using var</a><a class="headerlink" href="#using-var" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;A=true &amp;&amp; if $A ; then echo true; fi&#39;</span>
 <span class="nb">true</span>
 </pre></div>
@@ -549,33 +699,187 @@ bash conditions evaluate as true in case of an exit code of 0</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="apply-scm">
-<h2>apply.scm<a class="headerlink" href="#apply-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Math.min.apply(null, [1,2,-1,3])&#39;</span>
+<div class="section" id="instanceof-scm">
+<h2><a class="toc-backref" href="#id14">instanceof.scm</a><a class="headerlink" href="#instanceof-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="instanceof">
+<h2><a class="toc-backref" href="#id15">instanceof</a><a class="headerlink" href="#instanceof" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;[] instanceof Array&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;/regexp/ instanceof RegExp&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;/regexp/ instanceof Function&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;(function(){}) instanceof Function&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;undefined instanceof Object&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;null instanceof Object&#39;</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="case-scm">
-<h2>case.scm<a class="headerlink" href="#case-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;apple&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in a*) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;starts with a&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
-starts with a
+<div class="section" id="let-scm">
+<h2><a class="toc-backref" href="#id16">let.scm</a><a class="headerlink" href="#let-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pass-scm">
+<h2><a class="toc-backref" href="#id17">pass.scm</a><a class="headerlink" href="#pass-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="colon">
+<h2><a class="toc-backref" href="#id18">colon</a><a class="headerlink" href="#colon" title="Permalink to this headline">¶</a></h2>
+<p>colon(:) is similar to pass in Python</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;if true; then :; fi&#39;</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;apple&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in a*) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;starts with a&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
-starts with a
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">代入式などに使用する. コマンドを実行しないようにする</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;${A=1} &amp;&amp; echo $A&#39;</span>
+1: not found
 </pre></div>
 </div>
-<p>? is any one char</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;Xapple&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in ?a*) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;starts with a&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
-starts with a
+</div>
+<div class="section" id="set-scm">
+<h2><a class="toc-backref" href="#id19">set.scm</a><a class="headerlink" href="#set-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="assign">
+<h2><a class="toc-backref" href="#id20">assign</a><a class="headerlink" href="#assign" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;: ${A=1} &amp;&amp; echo $A&#39;</span>
+1
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;empty string&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
-empty string
+<p>${NAME:=VAL} if variable is undefined, then set a value.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;: ${NULL:=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;} &amp;&amp; echo $NULL&#39;</span>
+NULL
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;case &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;banana&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; in apple|banana) echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;I want banana&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;; esac&#39;</span>
-I want banana
+<p>${NAME:-VAL} if variable is undefined, then evaluate a value but not set it.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo ${NULL:-&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;}&#39;</span>
+NULL
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;: ${NULL:-&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;}; echo $NULL&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;NULL=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE&#39;</span><span class="se">\&#39;</span><span class="s1">&#39; &amp;&amp; echo ${NULL:-&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;}&#39;</span>
+HOGE
+</pre></div>
+</div>
+<p>${NAME:=VAL} if variable is defined, then evaluate a value but not set it.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;echo ${NULL:+&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;NULL AGAIN&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;}&#39;</span>
+</pre></div>
+</div>
+<p>setはシンボルを引数にとる</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(set &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a 1)&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;: ${a::=1}; echo $a&#39;</span>
+1
+</pre></div>
+</div>
+</div>
+<div class="section" id="typeof-scm">
+<h2><a class="toc-backref" href="#id21">typeof.scm</a><a class="headerlink" href="#typeof-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="typeof">
+<h2><a class="toc-backref" href="#id22">typeof</a><a class="headerlink" href="#typeof" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof(true)&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof(123)&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof(&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;abc&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof({})&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof([])&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof /regexp/&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof function(){}&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof null&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof undefined&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="undefined-scm">
+<h2><a class="toc-backref" href="#id23">undefined.scm</a><a class="headerlink" href="#undefined-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;P(typeof a === &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;undefined&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<p>変数が未定義であることを確認</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;undefined&quot; if !defined($a)&#39;</span>
+undefined
+</pre></div>
+</div>
+<p>未定義の場合に代入</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$a//=1; say $a&#39;</span>
+1
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">shの注意 # 文字列として認識させるため&#8221;$VAR&#8221;とすること</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -z &quot;$__THIS__IS__NOT__DEFINED&quot; &amp;&amp; echo &quot;undefined&quot;&#39;</span>
+undefined
+</pre></div>
+</div>
+<p>定義を確認</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n &quot;$PATH&quot; &amp;&amp; echo &quot;defined&quot;&#39;</span>
+defined
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n a a &amp;&amp; echo 1&#39;</span>
+<span class="nb">test</span>: a: unexpected operator
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n &quot;a a&quot; &amp;&amp; echo 1&#39;</span>
+1
+</pre></div>
+</div>
+<p>if a variable is defiend, then return 1</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo ${+PATH}&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo ${+HOGEHOGE}&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(boundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE)&#39;</span>
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (boundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE) (setq HOGE 1) HOGE)&#39;</span>
+1
+</pre></div>
+</div>
+</div>
+<div class="section" id="when-scm">
+<h2><a class="toc-backref" href="#id24">when.scm</a><a class="headerlink" href="#when-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre>$ ee &#39;(|--when-let| (+ 1 2 3) (* it it))&#39;
+Symbol&#39;s function definition is void: |--when-let|
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ ee &#39;(|--when-let| nil (* it it))&#39;
+Symbol&#39;s function definition is void: |--when-let|
 </pre></div>
 </div>
 </div>

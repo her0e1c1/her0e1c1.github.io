@@ -3,72 +3,25 @@
 class
 =====
 
-
-
-init.scm
-========
-
-
-.. code-block:: sh
-   
-
-    $ php -r 'class A {public $v = '\''val'\'';} $a=new A(); echo "$a->v";' 
-    val
-
-
-.. code-block:: ruby
-   
-
-    class Human
-      def initialize(name="")
-        @name = name
-      end
-      attr_accessor :name
-    end
-    puts (Human.new "Bob").name
-
-.. code-block:: sh
-   
-
-    Bob
-    
+.. contents::
+    :depth: 2
 
 
 
-struct.scm
+advice.scm
 ==========
 
+afterを定義したので、(echo)を実行した後に呼びだされる
 
 .. code-block:: sh
    
 
-    $ ce 'typedef struct {char name[64];}S; S s; strcpy(s.name, "Bob"); p("%s", s.name);' 
-    Bob
-
-
-.. code-block:: sh
-   
-
-    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=0; p("%d", b.bool);' 
-    0
-
-
-.. code-block:: sh
-   
-
-    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=1; p("%d", b.bool);' 
-    1
-
-
-.. code-block:: sh
-   
-
-    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);' 
-    <stdin>:40:59: warning: implicit truncation from 'int' to bitfield changes value from 2 to 0 [-Wbitfield-constant-conversion]
-        typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);
-                                                              ^~
-    1 warning generated.
-    0
+    $ ee '(progn (defun echo () (print "echo")) (defadvice echo (after after_echo activate) (print "after echo!")) (echo))' 
+    
+    "echo"
+    
+    "after echo!"
+    echo
 
 
 
@@ -117,4 +70,89 @@ get.scm
 
     1
     
+
+
+
+init.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ php -r 'class A {public $v = '\''val'\'';} $a=new A(); echo "$a->v";' 
+    val
+
+
+.. code-block:: ruby
+   
+
+    class Human
+      def initialize(name="")
+        @name = name
+      end
+      attr_accessor :name
+    end
+    puts (Human.new "Bob").name
+
+.. code-block:: sh
+   
+
+    Bob
+    
+
+
+
+isinstance.scm
+==============
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(isinstance(1, int))' 
+    True
+    
+
+
+
+prototype.scm
+=============
+
+
+
+struct.scm
+==========
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {char name[64];}S; S s; strcpy(s.name, "Bob"); p("%s", s.name);' 
+    Bob
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=0; p("%d", b.bool);' 
+    0
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=1; p("%d", b.bool);' 
+    1
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);' 
+    <stdin>:3:59: warning: implicit truncation from 'int' to bitfield changes value from 2 to 0 [-Wbitfield-constant-conversion]
+        typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p("%d", b.bool);
+                                                              ^~
+    1 warning generated.
+    0
 

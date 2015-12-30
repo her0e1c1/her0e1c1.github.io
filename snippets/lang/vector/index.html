@@ -98,107 +98,79 @@
     <div class="col-md-12 content">
       
   <div class="section" id="vector">
-<h1>vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="slice-scm">
-<h2>slice.scm<a class="headerlink" href="#slice-scm" title="Permalink to this headline">¶</a></h2>
+<h1><a class="toc-backref" href="#id1">vector</a><a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#vector" id="id1">vector</a><ul>
+<li><a class="reference internal" href="#clear-scm" id="id2">clear.scm</a></li>
+<li><a class="reference internal" href="#copy-scm" id="id3">copy.scm</a></li>
+<li><a class="reference internal" href="#count-scm" id="id4">count.scm</a></li>
+<li><a class="reference internal" href="#enumerate-scm" id="id5">enumerate.scm</a></li>
+<li><a class="reference internal" href="#equal-scm" id="id6">equal.scm</a></li>
+<li><a class="reference internal" href="#find-scm" id="id7">find.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id8">index.scm</a></li>
+<li><a class="reference internal" href="#front" id="id9">front</a></li>
+<li><a class="reference internal" href="#back" id="id10">back</a></li>
+<li><a class="reference internal" href="#at" id="id11">at</a></li>
+<li><a class="reference internal" href="#refer-out-of-index" id="id12">refer out of index</a></li>
+<li><a class="reference internal" href="#init-scm" id="id13">init.scm</a></li>
+<li><a class="reference internal" href="#initialize" id="id14">Initialize</a></li>
+<li><a class="reference internal" href="#insert-scm" id="id15">insert.scm</a></li>
+<li><a class="reference internal" href="#iter-scm" id="id16">iter.scm</a></li>
+<li><a class="reference internal" href="#length-scm" id="id17">length.scm</a></li>
+<li><a class="reference internal" href="#slice-scm" id="id18">slice.scm</a></li>
+<li><a class="reference internal" href="#begin-end" id="id19">begin, end</a></li>
+<li><a class="reference internal" href="#rbegin-rend" id="id20">rbegin, rend</a></li>
+<li><a class="reference internal" href="#compare-r-begin-and-r-end" id="id21">compare (r)begin and (r)end</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section" id="begin-end">
-<h2>begin, end<a class="headerlink" href="#begin-end" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.end())&#39;</span>
-v.begin<span class="o">()</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 1, 2, 3, 4, 5,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin())&#39;</span>
-v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> <span class="o">=</span>&gt;
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 1)&#39;</span>
-v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">1</span> <span class="o">=</span>&gt; 1,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 2)&#39;</span>
-v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">2</span> <span class="o">=</span>&gt; 1, 2,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 3)&#39;</span>
-v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">3</span> <span class="o">=</span>&gt; 1, 2, 3,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 4)&#39;</span>
-v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">4</span> <span class="o">=</span>&gt; 1, 2, 3, 4,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 5)&#39;</span>
-v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">5</span> <span class="o">=</span>&gt; 1, 2, 3, 4, 5,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end(), v.end())&#39;</span>
-v.end<span class="o">()</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt;
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 1, v.end())&#39;</span>
-v.end<span class="o">()</span> - <span class="m">1</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 5,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 2, v.end())&#39;</span>
-v.end<span class="o">()</span> - <span class="m">2</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 4, 5,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 3, v.end())&#39;</span>
-v.end<span class="o">()</span> - <span class="m">3</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 3, 4, 5,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 4, v.end())&#39;</span>
-v.end<span class="o">()</span> - <span class="m">4</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 2, 3, 4, 5,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 5, v.end())&#39;</span>
-v.end<span class="o">()</span> - <span class="m">5</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 1, 2, 3, 4, 5,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin() + 1, v.end() - 1)&#39;</span>
-v.begin<span class="o">()</span> + <span class="m">1</span> ~ v.end<span class="o">()</span> - <span class="nv">1</span> <span class="o">=</span>&gt; 2, 3, 4,
+<div class="section" id="clear-scm">
+<h2><a class="toc-backref" href="#id2">clear.scm</a><a class="headerlink" href="#clear-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; v.clear(); PE(v);&#39;</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="rbegin-rend">
-<h2>rbegin, rend<a class="headerlink" href="#rbegin-rend" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.rbegin(), v.rend())&#39;</span>
-v.rbegin<span class="o">()</span> ~ v.rend<span class="o">()</span> <span class="o">=</span>&gt; 5, 4, 3, 2, 1,
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.rbegin() + 1, v.rend() - 1)&#39;</span>
-v.rbegin<span class="o">()</span> + <span class="m">1</span> ~ v.rend<span class="o">()</span> - <span class="nv">1</span> <span class="o">=</span>&gt; 4, 3, 2,
+<div class="section" id="copy-scm">
+<h2><a class="toc-backref" href="#id3">copy.scm</a><a class="headerlink" href="#copy-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;vector&lt;int&gt;v(3, 7); vector&lt;int&gt; c(v); PE(c)&#39;</span>
+7, 7, 7,
 </pre></div>
 </div>
 </div>
-<div class="section" id="compare-r-begin-and-r-end">
-<h2>compare (r)begin and (r)end<a class="headerlink" href="#compare-r-begin-and-r-end" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; P(v.begin() == v.end() - 5)&#39;</span>
-v.begin<span class="o">()</span> <span class="o">==</span> v.end<span class="o">()</span> - <span class="nv">5</span> <span class="o">=</span> 1
+<div class="section" id="count-scm">
+<h2><a class="toc-backref" href="#id4">count.scm</a><a class="headerlink" href="#count-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,1,1,2,2,3}; P(count(v.begin(), v.end(), 1));&#39;</span>
+count<span class="o">(</span>v.begin<span class="o">()</span>, v.end<span class="o">()</span>, 1<span class="o">)</span> <span class="o">=</span> 3
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; P(v.rbegin() == v.rend() - 5)&#39;</span>
-v.rbegin<span class="o">()</span> <span class="o">==</span> v.rend<span class="o">()</span> - <span class="nv">5</span> <span class="o">=</span> 1
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,1,1,2,2,3}; P(count(ALL(v), 2));&#39;</span>
+count<span class="o">(</span>ALL<span class="o">(</span>v<span class="o">)</span>, 2<span class="o">)</span> <span class="o">=</span> 2
 </pre></div>
 </div>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">error</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,1,1,2,2,3}; P(count(ALL(v), 10));&#39;</span>
+count<span class="o">(</span>ALL<span class="o">(</span>v<span class="o">)</span>, 10<span class="o">)</span> <span class="o">=</span> 0
+</pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; P(v.rbegin() == v.end() - 5)&#39;</span>
-&lt;stdin&gt;:44:35: error: invalid operands to binary expression <span class="o">(</span><span class="s1">&#39;reverse_iterator&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;reverse_iterator&lt;iterator&gt;&#39;</span><span class="o">)</span> and <span class="s1">&#39;std::__1::__wrap_iter&lt;int *&gt;&#39;</span><span class="o">)</span>
-    VI v<span class="o">{</span>1,2,3,4,5<span class="o">}</span><span class="p">;</span> P<span class="o">(</span>v.rbegin<span class="o">()</span> <span class="o">==</span> v.end<span class="o">()</span> - 5<span class="o">)</span>
-                       ~~~~~~~~~~ ^  ~~~~~~~~~~~
-/home/me/lib/cpp/myutils.h:61:38: note: expanded from macro <span class="s1">&#39;P&#39;</span>
-<span class="c">#define P(x) cout &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; (x) &lt;&lt; endl;</span>
-                                     ^
-<span class="m">1</span> error generated.
+</div>
+<div class="section" id="enumerate-scm">
+<h2><a class="toc-backref" href="#id5">enumerate.scm</a><a class="headerlink" href="#enumerate-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="equal-scm">
+<h2><a class="toc-backref" href="#id6">equal.scm</a><a class="headerlink" href="#equal-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v1(10, 1), v2(10, 1); P(v1 == v2)&#39;</span>
+<span class="nv">v1</span> <span class="o">==</span> <span class="nv">v2</span> <span class="o">=</span> 1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v1(10, 1), v2(10, 0); P(v1 == v2)&#39;</span>
+<span class="nv">v1</span> <span class="o">==</span> <span class="nv">v2</span> <span class="o">=</span> 0
 </pre></div>
 </div>
 </div>
 <div class="section" id="find-scm">
-<h2>find.scm<a class="headerlink" href="#find-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">find.scm</a><a class="headerlink" href="#find-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; P(find(v.begin(), v.end(), 3) != v.end());&#39;</span>
 find<span class="o">(</span>v.begin<span class="o">()</span>, v.end<span class="o">()</span>, 3<span class="o">)</span> !<span class="o">=</span> v.end<span class="o">()</span> <span class="o">=</span> 1
 </pre></div>
@@ -208,7 +180,7 @@ find<span class="o">(</span>ALL<span class="o">(</span>v<span class="o">)</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; P(find(v, v + v.size(), 3) != v.end());&#39;</span>
-&lt;stdin&gt;:44:30: error: invalid operands to binary expression <span class="o">(</span><span class="s1">&#39;VI&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;vector&lt;int&gt;&#39;</span><span class="o">)</span> and <span class="s1">&#39;size_type&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;unsigned long&#39;</span><span class="o">))</span>
+&lt;stdin&gt;:45:30: error: invalid operands to binary expression <span class="o">(</span><span class="s1">&#39;VI&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;vector&lt;int&gt;&#39;</span><span class="o">)</span> and <span class="s1">&#39;size_type&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;unsigned long&#39;</span><span class="o">))</span>
     VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> P<span class="o">(</span>find<span class="o">(</span>v, v + v.size<span class="o">()</span>, 3<span class="o">)</span> !<span class="o">=</span> v.end<span class="o">())</span><span class="p">;</span>
                            ~ ^ ~~~~~~~~
 /home/me/lib/cpp/myutils.h:61:38: note: expanded from macro <span class="s1">&#39;P&#39;</span>
@@ -271,7 +243,7 @@ find<span class="o">(</span>v.begin<span class="o">()</span>, v.end<span class="
 <p class="last">Don&#8217;t forget != v.end()</p>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; P(find(v.begin(), v.end(), 3));&#39;</span>
-&lt;stdin&gt;:44:18: error: invalid operands to binary expression <span class="o">(</span><span class="s1">&#39;basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;&#39;</span> and <span class="s1">&#39;std::__1::__wrap_iter&lt;int *&gt;&#39;</span><span class="o">)</span>
+&lt;stdin&gt;:45:18: error: invalid operands to binary expression <span class="o">(</span><span class="s1">&#39;basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;&#39;</span> and <span class="s1">&#39;std::__1::__wrap_iter&lt;int *&gt;&#39;</span><span class="o">)</span>
     VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> P<span class="o">(</span>find<span class="o">(</span>v.begin<span class="o">()</span>, v.end<span class="o">()</span>, 3<span class="o">))</span><span class="p">;</span>
                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /home/me/lib/cpp/myutils.h:61:34: note: expanded from macro <span class="s1">&#39;P&#39;</span>
@@ -383,72 +355,11 @@ operator&lt;&lt;<span class="o">(</span>basic_ostream&lt;_CharT, _Traits&gt;<spa
 </pre></div>
 </div>
 </div>
-<div class="section" id="insert-scm">
-<h2>insert.scm<a class="headerlink" href="#insert-scm" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Even if you don&#8217;t alocate memroy, you can set it</p>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; v[100] = 1; P(v[100]);&#39;</span>
-v<span class="o">[</span>100<span class="o">]</span> <span class="o">=</span> 1
-</pre></div>
-</div>
-</div>
-<div class="section" id="equal-scm">
-<h2>equal.scm<a class="headerlink" href="#equal-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v1(10, 1), v2(10, 1); P(v1 == v2)&#39;</span>
-<span class="nv">v1</span> <span class="o">==</span> <span class="nv">v2</span> <span class="o">=</span> 1
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v1(10, 1), v2(10, 0); P(v1 == v2)&#39;</span>
-<span class="nv">v1</span> <span class="o">==</span> <span class="nv">v2</span> <span class="o">=</span> 0
-</pre></div>
-</div>
-</div>
-<div class="section" id="length-scm">
-<h2>length.scm<a class="headerlink" href="#length-scm" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">iはマクロで使われているので別の変数にすること</p>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; REP(i, v.size()) PE(v[i]);&#39;</span>
-&lt;stdin&gt;:44:35: error: member reference base <span class="nb">type</span> <span class="s1">&#39;value_type&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;int&#39;</span><span class="o">)</span> is not a structure or union
-    VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>i, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>i<span class="o">])</span><span class="p">;</span>
-                                  ^~~~~~~~
-/home/me/lib/cpp/myutils.h:63:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
-  <span class="o">{</span><span class="k">for</span> <span class="o">(</span>int <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="o">(</span>x<span class="o">)</span>.size<span class="o">()</span><span class="p">;</span> i++<span class="o">){</span>       <span class="se">\</span>
-                        ~~~^~~~~
-&lt;stdin&gt;:44:35: error: subscripted value is not an array, pointer, or vector
-    VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>i, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>i<span class="o">])</span><span class="p">;</span>
-                                  ^~~~~~~~
-/home/me/lib/cpp/myutils.h:64:16: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
-    cout &lt;&lt; <span class="o">(</span>x<span class="o">)[</span>i<span class="o">]</span> &lt;&lt; <span class="s2">&quot;, &quot;</span><span class="p">;</span> <span class="se">\</span>
-            ~~~^~
-<span class="m">2</span> errors generated.
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; REP(a, v.size()) PE(v[a]);&#39;</span>
-&lt;stdin&gt;:44:35: error: member reference base <span class="nb">type</span> <span class="s1">&#39;value_type&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;int&#39;</span><span class="o">)</span> is not a structure or union
-    VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>a, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>a<span class="o">])</span><span class="p">;</span>
-                                  ^~~~~~~~
-/home/me/lib/cpp/myutils.h:63:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
-  <span class="o">{</span><span class="k">for</span> <span class="o">(</span>int <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="o">(</span>x<span class="o">)</span>.size<span class="o">()</span><span class="p">;</span> i++<span class="o">){</span>       <span class="se">\</span>
-                        ~~~^~~~~
-&lt;stdin&gt;:44:35: error: subscripted value is not an array, pointer, or vector
-    VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>a, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>a<span class="o">])</span><span class="p">;</span>
-                                  ^~~~~~~~
-/home/me/lib/cpp/myutils.h:64:16: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
-    cout &lt;&lt; <span class="o">(</span>x<span class="o">)[</span>i<span class="o">]</span> &lt;&lt; <span class="s2">&quot;, &quot;</span><span class="p">;</span> <span class="se">\</span>
-            ~~~^~
-<span class="m">2</span> errors generated.
-</pre></div>
-</div>
-</div>
 <div class="section" id="index-scm">
-<h2>index.scm<a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="front">
-<h2>front<a class="headerlink" href="#front" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">front</a><a class="headerlink" href="#front" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; P(v.front());&#39;</span>
 v.front<span class="o">()</span> <span class="o">=</span> 1
 </pre></div>
@@ -459,7 +370,7 @@ v<span class="o">[</span>0<span class="o">]</span> <span class="o">=</span> 1
 </div>
 </div>
 <div class="section" id="back">
-<h2>back<a class="headerlink" href="#back" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">back</a><a class="headerlink" href="#back" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; P(v.back());&#39;</span>
 v.back<span class="o">()</span> <span class="o">=</span> 3
 </pre></div>
@@ -470,7 +381,7 @@ v<span class="o">[</span>v.size<span class="o">()</span> - 1<span class="o">]</s
 </div>
 </div>
 <div class="section" id="at">
-<h2>at<a class="headerlink" href="#at" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">at</a><a class="headerlink" href="#at" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; P(v.at(0));&#39;</span>
 v.at<span class="o">(</span>0<span class="o">)</span> <span class="o">=</span> 1
 </pre></div>
@@ -489,7 +400,7 @@ v.at<span class="o">(</span>10<span class="o">)</span> <span class="o">=</span> 
 </div>
 </div>
 <div class="section" id="refer-out-of-index">
-<h2>refer out of index<a class="headerlink" href="#refer-out-of-index" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">refer out of index</a><a class="headerlink" href="#refer-out-of-index" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">[] can access index out of range</p>
@@ -507,76 +418,8 @@ v<span class="o">[</span>100<span class="o">]</span> <span class="o">=</span> 0
 </pre></div>
 </div>
 </div>
-<div class="section" id="clear-scm">
-<h2>clear.scm<a class="headerlink" href="#clear-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; v.clear(); PE(v);&#39;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="copy-scm">
-<h2>copy.scm<a class="headerlink" href="#copy-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;vector&lt;int&gt;v(3, 7); vector&lt;int&gt; c(v); PE(c)&#39;</span>
-7, 7, 7,
-</pre></div>
-</div>
-</div>
-<div class="section" id="count-scm">
-<h2>count.scm<a class="headerlink" href="#count-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,1,1,2,2,3}; P(count(v.begin(), v.end(), 1));&#39;</span>
-count<span class="o">(</span>v.begin<span class="o">()</span>, v.end<span class="o">()</span>, 1<span class="o">)</span> <span class="o">=</span> 3
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,1,1,2,2,3}; P(count(ALL(v), 2));&#39;</span>
-count<span class="o">(</span>ALL<span class="o">(</span>v<span class="o">)</span>, 2<span class="o">)</span> <span class="o">=</span> 2
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,1,1,2,2,3}; P(count(ALL(v), 10));&#39;</span>
-count<span class="o">(</span>ALL<span class="o">(</span>v<span class="o">)</span>, 10<span class="o">)</span> <span class="o">=</span> 0
-</pre></div>
-</div>
-</div>
-<div class="section" id="enumerate-scm">
-<h2>enumerate.scm<a class="headerlink" href="#enumerate-scm" title="Permalink to this headline">¶</a></h2>
-<p>pythonみたいに、tupleを使って表現できないので、配列を別に用意</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;#include &quot;myutils.h&quot;</span>
-<span class="s1">int main() {</span>
-<span class="s1">              //0 1 2 3 4</span>
-<span class="s1">  vector&lt;int&gt; v{4,2,5,1,3};</span>
-<span class="s1">  vector&lt;int&gt; n(v.size());</span>
-<span class="s1">  REP(i, n.size()) n[i] = i;</span>
-<span class="s1">  sort(ALL(n), [&amp;] (int a, int b){return v[a] &lt; v[b];});</span>
-<span class="s1">  PE(n);</span>
-<span class="s1">}&#39;</span>
-&lt;stdin&gt;:45:12: error: <span class="k">function</span> definition is not allowed here
-int main<span class="o">()</span> <span class="o">{</span>
-           ^
-<span class="m">1</span> error generated.
-</pre></div>
-</div>
-</div>
-<div class="section" id="iter-scm">
-<h2>iter.scm<a class="headerlink" href="#iter-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; for(int i=0; i&lt;v.size(); i++)P(v[i]);&#39;</span>
-v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 1
-v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 2
-v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 3
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; for(vector&lt;int&gt;::iterator it=v.begin(); it!=v.end(); it++)P(*it);&#39;</span>
-*it <span class="o">=</span> 1
-*it <span class="o">=</span> 2
-*it <span class="o">=</span> 3
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; for(vector&lt;int&gt;::reverse_iterator rit=v.rbegin(); rit!=v.rend(); rit++)P(*rit);&#39;</span>
-*rit <span class="o">=</span> 3
-*rit <span class="o">=</span> 2
-*rit <span class="o">=</span> 1
-</pre></div>
-</div>
-</div>
 <div class="section" id="init-scm">
-<h2>init.scm<a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">init.scm</a><a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
 <p>Declare a variable but it&#8217;s empty.</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;vector&lt;int&gt;v; P(v.empty())&#39;</span>
 v.empty<span class="o">()</span> <span class="o">=</span> 1
@@ -587,7 +430,7 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 <p class="last">pointerとして初期化できない</p>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;vector&lt;int&gt;* x =  {1,2,3};&#39;</span>
-&lt;stdin&gt;:44:18: error: excess elements in scalar initializer
+&lt;stdin&gt;:45:18: error: excess elements in scalar initializer
     vector&lt;int&gt;* <span class="nv">x</span> <span class="o">=</span>  <span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span>
                  ^      ~~~~~
 <span class="m">1</span> error generated.
@@ -598,7 +441,7 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 <p class="last">pointerとして初期化できない</p>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;vector&lt;int&gt;* x = &amp;{1,2,3};&#39;</span>
-&lt;stdin&gt;:44:23: error: expected expression
+&lt;stdin&gt;:45:23: error: expected expression
     vector&lt;int&gt;* <span class="nv">x</span> <span class="o">=</span> <span class="p">&amp;</span><span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span>
                       ^
 <span class="m">1</span> error generated.
@@ -622,7 +465,7 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;int a[]={1,2,3,4,5}; vector&lt;int&gt; v(a, a+5); PE(a)&#39;</span>
-&lt;stdin&gt;:44:49: error: member reference base <span class="nb">type</span> <span class="s1">&#39;int [5]&#39;</span> is not a structure or union
+&lt;stdin&gt;:45:49: error: member reference base <span class="nb">type</span> <span class="s1">&#39;int [5]&#39;</span> is not a structure or union
     int a<span class="o">[]={</span>1,2,3,4,5<span class="o">}</span><span class="p">;</span> vector&lt;int&gt; v<span class="o">(</span>a, a+5<span class="o">)</span><span class="p">;</span> PE<span class="o">(</span>a<span class="o">)</span>
                                                 ^~~~~
 /home/me/lib/cpp/myutils.h:63:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
@@ -665,10 +508,10 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 <p class="last">However you can&#8217;t assign a vector to a pointer directly.</p>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int *a  = {1,2,3};&#39;</span>
-&lt;stdin&gt;:40:16: warning: incompatible integer to pointer conversion initializing <span class="s1">&#39;int *&#39;</span> with an expression of <span class="nb">type</span> <span class="s1">&#39;int&#39;</span> <span class="o">[</span>-Wint-conversion<span class="o">]</span>
+&lt;stdin&gt;:3:16: warning: incompatible integer to pointer conversion initializing <span class="s1">&#39;int *&#39;</span> with an expression of <span class="nb">type</span> <span class="s1">&#39;int&#39;</span> <span class="o">[</span>-Wint-conversion<span class="o">]</span>
     int *a  <span class="o">=</span> <span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span>
                ^
-&lt;stdin&gt;:40:18: warning: excess elements in scalar initializer
+&lt;stdin&gt;:3:18: warning: excess elements in scalar initializer
     int *a  <span class="o">=</span> <span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span>
                  ^
 <span class="m">2</span> warnings generated.
@@ -690,7 +533,7 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 </div>
 <p>But with static, an error occurs</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int k=10;static int a[k];&#39;</span>
-&lt;stdin&gt;:40:25: error: variable length array declaration can not have <span class="s1">&#39;static&#39;</span> storage duration
+&lt;stdin&gt;:3:25: error: variable length array declaration can not have <span class="s1">&#39;static&#39;</span> storage duration
     int <span class="nv">k</span><span class="o">=</span>10<span class="p">;</span>static int a<span class="o">[</span>k<span class="o">]</span><span class="p">;</span>
                         ^ ~
 <span class="m">1</span> error generated.
@@ -698,12 +541,12 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 </div>
 </div>
 <div class="section" id="initialize">
-<h2>Initialize<a class="headerlink" href="#initialize" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">Initialize</a><a class="headerlink" href="#initialize" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int i[30] = {0};&#39;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int i; for(int k=0; k&lt;30; k++)i[k]=0;&#39;</span>
-&lt;stdin&gt;:40:36: error: subscripted value is not an array, pointer, or vector
+&lt;stdin&gt;:3:36: error: subscripted value is not an array, pointer, or vector
     int i<span class="p">;</span> <span class="k">for</span><span class="o">(</span>int <span class="nv">k</span><span class="o">=</span>0<span class="p">;</span> k&lt;30<span class="p">;</span> k++<span class="o">)</span>i<span class="o">[</span>k<span class="o">]=</span>0<span class="p">;</span>
                                   ~^~
 <span class="m">1</span> error generated.
@@ -736,6 +579,175 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>
+</pre></div>
+</div>
+</div>
+<div class="section" id="insert-scm">
+<h2><a class="toc-backref" href="#id15">insert.scm</a><a class="headerlink" href="#insert-scm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Even if you don&#8217;t alocate memroy, you can set it</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; v[100] = 1; P(v[100]);&#39;</span>
+v<span class="o">[</span>100<span class="o">]</span> <span class="o">=</span> 1
+</pre></div>
+</div>
+</div>
+<div class="section" id="iter-scm">
+<h2><a class="toc-backref" href="#id16">iter.scm</a><a class="headerlink" href="#iter-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; for(int i=0; i&lt;v.size(); i++)P(v[i]);&#39;</span>
+v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 1
+v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 2
+v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; for(vector&lt;int&gt;::iterator it=v.begin(); it!=v.end(); it++)P(*it);&#39;</span>
+*it <span class="o">=</span> 1
+*it <span class="o">=</span> 2
+*it <span class="o">=</span> 3
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; for(vector&lt;int&gt;::reverse_iterator rit=v.rbegin(); rit!=v.rend(); rit++)P(*rit);&#39;</span>
+*rit <span class="o">=</span> 3
+*rit <span class="o">=</span> 2
+*rit <span class="o">=</span> 1
+</pre></div>
+</div>
+</div>
+<div class="section" id="length-scm">
+<h2><a class="toc-backref" href="#id17">length.scm</a><a class="headerlink" href="#length-scm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">iはマクロで使われているので別の変数にすること</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; REP(i, v.size()) PE(v[i]);&#39;</span>
+&lt;stdin&gt;:45:35: error: member reference base <span class="nb">type</span> <span class="s1">&#39;value_type&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;int&#39;</span><span class="o">)</span> is not a structure or union
+    VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>i, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>i<span class="o">])</span><span class="p">;</span>
+                                  ^~~~~~~~
+/home/me/lib/cpp/myutils.h:63:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
+  <span class="o">{</span><span class="k">for</span> <span class="o">(</span>int <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="o">(</span>x<span class="o">)</span>.size<span class="o">()</span><span class="p">;</span> i++<span class="o">){</span>       <span class="se">\</span>
+                        ~~~^~~~~
+&lt;stdin&gt;:45:35: error: subscripted value is not an array, pointer, or vector
+    VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>i, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>i<span class="o">])</span><span class="p">;</span>
+                                  ^~~~~~~~
+/home/me/lib/cpp/myutils.h:64:16: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
+    cout &lt;&lt; <span class="o">(</span>x<span class="o">)[</span>i<span class="o">]</span> &lt;&lt; <span class="s2">&quot;, &quot;</span><span class="p">;</span> <span class="se">\</span>
+            ~~~^~
+<span class="m">2</span> errors generated.
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3}; REP(a, v.size()) PE(v[a]);&#39;</span>
+&lt;stdin&gt;:45:35: error: member reference base <span class="nb">type</span> <span class="s1">&#39;value_type&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;int&#39;</span><span class="o">)</span> is not a structure or union
+    VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>a, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>a<span class="o">])</span><span class="p">;</span>
+                                  ^~~~~~~~
+/home/me/lib/cpp/myutils.h:63:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
+  <span class="o">{</span><span class="k">for</span> <span class="o">(</span>int <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="o">(</span>x<span class="o">)</span>.size<span class="o">()</span><span class="p">;</span> i++<span class="o">){</span>       <span class="se">\</span>
+                        ~~~^~~~~
+&lt;stdin&gt;:45:35: error: subscripted value is not an array, pointer, or vector
+    VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>a, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>a<span class="o">])</span><span class="p">;</span>
+                                  ^~~~~~~~
+/home/me/lib/cpp/myutils.h:64:16: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
+    cout &lt;&lt; <span class="o">(</span>x<span class="o">)[</span>i<span class="o">]</span> &lt;&lt; <span class="s2">&quot;, &quot;</span><span class="p">;</span> <span class="se">\</span>
+            ~~~^~
+<span class="m">2</span> errors generated.
+</pre></div>
+</div>
+</div>
+<div class="section" id="slice-scm">
+<h2><a class="toc-backref" href="#id18">slice.scm</a><a class="headerlink" href="#slice-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="begin-end">
+<h2><a class="toc-backref" href="#id19">begin, end</a><a class="headerlink" href="#begin-end" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.end())&#39;</span>
+v.begin<span class="o">()</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 1, 2, 3, 4, 5,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin())&#39;</span>
+v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> <span class="o">=</span>&gt;
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 1)&#39;</span>
+v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">1</span> <span class="o">=</span>&gt; 1,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 2)&#39;</span>
+v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">2</span> <span class="o">=</span>&gt; 1, 2,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 3)&#39;</span>
+v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">3</span> <span class="o">=</span>&gt; 1, 2, 3,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 4)&#39;</span>
+v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">4</span> <span class="o">=</span>&gt; 1, 2, 3, 4,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin(), v.begin() + 5)&#39;</span>
+v.begin<span class="o">()</span> ~ v.begin<span class="o">()</span> + <span class="nv">5</span> <span class="o">=</span>&gt; 1, 2, 3, 4, 5,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end(), v.end())&#39;</span>
+v.end<span class="o">()</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt;
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 1, v.end())&#39;</span>
+v.end<span class="o">()</span> - <span class="m">1</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 5,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 2, v.end())&#39;</span>
+v.end<span class="o">()</span> - <span class="m">2</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 4, 5,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 3, v.end())&#39;</span>
+v.end<span class="o">()</span> - <span class="m">3</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 3, 4, 5,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 4, v.end())&#39;</span>
+v.end<span class="o">()</span> - <span class="m">4</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 2, 3, 4, 5,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.end() - 5, v.end())&#39;</span>
+v.end<span class="o">()</span> - <span class="m">5</span> ~ v.end<span class="o">()</span> <span class="o">=</span>&gt; 1, 2, 3, 4, 5,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.begin() + 1, v.end() - 1)&#39;</span>
+v.begin<span class="o">()</span> + <span class="m">1</span> ~ v.end<span class="o">()</span> - <span class="nv">1</span> <span class="o">=</span>&gt; 2, 3, 4,
+</pre></div>
+</div>
+</div>
+<div class="section" id="rbegin-rend">
+<h2><a class="toc-backref" href="#id20">rbegin, rend</a><a class="headerlink" href="#rbegin-rend" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.rbegin(), v.rend())&#39;</span>
+v.rbegin<span class="o">()</span> ~ v.rend<span class="o">()</span> <span class="o">=</span>&gt; 5, 4, 3, 2, 1,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; PIT(v.rbegin() + 1, v.rend() - 1)&#39;</span>
+v.rbegin<span class="o">()</span> + <span class="m">1</span> ~ v.rend<span class="o">()</span> - <span class="nv">1</span> <span class="o">=</span>&gt; 4, 3, 2,
+</pre></div>
+</div>
+</div>
+<div class="section" id="compare-r-begin-and-r-end">
+<h2><a class="toc-backref" href="#id21">compare (r)begin and (r)end</a><a class="headerlink" href="#compare-r-begin-and-r-end" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; P(v.begin() == v.end() - 5)&#39;</span>
+v.begin<span class="o">()</span> <span class="o">==</span> v.end<span class="o">()</span> - <span class="nv">5</span> <span class="o">=</span> 1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; P(v.rbegin() == v.rend() - 5)&#39;</span>
+v.rbegin<span class="o">()</span> <span class="o">==</span> v.rend<span class="o">()</span> - <span class="nv">5</span> <span class="o">=</span> 1
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">error</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{1,2,3,4,5}; P(v.rbegin() == v.end() - 5)&#39;</span>
+&lt;stdin&gt;:45:35: error: invalid operands to binary expression <span class="o">(</span><span class="s1">&#39;reverse_iterator&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;reverse_iterator&lt;iterator&gt;&#39;</span><span class="o">)</span> and <span class="s1">&#39;std::__1::__wrap_iter&lt;int *&gt;&#39;</span><span class="o">)</span>
+    VI v<span class="o">{</span>1,2,3,4,5<span class="o">}</span><span class="p">;</span> P<span class="o">(</span>v.rbegin<span class="o">()</span> <span class="o">==</span> v.end<span class="o">()</span> - 5<span class="o">)</span>
+                       ~~~~~~~~~~ ^  ~~~~~~~~~~~
+/home/me/lib/cpp/myutils.h:61:38: note: expanded from macro <span class="s1">&#39;P&#39;</span>
+<span class="c">#define P(x) cout &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; (x) &lt;&lt; endl;</span>
+                                     ^
+<span class="m">1</span> error generated.
 </pre></div>
 </div>
 </div>

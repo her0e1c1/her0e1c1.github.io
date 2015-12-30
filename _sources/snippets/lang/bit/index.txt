@@ -3,6 +3,27 @@
 bit
 ===
 
+.. contents::
+    :depth: 2
+
+
+
+and.scm
+=======
+
+
+.. warning::
+
+    &&と&を混同しない(bitは後者)
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(2 & 1)' 
+    0
+    
+
 
 
 init.scm
@@ -15,4 +36,9 @@ init.scm
     $ cpe 'cout << bitset<8>(10) << endl;' 
     00001010
     
+
+
+
+perm.scm
+========
 

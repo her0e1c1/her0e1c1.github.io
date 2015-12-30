@@ -3,6 +3,43 @@
 date
 ====
 
+.. contents::
+    :depth: 2
+
+
+
+cmp.scm
+=======
+
+
+.. code-block:: sh
+   
+
+    $ ne 'P(new Date(2000, 0, 1) < new Date(2000, 11, 31))' 
+    true
+    
+
+
+
+epoch.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(int(time.time()))' 
+    1451450327
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(x->integer (current-second))' 
+    1451450356
+    
+
 
 
 init.scm
@@ -14,7 +51,7 @@ create a date instance
    
 
     $ ne 'P(new Date())' 
-    Thu Dec 24 2015 10:46:51 GMT+0900 (JST)
+    Wed Dec 30 2015 13:38:50 GMT+0900 (JST)
     
 
 a concrete day
@@ -33,18 +70,5 @@ next day
 
     $ ne 'd=new Date(2000, 12, 31); P(new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1))' 
     Thu Feb 01 2001 00:00:00 GMT+0900 (JST)
-    
-
-
-
-cmp.scm
-=======
-
-
-.. code-block:: sh
-   
-
-    $ ne 'P(new Date(2000, 0, 1) < new Date(2000, 11, 31))' 
-    true
     
 

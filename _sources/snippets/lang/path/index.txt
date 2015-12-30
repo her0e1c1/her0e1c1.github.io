@@ -3,6 +3,92 @@
 path
 ====
 
+.. contents::
+    :depth: 2
+
+
+
+basename.scm
+============
+
+
+
+basename
+========
+
+
+.. code-block:: sh
+   
+
+    $ ruby -e 'puts File.basename("/path/to/file.txt")' 
+    file.txt
+    
+
+
+.. code-block:: sh
+   
+
+    $ ghc -e 'System.FilePath.takeFileName "/path/to/file.txt"' 
+    "file.txt"
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -M'File::Basename' -E 'say basename qq#/path/to/text.txt#'
+    text.txt
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -M"File::Basename" -E 'say basename "/path/to/file.txt"'
+    file.txt
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(sys-basename "foo/bar/bar.z")' 
+    bar.z
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(f-filename "/root/file/text.txt")' 
+    text.txt
+
+
+.. code-block:: sh
+   
+
+    $ ee '(f-base "/root/file/text.txt")' 
+    text
+
+
+
+dirname.scm
+===========
+
+
+.. code-block:: sh
+   
+
+    $ ee '(f-dirname "/root/file/text.txt")' 
+    /root/file
+
+
+.. code-block:: sh
+   
+
+    $ ee '(file-name-directory "/path/to/file.txt")' 
+    /path/to/
+
 
 
 end.scm
@@ -20,20 +106,73 @@ end.scm
 
 
 
-tmpdir.scm
+expand.scm
 ==========
-
-
-
-join.scm
-========
 
 
 .. code-block:: sh
    
 
-    $ perl -M'File::Spec' -E 'say File::Spec->catfile(q#/path/to#, q#text.txt#)'
-    /path/to/text.txt
+    $ ee '(f-expand "~/work")' 
+    /home/me/work
+
+
+.. code-block:: sh
+   
+
+    $ ee '(locate-user-emacs-file ".cask")' 
+    ~/.emacs.d/.cask
+
+
+
+ext.scm
+=======
+
+
+.. code-block:: sh
+   
+
+    $ s '(path-extension "/path/to/text.txt")' 
+    txt
+    
+
+parse only one dot
+
+.. code-block:: sh
+   
+
+    $ s '(path-extension "/foo/bar.c.a")' 
+    a
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(f-ext "/root/file/text.txt")' 
+    txt
+
+
+.. code-block:: sh
+   
+
+    $ ee '(f-ext "/root/file/text.tar.gz")' 
+    gz
+
+
+.. code-block:: sh
+   
+
+    $ s '(path-swap-extension "/path/to/text.txt" "csv")' 
+    /path/to/text.csv
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(path-swap-extension "/path/to/text.txt" #f)' 
+    /path/to/text
     
 
 
@@ -61,35 +200,49 @@ glob.scm
     .
     ..
     set
+    byte
     char
     op
+    async
+    module
     math
     index.sh
     bit
     tuple
     class
+    hook.sh.tmp
+    elisp
+    html
     regex
     number
     index.rst
     memory
+    macro
     exception
     special_variables
     hash
     index.scm
     string
+    lazy
     range
+    java.scm
     stack
     list
+    test.tmp
+    test
     .gitignore
     char-set
     cmd
     pointer
+    sys
     io
     vector
     type
+    http
     date
     func
     path
+    haskell.scm
     
 
 
@@ -97,22 +250,33 @@ glob.scm
    
 
     $ perl -E 'say for glob("*")'
+    async
     bit
+    byte
     char
     char-set
     class
     cmd
     date
+    elisp
     exception
     func
     hash
+    haskell.scm
+    hook.sh.tmp
+    html
+    http
     index.rst
     index.scm
     index.sh
     io
+    java.scm
+    lazy
     list
+    macro
     math
     memory
+    module
     number
     op
     path
@@ -123,9 +287,71 @@ glob.scm
     special_variables
     stack
     string
+    sys
+    test
+    test.tmp
     tuple
     type
     vector
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(glob "*")' 
+    (haskell.scm path func date http type vector io sys pointer cmd char-set test test.tmp list stack java.scm range lazy string index.scm hash special_variables exception macro memory index.rst number regex html elisp hook.sh.tmp class tuple bit index.sh math module async op char byte set)
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(glob "../.*")' 
+    (../.. ../.)
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(glob "**/*.h")' 
+    (module/c/1/sample.h module/c/double-quote/same-dir.h module/c/2/util.h module/c/sharedLibrary/hello.h)
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(f-glob "./*.scm")' 
+    (/usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/haskell.scm /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/index.scm /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/java.scm)
+
+
+
+join.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ perl -M'File::Spec' -E 'say File::Spec->catfile(q#/path/to#, q#file.txt#)'
+    /path/to/file.txt
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(f-join "/path" "to" "file.txt")' 
+    /path/to/file.txt
+
+
+.. code-block:: sh
+   
+
+    $ s '(build-path "/path" "to" "file.txt")' 
+    /path/to/file.txt
     
 
 
@@ -142,17 +368,40 @@ Normalize path. I think return value is the same as a buff-stored value.
     /usr/home
 
 
+.. code-block:: sh
+   
 
-basename.scm
-============
-
-
-
-basename
-========
+    $ s '(sys-normalize-pathname "~//a/./d/b" :expand #t :absolute #t :canonicalize #t)' 
+    /home/me/a/d/b
+    
 
 
 
 sep.scm
 =======
+
+
+
+split.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ ee '(f-split "/path/to/file.txt")' 
+    (/ path to file.txt)
+
+
+.. code-block:: sh
+   
+
+    $ s '(receive (dir base ext) (decompose-path "/path/to/file.txt") (list dir base ext))' 
+    (/path/to file txt)
+    
+
+
+
+tmpdir.scm
+==========
 

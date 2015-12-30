@@ -3,24 +3,8 @@
 elisp
 =====
 
-
-
-move.scm
-========
-
-
-.. code-block:: sh
-   
-
-    $ ee '(with-temp-buffer (insert "ho\nge\n") (previous-line) (point))' 
-    4
-
-
-.. code-block:: sh
-   
-
-    $ ee '(with-temp-buffer (insert "ho\nge\n") (point))' 
-    7
+.. contents::
+    :depth: 2
 
 
 
@@ -95,4 +79,178 @@ in case of oneliner, buffer is *scratch*
 
 index.scm
 =========
+
+
+
+mark.scm
+========
+
+
+
+misc.scm
+========
+
+
+
+move.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "ho\nge\n") (previous-line) (point))' 
+    4
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "ho\nge\n") (point))' 
+    7
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "FIRST LINE") (beginning-of-line) (string (char-after)))' 
+    F
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "1. FIRST\n2. SECOND\n3. THIRD\n") (previous-line) (string (char-after)))' 
+    3
+
+
+
+point.scm
+=========
+
+insertするとpointも移動する
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (string (char-before)))' 
+    A
+
+
+.. warning::
+
+    End Of Stringなのでnil
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (string (char-after)))' 
+    Wrong type argument: characterp, nil
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (beginning-of-buffer) (string (char-after)))' 
+    Mark set
+    A
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (beginning-of-buffer) (bobp))' 
+    Mark set
+    t
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (beginning-of-buffer) (eobp))' 
+    Mark set
+    nil
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (end-of-buffer) (bobp))' 
+    Mark set
+    nil
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (end-of-buffer) (eobp))' 
+    Mark set
+    t
+
+常に1?
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "ABC") (point-min))' 
+    1
+
+
+.. warning::
+
+    Not 3
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "ABC") (point-max))' 
+    4
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "ABC") (<= (point-min) (point) (point-max)))' 
+    t
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (beginning-of-line) (bolp))' 
+    t
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (beginning-of-line) (eolp))' 
+    nil
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (end-of-line) (bolp))' 
+    nil
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "A") (end-of-line) (eolp))' 
+    t
+
+
+
+region.scm
+==========
+
+
+
+window.scm
+==========
 

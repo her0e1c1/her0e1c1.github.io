@@ -98,20 +98,25 @@
     <div class="col-md-12 content">
       
   <div class="section" id="elisp">
-<h1>elisp<a class="headerlink" href="#elisp" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="move-scm">
-<h2>move.scm<a class="headerlink" href="#move-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;ho\nge\n&quot;) (previous-line) (point))&#39;</span>
-4
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;ho\nge\n&quot;) (point))&#39;</span>
-7
-</pre></div>
-</div>
+<h1><a class="toc-backref" href="#id1">elisp</a><a class="headerlink" href="#elisp" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#elisp" id="id1">elisp</a><ul>
+<li><a class="reference internal" href="#buffer-scm" id="id2">buffer.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id3">index.scm</a></li>
+<li><a class="reference internal" href="#mark-scm" id="id4">mark.scm</a></li>
+<li><a class="reference internal" href="#misc-scm" id="id5">misc.scm</a></li>
+<li><a class="reference internal" href="#move-scm" id="id6">move.scm</a></li>
+<li><a class="reference internal" href="#point-scm" id="id7">point.scm</a></li>
+<li><a class="reference internal" href="#region-scm" id="id8">region.scm</a></li>
+<li><a class="reference internal" href="#window-scm" id="id9">window.scm</a></li>
+</ul>
+</li>
+</ul>
 </div>
 <div class="section" id="buffer-scm">
-<h2>buffer.scm<a class="headerlink" href="#buffer-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">buffer.scm</a><a class="headerlink" href="#buffer-scm" title="Permalink to this headline">¶</a></h2>
 <p>in case of oneliner, buffer is <em>scratch</em></p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(current-buffer)&#39;</span>
 *scratch*
@@ -150,7 +155,112 @@ nil
 </div>
 </div>
 <div class="section" id="index-scm">
-<h2>index.scm<a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mark-scm">
+<h2><a class="toc-backref" href="#id4">mark.scm</a><a class="headerlink" href="#mark-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="misc-scm">
+<h2><a class="toc-backref" href="#id5">misc.scm</a><a class="headerlink" href="#misc-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="move-scm">
+<h2><a class="toc-backref" href="#id6">move.scm</a><a class="headerlink" href="#move-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;ho\nge\n&quot;) (previous-line) (point))&#39;</span>
+4
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;ho\nge\n&quot;) (point))&#39;</span>
+7
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;FIRST LINE&quot;) (beginning-of-line) (string (char-after)))&#39;</span>
+F
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;1. FIRST\n2. SECOND\n3. THIRD\n&quot;) (previous-line) (string (char-after)))&#39;</span>
+3
+</pre></div>
+</div>
+</div>
+<div class="section" id="point-scm">
+<h2><a class="toc-backref" href="#id7">point.scm</a><a class="headerlink" href="#point-scm" title="Permalink to this headline">¶</a></h2>
+<p>insertするとpointも移動する</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (string (char-before)))&#39;</span>
+A
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">End Of Stringなのでnil</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (string (char-after)))&#39;</span>
+Wrong <span class="nb">type </span>argument: characterp, nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (beginning-of-buffer) (string (char-after)))&#39;</span>
+Mark <span class="nb">set</span>
+A
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (beginning-of-buffer) (bobp))&#39;</span>
+Mark <span class="nb">set</span>
+t
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (beginning-of-buffer) (eobp))&#39;</span>
+Mark <span class="nb">set</span>
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (end-of-buffer) (bobp))&#39;</span>
+Mark <span class="nb">set</span>
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (end-of-buffer) (eobp))&#39;</span>
+Mark <span class="nb">set</span>
+t
+</pre></div>
+</div>
+<p>常に1?</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;ABC&quot;) (point-min))&#39;</span>
+1
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Not 3</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;ABC&quot;) (point-max))&#39;</span>
+4
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;ABC&quot;) (&lt;= (point-min) (point) (point-max)))&#39;</span>
+t
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (beginning-of-line) (bolp))&#39;</span>
+t
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (beginning-of-line) (eolp))&#39;</span>
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (end-of-line) (bolp))&#39;</span>
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(with-temp-buffer (insert &quot;A&quot;) (end-of-line) (eolp))&#39;</span>
+t
+</pre></div>
+</div>
+</div>
+<div class="section" id="region-scm">
+<h2><a class="toc-backref" href="#id8">region.scm</a><a class="headerlink" href="#region-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="window-scm">
+<h2><a class="toc-backref" href="#id9">window.scm</a><a class="headerlink" href="#window-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

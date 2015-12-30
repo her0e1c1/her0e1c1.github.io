@@ -3,84 +3,147 @@
 hash
 ====
 
+.. contents::
+    :depth: 2
 
 
-update.scm
+
+extend.scm
 ==========
 
 
+
+get.scm
+=======
+
+
+
+get
+===
+
+
 .. code-block:: sh
    
 
-    $ ne 'a={a:1};a[a]=2;P(a[a])' 
-    2
+    $ py 'P({"a": 1, "b": 2}["a"])' 
+    1
     
 
 
 .. code-block:: sh
    
 
-    $ cpe 'map<string, int>m={{"a", 1}}; m["a"]=2; P(m["a"])' 
-    m["a"] = 2
-    
-
-
-
-items.scm
-=========
-
-
-.. code-block:: sh
-   
-
-    $ perl -E '%a=(a=>1, b=>2); while(($k, $v) =each %a){say "$k = $v"}'
-    a = 1
-    b = 2
+    $ ne 'P({a: 1, b: 2}.a)' 
+    1
     
 
 
 .. code-block:: sh
    
 
-    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@kv)y}' 
-    a 1 b 2 c 3
+    $ ne 'P({a: 1, b: 2}[a])' 
+    [eval]:8
+    P({a: 1, b: 2}[a])
+                   ^
     
-
-
-
-keys.scm
-========
-
-get all hash keys
-
-.. code-block:: sh
-   
-
-    $ perl -E '%a=(a=>1, b=>2); say keys %a'
-    ba
-    
-
-
-.. code-block:: sh
-   
-
-    $ perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
-    123
+    ReferenceError: a is not defined
+        at [eval]:8:16
+        at Object.exports.runInThisContext (vm.js:54:17)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
     
 
 
 .. code-block:: sh
    
 
-    $ ne 'Object.keys({a:1, b:2});' 
+    $ ne 'P({a: 1, b: 2}['\''a'\''])' 
+    1
     
 
 
 .. code-block:: sh
    
 
-    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@k)y}' 
-    a b c
+    $ perl -E '%a=(a=>1, b=>2); say $a{a}'
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo $y[a]' 
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${${(@M)y}[1]}' 
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(assq '\''a '\''((a 1) (b 2) (c 3)))' 
+    (a 1)
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(assq '\''HOGE '\''((a 1) (b 2) (c 3)))' 
+    #f
+    
+
+存在しないものを参照するとエラー
+
+.. code-block:: sh
+   
+
+    $ s '(let1 t (make-hash-table) (hash-table-get t '\''no-key))' 
+    *** ERROR: #<hash-table eq? 0x1756b90> doesn't have an entry for key no-key
+    Stack Trace:
+    _______________________________________
+      0  (hash-table-get t 'no-key)
+            At line 1 of "(input string port)"
+      1  (print-string (|-->| (undefined) list (let1 t (make-hash-table) (h
+            [unknown location]
+      2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 t (make-hash-table) (p (hash-table-get t '\''no-key '\''VALUE)))' 
+    VALUE
+    #<undef>
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(assoc-ref '\''((a . 1)) '\''a)' 
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(assoc-ref '\''((a . 1)) '\''b)' 
+    #f
     
 
 
@@ -156,167 +219,6 @@ hasKey.scm
 
 
 
-get.scm
-=======
-
-
-
-get
-===
-
-
-.. code-block:: sh
-   
-
-    $ py 'P({"a": 1, "b": 2}["a"])' 
-    1
-    
-
-
-.. code-block:: sh
-   
-
-    $ ne 'P({a: 1, b: 2}.a)' 
-    1
-    
-
-
-.. code-block:: sh
-   
-
-    $ ne 'P({a: 1, b: 2}[a])' 
-    [eval]:7
-    P({a: 1, b: 2}[a])
-                   ^
-    
-    ReferenceError: a is not defined
-        at [eval]:7:16
-        at Object.exports.runInThisContext (vm.js:54:17)
-        at Object.<anonymous> ([eval]-wrapper:6:22)
-        at Module._compile (module.js:435:26)
-        at node.js:576:27
-        at doNTCallback0 (node.js:417:9)
-        at process._tickCallback (node.js:346:13)
-    
-
-
-.. code-block:: sh
-   
-
-    $ ne 'P({a: 1, b: 2}['\''a'\''])' 
-    1
-    
-
-
-.. code-block:: sh
-   
-
-    $ perl -E '%a=(a=>1, b=>2); say $a{a}'
-    1
-    
-
-
-.. code-block:: sh
-   
-
-    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo $y[a]' 
-    1
-    
-
-
-.. code-block:: sh
-   
-
-    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${${(@M)y}[1]}' 
-    1
-    
-
-
-
-values.scm
-==========
-
-
-.. code-block:: sh
-   
-
-    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo $y' 
-    1 2 3
-    
-
-
-.. code-block:: sh
-   
-
-    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@v)y}' 
-    1 2 3
-    
-
-
-.. code-block:: sh
-   
-
-    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@M)y}' 
-    1 2 3
-    
-
-
-
-insert.scm
-==========
-
-
-.. code-block:: sh
-   
-
-    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(map<string,int>::value_type("b", 2)); P(m["b"])' 
-    m["b"] = 2
-    
-
-
-.. code-block:: sh
-   
-
-    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(make_pair("b", 2)); P(m["b"])' 
-    m["b"] = 2
-    
-
-
-
-iter.scm
-========
-
-
-.. code-block:: sh
-   
-
-    $ cpe '
-      map<int, string>::iterator it = m.begin();
-      for(; it != m.end(); it++){
-        cout << (*it).first << ": " << it->second << endl;
-    ' 
-    <stdin>:45:35: error: use of undeclared identifier 'm'
-      map<int, string>::iterator it = m.begin();
-                                      ^
-    <stdin>:46:15: error: use of undeclared identifier 'm'
-      for(; it != m.end(); it++){
-                  ^
-    <stdin>:50:2: error: expected '}'
-    }
-     ^
-    <stdin>:43:33: note: to match this '{'
-    int main(int argc, char* argv[]){
-                                    ^
-    3 errors generated.
-    
-
-
-
-extend.scm
-==========
-
-
-
 init.scm
 ========
 
@@ -373,6 +275,137 @@ Make associativ array named y
     
 
 
+assq => eq?
+assoc => equal?
+assv => eqv?
+
+
+.. code-block:: sh
+   
+
+    $ s '(make-hash-table '\''eq?)' 
+    #<hash-table eq? 0x1756dc0>
+    
+
+
+
+insert.scm
+==========
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(map<string,int>::value_type("b", 2)); P(m["b"])' 
+    m["b"] = 2
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; m.insert(make_pair("b", 2)); P(m["b"])' 
+    m["b"] = 2
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(p (acons '\''b 2 '\''((a . 1))))' 
+    ((b . 2) (a . 1))
+    #<undef>
+    
+
+
+
+items.scm
+=========
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '%a=(a=>1, b=>2); while(($k, $v) =each %a){say "$k = $v"}'
+    b = 2
+    a = 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@kv)y}' 
+    a 1 b 2 c 3
+    
+
+
+
+iter.scm
+========
+
+
+.. code-block:: sh
+   
+
+    $ cpe '
+      map<int, string>::iterator it = m.begin();
+      for(; it != m.end(); it++){
+        cout << (*it).first << ": " << it->second << endl;
+    ' 
+    <stdin>:46:35: error: use of undeclared identifier 'm'
+      map<int, string>::iterator it = m.begin();
+                                      ^
+    <stdin>:47:15: error: use of undeclared identifier 'm'
+      for(; it != m.end(); it++){
+                  ^
+    <stdin>:51:2: error: expected '}'
+    }
+     ^
+    <stdin>:44:33: note: to match this '{'
+    int main(int argc, char* argv[]){
+                                    ^
+    3 errors generated.
+    
+
+
+
+keys.scm
+========
+
+get all hash keys
+
+.. code-block:: sh
+   
+
+    $ perl -E '%a=(a=>1, b=>2); say keys %a'
+    ab
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
+    312
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Object.keys({a:1, b:2});' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@k)y}' 
+    a b c
+    
+
+
 
 toHash.scm
 ==========
@@ -383,5 +416,73 @@ string => json. keyは""で囲むこと
    
 
     $ ne 'JSON.parse('\''{"key": "val"}'\'')' 
+    
+
+
+
+update.scm
+==========
+
+
+.. code-block:: sh
+   
+
+    $ ne 'a={a:1};a[a]=2;P(a[a])' 
+    2
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'map<string, int>m={{"a", 1}}; m["a"]=2; P(m["a"])' 
+    m["a"] = 2
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 a '\''((a 1) (b 2) (c 3)) (set-car! (assq '\''a a) '\''(10)) (p a))' 
+    (((10) 1) (b 2) (c 3))
+    #<undef>
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 t (make-hash-table) (hash-table-put! t '\''k 1) (describe t))' 
+    #<hash-table eq? 0x1756b90> is an instance of class <hash-table>
+    #t
+    
+
+
+
+values.scm
+==========
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo $y' 
+    1 2 3
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@v)y}' 
+    1 2 3
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'typeset -A y; y=(a 1 b 2 c 3); echo ${(@M)y}' 
+    1 2 3
     
 

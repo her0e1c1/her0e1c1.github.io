@@ -3,15 +3,7 @@
  Algorithm
 ===========
 
-
-.. toctree::
-    :maxdepth: 1
-
-    
-
 ..
-
-
     min f(x) = sigma |ai| + s |aj|
 
     min x in Z s.t. x >= a/b
@@ -49,4 +41,52 @@
     parse
     "(()){[]}"
 
+(#<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> 
+.. toctree::
+
+
+    math/index.rst
+)
+(goshe '(print (sphinx-toctree-directory. "sort"))')
+
+.. toctree::
+    :maxdepth: 1
+
+    bs/index.rst
+
+
+
+
+.. toctree::
+    :maxdepth: 1
+
+    list/index.rst
+
+
+
+.. toctree::
+    :maxdepth: 1
+
+    struct/vector.rst
+    struct/string.rst
+    struct/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    sort/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    
+
+
+
+.. toctree::
+    :maxdepth: 1
+
+    math/index.rst
 

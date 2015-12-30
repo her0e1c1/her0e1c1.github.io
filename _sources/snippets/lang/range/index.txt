@@ -3,6 +3,9 @@
 range
 =====
 
+.. contents::
+    :depth: 2
+
 
 
 init.scm

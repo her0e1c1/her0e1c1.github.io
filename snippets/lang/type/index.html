@@ -98,16 +98,86 @@
     <div class="col-md-12 content">
       
   <div class="section" id="type">
-<h1>type<a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id1">type</a><a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#type" id="id1">type</a><ul>
+<li><a class="reference internal" href="#init-scm" id="id2">init.scm</a></li>
+<li><a class="reference internal" href="#limit-scm" id="id3">limit.scm</a></li>
+<li><a class="reference internal" href="#null-scm" id="id4">null.scm</a></li>
+<li><a class="reference internal" href="#sizeof-scm" id="id5">sizeof.scm</a></li>
+<li><a class="reference internal" href="#tostring-scm" id="id6">toString.scm</a></li>
+<li><a class="reference internal" href="#rtti-run-time-type-identification" id="id7">RTTI (Run Time Type Identification)</a></li>
+<li><a class="reference internal" href="#type-scm" id="id8">type.scm</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="init-scm">
-<h2>init.scm<a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">init.scm</a><a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char*a; __typeof(a) i = &quot;abc&quot;; ps(i);&#39;</span>
-abc
+&lt;stdin&gt;:3:36: warning: implicit declaration of <span class="k">function</span> <span class="s1">&#39;ps&#39;</span> is invalid in C99 <span class="o">[</span>-Wimplicit-function-declaration<span class="o">]</span>
+    char*a<span class="p">;</span> __typeof<span class="o">(</span>a<span class="o">)</span> <span class="nv">i</span> <span class="o">=</span> <span class="s2">&quot;abc&quot;</span><span class="p">;</span> ps<span class="o">(</span>i<span class="o">)</span><span class="p">;</span>
+                                   ^
+<span class="m">1</span> warning generated.
+/tmp/--JL08t5.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
+<span class="s1">-:(.text+0x311): undefined reference to `ps&#39;</span>
+clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="limit-scm">
+<h2><a class="toc-backref" href="#id3">limit.scm</a><a class="headerlink" href="#limit-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%lud&quot;, ULONG_MAX);&#39;</span>
+18446744073709551615d
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%lu&quot;,sizeof(ULONG_MAX));&#39;</span>
+8
+</pre></div>
+</div>
+<p>8byte == 64bit(111..1) 2^63 + 2^62 + ... + 2^0 == 2^64 - 1</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, ULONG_MAX == (0UL - 1));&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;,SHRT_MIN);&#39;</span>
+-32768
+</pre></div>
+</div>
+</div>
+<div class="section" id="null-scm">
+<h2><a class="toc-backref" href="#id4">null.scm</a><a class="headerlink" href="#null-scm" title="Permalink to this headline">¶</a></h2>
+<p>You need to inlcude stdio.h to use NULL.</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>&lt;stdin&gt;:3:3: warning: implicitly declaring library <span class="k">function</span> <span class="s1">&#39;printf&#39;</span> with <span class="nb">type</span> <span class="s1">&#39;int (const char *, ...)&#39;</span>
+  <span class="nb">printf</span><span class="o">(</span><span class="s2">&quot;%p&quot;</span>, NULL<span class="o">)</span><span class="p">;</span>
+  ^
+&lt;stdin&gt;:3:3: note: please include the header &lt;stdio.h&gt; or explicitly provide a declaration <span class="k">for</span> <span class="s1">&#39;printf&#39;</span>
+&lt;stdin&gt;:3:16: error: use of undeclared identifier <span class="s1">&#39;NULL&#39;</span>
+  <span class="nb">printf</span><span class="o">(</span><span class="s2">&quot;%p&quot;</span>, NULL<span class="o">)</span><span class="p">;</span>
+               ^
+<span class="m">1</span> warning and <span class="m">1</span> error generated.
+</pre></div>
+</div>
+<p>You need to inlcude stdio.h to use NULL.</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>0x0
 </pre></div>
 </div>
 </div>
 <div class="section" id="sizeof-scm">
-<h2>sizeof.scm<a class="headerlink" href="#sizeof-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">sizeof.scm</a><a class="headerlink" href="#sizeof-scm" title="Permalink to this headline">¶</a></h2>
 <p>with %zu print as unsigned decimal</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(char));&#39;</span>
 1
@@ -155,7 +225,7 @@ abc
 </div>
 <p>with %zu print as unsigned decimal</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(long float));&#39;</span>
-&lt;stdin&gt;:40:21: error: <span class="s1">&#39;long float&#39;</span> is invalid
+&lt;stdin&gt;:3:21: error: <span class="s1">&#39;long float&#39;</span> is invalid
     p<span class="o">(</span><span class="s2">&quot;%zu&quot;</span>, sizeof<span class="o">(</span>long float<span class="o">))</span><span class="p">;</span>
                     ^
 <span class="m">1</span> error generated.
@@ -173,7 +243,7 @@ abc
 </div>
 <p>with %zu print as unsigned decimal</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(double double));&#39;</span>
-&lt;stdin&gt;:40:28: error: cannot combine with previous <span class="s1">&#39;double&#39;</span> declaration specifier
+&lt;stdin&gt;:3:28: error: cannot combine with previous <span class="s1">&#39;double&#39;</span> declaration specifier
     p<span class="o">(</span><span class="s2">&quot;%zu&quot;</span>, sizeof<span class="o">(</span>double double<span class="o">))</span><span class="p">;</span>
                            ^
 <span class="m">1</span> error generated.
@@ -185,32 +255,70 @@ abc
 </pre></div>
 </div>
 </div>
-<div class="section" id="null-scm">
-<h2>null.scm<a class="headerlink" href="#null-scm" title="Permalink to this headline">¶</a></h2>
-<p>You need to inlcude stdio.h to use NULL.</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="section" id="tostring-scm">
+<h2><a class="toc-backref" href="#id6">toString.scm</a><a class="headerlink" href="#tostring-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="rtti-run-time-type-identification">
+<h2><a class="toc-backref" href="#id7">RTTI (Run Time Type Identification)</a><a class="headerlink" href="#rtti-run-time-type-identification" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;P(typeid(int).name());&#39;</span>
+typeid<span class="o">(</span>int<span class="o">)</span>.name<span class="o">()</span> <span class="o">=</span> i
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>&lt;stdin&gt;:3:3: warning: implicitly declaring library <span class="k">function</span> <span class="s1">&#39;printf&#39;</span> with <span class="nb">type</span> <span class="s1">&#39;int (const char *, ...)&#39;</span>
-  <span class="nb">printf</span><span class="o">(</span><span class="s2">&quot;%p&quot;</span>, NULL<span class="o">)</span><span class="p">;</span>
-  ^
-&lt;stdin&gt;:3:3: note: please include the header &lt;stdio.h&gt; or explicitly provide a declaration <span class="k">for</span> <span class="s1">&#39;printf&#39;</span>
-&lt;stdin&gt;:3:16: error: use of undeclared identifier <span class="s1">&#39;NULL&#39;</span>
-  <span class="nb">printf</span><span class="o">(</span><span class="s2">&quot;%p&quot;</span>, NULL<span class="o">)</span><span class="p">;</span>
-               ^
-<span class="m">1</span> warning and <span class="m">1</span> error generated.
+</div>
+<div class="section" id="type-scm">
+<h2><a class="toc-backref" href="#id8">type.scm</a><a class="headerlink" href="#type-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of 42)&#39;</span>
+integer
 </pre></div>
 </div>
-<p>You need to inlcude stdio.h to use NULL.</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of 3.14)&#39;</span>
+float
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>0x0
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of &quot;foo&quot;)&#39;</span>
+string
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+cons
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+cons
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+symbol
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of ?a)&#39;</span>
+integer
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(symbolp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+t
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(symbol-name &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+foo
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ ee &#39;(symbol-value &#39;\&#39;&#39;foo)&#39;
+Symbol&#39;s value as variable is void: foo
+</pre></div>
+</div>
+<p>値セルに値があればt、なければnil</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(boundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+nil
+</pre></div>
+</div>
+<p>関数セルに関数があればt、なければnil</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(fboundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(symbol-function &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+nil
 </pre></div>
 </div>
 </div>

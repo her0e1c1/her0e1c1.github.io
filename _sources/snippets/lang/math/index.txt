@@ -3,6 +3,9 @@
 math
 ====
 
+.. contents::
+    :depth: 2
+
 
 
 ceil.scm
@@ -20,6 +23,18 @@ ceil.scm
    
 
     $ ne 'Math.ceil(-5.5)' 
+    
+
+
+
+e.scm
+=====
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Math.E' 
     
 
 
@@ -59,17 +74,5 @@ pi.scm
    
 
     $ ne 'Math.PI' 
-    
-
-
-
-e.scm
-=====
-
-
-.. code-block:: sh
-   
-
-    $ ne 'Math.E' 
     
 
