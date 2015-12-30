@@ -6,15 +6,7 @@
   (if (not (quiet)) (print msg)))
 
 (define (import path_or_dir :key (f #f) (only-directory #f))
-  (cond ((file-is-directory? path_or_dir)
-         (let* ((path #"~|path_or_dir|/index.rst")
-                (files (glob #"~|path_or_dir|/*.scm")))
-           (cond ((null? files) (qprint #"EMPTY: ~path_or_dir"))
-                 ((or f (not (file-exists? path)))
-                  (sphinx-scm->rst (filter file-is-regular? files)
-                                   path
-                                   :header (sphinx-section #"~|path_or_dir|" :up #t)))
-                 (else (qprint #"SKIP: ~path already exists")))))
+  (cond ((file-is-directory? path_or_dir) (sphinx-create-index-in-directory path_or_dir))
         ((and (not only-directory) (file-is-regular? path_or_dir) (#/\.scm/ path_or_dir))
          (sphinx-scm->rst path_or_dir))
         (else (qprint #"SKIP: ~path_or_dir"))))
