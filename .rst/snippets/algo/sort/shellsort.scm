@@ -2,7 +2,6 @@
 (define (to-s x) (string-join (map x->string x) ", "))
 
 (p "gap==1がinsert sort")
-
 (p "分割したinsert sortというだけ")
 
 (c #"
