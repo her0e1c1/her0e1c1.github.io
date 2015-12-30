@@ -7,8 +7,6 @@ cd $(dirname $0) > /dev/null 2>&1 && cat <<EOS
 $(goshe '(print (sphinx-toctree-directory "sort"))')
 
 ..
-
-
     min f(x) = sigma |ai| + s |aj|
 
     min x in Z s.t. x >= a/b
