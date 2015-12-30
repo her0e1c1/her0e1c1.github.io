@@ -4,8 +4,6 @@ cd $(dirname $0) > /dev/null 2>&1 && cat <<EOS
  Algorithm
 ===========
 
-$(goshe '(print (sphinx-toctree-directory "sort"))')
-
 ..
     min f(x) = sigma |ai| + s |aj|
 
@@ -44,5 +42,8 @@ $(goshe '(print (sphinx-toctree-directory "sort"))')
     parse
     "(()){[]}"
 
+$(goshe '(sphinx-create-index-in-directory (glob "*"))')
+(goshe '(print (sphinx-toctree-directory. "sort"))')
+$(goshe '(print (sphinx-toctree-directory. (glob "*")))')
 
 EOS
