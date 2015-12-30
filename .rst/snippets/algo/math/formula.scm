@@ -35,3 +35,58 @@ m <     & j & $leqq m' & (else)
 (gosh (let1 f (^[A B K] (+ (- (div B K) (div A K))
                            (if (= (mod A K) 0) 1 0)))
             (f 3 10 3)))
+
+
+(ps "不等式の最小値")
+(math "\min_{x \in Z, a>0, b>0 \in N} x >= a/b")
+(math "
+min x =
+$begin{cases}
+ [a/b]     & (a $bmod b = 0)
+ [a/b] + 1 & (else)
+$end{cases}
+")
+(gosh (let1 f (^[a b] (if (= (mod a b) 0) (div a b) (+ (div a b) 1))) (f 8 2)))
+(gosh (let1 f (^[a b] (if (= (mod a b) 0) (div a b) (+ (div a b) 1))) (f 8 3)))
+
+(ps "２分割した数列の差の最小値")
+(p "計算量をO(n^2) => O(n)に減らすことができる。微分みたいに、差を使うことで次元を下げるのに似ている。")
+(p "TapeEquilibrium (必ず２つに分ける必要がある場合、1<= x <= N-1とする必要あり)")
+(math "S_N_x = $sum_{i=x+1}^{N} ai - $sum_{i=1}^{x} ai  s.t  $min_{x} | S_N_x |")
+(math "
+S_N_0 & = & a_N + a_{N-1} + ... + a_2 + a_1
+S_N_1 & = & a_N + a_{N-1} + ... + a_2 - a_1
+S_N_2 & = & a_N + a_{N-1} + ... - a_2 - a_1
+...
+S_N_x     & = & a_N + a_{N-1} + ... + a_{x+1} - a_x ... - a_2 - a_1
+S_N_{x+1} & = & a_N + a_{N-1} + ... - a_{x+1} - a_x ... - a_2 - a_1
+...
+S_N_{N-1} & = & a_N - a_{N-1} + ... - a_2 - a_1
+S_N_N     & = & - a_N - a_{N-1} + ... - a_2 - a_1
+
+よって、２項間の差は以下のとおり
+S_N_{x+1} - S_N_x & = & - 2 a_{x+1} 
+
+S_N_0から始めて-2 a_xを追加していき、その絶対値をとり、最大値を探す。
+S_N_0の和を求めるのと、S_N_0からS_N_Nまでの探索で、計算量はO(2N)となる。
+")
+(c "
+#include <myc.h>
+int abs(int x) {return x < 0 ? -x : x;}
+int solution(int *a, int N) {
+  int sum = 0;
+  for (int i = 0; i < N; i++) sum += a[i];
+  int ms = abs(sum);
+  for (int i = 0; i < N; i++) {
+   sum -= 2 * a[i];
+   int s0 = abs(sum);
+   if (s0 < ms)
+    ms = s0;
+ }
+ return ms;
+}
+int main() {
+ int a[] = {3,1,2,4,3};  // ans=1
+ printf(\"%d\", solution(a, SIZE(a))); 
+}
+" :str #t)
