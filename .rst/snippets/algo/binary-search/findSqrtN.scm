@@ -23,7 +23,4 @@
            (cond ((= fx 0) x)
                  ((< fx 0) (loop (+ x 1) high))
                  (else (loop low (- x 1)))))))))
-
-                 ;; ((< fx 0) (loop x high))
-                 ;; (else (loop low x))))))))
 " :str #t)
