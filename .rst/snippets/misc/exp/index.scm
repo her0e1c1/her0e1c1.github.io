@@ -18,15 +18,7 @@
 int main() {
   short int word = 0x0001;  // 2byte
   char *byte = (char *) &word;
-  if (*byte) {
-    // 01
-    // 00
-    printf("Little endian\n");
-  }
-  else {
-    // 00
-    // 01
-    printf("big endian\n");
-  }
+  if (*byte) printf("Little endian\n");  // 01 00
+  else printf("big endian\n"); // 00 01
 }
 Q :str #t :msg "checkEndian")
