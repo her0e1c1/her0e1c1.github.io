@@ -49,38 +49,6 @@ int solution(vector<int> &A) {
     return ans;
 }
 
-
-
-
-
-
-TapeEquilibrium
-
-  int abs(int x) {
-  return x < 0 ? -x : x;
-  }
-
-  int solution(vector<int> &A) {
-// write your code in C++11
-int N = A.size();
-int SUM = 0;
-for (int i = 0; i < N; i++)
-SUM += A[i];
-
-int mi = -1;  // min index
-int ms = abs(SUM);
-for (int i = 0; i < N; i++) {
-SUM -= 2 * A[i];
-int s0 = abs(SUM);
-if (s0 < ms) {
-ms = s0;
-mi = i;
-}
-}
-return ms;
-}
-
-
 MaxCounters
 
 vector<int> solution(int N, vector<int> &A) {
@@ -138,14 +106,5 @@ int dfs(int depth) {
             ma = r;
     }
     return MEMO[depth] = ma + AA[depth];
-}
-
-int solution(vector<int> &A) {
-    // write your code in C++11
-    N = A.size();
-    AA = A;
-    MEMO = vector<int>(N, MIN);
-
-    return dfs(0);
 }
 |#
