@@ -434,7 +434,7 @@ foo
 <p>argv is a list of argument strings. they are stored in memory. the last item is NULL.
 you can also say like char** is [String]</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;while(*argv){p(&quot;%s &quot;, *argv); argv++;}&#39;</span> <span class="m">1</span> <span class="m">2</span> 3
-/tmp/tmp.t0xknXpq <span class="m">1</span> <span class="m">2</span> 3
+/tmp/tmp.sdCg7SMk <span class="m">1</span> <span class="m">2</span> 3
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;argv += 1; p(&quot;%s&quot;, *argv);&#39;</span> Increment pointer. ++ and +<span class="o">=</span><span class="m">1</span> are no different. btw argv<span class="o">[</span>0<span class="o">]</span> is <span class="nb">exec </span>path.
@@ -485,7 +485,7 @@ Unrecognized switch: -        <span class="o">(</span>-h will show valid options
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ps aux <span class="p">|</span> perl -anle <span class="s1">&#39;print $F[1]&#39;</span> <span class="p">|</span> head -n2
 PID
-1629
+1955
 </pre></div>
 </div>
 <p>print 0 ~ 4 columns in the argument file</p>
@@ -608,11 +608,11 @@ async
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say rand for 1..5&#39;</span>
-0.581850664530979
-0.191232565880881
-0.487789688670215
-0.522822963396671
-0.648256107361778
+0.679991978992806
+0.634289948360191
+0.421111479439912
+0.423091020757916
+0.556297258602246
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(sys-random)&#39;</span>
@@ -661,7 +661,7 @@ ls: HOGE: そのようなファイルまたはディレクトリはありませ�
 <div class="section" id="signal-scm">
 <h2><a class="toc-backref" href="#id20">signal.scm</a><a class="headerlink" href="#signal-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say join q/, /, keys %SIG&#39;</span>
-ILL, WINCH, FPE, TTIN, PROF, HUP, IO, ALRM, BUS, USR1, TERM, THR, USR2, XFSZ, INFO, XCPU, SYS, QUIT, VTALRM, IOT, EMT, SEGV, PIPE, INT, CHLD, TRAP, CONT, TTOU, STOP, URG, ABRT, KILL, TSTP
+FPE, ILL, USR2, ALRM, EMT, SYS, HUP, SEGV, USR1, QUIT, WINCH, STOP, TTOU, PROF, XCPU, IOT, URG, BUS, ABRT, XFSZ, CONT, THR, CHLD, INFO, TERM, KILL, IO, VTALRM, PIPE, TTIN, TSTP, INT, TRAP
 </pre></div>
 </div>
 <p>catch the signal when a child process exit</p>
@@ -877,7 +877,7 @@ in this case, because I run this command as subprocess, these results are NULL.<
     ps<span class="o">(</span>ttyname<span class="o">(</span>0<span class="o">))</span><span class="p">;</span>
     ^
 <span class="m">1</span> warning generated.
-/tmp/--5vsaot.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
+/tmp/--TdKBwn.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
 <span class="s1">-:(.text+0x310): undefined reference to `ps&#39;</span>
 clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
 </pre></div>
@@ -887,7 +887,7 @@ clang: error: linker <span class="nb">command </span>failed with <span class="nb
     ps<span class="o">(</span>ttyname<span class="o">(</span>1<span class="o">))</span><span class="p">;</span>
     ^
 <span class="m">1</span> warning generated.
-/tmp/--ha4kCm.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
+/tmp/--fC3P03.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
 <span class="s1">-:(.text+0x310): undefined reference to `ps&#39;</span>
 clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
 </pre></div>
@@ -897,7 +897,7 @@ clang: error: linker <span class="nb">command </span>failed with <span class="nb
     ps<span class="o">(</span>ttyname<span class="o">(</span>2<span class="o">))</span><span class="p">;</span>
     ^
 <span class="m">1</span> warning generated.
-/tmp/--NUG4E0.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
+/tmp/--MmnnPv.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
 <span class="s1">-:(.text+0x310): undefined reference to `ps&#39;</span>
 clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
 </pre></div>

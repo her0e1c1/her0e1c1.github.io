@@ -20,7 +20,7 @@ init.scm
         char*a; __typeof(a) i = "abc"; ps(i);
                                        ^
     1 warning generated.
-    /tmp/--ryPBba.o: In function `main':
+    /tmp/--1L0omh.o: In function `main':
     -:(.text+0x311): undefined reference to `ps'
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     

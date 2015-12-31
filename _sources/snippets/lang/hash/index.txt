@@ -110,7 +110,7 @@ get
    
 
     $ s '(let1 t (make-hash-table) (hash-table-get t '\''no-key))' 
-    *** ERROR: #<hash-table eq? 0x175a1e0> doesn't have an entry for key no-key
+    *** ERROR: #<hash-table eq? 0x178b140> doesn't have an entry for key no-key
     Stack Trace:
     _______________________________________
       0  (hash-table-get t 'no-key)
@@ -327,8 +327,8 @@ items.scm
    
 
     $ perl -E '%a=(a=>1, b=>2); while(($k, $v) =each %a){say "$k = $v"}'
-    b = 2
     a = 1
+    b = 2
     
 
 
@@ -379,7 +379,7 @@ get all hash keys
    
 
     $ perl -E '%a=(a=>1, b=>2); say keys %a'
-    ab
+    ba
     
 
 
@@ -387,7 +387,7 @@ get all hash keys
    
 
     $ perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
-    132
+    213
     
 
 

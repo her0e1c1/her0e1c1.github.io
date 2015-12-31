@@ -4,10 +4,6 @@
 ===========
 
 ..
-    min f(x) = sigma |ai| + s |aj|
-
-    min x in Z s.t. x >= a/b
-
     the missing one == ((n+1)n/2 - sigma |aj|)
 
     prefix sum == scan
@@ -20,19 +16,8 @@
     parse
     "(()){[]}"
 
-(#<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> 
-.. toctree::
-
-
-    math/index.rst
-)
+(#<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef>)
 (goshe '(print (sphinx-toctree-directory. "sort"))')
-
-.. toctree::
-    :maxdepth: 1
-
-    bs/index.rst
-
 
 
 
@@ -62,6 +47,12 @@
 
     
 
+
+
+.. toctree::
+    :maxdepth: 1
+
+    binary-search/index.rst
 
 
 .. toctree::

@@ -29,14 +29,14 @@ formula.scm
    
 
     (print
-        (let1 l (pa$ at (sort '(-5 -3 3 7 -6 -1 -5 -10 -2 2)))
+        (let1 l (pa$ at (sort '(1 5 -10 0 3 -1 -4 3 3 4)))
            (max (* (l -1) (l -2) (l -3))
                 (* (l 0) (l 1) (l -1)))))
 
 .. code-block:: sh
    
 
-    420
+    200
     
 
 
@@ -137,5 +137,120 @@ formula.scm
 
     $ s '(let1 f (^ (A B K) (+ (- (div B K) (div A K)) (if (= (mod A K) 0) 1 0))) (f 3 10 3))' 
     3
+    
+
+
+
+不等式の最小値
+---------------------
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        min_{x in Z, a>0, b>0 in N} x >= a/b
+    \end{eqnarray}
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\min x =
+    \\\begin{cases}
+    \\ [a/b]     & (a \bmod b = 0)
+    \\ [a/b] + 1 & (else)
+    \\\end{cases}
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 f (^ (a b) (if (= (mod a b) 0) (div a b) (+ (div a b) 1))) (f 8 2))' 
+    4
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 f (^ (a b) (if (= (mod a b) 0) (div a b) (+ (div a b) 1))) (f 8 3))' 
+    3
+    
+
+
+
+２分割した数列の差の最大値
+---------------------------------------
+
+計算量をO(n^2) => O(n)に減らすことができる。微分みたいに、差を使うことで次元を下げるのに似ている。
+TapeEquilibrium
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        S_N_x = \sum_{i=x+1}^{N} ai - \sum_{i=1}^{x} ai  s.t  \max_{x} | S_N_x |
+    \end{eqnarray}
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\S_N_0 & = & a_N + a_{N-1} + ... + a_2 + a_1
+    \\S_N_1 & = & a_N + a_{N-1} + ... + a_2 - a_1
+    \\S_N_2 & = & a_N + a_{N-1} + ... - a_2 - a_1
+    \\...
+    \\S_N_x     & = & a_N + a_{N-1} + ... + a_{x+1} - a_x ... - a_2 - a_1
+    \\S_N_{x+1} & = & a_N + a_{N-1} + ... - a_{x+1} - a_x ... - a_2 - a_1
+    \\...
+    \\S_N_{N-1} & = & a_N - a_{N-1} + ... - a_2 - a_1
+    \\S_N_N     & = & - a_N - a_{N-1} + ... - a_2 - a_1
+    \\
+    \\よって、２項間の差は以下のとおり
+    \\S_N_{x+1} - S_N_x & = & - 2 a_{x+1} 
+    \\
+    \\S_N_0から始めて-2 a_xを追加していき、その絶対値をとり、最大値を探す。
+    \\S_N_0の和を求めるのと、S_N_0からS_N_Nまでの探索で、計算量はO(2N)となる。
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: c
+   
+
+    
+    #include <myc.h>
+    int abs(int x) {return x < 0 ? -x : x;}
+    int solution(int *a, int N) {
+      int sum = 0;
+      for (int i = 0; i < N; i++) sum += a[i];
+      int ms = abs(sum);
+      for (int i = 0; i < N; i++) {
+       sum -= 2 * A[i];
+       int s0 = abs(sum);
+       if (s0 < ms)
+        ms = s0;
+     }
+     return ms;
+    }
+    int main() {
+     
+    }
+    
+
+.. code-block:: sh
+   
+
+    <stdin>:9:15: error: use of undeclared identifier 'A'
+       sum -= 2 * A[i];
+                  ^
+    1 error generated.
     
 

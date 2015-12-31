@@ -201,8 +201,8 @@ expand symbol link
     #x = (1 + 2 + 3)
     x  = 6
     __func__ = main
-    __DATE__ = Dec 30 2015
-    __TIME__ = 18:07:31
+    __DATE__ = Dec 31 2015
+    __TIME__ = 12:00:57
     
 
 
@@ -289,7 +289,7 @@ getCurrentPID
    
 
     $ perl -E 'say $$' 
-    11115
+    42299
     
 
 
@@ -297,6 +297,6 @@ getCurrentPID
    
 
     $ echo $$
-    11134
+    42318
     
 

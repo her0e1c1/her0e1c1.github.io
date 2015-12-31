@@ -266,6 +266,22 @@ pow.scm
     
 
 
+.. code-block:: sh
+   
+
+    $ s '(expt 2 3)' 
+    8
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(2**3)' 
+    8
+    
+
+
 
 toInt.scm
 ===========================

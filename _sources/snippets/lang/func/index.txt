@@ -209,7 +209,7 @@ lambda.scm
    
 
     $ perl -E 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
-    BtDveA66pMWqhhcDqc8v2puW829gMg2fW209Y342UJUaUeBNm0BDk3nqwW4kVppcq4sTrvnwvIui3SmNFGnPbPrv5Gvkg5tnVtljOmqDm8slIll9vFeOJbvUTUBjI70KuwS7uR3Vlvti9NE3aBBJGXwmSAIsYf9YTGFHG14VFG9XP9SAc8DCoZVolBRaQxGzJaGUV3XW6LCA7uXsTlg3yuKU1hoNGOTHBjAtnGJXXjeKJ2wbpXw4xmsWVHHtA0P
+    mhyKpWmBcLQcef4xypdXkbX5UE8nZSZ0fHyvFYb06UpRabHtzoPPTe3i3ZGIw5gT6Hzt8IelXTJDg0L8QzetbOwpWqpCjDHdhrDPkflLta3msBHaPpxBQwyYHB3sUXUUUV3weLQkbG2LVW9OW65bKTRSbHZb3py9sGmDq8Lr5EGy4HcNKHVEzThfTe2pIAhkKguXx9X9jkUYnZZQqID1DAVACxaxwfHRNJot0YhVaMueExYSfmywFgqX39JPiy8
 
 
 .. code-block:: sh

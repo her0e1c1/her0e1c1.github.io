@@ -112,7 +112,7 @@ mktemp.scm
    
 
     $ s '(receive (oport name) (sys-mkstemp "/tmp/test"))' 
-    #<oport /tmp/testt11M78 0x1832240>
+    #<oport /tmp/testS58Xcj 0x1832240>
     
 
 just filename
@@ -121,7 +121,7 @@ just filename
    
 
     $ ee '(make-temp-name "/tmp/")' 
-    /tmp/96472305
+    /tmp/27686JjJ
 
 
 
