@@ -1,3 +1,6 @@
+;;; 以下は、使わない方針とする
+;;; comint (interactive shell in emacs)
+;;; frame (emacs with X window)
 
 ;; (encode-coding-string "漢字です" 'euc-jp)
 ;; (encode-coding-string "漢字です" 'utf-8)

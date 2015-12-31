@@ -11,6 +11,7 @@
 (emacs (get-buffer "*scratch*"))
 (emacs (buffer-list))
 
+(get-buffer-process (current-buffer))
 ; (with-current-buffer (get-buffer-create "NEW"))
 
 ;;   (setq buff (pop-to-buffer "buffer name"))

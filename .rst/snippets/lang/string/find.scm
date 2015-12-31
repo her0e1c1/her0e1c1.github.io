@@ -5,6 +5,7 @@
 (p "char is also available")
 (cpp  "string s = \"this is a test.\"; P(s.find('.') != string::npos)")
 
+(emacs (s-contains? "text" "This is a text."))
 
 ;;   find_first_not_of関数のサンプルです。
 ;;   引き数にした文字以外が登場した場合、見つけた始めのインデックスを返します。

@@ -7,4 +7,4 @@
 (gosh (iota 10 5))
 (gosh (iota 10 5 2))
 
-(emacs (number-sequence 1 10))
+(emacs (number-sequence 1 3))

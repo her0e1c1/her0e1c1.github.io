@@ -1,1 +1,0 @@
-(length "abcde")  ; 5

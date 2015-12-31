@@ -44,5 +44,4 @@
 
 (gosh (sys-system "echo 1"))
 
-
 (emacs (shell-command-to-string "echo 1"))

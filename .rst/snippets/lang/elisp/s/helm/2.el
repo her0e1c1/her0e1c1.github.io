@@ -43,19 +43,7 @@
     (buffer-string)))
 
 (setq b1 (get-buffer-create "*temp6*"))
-(setq c 1)
-(setq flag nil)
 (defun call1()
-  (if flag
-      (progn
-        (->>
-          (s-split "\n" (with-current-buffer b1 (buffer-string)))
-          (--filter (s-contains? "re" it))
-          (s-join "\n")
-          (setq $str))
-        (with-current-buffer b1
-          (erase-buffer)
-          (insert $str)))
     (prog1 
         (start-process-shell-command "test1" b1 "find ~/Desktop")
       (set-process-sentinel
@@ -96,11 +84,3 @@ c
            (unless (string= event "finished\n")
              (helm-log "Error: Filelist %s"
                        (replace-regexp-in-string "\n" "" event))))))))
-
- ;(async-shell-command "ls" (current-buffer))
-
-  (buffer-string)
-aREADME.md
-jj(setq a (shell-command-to-string "find ~/work &"))
-ai
-Process name finished

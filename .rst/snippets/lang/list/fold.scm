@@ -7,3 +7,7 @@
 (run "ghc -e 'foldl1 (+) [1,2,3]'")
 
 (gosh (fold (^(a b) (cons a b)) '() (i 10)))
+
+
+(emacs (--reduce (+ acc it) '(1 2 3)))
+(emacs (-reduce '+ '(1 2 3)))

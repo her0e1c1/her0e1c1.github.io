@@ -1,1 +1,0 @@
-(s-equals? "abc" "abc")

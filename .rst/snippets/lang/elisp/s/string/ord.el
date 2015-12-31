@@ -1,1 +1,0 @@
-(string-to-char "a")  ; 97

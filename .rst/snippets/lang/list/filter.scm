@@ -9,3 +9,7 @@
 (gosh (filter #/^..$/ (glob "*")))
 (gosh (filter ($ not $ even? $) (i 10)))
 (gosh (filter (.$ not even?) (i 10)))
+
+(emacs (--remove (evenp it) '(1 2 3 4 5)) :msg "条件に合致したら、残す")
+(emacs (--filter (evenp it) '(1 2 3 4 5)) :msg "条件に合致したら、除外")
+(emacs (remove-if #'evenp '(1 2 3 4 5)))

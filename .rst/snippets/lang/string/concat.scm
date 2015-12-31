@@ -10,4 +10,3 @@
 
 (gosh (string-append "abc" "def" "ghi"))
 (emacs (concat "abc" "def" "ghi"))
-

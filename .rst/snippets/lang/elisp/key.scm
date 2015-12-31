@@ -10,3 +10,18 @@
 
 
 ;; (global-unset-key "\C-s")
+
+;;; Translate a two-byte space into one-byte
+;; (global-set-key "　" (lambda () (interactive) (insert " ")))
+
+;; ;;; Warning: not working becaouse not registering this procedure as an interactive function
+;; ; (global-set-key "　" (lambda () (insert " ")))
+
+;; ;;; create key EMPTY map
+;; (let ((map (make-sparse-keymap)))
+;;   (define-key map (kbd "C-c C-k") (insert 1))
+;;   )
+
+;; ; Same expressions
+;; (define-key global-map (kbd "\C-t") 'a-command)
+;; (global-set-key (kbd "\C-t") 'a-command)
