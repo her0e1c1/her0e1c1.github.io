@@ -14,3 +14,6 @@
 (c "char b[32]; sprintf(b, \"%d\", 12345); p(\"%s\", b);")
 
 (run "perl -E 'say sprintf(\"%s, %s\", \"hello\", \"world\")'")
+
+
+(emacs (format "%s" "hoge"))

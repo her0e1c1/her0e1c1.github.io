@@ -8,4 +8,6 @@
 (run "perl -E 'say \"abc\".\"efg\"'")
 (cpp "string s; for(char ch = 'a'; ch <= 'z'; ch++) s += ch; P(s)")
 
-(gosh (string-append "abc" "def"))
+(gosh (string-append "abc" "def" "ghi"))
+(emacs (concat "abc" "def" "ghi"))
+

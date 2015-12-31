@@ -45,3 +45,6 @@
   "Mark a region and run this function so you get the two points of edges."
   (interactive "r")
   (message "point (begin, end) = (%s, %s)" beg end))
+
+  ;; (split-window-horizontally)
+  ;; (split-window-vertically)

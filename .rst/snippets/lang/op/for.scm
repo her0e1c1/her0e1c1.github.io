@@ -25,3 +25,4 @@
 ; リストの要素に順にアクセス
 (emacs (--each '(1 2 3) (print it)))
 (emacs (dolist (it '(1 2 3)) (print it)))
+(emacs (loop for c from ?0 to ?9 do (princ (string c))))
