@@ -12,8 +12,8 @@
 (cpp "string s=\"abcdefghi\"; P(s.substr(10, 1000));")
 
 
-(gosh (substring "abc" 0 1))
 (gosh (substring "" 0 1))
-
-(emacs (substring "abc" 0 1))
+(emacs (substring "abcdef" 1 4))
 (emacs (substring-no-properties "text" 1 -1))
+(emacs (s-left 3 "abcdefg"))
+(emacs (s-right 3 "abcdefg"))

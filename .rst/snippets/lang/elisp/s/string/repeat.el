@@ -1,1 +1,0 @@
-(s-repeat 3 "abc")  ; "abcabcabc"

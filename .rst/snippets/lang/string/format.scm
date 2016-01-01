@@ -17,3 +17,8 @@
 
 
 (emacs (format "%s" "hoge"))
+
+(emacs (format "%s %c %x %d" "abc" ?a 10 10))
+(emacs (s-format "$0, $1" 'elt '("hello" "world")))
+(emacs (s-format "${name}" 'aget '(("name" . "test"))))
+(emacs (let ((h (ht-create))) (ht-set! h "key" "val") (s-format "${n}" 'gethash h)))
