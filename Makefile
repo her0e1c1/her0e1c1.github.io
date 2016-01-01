@@ -36,4 +36,5 @@ clean:
 	rm -fr $(OBJS)
 
 rmrst:
-	find .rst/snippets/lang/ -name "*.rst" -delete 
+	find .rst/snippets/lang/ -name "*.rst" -delete
+	find .rst/snippets/algo/ -name "*.rst" -delete
