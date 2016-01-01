@@ -16,7 +16,7 @@ after.scm
 .. code-block:: sh
    
 
-    $ perl -E "qq/pre 1234 post/ =~/d+/; say $'"
+    $ perl -E 'qq/pre 1234 post/ =~/d+/; say $'\''' 
     
     
 
@@ -208,14 +208,6 @@ group.scm
 .. code-block:: sh
    
 
-    $ python -c 'import re; print(re.match(r"((((1)2)3)4)", "1234").groups())'
-    ('1234', '123', '12', '1')
-    
-
-
-.. code-block:: sh
-   
-
     $ perl -E '$_=shift; say if /(["''])abc1/ ' '"abc"'
     
 
@@ -249,6 +241,69 @@ group.scm
 
     $ perl -E 'say $& if shift =~ /(<)w+@w+(?:.w+)+(?(1)>)/' '<abc@aaa.com>'
     
+
+
+
+group index
+---------------------------------
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(re.match(r'\''(((1)2)3)'\'', '\''123'\'').groups())' 
+    ('123', '12', '1')
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 0 s)))' 
+    
+    "123"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 1 s)))' 
+    
+    "123"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 2 s)))' 
+    
+    "12"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 3 s)))' 
+    
+    "1"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 4 s)))' 
+    
+    nil
+    
+
+
+
+index.scm
+===========================
 
 
 
@@ -290,7 +345,7 @@ if string does not match (?!...), then match
    
 
     $ py 'P(match(r"abc(?!def)", "abcDEF"))' 
-    <_sre.SRE_Match object at 0x8007e5098>
+    <_sre.SRE_Match object at 0x8007e4098>
     
 
 
@@ -329,7 +384,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "abcdef"))' 
-    #<<regmatch> 0x160dc30>
+    #<<regmatch> 0x1612420>
     #<undef>
     
 
@@ -338,7 +393,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "ABCdef"))' 
-    #<<regmatch> 0x160dc30>
+    #<<regmatch> 0x1612420>
     #<undef>
     
 
@@ -356,7 +411,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/abc(?!def)/ "abcDEF"))' 
-    #<<regmatch> 0x160dc30>
+    #<<regmatch> 0x1612420>
     #<undef>
     
 
@@ -437,7 +492,7 @@ lookbehind-negative.scm
    
 
     $ py 'P(search(r"(?<!wo)man", "There is a man"))' 
-    <_sre.SRE_Match object at 0x8007e5098>
+    <_sre.SRE_Match object at 0x8007e4098>
     
 
 
@@ -483,7 +538,7 @@ src="../ => src="/
 
     $ py 'P(match(r"(?<=.*?)st", "test"))' 
     Traceback (most recent call last):
-      File "<string>", line 11, in <module>
+      File "<string>", line 12, in <module>
       File "/usr/local/lib/python2.7/re.py", line 141, in match
         return _compile(pattern, flags).match(string)
       File "/usr/local/lib/python2.7/re.py", line 251, in _compile
@@ -532,7 +587,7 @@ match.scm
    
 
     $ s '(#/str/ "strng")' 
-    #<<regmatch> 0x1604030>
+    #<<regmatch> 0x1611a20>
     
 
 
@@ -814,6 +869,6 @@ with x option, ignore whitespace
    
 
     $ py 'P(match(r'\''a   b c'\'', '\''abc'\'', X))' 
-    <_sre.SRE_Match object at 0x8007e5098>
+    <_sre.SRE_Match object at 0x8007e4098>
     
 

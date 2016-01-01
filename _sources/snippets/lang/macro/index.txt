@@ -37,21 +37,27 @@ begin.scm
    
 
     $ ee '(prog1 1 2 3)' 
+    
     1
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(prog2 1 2 3)' 
+    
     2
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(progn 1 2 3)' 
+    
     3
+    
 
 
 .. code-block:: sh
@@ -77,7 +83,9 @@ dotimes.scm
     "hello"
     
     "hello"
+    
     nil
+    
 
 
 .. code-block:: sh
@@ -218,6 +226,83 @@ define-syntax
 
 inline.scm
 ==============================
+
+
+
+intern.scm
+==============================
+
+動的にシンボルを生成する
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (dolist (x (list '\''a '\''b '\''c)) (set (intern (concat "symbol-" (symbol-name x))) 1)) (+ symbol-a symbol-b symbol-c))' 
+    
+    3
+    
+
+
+
+pre.scm
+=====================
+
+
+
+ifdef
+---------------
+
+
+.. code-block:: c
+   
+
+    #include <stdio.h>
+    
+    int main () {
+    #ifdef DEBUG
+      printf("DEBUG!");
+    #else
+      printf("NOT DEBUG!");
+    #endif
+    }
+
+ifdef else endifはソースコードをコンパイルする前の前処理. オプションを渡すことでdefineされる
+
+.. code-block:: sh
+   
+
+    $ clang -DDEBUG ifdef.c && ./a.out
+    DEBUG!
+
+引数を渡さなかった場合はelseが呼ばれる
+
+.. code-block:: sh
+   
+
+    $ clang ifdef.c && ./a.out
+    NOT DEBUG!
+
+
+.. code-block:: c
+   
+
+    #include <stdio.h>
+    #define DEBUG
+    int main () {
+    #ifdef DEBUG
+      printf("DEBUG!");
+    #else
+      printf("NOT DEBUG!");
+    #endif
+    }
+
+``#define DEBUG`` を明示する (-DDEBUGと同じ効果)
+
+.. code-block:: sh
+   
+
+    $ clang ifdef.c && ./a.out
+    DEBUG!
 
 
 

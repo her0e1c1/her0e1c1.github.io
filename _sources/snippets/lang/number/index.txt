@@ -386,49 +386,63 @@ perlの場合文字列を+で評価すると型を数値とする
    
 
     $ ee '(prefix-numeric-value 10)' 
+    
     10
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(prefix-numeric-value -5)' 
+    
     -5
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(prefix-numeric-value 10.0)' 
+    
     1
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(prefix-numeric-value -5.0)' 
+    
     1
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(prefix-numeric-value "10")' 
+    
     1
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(prefix-numeric-value "asdf")' 
+    
     1
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(prefix-numeric-value '\''(10 20 30))' 
+    
     10
+    
 
 
 
@@ -440,5 +454,24 @@ toString.scm
    
 
     $ ee '(int-to-string 1)' 
-    1
+    
+    "1"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(number-to-string 1)' 
+    
+    "1"
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'std::ostringstream oss; oss << 12345; P(oss.str());' 
+    oss.str() = 12345
+    
 

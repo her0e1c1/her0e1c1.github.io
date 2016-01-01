@@ -125,6 +125,7 @@
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(destructuring-bind (x y z) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2 3) (+ x y z))&#39;</span>
+
 6
 </pre></div>
 </div>
@@ -133,11 +134,13 @@ Wrong <span class="nb">type </span>argument: sequencep, 1
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(destructuring-bind ((x) y z . w) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;((1) 2 3 . 4) (+ x y z w))&#39;</span>
+
 10
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(multiple-value-bind (q r) (truncate* 10 3) (format &quot;(%s, %s)&quot; q r))&#39;</span>
-<span class="o">(</span>3, 1<span class="o">)</span>
+
+<span class="s2">&quot;(3, 1)&quot;</span>
 </pre></div>
 </div>
 </div>

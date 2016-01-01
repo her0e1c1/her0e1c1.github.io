@@ -110,7 +110,9 @@ append.scm
    
 
     $ ee '(let ((a1 '\''(1 2 3))) (add-to-list '\''a1 4))' 
+    
     (4 1 2 3)
+    
 
 
 
@@ -221,15 +223,6 @@ f g => (f (g x))
 concat.scm
 ==============================
 
-
-.. code-block:: sh
-   
-
-    $ ghc -e 'concatMap (->[a, '\'','\'']) ['\''a'\''..'\''e'\'']' 
-    
-    <interactive>:1:12: lexical error at character '\a'
-    
-
 末尾に要素を加える
 
 .. code-block:: sh
@@ -272,6 +265,32 @@ concat.scm
     $ ee '(|-concat| '\''(1 2 3) 4 '\''(5))' 
     Symbol's function definition is void: |-concat|
     
+
+
+
+concatMap.scm
+=======================================
+
+
+.. code-block:: sh
+   
+
+    $ ghc -e 'concatMap (->[a, '\'','\'']) ['\''a'\''..'\''e'\'']' 
+    
+    <interactive>:1:12: lexical error at character '\a'
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(mapcan (lambda (x) (list x (* x x))) '\''(1 2 3))' 
+    
+    (1 1 2 4 3 9)
+    
+
+eval and emacs freezes (Don't eval this code!)
+(mapcan (lambda (x) '(x)) '(1 2 3))
 
 
 
@@ -320,7 +339,9 @@ count.scm
    
 
     $ ee '(count 1 '\''(1 1 1 2 2 3))' 
+    
     3
+    
 
 
 .. code-block:: sh
@@ -334,6 +355,38 @@ count.scm
 
 drop.scm
 ========================
+
+
+.. code-block:: sh
+   
+
+    $ ghc -e 'drop 1 [1,2,3]' 
+    [2,3]
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-drop| 3 '\''(1 2 3 4 5))' 
+    Symbol's function definition is void: |-drop|
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-drop| 10 '\''(1 2 3 4 5))' 
+    Symbol's function definition is void: |-drop|
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-drop| -20 '\''(1 2 3 4 5))' 
+    Symbol's function definition is void: |-drop|
+    
 
 
 
@@ -387,14 +440,18 @@ elem.scm
    
 
     $ ee '(member '\''d '\''(b c d e f))' 
+    
     (d e f)
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(member '\''a '\''(b c d e f))' 
+    
     nil
+    
 
 
 
@@ -485,6 +542,24 @@ filter.scm
     (1 3 5 7 9)
     
 
+条件に合致したら、残す
+
+.. code-block:: sh
+   
+
+    $ ee '(|--remove| (evenp it) '\''(1 2 3 4 5))' 
+    Symbol's function definition is void: |--remove|
+    
+
+条件に合致したら、除外
+
+.. code-block:: sh
+   
+
+    $ ee '(|--filter| (evenp it) '\''(1 2 3 4 5))' 
+    Symbol's function definition is void: |--filter|
+    
+
 
 
 find.scm
@@ -512,6 +587,14 @@ flatten.scm
       File "<string>", line 1, in <lambda>
       File "<string>", line 1, in <lambda>
     NameError: global name '__iter__' is not defined
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-flatten| '\''((1 2 3) 4 (5 (6) 7)))' 
+    Symbol's function definition is void: |-flatten|
     
 
 
@@ -576,6 +659,22 @@ reduceの第三引数に初期値を指定
     
 
 
+.. code-block:: sh
+   
+
+    $ ee '(|--reduce| (+ acc it) '\''(1 2 3))' 
+    Symbol's function definition is void: |--reduce|
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-reduce| '\''+ '\''(1 2 3))' 
+    Symbol's function definition is void: |-reduce|
+    
+
+
 
 groupby.scm
 =================================
@@ -622,7 +721,9 @@ No error if nil
    
 
     $ ee '(car nil)' 
+    
     nil
+    
 
 
 
@@ -634,14 +735,18 @@ index.scm
    
 
     $ ee '(elt '\''(1 2 3) 0)' 
+    
     1
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(elt '\''(1 2 3) 1)' 
+    
     2
+    
 
 範囲外の場合はnil
 
@@ -649,7 +754,9 @@ index.scm
    
 
     $ ee '(elt '\''(1 2 3) 3)' 
+    
     nil
+    
 
 
 
@@ -824,7 +931,9 @@ length.scm
    
 
     $ ee '(length '\''(1 2 3))' 
+    
     3
+    
 
 
 
@@ -871,7 +980,9 @@ map.scm
    
 
     $ ee '(mapcar (lambda (x) (+ x 1)) '\''(1 2 3))' 
+    
     (2 3 4)
+    
 
 
 .. code-block:: sh
@@ -1094,7 +1205,9 @@ reverse関数に文字列として評価させたいのでscalar必要
    
 
     $ ee '(reverse '\''(1 2 3))' 
+    
     (3 2 1)
+    
 
 
 
@@ -1106,7 +1219,9 @@ destructive!
    
 
     $ ee '(progn (setq a '\''(1 2 3)) (nreverse a))' 
+    
     (3 2 1)
+    
 
 
 .. code-block:: sh
@@ -1168,8 +1283,87 @@ slice.scm
 .. code-block:: sh
    
 
+    $ ee '(subseq '\''(1 2 3) 1)' 
+    
+    (2 3)
+    
+
+
+
+out of index
+------------------------------------
+
+
+.. code-block:: sh
+   
+
+    $ ee '(subseq '\''(1 2 3) 3)' 
+    
+    nil
+    
+
+
+
+minus
+---------------
+
+
+.. code-block:: sh
+   
+
     $ perl -E '@a=(split " ", "a b c d e")[-1, 0]; say @a'
     ea
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(subseq '\''(1 2 3) -1)' 
+    
+    (3)
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(subseq '\''(1 2 3) -2)' 
+    
+    (2 3)
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(subseq '\''(1 2 3) -3)' 
+    
+    (1 2 3)
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-slice| '\''(1 2 3 4 5) 2 4)' 
+    Symbol's function definition is void: |-slice|
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-slice| '\''(1 2 3 4 5) 1)' 
+    Symbol's function definition is void: |-slice|
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-slice| '\''(1 2 3 4 5) -1)' 
+    Symbol's function definition is void: |-slice|
     
 
 
@@ -1235,7 +1429,9 @@ tail.scm
    
 
     $ ee '(cdr nil)' 
+    
     nil
+    
 
 
 
@@ -1272,6 +1468,22 @@ unique.scm
 ==============================
 
 
+.. code-block:: sh
+   
+
+    $ ghc -e 'Data.List.nub [1,1,1,2,2,3]' 
+    [1,2,3]
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-distinct| '\''(1 1 1 2 2 3))' 
+    Symbol's function definition is void: |-distinct|
+    
+
+
 
 zip.scm
 =====================
@@ -1290,5 +1502,21 @@ zip.scm
 
     $ s '(zip '\''(1 2 3) '\''(4 5 6))' 
     ((1 4) (2 5) (3 6))
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-zip| '\''(1 2 3) '\''(4 5 6))' 
+    Symbol's function definition is void: |-zip|
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|-zip| '\''(1) '\''(4 5 6))' 
+    Symbol's function definition is void: |-zip|
     
 

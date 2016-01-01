@@ -17,12 +17,16 @@ To test function sample, type `'M-x ert RET`'
    
 
     $ ee '(progn (require '\''ert) (ert-deftest sample () (should (eq 1 1))))' 
+    
     sample
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(progn (require '\''ert) (ert-deftest test-divide-by-zero () (should-error (/ 1 0) :type '\''arith-error)))' 
+    
     test-divide-by-zero
+    
 

@@ -112,10 +112,12 @@
 <h2><a class="toc-backref" href="#id2">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 <p>To test function sample, type <cite>&#8216;M-x ert RET</cite>&#8216;</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (require &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;ert) (ert-deftest sample () (should (eq 1 1))))&#39;</span>
+
 sample
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (require &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;ert) (ert-deftest test-divide-by-zero () (should-error (/ 1 0) :type &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;arith-error)))&#39;</span>
+
 <span class="nb">test</span>-divide-by-zero
 </pre></div>
 </div>

@@ -16,7 +16,9 @@ define.scm
    
 
     $ ee '(progn (setf (symbol-function '\''double) '\''(lambda (x) (* x 2))) (double 5))' 
+    
     10
+    
 
 外部から参照されないローカル関数
 
@@ -24,7 +26,9 @@ define.scm
    
 
     $ ee '(labels ((fact (n) (if (= n 1) n (* n (fact (- n 1)))))) (fact 5))' 
+    
     120
+    
 
 
 
@@ -35,6 +39,79 @@ dot_list.scm
 
 funcall.scm
 =================================
+
+(FUNC ARG1 ARG2 ... ARGN) => (funcall 'FUNC ARG1 ARG2 ... ARGN)
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall '\''+ 1 2 3)' 
+    
+    6
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall + 1 2 3)' 
+    Symbol's value as variable is void: +
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall (lambda (x y z) (+ x (* y z))) 1 2 3)' 
+    
+    7
+    
+
+lambdaのときは、'をつける必要なし ; ただしつけても同じ動作する
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall '\''(lambda (x y z) (+ x (* y z))) 1 2 3)' 
+    
+    7
+    
+
+
+.. warning::
+
+    引数が期待される場合と異なるときはerror
+
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall '\''|1+| 1 2)' 
+    Symbol's function definition is void: |1+|
+    
+
+define a variable as lambda. you must call it with funcall
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (setq f (lambda (x) (* 2 x))) (funcall f 2))' 
+    
+    4
+    
+
+
+.. warning::
+
+    ERROR
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (setq f (lambda (x) (* 2 x))) (f 2))' 
+    Symbol's function definition is void: f
+    
 
 
 
@@ -196,7 +273,9 @@ kwargs.scm
    
 
     $ ee '(progn (cl-defun add (&key (a 1) (b 2)) (+ a b)) (add :a 3))' 
+    
     5
+    
 
 
 
@@ -209,7 +288,7 @@ lambda.scm
    
 
     $ perl -E 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
-    mhyKpWmBcLQcef4xypdXkbX5UE8nZSZ0fHyvFYb06UpRabHtzoPPTe3i3ZGIw5gT6Hzt8IelXTJDg0L8QzetbOwpWqpCjDHdhrDPkflLta3msBHaPpxBQwyYHB3sUXUUUV3weLQkbG2LVW9OW65bKTRSbHZb3py9sGmDq8Lr5EGy4HcNKHVEzThfTe2pIAhkKguXx9X9jkUYnZZQqID1DAVACxaxwfHRNJot0YhVaMueExYSfmywFgqX39JPiy8
+    09zeJsA1YiWsORopFrQ739f6nMFEEVInsLSPvRrUTzVNPt61cUiioHb4TSsrLssr5F7rUtci55cAaJPNxx03mPSdFpZXtI2C8dFfLG51dpYUHzu53AkZ7TZ4WolhdBkpSAsIco3JJdDQmlM6ak3KVzFe5voG6W8SKWOyNQzvon7O4qYYmbFgUIPfvxcnM64FcQszqoEFGc09Iq39nagH7yrosJ1KpGbvj3qq5FFez8YeSGa7rg0MXw6pDGMOTL2
 
 
 .. code-block:: sh
@@ -275,7 +354,9 @@ clをloadすればcl-の接頭辞不要
    
 
     $ ee '(progn (cl-defun add (a &optional b (c 3)) (+ a b c)) (add 1 2))' 
+    
     6
+    
 
 
 .. code-block:: sh
@@ -294,4 +375,64 @@ prototype.scm
 
 return.scm
 ==============================
+
+
+
+stack.scm
+===========================
+
+
+.. warning::
+
+    スタックに巨大な配列をセットしない
+
+
+.. code-block:: c
+   
+
+    #include "myc.h"
+    // &"Hello" のプッシュがスタックオーバーフローとなる
+    int main() {
+      int n[1000000000];  // 配列が大きすぎる
+      printf("Hello");
+    }
+
+.. code-block:: sh
+   
+
+    セグメンテーション違反
+    
+
+
+.. code-block:: c
+   
+
+    // この場合は、以下のように配列を静的領域に移動するか、
+    #include "myc.h"
+    int n[1000000000];
+    int main() {
+      printf("Hello");
+    }
+
+.. code-block:: sh
+   
+
+    Hello
+
+
+.. code-block:: c
+   
+
+    // malloc などを使ってヒープ領域に確保すればスタックオーバーフローは回避できる。
+    #include "myc.h"
+    int main() {
+      int *n = malloc(sizeof(int) * 1000000000);
+      printf("Hello");
+      free(n);
+    }
+
+.. code-block:: sh
+   
+
+    Hello
 

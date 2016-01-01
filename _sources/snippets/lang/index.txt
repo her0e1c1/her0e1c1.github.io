@@ -33,6 +33,7 @@ Languages
     op/index
     path/index
     pointer/index
+    process/index
     range/index
     regex/index
     set/index
@@ -42,6 +43,7 @@ Languages
     test/index
     tuple/index
     type/index
+    var/index
     vector/index
 
 

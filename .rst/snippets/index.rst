@@ -35,6 +35,7 @@ Languages
     lang/op/index
     lang/path/index
     lang/pointer/index
+    lang/process/index
     lang/range/index
     lang/regex/index
     lang/set/index
@@ -44,6 +45,7 @@ Languages
     lang/test/index
     lang/tuple/index
     lang/type/index
+    lang/var/index
     lang/vector/index
 
 Algorithm

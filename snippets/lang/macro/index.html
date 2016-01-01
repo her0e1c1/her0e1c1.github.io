@@ -109,10 +109,12 @@
 <li><a class="reference internal" href="#eval-scm" id="id5">eval.scm</a></li>
 <li><a class="reference internal" href="#hygienic-scm" id="id6">hygienic.scm</a></li>
 <li><a class="reference internal" href="#inline-scm" id="id7">inline.scm</a></li>
-<li><a class="reference internal" href="#quote-scm" id="id8">quote.scm</a></li>
-<li><a class="reference internal" href="#side-effect-scm" id="id9">side-effect.scm</a></li>
-<li><a class="reference internal" href="#syntax-scm" id="id10">syntax.scm</a></li>
-<li><a class="reference internal" href="#template-scm" id="id11">template.scm</a></li>
+<li><a class="reference internal" href="#intern-scm" id="id8">intern.scm</a></li>
+<li><a class="reference internal" href="#pre-scm" id="id9">pre.scm</a></li>
+<li><a class="reference internal" href="#quote-scm" id="id10">quote.scm</a></li>
+<li><a class="reference internal" href="#side-effect-scm" id="id11">side-effect.scm</a></li>
+<li><a class="reference internal" href="#syntax-scm" id="id12">syntax.scm</a></li>
+<li><a class="reference internal" href="#template-scm" id="id13">template.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -131,14 +133,17 @@ Symbol&#39;s function definition is void: |--if-let|
 <div class="section" id="begin-scm">
 <h2><a class="toc-backref" href="#id3">begin.scm</a><a class="headerlink" href="#begin-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(prog1 1 2 3)&#39;</span>
+
 1
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(prog2 1 2 3)&#39;</span>
+
 2
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn 1 2 3)&#39;</span>
+
 3
 </pre></div>
 </div>
@@ -156,6 +161,7 @@ Symbol&#39;s function definition is void: |--if-let|
 <span class="s2">&quot;hello&quot;</span>
 
 <span class="s2">&quot;hello&quot;</span>
+
 nil
 </pre></div>
 </div>
@@ -250,14 +256,66 @@ _______________________________________
 <div class="section" id="inline-scm">
 <h2><a class="toc-backref" href="#id7">inline.scm</a><a class="headerlink" href="#inline-scm" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="intern-scm">
+<h2><a class="toc-backref" href="#id8">intern.scm</a><a class="headerlink" href="#intern-scm" title="Permalink to this headline">¶</a></h2>
+<p>動的にシンボルを生成する</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (dolist (x (list &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;b &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;c)) (set (intern (concat &quot;symbol-&quot; (symbol-name x))) 1)) (+ symbol-a symbol-b symbol-c))&#39;</span>
+
+3
+</pre></div>
+</div>
+</div>
+<div class="section" id="pre-scm">
+<h2><a class="toc-backref" href="#id9">pre.scm</a><a class="headerlink" href="#pre-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ifdef">
+<h3>ifdef<a class="headerlink" href="#ifdef" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+<span class="cp">#ifdef DEBUG</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;DEBUG!&quot;</span><span class="p">);</span>
+<span class="cp">#else</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;NOT DEBUG!&quot;</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>ifdef else endifはソースコードをコンパイルする前の前処理. オプションを渡すことでdefineされる</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>clang -DDEBUG ifdef.c <span class="o">&amp;&amp;</span> ./a.out
+DEBUG!
+</pre></div>
+</div>
+<p>引数を渡さなかった場合はelseが呼ばれる</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>clang ifdef.c <span class="o">&amp;&amp;</span> ./a.out
+NOT DEBUG!
+</pre></div>
+</div>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#define DEBUG</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+<span class="cp">#ifdef DEBUG</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;DEBUG!&quot;</span><span class="p">);</span>
+<span class="cp">#else</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;NOT DEBUG!&quot;</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">#define</span> <span class="pre">DEBUG</span></code> を明示する (-DDEBUGと同じ効果)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>clang ifdef.c <span class="o">&amp;&amp;</span> ./a.out
+DEBUG!
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="quote-scm">
-<h2><a class="toc-backref" href="#id8">quote.scm</a><a class="headerlink" href="#quote-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">quote.scm</a><a class="headerlink" href="#quote-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="side-effect-scm">
-<h2><a class="toc-backref" href="#id9">side-effect.scm</a><a class="headerlink" href="#side-effect-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">side-effect.scm</a><a class="headerlink" href="#side-effect-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="syntax-scm">
-<h2><a class="toc-backref" href="#id10">syntax.scm</a><a class="headerlink" href="#syntax-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">syntax.scm</a><a class="headerlink" href="#syntax-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="and-let">
 <h3>and-let*<a class="headerlink" href="#and-let" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;&quot;(and-let* ((a 1) (b (+ a 1))) (+ a b))&quot;&#39;</span>
@@ -299,7 +357,7 @@ _______________________________________
 </div>
 </div>
 <div class="section" id="template-scm">
-<h2><a class="toc-backref" href="#id11">template.scm</a><a class="headerlink" href="#template-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">template.scm</a><a class="headerlink" href="#template-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

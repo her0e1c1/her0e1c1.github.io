@@ -128,56 +128,72 @@ apply.scm
    
 
     $ ee '(+ 1 2)' 
+    
     3
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(funcall '\''+ 1 2)' 
+    
     3
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(apply '\''+ '\''(1 2))' 
+    
     3
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(apply '\''+ 1 '\''(2))' 
+    
     3
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(apply '\''+ 1 2 '\''())' 
+    
     3
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(apply (symbol-function '\''+) '\''(1 2))' 
+    
     3
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(apply (lambda (x y) (+ x y)) '\''(1 2))' 
+    
     3
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(apply '\''(lambda (x y) (+ x y)) '\''(1 2))' 
+    
     3
+    
 
 
 .. warning::
@@ -243,14 +259,18 @@ case.scm
    
 
     $ ee '(pcase 1 (1 "one") (_ "else"))' 
-    one
+    
+    "one"
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(pcase 2 (1 "one") (_ "else"))' 
-    else
+    
+    "else"
+    
 
 
 
@@ -346,14 +366,18 @@ create a variable
    
 
     $ ee '(progn (deftype color () '\''(member red bule green)) (typep '\''red '\''color))' 
+    
     t
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(progn (deftype color () '\''(member red bule green)) (typep '\''apple '\''color))' 
+    
     nil
+    
 
 
 
@@ -650,7 +674,9 @@ see http://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_8.html
    
 
     $ ee '(or '\''() nil)' 
+    
     nil
+    
 
 
 
@@ -681,49 +707,53 @@ for.scm
    
 
     $ sh -c 'cnt=0; for i in `ls`; do echo "$cnt $i"; cnt=$((cnt + 1)); done' 
-    0 async
-    1 bit
-    2 byte
-    3 char
-    4 char-set
-    5 class
-    6 cmd
-    7 date
-    8 elisp
-    9 exception
-    10 func
-    11 hash
-    12 haskell.scm
-    13 hook.sh.tmp
-    14 html
-    15 http
-    16 index.rst
-    17 index.scm
-    18 index.sh
-    19 io
-    20 java.scm
-    21 lazy
-    22 list
-    23 macro
-    24 math
-    25 memory
-    26 module
-    27 number
-    28 op
-    29 path
-    30 pointer
-    31 range
-    32 regex
-    33 set
-    34 special_variables
-    35 stack
-    36 string
-    37 sys
-    38 test
-    39 test.tmp
-    40 tuple
-    41 type
-    42 vector
+    0 a.out
+    1 async
+    2 bit
+    3 byte
+    4 char
+    5 char-set
+    6 class
+    7 cmd
+    8 date
+    9 elisp
+    10 exception
+    11 func
+    12 hash
+    13 haskell.scm
+    14 hook.sh.tmp
+    15 html
+    16 http
+    17 ifdef.c
+    18 index.rst
+    19 index.scm
+    20 index.sh
+    21 io
+    22 java.scm
+    23 lazy
+    24 list
+    25 macro
+    26 math
+    27 memory
+    28 module
+    29 number
+    30 op
+    31 path
+    32 pointer
+    33 process
+    34 range
+    35 regex
+    36 set
+    37 special_variables
+    38 stack
+    39 string
+    40 sys
+    41 test
+    42 test.tmp
+    43 tuple
+    44 type
+    45 var
+    46 vector
     
 
 
@@ -775,7 +805,18 @@ for.scm
     2
     
     3
+    
     nil
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(loop for c from ?0 to ?9 do (princ (string c)))' 
+    0123456789
+    nil
+    
 
 
 
@@ -809,14 +850,18 @@ if.scm
    
 
     $ ee '(if t 1 2)' 
+    
     1
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(if nil 1 2)' 
+    
     2
+    
 
 
 .. code-block:: sh
@@ -1100,7 +1145,9 @@ setはシンボルを引数にとる
    
 
     $ ee '(set '\''a 1)' 
+    
     1
+    
 
 
 .. code-block:: sh
@@ -1182,106 +1229,6 @@ typeof
 
     $ ne 'typeof undefined' 
     
-
-
-
-undefined.scm
-=======================================
-
-
-.. code-block:: sh
-   
-
-    $ ne 'P(typeof a === '\''undefined'\'')' 
-    true
-    
-
-変数が未定義であることを確認
-
-.. code-block:: sh
-   
-
-    $ perl -E 'say "undefined" if !defined($a)'
-    undefined
-    
-
-未定義の場合に代入
-
-.. code-block:: sh
-   
-
-    $ perl -E '$a//=1; say $a'
-    1
-    
-
-
-.. warning::
-
-    shの注意 # 文字列として認識させるため"$VAR"とすること
-
-
-.. code-block:: sh
-   
-
-    $ sh -c 'test -z "$__THIS__IS__NOT__DEFINED" && echo "undefined"' 
-    undefined
-    
-
-定義を確認
-
-.. code-block:: sh
-   
-
-    $ sh -c 'test -n "$PATH" && echo "defined"' 
-    defined
-    
-
-
-.. code-block:: sh
-   
-
-    $ sh -c 'test -n a a && echo 1' 
-    test: a: unexpected operator
-    
-
-
-.. code-block:: sh
-   
-
-    $ sh -c 'test -n "a a" && echo 1' 
-    1
-    
-
-if a variable is defiend, then return 1
-
-.. code-block:: sh
-   
-
-    $ zsh -c 'echo ${+PATH}' 
-    1
-    
-
-
-.. code-block:: sh
-   
-
-    $ zsh -c 'echo ${+HOGEHOGE}' 
-    0
-    
-
-
-.. code-block:: sh
-   
-
-    $ ee '(boundp '\''HOGE)' 
-    nil
-
-
-.. code-block:: sh
-   
-
-    $ ee '(progn (boundp '\''HOGE) (setq HOGE 1) HOGE)' 
-    1
 
 
 

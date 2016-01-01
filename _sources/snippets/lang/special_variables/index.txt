@@ -16,7 +16,9 @@ bin.scm
    
 
     $ ee 'exec-path' 
-    (/usr/local/heroku/bin /usr/local/heroku/bin /usr/local/heroku/bin /sbin /bin /usr/sbin /usr/bin /usr/games /usr/local/sbin /usr/local/bin /home/me/bin /home/me/.cask/bin /home/me/lib/ /home/me/.cabal/bin /home/me/.cask/bin /home/me/lib/ /home/me/.cabal/bin /home/me/.cask/bin /home/me/lib/ /home/me/.cabal/bin /usr/local/libexec/emacs/24.5/amd64-portbld-freebsd10.1)
+    
+    ("/usr/local/heroku/bin" "/usr/local/heroku/bin" "/usr/local/heroku/bin" "/sbin" "/bin" "/usr/sbin" "/usr/bin" "/usr/games" "/usr/local/sbin" "/usr/local/bin" "/home/me/bin" "/home/me/.cask/bin" "/home/me/lib/" "/home/me/.cabal/bin" "/home/me/.cask/bin" "/home/me/lib/" "/home/me/.cabal/bin" "/home/me/.cask/bin" "/home/me/lib/" "/home/me/.cabal/bin" "/usr/local/libexec/emacs/24.5/amd64-portbld-freebsd10.1")
+    
 
 
 
@@ -201,8 +203,8 @@ expand symbol link
     #x = (1 + 2 + 3)
     x  = 6
     __func__ = main
-    __DATE__ = Dec 31 2015
-    __TIME__ = 12:00:57
+    __DATE__ = Jan  1 2016
+    __TIME__ = 10:48:29
     
 
 
@@ -276,7 +278,9 @@ load.scm
    
 
     $ ee 'load-path' 
-    (/usr/local/share/emacs/24.5/site-lisp /usr/local/share/emacs/site-lisp /usr/local/share/emacs/site-lisp/git /usr/local/share/emacs/24.5/lisp /usr/local/share/emacs/24.5/lisp/vc /usr/local/share/emacs/24.5/lisp/url /usr/local/share/emacs/24.5/lisp/textmodes /usr/local/share/emacs/24.5/lisp/progmodes /usr/local/share/emacs/24.5/lisp/play /usr/local/share/emacs/24.5/lisp/org /usr/local/share/emacs/24.5/lisp/nxml /usr/local/share/emacs/24.5/lisp/net /usr/local/share/emacs/24.5/lisp/mh-e /usr/local/share/emacs/24.5/lisp/mail /usr/local/share/emacs/24.5/lisp/leim /usr/local/share/emacs/24.5/lisp/language /usr/local/share/emacs/24.5/lisp/international /usr/local/share/emacs/24.5/lisp/gnus /usr/local/share/emacs/24.5/lisp/eshell /usr/local/share/emacs/24.5/lisp/erc /usr/local/share/emacs/24.5/lisp/emulation /usr/local/share/emacs/24.5/lisp/emacs-parallel /usr/local/share/emacs/24.5/lisp/emacs-lisp /usr/local/share/emacs/24.5/lisp/cedet /usr/local/share/emacs/24.5/lisp/calendar /usr/local/share/emacs/24.5/lisp/calc /usr/local/share/emacs/24.5/lisp/obsolete)
+    
+    ("/usr/local/share/emacs/24.5/site-lisp" "/usr/local/share/emacs/site-lisp" "/usr/local/share/emacs/site-lisp/git" "/usr/local/share/emacs/24.5/lisp" "/usr/local/share/emacs/24.5/lisp/vc" "/usr/local/share/emacs/24.5/lisp/url" "/usr/local/share/emacs/24.5/lisp/textmodes" "/usr/local/share/emacs/24.5/lisp/progmodes" "/usr/local/share/emacs/24.5/lisp/play" "/usr/local/share/emacs/24.5/lisp/org" "/usr/local/share/emacs/24.5/lisp/nxml" "/usr/local/share/emacs/24.5/lisp/net" "/usr/local/share/emacs/24.5/lisp/mh-e" "/usr/local/share/emacs/24.5/lisp/mail" "/usr/local/share/emacs/24.5/lisp/leim" "/usr/local/share/emacs/24.5/lisp/language" "/usr/local/share/emacs/24.5/lisp/international" "/usr/local/share/emacs/24.5/lisp/gnus" "/usr/local/share/emacs/24.5/lisp/eshell" "/usr/local/share/emacs/24.5/lisp/erc" "/usr/local/share/emacs/24.5/lisp/emulation" "/usr/local/share/emacs/24.5/lisp/emacs-parallel" "/usr/local/share/emacs/24.5/lisp/emacs-lisp" "/usr/local/share/emacs/24.5/lisp/cedet" "/usr/local/share/emacs/24.5/lisp/calendar" "/usr/local/share/emacs/24.5/lisp/calc" "/usr/local/share/emacs/24.5/lisp/obsolete")
+    
 
 
 
@@ -289,7 +293,7 @@ getCurrentPID
    
 
     $ perl -E 'say $$' 
-    42299
+    88929
     
 
 
@@ -297,6 +301,6 @@ getCurrentPID
    
 
     $ echo $$
-    42318
+    88948
     
 

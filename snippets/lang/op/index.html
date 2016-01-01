@@ -118,8 +118,7 @@
 <li><a class="reference internal" href="#pass-scm" id="id14">pass.scm</a></li>
 <li><a class="reference internal" href="#set-scm" id="id15">set.scm</a></li>
 <li><a class="reference internal" href="#typeof-scm" id="id16">typeof.scm</a></li>
-<li><a class="reference internal" href="#undefined-scm" id="id17">undefined.scm</a></li>
-<li><a class="reference internal" href="#when-scm" id="id18">when.scm</a></li>
+<li><a class="reference internal" href="#when-scm" id="id17">when.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -203,34 +202,42 @@ _______________________________________
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(+ 1 2)&#39;</span>
+
 3
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(funcall &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+ 1 2)&#39;</span>
+
 3
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+ &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+
 3
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+ 1 &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(2))&#39;</span>
+
 3
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+ 1 2 &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;())&#39;</span>
+
 3
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply (symbol-function &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;+) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+
 3
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply (lambda (x y) (+ x y)) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+
 3
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(apply &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(lambda (x y) (+ x y)) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+
 3
 </pre></div>
 </div>
@@ -267,11 +274,13 @@ I want banana
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(pcase 1 (1 &quot;one&quot;) (_ &quot;else&quot;))&#39;</span>
-one
+
+<span class="s2">&quot;one&quot;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(pcase 2 (1 &quot;one&quot;) (_ &quot;else&quot;))&#39;</span>
-<span class="k">else</span>
+
+<span class="s2">&quot;else&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -326,10 +335,12 @@ one
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (deftype color () &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(member red bule green)) (typep &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;red &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;color))&#39;</span>
+
 t
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (deftype color () &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(member red bule green)) (typep &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;apple &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;color))&#39;</span>
+
 nil
 </pre></div>
 </div>
@@ -494,6 +505,7 @@ _______________________________________
 <p class="last">goshでは&#8217;()は真として扱われるが、elispでは偽として扱われるので注意</p>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(or &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;() nil)&#39;</span>
+
 nil
 </pre></div>
 </div>
@@ -514,49 +526,53 @@ nil
 </div>
 <p>区切り文字を$IFSとして、配列を生成し、行つきの結果を表示</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;cnt=0; for i in `ls`; do echo &quot;$cnt $i&quot;; cnt=$((cnt + 1)); done&#39;</span>
-<span class="m">0</span> async
-<span class="m">1</span> bit
-<span class="m">2</span> byte
-<span class="m">3</span> char
-<span class="m">4</span> char-set
-<span class="m">5</span> class
-<span class="m">6</span> cmd
-<span class="m">7</span> date
-<span class="m">8</span> elisp
-<span class="m">9</span> exception
-<span class="m">10</span> func
-<span class="m">11</span> <span class="nb">hash</span>
-<span class="m">12</span> haskell.scm
-<span class="m">13</span> hook.sh.tmp
-<span class="m">14</span> html
-<span class="m">15</span> http
-<span class="m">16</span> index.rst
-<span class="m">17</span> index.scm
-<span class="m">18</span> index.sh
-<span class="m">19</span> io
-<span class="m">20</span> java.scm
-<span class="m">21</span> lazy
-<span class="m">22</span> list
-<span class="m">23</span> macro
-<span class="m">24</span> math
-<span class="m">25</span> memory
-<span class="m">26</span> module
-<span class="m">27</span> number
-<span class="m">28</span> op
-<span class="m">29</span> path
-<span class="m">30</span> pointer
-<span class="m">31</span> range
-<span class="m">32</span> regex
-<span class="m">33</span> <span class="nb">set</span>
-<span class="m">34</span> special_variables
-<span class="m">35</span> stack
-<span class="m">36</span> string
-<span class="m">37</span> sys
-<span class="m">38</span> <span class="nb">test</span>
-<span class="m">39</span> test.tmp
-<span class="m">40</span> tuple
-<span class="m">41</span> <span class="nb">type</span>
-<span class="m">42</span> vector
+<span class="m">0</span> a.out
+<span class="m">1</span> async
+<span class="m">2</span> bit
+<span class="m">3</span> byte
+<span class="m">4</span> char
+<span class="m">5</span> char-set
+<span class="m">6</span> class
+<span class="m">7</span> cmd
+<span class="m">8</span> date
+<span class="m">9</span> elisp
+<span class="m">10</span> exception
+<span class="m">11</span> func
+<span class="m">12</span> <span class="nb">hash</span>
+<span class="m">13</span> haskell.scm
+<span class="m">14</span> hook.sh.tmp
+<span class="m">15</span> html
+<span class="m">16</span> http
+<span class="m">17</span> ifdef.c
+<span class="m">18</span> index.rst
+<span class="m">19</span> index.scm
+<span class="m">20</span> index.sh
+<span class="m">21</span> io
+<span class="m">22</span> java.scm
+<span class="m">23</span> lazy
+<span class="m">24</span> list
+<span class="m">25</span> macro
+<span class="m">26</span> math
+<span class="m">27</span> memory
+<span class="m">28</span> module
+<span class="m">29</span> number
+<span class="m">30</span> op
+<span class="m">31</span> path
+<span class="m">32</span> pointer
+<span class="m">33</span> process
+<span class="m">34</span> range
+<span class="m">35</span> regex
+<span class="m">36</span> <span class="nb">set</span>
+<span class="m">37</span> special_variables
+<span class="m">38</span> stack
+<span class="m">39</span> string
+<span class="m">40</span> sys
+<span class="m">41</span> <span class="nb">test</span>
+<span class="m">42</span> test.tmp
+<span class="m">43</span> tuple
+<span class="m">44</span> <span class="nb">type</span>
+<span class="m">45</span> var
+<span class="m">46</span> vector
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -590,6 +606,12 @@ Symbol&#39;s function definition is void: |--each|
 2
 
 3
+
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(loop for c from ?0 to ?9 do (princ (string c)))&#39;</span>
+0123456789
 nil
 </pre></div>
 </div>
@@ -608,10 +630,12 @@ ok
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(if t 1 2)&#39;</span>
+
 1
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(if nil 1 2)&#39;</span>
+
 2
 </pre></div>
 </div>
@@ -769,6 +793,7 @@ HOGE
 </div>
 <p>setはシンボルを引数にとる</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(set &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a 1)&#39;</span>
+
 1
 </pre></div>
 </div>
@@ -811,63 +836,8 @@ HOGE
 </div>
 </div>
 </div>
-<div class="section" id="undefined-scm">
-<h2><a class="toc-backref" href="#id17">undefined.scm</a><a class="headerlink" href="#undefined-scm" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;P(typeof a === &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;undefined&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
-<span class="nb">true</span>
-</pre></div>
-</div>
-<p>変数が未定義であることを確認</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;undefined&quot; if !defined($a)&#39;</span>
-undefined
-</pre></div>
-</div>
-<p>未定義の場合に代入</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$a//=1; say $a&#39;</span>
-1
-</pre></div>
-</div>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">shの注意 # 文字列として認識させるため&#8221;$VAR&#8221;とすること</p>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -z &quot;$__THIS__IS__NOT__DEFINED&quot; &amp;&amp; echo &quot;undefined&quot;&#39;</span>
-undefined
-</pre></div>
-</div>
-<p>定義を確認</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n &quot;$PATH&quot; &amp;&amp; echo &quot;defined&quot;&#39;</span>
-defined
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n a a &amp;&amp; echo 1&#39;</span>
-<span class="nb">test</span>: a: unexpected operator
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n &quot;a a&quot; &amp;&amp; echo 1&#39;</span>
-1
-</pre></div>
-</div>
-<p>if a variable is defiend, then return 1</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo ${+PATH}&#39;</span>
-1
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo ${+HOGEHOGE}&#39;</span>
-0
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(boundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE)&#39;</span>
-nil
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (boundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE) (setq HOGE 1) HOGE)&#39;</span>
-1
-</pre></div>
-</div>
-</div>
 <div class="section" id="when-scm">
-<h2><a class="toc-backref" href="#id18">when.scm</a><a class="headerlink" href="#when-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">when.scm</a><a class="headerlink" href="#when-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre>$ ee &#39;(|--when-let| (+ 1 2 3) (* it it))&#39;
 Symbol&#39;s function definition is void: |--when-let|
 </pre></div>

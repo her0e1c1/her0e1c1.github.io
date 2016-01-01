@@ -12,6 +12,14 @@ error.scm
 ===========================
 
 
+.. code-block:: sh
+   
+
+    $ ee '(error "error!!")' 
+    error!!
+    
+
+
 
 index.scm
 ===========================
@@ -94,7 +102,9 @@ bodyがエラーを起こしても、必ずCLEAN-UP-FORMSが呼ばれる(ただ�
     $ ee '(unwind-protect (/ 1 1) (print "always print this"))' 
     
     "always print this"
+    
     1
+    
 
 Catch errors and return nil
 
@@ -102,7 +112,9 @@ Catch errors and return nil
    
 
     $ ee '(ignore-errors (/ 1 0))' 
+    
     nil
+    
 
 Return the last expression
 
@@ -110,7 +122,9 @@ Return the last expression
    
 
     $ ee '(ignore-errors (/ 10 1) 2 nil 1)' 
+    
     1
+    
 
 unwind-protectとignore-errorsを使い、エラーをキャッチして処理を続ける(失敗した場合はnil)
 
@@ -120,7 +134,9 @@ unwind-protectとignore-errorsを使い、エラーをキャッチして処理�
     $ ee '(ignore-errors (unwind-protect (/ 1 0) (print "always print this")))' 
     
     "always print this"
+    
     nil
+    
 
 char*型は不可
 

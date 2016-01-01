@@ -110,21 +110,22 @@
 <li><a class="reference internal" href="#g-scm" id="id10">g.scm</a></li>
 <li><a class="reference internal" href="#greedy-scm" id="id11">greedy.scm</a></li>
 <li><a class="reference internal" href="#group-scm" id="id12">group.scm</a></li>
-<li><a class="reference internal" href="#lookahead-negative-scm" id="id13">lookahead-negative.scm</a></li>
-<li><a class="reference internal" href="#lookahead-scm" id="id14">lookahead.scm</a></li>
-<li><a class="reference internal" href="#lookbehind-negative-scm" id="id15">lookbehind-negative.scm</a></li>
-<li><a class="reference internal" href="#lookbehind-scm" id="id16">lookbehind.scm</a></li>
-<li><a class="reference internal" href="#match-scm" id="id17">match.scm</a></li>
-<li><a class="reference internal" href="#name-scm" id="id18">name.scm</a></li>
-<li><a class="reference internal" href="#nocapture-scm" id="id19">noCapture.scm</a></li>
-<li><a class="reference internal" href="#peg-scm" id="id20">peg.scm</a></li>
-<li><a class="reference internal" href="#pos-scm" id="id21">pos.scm</a></li>
-<li><a class="reference internal" href="#replace-scm" id="id22">replace.scm</a></li>
-<li><a class="reference internal" href="#split-scm" id="id23">split.scm</a></li>
-<li><a class="reference internal" href="#sub-scm" id="id24">sub.scm</a></li>
-<li><a class="reference internal" href="#whitespace-scm" id="id25">whitespace.scm</a></li>
-<li><a class="reference internal" href="#word-scm" id="id26">word.scm</a></li>
-<li><a class="reference internal" href="#x-scm" id="id27">x.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id13">index.scm</a></li>
+<li><a class="reference internal" href="#lookahead-negative-scm" id="id14">lookahead-negative.scm</a></li>
+<li><a class="reference internal" href="#lookahead-scm" id="id15">lookahead.scm</a></li>
+<li><a class="reference internal" href="#lookbehind-negative-scm" id="id16">lookbehind-negative.scm</a></li>
+<li><a class="reference internal" href="#lookbehind-scm" id="id17">lookbehind.scm</a></li>
+<li><a class="reference internal" href="#match-scm" id="id18">match.scm</a></li>
+<li><a class="reference internal" href="#name-scm" id="id19">name.scm</a></li>
+<li><a class="reference internal" href="#nocapture-scm" id="id20">noCapture.scm</a></li>
+<li><a class="reference internal" href="#peg-scm" id="id21">peg.scm</a></li>
+<li><a class="reference internal" href="#pos-scm" id="id22">pos.scm</a></li>
+<li><a class="reference internal" href="#replace-scm" id="id23">replace.scm</a></li>
+<li><a class="reference internal" href="#split-scm" id="id24">split.scm</a></li>
+<li><a class="reference internal" href="#sub-scm" id="id25">sub.scm</a></li>
+<li><a class="reference internal" href="#whitespace-scm" id="id26">whitespace.scm</a></li>
+<li><a class="reference internal" href="#word-scm" id="id27">word.scm</a></li>
+<li><a class="reference internal" href="#x-scm" id="id28">x.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -132,7 +133,7 @@
 <div class="section" id="after-scm">
 <h2><a class="toc-backref" href="#id6">after.scm</a><a class="headerlink" href="#after-scm" title="Permalink to this headline">¶</a></h2>
 <p>最後にマッチした部分に続く文字列</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s2">&quot;qq/pre 1234 post/ =~/d+/; say </span><span class="nv">$&#39;</span><span class="s2">&quot;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;qq/pre 1234 post/ =~/d+/; say $&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&#39;</span>
 </pre></div>
 </div>
 <p>file.min.js =&gt; file.js</p>
@@ -247,10 +248,6 @@ home/usr/test.txt
 <span class="s2">Syntax error: &quot;</span><span class="o">(</span><span class="s2">&quot; unexpected</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>python -c <span class="s1">&#39;import re; print(re.match(r&quot;((((1)2)3)4)&quot;, &quot;1234&quot;).groups())&#39;</span>
-<span class="o">(</span><span class="s1">&#39;1234&#39;</span>, <span class="s1">&#39;123&#39;</span>, <span class="s1">&#39;12&#39;</span>, <span class="s1">&#39;1&#39;</span><span class="o">)</span>
-</pre></div>
-</div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=shift; say if /([&quot;&#39;&#39;])abc1/ &#39;</span> <span class="s1">&#39;&quot;abc&quot;&#39;</span>
 </pre></div>
 </div>
@@ -269,9 +266,44 @@ home/usr/test.txt
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say $&amp; if shift =~ /(&lt;)w+@w+(?:.w+)+(?(1)&gt;)/&#39;</span> <span class="s1">&#39;&lt;abc@aaa.com&gt;&#39;</span>
 </pre></div>
 </div>
+<div class="section" id="group-index">
+<h3>group index<a class="headerlink" href="#group-index" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(re.match(r&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(((1)2)3)&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;, &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;123&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;).groups())&#39;</span>
+<span class="o">(</span><span class="s1">&#39;123&#39;</span>, <span class="s1">&#39;12&#39;</span>, <span class="s1">&#39;1&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (let ((s &quot;123&quot;)) (string-match &quot;\\(\\(\\(1\\)2\\)3\\)&quot; s) (match-string 0 s)))&#39;</span>
+
+<span class="s2">&quot;123&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (let ((s &quot;123&quot;)) (string-match &quot;\\(\\(\\(1\\)2\\)3\\)&quot; s) (match-string 1 s)))&#39;</span>
+
+<span class="s2">&quot;123&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (let ((s &quot;123&quot;)) (string-match &quot;\\(\\(\\(1\\)2\\)3\\)&quot; s) (match-string 2 s)))&#39;</span>
+
+<span class="s2">&quot;12&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (let ((s &quot;123&quot;)) (string-match &quot;\\(\\(\\(1\\)2\\)3\\)&quot; s) (match-string 3 s)))&#39;</span>
+
+<span class="s2">&quot;1&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (let ((s &quot;123&quot;)) (string-match &quot;\\(\\(\\(1\\)2\\)3\\)&quot; s) (match-string 4 s)))&#39;</span>
+
+nil
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="index-scm">
+<h2><a class="toc-backref" href="#id13">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="lookahead-negative-scm">
-<h2><a class="toc-backref" href="#id13">lookahead-negative.scm</a><a class="headerlink" href="#lookahead-negative-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">lookahead-negative.scm</a><a class="headerlink" href="#lookahead-negative-scm" title="Permalink to this headline">¶</a></h2>
 <p>if string does not match (?!...), then match</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -290,7 +322,7 @@ None
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(match(r&quot;abc(?!def)&quot;, &quot;abcDEF&quot;))&#39;</span>
-&lt;_sre.SRE_Match object at 0x8007e5098&gt;
+&lt;_sre.SRE_Match object at 0x8007e4098&gt;
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=q/abcdef/; say if /(?!abc)def/&#39;</span>
@@ -309,12 +341,12 @@ abcDEF
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(p (#/(?!abc)def/ &quot;abcdef&quot;))&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x160dc30&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1612420&gt;</span>
 <span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(p (#/(?!abc)def/ &quot;ABCdef&quot;))&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x160dc30&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1612420&gt;</span>
 <span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
@@ -324,13 +356,13 @@ abcDEF
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(p (#/abc(?!def)/ &quot;abcDEF&quot;))&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x160dc30&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1612420&gt;</span>
 <span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="lookahead-scm">
-<h2><a class="toc-backref" href="#id14">lookahead.scm</a><a class="headerlink" href="#lookahead-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id15">lookahead.scm</a><a class="headerlink" href="#lookahead-scm" title="Permalink to this headline">¶</a></h2>
 <p>後に続く文字列が条件に合致した場合に、その手前にマッチさせる</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=shift; say $&amp; if /abc(?=def)/&#39;</span> abcdef
 abc
@@ -351,7 +383,7 @@ abc
 </div>
 </div>
 <div class="section" id="lookbehind-negative-scm">
-<h2><a class="toc-backref" href="#id15">lookbehind-negative.scm</a><a class="headerlink" href="#lookbehind-negative-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id16">lookbehind-negative.scm</a><a class="headerlink" href="#lookbehind-negative-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=q/There is a man/; say if /(?&lt;!wo)man/&#39;</span>
 There is a man
 </pre></div>
@@ -368,7 +400,7 @@ There is a woman
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(search(r&quot;(?&lt;!wo)man&quot;, &quot;There is a man&quot;))&#39;</span>
-&lt;_sre.SRE_Match object at 0x8007e5098&gt;
+&lt;_sre.SRE_Match object at 0x8007e4098&gt;
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(search(r&quot;(?&lt;!wo)man&quot;, &quot;There is a woman&quot;))&#39;</span>
@@ -377,7 +409,7 @@ None
 </div>
 </div>
 <div class="section" id="lookbehind-scm">
-<h2><a class="toc-backref" href="#id16">lookbehind.scm</a><a class="headerlink" href="#lookbehind-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">lookbehind.scm</a><a class="headerlink" href="#lookbehind-scm" title="Permalink to this headline">¶</a></h2>
 <p>positive
 置換などで、マッチさせずに置換対象を狭めるのに使う
 src=&#8221;../ =&gt; src=&#8221;/</p>
@@ -395,7 +427,7 @@ st
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(match(r&quot;(?&lt;=.*?)st&quot;, &quot;test&quot;))&#39;</span>
 Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
-  File <span class="s2">&quot;&lt;string&gt;&quot;</span>, line 11, in &lt;module&gt;
+  File <span class="s2">&quot;&lt;string&gt;&quot;</span>, line 12, in &lt;module&gt;
   File <span class="s2">&quot;/usr/local/lib/python2.7/re.py&quot;</span>, line 141, in match
     <span class="k">return</span> _compile<span class="o">(</span>pattern, flags<span class="o">)</span>.match<span class="o">(</span>string<span class="o">)</span>
   File <span class="s2">&quot;/usr/local/lib/python2.7/re.py&quot;</span>, line 251, in _compile
@@ -414,7 +446,7 @@ st
 </div>
 </div>
 <div class="section" id="match-scm">
-<h2><a class="toc-backref" href="#id17">match.scm</a><a class="headerlink" href="#match-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id18">match.scm</a><a class="headerlink" href="#match-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;ABCDEF&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.match(/DEF/i)&#39;</span>
 </pre></div>
 </div>
@@ -422,7 +454,7 @@ st
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(#/str/ &quot;strng&quot;)&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x1604030&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1611a20&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;((#/str/ &quot;strng&quot;) 0)&#39;</span>
@@ -435,7 +467,7 @@ str
 </div>
 </div>
 <div class="section" id="name-scm">
-<h2><a class="toc-backref" href="#id18">name.scm</a><a class="headerlink" href="#name-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id19">name.scm</a><a class="headerlink" href="#name-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=shift; say qq/$+{name}/ if /(?P&lt;name&gt;a)/ &#39;</span> a
 a
 </pre></div>
@@ -460,7 +492,7 @@ aaaline
 </div>
 </div>
 <div class="section" id="nocapture-scm">
-<h2><a class="toc-backref" href="#id19">noCapture.scm</a><a class="headerlink" href="#nocapture-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id20">noCapture.scm</a><a class="headerlink" href="#nocapture-scm" title="Permalink to this headline">¶</a></h2>
 <p>use : for no capture</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;shift =~ /(a)(?:b)(c)/; say $1.$2&#39;</span> abc
 ac
@@ -472,10 +504,10 @@ ac
 </div>
 </div>
 <div class="section" id="peg-scm">
-<h2><a class="toc-backref" href="#id20">peg.scm</a><a class="headerlink" href="#peg-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id21">peg.scm</a><a class="headerlink" href="#peg-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="pos-scm">
-<h2><a class="toc-backref" href="#id21">pos.scm</a><a class="headerlink" href="#pos-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id22">pos.scm</a><a class="headerlink" href="#pos-scm" title="Permalink to this headline">¶</a></h2>
 <p>$-[]マッチ開始位置かな, $+[]マッチ終了位置. /path/to =&gt; /path/to/</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=shift; m#&lt;a.*?href=([&quot;&#39;&#39;])(.*?)1.*?&gt;#; $a=$2; substr($_, $-[2], $+[2] - $-[2]) = $a.&quot;/&quot;; say&#39;</span> <span class="s2">&quot;&lt;a href=&#39;/path/to&#39;&gt;&quot;</span>
 /&lt;a <span class="nv">href</span><span class="o">=</span><span class="s1">&#39;/path/to&#39;</span>&gt;
@@ -483,7 +515,7 @@ ac
 </div>
 </div>
 <div class="section" id="replace-scm">
-<h2><a class="toc-backref" href="#id22">replace.scm</a><a class="headerlink" href="#replace-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id23">replace.scm</a><a class="headerlink" href="#replace-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;replace(/aaa/g, &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;bbb&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;);&#39;</span>
 <span class="o">[</span><span class="nb">eval</span><span class="o">]</span>:8
 replace<span class="o">(</span>/aaa/g, <span class="s1">&#39;bbb&#39;</span><span class="o">)</span><span class="p">;</span>
@@ -501,7 +533,7 @@ ReferenceError: replace is not defined
 </div>
 </div>
 <div class="section" id="split-scm">
-<h2><a class="toc-backref" href="#id23">split.scm</a><a class="headerlink" href="#split-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id24">split.scm</a><a class="headerlink" href="#split-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say split /(\d+)/, qq/a 1 b 2 c 4/;&#39;</span>
 a <span class="m">1</span> b <span class="m">2</span> c 4
 </pre></div>
@@ -530,7 +562,7 @@ abcd-efgh-ijk
 </div>
 </div>
 <div class="section" id="sub-scm">
-<h2><a class="toc-backref" href="#id24">sub.scm</a><a class="headerlink" href="#sub-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id25">sub.scm</a><a class="headerlink" href="#sub-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;a=&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;hoge&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;; echo ${a/ho/HO}&#39;</span>
 HOge
 </pre></div>
@@ -552,7 +584,7 @@ a-abcA-Abc
 </div>
 </div>
 <div class="section" id="whitespace-scm">
-<h2><a class="toc-backref" href="#id25">whitespace.scm</a><a class="headerlink" href="#whitespace-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id26">whitespace.scm</a><a class="headerlink" href="#whitespace-scm" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">Don&#8217;t use -l option, which chomps &#8221;
@@ -574,17 +606,17 @@ ccc
 </div>
 </div>
 <div class="section" id="word-scm">
-<h2><a class="toc-backref" href="#id26">word.scm</a><a class="headerlink" href="#word-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id27">word.scm</a><a class="headerlink" href="#word-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="x-scm">
-<h2><a class="toc-backref" href="#id27">x.scm</a><a class="headerlink" href="#x-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id28">x.scm</a><a class="headerlink" href="#x-scm" title="Permalink to this headline">¶</a></h2>
 <p>with x option, ignore whitespace</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=&quot;abc&quot;; /a   b c/x; say $&amp;&#39;</span>
 abc
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(match(r&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a   b c&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;, &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;abc&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;, X))&#39;</span>
-&lt;_sre.SRE_Match object at 0x8007e5098&gt;
+&lt;_sre.SRE_Match object at 0x8007e4098&gt;
 </pre></div>
 </div>
 </div>

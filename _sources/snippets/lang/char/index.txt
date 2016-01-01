@@ -153,6 +153,15 @@ ord.scm
     
 
 
+.. code-block:: sh
+   
+
+    $ ee '(string-to-char "a")' 
+    
+    97
+    
+
+
 
 width.scm
 ===========================

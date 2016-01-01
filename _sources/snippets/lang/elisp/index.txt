@@ -17,28 +17,36 @@ in case of oneliner, buffer is *scratch*
    
 
     $ ee '(current-buffer)' 
-    *scratch*
+    
+    #<buffer *scratch*>
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(buffer-name (current-buffer))' 
-    *scratch*
+    
+    "*scratch*"
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(bufferp (current-buffer))' 
+    
     t
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "hoge") (buffer-string))' 
-    hoge
+    
+    "hoge"
+    
 
 
 .. code-block:: sh
@@ -46,39 +54,59 @@ in case of oneliner, buffer is *scratch*
 
     $ ee '(with-temp-buffer (insert "hoge") (erase-buffer) (buffer-string))' 
     
+    ""
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "hoge") (buffer-size))' 
+    
     4
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(get-buffer "HOGE")' 
+    
     nil
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(get-buffer "*scratch*")' 
-    *scratch*
+    
+    #<buffer *scratch*>
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(buffer-list)' 
-    (*scratch*  *Minibuf-0* *Messages*  *code-conversion-work*)
+    
+    (#<buffer *scratch*> #<buffer  *Minibuf-0*> #<buffer *Messages*> #<buffer  *code-conversion-work*>)
+    
+
+
+
+helm.scm
+========================
 
 
 
 index.scm
 ===========================
+
+
+
+key.scm
+=====================
 
 
 
@@ -100,28 +128,82 @@ move.scm
    
 
     $ ee '(with-temp-buffer (insert "ho\nge\n") (previous-line) (point))' 
+    
     4
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "ho\nge\n") (point))' 
+    
     7
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "FIRST LINE") (beginning-of-line) (string (char-after)))' 
-    F
+    
+    "F"
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "1. FIRST\n2. SECOND\n3. THIRD\n") (previous-line) (string (char-after)))' 
-    3
+    
+    "3"
+    
+
+
+
+narrow.scm
+==============================
+
+
+.. warning::
+
+    no string in buffer
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (narrow-to-region 1 2) (buffer-narrowed-p))' 
+    Args out of range: 1, 2
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "hoge") (narrow-to-region 1 2) (buffer-narrowed-p))' 
+    
+    t
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "hoge") (narrow-to-region 1 2) (widen) (buffer-narrowed-p))' 
+    
+    nil
+    
+
+save current narrowing with save-restriction
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "hoge") (narrow-to-region 1 2) (save-restriction (widen)) (buffer-narrowed-p))' 
+    
+    t
+    
 
 
 
@@ -134,7 +216,9 @@ insertするとpointも移動する
    
 
     $ ee '(with-temp-buffer (insert "A") (string (char-before)))' 
-    A
+    
+    "A"
+    
 
 
 .. warning::
@@ -155,7 +239,9 @@ insertするとpointも移動する
 
     $ ee '(with-temp-buffer (insert "A") (beginning-of-buffer) (string (char-after)))' 
     Mark set
-    A
+    
+    "A"
+    
 
 
 .. code-block:: sh
@@ -163,7 +249,9 @@ insertするとpointも移動する
 
     $ ee '(with-temp-buffer (insert "A") (beginning-of-buffer) (bobp))' 
     Mark set
+    
     t
+    
 
 
 .. code-block:: sh
@@ -171,7 +259,9 @@ insertするとpointも移動する
 
     $ ee '(with-temp-buffer (insert "A") (beginning-of-buffer) (eobp))' 
     Mark set
+    
     nil
+    
 
 
 .. code-block:: sh
@@ -179,7 +269,9 @@ insertするとpointも移動する
 
     $ ee '(with-temp-buffer (insert "A") (end-of-buffer) (bobp))' 
     Mark set
+    
     nil
+    
 
 
 .. code-block:: sh
@@ -187,7 +279,9 @@ insertするとpointも移動する
 
     $ ee '(with-temp-buffer (insert "A") (end-of-buffer) (eobp))' 
     Mark set
+    
     t
+    
 
 常に1?
 
@@ -195,7 +289,9 @@ insertするとpointも移動する
    
 
     $ ee '(with-temp-buffer (insert "ABC") (point-min))' 
+    
     1
+    
 
 
 .. warning::
@@ -207,42 +303,54 @@ insertするとpointも移動する
    
 
     $ ee '(with-temp-buffer (insert "ABC") (point-max))' 
+    
     4
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "ABC") (<= (point-min) (point) (point-max)))' 
+    
     t
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "A") (beginning-of-line) (bolp))' 
+    
     t
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "A") (beginning-of-line) (eolp))' 
+    
     nil
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "A") (end-of-line) (bolp))' 
+    
     nil
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(with-temp-buffer (insert "A") (end-of-line) (eolp))' 
+    
     t
+    
 
 
 

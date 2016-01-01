@@ -8,6 +8,94 @@ type
 
 
 
+double.scm
+==============================
+
+
+.. code-block:: sh
+   
+
+    $ p("%f", (double)(1 << 30));
+    Syntax error: "(" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ p("%lf", (double)(1UL << 52));
+    Syntax error: "(" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ p("%lf", (double)(1UL << 63));
+    Syntax error: "(" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ p("%f", (double)(1 << 50));
+    Syntax error: "(" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ p("%lf", (double)(1 << 50));
+    Syntax error: "(" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ p("%lf", (long)(1 << 40));
+    Syntax error: "(" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ p("%lf", (double)(1 << 50));
+    Syntax error: "(" unexpected
+    
+
+not 0.1 but 0.125?
+
+.. code-block:: sh
+   
+
+    $ p("%lf", (double)((1UL << 49) + 0.1));
+    Syntax error: "(" unexpected
+    
+
+
+.. warning::
+
+    warn
+
+
+.. code-block:: sh
+   
+
+    $ p("%lf", (double)(1UL << 64));
+    Syntax error: "(" unexpected
+    
+
+
+
+index.scm
+===========================
+
+
+
 init.scm
 ========================
 
@@ -20,7 +108,7 @@ init.scm
         char*a; __typeof(a) i = "abc"; ps(i);
                                        ^
     1 warning generated.
-    /tmp/--1L0omh.o: In function `main':
+    /tmp/--xiLgFC.o: In function `main':
     -:(.text+0x311): undefined reference to `ps'
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
@@ -255,63 +343,81 @@ type.scm
    
 
     $ ee '(type-of 42)' 
+    
     integer
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(type-of 3.14)' 
+    
     float
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(type-of "foo")' 
+    
     string
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(type-of '\''(1 2))' 
+    
     cons
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(type-of '\''(1 2))' 
+    
     cons
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(type-of '\''foo)' 
+    
     symbol
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(type-of ?a)' 
+    
     integer
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(symbolp '\''foo)' 
+    
     t
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(symbol-name '\''foo)' 
-    foo
+    
+    "foo"
+    
 
 
 .. code-block:: sh
@@ -327,7 +433,9 @@ type.scm
    
 
     $ ee '(boundp '\''foo)' 
+    
     nil
+    
 
 関数セルに関数があればt、なければnil
 
@@ -335,12 +443,16 @@ type.scm
    
 
     $ ee '(fboundp '\''foo)' 
+    
     nil
+    
 
 
 .. code-block:: sh
    
 
     $ ee '(symbol-function '\''foo)' 
+    
     nil
+    
 

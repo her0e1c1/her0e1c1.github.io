@@ -174,7 +174,7 @@ ReferenceError: a is not defined
 </div>
 <p>存在しないものを参照するとエラー</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(let1 t (make-hash-table) (hash-table-get t &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;no-key))&#39;</span>
-*** ERROR: <span class="c">#&lt;hash-table eq? 0x178b140&gt; doesn&#39;t have an entry for key no-key</span>
+*** ERROR: <span class="c">#&lt;hash-table eq? 0x17b9d20&gt; doesn&#39;t have an entry for key no-key</span>
 Stack Trace:
 _______________________________________
   <span class="m">0</span>  <span class="o">(</span><span class="nb">hash</span>-table-get t <span class="s1">&#39;no-key)</span>
@@ -274,7 +274,7 @@ m<span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="o">]<
 assoc =&gt; equal?
 assv =&gt; eqv?</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(make-hash-table &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;eq?)&#39;</span>
-<span class="c">#&lt;hash-table eq? 0x178b370&gt;</span>
+<span class="c">#&lt;hash-table eq? 0x178bfa0&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -371,7 +371,7 @@ m<span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="o">]<
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(let1 t (make-hash-table) (hash-table-put! t &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;k 1) (describe t))&#39;</span>
-<span class="c">#&lt;hash-table eq? 0x178b140&gt; is an instance of class &lt;hash-table&gt;</span>
+<span class="c">#&lt;hash-table eq? 0x17b9d20&gt; is an instance of class &lt;hash-table&gt;</span>
 <span class="c">#t</span>
 </pre></div>
 </div>

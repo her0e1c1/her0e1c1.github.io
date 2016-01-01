@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>bs &mdash; Hiroyuki Ishii</title>
+    <title>binary-search &mdash; Hiroyuki Ishii</title>
     
     <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -97,19 +97,170 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="bs">
-<h1><a class="toc-backref" href="#id1">bs</a><a class="headerlink" href="#bs" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="binary-search">
+<h1><a class="toc-backref" href="#id2">binary-search</a><a class="headerlink" href="#binary-search" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#bs" id="id1">bs</a><ul>
-<li><a class="reference internal" href="#bit-scm" id="id2">bit.scm</a></li>
+<li><a class="reference internal" href="#binary-search" id="id2">binary-search</a><ul>
+<li><a class="reference internal" href="#bit-scm" id="id3">bit.scm</a></li>
+<li><a class="reference internal" href="#complement-scm" id="id4">complement.scm</a></li>
+<li><a class="reference internal" href="#findsqrtn-scm" id="id5">findSqrtN.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id6">index.scm</a></li>
+<li><a class="reference internal" href="#rotate-scm" id="id7">rotate.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="bit-scm">
-<h2><a class="toc-backref" href="#id2">bit.scm</a><a class="headerlink" href="#bit-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">bit.scm</a><a class="headerlink" href="#bit-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="complement-scm">
+<h2><a class="toc-backref" href="#id4">complement.scm</a><a class="headerlink" href="#complement-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="findsqrtn-scm">
+<h2><a class="toc-backref" href="#id5">findSqrtN.scm</a><a class="headerlink" href="#findsqrtn-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="n">
+<h3>２乗したらnになる整数は？<a class="headerlink" href="#n" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    n in N s.t. max_{x} f(x) = x^2 - n <= 0
+\end{eqnarray}\]</div><p>f(x) &lt;= 0の場合に、+ 2^xを大きい方から累積する。単調増加関数である必要あり</p>
+<div class="highlight-gosh"><div class="highlight"><pre>(let* ((n 15241578750190521)
+       (f (^x (- (* x x) n)))
+       (g (^(a acc)
+            (let1 x (+ a acc) (if (&lt;= (f x) 0) x acc)))))
+  (print (fold g 0 (map (pa$ expt 2) (reverse (iota 63))))))
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>123456789
+</pre></div>
+</div>
+<div class="highlight-gosh"><div class="highlight"><pre>(print
+ (let* ((n 15241578750190521)
+        (f (^x (- (* x x) n))))
+   (let loop ((low 0) (high (expt 2 63)))
+     (if (&gt; low high)
+         -1
+         (let* ((x (div (+ low high) 2))
+                (fx (f x)))
+           (cond ((= fx 0) x)
+                 ((&lt; fx 0) (loop (+ x 1) high))
+                 (else (loop low (- x 1)))))))))
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>123456789
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="index-scm">
+<h2><a class="toc-backref" href="#id6">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>基本的な考え方<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+
+\\[low, high]の区間を探索
+\\
+\\中点を取る際に、以下の２通りが考えられる(k \ge 0)
+\\high & = low + 2k
+\\high & = low + 2k + 1
+\\
+\\mid & = (low + high) / 2
+\\より、いずれの場合も、以下となる。
+\\mid & = low + k
+\\
+\\midが解でない場合は、区間を狭める必要がある.
+\\midは解ではないので、区間に含めない.
+\\
+\\以下の範囲に狭めて探索を続ける
+\\[low, mid - 1] & (midよりも左側)
+\\[mid + 1, high] & (else)
+\\
+\\
+\end{eqnarray}\]</div></div>
+<div class="section" id="low-high">
+<h3>終了条件をlow&lt;highにすることの問題点<a class="headerlink" href="#low-high" title="Permalink to this headline">¶</a></h3>
+<p>k=0のとき、以下のいずれかであるが、
+上の場合は探索終了. 下の式は続く範囲に更新
+high &amp; = low
+high &amp; = low + 1</p>
+<p>以下の範囲に更新しても、ともに終了条件となる
+[low, low+1] =&gt; [low+1, low+1] (右側探索)
+[low, low+1] =&gt; [low, low-1] (左側探索)</p>
+<p>mid = lowなので、lowの探索はするが、low+1の探索はしない.
+つまり、low&lt;highの終了条件の場合、[low, low+1)の範囲しか探索しない.</p>
+<p>TODO: ここから、1bit目が0のもの全てが探索されないといいたい</p>
+</div>
+<div class="section" id="mid">
+<h3>midで更新することの問題点<a class="headerlink" href="#mid" title="Permalink to this headline">¶</a></h3>
+<p>k = 0のとき、mid = lowなので、(終了条件は、low&lt;=highとする)</p>
+<p>右側探索で更新するとき、mid+1せず、midで更新すると、以下のように無限ループになる.
+[low, low]   =&gt; 右側探索 =&gt; [mid, low]   = [low, low]
+[low, low+1] =&gt; 右側探索 =&gt; [mid, low+1] = [low, low+1]</p>
+<p>左側探索でmid-1でなくmidで更新するときも、同様に無限ループになる.
+[low, low]   =&gt; 左側探索 =&gt; [low, mid] = [low, low]
+[low, low+1] =&gt; 左側探索 =&gt; [low, mid] = [low, low]</p>
+<p>つまり、解ではないことが判明したmidを区間に含めないように、+1,-1して区間を狭める必要がある。</p>
+</div>
+</div>
+<div class="section" id="rotate-scm">
+<h2><a class="toc-backref" href="#id7">rotate.scm</a><a class="headerlink" href="#rotate-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="k-roteated-increasing-order-array">
+<h3>k-roteated increasing order array<a class="headerlink" href="#k-roteated-increasing-order-array" title="Permalink to this headline">¶</a></h3>
+<p>&#8211; A &#8211; left &#8211; B &#8211; mid &#8211; C &#8211; right &#8211; D &#8211;
+本来 left &lt;= mid &lt;= rightが成立する
+ただし、lotateしているため、その開始位置がmidの右か左か特定する必要がある。</p>
+<p>a[left] &lt; a[mid]のときは、左側が順番に並んでいるので、Cに開始位置がある.
+leftとmidの間にtargetがあるか、ないかで区間を狭めることができる。</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="kt">int</span> <span class="nf">search</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">mid</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">target</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">[</span><span class="n">right</span><span class="p">])</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="k">else</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">target</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="k">else</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">A</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="cm">/* TEST-DATA */</span><span class="p">};</span>
+  <span class="kt">int</span> <span class="n">arr_size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">9</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d, &quot;</span><span class="p">,</span> <span class="n">search</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">arr_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">));</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>TEST-DATA = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9</p>
+<div class="highlight-sh"><div class="highlight"><pre>0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+</pre></div>
+</div>
+<p>TEST-DATA = 1, 2, 3, 4, 5, 6, 7, 8, 9, 0</p>
+<div class="highlight-sh"><div class="highlight"><pre>9, 0, 1, 2, 3, 4, 5, 6, 7, 8,
+</pre></div>
+</div>
+<p>TEST-DATA = 2, 3, 4, 5, 6, 7, 8, 9, 0, 1</p>
+<div class="highlight-sh"><div class="highlight"><pre>8, 9, 0, 1, 2, 3, 4, 5, 6, 7,
+</pre></div>
+</div>
+<p>TEST-DATA = 2,2,2,2,2,2,2,3,2,2
+linerでなくても求まる!</p>
+<div class="highlight-sh"><div class="highlight"><pre>-1, -1, 4, 7, -1, -1, -1, -1, -1, -1,
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 

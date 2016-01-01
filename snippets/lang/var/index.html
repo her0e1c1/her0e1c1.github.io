@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>misc &mdash; Hiroyuki Ishii</title>
+    <title>var &mdash; Hiroyuki Ishii</title>
     
     <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -97,23 +97,88 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="misc">
-<h1><a class="toc-backref" href="#id1">misc</a><a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="var">
+<h1><a class="toc-backref" href="#id1">var</a><a class="headerlink" href="#var" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#misc" id="id1">misc</a><ul>
-<li><a class="reference internal" href="#ifdef-scm" id="id2">ifdef.scm</a></li>
-<li><a class="reference internal" href="#ifdef" id="id3">ifdef</a></li>
+<li><a class="reference internal" href="#var" id="id1">var</a><ul>
+<li><a class="reference internal" href="#index-scm" id="id2">index.scm</a></li>
+<li><a class="reference internal" href="#undefined-scm" id="id3">undefined.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="ifdef-scm">
-<h2><a class="toc-backref" href="#id2">ifdef.scm</a><a class="headerlink" href="#ifdef-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="index-scm">
+<h2><a class="toc-backref" href="#id2">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (with-temp-buffer (defvar a 1)) a)&#39;</span>
+
+1
+</pre></div>
 </div>
-<div class="section" id="ifdef">
-<h2><a class="toc-backref" href="#id3">ifdef</a><a class="headerlink" href="#ifdef" title="Permalink to this headline">¶</a></h2>
+<p>a local variable can&#8217;t be referred in the other buffers</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (set (make-local-variable &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a) 1) a)&#39;</span>
+
+1
+</pre></div>
+</div>
+</div>
+<div class="section" id="undefined-scm">
+<h2><a class="toc-backref" href="#id3">undefined.scm</a><a class="headerlink" href="#undefined-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;P(typeof a === &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;undefined&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
+<span class="nb">true</span>
+</pre></div>
+</div>
+<p>変数が未定義であることを確認</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say &quot;undefined&quot; if !defined($a)&#39;</span>
+undefined
+</pre></div>
+</div>
+<p>未定義の場合に代入</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$a//=1; say $a&#39;</span>
+1
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">shの注意 # 文字列として認識させるため&#8221;$VAR&#8221;とすること</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -z &quot;$__THIS__IS__NOT__DEFINED&quot; &amp;&amp; echo &quot;undefined&quot;&#39;</span>
+undefined
+</pre></div>
+</div>
+<p>定義を確認</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n &quot;$PATH&quot; &amp;&amp; echo &quot;defined&quot;&#39;</span>
+defined
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n a a &amp;&amp; echo 1&#39;</span>
+<span class="nb">test</span>: a: unexpected operator
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;test -n &quot;a a&quot; &amp;&amp; echo 1&#39;</span>
+1
+</pre></div>
+</div>
+<p>if a variable is defiend, then return 1</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo ${+PATH}&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>zsh -c <span class="s1">&#39;echo ${+HOGEHOGE}&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(boundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE)&#39;</span>
+
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (boundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;HOGE) (setq HOGE 1) HOGE)&#39;</span>
+
+1
+</pre></div>
+</div>
 </div>
 </div>
 
