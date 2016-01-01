@@ -3,6 +3,7 @@
 
 (p"
 -- A -- left -- B -- mid -- C -- right -- D --
+
 本来 left <= mid <= rightが成立する
 ただし、lotateしているため、その開始位置がmidの右か左か特定する必要がある。
 

@@ -38,10 +38,9 @@ m <     & j & $leqq m' & (else)
 
 
 (ps "不等式の最小値")
-(math "\min_{x \in Z, a>0, b>0 \in N} x >= a/b")
+(math "$min_{x $in Z, a>0, b>0 $in N} x >= a/b")
 (math "
-min x =
-$begin{cases}
+$min_x = $begin{cases}
  [a/b]     & (a $bmod b = 0)
  [a/b] + 1 & (else)
 $end{cases}
@@ -52,23 +51,23 @@ $end{cases}
 (ps "２分割した数列の差の最小値")
 (p "計算量をO(n^2) => O(n)に減らすことができる。微分みたいに、差を使うことで次元を下げるのに似ている。")
 (p "TapeEquilibrium (必ず２つに分ける必要がある場合、1<= x <= N-1とする必要あり)")
-(math "S_N_x = $sum_{i=x+1}^{N} ai - $sum_{i=1}^{x} ai  s.t  $min_{x} | S_N_x |")
+(math "S_{Nx} = $sum_{i=x+1}^{N} a_i - $sum_{i=1}^{x} a_i $quad $text{s.t.} $quad $min_{x} | S_{Nx} |")
 (math "
-S_N_0 & = & a_N + a_{N-1} + ... + a_2 + a_1
-S_N_1 & = & a_N + a_{N-1} + ... + a_2 - a_1
-S_N_2 & = & a_N + a_{N-1} + ... - a_2 - a_1
+S_{N0} & = & a_N + a_{N-1} + ... + a_2 + a_1
+S_{N1} & = & a_N + a_{N-1} + ... + a_2 - a_1
+S_{N2} & = & a_N + a_{N-1} + ... - a_2 - a_1
 ...
-S_N_x     & = & a_N + a_{N-1} + ... + a_{x+1} - a_x ... - a_2 - a_1
-S_N_{x+1} & = & a_N + a_{N-1} + ... - a_{x+1} - a_x ... - a_2 - a_1
+S_{Nx}     & = & a_N + a_{N-1} + ... + a_{x+1} - a_x ... - a_2 - a_1
+S_{N(x+1)} & = & a_N + a_{N-1} + ... - a_{x+1} - a_x ... - a_2 - a_1
 ...
-S_N_{N-1} & = & a_N - a_{N-1} + ... - a_2 - a_1
-S_N_N     & = & - a_N - a_{N-1} + ... - a_2 - a_1
+S_{N(N-1)} & = & a_N - a_{N-1} + ... - a_2 - a_1
+S_{NN}     & = & - a_N - a_{N-1} + ... - a_2 - a_1
 
 よって、２項間の差は以下のとおり
-S_N_{x+1} - S_N_x & = & - 2 a_{x+1} 
+S_{N(x+1)} - S_{Nx} & = & - 2 a_{x+1} 
 
-S_N_0から始めて-2 a_xを追加していき、その絶対値をとり、最大値を探す。
-S_N_0の和を求めるのと、S_N_0からS_N_Nまでの探索で、計算量はO(2N)となる。
+S_{N0}から始めて-2 a_xを追加していき、その絶対値をとり、最大値を探す。
+S_{N0}の和を求めるのと、S_{N0}からS_{NN}までの探索で、計算量はO(2N)となる。
 ")
 (c "
 #include <myc.h>

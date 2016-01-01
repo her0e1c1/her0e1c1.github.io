@@ -9,12 +9,7 @@ int find(vector<int> a, int target) {
   int left = 0;
   int right = a.size() - 1;
   while (left <= right) {
-    // left <= rightの条件は、left++時に必ず必要(メモリ参照違反を起こす可能性あり)
-    while (left <= right && a[left] == 0)
-      left++;
-    if (left > right)
-      return -1;
-    int mid = left + (right - left) / 2;
+2;
     while (a[mid] == 0)
       mid--;
     
