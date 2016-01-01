@@ -158,59 +158,78 @@
 <h2><a class="toc-backref" href="#id6">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>基本的な考え方<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>中点を取る際に、以下の２通りが考えられる(k $ge 0)</p>
 <div class="math">
 \[\begin{eqnarray}
 
-\\[low, high]の区間を探索
+\\high & = & low + 2k
+\\high & = & low + 2k + 1
+\\
+\end{eqnarray}\]</div><p>中点について</p>
+<div class="math">
+\[\begin{eqnarray}
+
+\\mid & = & (low + high) / 2
+\\
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+
+\\区間[low, high]を探索
 \\
 \\中点を取る際に、以下の２通りが考えられる(k \ge 0)
-\\high & = low + 2k
-\\high & = low + 2k + 1
+\\high & = & low + 2k
+\\high & = & low + 2k + 1
 \\
-\\mid & = (low + high) / 2
-\\より、いずれの場合も、以下となる。
-\\mid & = low + k
+\\中点について
+\\mid & = & (low + high) / 2
+\\より、いずれの場合も、以下となる
+\\mid & = & low + k
 \\
 \\midが解でない場合は、区間を狭める必要がある.
 \\midは解ではないので、区間に含めない.
 \\
 \\以下の範囲に狭めて探索を続ける
-\\[low, mid - 1] & (midよりも左側)
-\\[mid + 1, high] & (else)
-\\
+\\区間[low, mid - 1] (midよりも左側)
+\\区間[mid + 1, high] (else)
 \\
 \end{eqnarray}\]</div></div>
 <div class="section" id="low-high">
 <h3>終了条件をlow&lt;highにすることの問題点<a class="headerlink" href="#low-high" title="Permalink to this headline">¶</a></h3>
-<p>k=0のとき、以下のいずれかであるが、
-上の場合は探索終了. 下の式は続く範囲に更新
-high &amp; = low
-high &amp; = low + 1</p>
-<p>以下の範囲に更新しても、ともに終了条件となる
-[low, low+1] =&gt; [low+1, low+1] (右側探索)
-[low, low+1] =&gt; [low, low-1] (左側探索)</p>
-<p>mid = lowなので、lowの探索はするが、low+1の探索はしない.
+<p>k=0のとき、以下のいずれかとなる</p>
+<ul class="simple">
+<li>high = low (探索終了)</li>
+<li>high = low + 1 (ループ続ける)</li>
+</ul>
+<p>しかし、ループを続けても、ともに終了条件となる</p>
+<ul class="simple">
+<li>[low, low+1] =&gt; [low+1, low+1] (右側探索)</li>
+<li>[low, low+1] =&gt; [low, low-1] (左側探索)</li>
+</ul>
+<p>双方の場合、mid = lowなので、lowの探索はするが、low+1の探索はしない.
 つまり、low&lt;highの終了条件の場合、[low, low+1)の範囲しか探索しない.</p>
-<p>TODO: ここから、1bit目が0のもの全てが探索されないといいたい</p>
 </div>
 <div class="section" id="mid">
 <h3>midで更新することの問題点<a class="headerlink" href="#mid" title="Permalink to this headline">¶</a></h3>
-<p>k = 0のとき、mid = lowなので、(終了条件は、low&lt;=highとする)</p>
-<p>右側探索で更新するとき、mid+1せず、midで更新すると、以下のように無限ループになる.
-[low, low]   =&gt; 右側探索 =&gt; [mid, low]   = [low, low]
-[low, low+1] =&gt; 右側探索 =&gt; [mid, low+1] = [low, low+1]</p>
-<p>左側探索でmid-1でなくmidで更新するときも、同様に無限ループになる.
-[low, low]   =&gt; 左側探索 =&gt; [low, mid] = [low, low]
-[low, low+1] =&gt; 左側探索 =&gt; [low, mid] = [low, low]</p>
-<p>つまり、解ではないことが判明したmidを区間に含めないように、+1,-1して区間を狭める必要がある。</p>
+<p>k = 0 かつ、終了条件がlow&lt;=high のとき、mid = lowなので、</p>
+<p>右側探索で更新する時、mid+1せず、midで更新すると、以下のように無限ループになる.</p>
+<ul class="simple">
+<li>[low, low]   =&gt; 右側探索 =&gt; [mid, low]   = [low, low]</li>
+<li>[low, low+1] =&gt; 右側探索 =&gt; [mid, low+1] = [low, low+1]</li>
+</ul>
+<p>左側探索で更新する時、mid-1せず、midで更新すると、同様に無限ループになる.</p>
+<ul class="simple">
+<li>[low, low]   =&gt; 左側探索 =&gt; [low, mid] = [low, low]</li>
+<li>[low, low+1] =&gt; 左側探索 =&gt; [low, mid] = [low, low]</li>
+</ul>
+<p>つまり、解ではないことが判明したmidを区間に含めないように、mid+1, mid-1して区間を狭める必要がある。</p>
 </div>
 </div>
 <div class="section" id="rotate-scm">
 <h2><a class="toc-backref" href="#id7">rotate.scm</a><a class="headerlink" href="#rotate-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="k-roteated-increasing-order-array">
 <h3>k-roteated increasing order array<a class="headerlink" href="#k-roteated-increasing-order-array" title="Permalink to this headline">¶</a></h3>
-<p>&#8211; A &#8211; left &#8211; B &#8211; mid &#8211; C &#8211; right &#8211; D &#8211;
-本来 left &lt;= mid &lt;= rightが成立する
+<p>&#8211; A &#8211; left &#8211; B &#8211; mid &#8211; C &#8211; right &#8211; D &#8211;</p>
+<p>本来 left &lt;= mid &lt;= rightが成立する
 ただし、lotateしているため、その開始位置がmidの右か左か特定する必要がある。</p>
 <p>a[left] &lt; a[mid]のときは、左側が順番に並んでいるので、Cに開始位置がある.
 leftとmidの間にtargetがあるか、ないかで区間を狭めることができる。</p>
