@@ -16,8 +16,7 @@
     parse
     "(()){[]}"
 
-(#<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef> #<undef>)
-(goshe '(print (sphinx-toctree-directory. "sort"))')
+
 
 
 
@@ -33,7 +32,6 @@
 
     struct/vector.rst
     struct/string.rst
-    struct/index.rst
 
 
 .. toctree::

@@ -8,6 +8,40 @@ math
 
 
 
+bit.scm
+=====================
+
+
+マイナスの表現
+---------------
+
+::
+
+   NUM = a1b
+
+とおく。
+bは全て0とするので、1が一番最後の桁となる
+
+2の補数表現を使うと ::
+
+   -NUM = (a1b)~ + 1
+
+とおける。
+
+チルダ演算子は、それぞれのbitを反転させるだけなので ::
+
+   -NUM = a~0b~ + 1
+
+bは全て0なので反転させると全て1 ::
+
+   -NUM = a~0(111...1) + 1 = a~1(000...0) = a~1b
+
+よって ::
+
+   -NUM = a~1b
+
+
+
 formula.scm
 =================================
 
@@ -29,14 +63,14 @@ formula.scm
    
 
     (print
-        (let1 l (pa$ at (sort '(1 5 -10 0 3 -1 -4 3 3 4)))
+        (let1 l (pa$ at (sort '(3 -7 4 6 3 -1 -5 -5 3 2)))
            (max (* (l -1) (l -2) (l -3))
                 (* (l 0) (l 1) (l -1)))))
 
 .. code-block:: sh
    
 
-    200
+    210
     
 
 
@@ -184,17 +218,17 @@ formula.scm
 
 
 
-２分割した数列の差の最大値
+２分割した数列の差の最小値
 ---------------------------------------
 
 計算量をO(n^2) => O(n)に減らすことができる。微分みたいに、差を使うことで次元を下げるのに似ている。
-TapeEquilibrium
+TapeEquilibrium (必ず２つに分ける必要がある場合、1<= x <= N-1とする必要あり)
 
 .. math::
     :nowrap:
 
     \begin{eqnarray}
-        S_N_x = \sum_{i=x+1}^{N} ai - \sum_{i=1}^{x} ai  s.t  \max_{x} | S_N_x |
+        S_N_x = \sum_{i=x+1}^{N} ai - \sum_{i=1}^{x} ai  s.t  \min_{x} | S_N_x |
     \end{eqnarray}
 
 
@@ -233,7 +267,7 @@ TapeEquilibrium
       for (int i = 0; i < N; i++) sum += a[i];
       int ms = abs(sum);
       for (int i = 0; i < N; i++) {
-       sum -= 2 * A[i];
+       sum -= 2 * a[i];
        int s0 = abs(sum);
        if (s0 < ms)
         ms = s0;
@@ -241,16 +275,44 @@ TapeEquilibrium
      return ms;
     }
     int main() {
-     
+     int a[] = {3,1,2,4,3};  // ans=1
+     printf("%d", solution(a, SIZE(a))); 
     }
     
 
 .. code-block:: sh
    
 
-    <stdin>:9:15: error: use of undeclared identifier 'A'
-       sum -= 2 * A[i];
-                  ^
-    1 error generated.
-    
+    1
+
+
+
+gauss.scm
+===========================
+
+
+
+Gauss == floor
+------------------------------------------
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \lfloor x \rfloor \leqq x < \lfloor x \rfloor + 1
+    \end{eqnarray}
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        x-1 < [x] \leqq x
+    \end{eqnarray}
+
+
+
+mod.scm
+=====================
 
