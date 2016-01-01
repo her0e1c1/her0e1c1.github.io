@@ -1,7 +1,3 @@
-(load-from-current-dirctory "include.scm")
-
-(ps "double")
-
 ;; 10^19 < 2^64 < 10^20
 ;; 10^18 < 2^63 < 10^19
 
