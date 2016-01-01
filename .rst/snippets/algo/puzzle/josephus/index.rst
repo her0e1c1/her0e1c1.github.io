@@ -1,1 +1,0 @@
-- https://ja.wikipedia.org/wiki/%E3%83%A8%E3%82%BB%E3%83%95%E3%82%B9%E3%81%AE%E5%95%8F%E9%A1%8C
