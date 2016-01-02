@@ -1,3 +1,6 @@
+(p "O(2n)")
+(p "O(nlogn) stable")
+
 (define code1 "
   int mid = left + (right - left) / 2;
   msort(a, left, mid);
