@@ -1,4 +1,11 @@
 
+(p"
+# Aggregate +iterator() <- ConcreteAggregate
+# Iterator +next(), hasNext() <- ConcreteIterator
+# Aggregate -- create --> ConcreteAggregate
+# ConcreteAggregate --<> ConcreteIterator
+# オブジェクトを繰り返して取得する場合の実装方法
+")
 
 (java #!Q
 import java.util.*;
