@@ -1,3 +1,8 @@
+
+
+(sphinx-create-index-in-directory (glob "*"))
+
+
 (p "
 区分方法(生成・振る舞い・構造/Encapsulation, polymorphism, inheritance)
 - 継承(クラスの関係)
