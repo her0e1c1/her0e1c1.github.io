@@ -1,5 +1,5 @@
 
-(ps "２乗したらnになる整数は？")
+(ps "Compute the square root")
 (math "n $in N s.t. $max_{x} f(x) = x^2 - n $le 0")
 (p "f(x) <= 0の場合に、+ 2^xを大きい方から累積する。単調増加関数である必要あり ")
 
