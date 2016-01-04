@@ -27,3 +27,17 @@ bは全て0なので反転させると全て1 ::
 
    -NUM = a~1b
 ")
+
+(math "f(x) = $frac2x")
+(py "f=lambda x:x<<1; P(f(10))")
+
+(math "f(x) = $frac{1}{2}x")
+(py "f=lambda x:x>>1; P(f(10))")
+
+(math "f(x) = 2^x")
+(py "f=lambda x:1<<x; P(f(10))")
+
+(p "check whether a number is even or odd")
+(math "f(x) = $begin{cases} 1 (if x is odd)
+0 (else) $end{cases}")
+(py "f=lambda x: x & 1; P(f(11))")
