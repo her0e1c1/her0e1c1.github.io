@@ -9,4 +9,5 @@
 
 (emacs (message "hello"))
 (emacs (message 1) :warn "TYPE ERROR")
-(emacs (pp '("test" ("a" ("b") "c") (1 2 3))))
+    (emacs (pp '("test" ("a" ("b") "c") (1 2 3))))
+    ; echo '(print "hello world")' |emacs -Q -batch -eval '(eval (read standard-input)))'

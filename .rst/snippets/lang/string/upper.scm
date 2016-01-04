@@ -1,6 +1,6 @@
 (p "全て大文字")
 (ghc "map Data.Char.toUpper \"abc aBc Abc\"")
-
+(java "P(\"abc aBc Abc\".toUpperCase());")
 
 (p "一文字目を大文字に、残りは何もしない")
 (emacs (upcase-initials "abc aBc Abc"))

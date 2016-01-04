@@ -12,7 +12,21 @@ puts (Human.new "Bob").name
 EOS
 :str #t)
 
-
+(cpp #!Q
+#include <myutils.h>
+class Human {
+private:
+ string name;
+public:
+ Human(string name) {
+  this->name = name;
+ }
+ void say() {
+  cout << this->name << endl;
+ }
+};
+int main() {Human h("Bob"); h.say();}                
+Q :str #t)
 ;; (define-class <human> ()
 ;;   ((name :accessor get-name :init-value "" :init-keyword :init-name)))
 

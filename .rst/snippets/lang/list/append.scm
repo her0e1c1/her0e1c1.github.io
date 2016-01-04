@@ -8,3 +8,5 @@
 (emacs (add-to-list '(1 2 3) 4)
        :warn "add-to-listは、必ず変数に対して実行する必要がある")
 (emacs (let ((a1 '(1 2 3))) (add-to-list 'a1 4)))
+
+(java "List<Integer>l=new ArrayList<>(); l.add(1); P(l);")
