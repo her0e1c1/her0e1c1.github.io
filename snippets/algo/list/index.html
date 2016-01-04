@@ -106,12 +106,41 @@
 <li><a class="reference internal" href="#addeachdigitof2lists-scm" id="id2">AddEachDigitOf2Lists.scm</a></li>
 <li><a class="reference internal" href="#anagram-scm" id="id3">anagram.scm</a></li>
 <li><a class="reference internal" href="#gfg-scm" id="id4">gfg.scm</a></li>
+<li><a class="reference internal" href="#yates-shuffle-scm" id="id5">yates-shuffle.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="addeachdigitof2lists-scm">
 <h2><a class="toc-backref" href="#id2">AddEachDigitOf2Lists.scm</a><a class="headerlink" href="#addeachdigitof2lists-scm" title="Permalink to this headline">¶</a></h2>
+<p>(1 1 1) (2 3 4) =&gt; (3 4 5)のように、左側を一桁とした足し算</p>
+<div class="highlight-gosh"><div class="highlight"><pre>; point: 空かそうでない場合をnext-Xとしておく
+(define (add list1 list2)
+  (let loop ((a list1) (b list2) (carry 0))
+    (let* ((sum (+ (if (null? a) 0 (car a))
+                   (if (null? b) 0 (car b))
+                   carry))
+           ; 0 &lt;= sum &lt;= 9 + 9 + 1 = 19
+           (digit (mod sum 10))
+           (next-carry (if (&gt;= sum 10) 1 0))
+           (next-a (if (null? a) &#39;() (cdr a)))
+           (next-b (if (null? b) &#39;() (cdr b))))
+      (cond ((and (null? a) (null? b))
+             (if (= carry 1) &#39;(1) &#39;()))
+            (else (cons digit (loop next-a next-b next-carry)))))))
+
+(define (main args)
+  (print (add &#39;(1 2 3 4 5) &#39;(5 4 3 2 1)))
+  (print (add &#39;(7 7 7) &#39;(3 2 2)))
+  (print (add &#39;(7 7 7) &#39;(3)))
+  (print (add &#39;() &#39;()))
+  (print (add &#39;() &#39;(1 2 3)))
+  0)
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>
+</pre></div>
+</div>
 </div>
 <div class="section" id="anagram-scm">
 <h2><a class="toc-backref" href="#id3">anagram.scm</a><a class="headerlink" href="#anagram-scm" title="Permalink to this headline">¶</a></h2>
@@ -184,6 +213,30 @@ Statue of Liberty = built to stay free
 </div>
 <div class="section" id="gfg-scm">
 <h2><a class="toc-backref" href="#id4">gfg.scm</a><a class="headerlink" href="#gfg-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="yates-shuffle-scm">
+<h2><a class="toc-backref" href="#id5">yates-shuffle.scm</a><a class="headerlink" href="#yates-shuffle-scm" title="Permalink to this headline">¶</a></h2>
+<p>末尾と取り替えるインデックスを決めて、それと末尾を入れ替え</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;myc.h&gt;</span>
+<span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">t</span><span class="o">=*</span><span class="n">x</span><span class="p">;</span> <span class="o">*</span><span class="n">x</span><span class="o">=*</span><span class="n">y</span><span class="p">;</span> <span class="o">*</span><span class="n">y</span><span class="o">=</span><span class="n">t</span><span class="p">;</span> <span class="p">}</span>
+<span class="kt">void</span> <span class="nf">shuffle</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+ <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+   <span class="n">assert</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">);</span>
+   <span class="n">swap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="n">srand</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span>
+ <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span>
+ <span class="n">shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
+ <span class="n">PVI</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>4, 1, 5, 2, 3,
+</pre></div>
+</div>
 </div>
 </div>
 

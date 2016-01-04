@@ -13,38 +13,6 @@ Languages
     byte/index
     char-set/index
     char/index
-    class/index
-    cmd/index
-    date/index
-    elisp/index
-    exception/index
-    func/index
-    hash/index
-    html/index
-    http/index
-    io/index
-    lazy/index
-    list/index
-    macro/index
-    math/index
-    memory/index
-    module/index
-    number/index
-    op/index
-    path/index
-    pointer/index
-    process/index
-    range/index
-    regex/index
-    set/index
-    special_variables/index
-    stack/index
-    string/index
-    test/index
-    tuple/index
-    type/index
-    var/index
-    vector/index
 
 
 REPL

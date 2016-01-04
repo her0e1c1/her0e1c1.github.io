@@ -109,13 +109,3 @@ Check whether a command exists or not
 json
 ============
 
-
-
-regex.scm
-===========================
-
-
-
-sql.scm
-=====================
-
