@@ -1,5 +1,6 @@
-; (1 1 1) (2 3 4) => (3 4 5)のように、左側を一桁とした足し算
+(p "(1 1 1) (2 3 4) => (3 4 5)のように、左側を一桁とした足し算")
 
+(gosh #!Q
 ; point: 空かそうでない場合をnext-Xとしておく
 (define (add list1 list2)
   (let loop ((a list1) (b list2) (carry 0))
@@ -22,4 +23,4 @@
   (print (add '() '()))
   (print (add '() '(1 2 3)))
   0)
-
+Q :str #t)

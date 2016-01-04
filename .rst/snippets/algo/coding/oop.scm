@@ -2,7 +2,6 @@
 (ps "isa")
 (p "A is a Bとは、AはBのサブクラス(Bが親, Aが子)であることをいう。(つまり継承)")
 
-
 (ps "has a")
 (p "
 A has a Bとは、Aの属性にBがあることをいう。(包含関係A-)B)
@@ -38,3 +37,37 @@ pythonのstatic methodと通常関数の区別については、
 この副作用は、オブジェクトの属性に影響を与えるものになる(あるいはIOなどの処理)
 ")
 
+(ps "difference between instance and object")
+(p"
+An object is an instance of a class.
+
+結論
+どちらも同じものとみなして良さそう。
+")
+
+(ps "setter/getter")
+(p"
+メリット
+- setする前にバリデーションが可能
+- get/setする前にログが可能
+- set/get時の権限チェック
+- 関数かすることで、引数に応じた処理が可能になり、柔軟性向上
+- javaの慣習に従う
+- カプセル化
+
+デメット
+- 単純なデータ構造には冗長すぎる
+- 内部状態を渡すと、クラス外で状態が変更される危険性がある ::
+
+     public class Store {
+       private List<String> books = new ArrayList<String>();
+       List<String> get_books(){
+           return books;
+       }
+     }
+")
+
+(ps "AOP (Aspect Oriented Programming)")
+(p "cross-cuttingするような機能を提供
+ログなどを関数内に直接記述しないで、本体から分離するなど
+")
