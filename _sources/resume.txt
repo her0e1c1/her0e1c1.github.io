@@ -45,4 +45,4 @@ Experience
 
 * `Triax <http://triax.jp/>`_ , Tokyo Japan
 
-  Web Application Engineer - June 20013 to July 2015
+  Web Application Engineer - June 2013 to July 2015

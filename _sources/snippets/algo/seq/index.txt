@@ -1,0 +1,80 @@
+
+=========
+seq
+=========
+
+.. contents::
+    :depth: 2
+
+
+
+atLeastOne.scm
+==========================================
+
+
+
+配列の要素が、少なくとも1回ずつ出現する数列のうち、最小のもの
+---------------------------------------------------------------------------------------------
+
+CO 
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\i \in S_N, 0 \le i \le I (\in N) s.t.
+    \\
+    \\f(a) = \begin{cases}
+    \\1 & (a \in S_N)
+    \\0 & (else)
+    \\\end{cases}
+    \\
+    \\// ちょっと違うっぽい
+    \\\min_x g(S_N) = \begin{cases}
+    \\x  & (sum_{i}^x f(i) = I)
+    \\-1 & (else)
+    \\\end{cases}
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: c
+   
+
+    #include <myc.h>
+    int g(int *S, int N, int I) {
+     // c[0] is dummy
+     buff[I];
+     memset(buff, 0, sizeof(int)*I);
+     int sum = 0;
+     for (int i = 0; i < N; i++) {
+      int a = S[i];
+      // if (a > I) continue;
+      buff[a]++;
+      if (buff[a] == 1)
+        sum++;  // first found
+      if (sum == I)
+       return i;
+     }
+      return -1;
+    }
+
+.. code-block:: sh
+   
+
+    <stdin>:4:2: error: use of undeclared identifier 'buff'
+     buff[I];
+     ^
+    <stdin>:5:9: error: use of undeclared identifier 'buff'
+     memset(buff, 0, sizeof(int)*I);
+            ^
+    <stdin>:10:3: error: use of undeclared identifier 'buff'
+      buff[a]++;
+      ^
+    <stdin>:11:7: error: use of undeclared identifier 'buff'
+      if (buff[a] == 1)
+          ^
+    4 errors generated.
+    
+

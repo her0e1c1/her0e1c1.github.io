@@ -115,6 +115,72 @@
 </div>
 <div class="section" id="anagram-scm">
 <h2><a class="toc-backref" href="#id3">anagram.scm</a><a class="headerlink" href="#anagram-scm" title="Permalink to this headline">¶</a></h2>
+<p>anagramは、ある文字列の文字の順番を入れ替えて作成した別の文字列を作る
+Statue of Liberty = built to stay free
+.. todo:: 文字列の配列を受け取り、anagram同士が隣に並ぶようにソート</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+
+<span class="kt">int</span> <span class="nf">anagram</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">q</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 256文字までと仮定</span>
+  <span class="kt">char</span> <span class="n">counter</span><span class="p">[</span><span class="mi">256</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+  <span class="kt">int</span> <span class="n">pl</span><span class="p">,</span> <span class="n">ql</span><span class="p">;</span>
+  <span class="n">pl</span> <span class="o">=</span> <span class="n">ql</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">// pにおけるそれぞれの文字数をカウント</span>
+  <span class="c1">// Also get the length of p here</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">it</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span> <span class="o">*</span><span class="n">it</span><span class="p">;</span> <span class="n">it</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="o">*</span><span class="n">it</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+    <span class="n">counter</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">pl</span><span class="o">++</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// qで上で取得したカウンタを減算</span>
+  <span class="c1">// 別文字が存在、あるいは</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">it</span> <span class="o">=</span> <span class="n">q</span><span class="p">;</span> <span class="o">*</span><span class="n">it</span><span class="p">;</span> <span class="n">it</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="o">*</span><span class="n">it</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+    <span class="n">counter</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+    <span class="n">ql</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// p, qの長さが等しいも満たす必要あり</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">pl</span> <span class="o">==</span> <span class="n">ql</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">anagram</span><span class="p">(</span><span class="s">&quot;abacb&quot;</span><span class="p">,</span> <span class="s">&quot;aacbb&quot;</span><span class="p">));</span>  <span class="c1">// 1</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">anagram</span><span class="p">(</span><span class="s">&quot;abacb&quot;</span><span class="p">,</span> <span class="s">&quot;abcde&quot;</span><span class="p">));</span>  <span class="c1">// 0</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">anagram</span><span class="p">(</span><span class="s">&quot;abacb&quot;</span><span class="p">,</span> <span class="s">&quot;aabb&quot;</span><span class="p">));</span>   <span class="c1">// 0</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">anagram</span><span class="p">(</span><span class="s">&quot;abacb&quot;</span><span class="p">,</span> <span class="s">&quot;aabbcc&quot;</span><span class="p">));</span> <span class="c1">// 0</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>&lt;stdin&gt;:12:20: error: use of undeclared identifier <span class="s1">&#39;a&#39;</span>
+    char <span class="nv">c</span> <span class="o">=</span> *it - a<span class="p">;</span>
+                   ^
+&lt;stdin&gt;:20:20: error: use of undeclared identifier <span class="s1">&#39;a&#39;</span>
+    char <span class="nv">c</span> <span class="o">=</span> *it - a<span class="p">;</span>
+                   ^
+<span class="m">2</span> errors generated.
+</pre></div>
+</div>
+<div class="highlight-gosh"><div class="highlight"><pre>(define (anagram? p q)
+  (equal? (sort p) (sort q)))
+(print (anagram? &quot;ababc&quot; &quot;cbbaa&quot;))
+(print (anagram? &quot;ababc&quot; &quot;abcde&quot;))
+(print (anagram? &quot;ababc&quot; &quot;cbbaaa&quot;))
+(print (anagram? &quot;ababc&quot; &quot;caaa&quot;))
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="c">#t</span>
+<span class="c">#f</span>
+<span class="c">#f</span>
+<span class="c">#f</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="gfg-scm">
 <h2><a class="toc-backref" href="#id4">gfg.scm</a><a class="headerlink" href="#gfg-scm" title="Permalink to this headline">¶</a></h2>

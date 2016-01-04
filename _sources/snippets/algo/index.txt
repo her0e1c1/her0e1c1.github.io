@@ -18,13 +18,18 @@
 
 
 
+.. toctree::
+    :maxdepth: 1
+
+    seq/index.rst
+
+
 
 
 .. toctree::
     :maxdepth: 1
 
     list/index.rst
-
 
 
 .. toctree::
@@ -51,7 +56,25 @@
 .. toctree::
     :maxdepth: 1
 
+    design-pattern/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
     binary-search/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    coding/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    bit/index.rst
 
 
 .. toctree::
