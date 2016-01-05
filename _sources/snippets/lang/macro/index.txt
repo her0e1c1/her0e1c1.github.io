@@ -1,0 +1,391 @@
+
+===============
+macro
+===============
+
+.. contents::
+    :depth: 2
+
+
+
+anaforic.scm
+====================================
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|--if-let| (+ 1 2 3) it 1)' 
+    Symbol's function definition is void: |--if-let|
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|--if-let| nil it 1)' 
+    Symbol's function definition is void: |--if-let|
+    
+
+
+
+begin.scm
+===========================
+
+
+.. code-block:: sh
+   
+
+    $ ee '(prog1 1 2 3)' 
+    
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(prog2 1 2 3)' 
+    
+    2
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn 1 2 3)' 
+    
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(begin 1 2 3)' 
+    3
+    
+
+
+
+dotimes.scm
+=================================
+
+
+.. code-block:: sh
+   
+
+    $ ee '(dotimes (i 3) (print "hello"))' 
+    
+    "hello"
+    
+    "hello"
+    
+    "hello"
+    
+    nil
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|--dotimes| 3 (princ "hello"))' 
+    Symbol's function definition is void: |--dotimes|
+    
+
+
+
+eval.scm
+========================
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'eval "echo $HOME"' 
+    /home/me
+    
+
+
+.. code-block:: sh
+   
+
+    
+    CMD=/bin/echo
+    ARG1=HOGE
+    \$CMD \$ARG1
+    
+
+.. code-block:: sh
+   
+
+    HOGE
+    
+
+read string as S expressions
+
+.. code-block:: sh
+   
+
+    $ s '(eval (read-from-string "(print 1)") (interaction-environment))' 
+    1
+    #<undef>
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '((eval (string->symbol "print") (interaction-environment)) "HOGE")' 
+    HOGE
+    #<undef>
+    
+
+
+.. warning::
+
+    Can't refer local variables
+
+
+.. code-block:: sh
+   
+
+    $ s '(let1 HOGE 1 (eval (read-from-string "(print HOGE)") (interaction-environment)))' 
+    *** ERROR: unbound variable: HOGE
+    Stack Trace:
+    _______________________________________
+      0  HOGE
+    
+      1  (eval (read-from-string "(print HOGE)") (interaction-environment))
+            At line 1 of "(input string port)"
+      2  (print-string (|-->| (undefined) list (let1 HOGE 1 (eval (read-fro
+            [unknown location]
+      3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+Need to evaluate HOGE first
+
+.. code-block:: sh
+   
+
+    $ s '(let1 HOGE 1 (eval (read-from-string (format "(print ~a)" HOGE)) '\''()))' 
+    1
+    #<undef>
+    
+
+
+.. warning::
+
+    Can't use lambda. as lambda
+
+
+.. code-block:: sh
+   
+
+    $ s '(let ((lambda. lambda)) ((eval `(,lambda. (arg) arg) (interaction-environment)) 123))' 
+    *** ERROR: unbound variable: arg
+    Stack Trace:
+    _______________________________________
+      0  (arg)
+            [unknown location]
+      1  (arg)
+            [unknown location]
+      2  (eval `(,lambda. (arg) arg) (interaction-environment))
+            At line 1 of "(input string port)"
+      3  ((eval `(,lambda. (arg) arg) (interaction-environment)) 123)
+            At line 1 of "(input string port)"
+      4  (print-string (|-->| (undefined) list (let ((lambda. lambda)) ((ev
+            [unknown location]
+      5  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(let ((lambda. ((with-module gauche.internal global-id) '\''lambda))) ((eval `(,lambda. (arg) arg) (interaction-environment)) 123))' 
+    123
+    
+
+
+
+hygienic.scm
+====================================
+
+衛生的マクロ(hygienic macro)
+
+
+define-syntax
+---------------------------------------
+
+
+
+inline.scm
+==============================
+
+
+
+intern.scm
+==============================
+
+動的にシンボルを生成する
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (dolist (x (list '\''a '\''b '\''c)) (set (intern (concat "symbol-" (symbol-name x))) 1)) (+ symbol-a symbol-b symbol-c))' 
+    
+    3
+    
+
+
+
+pre.scm
+=====================
+
+
+
+ifdef
+---------------
+
+
+.. code-block:: c
+   
+
+    #include <stdio.h>
+    
+    int main () {
+    #ifdef DEBUG
+      printf("DEBUG!");
+    #else
+      printf("NOT DEBUG!");
+    #endif
+    }
+
+ifdef else endifはソースコードをコンパイルする前の前処理. オプションを渡すことでdefineされる
+
+.. code-block:: sh
+   
+
+    $ clang -DDEBUG ifdef.c && ./a.out
+    DEBUG!
+
+引数を渡さなかった場合はelseが呼ばれる
+
+.. code-block:: sh
+   
+
+    $ clang ifdef.c && ./a.out
+    NOT DEBUG!
+
+
+.. code-block:: c
+   
+
+    #include <stdio.h>
+    #define DEBUG
+    int main () {
+    #ifdef DEBUG
+      printf("DEBUG!");
+    #else
+      printf("NOT DEBUG!");
+    #endif
+    }
+
+``#define DEBUG`` を明示する (-DDEBUGと同じ効果)
+
+.. code-block:: sh
+   
+
+    $ clang ifdef.c && ./a.out
+    DEBUG!
+
+
+
+quote.scm
+===========================
+
+
+
+side-effect.scm
+=============================================
+
+
+
+syntax.scm
+==============================
+
+
+
+and-let*
+------------------------
+
+
+.. code-block:: sh
+   
+
+    $ s '"(and-let* ((a 1) (b (+ a 1))) (+ a b))"' 
+    (and-let* ((a 1) (b (+ a 1))) (+ a b))
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '"(and-let* ((a 1) (b #f)) (+ a b))"' 
+    (and-let* ((a 1) (b #f)) (+ a b))
+    
+
+
+
+match
+---------------
+
+
+
+let-*
+---------------
+
+
+.. code-block:: sh
+   
+
+    $ s '(let fact ((n 10)) (if (= n 1) 1 (* n (fact (- n 1)))))' 
+    3628800
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(letrec ((fact (lambda (n) (if (= n 1) 1 (* n (fact (- n 1))))))) (fact 10))' 
+    3628800
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(let ((fact (lambda (n) (if (= n 1) 1 (* n (fact (- n 1))))))) (fact 10))' 
+    *** ERROR: unbound variable: fact
+    Stack Trace:
+    _______________________________________
+      0  (fact (- n 1))
+            At line 1 of "(input string port)"
+      1  (fact (- n 1))
+            At line 1 of "(input string port)"
+      2  (print-string (|-->| (undefined) list (let ((fact (lambda (n) (if 
+            [unknown location]
+      3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+
+template.scm
+====================================
+

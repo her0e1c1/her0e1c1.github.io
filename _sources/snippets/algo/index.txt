@@ -26,6 +26,18 @@
     seq/index.rst
 
 
+.. toctree::
+    :maxdepth: 1
+
+    zahlen/index.rst
+
+
+
+.. toctree::
+    :maxdepth: 1
+
+    statictics/index.rst
+
 
 
 .. toctree::
@@ -37,7 +49,9 @@
 .. toctree::
     :maxdepth: 1
 
-    
+    struct/vector.rst
+    struct/string.rst
+    struct/index.rst
 
 
 .. toctree::
@@ -56,29 +70,35 @@
 .. toctree::
     :maxdepth: 1
 
-    
+    design-pattern/index.rst
 
 
 .. toctree::
     :maxdepth: 1
 
-    
+    binary-search/index.rst
 
 
 .. toctree::
     :maxdepth: 1
 
-    
+    coding/index.rst
 
 
 .. toctree::
     :maxdepth: 1
 
-    
+    bit/index.rst
 
 
 .. toctree::
     :maxdepth: 1
 
-    
+    probability/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    math/index.rst
 

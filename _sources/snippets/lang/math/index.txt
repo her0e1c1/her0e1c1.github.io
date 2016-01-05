@@ -1,0 +1,78 @@
+
+============
+math
+============
+
+.. contents::
+    :depth: 2
+
+
+
+ceil.scm
+========================
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Math.ceil(5.5)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Math.ceil(-5.5)' 
+    
+
+
+
+e.scm
+===============
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Math.E' 
+    
+
+
+
+floor.scm
+===========================
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Math.floor(-5.5)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Math.floor(5.5)' 
+    
+
+
+
+pi.scm
+==================
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'import math; print(math.pi)'
+    3.14159265359
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Math.PI' 
+    
+

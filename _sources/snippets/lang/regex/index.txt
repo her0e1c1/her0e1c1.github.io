@@ -1,0 +1,874 @@
+
+===============
+regex
+===============
+
+.. contents::
+    :depth: 2
+
+
+
+after.scm
+===========================
+
+最後にマッチした部分に続く文字列
+
+.. code-block:: sh
+   
+
+    $ perl -E 'qq/pre 1234 post/ =~/d+/; say $'\''' 
+    
+    
+
+file.min.js => file.js
+
+.. code-block:: sh
+   
+
+    $ echo /path/to/file.min.js | perl -nlE '/.min/;say qq/$`$'\''/'
+    /path/to/file.js
+    
+
+
+.. code-block:: sh
+   
+
+    $ echo /path/to/file.min.js | s -p '#/.min/ #"~(it (quote before))~(it (quote after))"'
+    /path/to/file.js
+    
+
+
+.. warning::
+
+    There is no function about this in python
+
+
+
+dotall.scm
+==============================
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'import re; print(re.match(r".", "
+    ", re.DOTALL))'
+      File "<string>", line 1
+        import re; print(re.match(r".", "
+                                        ^
+    SyntaxError: EOL while scanning string literal
+    
+
+. matches also dot character
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say q/./ =~ /./'
+    1
+    
+
+
+.. warning::
+
+     . doesn't match 
+     character Ignore white words( 
+    	) 
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say "
+    " =~ /./'
+    
+    
+
+
+
+escape.scm
+==============================
+
+
+
+findall.scm
+=================================
+
+
+
+g.scm
+===============
+
+
+
+g
+---
+
+gは、全てマッチ
+With g option it match more than once
+マッチ位置はマッチするごとに動くので、loopできる
+*は0文字とマッチするので空文字が含まれる
+
+
+for
+---------
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_="abc"; print "$_," for (/.*?/g)'
+    ,a,,b,,c,,
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_="abc"; print "$_," for /.+?/g'
+    a,b,c,
+
+
+
+while
+---------------
+
+With s option . matches also 
+ character
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_="abc"; while(/.(?=(.*))/g){print $&.$1.","}'
+    abc,bc,c,
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say "
+    " =~ /./s'
+    1
+    
+
+
+
+greedy.scm
+==============================
+
+remove if it's matched from the left side(greedy)
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'f=/home/usr/test.txt; echo ${f##*/}' 
+    test.txt
+    
+
+remove if it's matched from the left side(non greedy)
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'f=/home/usr/test.txt; echo ${f#*/}' 
+    home/usr/test.txt
+    
+
+remove if it's matched from the right side(greedy)
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'f=/home/usr/test.txt; echo ${f%%/*}' 
+    
+    
+
+remove if it's matched from the right side(non greedy)
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'f=/home/usr/test.txt; echo ${f%/*}' 
+    /home/usr
+    
+
+
+
+group.scm
+===========================
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'import re; print(re.match(r'''(["''])abc1''', '''"abc"''').group())'
+    Syntax error: "(" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(["''])abc1/ ' '"abc"'
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(["''])abcg1/ ' '"abc"'
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(["''])abcg{1}/ ' '"abc"'
+    
+
+順番は左から
+
+.. code-block:: sh
+   
+
+    $ perl -E 'qq/1234/ =~ /((((1)2)3)4)/; say qq/$1 $2 $3 $4/'
+    1234 123 12 1
+    
+
+(?(NUMBER)REGEX)  If the group NUMBER is matched, REGEX is active
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say $& if shift =~ /(<)w+@w+(?:.w+)+(?(1)>)/' '<abc@aaa.com>'
+    
+
+
+
+group index
+---------------------------------
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(re.match(r'\''(((1)2)3)'\'', '\''123'\'').groups())' 
+    ('123', '12', '1')
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 0 s)))' 
+    
+    "123"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 1 s)))' 
+    
+    "123"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 2 s)))' 
+    
+    "12"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 3 s)))' 
+    
+    "1"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (let ((s "123")) (string-match "\\(\\(\\(1\\)2\\)3\\)" s) (match-string 4 s)))' 
+    
+    nil
+    
+
+
+
+index.scm
+===========================
+
+
+
+lookahead-negative.scm
+==================================================================
+
+if string does not match (?!...), then match
+
+.. warning::
+
+    If thare is same notation, the result is different?
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(match(r"(?!abc)def", "abcdef"))' 
+    None
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(match(r"(?!abc)def", "ABCdef"))' 
+    None
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(match(r"abc(?!def)", "abcdef"))' 
+    None
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(match(r"abc(?!def)", "abcDEF"))' 
+    <_sre.SRE_Match object at 0x8007e4098>
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=q/abcdef/; say if /(?!abc)def/' 
+    abcdef
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=q/ABCdef/; say if /(?!abc)def/' 
+    ABCdef
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=q/abcdef/; say if /abc(?!def)/' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=q/abcDEF/; say if /abc(?!def)/' 
+    abcDEF
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(p (#/(?!abc)def/ "abcdef"))' 
+    #<<regmatch> 0x1629b40>
+    #<undef>
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(p (#/(?!abc)def/ "ABCdef"))' 
+    #<<regmatch> 0x1629b40>
+    #<undef>
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(p (#/abc(?!def)/ "abcdef"))' 
+    #f
+    #<undef>
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(p (#/abc(?!def)/ "abcDEF"))' 
+    #<<regmatch> 0x1629b40>
+    #<undef>
+    
+
+
+
+lookahead.scm
+=======================================
+
+後に続く文字列が条件に合致した場合に、その手前にマッチさせる
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say $& if /abc(?=def)/' abcdef
+    abc
+    
+
+No match
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say $& if /abc(?=def)/' abcdf
+    
+
+
+.. code-block:: sh
+   
+
+    $ python -c 'import re; print(re.match(r"abc(?=def)", "abcdef").group())'
+    abc
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(p ((#/abc(?=def)/ "abcdef") 0))' 
+    abc
+    #<undef>
+    
+
+
+
+lookbehind-negative.scm
+=====================================================================
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=q/There is a man/; say if /(?<!wo)man/'
+    There is a man
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=q/There is a woman/; say if /(?<!wo)man/'
+    
+
+
+.. warning::
+
+    後読み否定しないと、手前のwoがあってもマッチしてしまう
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=q/There is a woman/; say if /man/'
+    There is a woman
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(search(r"(?<!wo)man", "There is a man"))' 
+    <_sre.SRE_Match object at 0x8007e4098>
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(search(r"(?<!wo)man", "There is a woman"))' 
+    None
+    
+
+
+
+lookbehind.scm
+==========================================
+
+positive
+置換などで、マッチさせずに置換対象を狭めるのに使う
+src="../ => src="/
+
+.. code-block:: sh
+   
+
+    $ echo 'src="../' |perl -plE 's#(?<=src=")[.][.]/#/#'
+    src="/
+    
+
+
+.. code-block:: sh
+   
+
+    $ echo test|s -n '#/(?<=.*?)st/ (p (it 0))'
+    st
+    
+
+
+.. warning::
+
+    python, perlの場合、後読みでは、正規表現が使えない(*とか)
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(match(r"(?<=.*?)st", "test"))' 
+    Traceback (most recent call last):
+      File "<string>", line 12, in <module>
+      File "/usr/local/lib/python2.7/re.py", line 141, in match
+        return _compile(pattern, flags).match(string)
+      File "/usr/local/lib/python2.7/re.py", line 251, in _compile
+        raise error, v # invalid expression
+    sre_constants.error: look-behind requires fixed-width pattern
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'q/test/ =~ m#(?<=.*?)st#'
+    Variable length lookbehind not implemented in regex m/(?<=.*?)st/ at -e line 1.
+    
+
+You can subsutitute lookbind with \K option
+
+.. code-block:: sh
+   
+
+    $ perl -E 'q/test/ =~ m#(.*?e)\K.*# and say $&'
+    st
+    
+
+
+
+match.scm
+===========================
+
+
+.. code-block:: sh
+   
+
+    $ ne ''\''ABCDEF'\''.match(/DEF/i)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne ''\''abc'\''.match(/a.c/)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(#/str/ "strng")' 
+    #<<regmatch> 0x1624d50>
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '((#/str/ "strng") 0)' 
+    str
+    
+
+
+
+rxmatch-let
+---------------------------------
+
+マッチした文字列をバインド
+
+
+name.scm
+========================
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say qq/$+{name}/ if /(?P<name>a)/ ' a
+    a
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(?P<name>a)bg{name}/ ' aba
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if /(?P<name>a)b(?P=name)/ ' aba
+    aba
+    
+
+
+.. code-block:: sh
+   
+
+    $ python -c "import re; print(re.match(r'(?P<name>a)b(?P=name)', 'aba').group())"
+    aba
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; say if m#^(?P<year>d{4})(?P<d1>[-/])(?P<month>d{1,2})g{d1}(?P<day>d{1,2})s+(?P<hour>d{1,2})(?P<d2>:)(?P<minute>d{1,2})g{d2}(?P<second>d{1,2})$#' '2015-05-22 13:59:04'
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; /(?<l>.*?line)/ and say $+{l}' 'aaalinebbb'
+    aaaline
+    
+
+
+
+noCapture.scm
+=======================================
+
+use : for no capture
+
+.. code-block:: sh
+   
+
+    $ perl -E 'shift =~ /(a)(?:b)(c)/; say $1.$2' abc
+    ac
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(match(r"(a)(?:b)(c)", "abc").groups())' 
+    ('a', 'c')
+    
+
+
+
+peg.scm
+=====================
+
+
+
+pos.scm
+=====================
+
+$-[]マッチ開始位置かな, $+[]マッチ終了位置. /path/to => /path/to/
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_=shift; m#<a.*?href=(["''])(.*?)1.*?>#; $a=$2; substr($_, $-[2], $+[2] - $-[2]) = $a."/"; say' "<a href='/path/to'>"
+    /<a href='/path/to'>
+    
+
+
+
+replace.scm
+=================================
+
+
+.. code-block:: sh
+   
+
+    $ ne 'replace(/aaa/g, '\''bbb'\'');' 
+    [eval]:8
+    replace(/aaa/g, 'bbb');
+    ^
+    
+    ReferenceError: replace is not defined
+        at [eval]:8:1
+        at Object.exports.runInThisContext (vm.js:54:17)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+
+split.scm
+===========================
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say split /(\d+)/, qq/a 1 b 2 c 4/;' 
+    a 1 b 2 c 4
+    
+
+マッチした文字列で分割していく(マッチ文字を含まない)
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say split /\d+/, qq/a 1 b 2 c 4/' 
+    a  b  c 
+    
+
+マッチした文字列で分割していく(マッチ文字も含む)
+
+.. code-block:: sh
+   
+
+    $ py 'P(split(r'\''(\d+)'\'', '\''a 1 b 2 c 4'\''))' 
+    ['a ', '1', ' b ', '2', ' c ', '4', '']
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(split(r'\''\d+'\'', '\''a 1 b 2 c 4'\''))' 
+    ['a ', ' b ', ' c ', '']
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(split(r'\''(\d+)'\'', '\''pre 1234 post'\'', 1))' 
+    ['pre ', '1234', ' post']
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E '@r="abcdefghijk"=~/.{1,4}/g; say join "-", @r'
+    abcd-efgh-ijk
+    
+
+
+
+sub.scm
+=====================
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c 'a='\''hoge'\''; echo ${a/ho/HO}' 
+    HOge
+    
+
+
+.. code-block:: sh
+   
+
+    $ ruby -e 'a=%q/hoge/;p a.sub(/ho/, %q/HO/)' 
+    "HOge"
+    
+
+
+
+regexp-replace
+------------------------------------------
+
+
+.. code-block:: sh
+   
+
+    $ s '(regexp-replace #/(.)bc/ "abcAbc" "\\1-\\0")' 
+    a-abcAbc
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(regexp-replace-all #/(.)bc/ "abcAbc" "\\1-\\0")' 
+    a-abcA-Abc
+    
+
+
+
+whitespace.scm
+==========================================
+
+
+.. warning::
+
+    Don't use -l option, which chomps "
+    " , "
+    " or ""
+
+
+.. code-block:: sh
+   
+
+    $ perl -pE 's/
+    /
+    /' << EOS
+    aaa
+    bbb
+    ccc
+    EOS
+    aaa
+    bbb
+    ccc
+    
+
+
+
+word.scm
+========================
+
+
+
+x.scm
+===============
+
+with x option, ignore whitespace
+
+.. code-block:: sh
+   
+
+    $ perl -E '$_="abc"; /a   b c/x; say $&'
+    abc
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(match(r'\''a   b c'\'', '\''abc'\'', X))' 
+    <_sre.SRE_Match object at 0x8007e4098>
+    
+

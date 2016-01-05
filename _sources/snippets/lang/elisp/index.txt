@@ -1,0 +1,95 @@
+
+===============
+elisp
+===============
+
+.. contents::
+    :depth: 2
+
+
+
+buffer.scm
+==============================
+
+in case of oneliner, buffer is *scratch*
+
+.. code-block:: sh
+   
+
+    $ ee '(current-buffer)' 
+    
+    #<buffer *scratch*>
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(buffer-name (current-buffer))' 
+    
+    "*scratch*"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(bufferp (current-buffer))' 
+    
+    t
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "hoge") (buffer-string))' 
+    
+    "hoge"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "hoge") (erase-buffer) (buffer-string))' 
+    
+    ""
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(with-temp-buffer (insert "hoge") (buffer-size))' 
+    
+    4
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(get-buffer "HOGE")' 
+    
+    nil
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(get-buffer "*scratch*")' 
+    
+    #<buffer *scratch*>
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(buffer-list)' 
+    
+    (#<buffer *scratch*> #<buffer  *Minibuf-0*> #<buffer *Messages*> #<buffer  *code-conversion-work*>)
+    
+

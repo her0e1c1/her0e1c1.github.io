@@ -1,0 +1,438 @@
+
+============
+func
+============
+
+.. contents::
+    :depth: 2
+
+
+
+define.scm
+==============================
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (setf (symbol-function '\''double) '\''(lambda (x) (* x 2))) (double 5))' 
+    
+    10
+    
+
+外部から参照されないローカル関数
+
+.. code-block:: sh
+   
+
+    $ ee '(labels ((fact (n) (if (= n 1) n (* n (fact (- n 1)))))) (fact 5))' 
+    
+    120
+    
+
+
+
+dot_list.scm
+====================================
+
+
+
+funcall.scm
+=================================
+
+(FUNC ARG1 ARG2 ... ARGN) => (funcall 'FUNC ARG1 ARG2 ... ARGN)
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall '\''+ 1 2 3)' 
+    
+    6
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall + 1 2 3)' 
+    Symbol's value as variable is void: +
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall (lambda (x y z) (+ x (* y z))) 1 2 3)' 
+    
+    7
+    
+
+lambdaのときは、'をつける必要なし ; ただしつけても同じ動作する
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall '\''(lambda (x y z) (+ x (* y z))) 1 2 3)' 
+    
+    7
+    
+
+
+.. warning::
+
+    引数が期待される場合と異なるときはerror
+
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall '\''|1+| 1 2)' 
+    Symbol's function definition is void: |1+|
+    
+
+define a variable as lambda. you must call it with funcall
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (setq f (lambda (x) (* 2 x))) (funcall f 2))' 
+    
+    4
+    
+
+
+.. warning::
+
+    ERROR
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (setq f (lambda (x) (* 2 x))) (f 2))' 
+    Symbol's function definition is void: f
+    
+
+
+
+init.scm
+========================
+
+declare minimum
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){}' 
+    
+
+
+.. warning::
+
+    missing ;
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){ echo 1 }; f' 
+    Syntax error: end of file unexpected (expecting "}")
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){ echo 1;}; f' 
+    1
+    
+
+
+.. warning::
+
+    need a space after {
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){echo 1;} ;f' 
+    Syntax error: "}" unexpected
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'f(){ echo 1;};f' 
+    1
+    
+
+
+.. warning::
+
+    a[] of function parameter is a pointer which equals int* a
+
+
+.. code-block:: sh
+   
+
+    $ ce '#include <stdio.h>
+    int f(int a[]){
+      return sizeof(a);
+    }
+    int main(){
+      int a[] = {1,2,3,4,5};
+      printf("%d != %d", sizeof(a), f(a));
+    }' 
+    <stdin>:4:15: error: function definition is not allowed here
+    int f(int a[]){
+                  ^
+    1 error generated.
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(begin (define (a) (define b 1) (define c 1) (set! b (+ b c)) (+ b c) (set! c (+ b c 10))) (a))' 
+    13
+    
+
+
+.. warning::
+
+    toplevelにしか、defineは記述できない (set!はOK)
+
+
+.. code-block:: sh
+   
+
+    $ s '(define (a2) 1 (define b 1))' 
+    *** ERROR: Compile Error: syntax-error: the form can appear only in the toplevel: (define b 1)
+    
+    Stack Trace:
+    _______________________________________
+      0  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+
+kwargs.scm
+==============================
+
+デフォルト引数はもっとも右側に指定していく
+
+.. code-block:: cpp
+   
+
+    #include <iostream>
+    #include <string>
+    using namespace std;
+    void hello(string h = "Ben", string s = "hello, world") {
+      cout << h << " says " << s << endl;
+    }
+    int main() { hello(); }
+
+.. code-block:: sh
+   
+
+    Ben says hello, world
+    
+
+デフォルト引数はもっとも右側に指定していく
+
+.. code-block:: cpp
+   
+
+    #include <iostream>
+    #include <string>
+    using namespace std;
+    void hello(string h = "Ben", string s = "hello, world") {
+      cout << h << " says " << s << endl;
+    }
+    int main() { hello("John"); }
+
+.. code-block:: sh
+   
+
+    John says hello, world
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(begin (define (add :key (a 1) (b 2)) (+ a b)) (add :a 3))' 
+    5
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (cl-defun add (&key (a 1) (b 2)) (+ a b)) (add :a 3))' 
+    
+    5
+    
+
+
+
+lambda.scm
+==============================
+
+引数が@_に格納されてるので、そのどれかを取り出す感じ
+
+.. code-block:: sh
+   
+
+    $ perl -E 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
+    ZhxlPb6HTzJK7Xdt6gGYLbEKEcb79Yl3FL74HWke5C325H0dnDA6KtJvBnvi5fKlS6P5AN80ORcxLppmY3uTdOWoymrDgIeZfwJv62uPGDnX5IjYRMvAOv3aygltrn08woeeXjWdBnFE6VW298xOv0fvXvVbvBLqopEDVNhzmRnzSneeOlbk36MhuI9yPP3h0HGkmtgzfXBB3y0SYi6Mi4dFjOMDj6FNQ1ujfrRDKJgVDtEEdkZxZCL7ljrCX22
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'sub {print "@_"}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
+    a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+
+
+.. code-block:: sh
+   
+
+    $ cpe '[](){ cout << "hello world" << endl; }();' 
+    hello world
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe '[]{ cout << "hello world" << endl; }();' 
+    hello world
+    
+
+関数定義しただけでなく、実行もされる
+
+.. code-block:: sh
+   
+
+    $ zsh -c '(){echo '\''hello'\''}' 
+    hello
+    
+
+
+.. warning::
+
+    sh/bashは、匿名関数使えない. 仕方がないので1回呼ぶので対応
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'a(){ echo "$1";}; a '\''hello world'\''' 
+    hello world
+    
+
+
+
+optional.scm
+====================================
+
+
+.. code-block:: sh
+   
+
+    $ s '(begin (define (add a :optional b (c 3)) (+ a b c)) (add 1 2))' 
+    6
+    
+
+clをloadすればcl-の接頭辞不要
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (cl-defun add (a &optional b (c 3)) (+ a b c)) (add 1 2))' 
+    
+    6
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'add=lambda a,b,c=3:a+b+c; P(add(1,2))' 
+    6
+    
+
+
+
+prototype.scm
+=======================================
+
+
+
+return.scm
+==============================
+
+
+
+stack.scm
+===========================
+
+
+.. warning::
+
+    スタックに巨大な配列をセットしない
+
+
+.. code-block:: c
+   
+
+    #include "myc.h"
+    // &"Hello" のプッシュがスタックオーバーフローとなる
+    int main() {
+      int n[1000000000];  // 配列が大きすぎる
+      printf("Hello");
+    }
+
+.. code-block:: sh
+   
+
+    セグメンテーション違反
+    
+
+
+.. code-block:: c
+   
+
+    // この場合は、以下のように配列を静的領域に移動するか、
+    #include "myc.h"
+    int n[1000000000];
+    int main() {
+      printf("Hello");
+    }
+
+.. code-block:: sh
+   
+
+    Hello
+
+
+.. code-block:: c
+   
+
+    // malloc などを使ってヒープ領域に確保すればスタックオーバーフローは回避できる。
+    #include "myc.h"
+    int main() {
+      int *n = malloc(sizeof(int) * 1000000000);
+      printf("Hello");
+      free(n);
+    }
+
+.. code-block:: sh
+   
+
+    Hello
+

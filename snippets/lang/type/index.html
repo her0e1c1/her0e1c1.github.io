@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>type &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="type">
+<h1><a class="toc-backref" href="#id1">type</a><a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#type" id="id1">type</a><ul>
+<li><a class="reference internal" href="#double-scm" id="id2">double.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id3">index.scm</a></li>
+<li><a class="reference internal" href="#init-scm" id="id4">init.scm</a></li>
+<li><a class="reference internal" href="#limit-scm" id="id5">limit.scm</a></li>
+<li><a class="reference internal" href="#null-scm" id="id6">null.scm</a></li>
+<li><a class="reference internal" href="#sizeof-scm" id="id7">sizeof.scm</a></li>
+<li><a class="reference internal" href="#tostring-scm" id="id8">toString.scm</a></li>
+<li><a class="reference internal" href="#type-scm" id="id9">type.scm</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="double-scm">
+<h2><a class="toc-backref" href="#id2">double.scm</a><a class="headerlink" href="#double-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>p<span class="o">(</span><span class="s2">&quot;%f&quot;</span>, <span class="o">(</span>double<span class="o">)(</span><span class="m">1</span> &lt;&lt; 30<span class="o">))</span><span class="p">;</span>
+Syntax error: <span class="s2">&quot;(&quot;</span> unexpected
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>p<span class="o">(</span><span class="s2">&quot;%lf&quot;</span>, <span class="o">(</span>double<span class="o">)(</span>1UL &lt;&lt; 52<span class="o">))</span><span class="p">;</span>
+Syntax error: <span class="s2">&quot;(&quot;</span> unexpected
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>p<span class="o">(</span><span class="s2">&quot;%lf&quot;</span>, <span class="o">(</span>double<span class="o">)(</span>1UL &lt;&lt; 63<span class="o">))</span><span class="p">;</span>
+Syntax error: <span class="s2">&quot;(&quot;</span> unexpected
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>p<span class="o">(</span><span class="s2">&quot;%f&quot;</span>, <span class="o">(</span>double<span class="o">)(</span><span class="m">1</span> &lt;&lt; 50<span class="o">))</span><span class="p">;</span>
+Syntax error: <span class="s2">&quot;(&quot;</span> unexpected
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>p<span class="o">(</span><span class="s2">&quot;%lf&quot;</span>, <span class="o">(</span>double<span class="o">)(</span><span class="m">1</span> &lt;&lt; 50<span class="o">))</span><span class="p">;</span>
+Syntax error: <span class="s2">&quot;(&quot;</span> unexpected
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>p<span class="o">(</span><span class="s2">&quot;%lf&quot;</span>, <span class="o">(</span>long<span class="o">)(</span><span class="m">1</span> &lt;&lt; 40<span class="o">))</span><span class="p">;</span>
+Syntax error: <span class="s2">&quot;(&quot;</span> unexpected
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>p<span class="o">(</span><span class="s2">&quot;%lf&quot;</span>, <span class="o">(</span>double<span class="o">)(</span><span class="m">1</span> &lt;&lt; 50<span class="o">))</span><span class="p">;</span>
+Syntax error: <span class="s2">&quot;(&quot;</span> unexpected
+</pre></div>
+</div>
+<p>not 0.1 but 0.125?</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>p<span class="o">(</span><span class="s2">&quot;%lf&quot;</span>, <span class="o">(</span>double<span class="o">)((</span>1UL &lt;&lt; 49<span class="o">)</span> + 0.1<span class="o">))</span><span class="p">;</span>
+Syntax error: <span class="s2">&quot;(&quot;</span> unexpected
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">warn</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>p<span class="o">(</span><span class="s2">&quot;%lf&quot;</span>, <span class="o">(</span>double<span class="o">)(</span>1UL &lt;&lt; 64<span class="o">))</span><span class="p">;</span>
+Syntax error: <span class="s2">&quot;(&quot;</span> unexpected
+</pre></div>
+</div>
+</div>
+<div class="section" id="index-scm">
+<h2><a class="toc-backref" href="#id3">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="init-scm">
+<h2><a class="toc-backref" href="#id4">init.scm</a><a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;char*a; __typeof(a) i = &quot;abc&quot;; ps(i);&#39;</span>
+&lt;stdin&gt;:3:36: warning: implicit declaration of <span class="k">function</span> <span class="s1">&#39;ps&#39;</span> is invalid in C99 <span class="o">[</span>-Wimplicit-function-declaration<span class="o">]</span>
+    char*a<span class="p">;</span> __typeof<span class="o">(</span>a<span class="o">)</span> <span class="nv">i</span> <span class="o">=</span> <span class="s2">&quot;abc&quot;</span><span class="p">;</span> ps<span class="o">(</span>i<span class="o">)</span><span class="p">;</span>
+                                   ^
+<span class="m">1</span> warning generated.
+/tmp/--b9VZ19.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
+<span class="s1">-:(.text+0x311): undefined reference to `ps&#39;</span>
+clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="limit-scm">
+<h2><a class="toc-backref" href="#id5">limit.scm</a><a class="headerlink" href="#limit-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%lud&quot;, ULONG_MAX);&#39;</span>
+18446744073709551615d
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%lu&quot;,sizeof(ULONG_MAX));&#39;</span>
+8
+</pre></div>
+</div>
+<p>8byte == 64bit(111..1) 2^63 + 2^62 + ... + 2^0 == 2^64 - 1</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;, ULONG_MAX == (0UL - 1));&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%d&quot;,SHRT_MIN);&#39;</span>
+-32768
+</pre></div>
+</div>
+</div>
+<div class="section" id="null-scm">
+<h2><a class="toc-backref" href="#id6">null.scm</a><a class="headerlink" href="#null-scm" title="Permalink to this headline">¶</a></h2>
+<p>You need to inlcude stdio.h to use NULL.</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>&lt;stdin&gt;:3:3: warning: implicitly declaring library <span class="k">function</span> <span class="s1">&#39;printf&#39;</span> with <span class="nb">type</span> <span class="s1">&#39;int (const char *, ...)&#39;</span>
+  <span class="nb">printf</span><span class="o">(</span><span class="s2">&quot;%p&quot;</span>, NULL<span class="o">)</span><span class="p">;</span>
+  ^
+&lt;stdin&gt;:3:3: note: please include the header &lt;stdio.h&gt; or explicitly provide a declaration <span class="k">for</span> <span class="s1">&#39;printf&#39;</span>
+&lt;stdin&gt;:3:16: error: use of undeclared identifier <span class="s1">&#39;NULL&#39;</span>
+  <span class="nb">printf</span><span class="o">(</span><span class="s2">&quot;%p&quot;</span>, NULL<span class="o">)</span><span class="p">;</span>
+               ^
+<span class="m">1</span> warning and <span class="m">1</span> error generated.
+</pre></div>
+</div>
+<p>You need to inlcude stdio.h to use NULL.</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>0x0
+</pre></div>
+</div>
+</div>
+<div class="section" id="sizeof-scm">
+<h2><a class="toc-backref" href="#id7">sizeof.scm</a><a class="headerlink" href="#sizeof-scm" title="Permalink to this headline">¶</a></h2>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(char));&#39;</span>
+1
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(short));&#39;</span>
+2
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(short int));&#39;</span>
+2
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(int));&#39;</span>
+4
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(size_t));&#39;</span>
+8
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(void*));&#39;</span>
+8
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(long));&#39;</span>
+8
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(float));&#39;</span>
+4
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(double));&#39;</span>
+8
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(long float));&#39;</span>
+&lt;stdin&gt;:3:21: error: <span class="s1">&#39;long float&#39;</span> is invalid
+    p<span class="o">(</span><span class="s2">&quot;%zu&quot;</span>, sizeof<span class="o">(</span>long float<span class="o">))</span><span class="p">;</span>
+                    ^
+<span class="m">1</span> error generated.
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(long long));&#39;</span>
+8
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(long double));&#39;</span>
+16
+</pre></div>
+</div>
+<p>with %zu print as unsigned decimal</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;p(&quot;%zu&quot;, sizeof(double double));&#39;</span>
+&lt;stdin&gt;:3:28: error: cannot combine with previous <span class="s1">&#39;double&#39;</span> declaration specifier
+    p<span class="o">(</span><span class="s2">&quot;%zu&quot;</span>, sizeof<span class="o">(</span>double double<span class="o">))</span><span class="p">;</span>
+                           ^
+<span class="m">1</span> error generated.
+</pre></div>
+</div>
+<p>sizeof gets all the memory size, not the length of an array</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;int b[10]; p(&quot;%zu&quot;, sizeof(b));&#39;</span>
+40
+</pre></div>
+</div>
+</div>
+<div class="section" id="tostring-scm">
+<h2><a class="toc-backref" href="#id8">toString.scm</a><a class="headerlink" href="#tostring-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rtti-run-time-type-identification">
+<h3>RTTI (Run Time Type Identification)<a class="headerlink" href="#rtti-run-time-type-identification" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;P(typeid(int).name());&#39;</span>
+typeid<span class="o">(</span>int<span class="o">)</span>.name<span class="o">()</span> <span class="o">=</span> i
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="type-scm">
+<h2><a class="toc-backref" href="#id9">type.scm</a><a class="headerlink" href="#type-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of 42)&#39;</span>
+
+integer
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of 3.14)&#39;</span>
+
+float
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of &quot;foo&quot;)&#39;</span>
+
+string
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+
+cons
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2))&#39;</span>
+
+cons
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+
+symbol
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(type-of ?a)&#39;</span>
+
+integer
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(symbolp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+
+t
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(symbol-name &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+
+<span class="s2">&quot;foo&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ ee &#39;(symbol-value &#39;\&#39;&#39;foo)&#39;
+Symbol&#39;s value as variable is void: foo
+</pre></div>
+</div>
+<p>値セルに値があればt、なければnil</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(boundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+
+nil
+</pre></div>
+</div>
+<p>関数セルに関数があればt、なければnil</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(fboundp &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+
+nil
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(symbol-function &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;foo)&#39;</span>
+
+nil
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

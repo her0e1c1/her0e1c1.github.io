@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>coding &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="coding">
+<h1><a class="toc-backref" href="#id6">coding</a><a class="headerlink" href="#coding" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#coding" id="id6">coding</a><ul>
+<li><a class="reference internal" href="#comment-scm" id="id7">comment.scm</a></li>
+<li><a class="reference internal" href="#duck-typing-scm" id="id8">duck-typing.scm</a></li>
+<li><a class="reference internal" href="#global-scm" id="id9">global.scm</a></li>
+<li><a class="reference internal" href="#if-scm" id="id10">if.scm</a></li>
+<li><a class="reference internal" href="#import-scm" id="id11">import.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id12">index.scm</a></li>
+<li><a class="reference internal" href="#metaclass-scm" id="id13">metaclass.scm</a></li>
+<li><a class="reference internal" href="#mixin-scm" id="id14">mixin.scm</a></li>
+<li><a class="reference internal" href="#move-scm" id="id15">move.scm</a></li>
+<li><a class="reference internal" href="#multi-thread-scm" id="id16">multi-thread.scm</a></li>
+<li><a class="reference internal" href="#null-scm" id="id17">null.scm</a></li>
+<li><a class="reference internal" href="#oop-scm" id="id18">oop.scm</a></li>
+<li><a class="reference internal" href="#pointer-scm" id="id19">pointer.scm</a></li>
+<li><a class="reference internal" href="#polymorphism-scm" id="id20">polymorphism.scm</a></li>
+<li><a class="reference internal" href="#stack-scm" id="id21">stack.scm</a></li>
+<li><a class="reference internal" href="#write-scm" id="id22">write.scm</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="comment-scm">
+<h2><a class="toc-backref" href="#id7">comment.scm</a><a class="headerlink" href="#comment-scm" title="Permalink to this headline">¶</a></h2>
+<p>不要だと思ったら、コメントアウトしておくこと。
+そうすれば、どこからか参照されている場合はエラーがでる。</p>
+<p>とくに、動的ではコンパイラが参照関係を実行前にチェックしないので、
+不要コードを残しておくと、影響範囲が後から分かりにくくなる。</p>
+<p>最後にまとめて削除すると、テスト後になってしまうので、二度手間となってしまう。</p>
+</div>
+<div class="section" id="duck-typing-scm">
+<h2><a class="toc-backref" href="#id8">duck-typing.scm</a><a class="headerlink" href="#duck-typing-scm" title="Permalink to this headline">¶</a></h2>
+<p>If it walks like a duck and quacks like a duck, it must be a duck.</p>
+<p>javaのようにinterfaceを宣言しなくても、
+同様のメソッドがあれば、同じような振る舞いを期待した実装をすること。
+オブジェクト間に継承などの関係を一切もつ必要は無い。</p>
+<p>読みやすい・安全ということではなく、柔軟であることが特徴</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Duck</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;quack&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Cat</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;myaa&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Duck</span><span class="p">(),</span> <span class="n">Cat</span><span class="p">()]:</span>
+        <span class="n">animal</span><span class="o">.</span><span class="n">sound</span><span class="p">()</span>  <span class="c"># ここで同じメソッド名という理由だけで、soundの呼び分けができる</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>quack
+myaa
+</pre></div>
+</div>
+</div>
+<div class="section" id="global-scm">
+<h2><a class="toc-backref" href="#id9">global.scm</a><a class="headerlink" href="#global-scm" title="Permalink to this headline">¶</a></h2>
+<p>ネストされた関数の内側で値が必要になることがある。
+その場合の対応としては、</p>
+<ul class="simple">
+<li>設定ファイルとして定義しておいて、値を読み出す。
+これは設定ファイルなので、変更されないことが前提</li>
+<li>クラスを用意して、そのメンバ変数にする</li>
+</ul>
+<p>こうしないと、関数の引数に毎回、指定しないといけなくなるので、
+冗長だし、変更に弱くなる。</p>
+</div>
+<div class="section" id="if-scm">
+<h2><a class="toc-backref" href="#id10">if.scm</a><a class="headerlink" href="#if-scm" title="Permalink to this headline">¶</a></h2>
+<p>if文は、正直ないほうが好ましい。</p>
+<p>OOPではif文の代わりにクラスを用意する。
+Haskellでは、型で分岐させる。
+MVCでは、URLで分岐させる。</p>
+<p>このようにして、入り口で分岐させておくのが良い。</p>
+</div>
+<div class="section" id="import-scm">
+<h2><a class="toc-backref" href="#id11">import.scm</a><a class="headerlink" href="#import-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>依存関係を緩く設定する<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>インポートするライブラリがないからといって、すぐにエラーにしなくてもよい。
+なぜなら、必要最低限の機能にそのライブラリを必要としていないから。
+その場合は、実行時に読み込むライブラリがなければエラーにすればよい。</p>
+</div>
+</div>
+<div class="section" id="index-scm">
+<h2><a class="toc-backref" href="#id12">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<p>apply min to 3 args</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;int a=3,b=1,c=2; P(min(a,min(b,c)));&#39;</span>
+min<span class="o">(</span>a,min<span class="o">(</span>b,c<span class="o">))</span> <span class="o">=</span> 1
+</pre></div>
+</div>
+</div>
+<div class="section" id="metaclass-scm">
+<h2><a class="toc-backref" href="#id13">metaclass.scm</a><a class="headerlink" href="#metaclass-scm" title="Permalink to this headline">¶</a></h2>
+<p>metaclassはnewの挙動を変えたい時に使います。</p>
+<p>ブジェクトの生成とは以下とします。</p>
+<ul class="simple">
+<li>allocation(クラスのメモリ割り当て)</li>
+<li>initialization(クラスの初期化)</li>
+</ul>
+<p>オブジェクトの生成は、クッキーの型を作ること?</p>
+</div>
+<div class="section" id="mixin-scm">
+<h2><a class="toc-backref" href="#id14">mixin.scm</a><a class="headerlink" href="#mixin-scm" title="Permalink to this headline">¶</a></h2>
+<p>インスタンス変数 (属性) を継承するスーパークラスはひとつだけに限定して、
+あとのスーパークラスはメソッド (実装) だけを継承するという方法があります。
+この方法を Mix-in といいます。(といっても、mixin側で属性を持つ例もある)</p>
+<p>継承には2つの異なる概念が含まれています。
+一つは、「どのようなメソッドを持っているか」
+あるいは「どのように振る舞うか」ということに着目した「仕様の継承」</p>
+<p>通常の継承は単一継承に限る</p>
+<p>2つめ以降の継承は、Mix-inと呼ばれる抽象クラスからに限定する</p>
+<p>Mix-inクラスは以下のような特徴を備えた抽象クラスです。</p>
+<ul class="simple">
+<li>単独でインスタンスを作らない</li>
+<li>通常のクラスから継承しない</li>
+</ul>
+<p>interfaceの実装も共有したい場合の手段</p>
+<p>MIX-IN
+抽象クラス
+__init__を定義しない
+メンバ変数を使わない</p>
+<p>インスタンス変数 (属性) を継承するスーパークラスはひとつだけに限定して、あとのスーパークラスはメソッド (実装) だけを継承するという方法があります。この方法を Mix-in といいます。</p>
+<p>インターフェイスを統一するだけなのがjavaで、各実装はクラス毎です。
+bridgeして実装を共有する手立てはある。</p>
+</div>
+<div class="section" id="move-scm">
+<h2><a class="toc-backref" href="#id15">move.scm</a><a class="headerlink" href="#move-scm" title="Permalink to this headline">¶</a></h2>
+<p>if文を使うと冗長になりやすい場合は、配列を使うと簡潔になる
+左右上下に動く物体の遷移先を計算するときなどに使える</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="kt">void</span> <span class="nf">move</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+ <span class="k">if</span> <span class="p">(</span><span class="n">d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="o">*</span><span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+ <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">d</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="o">*</span><span class="n">x</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+ <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">d</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="o">*</span><span class="n">y</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+ <span class="k">else</span>
+    <span class="o">*</span><span class="n">y</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+ <span class="n">move</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="o">&amp;</span><span class="n">y</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+ <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">y</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>1, 0
+</pre></div>
+</div>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="kt">void</span> <span class="nf">move</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">dx</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">};</span>
+  <span class="kt">int</span> <span class="n">dy</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">};</span>
+  <span class="o">*</span><span class="n">x</span> <span class="o">+=</span> <span class="n">dx</span><span class="p">[</span><span class="n">d</span><span class="p">];</span>
+  <span class="o">*</span><span class="n">y</span> <span class="o">+=</span> <span class="n">dy</span><span class="p">[</span><span class="n">d</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+ <span class="n">move</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="o">&amp;</span><span class="n">y</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+ <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">y</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>1, 0
+</pre></div>
+</div>
+<p>methodにして、関数名で分岐させるのが、読みやすい</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="k">class</span> <span class="nc">O</span> <span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+ <span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+ <span class="n">O</span><span class="p">()</span> <span class="p">{</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;}</span>
+ <span class="kt">void</span> <span class="n">up</span><span class="p">()</span> <span class="p">{</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;}</span>
+ <span class="kt">void</span> <span class="n">down</span><span class="p">()</span> <span class="p">{</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;}</span>
+ <span class="kt">void</span> <span class="n">left</span><span class="p">()</span> <span class="p">{</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;}</span>
+ <span class="kt">void</span> <span class="n">right</span><span class="p">()</span> <span class="p">{</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;}</span>
+ <span class="k">friend</span> <span class="n">ostream</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">ostream</span><span class="o">&amp;</span> <span class="n">os</span><span class="p">,</span> <span class="k">const</span> <span class="n">O</span><span class="o">&amp;</span> <span class="n">o</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="n">ostream</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">ostream</span><span class="o">&amp;</span> <span class="n">os</span><span class="p">,</span> <span class="k">const</span> <span class="n">O</span><span class="o">&amp;</span> <span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+ <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="n">o</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">o</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+ <span class="k">return</span> <span class="n">os</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="n">O</span> <span class="n">o</span><span class="p">;</span> <span class="n">o</span><span class="p">.</span><span class="n">up</span><span class="p">();</span>
+ <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">o</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>1, 0
+</pre></div>
+</div>
+</div>
+<div class="section" id="multi-thread-scm">
+<h2><a class="toc-backref" href="#id16">multi-thread.scm</a><a class="headerlink" href="#multi-thread-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="null-scm">
+<h2><a class="toc-backref" href="#id17">null.scm</a><a class="headerlink" href="#null-scm" title="Permalink to this headline">¶</a></h2>
+<p>pointerを受け取ったときはNULLチェックを忘れない
+原則はじめにガードする</p>
+<dl class="docutils">
+<dt>void t(node_t* node) {</dt>
+<dd><p class="first">// node-&gt;value としていいのは、nodeがNULLでないことを確認した後
+if (node != NULL) {</p>
+<blockquote>
+<div>// この中では、node-&gt;valueと参照してよい
+// node-&gt;nextも同様</div></blockquote>
+<p class="last">}</p>
+</dd>
+</dl>
+<p>}</p>
+<dl class="docutils">
+<dt>void t2(node_t* node) {</dt>
+<dd><p class="first">// node-&gt;next-&gt;value としていいのは、以下の条件
+if (node != NULL &amp;&amp; node-&gt;next != NULL) {</p>
+<blockquote>
+<div>// この中では、node-&gt;next-&gt;valueと参照してよい</div></blockquote>
+<p class="last">}</p>
+</dd>
+</dl>
+<p>}</p>
+</div>
+<div class="section" id="oop-scm">
+<h2><a class="toc-backref" href="#id18">oop.scm</a><a class="headerlink" href="#oop-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="isa">
+<h3>isa<a class="headerlink" href="#isa" title="Permalink to this headline">¶</a></h3>
+<p>A is a Bとは、AはBのサブクラス(Bが親, Aが子)であることをいう。(つまり継承)</p>
+</div>
+<div class="section" id="has-a">
+<h3>has a<a class="headerlink" href="#has-a" title="Permalink to this headline">¶</a></h3>
+<p>A has a Bとは、Aの属性にBがあることをいう。(包含関係A-)B)
+このとき、AはBに機能を委譲している。またBは集約と呼ぶ。
+一般的には、親がB, 子がAとなる。
+継承したくない場合には、委譲をするのも一つの手段。</p>
+<p>メリット
+- 必要な親クラスのメソッドを選択的に使用できる。 (継承だと、全て公開される。)</p>
+<p>デメリット
+- 記述量が多くなる。(継承は明示しない)</p>
+<p>以下の多重度を考慮する必要がある。</p>
+<p>0..1  無しか一つ
+1     確実に一つ
+0..* または *   ゼロ個以上
+1..* 1個以上</p>
+<p>0ということは、親なしで子供が存在できることを意味する。</p>
+</div>
+<div class="section" id="static-method">
+<h3>static method<a class="headerlink" href="#static-method" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>属性の値を使用するものは、メソッドとして実装</li>
+<li>属性の値を使用しないのであれば、静的なメソッドとして実装</li>
+</ul>
+<p>pythonのstatic methodと通常関数の区別については、
+サブクラスでオーバーライドしたい場合に、static methodを使用すると意図が明確になる</p>
+<p>値を返さないメソッドは、副作用をもつ.
+この副作用は、オブジェクトの属性に影響を与えるものになる(あるいはIOなどの処理)</p>
+</div>
+<div class="section" id="difference-between-instance-and-object">
+<h3>difference between instance and object<a class="headerlink" href="#difference-between-instance-and-object" title="Permalink to this headline">¶</a></h3>
+<p>An object is an instance of a class.</p>
+<p>結論
+どちらも同じものとみなして良さそう。</p>
+</div>
+<div class="section" id="setter-getter">
+<h3>setter/getter<a class="headerlink" href="#setter-getter" title="Permalink to this headline">¶</a></h3>
+<p>メリット
+- setする前にバリデーションが可能
+- get/setする前にログが可能
+- set/get時の権限チェック
+- 関数かすることで、引数に応じた処理が可能になり、柔軟性向上
+- javaの慣習に従う
+- カプセル化</p>
+<p>デメット
+- 単純なデータ構造には冗長すぎる
+- 内部状態を渡すと、クラス外で状態が変更される危険性がある</p>
+<div class="highlight-python"><div class="highlight"><pre>public class Store {
+  private List&lt;String&gt; books = new ArrayList&lt;String&gt;();
+  List&lt;String&gt; get_books(){
+      return books;
+  }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="aop-aspect-oriented-programming">
+<h3>AOP (Aspect Oriented Programming)<a class="headerlink" href="#aop-aspect-oriented-programming" title="Permalink to this headline">¶</a></h3>
+<p>cross-cuttingするような機能を提供
+ログなどを関数内に直接記述しないで、本体から分離するなど</p>
+</div>
+<div class="section" id="ocp">
+<h3>OCP<a class="headerlink" href="#ocp" title="Permalink to this headline">¶</a></h3>
+<p>かいほうへいさげんそく(open/closed principle,OCP)とは、
+オブジェクト指向プログラミングにおいて,クラス(およびその他のプログラム単位)は</p>
+<ul class="simple">
+<li>拡張に対して開いて (open) いなければならず,</li>
+<li>修正に対して閉じて (closed) いなければならない</li>
+</ul>
+<p>という設計上の原則</p>
+<p>つまり、あるクラスが一度コードレビューやユニットテストなどの品質検査を通過し実際の運用に入ったならば
+そのクラスを修正してはならず、拡張によって対処しなければならない.</p>
+</div>
+<div class="section" id="dip">
+<h3>DIP<a class="headerlink" href="#dip" title="Permalink to this headline">¶</a></h3>
+<p>依存関係逆転の原則（DIP:the Dependency Inversion Principle）</p>
+<p>上位レイヤーは下位レイヤーを参照してはならない</p>
+</div>
+<div class="section" id="id2">
+<h3>データと実装の分離<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>データを決めてそれを処理する関数を実装します。
+例えば、プログラムの設定は、外部ファイルに記述します。
+プログラムの実行中に、その設定ファイルを読み込んで反映させます。</p>
+</div>
+</div>
+<div class="section" id="pointer-scm">
+<h2><a class="toc-backref" href="#id19">pointer.scm</a><a class="headerlink" href="#pointer-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>値渡しと参照渡しの違い<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>結論: 値渡しは低速だが安全で、 参照渡しは高速だが危険</p>
+</div>
+<div class="section" id="id4">
+<h3>値渡し<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>データのコピーを渡す</li>
+<li>関数に値を渡すときのコピーの処理は、データが大きいほど遅くなる</li>
+<li>呼び出し先でデータを書き換えても、呼び出し元も書き変わらない</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>参照渡し<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>c言語でいうpointer</li>
+<li>関数に値を渡すときのコピーの処理は一定</li>
+<li>呼び出し先でデータを書き換えると、呼び出し元も書きかわる</li>
+</ul>
+</div>
+</div>
+<div class="section" id="polymorphism-scm">
+<h2><a class="toc-backref" href="#id20">polymorphism.scm</a><a class="headerlink" href="#polymorphism-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="stack-scm">
+<h2><a class="toc-backref" href="#id21">stack.scm</a><a class="headerlink" href="#stack-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="write-scm">
+<h2><a class="toc-backref" href="#id22">write.scm</a><a class="headerlink" href="#write-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="class-data-methods">
+<h3>class = data + methods<a class="headerlink" href="#class-data-methods" title="Permalink to this headline">¶</a></h3>
+<p>オブジェクトは型、インスタンスは実体（変数などの値をもつもの）
+構造体と、構造体変数みたいな関係です。</p>
+<p>データの型を決める</p>
+<p>obj.method(args)
+(method obj args)</p>
+<p>基本は、インスタンスの状態を決めるものを属性にする
+何でもかんでも、アクセスしやすい変数として使うのではない.</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

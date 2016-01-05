@@ -1,0 +1,57 @@
+
+============
+lazy
+============
+
+.. contents::
+    :depth: 2
+
+
+
+index.scm
+===========================
+
+遅延ペアと通常のペアを区別する方法はありません
+
+.. warning::
+
+    最後のは無視されるみたい？
+
+
+.. code-block:: sh
+   
+
+    $ s '(cdr (lcons 1 (lcons 2 '\''())))' 
+    (2)
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(llist* 1 (+ 1 1) 3 4)' 
+    (1 2 3)
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(liota 10)' 
+    (0 1 2 3 4 5 6 7 8 9)
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(lcons* 1 2 3 (print "HOGE") 5)' 
+    HOGE
+    (1 2 3 #<undef>)
+    
+
+
+
+stream.scm
+==============================
+

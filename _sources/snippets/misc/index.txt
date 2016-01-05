@@ -4,6 +4,16 @@ Misc
 ====
 
 
+.. toctree::
+
+
+    oneliner.rst
+
+
+.. toctree::
+
+
+    regex.rst
 
 Functional Programming
 ======================

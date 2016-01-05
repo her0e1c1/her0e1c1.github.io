@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>class &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="class">
+<h1><a class="toc-backref" href="#id9">class</a><a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#class" id="id9">class</a><ul>
+<li><a class="reference internal" href="#advice-scm" id="id10">advice.scm</a></li>
+<li><a class="reference internal" href="#get-scm" id="id11">get.scm</a></li>
+<li><a class="reference internal" href="#init-scm" id="id12">init.scm</a></li>
+<li><a class="reference internal" href="#isinstance-scm" id="id13">isinstance.scm</a></li>
+<li><a class="reference internal" href="#prototype-scm" id="id14">prototype.scm</a></li>
+<li><a class="reference internal" href="#struct-scm" id="id15">struct.scm</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="advice-scm">
+<h2><a class="toc-backref" href="#id10">advice.scm</a><a class="headerlink" href="#advice-scm" title="Permalink to this headline">¶</a></h2>
+<p>afterを定義したので、(echo)を実行した後に呼びだされる</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (defun echo () (print &quot;echo&quot;)) (defadvice echo (after after-echo activate) (print &quot;after echo!&quot;)) (echo))&#39;</span>
+
+<span class="s2">&quot;echo&quot;</span>
+
+<span class="s2">&quot;after echo!&quot;</span>
+
+<span class="s2">&quot;echo&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (defun f1 () 1) (defadvice f1 (before before-f1 activate) (print &quot;before&quot;) ad-return-value) (f1))&#39;</span>
+
+<span class="s2">&quot;before&quot;</span>
+
+1
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-scm">
+<h2><a class="toc-backref" href="#id11">get.scm</a><a class="headerlink" href="#get-scm" title="Permalink to this headline">¶</a></h2>
+<p><a href="#id1"><span class="problematic" id="id2">*</span></a>A-&gt;Bの評価のされ方は、<a href="#id3"><span class="problematic" id="id4">*</span></a>(A-&gt;B)となる. つまり、A-&gt;Bは、Bのpointerを表す(-&gt;の方が結合力ある)</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">typedef</span> <span class="k">struct</span> <span class="n">_t</span> <span class="p">{</span><span class="kt">int</span><span class="o">*</span> <span class="n">B</span><span class="p">;}</span> <span class="n">t</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="n">t</span> <span class="n">data</span><span class="p">;</span>
+  <span class="n">data</span><span class="p">.</span><span class="n">B</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">;</span>
+  <span class="n">t</span><span class="o">*</span> <span class="n">A</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">;</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d == %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">A</span><span class="o">-&gt;</span><span class="n">B</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">A</span><span class="o">-&gt;</span><span class="n">B</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">1</span> <span class="o">==</span> 1
+</pre></div>
+</div>
+<p>(<a href="#id5"><span class="problematic" id="id6">*</span></a>A)-&gt;Bは、pointer-&gt;Bと評価(Bの値が返る). <a href="#id7"><span class="problematic" id="id8">**</span></a>A = &amp;pointer (つまり、Aはpointerのpointer)</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">typedef</span> <span class="k">struct</span> <span class="n">_t</span> <span class="p">{</span><span class="kt">int</span> <span class="n">B</span><span class="p">;}</span> <span class="n">t</span><span class="p">;</span>
+  <span class="n">t</span> <span class="n">data</span><span class="p">;</span>
+  <span class="n">data</span><span class="p">.</span><span class="n">B</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="n">t</span><span class="o">*</span> <span class="n">pointer</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">;</span>
+  <span class="n">t</span><span class="o">**</span> <span class="n">A</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">pointer</span><span class="p">;</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">A</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">B</span><span class="p">);</span>
+  <span class="c1">// printf(&quot;%d\n&quot;, *A-&gt;B);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>1
+</pre></div>
+</div>
+</div>
+<div class="section" id="init-scm">
+<h2><a class="toc-backref" href="#id12">init.scm</a><a class="headerlink" href="#init-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>php -r <span class="s1">&#39;class A {public $v = &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;val&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;} $a=new A(); echo &quot;$a-&gt;v&quot;;&#39;</span>
+val
+</pre></div>
+</div>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Human</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+  <span class="k">end</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:name</span>
+<span class="k">end</span>
+<span class="nb">puts</span> <span class="p">(</span><span class="no">Human</span><span class="o">.</span><span class="n">new</span> <span class="s2">&quot;Bob&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>Bob
+</pre></div>
+</div>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="k">class</span> <span class="nc">Human</span> <span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+ <span class="n">string</span> <span class="n">name</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+ <span class="n">Human</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+ <span class="p">}</span>
+ <span class="kt">void</span> <span class="n">say</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+ <span class="p">}</span>
+<span class="p">};</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span><span class="n">Human</span> <span class="n">h</span><span class="p">(</span><span class="s">&quot;Bob&quot;</span><span class="p">);</span> <span class="n">h</span><span class="p">.</span><span class="n">say</span><span class="p">();}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>Bob
+</pre></div>
+</div>
+</div>
+<div class="section" id="isinstance-scm">
+<h2><a class="toc-backref" href="#id13">isinstance.scm</a><a class="headerlink" href="#isinstance-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(isinstance(1, int))&#39;</span>
+True
+</pre></div>
+</div>
+</div>
+<div class="section" id="prototype-scm">
+<h2><a class="toc-backref" href="#id14">prototype.scm</a><a class="headerlink" href="#prototype-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="struct-scm">
+<h2><a class="toc-backref" href="#id15">struct.scm</a><a class="headerlink" href="#struct-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef struct {char name[64];}S; S s; strcpy(s.name, &quot;Bob&quot;); p(&quot;%s&quot;, s.name);&#39;</span>
+Bob
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=0; p(&quot;%d&quot;, b.bool);&#39;</span>
+0
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=1; p(&quot;%d&quot;, b.bool);&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;typedef struct {unsigned bool: 1;}Bool; Bool b; b.bool=2; p(&quot;%d&quot;, b.bool);&#39;</span>
+&lt;stdin&gt;:3:59: warning: implicit truncation from <span class="s1">&#39;int&#39;</span> to bitfield changes value from <span class="m">2</span> to <span class="m">0</span> <span class="o">[</span>-Wbitfield-constant-conversion<span class="o">]</span>
+    typedef struct <span class="o">{</span>unsigned bool: 1<span class="p">;</span><span class="o">}</span>Bool<span class="p">;</span> Bool b<span class="p">;</span> b.bool<span class="o">=</span>2<span class="p">;</span> p<span class="o">(</span><span class="s2">&quot;%d&quot;</span>, b.bool<span class="o">)</span><span class="p">;</span>
+                                                          ^~
+<span class="m">1</span> warning generated.
+0
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

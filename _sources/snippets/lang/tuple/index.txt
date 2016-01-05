@@ -1,0 +1,127 @@
+
+===============
+tuple
+===============
+
+.. contents::
+    :depth: 2
+
+
+
+index.scm
+===========================
+
+multiple values
+
+.. code-block:: sh
+   
+
+    $ cpe 'pair<int, string> pis(10,"str"); cout << pis.first << " " << pis.second << endl;' 
+    10 str
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(receive (a b) (values 1 2) (+ a b))' 
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(define-values (a b . c) (values 1 2 3 4))' 
+    (3 4)
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(destructuring-bind (x y z) '\''(1 2 3) (+ x y z))' 
+    
+    6
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(destructuring-bind ((x) y z) '\''(1 2 3) (+ x y z))' 
+    Wrong type argument: sequencep, 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(destructuring-bind ((x) y z . w) '\''((1) 2 3 . 4) (+ x y z w))' 
+    
+    10
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(multiple-value-bind (q r) (truncate* 10 3) (format "(%s, %s)" q r))' 
+    
+    "(3, 1)"
+    
+
+
+
+init.scm
+========================
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'pair<int, string> pis(10,"str");' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'pair<int, string> pis; pis = make_pair(1000, "str");' 
+    
+
+need to #include <utility>
+
+.. code-block:: sh
+   
+
+    $ cpe 'vector<pair<int, int>> v = {{1, -1}, {-2, 5}, {3, 10}};' 
+    
+
+
+.. warning::
+
+    同じ表現でも初期化できるが、forと組み合わせできない
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'for(pair<int, int> x: {{1,2}, {2,5}});' 
+    <stdin>:45:27: error: cannot use type 'void' as a range
+        for(pair<int, int> x: {{1,2}, {2,5}});
+                              ^
+    1 error generated.
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'vector<pair<int, int>> v = {{1, -1}, {-2, 5}, {3, 10}};
+          EACH(it, v) cout << it->first << ", " << it->second << endl;' 
+    1, -1
+    -2, 5
+    3, 10
+    
+

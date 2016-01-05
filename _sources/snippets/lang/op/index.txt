@@ -1,0 +1,1253 @@
+
+======
+op
+======
+
+.. contents::
+    :depth: 2
+
+
+
+add.scm
+=====================
+
+
+.. warning::
+
+    ``(i + j) / 2`` becomes overflow. use ``i + (j - i) / 2``
+
+
+.. code-block:: sh
+   
+
+    $ ce 'unsigned char s=200, t=200; p("%d", (unsigned char) (s + t) / 2);' 
+    72
+
+
+.. code-block:: sh
+   
+
+    $ ce 'unsigned char s=200, t=200; p("%d", (unsigned char) s + (t - s) / 2);' 
+    200
+
+
+
+apply.scm
+===========================
+
+
+.. code-block:: sh
+   
+
+    $ ne 'Math.min.apply(null, [1,2,-1,3])' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(apply + '\''(1 3 3))' 
+    7
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(apply + `,(list 1 (+ 1 2) 3))' 
+    7
+    
+
+
+.. warning::
+
+    内側評価されない
+
+
+.. code-block:: sh
+   
+
+    $ s '(apply + '\''(1 (+ 1 2) 3))' 
+    *** ERROR: operation + is not defined between 1 and (+ 1 2)
+    Stack Trace:
+    _______________________________________
+      0  (apply + '(1 (+ 1 2) 3))
+            [unknown location]
+      1  (print-string (|-->| (undefined) list (apply + '(1 (+ 1 2) 3))))
+            [unknown location]
+      2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+.. warning::
+
+    1の関数が呼ばれてしまう
+
+
+.. code-block:: sh
+   
+
+    $ s '(apply + `,(1 (+ 1 2) 3))' 
+    *** ERROR: invalid application: (1 3 3)
+    Stack Trace:
+    _______________________________________
+      0  (1 (+ 1 2) 3)
+            At line 1 of "(input string port)"
+      1  (apply + `,(1 (+ 1 2) 3))
+            [unknown location]
+      2  (print-string (|-->| (undefined) list (apply + `,(1 (+ 1 2) 3))))
+            [unknown location]
+      3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+.. warning::
+
+    特殊形式andにはapplyが使えない
+
+
+.. code-block:: sh
+   
+
+    $ s '(apply and '\''(#t #f))' 
+    *** ERROR: invalid application: (#<syntax and> #t #f)
+    Stack Trace:
+    _______________________________________
+      0  (apply and '(#t #f))
+            [unknown location]
+      1  (print-string (|-->| (undefined) list (apply and '(#t #f))))
+            [unknown location]
+      2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(+ 1 2)' 
+    
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(funcall '\''+ 1 2)' 
+    
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(apply '\''+ '\''(1 2))' 
+    
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(apply '\''+ 1 '\''(2))' 
+    
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(apply '\''+ 1 2 '\''())' 
+    
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(apply (symbol-function '\''+) '\''(1 2))' 
+    
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(apply (lambda (x y) (+ x y)) '\''(1 2))' 
+    
+    3
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(apply '\''(lambda (x y) (+ x y)) '\''(1 2))' 
+    
+    3
+    
+
+
+.. warning::
+
+    function must be quoted
+
+
+.. code-block:: sh
+   
+
+    $ ee '(apply + '\''(1 2))' 
+    Symbol's value as variable is void: +
+    
+
+
+
+case.scm
+========================
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'case '\''apple'\'' in a*) echo '\''starts with a'\'';; esac' 
+    starts with a
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'case '\''apple'\'' in a*) echo '\''starts with a'\'';; esac' 
+    starts with a
+    
+
+? is any one char
+
+.. code-block:: sh
+   
+
+    $ sh -c 'case '\''Xapple'\'' in ?a*) echo '\''starts with a'\'';; esac' 
+    starts with a
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'case '\'''\'' in '\'''\'') echo '\''empty string'\'';; esac' 
+    empty string
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'case '\''banana'\'' in apple|banana) echo '\''I want banana'\'';; esac' 
+    I want banana
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(pcase 1 (1 "one") (_ "else"))' 
+    
+    "one"
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(pcase 2 (1 "one") (_ "else"))' 
+    
+    "else"
+    
+
+
+
+comment.scm
+=================================
+
+
+.. code-block:: sh
+   
+
+    $ s '"#| comment |#"' 
+    #| comment |#
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '"; inline ;; top level ;;; module level"' 
+    ; inline ;; top level ;;; module level
+    
+
+
+
+debug.scm
+===========================
+
+
+
+enum.scm
+========================
+
+
+.. code-block:: sh
+   
+
+    $ ce 'enum E{A,B}; enum E e=A; p("%d", e);' 
+    0
+
+
+.. code-block:: sh
+   
+
+    $ ce 'enum E{A,B}; enum E e=B; p("%d", e);' 
+    1
+
+
+.. code-block:: sh
+   
+
+    $ ce 'enum E{A=10,B}; enum E e=A; p("%d", e);' 
+    10
+
+
+.. code-block:: sh
+   
+
+    $ ce 'enum E{A=10,B}; enum E e=B; p("%d", e);' 
+    11
+
+alias enum
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef enum E{A,B}F; F e=A; p("%d", e);' 
+    0
+
+
+.. code-block:: sh
+   
+
+    $ ce 'typedef enum E{A,B}F; F e=B; p("%d", e);' 
+    1
+
+create a variable
+
+.. code-block:: sh
+   
+
+    $ ce 'enum E{A,B}e; e=A; p("%d", e);' 
+    0
+
+
+.. code-block:: sh
+   
+
+    $ ce 'enum E{A,B}e; e=B; p("%d", e);' 
+    1
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (deftype color () '\''(member red bule green)) (typep '\''red '\''color))' 
+    
+    t
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(progn (deftype color () '\''(member red bule green)) (typep '\''apple '\''color))' 
+    
+    nil
+    
+
+
+
+eq.scm
+==================
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof "s" === "string"' 
+    
+
+NaN stands for Not a Number
+
+.. code-block:: sh
+   
+
+    $ ne 'isNaN(NaN)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '(NaN === 1)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '(NaN === NaN)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 == "1"' 
+    
+
+=== needs strict type
+
+.. code-block:: sh
+   
+
+    $ ne '1 === "1"' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 / 0 === Infinity' 
+    
+
+= --  値が等しい
+
+.. code-block:: sh
+   
+
+    $ ne '1 == "1"' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 == 1' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 === 1' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '1 === "1"' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '{} == {}' 
+    [eval]:8
+    {} == {}
+       ^^
+    
+    SyntaxError: Unexpected token ==
+        at Object.exports.runInThisContext (vm.js:53:16)
+        at Object.<anonymous> ([eval]-wrapper:6:22)
+        at Module._compile (module.js:435:26)
+        at node.js:576:27
+        at doNTCallback0 (node.js:417:9)
+        at process._tickCallback (node.js:346:13)
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '[] == []' 
+    
+
+Infinity
+
+.. code-block:: sh
+   
+
+    $ ne '1/0 === 2/0' 
+    
+
+NaNvar
+
+.. code-block:: sh
+   
+
+    $ ne '0/0 === 0/0' 
+    
+
+
+
+false.scm
+===========================
+
+
+
+false
+---------------
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say $a || "" || 0'
+    0
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'undefined || null || "" || 0 || false' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ce 'if(!0)p("false");' 
+    false
+
+
+.. code-block:: sh
+   
+
+    $ ce 'if(!NULL)p("false");' 
+    false
+
+
+.. code-block:: sh
+   
+
+    $ ce 'char *s=""; if(!*s)p("false");' 
+    false
+
+
+.. code-block:: sh
+   
+
+    $ ce 'if("")p("true");' 
+    true
+
+exit non 0 means false
+
+.. code-block:: sh
+   
+
+    $ sh -c 'ls HOGE && echo 1' 
+    ls: HOGE: そのようなファイルまたはディレクトリはありません
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '! ls HOGE && echo 1' 
+    ls: HOGE: そのようなファイルまたはディレクトリはありません
+    1
+    
+
+
+.. warning::
+
+    nullはfalseとして扱われない!
+
+see http://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_8.html
+
+.. code-block:: sh
+   
+
+    $ s '(if #f #t)' 
+    #<undef>
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(if 0 #t)' 
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(if "" #t)' 
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(if () #t)' 
+    #t
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(if #<eof> #t)' 
+    *** ERROR: Compile Error: Read error at "(input string port)":line 1: unsupported #-syntax: #<
+    
+    Stack Trace:
+    _______________________________________
+      0  (read-from-string (string-append "(list " (x->string exp) ")"))
+            At line 94 of "/home/me/github/onelinerForGauche/main.scm"
+      1  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+.. code-block:: sh
+   
+
+    $ s '(if #<undef> #t)' 
+    *** ERROR: Compile Error: Read error at "(input string port)":line 1: unsupported #-syntax: #<
+    
+    Stack Trace:
+    _______________________________________
+      0  (read-from-string (string-append "(list " (x->string exp) ")"))
+            At line 94 of "/home/me/github/onelinerForGauche/main.scm"
+      1  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
+            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+    
+
+
+.. warning::
+
+    WRONG SYNTAX
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '[ ! false ] && echo true ' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '! false && echo true ' 
+    true
+    
+
+
+.. warning::
+
+    goshでは'()は真として扱われるが、elispでは偽として扱われるので注意
+
+
+.. code-block:: sh
+   
+
+    $ ee '(or '\''() nil)' 
+    
+    nil
+    
+
+
+
+for.scm
+=====================
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'for i in 1 2 3; do echo $i; done' 
+    1
+    2
+    3
+    
+
+001.csv ... 010.csvまでの空ファイルを作成
+
+.. code-block:: sh
+   
+
+    $ sh -c 'for i in $(seq -f "%03g" 1 10); do printf "%s.csv " $i; done' 
+    001.csv 002.csv 003.csv 004.csv 005.csv 006.csv 007.csv 008.csv 009.csv 010.csv 
+
+区切り文字を$IFSとして、配列を生成し、行つきの結果を表示
+
+.. code-block:: sh
+   
+
+    $ sh -c 'cnt=0; for i in `ls`; do echo "$cnt $i"; cnt=$((cnt + 1)); done' 
+    0 a.out
+    1 async
+    2 bit
+    3 byte
+    4 char
+    5 char-set
+    6 class
+    7 cmd
+    8 date
+    9 elisp
+    10 exception
+    11 func
+    12 hash
+    13 haskell.scm
+    14 hook.sh.tmp
+    15 html
+    16 http
+    17 ifdef.c
+    18 index.rst
+    19 index.scm
+    20 index.sh
+    21 io
+    22 java.scm
+    23 lazy
+    24 list
+    25 macro
+    26 math
+    27 memory
+    28 module
+    29 number
+    30 op
+    31 path
+    32 pointer
+    33 process
+    34 range
+    35 regex
+    36 set
+    37 special_variables
+    38 stack
+    39 string
+    40 sys
+    41 test
+    42 test.tmp
+    43 tuple
+    44 type
+    45 var
+    46 vector
+    
+
+
+.. warning::
+
+    During iteration, you should not modify the list
+
+
+.. code-block:: sh
+   
+
+    $ ne 'var l = [10,20,30]; for (var j in l) console.log(l[j]);' 
+    10
+    20
+    30
+    
+
+
+.. warning::
+
+    With for-in just return 1, 2, 3 ...
+
+
+.. code-block:: sh
+   
+
+    $ ne 'for (var n in [10,20,30]) console.log(n);' 
+    0
+    1
+    2
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|--each| '\''(1 2 3) (print it))' 
+    Symbol's function definition is void: |--each|
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(dolist (it '\''(1 2 3)) (print it))' 
+    
+    1
+    
+    2
+    
+    3
+    
+    nil
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(loop for c from ?0 to ?9 do (princ (string c)))' 
+    0123456789
+    nil
+    
+
+
+
+if.scm
+==================
+
+
+.. code-block:: sh
+   
+
+    $ ne 'true && "ok" || "no"' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ perl -E 'say 1 ? "ok" : "no"'
+    ok
+    
+
+
+.. code-block:: sh
+   
+
+    $ php -r 'if (1) {echo "true";}' 
+    true
+
+
+.. code-block:: sh
+   
+
+    $ ee '(if t 1 2)' 
+    
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(if nil 1 2)' 
+    
+    2
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'if true  ; then echo '\''true'\''; else echo '\''false'\''; fi' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'if false ; then echo '\''true'\''; else echo '\''false'\''; fi' 
+    false
+    
+
+Multi liners
+
+.. code-block:: sh
+   
+
+    $ sh -c '
+    if true; then
+        echo '\''if'\'';
+    elif false; then 
+        echo '\''elif'\'';
+    else
+        echo '\''else'\'';
+    fi
+    ' 
+    if
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '
+    if false; then
+        echo '\''if'\'';
+    elif true; then 
+        echo '\''elif'\'';
+    else
+        echo '\''else'\'';
+    fi
+    ' 
+    elif
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '
+    if false; then
+        echo '\''if'\'';
+    elif false; then 
+        echo '\''elif'\'';
+    else
+        echo '\''else'\'';
+    fi
+    ' 
+    else
+    
+
+
+
+using var
+---------------------------
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'A=true && if $A ; then echo true; fi' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'A=true && $A && echo true' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'A=false && if $A ; then echo true; fi' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '$A && echo true' 
+    true
+    
+
+# With test, [ ] or [[ ]] operators,
+bash conditions evaluate as true in case of an exit code of 0
+
+.. code-block:: sh
+   
+
+    $ sh -c 'if [ 0 ] ; then echo true; fi' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'if [ $(echo 0) ] ; then echo true; fi' 
+    true
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'if [ -z "" ] ; then echo true; fi' 
+    true
+    
+
+
+
+instanceof.scm
+==========================================
+
+
+
+instanceof
+------------------------------
+
+
+.. code-block:: sh
+   
+
+    $ ne '[] instanceof Array' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '/regexp/ instanceof RegExp' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '/regexp/ instanceof Function' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne '(function(){}) instanceof Function' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'undefined instanceof Object' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'null instanceof Object' 
+    
+
+
+
+let.scm
+=====================
+
+
+
+pass.scm
+========================
+
+
+
+colon
+---------------
+
+colon(:) is similar to pass in Python
+
+.. code-block:: sh
+   
+
+    $ sh -c 'if true; then :; fi' 
+    
+
+
+.. warning::
+
+    代入式などに使用する. コマンドを実行しないようにする
+
+
+.. code-block:: sh
+   
+
+    $ sh -c '${A=1} && echo $A' 
+    1: not found
+    
+
+
+
+set.scm
+=====================
+
+
+
+assign
+------------------
+
+
+.. code-block:: sh
+   
+
+    $ sh -c ': ${A=1} && echo $A' 
+    1
+    
+
+${NAME:=VAL} if variable is undefined, then set a value.
+
+.. code-block:: sh
+   
+
+    $ sh -c ': ${NULL:='\''NULL'\''} && echo $NULL' 
+    NULL
+    
+
+${NAME:-VAL} if variable is undefined, then evaluate a value but not set it.
+
+.. code-block:: sh
+   
+
+    $ sh -c 'echo ${NULL:-'\''NULL'\''}' 
+    NULL
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c ': ${NULL:-'\''NULL'\''}; echo $NULL' 
+    
+    
+
+
+.. code-block:: sh
+   
+
+    $ sh -c 'NULL='\''HOGE'\'' && echo ${NULL:-'\''NULL'\''}' 
+    HOGE
+    
+
+${NAME:=VAL} if variable is defined, then evaluate a value but not set it.
+
+.. code-block:: sh
+   
+
+    $ sh -c 'echo ${NULL:+'\''NULL AGAIN'\''}' 
+    
+    
+
+setはシンボルを引数にとる
+
+.. code-block:: sh
+   
+
+    $ ee '(set '\''a 1)' 
+    
+    1
+    
+
+
+.. code-block:: sh
+   
+
+    $ zsh -c ': ${a::=1}; echo $a' 
+    1
+    
+
+
+
+typeof.scm
+==============================
+
+
+
+typeof
+------------------
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof(true)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof(123)' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof('\''abc'\'')' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof({})' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof([])' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof /regexp/' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof function(){}' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof null' 
+    
+
+
+.. code-block:: sh
+   
+
+    $ ne 'typeof undefined' 
+    
+
+
+
+when.scm
+========================
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|--when-let| (+ 1 2 3) (* it it))' 
+    Symbol's function definition is void: |--when-let|
+    
+
+
+.. code-block:: sh
+   
+
+    $ ee '(|--when-let| nil (* it it))' 
+    Symbol's function definition is void: |--when-let|
+    
+

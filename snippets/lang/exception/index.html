@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>exception &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="exception">
+<h1><a class="toc-backref" href="#id1">exception</a><a class="headerlink" href="#exception" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#exception" id="id1">exception</a><ul>
+<li><a class="reference internal" href="#error-scm" id="id2">error.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id3">index.scm</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="error-scm">
+<h2><a class="toc-backref" href="#id2">error.scm</a><a class="headerlink" href="#error-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(error &quot;error!!&quot;)&#39;</span>
+error!!
+</pre></div>
+</div>
+</div>
+<div class="section" id="index-scm">
+<h2><a class="toc-backref" href="#id3">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;0 || die qq/エラー : $!/&#39;</span>
+エラー :  at -e line 1.
+</pre></div>
+</div>
+<div class="section" id="guard">
+<h3>guard<a class="headerlink" href="#guard" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sh"><div class="highlight"><pre>$ s &#39;(guard (var cond) cddr)&#39;
+*** ERROR: Compile Error: malformed guard clause cond
+
+Stack Trace:
+_______________________________________
+  0  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
+        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(guard (exc) 1)&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>$ s &#39;(guard (exc) (/ 1 0))&#39;
+*** ERROR: attempt to calculate a division by zero
+Stack Trace:
+_______________________________________
+  0  (/ 1 0)
+        At line 1 of &quot;(input string port)&quot;
+  1  (with-error-handler (lambda (e) (let ((exc e)) (%guard-rec exc e))
+        [unknown location]
+  2  (print-string (|--&gt;| (undefined) list (guard (exc) (/ 1 0))))
+        [unknown location]
+  3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
+        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(guard (exc (else 0)) (/ 1 0))&#39;</span>
+0
+</pre></div>
+</div>
+<p>bodyがエラーを起こしても、必ずCLEAN-UP-FORMSが呼ばれる(ただし、errorは無視されない!)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(unwind-protect (/ 1 0) (print &quot;ERROR!&quot;))&#39;</span>
+Arithmetic error
+
+<span class="s2">&quot;ERROR!&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(unwind-protect (/ 1 1) (print &quot;always print this&quot;))&#39;</span>
+
+<span class="s2">&quot;always print this&quot;</span>
+
+1
+</pre></div>
+</div>
+<p>Catch errors and return nil</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(ignore-errors (/ 1 0))&#39;</span>
+
+nil
+</pre></div>
+</div>
+<p>Return the last expression</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(ignore-errors (/ 10 1) 2 nil 1)&#39;</span>
+
+1
+</pre></div>
+</div>
+<p>unwind-protectとignore-errorsを使い、エラーをキャッチして処理を続ける(失敗した場合はnil)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(ignore-errors (unwind-protect (/ 1 0) (print &quot;always print this&quot;)))&#39;</span>
+
+<span class="s2">&quot;always print this&quot;</span>
+
+nil
+</pre></div>
+</div>
+<p>char*型は不可</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;myutils.h&quot;</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">try</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="s">&quot;error&quot;</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>error
+</pre></div>
+</div>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;myutils.h&quot;</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">try</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">string</span><span class="p">(</span><span class="s">&quot;error 1&quot;</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">string</span> <span class="n">msg</span><span class="p">){</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">try</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="n">string</span><span class="p">(</span><span class="s">&quot;error 2&quot;</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">string</span><span class="o">*</span> <span class="n">msg</span><span class="p">){</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">msg</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>error 1error 2
+</pre></div>
+</div>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;myutils.h&quot;</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">try</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="s">&quot;ANY&quot;</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(...){</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;error&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>error
+</pre></div>
+</div>
+<div class="highlight-node"><div class="highlight"><pre>try{
+    throw null;
+} catch (e) {
+    if (e === null)
+        console.log(&quot;NULL!&quot;);
+}
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>NULL!
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
