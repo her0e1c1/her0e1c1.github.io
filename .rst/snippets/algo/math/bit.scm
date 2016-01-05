@@ -41,3 +41,26 @@ bは全て0なので反転させると全て1 ::
 (math "f(x) = $begin{cases} 1 (if x is odd)
 0 (else) $end{cases}")
 (py "f=lambda x: x & 1; P(f(11))")
+
+
+.. QUESTION: (1 << i) - 1の値は?
+すべてのbitが1になっている(1からi番目まで)
+
+.. QUESTION: 1 << jのとき、右から何番目が1となっている？また値は？
+j+1番目(1から数えた場合)
+j 番目(0から数えた場合)
+
+2 ^ j
+
+1 << 0 == 0b1
+1 << 1 == 0b10
+1 << 2 == 0b100
+
+.. QUESTION: ~0
+-1
+
+.. QUESTION: all, any, not all, not anyがTrueになる条件
+all: 全てTrue
+any: 少なくとも一つTrue
+not all: 少なくとも一つFalse
+not any: 全てFalse
