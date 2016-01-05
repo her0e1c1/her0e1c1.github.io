@@ -14,10 +14,10 @@ y = f'(x_n)(x - x_n) + f(x_n)
 x_{n+1} = x_n - $frac{f(x_nf)}{f'(x_n)}
 ")
 (math "
-|$frac{x_{n+1} - x_n}{x_n}| < $epsion
+|$frac{x_{n+1} - x_n}{x_n}| < $epsilon
 ")
 (ps "solve x^2 = n by newton")
-(math "x_{n+1} = x_n - $frac{x}{2}")
+(math "x_{n+1} = x_n - $frac{x_n * x_n - 2}{2 * x_n}")
 
 (c #!Q
 #include <stdio.h>

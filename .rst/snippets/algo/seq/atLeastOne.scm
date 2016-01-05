@@ -21,7 +21,7 @@ $end{cases}
 #include <myc.h>
 int g(int *S, int N, int I) {
  // c[0] is dummy
- buff[I];
+ int buff[I];
  memset(buff, 0, sizeof(int)*I);
  int sum = 0;
  for (int i = 0; i < N; i++) {
