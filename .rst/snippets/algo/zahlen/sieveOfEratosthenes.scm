@@ -14,6 +14,7 @@ primes = f [2..] where
 main = print (takeWhile (<100) primes)
 " :str #t)
 
+(p "2の倍数、3の倍数、5の倍数、、、と素数の倍数で数え上げていくので、計算量はO(n)となる")
 
 (cpp #!Q
 #include <myutils.h>
