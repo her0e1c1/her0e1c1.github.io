@@ -1,0 +1,58 @@
+
+==================
+matrix
+==================
+
+.. contents::
+    :depth: 2
+
+
+
+Binet.scm
+===========================
+
+
+
+fib
+---------
+
+
+
+inner-product.scm
+===================================================
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        c_{ij} = \sum_{k=1}^{n} a_{ik} * b_{kj}
+    \end{eqnarray}
+
+
+.. code-block:: cpp
+   
+
+    int f(vector<int> A, vector<int> B) {
+     int MA = A.size();
+    }
+
+.. code-block:: sh
+   
+
+    <stdin>:1:7: error: use of undeclared identifier 'vector'
+    int f(vector<int> A, vector<int> B) {
+          ^
+    <stdin>:1:17: error: expected '(' for function-style cast or type construction
+    int f(vector<int> A, vector<int> B) {
+                 ~~~^
+    <stdin>:1:19: error: use of undeclared identifier 'A'
+    int f(vector<int> A, vector<int> B) {
+                      ^
+    <stdin>:1:36: error: expected ';' after top level declarator
+    int f(vector<int> A, vector<int> B) {
+                                       ^
+                                       ;
+    4 errors generated.
+    
+

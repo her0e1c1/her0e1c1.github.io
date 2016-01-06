@@ -1052,6 +1052,13 @@ max.scm
     
 
 
+.. code-block:: sh
+   
+
+    $ ce 'P("%d",MAX(1,MAX(2,3)));' 
+    3
+
+
 
 min.scm
 =====================
@@ -1079,6 +1086,22 @@ Return the minimum value
     $ ee '(|--min-by| (> (|-sum| it) (|-sum| other)) '\''((1 2 3) (4 5 6) (7 8 9)))' 
     Symbol's function definition is void: |--min-by|
     
+
+
+.. code-block:: sh
+   
+
+    $ je 'P(Math.min(1,-1));' 
+    -1
+    
+
+use macro
+
+.. code-block:: sh
+   
+
+    $ ce 'P("%d",MIN(1,-1));' 
+    -1
 
 
 
@@ -1248,7 +1271,7 @@ destructive!
         VIa={1,2,3}; reverse(a.begin(), a.end()); PE(a)'
         ^~~
         VI
-    /home/me/lib/cpp/myutils.h:106:21: note: 'VI' declared here
+    /home/me/lib/cpp/myutils.h:108:21: note: 'VI' declared here
     typedef vector<int> VI;
                         ^
     <stdin>:45:8: error: expected unqualified-id
@@ -1260,11 +1283,11 @@ destructive!
     <stdin>:45:50: error: use of undeclared identifier 'a'
         VIa={1,2,3}; reverse(a.begin(), a.end()); PE(a)'
                                                      ^
-    /home/me/lib/cpp/myutils.h:63:26: note: expanded from macro 'PE'
+    /home/me/lib/cpp/myutils.h:65:26: note: expanded from macro 'PE'
       {for (int i = 0 ; i < (x).size(); i++){       \
                              ^
     <stdin>:45:50: error: use of undeclared identifier 'a'
-    /home/me/lib/cpp/myutils.h:64:14: note: expanded from macro 'PE'
+    /home/me/lib/cpp/myutils.h:66:14: note: expanded from macro 'PE'
         cout << (x)[i] << ", "; \
                  ^
     <stdin>:45:52: warning: missing terminating ' character [-Winvalid-pp-token]

@@ -357,7 +357,7 @@ glob.scm
 
     $ ee '(f-glob "./*.scm")' 
     
-    ("/home/me/github/her0e1c1.github.io/.rst/snippets/lang/haskell.scm" "/home/me/github/her0e1c1.github.io/.rst/snippets/lang/index.scm" "/home/me/github/her0e1c1.github.io/.rst/snippets/lang/java.scm")
+    ("/usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/haskell.scm" "/usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/index.scm" "/usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang/java.scm")
     
 
 

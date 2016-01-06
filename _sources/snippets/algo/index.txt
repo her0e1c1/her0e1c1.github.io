@@ -32,11 +32,23 @@
     zahlen/index.rst
 
 
+.. toctree::
+    :maxdepth: 1
+
+    graph/index.rst
+
+
 
 .. toctree::
     :maxdepth: 1
 
     statictics/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    matrix/index.rst
 
 
 
@@ -49,9 +61,7 @@
 .. toctree::
     :maxdepth: 1
 
-    struct/vector.rst
-    struct/string.rst
-    struct/index.rst
+    
 
 
 .. toctree::
@@ -65,6 +75,18 @@
 
     
 
+
+
+.. toctree::
+    :maxdepth: 1
+
+    tree/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    string/index.rst
 
 
 .. toctree::

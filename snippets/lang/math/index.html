@@ -103,16 +103,28 @@
 <p class="topic-title first">Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#math" id="id1">math</a><ul>
-<li><a class="reference internal" href="#ceil-scm" id="id2">ceil.scm</a></li>
-<li><a class="reference internal" href="#e-scm" id="id3">e.scm</a></li>
-<li><a class="reference internal" href="#floor-scm" id="id4">floor.scm</a></li>
-<li><a class="reference internal" href="#pi-scm" id="id5">pi.scm</a></li>
+<li><a class="reference internal" href="#abs-scm" id="id2">abs.scm</a></li>
+<li><a class="reference internal" href="#ceil-scm" id="id3">ceil.scm</a></li>
+<li><a class="reference internal" href="#e-scm" id="id4">e.scm</a></li>
+<li><a class="reference internal" href="#floor-scm" id="id5">floor.scm</a></li>
+<li><a class="reference internal" href="#pi-scm" id="id6">pi.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="abs-scm">
+<h2><a class="toc-backref" href="#id2">abs.scm</a><a class="headerlink" href="#abs-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>je <span class="s1">&#39;P(Math.abs(-1));&#39;</span>
+1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(abs -1)&#39;</span>
+1
+</pre></div>
+</div>
+</div>
 <div class="section" id="ceil-scm">
-<h2><a class="toc-backref" href="#id2">ceil.scm</a><a class="headerlink" href="#ceil-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">ceil.scm</a><a class="headerlink" href="#ceil-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Math.ceil(5.5)&#39;</span>
 </pre></div>
 </div>
@@ -121,13 +133,13 @@
 </div>
 </div>
 <div class="section" id="e-scm">
-<h2><a class="toc-backref" href="#id3">e.scm</a><a class="headerlink" href="#e-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">e.scm</a><a class="headerlink" href="#e-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Math.E&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="floor-scm">
-<h2><a class="toc-backref" href="#id4">floor.scm</a><a class="headerlink" href="#floor-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">floor.scm</a><a class="headerlink" href="#floor-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;Math.floor(-5.5)&#39;</span>
 </pre></div>
 </div>
@@ -136,7 +148,7 @@
 </div>
 </div>
 <div class="section" id="pi-scm">
-<h2><a class="toc-backref" href="#id5">pi.scm</a><a class="headerlink" href="#pi-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">pi.scm</a><a class="headerlink" href="#pi-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>python -c <span class="s1">&#39;import math; print(math.pi)&#39;</span>
 3.14159265359
 </pre></div>

@@ -137,7 +137,7 @@ index.scm
    
 
     $ echo $PWD
-    /home/me/github/her0e1c1.github.io/.rst/snippets/lang
+    /usr/home/me/github/her0e1c1.github.io/.rst/snippets/lang
     
 
 
@@ -203,8 +203,8 @@ expand symbol link
     #x = (1 + 2 + 3)
     x  = 6
     __func__ = main
-    __DATE__ = Jan  5 2016
-    __TIME__ = 09:19:33
+    __DATE__ = Jan  6 2016
+    __TIME__ = 17:22:19
     
 
 
@@ -293,7 +293,7 @@ getCurrentPID
    
 
     $ perl -E 'say $$' 
-    82450
+    28900
     
 
 
@@ -301,6 +301,6 @@ getCurrentPID
    
 
     $ echo $$
-    82469
+    28919
     
 
