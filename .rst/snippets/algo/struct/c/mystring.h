@@ -1,4 +1,3 @@
-
 // 文字列の探索
 
 // KMP/BM
@@ -34,9 +33,9 @@ char *s_reverse(char *str) {
   return str;
 }
 
-char *s_reverse_word(char *str) {
+/* char *s_reverse_word(char *str) { */
 
-}
+/* } */
 
 char *s_strip(char *str) {
   while (*str == ' ')
@@ -136,7 +135,7 @@ int s_is_substring(char *ps, char *qs) {
 /* ポインタに対して*で参照と代入を行う。 */
 /* ++は式の評価の最後に行われる。 */
 /* 代入の値が =式の戻り値になるので、*s2=='¥0'でwhileを抜ける */
-void strcpy(char* s1, char* s2){ while(*s1++ = *s2++); }
+// void s_strcpy(char* s1, char* s2){ while(*s1++ = *s2++); }
 
 
 // vectorの扱いも関数型を意識してプログラムを組む

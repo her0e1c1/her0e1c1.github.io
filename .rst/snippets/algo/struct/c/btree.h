@@ -6,21 +6,27 @@
 
 typedef struct _tree {
   int data;
-  // struct _tree* parent;
+  struct _tree* parent;
   struct _tree* left;
   struct _tree* right;
 } btree;
 
 btree *btree_init(int data) {
   btree *t = malloc(sizeof(btree));
-  t->left = t->right = NULL;
+  t->parent = t->left = t->right = NULL;
   t->data = data;
   return t;
 }
 
 btree *btree_append(btree *parent, btree *left, btree *right) {
-  parent->left = left;
-  parent->right = right;
+  if (left) {
+    parent->left = left;
+    left->parent = parent;
+  }
+  if (right) {
+    parent->right = right;
+    right->parent = parent;
+  }
   return parent;
 }
 

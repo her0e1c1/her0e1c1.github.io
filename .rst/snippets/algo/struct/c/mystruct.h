@@ -20,5 +20,4 @@
 
 #include "./list.h"
 #include "./btree.h"
-#include "./list/mylist.h"
 #include "./mystring.h"
