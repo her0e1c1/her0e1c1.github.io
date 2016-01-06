@@ -1,5 +1,4 @@
 (ps "Lowest Common Ancestor (ORDER=O(n))")
-
 (p "pathをキャッシュする")
 
 (define main$ (pa$ format #!Q
@@ -29,9 +28,8 @@ btree *traverse(btree *DUMMY, btree *a, btree *b) {
   while (b) {
     if (find(paths.begin(), paths.end(), b) == paths.end())
       b = b->parent;
-    else {
+    else
       return b;
-    }
   }
   return NULL;
 }
@@ -39,8 +37,9 @@ Q) :str #t)
 
 (ps "Lowest Common Ancestor Without Addtional Memory (CI tree.6)")
 (p "rootから順にa,bを持つかどうか調べる")
+
 (cpp (main$ #!Q
-int hasNode(btree * tree, btree * target) {
+int hasNode(btree *tree, btree *target) {
   if (tree == NULL)
     return FALSE;
   if (tree == target)
