@@ -18,6 +18,7 @@
 #include <paths.h>
 #include <err.h>
 
+#include "./list.h"
 #include "./btree.h"
 #include "./list/mylist.h"
 #include "./mystring.h"
