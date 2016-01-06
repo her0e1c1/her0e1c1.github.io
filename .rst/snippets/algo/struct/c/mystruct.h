@@ -19,3 +19,5 @@
 #include <err.h>
 
 #include "./btree.h"
+#include "./list/mylist.h"
+#include "./mystring.h"
