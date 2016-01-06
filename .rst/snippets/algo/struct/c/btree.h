@@ -12,7 +12,7 @@ typedef struct _tree {
 } btree;
 
 btree *btree_init(int data) {
-  btree *t = malloc(sizeof(btree));
+  btree *t = (btree *)malloc(sizeof(btree));
   t->parent = t->left = t->right = NULL;
   t->data = data;
   return t;
