@@ -48,6 +48,9 @@ Q :str #t)
 
 (ps "get a path from src to dst in a graph")
 
+(p "最短経路を、一つ前のノードをリスト(previous)で持つのは、読みにくい。
+クラスを用意して、親ノードを保持するデータ構造の方が、読みやすい。")
+
 (cpp #!Q
 #include <myutils.h>
 class Graph {
