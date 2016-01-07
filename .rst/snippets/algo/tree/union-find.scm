@@ -6,7 +6,7 @@
 #include <myutils.h>
 class UnionFind {
  vector<int> data;
- vector<int> rank;
+ vector<int> rank;  // hight of tree (プログラムによっては要素数?)
 public:
  UnionFind(int size) {
   for (int i = 0; i < size; i++) {
@@ -17,7 +17,7 @@ public:
  int find(int d) {
   if (d != data[d])
    data[d] = find(data[d]);
-  return data[d];
+  return data[d];  // 親ノードを返す(プログラムによっては、-1を親ノードと識別することもあるみたい)
  }
  bool isSame(int a, int b) {
   return find(a) == find(b);
@@ -52,3 +52,5 @@ int main() {
  P(u);
 }
 Q :str #t)
+
+(p "http://judge.u-aizu.ac.jp/onlinejudge/commentary.jsp?id=DSL_1_A")
