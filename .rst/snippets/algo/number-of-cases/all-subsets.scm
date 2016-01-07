@@ -6,8 +6,8 @@ Xを集合とする。 Xの部分集合全体を2^xと表す
 ")
 
 (math "
-f(${ a_0 $}) = $phi
-f(${ a_n $}) = ${a_n $cup x $| x $in g $} $cup g
+f(${ a_0 $}) = {$phi}
+f(${ a_n $}) = ${ {a_n} $cup x $| x $in g $} $cup g
 g = f(${ a_{n-1} $})
 ")
 
