@@ -1,13 +1,12 @@
 
 (run "python -c 'print(sorted([1, 4, 2, 5, 6, 7, 3]))'")
 
-
 (perl "@a=qw(abc b a z);say sort(@arr);")
 (pw "sort関数は、2と11の場合、11が先になる")
 (perl "@a=qw(11 10 1 2);say for sort @a")
 (perl "@a=qw(11 10 1 2); @b=sort{$a<=>$b}@a; say qq/@b/")
 
-(emacs (sort '(1 4 2 5 6 7 3) #'<))
+(emacs (sort '(1 4 2 5 6 7 3) '<))
 
 ;; C = function(val){
 ;;     this.val = val;
@@ -38,7 +37,7 @@ int main() {
     cout << it->first << ", " << it->second << endl;
 }
 EOS
-:file #t)
+:str #t)
 
 ;; #include "myutils.h"
 
@@ -59,3 +58,17 @@ EOS
 ;;   EACH(it, v)
 ;;     cout << it->first << ", " << it->second << endl;
 ;; }
+
+(py #!Q
+def compare(a, b):
+    a1, a2 = a
+    b1, b2 = b
+    c = cmp(a1, b1)
+    if c != 0:
+        return c
+    else:
+        return cmp(a2, b2)
+print(sorted([(2,3), (1,2), (2,1)], cmp=compare))
+Q :str #t)
+
+(py "a=[(1,1),(2,0),(3,2),(1,2),(1,0)]; sorted(a,key=lambda x:(x[0],x[1]))")

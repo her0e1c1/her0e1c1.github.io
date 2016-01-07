@@ -36,3 +36,28 @@ bash conditions evaluate as true in case of an exit code of 0")
 (sh "if [ 0 ] ; then echo true; fi")
 (sh "if [ $(echo 0) ] ; then echo true; fi")
 (sh "if [ -z \"\" ] ; then echo true; fi")
+
+
+(ps "tech")
+
+(p "dictによる分岐")
+
+(py #!Q
+x = 'bar'
+print({
+    'foo': 'x is foo',
+    'bar': 'x is bar',
+    'baz': 'x is baz',
+}.get(x, 'x is unknown'))
+Q :str #t)
+
+(p "三項演算子のネストによる分岐")
+(py #!Q
+x = 'baz'
+print(
+    'x is foo' if x == 'foo' else
+    'x is bar' if x == 'bar' else
+    'x is baz' if x == 'baz' else
+    'x is unknown'
+)
+Q :str #t)

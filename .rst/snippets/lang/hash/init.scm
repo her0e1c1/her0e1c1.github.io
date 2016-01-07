@@ -19,3 +19,10 @@ assoc => equal?
 assv => eqv?
 ")
 (gosh (make-hash-table 'eq?))
+
+(py #!Q
+from collections import defaultdict
+d = defaultdict(int)
+d["key"] += 1  # default 0
+print(d["key"])
+Q :str #t)

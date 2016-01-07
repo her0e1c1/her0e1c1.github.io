@@ -26,3 +26,17 @@
 (emacs (--each '(1 2 3) (print it)))
 (emacs (dolist (it '(1 2 3)) (print it)))
 (emacs (loop for c from ?0 to ?9 do (princ (string c))))
+
+
+(ps "multi loop")
+(py #!Q
+for i in range(10):
+    for j in range(10):
+        if i == j == 5:
+            break
+    else:
+        continue
+    # 内側のループでbreakしない限りここに到着しない
+    break
+print(i, j)
+Q :str #t)
