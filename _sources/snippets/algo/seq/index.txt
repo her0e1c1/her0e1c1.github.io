@@ -23,17 +23,16 @@ CO
 
     \begin{eqnarray}
         
-    \\i \in S_N, 0 \le i \le I (\in N) s.t.
+    \\\exists I \in N, \forall a_i \in S_N, 0 \le a_i \le I s.t.
     \\
-    \\f(a) = \begin{cases}
-    \\1 & (a \in S_N)
-    \\0 & (else)
+    \\\min_{x} g(S_x) = \begin{cases}
+    \\x  & (\sum_{i==0}^I f(i) = I + 1)
+    \\-1 & (else)
     \\\end{cases}
     \\
-    \\// ちょっと違うっぽい
-    \\\min_x g(S_N) = \begin{cases}
-    \\x  & (sum_{i}^x f(i) = I)
-    \\-1 & (else)
+    \\f(a) = \begin{cases}
+    \\1 & (a \in S_x)
+    \\0 & (else)
     \\\end{cases}
     \\
     \end{eqnarray}
@@ -44,9 +43,9 @@ CO
 
     #include <myc.h>
     int g(int *S, int N, int I) {
-     // c[0] is dummy
+     I++; // range is [0, I]
      int buff[I];
-     memset(buff, 0, sizeof(int)*I);
+     memset(buff, 0, sizeof(int) * I);
      int sum = 0;
      for (int i = 0; i < N; i++) {
       int a = S[i];
@@ -59,13 +58,15 @@ CO
      }
       return -1;
     }
+    int main() {
+     int S[] = {4,4,1,2,0,5,5,3,1,2};   // 7
+     P("%d\n", g(S, SIZE(S), 5));
+    }
 
 .. code-block:: sh
    
 
-    /usr/lib/crt1.o: In function `_start':
-    /usr/src/lib/csu/amd64/crt1.c:(.text+0x14b): undefined reference to `main'
-    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+    7
     
 
 
@@ -120,6 +121,93 @@ horner.scm
 
 inner-product.scm
 ===================================================
+
+
+
+knapsack.scm
+====================================
+
+
+
+max-length-seq.scm
+======================================================
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        {a_n}の要素の数列で、a_{in} > a_{i(n-1)} ... > a{i1}を満たす数列で、要素数が最大のものは？(1<=ik<=n)
+    \end{eqnarray}
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        a_n > a_k \quad s.t \quad \max \# \{ f(a_n) \} = \{ a_n \} \cup \max_{0<=k<n} \# \{ f(a_k) \}
+    \end{eqnarray}
+
+pointは、f(n)はnより大きいものには依存せず、n未満で決まる
+また、全ての場合の数は、2^nとなる.
+S4=[0..3]に対して、以下のように分割する必要あり
+S3=[1,2,3]
+S2=[2,3]
+S1=[3]
+S0=[] -- ここまで必ず分割すること(終了条件)
+
+
+.. code-block:: ghc
+   
+
+    -- TODO: f に該当する関数は何?
+    import Data.List (maximumBy)
+    maxLengthSequence :: [Int] -> [Int]
+    maxLengthSequence = go where
+      go [] = []
+      go (x:xs) = x : (maximumBy f $ map g [0..length xs]) where
+        f a b = compare (length a) (length b)
+        g = go . filter (> x) . flip drop xs
+    main = print $ maxLengthSequence [1,3,2,5,4,5,6];
+
+.. code-block:: sh
+   
+
+    [1,2,4,5,6]
+    
+
+
+.. code-block:: cpp
+   
+
+    #include <myutils.h>
+    vector<int> solve(vector<int> A) {
+      function <vector<int>(int)> dfs = [&] (int depth) {
+        if (depth < 0) return vector<int>();
+        vector<int> seq;  // 本来はintでいいが結果も表示させたいので配列とした
+        for (int i = depth - 1; i >= 0; i--) {
+          if (A[i] < A[depth]) {
+            vector<int> s = dfs(i);
+            if (s.size() > seq.size())
+              seq = s;
+          }
+        }
+        seq.push_back(A[depth]);
+        return seq;
+      };
+      return dfs(A.size() - 1);
+    }
+    int main() {
+     PE(solve({1,2,3,4,5}));
+     PE(solve({1,3,2,5,4,5,6}));
+    }
+
+.. code-block:: sh
+   
+
+    1, 2, 3, 4, 5, 
+    1, 2, 4, 5, 6, 
+    
 
 
 
@@ -195,6 +283,60 @@ solve x^2 = n by newton
 
     1.414214
     10.000000
+    
+
+
+
+sum-n-coins.scm
+=============================================
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\k_n * a_n + k_{n-1} * a_{n-1} + ... + k_1 * a_1 = SUM
+    \\k_i >= 0, a_n > a_{n-1} > ... > a_1 > 0
+    \\s.t. \quad \min \sum_{i=1}^n k_i
+    \\
+    \\使用するコインの集合を返す関数をfとおくと
+    \\f(a_n, SUM) =  [an] * k_n \cup f(a_{n-1}, SUM - a_n \times k_n)
+    \\f(a_0, X) = \phi
+    \\ただし
+    \\0 \le i \le \frac{SUM}{a_n}
+    \\\sum f(a_n, SUM) == SUM
+    \\
+    \end{eqnarray}
+
+
+この問題は、お釣りの問題に帰着できる
+大きいお金を使えるだけ使って、その次にいく
+ただし、失敗するかもしれない(最後が1でない場合で辻褄が合わせられない)
+
+
+.. code-block:: ghc
+   
+
+    import Data.List
+    
+    solve :: [Int] -> Int -> [[Int]]
+    solve [] sum = [[]]
+    solve (c:coins) csum = concatMap (g . f) [0 .. (div csum c)]
+      where
+        -- xは、cにおける使用するコインの枚数
+        -- fは、c:coinsにおける使用するコインのリストを返す
+        f x = map ((take x (repeat c)) ++) (solve coins (csum - c * x))
+        g = filter (\a-> sum a == csum)
+    
+    main = do
+      -- mapM print $ solve [25, 10, 5, 1] 100
+      print $ Data.List.minimumBy (\a b -> compare (length a) (length b)) $ solve [25, 10, 5, 1] 100
+
+.. code-block:: sh
+   
+
+    [25,25,25,25]
     
 
 

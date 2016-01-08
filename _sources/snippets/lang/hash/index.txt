@@ -288,6 +288,21 @@ assv => eqv?
     
 
 
+.. code-block:: py
+   
+
+    from collections import defaultdict
+    d = defaultdict(int)
+    d["key"] += 1  # default 0
+    print(d["key"])
+
+.. code-block:: sh
+   
+
+    1
+    
+
+
 
 insert.scm
 ==============================
@@ -327,8 +342,8 @@ items.scm
    
 
     $ perl -E '%a=(a=>1, b=>2); while(($k, $v) =each %a){say "$k = $v"}'
-    a = 1
     b = 2
+    a = 1
     
 
 
@@ -379,7 +394,7 @@ get all hash keys
    
 
     $ perl -E '%a=(a=>1, b=>2); say keys %a'
-    ba
+    ab
     
 
 
@@ -387,7 +402,7 @@ get all hash keys
    
 
     $ perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
-    123
+    312
     
 
 
@@ -453,7 +468,7 @@ update.scm
    
 
     $ s '(let1 t (make-hash-table) (hash-table-put! t '\''k 1) (describe t))' 
-    #<hash-table eq? 0x114e9b0> is an instance of class <hash-table>
+    #<hash-table eq? 0x114ea50> is an instance of class <hash-table>
     #t
     
 

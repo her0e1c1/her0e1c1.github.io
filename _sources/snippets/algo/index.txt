@@ -35,7 +35,19 @@
 .. toctree::
     :maxdepth: 1
 
+    number-of-cases/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
     graph/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    monad/index.rst
 
 
 

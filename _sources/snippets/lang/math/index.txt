@@ -79,6 +79,19 @@ floor.scm
 
 
 
+is int
+------------------
+
+小数において切り上げと切り下げが等しい場合は整数と判定できる
+
+.. code-block:: sh
+   
+
+    $ py 'is_int = lambda x: math.ceil(x) == math.floor(x)' 
+    
+
+
+
 pi.scm
 ==================
 

@@ -107,7 +107,9 @@
 <li><a class="reference internal" href="#index-scm" id="id3">index.scm</a></li>
 <li><a class="reference internal" href="#isbalanced-scm" id="id4">isBalanced.scm</a></li>
 <li><a class="reference internal" href="#lowest-common-ancestor-scm" id="id5">lowest-common-ancestor.scm</a></li>
-<li><a class="reference internal" href="#traverse-order-scm" id="id6">traverse-order.scm</a></li>
+<li><a class="reference internal" href="#sub-tree-scm" id="id6">sub-tree.scm</a></li>
+<li><a class="reference internal" href="#traverse-order-scm" id="id7">traverse-order.scm</a></li>
+<li><a class="reference internal" href="#union-find-scm" id="id8">union-find.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -265,8 +267,63 @@
 </div>
 </div>
 </div>
+<div class="section" id="sub-tree-scm">
+<h2><a class="toc-backref" href="#id6">sub-tree.scm</a><a class="headerlink" href="#sub-tree-scm" title="Permalink to this headline">¶</a></h2>
+<p>return true If a sub tree is a part of the parent tree</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;mystruct.h&gt;</span>
+<span class="cp">#include &lt;myc.h&gt;</span>
+<span class="kt">int</span> <span class="nf">matchTree</span><span class="p">(</span><span class="n">btree</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="n">btree</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">==</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">matchTree</span><span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+            <span class="n">matchTree</span><span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">subTree</span><span class="p">(</span><span class="n">btree</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">btree</span> <span class="o">*</span><span class="n">sub</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">sub</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">matchTree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">sub</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">subTree</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">sub</span><span class="p">)</span> <span class="o">||</span> <span class="n">subTree</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">sub</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+ <span class="cp">#define i(a) btree *n ## a = btree_init(a);</span>
+ <span class="cp">#define I(a) btree_init(a)</span>
+ <span class="cp">#define a btree_append</span>
+ <span class="cp">#define E(a, b) printf(&quot;%d, %d =&gt; %d\n&quot;, a-&gt;data, b-&gt;data, subTree(a, b));</span>
+ <span class="n">i</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">i</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="n">i</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span> <span class="n">i</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="n">i</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="n">i</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span>
+ <span class="n">a</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">a</span><span class="p">(</span><span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">a</span><span class="p">(</span><span class="n">n4</span><span class="p">,</span> <span class="n">n5</span><span class="p">,</span> <span class="n">n6</span><span class="p">)),</span> <span class="n">a</span><span class="p">(</span><span class="n">I</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">I</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">));</span>
+ <span class="n">btree_print</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="n">n4</span><span class="p">,</span> <span class="n">I</span><span class="p">(</span><span class="mi">6</span><span class="p">));</span>
+ <span class="n">E</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">a</span><span class="p">(</span><span class="n">I</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">I</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">a</span><span class="p">(</span><span class="n">I</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">I</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">I</span><span class="p">(</span><span class="mi">6</span><span class="p">))));</span>
+ <span class="n">E</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">a</span><span class="p">(</span><span class="n">I</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">I</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">I</span><span class="p">(</span><span class="mi">6</span><span class="p">)));</span>
+ <span class="n">E</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">a</span><span class="p">(</span><span class="n">I</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">I</span><span class="p">(</span><span class="mi">6</span><span class="p">)));</span>
+ <span class="n">E</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">a</span><span class="p">(</span><span class="n">I</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">a</span><span class="p">(</span><span class="n">I</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">I</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">a</span><span class="p">(</span><span class="n">I</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">I</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">I</span><span class="p">(</span><span class="mi">6</span><span class="p">))),</span> <span class="nb">NULL</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>1
+ 2
+  3
+  4
+   5
+   6
+ 3
+  6
+4, <span class="nv">6</span> <span class="o">=</span>&gt; 1
+1, <span class="nv">2</span> <span class="o">=</span>&gt; 1
+1, <span class="nv">4</span> <span class="o">=</span>&gt; 1
+1, <span class="nv">4</span> <span class="o">=</span>&gt; 0
+1, <span class="nv">1</span> <span class="o">=</span>&gt; 0
+</pre></div>
+</div>
+</div>
 <div class="section" id="traverse-order-scm">
-<h2><a class="toc-backref" href="#id6">traverse-order.scm</a><a class="headerlink" href="#traverse-order-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">traverse-order.scm</a><a class="headerlink" href="#traverse-order-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="in-order-traversalnode-ci-tree-5">
 <h3>in-order traversalにおける次のnodeの求め方 (CI tree.5)<a class="headerlink" href="#in-order-traversalnode-ci-tree-5" title="Permalink to this headline">¶</a></h3>
 <p>in-orderにおける次を求めたい</p>
@@ -387,6 +444,75 @@ left側からの場合は、すぐにmidを評価してよい(l =&gt; m =&gt; r�
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="union-find-scm">
+<h2><a class="toc-backref" href="#id8">union-find.scm</a><a class="headerlink" href="#union-find-scm" title="Permalink to this headline">¶</a></h2>
+<p>素集合をまとめる手法と要素がどの集合にあるか判定する手法に対して効率の良いデータ構造
+ack関数の逆関数の計算量らしい?</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="k">class</span> <span class="nc">UnionFind</span> <span class="p">{</span>
+ <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">data</span><span class="p">;</span>
+ <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">rank</span><span class="p">;</span>  <span class="c1">// hight of tree (プログラムによっては要素数?)</span>
+<span class="k">public</span><span class="o">:</span>
+ <span class="n">UnionFind</span><span class="p">(</span><span class="kt">int</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">data</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+   <span class="n">rank</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="p">}</span>
+ <span class="p">}</span>
+ <span class="kt">int</span> <span class="n">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">d</span> <span class="o">!=</span> <span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">])</span>
+   <span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">]);</span>
+  <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">];</span>  <span class="c1">// 親ノードを返す(プログラムによっては、-1を親ノードと識別することもあるみたい)</span>
+ <span class="p">}</span>
+ <span class="kt">bool</span> <span class="n">isSame</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">find</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">find</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+ <span class="p">}</span>
+ <span class="kt">void</span> <span class="n">unionSet</span><span class="p">(</span><span class="kt">int</span> <span class="n">a_</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b_</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">a_</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">b_</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">rank</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">rank</span><span class="p">[</span><span class="n">b</span><span class="p">])</span>
+   <span class="n">data</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">rank</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rank</span><span class="p">[</span><span class="n">b</span><span class="p">])</span>
+   <span class="n">data</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+  <span class="k">else</span> <span class="p">{</span>
+   <span class="n">data</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+   <span class="n">rank</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+  <span class="p">}</span>
+ <span class="p">}</span>
+ <span class="k">friend</span> <span class="n">ostream</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">ostream</span><span class="o">&amp;</span> <span class="n">os</span><span class="p">,</span> <span class="n">UnionFind</span><span class="o">&amp;</span> <span class="n">u</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">u</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; =&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">u</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; =&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">os</span><span class="p">;</span>
+ <span class="p">}</span>
+<span class="p">};</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="n">UnionFind</span> <span class="n">u</span> <span class="o">=</span> <span class="n">UnionFind</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+ <span class="n">P</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+ <span class="n">u</span><span class="p">.</span><span class="n">unionSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+ <span class="n">u</span><span class="p">.</span><span class="n">unionSet</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+ <span class="n">u</span><span class="p">.</span><span class="n">unionSet</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+ <span class="n">u</span><span class="p">.</span><span class="n">unionSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+ <span class="n">P</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">u</span> <span class="o">=</span> <span class="nv">0</span> <span class="o">=</span>&gt; <span class="nv">0</span> <span class="o">=</span>&gt;
+<span class="nv">1</span> <span class="o">=</span>&gt; <span class="nv">1</span> <span class="o">=</span>&gt;
+<span class="nv">2</span> <span class="o">=</span>&gt; <span class="nv">2</span> <span class="o">=</span>&gt;
+<span class="nv">3</span> <span class="o">=</span>&gt; <span class="nv">3</span> <span class="o">=</span>&gt;
+<span class="nv">4</span> <span class="o">=</span>&gt; <span class="nv">4</span> <span class="o">=</span>&gt;
+
+<span class="nv">u</span> <span class="o">=</span> <span class="nv">0</span> <span class="o">=</span>&gt; <span class="nv">1</span> <span class="o">=</span>&gt;
+<span class="nv">1</span> <span class="o">=</span>&gt; <span class="nv">1</span> <span class="o">=</span>&gt;
+<span class="nv">2</span> <span class="o">=</span>&gt; <span class="nv">1</span> <span class="o">=</span>&gt;
+<span class="nv">3</span> <span class="o">=</span>&gt; <span class="nv">1</span> <span class="o">=</span>&gt;
+<span class="nv">4</span> <span class="o">=</span>&gt; <span class="nv">1</span> <span class="o">=</span>&gt;
+</pre></div>
+</div>
+<p><a class="reference external" href="http://judge.u-aizu.ac.jp/onlinejudge/commentary.jsp?id=DSL_1_A">http://judge.u-aizu.ac.jp/onlinejudge/commentary.jsp?id=DSL_1_A</a></p>
 </div>
 </div>
 

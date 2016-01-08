@@ -343,6 +343,10 @@ Symbol&#39;s function definition is void: |-snoc|
 Symbol&#39;s function definition is void: |--count|
 </pre></div>
 </div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;a=[1,1,1,1,1,1]; P(a.count(a[0])==len(a))&#39;</span>
+True
+</pre></div>
+</div>
 </div>
 <div class="section" id="drop-scm">
 <h2><a class="toc-backref" href="#id11">drop.scm</a><a class="headerlink" href="#drop-scm" title="Permalink to this headline">¶</a></h2>
@@ -955,6 +959,62 @@ Symbol&#39;s function definition is void: |-slice|
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;@a=qw(11 10 1 2); @b=sort{$a&lt;=&gt;$b}@a; say qq/@b/&#39;</span>
 <span class="m">1</span> <span class="m">2</span> <span class="m">10</span> 11
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(sort &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 4 2 5 6 7 3) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;&lt;)&#39;</span>
+
+<span class="o">(</span><span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> 7<span class="o">)</span>
+</pre></div>
+</div>
+<p>Sort by asc</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{5,2,3,4,1}; sort(v.begin(), v.end()); PE(v);&#39;</span>
+1, 2, 3, 4, 5,
+</pre></div>
+</div>
+<p>Sort by desc (RECOMMEND)</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{5,2,3,4,1}; sort(v.rbegin(), v.rend()); PE(v);&#39;</span>
+5, 4, 3, 2, 1,
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;VI v{5,2,3,4,1}; sort(v.rbegin(), v.rend(), greater&lt;int&gt;()); PE(v);&#39;</span>
+1, 2, 3, 4, 5,
+</pre></div>
+</div>
+<p>You can also use string as well</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;string s = &quot;ebacd&quot;; sort(ALL(s)); PE(s);&#39;</span>
+a, b, c, d, e,
+</pre></div>
+</div>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;myutils.h&quot;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">v</span> <span class="o">=</span> <span class="p">{{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">}};</span>
+  <span class="n">sort</span><span class="p">(</span><span class="n">ALL</span><span class="p">(</span><span class="n">v</span><span class="p">));</span>
+  <span class="n">EACH</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>-2, 5
+1, -1
+1, 1
+3, 10
+</pre></div>
+</div>
+<div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">c</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">a2</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)],</span> <span class="nb">cmp</span><span class="o">=</span><span class="n">compare</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="o">[(</span>1, 2<span class="o">)</span>, <span class="o">(</span>2, 1<span class="o">)</span>, <span class="o">(</span>2, 3<span class="o">)]</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;a=[(1,1),(2,0),(3,2),(1,2),(1,0)]; sorted(a,key=lambda x:(x[0],x[1]))&#39;</span>
 </pre></div>
 </div>
 </div>

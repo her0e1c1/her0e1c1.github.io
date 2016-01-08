@@ -106,14 +106,14 @@ formula.scm
    
 
     (print
-        (let1 l (pa$ at (sort '(0 -5 3 9 6 -2 -7 9 -6 4)))
+        (let1 l (pa$ at (sort '(5 -3 9 1 6 7 0 -5 -3 -3)))
            (max (* (l -1) (l -2) (l -3))
                 (* (l 0) (l 1) (l -1)))))
 
 .. code-block:: sh
    
 
-    486
+    378
     
 
 

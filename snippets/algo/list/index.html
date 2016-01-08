@@ -106,7 +106,8 @@
 <li><a class="reference internal" href="#addeachdigitof2lists-scm" id="id2">AddEachDigitOf2Lists.scm</a></li>
 <li><a class="reference internal" href="#anagram-scm" id="id3">anagram.scm</a></li>
 <li><a class="reference internal" href="#gfg-scm" id="id4">gfg.scm</a></li>
-<li><a class="reference internal" href="#yates-shuffle-scm" id="id5">yates-shuffle.scm</a></li>
+<li><a class="reference internal" href="#minimun-stack-scm" id="id5">minimun-stack.scm</a></li>
+<li><a class="reference internal" href="#yates-shuffle-scm" id="id6">yates-shuffle.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -214,8 +215,68 @@ Statue of Liberty = built to stay free
 <div class="section" id="gfg-scm">
 <h2><a class="toc-backref" href="#id4">gfg.scm</a><a class="headerlink" href="#gfg-scm" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="minimun-stack-scm">
+<h2><a class="toc-backref" href="#id5">minimun-stack.scm</a><a class="headerlink" href="#minimun-stack-scm" title="Permalink to this headline">¶</a></h2>
+<p>10 3 7 1 11 0
+10 3 1 0と最小値をstackしていく
+min O(1)となる</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="k">class</span> <span class="nc">MinStack</span> <span class="o">:</span> <span class="k">public</span> <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+  <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">cache</span><span class="p">;</span>
+
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">MinStack</span><span class="p">(){};</span>
+  <span class="kt">void</span> <span class="nf">push</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="nf">pop</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="nf">getMin</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="n">MinStack</span><span class="o">::</span><span class="n">push</span><span class="p">(</span><span class="kt">int</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="n">getMin</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">min</span> <span class="o">&gt;</span> <span class="n">value</span><span class="p">){</span>
+    <span class="n">cache</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">stack</span><span class="o">::</span><span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">MinStack</span><span class="o">::</span><span class="n">pop</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">stack</span><span class="o">::</span><span class="n">top</span><span class="p">();</span>
+  <span class="n">stack</span><span class="o">::</span><span class="n">pop</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">getMin</span><span class="p">()</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">cache</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+  <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">MinStack</span><span class="o">::</span><span class="n">getMin</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">30</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">cache</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">MinStack</span> <span class="n">s</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span><span class="p">:</span> <span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">0</span><span class="p">})</span>
+    <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+
+  <span class="k">while</span><span class="p">(</span><span class="o">!</span> <span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()){</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">getMin</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>0
+1
+1
+3
+3
+10
+</pre></div>
+</div>
+</div>
 <div class="section" id="yates-shuffle-scm">
-<h2><a class="toc-backref" href="#id5">yates-shuffle.scm</a><a class="headerlink" href="#yates-shuffle-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">yates-shuffle.scm</a><a class="headerlink" href="#yates-shuffle-scm" title="Permalink to this headline">¶</a></h2>
 <p>末尾と取り替えるインデックスを決めて、それと末尾を入れ替え</p>
 <div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;myc.h&gt;</span>
 <span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">t</span><span class="o">=*</span><span class="n">x</span><span class="p">;</span> <span class="o">*</span><span class="n">x</span><span class="o">=*</span><span class="n">y</span><span class="p">;</span> <span class="o">*</span><span class="n">y</span><span class="o">=</span><span class="n">t</span><span class="p">;</span> <span class="p">}</span>
@@ -234,7 +295,7 @@ Statue of Liberty = built to stay free
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>2, 5, 1, 3, 4,
+<div class="highlight-sh"><div class="highlight"><pre>4, 2, 1, 3, 5,
 </pre></div>
 </div>
 </div>

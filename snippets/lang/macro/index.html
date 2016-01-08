@@ -108,14 +108,15 @@
 <li><a class="reference internal" href="#dotimes-scm" id="id4">dotimes.scm</a></li>
 <li><a class="reference internal" href="#eval-scm" id="id5">eval.scm</a></li>
 <li><a class="reference internal" href="#hygienic-scm" id="id6">hygienic.scm</a></li>
-<li><a class="reference internal" href="#inline-scm" id="id7">inline.scm</a></li>
-<li><a class="reference internal" href="#intern-scm" id="id8">intern.scm</a></li>
-<li><a class="reference internal" href="#pre-scm" id="id9">pre.scm</a></li>
-<li><a class="reference internal" href="#quote-scm" id="id10">quote.scm</a></li>
-<li><a class="reference internal" href="#side-effect-scm" id="id11">side-effect.scm</a></li>
-<li><a class="reference internal" href="#string-scm" id="id12">string.scm</a></li>
-<li><a class="reference internal" href="#syntax-scm" id="id13">syntax.scm</a></li>
-<li><a class="reference internal" href="#template-scm" id="id14">template.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id7">index.scm</a></li>
+<li><a class="reference internal" href="#inline-scm" id="id8">inline.scm</a></li>
+<li><a class="reference internal" href="#intern-scm" id="id9">intern.scm</a></li>
+<li><a class="reference internal" href="#pre-scm" id="id10">pre.scm</a></li>
+<li><a class="reference internal" href="#quote-scm" id="id11">quote.scm</a></li>
+<li><a class="reference internal" href="#side-effect-scm" id="id12">side-effect.scm</a></li>
+<li><a class="reference internal" href="#string-scm" id="id13">string.scm</a></li>
+<li><a class="reference internal" href="#syntax-scm" id="id14">syntax.scm</a></li>
+<li><a class="reference internal" href="#template-scm" id="id15">template.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -254,11 +255,18 @@ _______________________________________
 <h3>define-syntax<a class="headerlink" href="#define-syntax" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
+<div class="section" id="index-scm">
+<h2><a class="toc-backref" href="#id7">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<p>メリット</p>
+<ul class="simple">
+<li>コピペ &lt;&lt; マクロによる置換 (コピペが速いという人への反論)</li>
+</ul>
+</div>
 <div class="section" id="inline-scm">
-<h2><a class="toc-backref" href="#id7">inline.scm</a><a class="headerlink" href="#inline-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">inline.scm</a><a class="headerlink" href="#inline-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="intern-scm">
-<h2><a class="toc-backref" href="#id8">intern.scm</a><a class="headerlink" href="#intern-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">intern.scm</a><a class="headerlink" href="#intern-scm" title="Permalink to this headline">¶</a></h2>
 <p>動的にシンボルを生成する</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (dolist (x (list &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;b &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;c)) (set (intern (concat &quot;symbol-&quot; (symbol-name x))) 1)) (+ symbol-a symbol-b symbol-c))&#39;</span>
 
@@ -267,7 +275,7 @@ _______________________________________
 </div>
 </div>
 <div class="section" id="pre-scm">
-<h2><a class="toc-backref" href="#id9">pre.scm</a><a class="headerlink" href="#pre-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">pre.scm</a><a class="headerlink" href="#pre-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="ifdef">
 <h3>ifdef<a class="headerlink" href="#ifdef" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
@@ -310,13 +318,13 @@ DEBUG!
 </div>
 </div>
 <div class="section" id="quote-scm">
-<h2><a class="toc-backref" href="#id10">quote.scm</a><a class="headerlink" href="#quote-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">quote.scm</a><a class="headerlink" href="#quote-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="side-effect-scm">
-<h2><a class="toc-backref" href="#id11">side-effect.scm</a><a class="headerlink" href="#side-effect-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">side-effect.scm</a><a class="headerlink" href="#side-effect-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="string-scm">
-<h2><a class="toc-backref" href="#id12">string.scm</a><a class="headerlink" href="#string-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">string.scm</a><a class="headerlink" href="#string-scm" title="Permalink to this headline">¶</a></h2>
 <p>delay expanded variables</p>
 <div class="highlight-gosh"><div class="highlight"><pre>(print (eval (let1 b &#39;#&quot;H~|a|GE&quot; `(let1 a &quot;O&quot; ,b)) &#39;()))
 </pre></div>
@@ -339,7 +347,7 @@ Syntax error: Error in <span class="nb">command </span>substitution
 </div>
 </div>
 <div class="section" id="syntax-scm">
-<h2><a class="toc-backref" href="#id13">syntax.scm</a><a class="headerlink" href="#syntax-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">syntax.scm</a><a class="headerlink" href="#syntax-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="and-let">
 <h3>and-let*<a class="headerlink" href="#and-let" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;&quot;(and-let* ((a 1) (b (+ a 1))) (+ a b))&quot;&#39;</span>
@@ -381,7 +389,7 @@ _______________________________________
 </div>
 </div>
 <div class="section" id="template-scm">
-<h2><a class="toc-backref" href="#id14">template.scm</a><a class="headerlink" href="#template-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id15">template.scm</a><a class="headerlink" href="#template-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
 
 <span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="o">&gt;</span> <span class="k">struct</span> <span class="kt">gcd_helper_t</span> <span class="p">{</span>

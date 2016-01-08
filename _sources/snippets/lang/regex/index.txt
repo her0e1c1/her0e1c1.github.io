@@ -384,7 +384,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "abcdef"))' 
-    #<<regmatch> 0x162c300>
+    #<<regmatch> 0x162b330>
     #<undef>
     
 
@@ -411,7 +411,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/abc(?!def)/ "abcDEF"))' 
-    #<<regmatch> 0x162b210>
+    #<<regmatch> 0x162b300>
     #<undef>
     
 
@@ -538,7 +538,7 @@ src="../ => src="/
 
     $ py 'P(match(r"(?<=.*?)st", "test"))' 
     Traceback (most recent call last):
-      File "<string>", line 12, in <module>
+      File "<string>", line 13, in <module>
       File "/usr/local/lib/python2.7/re.py", line 141, in match
         return _compile(pattern, flags).match(string)
       File "/usr/local/lib/python2.7/re.py", line 251, in _compile
@@ -587,7 +587,7 @@ match.scm
    
 
     $ s '(#/str/ "strng")' 
-    #<<regmatch> 0x162b6f0>
+    #<<regmatch> 0x162b720>
     
 
 

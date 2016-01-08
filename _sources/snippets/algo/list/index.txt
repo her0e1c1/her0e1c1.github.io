@@ -134,6 +134,76 @@ gfg.scm
 
 
 
+minimun-stack.scm
+===================================================
+
+
+10 3 7 1 11 0
+10 3 1 0と最小値をstackしていく
+min O(1)となる
+
+
+.. code-block:: cpp
+   
+
+    #include <myutils.h>
+    class MinStack : public stack<int>{
+    private:
+      stack<int> cache;
+    
+    public:
+      MinStack(){};
+      void push(int);
+      int pop(void);
+      int getMin(void);
+    };
+    
+    void MinStack::push(int value) {
+      int min = getMin();
+      if (min > value){
+        cache.push(value);
+      }
+      stack::push(value);
+    }
+    
+    int MinStack::pop() {
+      int value = stack::top();
+      stack::pop();
+      if (getMin() == value)
+        cache.pop();
+      return value;
+    }
+    
+    int MinStack::getMin() {
+      if (cache.empty())
+        return 1 << 30;
+      return cache.top();
+    }
+    
+    int main() {
+      MinStack s;
+      for (int i: {10, 3, 7, 1, 11, 0})
+        s.push(i);
+    
+      while(! s.empty()){
+        cout << s.getMin() << endl;
+        s.pop();
+      }
+    }
+
+.. code-block:: sh
+   
+
+    0
+    1
+    1
+    3
+    3
+    10
+    
+
+
+
 yates-shuffle.scm
 ===================================================
 
@@ -161,5 +231,5 @@ yates-shuffle.scm
 .. code-block:: sh
    
 
-    2, 5, 1, 3, 4, 
+    4, 2, 1, 3, 5, 
 

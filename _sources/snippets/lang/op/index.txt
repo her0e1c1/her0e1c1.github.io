@@ -294,6 +294,27 @@ comment.scm
     
 
 
+.. code-block:: sh
+   
+
+    $ py '#oneline' 
+    
+
+
+.. code-block:: py
+   
+
+    """
+    multi lines
+    comment
+    """
+
+.. code-block:: sh
+   
+
+    
+
+
 
 debug.scm
 ===========================
@@ -820,6 +841,31 @@ for.scm
 
 
 
+multi loop
+------------------------------
+
+
+.. code-block:: py
+   
+
+    for i in range(10):
+        for j in range(10):
+            if i == j == 5:
+                break
+        else:
+            continue
+        # 内側のループでbreakしない限りここに到着しない
+        break
+    print(i, j)
+
+.. code-block:: sh
+   
+
+    (5, 5)
+    
+
+
+
 if.scm
 ==================
 
@@ -988,6 +1034,48 @@ bash conditions evaluate as true in case of an exit code of 0
 
     $ sh -c 'if [ -z "" ] ; then echo true; fi' 
     true
+    
+
+
+
+tech
+------------
+
+dictによる分岐
+
+.. code-block:: py
+   
+
+    x = 'bar'
+    print({
+        'foo': 'x is foo',
+        'bar': 'x is bar',
+        'baz': 'x is baz',
+    }.get(x, 'x is unknown'))
+
+.. code-block:: sh
+   
+
+    x is bar
+    
+
+三項演算子のネストによる分岐
+
+.. code-block:: py
+   
+
+    x = 'baz'
+    print(
+        'x is foo' if x == 'foo' else
+        'x is bar' if x == 'bar' else
+        'x is baz' if x == 'baz' else
+        'x is unknown'
+    )
+
+.. code-block:: sh
+   
+
+    x is baz
     
 
 

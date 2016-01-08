@@ -106,8 +106,11 @@
 <li><a class="reference internal" href="#atleastone-scm" id="id4">atLeastOne.scm</a></li>
 <li><a class="reference internal" href="#horner-scm" id="id5">horner.scm</a></li>
 <li><a class="reference internal" href="#inner-product-scm" id="id6">inner-product.scm</a></li>
-<li><a class="reference internal" href="#newton-scm" id="id7">newton.scm</a></li>
-<li><a class="reference internal" href="#totient-scm" id="id8">totient.scm</a></li>
+<li><a class="reference internal" href="#knapsack-scm" id="id7">knapsack.scm</a></li>
+<li><a class="reference internal" href="#max-length-seq-scm" id="id8">max-length-seq.scm</a></li>
+<li><a class="reference internal" href="#newton-scm" id="id9">newton.scm</a></li>
+<li><a class="reference internal" href="#sum-n-coins-scm" id="id10">sum-n-coins.scm</a></li>
+<li><a class="reference internal" href="#totient-scm" id="id11">totient.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -120,24 +123,23 @@
 <div class="math">
 \[\begin{eqnarray}
 
-\\i \in S_N, 0 \le i \le I (\in N) s.t.
+\\\exists I \in N, \forall a_i \in S_N, 0 \le a_i \le I s.t.
 \\
-\\f(a) = \begin{cases}
-\\1 & (a \in S_N)
-\\0 & (else)
+\\\min_{x} g(S_x) = \begin{cases}
+\\x  & (\sum_{i==0}^I f(i) = I + 1)
+\\-1 & (else)
 \\\end{cases}
 \\
-\\// ちょっと違うっぽい
-\\\min_x g(S_N) = \begin{cases}
-\\x  & (sum_{i}^x f(i) = I)
-\\-1 & (else)
+\\f(a) = \begin{cases}
+\\1 & (a \in S_x)
+\\0 & (else)
 \\\end{cases}
 \\
 \end{eqnarray}\]</div><div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;myc.h&gt;</span>
 <span class="kt">int</span> <span class="nf">g</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">S</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">,</span> <span class="kt">int</span> <span class="n">I</span><span class="p">)</span> <span class="p">{</span>
- <span class="c1">// c[0] is dummy</span>
+ <span class="n">I</span><span class="o">++</span><span class="p">;</span> <span class="c1">// range is [0, I]</span>
  <span class="kt">int</span> <span class="n">buff</span><span class="p">[</span><span class="n">I</span><span class="p">];</span>
- <span class="n">memset</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">*</span><span class="n">I</span><span class="p">);</span>
+ <span class="n">memset</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">I</span><span class="p">);</span>
  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
   <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
@@ -150,11 +152,13 @@
  <span class="p">}</span>
   <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">S</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>   <span class="c1">// 7</span>
+ <span class="n">P</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">S</span><span class="p">),</span> <span class="mi">5</span><span class="p">));</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>/usr/lib/crt1.o: In <span class="k">function</span> <span class="sb">`</span>_start<span class="s1">&#39;:</span>
-<span class="s1">/usr/src/lib/csu/amd64/crt1.c:(.text+0x14b): undefined reference to `main&#39;</span>
-clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
+<div class="highlight-sh"><div class="highlight"><pre>7
 </pre></div>
 </div>
 </div>
@@ -193,8 +197,68 @@ clang: error: linker <span class="nb">command </span>failed with <span class="nb
 <div class="section" id="inner-product-scm">
 <h2><a class="toc-backref" href="#id6">inner-product.scm</a><a class="headerlink" href="#inner-product-scm" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="knapsack-scm">
+<h2><a class="toc-backref" href="#id7">knapsack.scm</a><a class="headerlink" href="#knapsack-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="max-length-seq-scm">
+<h2><a class="toc-backref" href="#id8">max-length-seq.scm</a><a class="headerlink" href="#max-length-seq-scm" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+\[\begin{eqnarray}
+    {a_n}の要素の数列で、a_{in} > a_{i(n-1)} ... > a{i1}を満たす数列で、要素数が最大のものは？(1<=ik<=n)
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    a_n > a_k \quad s.t \quad \max \# \{ f(a_n) \} = \{ a_n \} \cup \max_{0<=k<n} \# \{ f(a_k) \}
+\end{eqnarray}\]</div><p>pointは、f(n)はnより大きいものには依存せず、n未満で決まる
+また、全ての場合の数は、2^nとなる.
+S4=[0..3]に対して、以下のように分割する必要あり
+S3=[1,2,3]
+S2=[2,3]
+S1=[3]
+S0=[] &#8211; ここまで必ず分割すること(終了条件)</p>
+<div class="highlight-ghc"><div class="highlight"><pre>-- TODO: f に該当する関数は何?
+import Data.List (maximumBy)
+maxLengthSequence :: [Int] -&gt; [Int]
+maxLengthSequence = go where
+  go [] = []
+  go (x:xs) = x : (maximumBy f $ map g [0..length xs]) where
+    f a b = compare (length a) (length b)
+    g = go . filter (&gt; x) . flip drop xs
+main = print $ maxLengthSequence [1,3,2,5,4,5,6];
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="o">[</span>1,2,4,5,6<span class="o">]</span>
+</pre></div>
+</div>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">solve</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">A</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">function</span> <span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">dfs</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">(</span><span class="kt">int</span> <span class="n">depth</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">seq</span><span class="p">;</span>  <span class="c1">// 本来はintでいいが結果も表示させたいので配列とした</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">[</span><span class="n">depth</span><span class="p">])</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">seq</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+          <span class="n">seq</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">seq</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">depth</span><span class="p">]);</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="p">;</span>
+  <span class="p">};</span>
+  <span class="k">return</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="n">PE</span><span class="p">(</span><span class="n">solve</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">}));</span>
+ <span class="n">PE</span><span class="p">(</span><span class="n">solve</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">}));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>1, 2, 3, 4, 5,
+1, 2, 4, 5, 6,
+</pre></div>
+</div>
+</div>
 <div class="section" id="newton-scm">
-<h2><a class="toc-backref" href="#id7">newton.scm</a><a class="headerlink" href="#newton-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">newton.scm</a><a class="headerlink" href="#newton-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3>簡易証明<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>収束しそうな点を探す必要あり</p>
@@ -242,8 +306,47 @@ clang: error: linker <span class="nb">command </span>failed with <span class="nb
 </div>
 </div>
 </div>
+<div class="section" id="sum-n-coins-scm">
+<h2><a class="toc-backref" href="#id10">sum-n-coins.scm</a><a class="headerlink" href="#sum-n-coins-scm" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+\[\begin{eqnarray}
+
+\\k_n * a_n + k_{n-1} * a_{n-1} + ... + k_1 * a_1 = SUM
+\\k_i >= 0, a_n > a_{n-1} > ... > a_1 > 0
+\\s.t. \quad \min \sum_{i=1}^n k_i
+\\
+\\使用するコインの集合を返す関数をfとおくと
+\\f(a_n, SUM) =  [an] * k_n \cup f(a_{n-1}, SUM - a_n \times k_n)
+\\f(a_0, X) = \phi
+\\ただし
+\\0 \le i \le \frac{SUM}{a_n}
+\\\sum f(a_n, SUM) == SUM
+\\
+\end{eqnarray}\]</div><p>この問題は、お釣りの問題に帰着できる
+大きいお金を使えるだけ使って、その次にいく
+ただし、失敗するかもしれない(最後が1でない場合で辻褄が合わせられない)</p>
+<div class="highlight-ghc"><div class="highlight"><pre>import Data.List
+
+solve :: [Int] -&gt; Int -&gt; [[Int]]
+solve [] sum = [[]]
+solve (c:coins) csum = concatMap (g . f) [0 .. (div csum c)]
+  where
+    -- xは、cにおける使用するコインの枚数
+    -- fは、c:coinsにおける使用するコインのリストを返す
+    f x = map ((take x (repeat c)) ++) (solve coins (csum - c * x))
+    g = filter (\a-&gt; sum a == csum)
+
+main = do
+  -- mapM print $ solve [25, 10, 5, 1] 100
+  print $ Data.List.minimumBy (\a b -&gt; compare (length a) (length b)) $ solve [25, 10, 5, 1] 100
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="o">[</span>25,25,25,25<span class="o">]</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="totient-scm">
-<h2><a class="toc-backref" href="#id8">totient.scm</a><a class="headerlink" href="#totient-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">totient.scm</a><a class="headerlink" href="#totient-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
