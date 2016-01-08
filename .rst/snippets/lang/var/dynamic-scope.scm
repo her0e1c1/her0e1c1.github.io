@@ -14,8 +14,7 @@ Q :str #t :msg "ローカルであっても外側を参照")
 (sh #!Q
 v=10
 f() {
- local v
- v=20
+ local v=20
 }
 f
 echo $v
@@ -53,8 +52,7 @@ f() {
  echo "f $v"
 }
 g() {
- local v
- v=20
+ local v=20
  echo "g $v"
  f 
 }
