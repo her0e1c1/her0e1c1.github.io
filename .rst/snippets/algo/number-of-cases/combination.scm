@@ -50,6 +50,8 @@ int main() {
 Q :str #t)
 
 (ps "nCr")
+(pw "be careful of overflow")
+
 (ghc #!Q
 combination :: (Integral a) => a -> a -> a
 combination n r
