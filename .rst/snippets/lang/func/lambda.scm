@@ -12,85 +12,24 @@
     :warn "sh/bashは、匿名関数使えない. 仕方がないので1回呼ぶので対応")
 
 
+(ps "cpp")
+(p"
+- [] don't capure anything
 
-;; // return忘れない。最後にセミコロン必要
-;; #include "myutils.h"
-;; int main() {
-;;   function<long(int)> fact = [&] (int n){ return (n==1) ? 1L : n * fact(n-1); };
-;;   P(fact(5));
-;; }
+Bellow you can use closure
 
-;; /*
-;; [] don't capure anything
+- [&] capture-by-reference
+- [=] capture-by-value (copy)
+")
 
-;; Bellow you can use closure
+(cpp "function <int(int)> f=[&](int n){ return n == 1 ? 1 : f(n-1) * n;}; P(f(5))" :msg "need ; after }")
+(cpp "function <int(int)> f=[](int n){ return n == 1 ? 1 : f(n-1) * n;}; P(f(5))" :warn "[]だと、{}の外側のfを参照できない")
 
-;; [&] capture-by-reference
+(cpp "function <void(int)>f=[&](int &n){P(n)};f(1);" :warn "compile error if using reference")
+(cpp "function <void(int)>f=[&](const int &n){P(n)};f(1);" :msg "use const to avoid an error")
+(cpp "function <void(int)>f=[&](int n){P(n)};f(1);")
 
-;; [=] capture-by-value (copy)
-;; */
-
-;; int main()
-;; {
-;;   // lambdaは以下の項目からなる
-;;   // 型 変数 = [キャプチャ] (シグニチャ) {本体};
-;;   // [キャプチャ] (シグニチャ) {本体} (関数呼び出し);
-;;   [](){ cout << "hello world" << endl; }();
-
-;;   // []の場合は外側の変数を参照しないが、
-;;   // fact自体を参照する必要があるので&が必要
-;;   function<long(int)> fact = [&] (int n){
-;;     if (n == 1)
-;;       return 1L;
-;;     return n * fact(n - 1);
-;;   };  //最後にセミコロンが必要
-;;   P(fact(10));
-
-;;   // 型を明示するのが面倒ならauto
-;;   auto not_fact = [&] (int n) {
-;;     if (n == 1)
-;;       return 1L;
-;;     // 型がautoなので関数の戻り値がコンパイラでは分からない
-;;     // return (long)n * not_fact(n - 1);
-;;     return (long)n;
-;;   };
-;;   P(not_fact(10));
-
-;;   // int N = 1;
-;;   // auto l1 = [=](){
-;;   //   N = 2;  // コピーを書き換えようとするのでコンパイルエラー
-;;   //   P(N);
-;;   // };
-;;   // l1();
-;;   // P(N);
-
-;;   int N2 = 1;
-;;   auto l2 = [&](){
-;;     N2 = 2;  // 参照先を書き換える
-;;   };
-;;   l2();
-;;   P(N2);
-
-;;   int N3 = 1;
-;;   auto l3 = [=]() mutable{
-;;     N3 = 2;  // コピーの変数を書き換える
-;;   };
-;;   l2();
-;;   P(N3);  // コピー元は書き変わらない
-
-;;   // こっちはOK
-;;   function <void(vector<int>)>f2 = [&] (const vector<int> & n) {
-;;     P("f1");
-;;   };
-
-;;   // 型がそろってないのでエラー
-;;   // function <void(vector<int>)>f2 = [&] (vector<int> & n) {
-;;   //   P("f2");
-;;   // };
-
-;;   function <void(vector<int>)>f3 = [&] (vector<int> n) {
-;;     P("f3");
-;;   };
-
-;;   return 0;
-;; }
+(cpp "int N=1;[](){N=2;}();P(N)" :warn "you can't modify N")
+(cpp "int N=1;[&](){N=2;}();P(N)" :msg "use reference and modify N")
+(cpp "int N=1;[=](){N=2;}();P(N)" :warn "imuutable in lambda")
+(cpp "int N=1;[=]()mutable{N=2;}();P(N)" :msg "copy and modify N")
