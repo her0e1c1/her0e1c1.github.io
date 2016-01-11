@@ -1,4 +1,9 @@
 
+(ps "brute-force algorithm")
+
+(p "計算量はO(nm)だが、文字の種類が多いので，たいていの場合
+パターンの先頭の 数文字を調べるだけで済むので、実質O(n)")
+
 (math "
 f(i, j, start) = $begin{cases} 0 & (*i = 0)
 1 & (*j = 0)
