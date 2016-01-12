@@ -2,8 +2,8 @@
 (math "
 a^n = $begin{cases}
  1 & ({n = 0)
- a^{n/2} * a^{n/2} & ($text{n is even})
- a^{(n-1)/2} * a^{(n-1)/2} * a & ($text{n is odd})
+ a^{n/2} $times a^{n/2} & ($mbox{n is even})
+ a^{(n-1)/2} $times a^{(n-1)/2} $times a & ($mbox{n is odd})
 $end{cases}
 ")
 
