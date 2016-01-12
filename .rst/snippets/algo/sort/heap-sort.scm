@@ -1,5 +1,5 @@
 
-
+(p"
 ===========
  Heap sort
 ===========
@@ -19,6 +19,8 @@ heap構造とは、2分木のデータ構造で、子よりも親の方が大き
 - ルートが最大(または最小)となる.
 - 各親は、必ず子供よりも大きい(あるいは、小さい)
 - 適したデータコンテナは、リストではなく配列
+- in place
+- 計算量はO(NlogN)であるが、quicksortに比べて、heapを構築する作業がある分、2倍程度遅いが最悪計算量もO(NlogN)と変わらず
 
 .. warning::
    上記の性質上、どちらかに値が偏ることがある.
@@ -32,19 +34,6 @@ priority query
 :削除: O(logN)
 :追加: O(logN)
 
-to do
-=====
-- メモリを動的に確保したアルゴリズム
-
-question
-========
-
-- `子からみた親のindexは?`_
-- なぜ親はfloor(n/2)で表現できるのか？
-- `N(nlogn)であることの説明`_
-- upheapを再帰で実装できるか？
-
-
 子からみた親のindexは?
 ----------------------
 Cの場合0始まりとする.
@@ -55,9 +44,7 @@ Cの場合0始まりとする.
 
     PARENT = (CHILD - 1) / 2
 
-0はルートなので親がいないようにマイナスとなる。
-
-::
+0はルートなので親がいないようにマイナスとなる。 ::
 
   PARENT = (CHILD + 1) / 2 - 1 が成立するので
   PARENT + 1 = (CHILD + 1) / 2 = CHILD/2 + 1/2 = CHILD/2 (if CHILD is even)
@@ -66,15 +53,85 @@ Cの場合0始まりとする.
   CHILD = 2(PARENT + 1)
   CHILD = 2(PARENT + 1) - 1
 
-実装例
-======
-
-. literalinclude:: heap_sort.c
-   :language: c
-
-. literalinclude:: heap_sort1.c
-   :language: c
-
 参考文献
 ========
- - http://www.maroontress.com/Heap/heap-realization.pdf
+- http://www.maroontress.com/Heap/heap-realization.pdf
+
+")
+
+(math "
+parent >=0 $in N ($Rightarrow child $ne 0)
+s.t. $quad parent = $lfloor $frac{child-1}{2} $rfloor
+
+left  &=& 2 $times parent + 1
+right &=& 2 $times parent + 2
+
+size &<=& left & $Rightarrow & no children
+size &==& right = (left+1)& $Rightarrow & only left child
+&& else & $Rightarrow & two children
+
+downHeap(parent, A) &=& downHeap(max_child, swap(A,max_child, parent)) & (*max_child > *parent and max_child > 0)
+upHeap(child, A) &=& upHeap(parent, swap(A,child, parent)) & (*child > *parent and child > 0)
+heapify(i, A) &=& heapify(i+1, upHeap(i, A)) & (任意の配列を0から順番にheapを構築)
+sort(i, A) &=& sort(i-1, downHeap(0, swap(A, 0, i))) & (配列の末尾から昇順にソート)
+")
+
+(c #!Q
+#include <myc.h>
+
+#define PARENT(n) (((n) - 1) / 2)
+#define LEFT(n) (2 * (n) + 1)
+#define RIGHT(n) (2 * (n) + 2)
+#define VALUE(h, n) ((h)->array[(n)])
+#define data_type int
+
+static inline void swap(data_type *a, int i, int j) {data_type t=a[i];a[i]=a[j];a[j]=t;}
+
+// return a child index which is more than 0
+data_type maxChild(data_type *a, int parent, int size) {
+  int left, right;
+  if ((left = LEFT(parent)) >= size)
+    return 0;
+  else if ((right = RIGHT(parent)) == size) {
+    return left;
+  } else if (a[left] < a[right])
+    return right;
+  else
+    return left;
+}
+void downHeap(data_type *a, int size) {
+  int parent = 0;
+  while (1) {
+    int child = maxChild(a, parent, size);
+    if (child > 0 && a[parent] < a[child]) {
+      swap(a, parent, child);
+      parent = child;
+    } else
+      break;
+  }
+}
+void upHeap(data_type *a, int child) {
+  while (1) {
+    int parent = PARENT(child);
+    if (child > 0 && a[parent] < a[child]) {
+      swap(a, parent, child);
+      child = parent;
+    } else
+      break;
+  }
+}
+data_type *heapSort(data_type *array, int size) {
+  for (int i = 0; i < size; i++)
+    upHeap(array, i);
+  for (int i = size - 1; i >= 0; i--) {
+    swap(array, 0, i);  // sort from last to first
+    downHeap(array, i);
+  }
+  return array;
+}
+int main() {
+  int a[] = {5, 3, 1, 2, 4};
+  heapSort(a, SIZE(a));
+  PVI(a);
+}
+Q :str #t)
