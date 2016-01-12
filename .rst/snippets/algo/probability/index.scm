@@ -7,6 +7,6 @@
 :math:`P(A) + P(B)`
 
 事象AとB同時に確率
-:math:`P(A) \cdot P(B)`
+:math:`P(A) $cdot P(B)`
 
 ")
