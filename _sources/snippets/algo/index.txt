@@ -85,7 +85,7 @@
 .. toctree::
     :maxdepth: 1
 
-    
+    puzzle/index.rst
 
 
 

@@ -176,12 +176,12 @@ f<span class="o">(</span>4, 3<span class="o">)</span> <span class="o">=</span> 6
 \[\begin{eqnarray}
     \max_{i,j,k \in N} a[i] \times a[j] \times a[k]
 \end{eqnarray}\]</div><div class="highlight-gosh"><div class="highlight"><pre>(print
-    (let1 l (pa$ at (sort &#39;(5 -3 9 1 6 7 0 -5 -3 -3)))
+    (let1 l (pa$ at (sort &#39;(-4 -5 -9 -9 -7 5 0 7 2 -2)))
        (max (* (l -1) (l -2) (l -3))
             (* (l 0) (l 1) (l -1)))))
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>378
+<div class="highlight-sh"><div class="highlight"><pre>567
 </pre></div>
 </div>
 </div>
@@ -326,6 +326,26 @@ TapeEquilibrium (必ず２つに分ける必要がある場合、1&lt;= x &lt;= 
 <p>解答:</p>
 <div class="highlight-python"><div class="highlight"><pre>ガウスの定義により[M/N] &lt;= M/N &lt; [M/N]+1が成立する。
 よってM/N &lt; xを満たす最小のxは[M/N]+1である。
+</pre></div>
+</div>
+</div>
+<div class="section" id="python3">
+<h3>//演算子について(python3)<a class="headerlink" href="#python3" title="Permalink to this headline">¶</a></h3>
+<p>割り切れない場合は、小数点以下を切り捨てる</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">5</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="mi">1</span> <span class="o">//</span> <span class="mi">10</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>分配法則が成り立つ</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="n">B</span><span class="p">)</span> <span class="o">//</span> <span class="n">C</span> <span class="o">=</span> <span class="n">A</span> <span class="o">//</span> <span class="n">C</span> <span class="o">+</span> <span class="n">B</span> <span class="o">//</span> <span class="n">C</span>
+</pre></div>
+</div>
+<p>0&lt;= i &lt; N の場合</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">i</span> <span class="o">//</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>一般に</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="o">//</span> <span class="n">N</span> <span class="o">=</span> <span class="n">i</span>
 </pre></div>
 </div>
 </div>

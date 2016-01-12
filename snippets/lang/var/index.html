@@ -103,14 +103,149 @@
 <p class="topic-title first">Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#var" id="id1">var</a><ul>
-<li><a class="reference internal" href="#index-scm" id="id2">index.scm</a></li>
-<li><a class="reference internal" href="#undefined-scm" id="id3">undefined.scm</a></li>
+<li><a class="reference internal" href="#const-scm" id="id2">const.scm</a></li>
+<li><a class="reference internal" href="#dynamic-scope-scm" id="id3">dynamic-scope.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id4">index.scm</a></li>
+<li><a class="reference internal" href="#undefined-scm" id="id5">undefined.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="const-scm">
+<h2><a class="toc-backref" href="#id2">const.scm</a><a class="headerlink" href="#const-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">a</span><span class="o">=</span><span class="s2">&quot;A&quot;</span>
+f<span class="o">(){</span>
+ <span class="nb">local </span><span class="nv">a</span><span class="o">=</span><span class="s2">&quot;a&quot;</span>
+ <span class="nb">readonly </span>a
+ <span class="nb">echo</span> <span class="nv">$a</span>
+<span class="o">}</span>
+f
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>a
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Can&#8217;t modify a</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">a</span><span class="o">=</span><span class="s2">&quot;A&quot;</span>
+f<span class="o">(){</span>
+ <span class="nb">local </span><span class="nv">a</span><span class="o">=</span><span class="s2">&quot;a&quot;</span>
+ <span class="nb">readonly </span>a
+ <span class="nv">a</span><span class="o">=</span><span class="s2">&quot;HOGE&quot;</span>
+ <span class="nb">echo</span> <span class="nv">$a</span>
+<span class="o">}</span>
+f
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>a: is <span class="nb">read </span>only
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">併用不可(localという名前の変数を宣言)</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>f<span class="o">(){</span>
+ <span class="nb">readonly local </span><span class="nv">a</span><span class="o">=</span><span class="s2">&quot;a&quot;</span>
+ <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$local</span><span class="s2"> and </span><span class="nv">$a</span><span class="s2">&quot;</span>
+ <span class="nb">local</span><span class="o">=</span>1
+<span class="o">}</span>
+f
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre> and a
+<span class="nb">local</span>: is <span class="nb">read </span>only
+</pre></div>
+</div>
+</div>
+<div class="section" id="dynamic-scope-scm">
+<h2><a class="toc-backref" href="#id3">dynamic-scope.scm</a><a class="headerlink" href="#dynamic-scope-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="local">
+<h3>localの意味<a class="headerlink" href="#local" title="Permalink to this headline">¶</a></h3>
+<p>local変数の場合、その関数内の子供を含めたスコープでの書き換えは、親に影響しない
+ローカルであっても外側を参照</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">v</span><span class="o">=</span>10
+f<span class="o">()</span> <span class="o">{</span>
+ <span class="nb">local </span>v
+ <span class="nb">echo</span> <span class="nv">$v</span>
+<span class="o">}</span>
+f
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>10
+</pre></div>
+</div>
+<p>fを抜けるとローカルvの値は、書き換えたとしても、元に戻る</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">v</span><span class="o">=</span>10
+f<span class="o">()</span> <span class="o">{</span>
+ <span class="nb">local </span><span class="nv">v</span><span class="o">=</span>20
+<span class="o">}</span>
+f
+<span class="nb">echo</span> <span class="nv">$v</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>10
+</pre></div>
+</div>
+<p>fを抜けるとvの値は、書き換えたまま</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">v</span><span class="o">=</span>10
+f<span class="o">()</span> <span class="o">{</span>
+ <span class="nv">v</span><span class="o">=</span>20
+<span class="o">}</span>
+f
+<span class="nb">echo</span> <span class="nv">$v</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>20
+</pre></div>
+</div>
+<p>gでの書き換えは、fで呼び出されているので、このスコープ内のvにのみ影響</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">v</span><span class="o">=</span>10
+g<span class="o">()</span> <span class="o">{</span>
+ <span class="nv">v</span><span class="o">=</span>20
+<span class="o">}</span>
+f<span class="o">()</span> <span class="o">{</span>
+ <span class="nb">local </span>v
+ <span class="nb">echo</span> <span class="s2">&quot;before </span><span class="nv">$v</span><span class="s2">&quot;</span>
+ g
+ <span class="nb">echo</span> <span class="s2">&quot;after </span><span class="nv">$v</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+f
+<span class="nb">echo</span> <span class="s2">&quot;last </span><span class="nv">$v</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>before 10
+after 20
+last 10
+</pre></div>
+</div>
+</div>
+<div class="section" id="dynamic-scope">
+<h3>dynamic scope<a class="headerlink" href="#dynamic-scope" title="Permalink to this headline">¶</a></h3>
+<p>gでvが書き換えられているので、fもその書き換わったvを参照</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">v</span><span class="o">=</span>10
+f<span class="o">()</span> <span class="o">{</span>
+ <span class="nb">echo</span> <span class="s2">&quot;f </span><span class="nv">$v</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+g<span class="o">()</span> <span class="o">{</span>
+ <span class="nb">local </span><span class="nv">v</span><span class="o">=</span>20
+ <span class="nb">echo</span> <span class="s2">&quot;g </span><span class="nv">$v</span><span class="s2">&quot;</span>
+ f
+<span class="o">}</span>
+g
+<span class="nb">echo</span> <span class="s2">&quot;last </span><span class="nv">$v</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>g 20
+f 20
+last 10
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="index-scm">
-<h2><a class="toc-backref" href="#id2">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(progn (with-temp-buffer (defvar a 1)) a)&#39;</span>
 
 1
@@ -124,7 +259,7 @@
 </div>
 </div>
 <div class="section" id="undefined-scm">
-<h2><a class="toc-backref" href="#id3">undefined.scm</a><a class="headerlink" href="#undefined-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">undefined.scm</a><a class="headerlink" href="#undefined-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;P(typeof a === &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;undefined&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;)&#39;</span>
 <span class="nb">true</span>
 </pre></div>

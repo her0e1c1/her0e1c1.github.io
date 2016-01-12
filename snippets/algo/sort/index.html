@@ -98,27 +98,32 @@
     <div class="col-md-12 content">
       
   <div class="section" id="sort">
-<h1><a class="toc-backref" href="#id2">sort</a><a class="headerlink" href="#sort" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id19">sort</a><a class="headerlink" href="#sort" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#sort" id="id2">sort</a><ul>
-<li><a class="reference internal" href="#bubble-sort-scm" id="id3">bubble-sort.scm</a></li>
-<li><a class="reference internal" href="#heap-sort-scm" id="id4">heap-sort.scm</a></li>
-<li><a class="reference internal" href="#insert-sort-scm" id="id5">insert-sort.scm</a></li>
-<li><a class="reference internal" href="#msort-scm" id="id6">msort.scm</a></li>
-<li><a class="reference internal" href="#qsort-scm" id="id7">qsort.scm</a></li>
-<li><a class="reference internal" href="#red-black-tree-scm" id="id8">red-black-tree.scm</a></li>
-<li><a class="reference internal" href="#selection-sort-scm" id="id9">selection-sort.scm</a></li>
-<li><a class="reference internal" href="#shellsort-scm" id="id10">shellsort.scm</a></li>
-<li><a class="reference internal" href="#stable-scm" id="id11">stable.scm</a></li>
-<li><a class="reference internal" href="#topological-sort-scm" id="id12">topological-sort.scm</a></li>
+<li><a class="reference internal" href="#sort" id="id5">sort</a><ul>
+<li><a class="reference internal" href="#bubble-sort-scm" id="id6">bubble-sort.scm</a></li>
+<li><a class="reference internal" href="#heap-sort-scm" id="id7">heap-sort.scm</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#heap-sort" id="id8">Heap sort</a><ul>
+<li><a class="reference internal" href="#introduction" id="id9">Introduction</a></li>
+<li><a class="reference internal" href="#id2" id="id10">特徴</a></li>
+<li><a class="reference internal" href="#id3" id="id11">参考文献</a></li>
+<li><a class="reference internal" href="#insert-sort-scm" id="id12">insert-sort.scm</a></li>
+<li><a class="reference internal" href="#msort-scm" id="id13">msort.scm</a></li>
+<li><a class="reference internal" href="#qsort-scm" id="id14">qsort.scm</a></li>
+<li><a class="reference internal" href="#red-black-tree-scm" id="id15">red-black-tree.scm</a></li>
+<li><a class="reference internal" href="#selection-sort-scm" id="id16">selection-sort.scm</a></li>
+<li><a class="reference internal" href="#shellsort-scm" id="id17">shellsort.scm</a></li>
+<li><a class="reference internal" href="#stable-scm" id="id18">stable.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="bubble-sort-scm">
-<h2><a class="toc-backref" href="#id3">bubble-sort.scm</a><a class="headerlink" href="#bubble-sort-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id20">bubble-sort.scm</a><a class="headerlink" href="#bubble-sort-scm" title="Permalink to this headline">¶</a></h2>
 <p>bubble sortは末尾からsortされる</p>
 <ul class="simple">
 <li>1回目     : 0 &lt;= j &lt;= size - 1</li>
@@ -148,10 +153,189 @@
 </div>
 </div>
 <div class="section" id="heap-sort-scm">
-<h2><a class="toc-backref" href="#id4">heap-sort.scm</a><a class="headerlink" href="#heap-sort-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id21">heap-sort.scm</a><a class="headerlink" href="#heap-sort-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="heap-sort">
+<h1><a class="toc-backref" href="#id22">Heap sort</a><a class="headerlink" href="#heap-sort" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id1">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#sort" id="id19">sort</a><ul>
+<li><a class="reference internal" href="#bubble-sort-scm" id="id20">bubble-sort.scm</a></li>
+<li><a class="reference internal" href="#heap-sort-scm" id="id21">heap-sort.scm</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#heap-sort" id="id22">Heap sort</a><ul>
+<li><a class="reference internal" href="#introduction" id="id23">Introduction</a></li>
+<li><a class="reference internal" href="#id2" id="id24">特徴</a><ul>
+<li><a class="reference internal" href="#priority-query" id="id25">priority query</a></li>
+<li><a class="reference internal" href="#index" id="id26">子からみた親のindexは?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3" id="id27">参考文献</a></li>
+<li><a class="reference internal" href="#insert-sort-scm" id="id28">insert-sort.scm</a></li>
+<li><a class="reference internal" href="#msort-scm" id="id29">msort.scm</a><ul>
+<li><a class="reference internal" href="#scheme" id="id30">scheme</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#qsort-scm" id="id31">qsort.scm</a><ul>
+<li><a class="reference internal" href="#c" id="id32">c</a></li>
+<li><a class="reference internal" href="#id4" id="id33">scheme</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#red-black-tree-scm" id="id34">red-black-tree.scm</a></li>
+<li><a class="reference internal" href="#selection-sort-scm" id="id35">selection-sort.scm</a></li>
+<li><a class="reference internal" href="#shellsort-scm" id="id36">shellsort.scm</a></li>
+<li><a class="reference internal" href="#stable-scm" id="id37">stable.scm</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2><a class="toc-backref" href="#id23">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>頭からヒープ構造を構築し、その過程でソートする
+作成したヒープ構造は、その末尾から配列に戻す作業を行う
+配列 =&gt; ヒープ =&gt; 配列と構造を変化させる
+heap構造とは、2分木のデータ構造で、子よりも親の方が大きい(あるいは小さい)データ構造</p>
+</div>
+<div class="section" id="id2">
+<h2><a class="toc-backref" href="#id24">特徴</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>ルートが最大(または最小)となる.</li>
+<li>各親は、必ず子供よりも大きい(あるいは、小さい)</li>
+<li>適したデータコンテナは、リストではなく配列</li>
+<li>in place</li>
+<li>計算量はO(NlogN)であるが、quicksortに比べて、heapを構築する作業がある分、2倍程度遅いが最悪計算量もO(NlogN)と変わらず</li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">上記の性質上、どちらかに値が偏ることがある.
+(<code class="docutils literal"><span class="pre">[5,</span> <span class="pre">4,</span> <span class="pre">1,</span> <span class="pre">3,</span> <span class="pre">2,</span> <span class="pre">0]</span></code> はheap構造であるが、一方に偏っている)</p>
+</div>
+<div class="section" id="priority-query">
+<h3><a class="toc-backref" href="#id25">priority query</a><a class="headerlink" href="#priority-query" title="Permalink to this headline">¶</a></h3>
+<p>2分ヒープを使って実装できる.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参照:</th><td class="field-body">O(1)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">削除:</th><td class="field-body">O(logN)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">追加:</th><td class="field-body">O(logN)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="index">
+<h3><a class="toc-backref" href="#id26">子からみた親のindexは?</a><a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h3>
+<p>Cの場合0始まりとする.</p>
+<p>子供をnとすると、もう一方の子供はn+1</p>
+<p>たとえば、 1と2の時は、0になることを考えると、</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">PARENT</span> <span class="o">=</span> <span class="p">(</span><span class="n">CHILD</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>0はルートなので親がいないようにマイナスとなる。</p>
+<div class="highlight-python"><div class="highlight"><pre>PARENT = (CHILD + 1) / 2 - 1 が成立するので
+PARENT + 1 = (CHILD + 1) / 2 = CHILD/2 + 1/2 = CHILD/2 (if CHILD is even)
+PARENT + 1 = (CHILD + 1) / 2 (if CHILD is odd)
+よって２通りの親の表し方ができる
+CHILD = 2(PARENT + 1)
+CHILD = 2(PARENT + 1) - 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id27">参考文献</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://www.maroontress.com/Heap/heap-realization.pdf">http://www.maroontress.com/Heap/heap-realization.pdf</a></li>
+</ul>
+<div class="math">
+\[\begin{eqnarray}
+
+\\parent >=0 \in N (\Rightarrow child \ne 0)
+\\s.t. \quad parent = \lfloor \frac{child-1}{2} \rfloor
+\\
+\\left  &=& 2 \times parent + 1
+\\right &=& 2 \times parent + 2
+\\
+\\size &<=& left & \Rightarrow & no children
+\\size &==& right = (left+1)& \Rightarrow & only left child
+\\&& else & \Rightarrow & two children
+\\
+\\downHeap(parent, A) &=& downHeap(max_child, swap(A,max_child, parent)) & (*max_child > *parent and max_child > 0)
+\\upHeap(child, A) &=& upHeap(parent, swap(A,child, parent)) & (*child > *parent and child > 0)
+\\heapify(i, A) &=& heapify(i+1, upHeap(i, A)) & (任意の配列を0から順番にheapを構築)
+\\sort(i, A) &=& sort(i-1, downHeap(0, swap(A, 0, i))) & (配列の末尾から昇順にソート)
+\\
+\end{eqnarray}\]</div><div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;myc.h&gt;</span>
+
+<span class="cp">#define PARENT(n) (((n) - 1) / 2)</span>
+<span class="cp">#define LEFT(n) (2 * (n) + 1)</span>
+<span class="cp">#define RIGHT(n) (2 * (n) + 2)</span>
+<span class="cp">#define VALUE(h, n) ((h)-&gt;array[(n)])</span>
+<span class="cp">#define data_type int</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="n">data_type</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span><span class="n">data_type</span> <span class="n">t</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">];</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">t</span><span class="p">;}</span>
+
+<span class="c1">// return a child index which is more than 0</span>
+<span class="n">data_type</span> <span class="nf">maxChild</span><span class="p">(</span><span class="n">data_type</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">parent</span><span class="p">,</span> <span class="kt">int</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">((</span><span class="n">left</span> <span class="o">=</span> <span class="n">LEFT</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">size</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">((</span><span class="n">right</span> <span class="o">=</span> <span class="n">RIGHT</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span> <span class="o">==</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">right</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">right</span><span class="p">;</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">downHeap</span><span class="p">(</span><span class="n">data_type</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">parent</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">child</span> <span class="o">=</span> <span class="n">maxChild</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">child</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">child</span><span class="p">])</span> <span class="p">{</span>
+      <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="p">);</span>
+      <span class="n">parent</span> <span class="o">=</span> <span class="n">child</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span>
+      <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">upHeap</span><span class="p">(</span><span class="n">data_type</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">child</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">PARENT</span><span class="p">(</span><span class="n">child</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">child</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">child</span><span class="p">])</span> <span class="p">{</span>
+      <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="p">);</span>
+      <span class="n">child</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span>
+      <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">data_type</span> <span class="o">*</span><span class="nf">heapSort</span><span class="p">(</span><span class="n">data_type</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">upHeap</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">swap</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>  <span class="c1">// sort from last to first</span>
+    <span class="n">downHeap</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">array</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">};</span>
+  <span class="n">heapSort</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
+  <span class="n">PVI</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>1, 2, 3, 4, 5,
+</pre></div>
+</div>
 </div>
 <div class="section" id="insert-sort-scm">
-<h2><a class="toc-backref" href="#id5">insert-sort.scm</a><a class="headerlink" href="#insert-sort-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id28">insert-sort.scm</a><a class="headerlink" href="#insert-sort-scm" title="Permalink to this headline">¶</a></h2>
 <p>ソート済み配列を左端から構築。i順番をその配列の適した位置に挿入.
 0番目はそのままで良いので、1番目からソートする
 挿入については、適した位置が見つかれば、その時点でi番目までソート済みになる。
@@ -168,18 +352,18 @@
  <span class="p">}</span>
 <span class="p">}</span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
- <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">93</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">27</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">84</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="o">-</span><span class="mi">59</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">28</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="o">-</span><span class="mi">18</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">41</span><span class="p">};</span>
+ <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">83</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">64</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">64</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="o">-</span><span class="mi">69</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="o">-</span><span class="mi">83</span><span class="p">,</span> <span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">66</span><span class="p">,</span> <span class="mi">91</span><span class="p">,</span> <span class="o">-</span><span class="mi">31</span><span class="p">};</span>
  <span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
  <span class="n">PVI</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>-93, -59, -41, -28, -27, -20, -18, -15, -7, -6, -2, 2, 6, 8, 14, 20, 32, 45, 64, 84,
+<div class="highlight-sh"><div class="highlight"><pre>-83, -69, -66, -64, -64, -45, -33, -31, -25, 1, 2, 15, 17, 19, 29, 46, 83, 91, 96, 96,
 </pre></div>
 </div>
 </div>
 <div class="section" id="msort-scm">
-<h2><a class="toc-backref" href="#id6">msort.scm</a><a class="headerlink" href="#msort-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id29">msort.scm</a><a class="headerlink" href="#msort-scm" title="Permalink to this headline">¶</a></h2>
 <p>O(2n)
 O(nlogn) stable</p>
 <div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
@@ -229,7 +413,7 @@ O(nlogn) stable</p>
 </pre></div>
 </div>
 <div class="section" id="scheme">
-<h3>scheme<a class="headerlink" href="#scheme" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id30">scheme</a><a class="headerlink" href="#scheme" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-gosh"><div class="highlight"><pre>(define (merge-sort alist)
   (if (&gt;= 1 (length alist))
       alist
@@ -252,11 +436,11 @@ O(nlogn) stable</p>
 </div>
 </div>
 <div class="section" id="qsort-scm">
-<h2><a class="toc-backref" href="#id7">qsort.scm</a><a class="headerlink" href="#qsort-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id31">qsort.scm</a><a class="headerlink" href="#qsort-scm" title="Permalink to this headline">¶</a></h2>
 <p>O(nlogn)
 O(n^2)</p>
 <div class="section" id="c">
-<h3>c<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id32">c</a><a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
 <span class="cp">#include &lt;assert.h&gt;</span>
 <span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
@@ -527,8 +711,8 @@ O(n^2)</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id1">
-<h3>scheme<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id33">scheme</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-gosh"><div class="highlight"><pre>(define (quick-sort alist)
   (if (null? alist)
       &#39;()
@@ -546,10 +730,10 @@ O(n^2)</p>
 </div>
 </div>
 <div class="section" id="red-black-tree-scm">
-<h2><a class="toc-backref" href="#id8">red-black-tree.scm</a><a class="headerlink" href="#red-black-tree-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id34">red-black-tree.scm</a><a class="headerlink" href="#red-black-tree-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="selection-sort-scm">
-<h2><a class="toc-backref" href="#id9">selection-sort.scm</a><a class="headerlink" href="#selection-sort-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id35">selection-sort.scm</a><a class="headerlink" href="#selection-sort-scm" title="Permalink to this headline">¶</a></h2>
 <p>左端から順番に小さいものを移動
 i番目における現時点での最小値を決めたい. (常にa[i]と比較)</p>
 <div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;myc.h&gt;</span>
@@ -561,18 +745,18 @@ i番目における現時点での最小値を決めたい. (常にa[i]と比較
  <span class="p">}</span>
 <span class="p">}</span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
- <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">89</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">18</span><span class="p">,</span> <span class="o">-</span><span class="mi">29</span><span class="p">,</span> <span class="o">-</span><span class="mi">51</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="o">-</span><span class="mi">13</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="o">-</span><span class="mi">68</span><span class="p">,</span> <span class="o">-</span><span class="mi">85</span><span class="p">,</span> <span class="o">-</span><span class="mi">28</span><span class="p">,</span> <span class="o">-</span><span class="mi">91</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">82</span><span class="p">,</span> <span class="mi">96</span><span class="p">};</span>
+ <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">86</span><span class="p">,</span> <span class="o">-</span><span class="mi">72</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="o">-</span><span class="mi">29</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">39</span><span class="p">,</span> <span class="o">-</span><span class="mi">88</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="o">-</span><span class="mi">86</span><span class="p">,</span> <span class="o">-</span><span class="mi">21</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="o">-</span><span class="mi">26</span><span class="p">,</span> <span class="mi">2</span><span class="p">};</span>
  <span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
  <span class="n">PVI</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>-91, -89, -85, -68, -51, -40, -29, -28, -25, -18, -13, -6, 0, 3, 33, 50, 57, 66, 82, 96,
+<div class="highlight-sh"><div class="highlight"><pre>-88, -86, -86, -72, -39, -29, -26, -21, -15, 2, 2, 13, 14, 16, 35, 52, 56, 73, 73, 98,
 </pre></div>
 </div>
 </div>
 <div class="section" id="shellsort-scm">
-<h2><a class="toc-backref" href="#id10">shellsort.scm</a><a class="headerlink" href="#shellsort-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id36">shellsort.scm</a><a class="headerlink" href="#shellsort-scm" title="Permalink to this headline">¶</a></h2>
 <p>gap==1がinsert sort
 分割したinsert sortというだけ
 gap==1で最終的にソートされる</p>
@@ -591,7 +775,7 @@ gap==1で最終的にソートされる</p>
  <span class="p">}</span>
 <span class="p">}</span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
- <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mi">21</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">89</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="o">-</span><span class="mi">49</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="o">-</span><span class="mi">97</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">59</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="mi">36</span><span class="p">};</span>
+ <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mi">54</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">76</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="o">-</span><span class="mi">34</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="o">-</span><span class="mi">64</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">78</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">19</span><span class="p">};</span>
  <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
  <span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
@@ -599,7 +783,7 @@ gap==1で最終的にソートされる</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>-97, -89, -59, -49, -42, -21, -16, -10, 3, 10, 11, 16, 27, 36, 61, 73, 85, 90, 92, 98,
+<div class="highlight-sh"><div class="highlight"><pre>-78, -76, -64, -54, -42, -34, -19, -15, 1, 1, 8, 14, 38, 42, 56, 58, 66, 67, 69, 70,
 </pre></div>
 </div>
 <p>An array is divided to k-groups. apply insert sort to each group</p>
@@ -620,19 +804,19 @@ gap==1で最終的にソートされる</p>
  <span class="p">}</span>
 <span class="p">}</span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
- <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mi">21</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">89</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="o">-</span><span class="mi">49</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="o">-</span><span class="mi">97</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">59</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="mi">36</span><span class="p">};</span>
+ <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mi">54</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">76</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="o">-</span><span class="mi">34</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="o">-</span><span class="mi">64</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">78</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">19</span><span class="p">};</span>
  <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
  <span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d, &quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>-97, -89, -59, -49, -42, -21, -16, -10, 3, 10, 11, 16, 27, 36, 61, 73, 85, 90, 92, 98,
+<div class="highlight-sh"><div class="highlight"><pre>-78, -76, -64, -54, -42, -34, -19, -15, 1, 1, 8, 14, 38, 42, 56, 58, 66, 67, 69, 70,
 </pre></div>
 </div>
 </div>
 <div class="section" id="stable-scm">
-<h2><a class="toc-backref" href="#id11">stable.scm</a><a class="headerlink" href="#stable-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id37">stable.scm</a><a class="headerlink" href="#stable-scm" title="Permalink to this headline">¶</a></h2>
 <p>selection sortにて、以下をソート
 - 2a 3 2b 1
 - 1 3 2b 2a （1回目のループ終了時）
@@ -641,9 +825,6 @@ gap==1で最終的にソートされる</p>
 <p>2a, 2bの関係が逆順になっているので、不安定ソート
 つまり、第一keyはソートされるが、それによって第二keyのソート順が保たれない
 一般に、swapなどの破壊的な操作が必要なソートは不安定となる</p>
-</div>
-<div class="section" id="topological-sort-scm">
-<h2><a class="toc-backref" href="#id12">topological-sort.scm</a><a class="headerlink" href="#topological-sort-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

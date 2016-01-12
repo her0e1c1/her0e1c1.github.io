@@ -184,9 +184,9 @@ operator+<span class="o">(</span>typename reverse_iterator&lt;_Iter&gt;::differe
 /usr/include/c++/v1/iterator:1009:1: note: candidate template ignored: could not match <span class="s1">&#39;move_iterator&lt;type-parameter-0-0&gt;&#39;</span> against <span class="s1">&#39;unsigned long&#39;</span>
 operator+<span class="o">(</span>typename move_iterator&lt;_Iter&gt;::difference_type __n, const move_iterator&lt;_Iter&gt;<span class="p">&amp;</span> __x<span class="o">)</span>
 ^
-/usr/include/c++/v1/iterator:1365:1: note: candidate template ignored: could not match <span class="s1">&#39;__wrap_iter&lt;type-parameter-0-0&gt;&#39;</span> against <span class="s1">&#39;unsigned long&#39;</span>
-operator+<span class="o">(</span>typename __wrap_iter&lt;_Iter&gt;::difference_type __n,
-^
+/usr/include/c++/v1/iterator:1245:5: note: candidate template ignored: could not match <span class="s1">&#39;__wrap_iter&lt;type-parameter-0-0&gt;&#39;</span> against <span class="s1">&#39;unsigned long&#39;</span>
+    operator+<span class="o">(</span>typename __wrap_iter&lt;_Iter1&gt;::difference_type, __wrap_iter&lt;_Iter1&gt;<span class="o">)</span> _NOEXCEPT<span class="p">;</span>
+    ^
 /usr/include/c++/v1/string:3858:1: note: candidate template ignored: could not match <span class="s1">&#39;basic_string&#39;</span> against <span class="s1">&#39;vector&#39;</span>
 operator+<span class="o">(</span>const basic_string&lt;_CharT, _Traits, _Allocator&gt;<span class="p">&amp;</span> __lhs,
 ^
@@ -325,9 +325,9 @@ operator&lt;&lt;<span class="o">(</span>basic_ostream&lt;_CharT, _Traits&gt;<spa
 /usr/include/c++/v1/iomanip:348:1: note: candidate template ignored: could not match <span class="s1">&#39;__iom_t8&#39;</span> against <span class="s1">&#39;__wrap_iter&#39;</span>
 operator&lt;&lt;<span class="o">(</span>basic_ostream&lt;_CharT, _Traits&gt;<span class="p">&amp;</span> __os, const __iom_t8&lt;_MoneyT&gt;<span class="p">&amp;</span> __x<span class="o">)</span>
 ^
-/usr/include/c++/v1/iomanip:468:1: note: candidate template ignored: could not match <span class="s1">&#39;__iom_t10&#39;</span> against <span class="s1">&#39;__wrap_iter&#39;</span>
-operator&lt;&lt;<span class="o">(</span>basic_ostream&lt;_CharT, _Traits&gt;<span class="p">&amp;</span> __os, const __iom_t10&lt;_CharT&gt;<span class="p">&amp;</span> __x<span class="o">)</span>
-^
+/usr/include/c++/v1/iomanip:463:5: note: candidate template ignored: could not match <span class="s1">&#39;__iom_t10&#39;</span> against <span class="s1">&#39;__wrap_iter&#39;</span>
+    operator&lt;&lt;<span class="o">(</span>basic_ostream&lt;_Cp, _Traits&gt;<span class="p">&amp;</span> __os, const __iom_t10&lt;_Cp&gt;<span class="p">&amp;</span> __x<span class="o">)</span><span class="p">;</span>
+    ^
 /usr/include/c++/v1/ostream:1210:5: note: candidate template ignored: disabled by <span class="s1">&#39;enable_if&#39;</span> <span class="o">[</span>with <span class="nv">_Stream</span> <span class="o">=</span> std::__1::basic_ostream&lt;char&gt; <span class="p">&amp;</span>, <span class="nv">_Tp</span> <span class="o">=</span> std::__1::__wrap_iter&lt;int *&gt;<span class="o">]</span>
     !is_lvalue_reference&lt;_Stream&gt;::value <span class="o">&amp;&amp;</span>
     ^

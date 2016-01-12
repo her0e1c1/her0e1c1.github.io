@@ -288,7 +288,7 @@ lambda.scm
    
 
     $ perl -E 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
-    alOosaj6J9mdmnHTpoWbQoySCcTclZSs8VdI0MSSLHJFpv88SnWoL0wkWyUcrierRqLAtAinhnFopvMkjf8SCRwMfWr56iFmWY5wzBKVMSSVlQTuzgNVo6GpvzX7RJMIR5lFadqwRSffdP7JajVrXOnxv2uVbVkx7kCo1B49ZegGA5Z8QiazhJWygOT4yzZ9BgUln7DWrhAwJrPRPIG2Exvg1HFMIoe7nIheL7BlfpDrypw7b9z06WkOJYLlxph
+    BUFki13ITBLQxe9Fiw4BQRTTHEI1BMHvznwuy1FEu6c1RafziMLRkgx1Gj03pE8isawedoFDaaRpg5RStPuWBYuSbsv6jZejpxvrU9NNj5z45UQWbukhVJTYrI5HsWjLx8bRRGNmrsv5HrO1Pfk7H35HDzhMDubkYaFIZEx6BOinnyPGb3KPAyxwLTm3Vhawg6AgKFsJbHNjaDYOgY7qchTQxAXm6cJgEAHHJHJdUC2rj5KGT7ITNXyzVZwiAg1
 
 
 .. code-block:: sh
@@ -337,6 +337,151 @@ lambda.scm
 
 
 
+cpp
+---------
+
+
+- [] don't capure anything
+
+Bellow you can use closure
+
+- [&] capture-by-reference
+- [=] capture-by-value (copy)
+
+need ; after }
+
+.. code-block:: sh
+   
+
+    $ cpe 'function <int(int)> f=[&](int n){ return n == 1 ? 1 : f(n-1) * n;}; P(f(5))' 
+    f(5) = 120
+    
+
+
+.. warning::
+
+    []だと、{}の外側のfを参照できない
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'function <int(int)> f=[](int n){ return n == 1 ? 1 : f(n-1) * n;}; P(f(5))' 
+    <stdin>:45:58: error: variable 'f' cannot be implicitly captured in a lambda with no capture-default specified
+        function <int(int)> f=[](int n){ return n == 1 ? 1 : f(n-1) * n;}; P(f(5))
+                                                             ^
+    <stdin>:45:25: note: 'f' declared here
+        function <int(int)> f=[](int n){ return n == 1 ? 1 : f(n-1) * n;}; P(f(5))
+                            ^
+    <stdin>:45:27: note: lambda expression begins here
+        function <int(int)> f=[](int n){ return n == 1 ? 1 : f(n-1) * n;}; P(f(5))
+                              ^
+    1 error generated.
+    
+
+
+.. warning::
+
+    compile error if using reference
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'function <void(int)>f=[&](int &n){P(n)};f(1);' 
+    <stdin>:45:25: error: no viable conversion from '<lambda at <stdin>:45:27>' to 'function<void (int)>'
+        function <void(int)>f=[&](int &n){P(n)};f(1);
+                            ^ ~~~~~~~~~~~~~~~~~
+    /usr/include/c++/v1/functional:1138:5: note: candidate constructor not viable: no known conversion from '<lambda at <stdin>:45:27>' to 'nullptr_t' for 1st argument
+        function(nullptr_t) _NOEXCEPT : __f_(0) {}
+        ^
+    /usr/include/c++/v1/functional:1139:5: note: candidate constructor not viable: no known conversion from '<lambda at <stdin>:45:27>' to 'const std::__1::function<void (int)> &' for 1st argument
+        function(const function&);
+        ^
+    /usr/include/c++/v1/functional:1140:5: note: candidate constructor not viable: no known conversion from '<lambda at <stdin>:45:27>' to 'std::__1::function<void (int)> &&' for 1st argument
+        function(function&&) _NOEXCEPT;
+        ^
+    /usr/include/c++/v1/functional:1144:41: note: candidate template ignored: disabled by 'enable_if' [with _Fp = <lambda at <stdin>:45:27>]
+                                            __callable<_Fp>::value &&
+                                            ^
+    1 error generated.
+    
+
+use const to avoid an error
+
+.. code-block:: sh
+   
+
+    $ cpe 'function <void(int)>f=[&](const int &n){P(n)};f(1);' 
+    n = 1
+    
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'function <void(int)>f=[&](int n){P(n)};f(1);' 
+    n = 1
+    
+
+
+.. warning::
+
+    you can't modify N
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'int N=1;[](){N=2;}();P(N)' 
+    <stdin>:45:18: error: variable 'N' cannot be implicitly captured in a lambda with no capture-default specified
+        int N=1;[](){N=2;}();P(N)
+                     ^
+    <stdin>:45:9: note: 'N' declared here
+        int N=1;[](){N=2;}();P(N)
+            ^
+    <stdin>:45:13: note: lambda expression begins here
+        int N=1;[](){N=2;}();P(N)
+                ^
+    1 error generated.
+    
+
+use reference and modify N
+
+.. code-block:: sh
+   
+
+    $ cpe 'int N=1;[&](){N=2;}();P(N)' 
+    N = 2
+    
+
+
+.. warning::
+
+    imuutable in lambda
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'int N=1;[=](){N=2;}();P(N)' 
+    <stdin>:45:20: error: cannot assign to a variable captured by copy in a non-mutable lambda
+        int N=1;[=](){N=2;}();P(N)
+                      ~^
+    1 error generated.
+    
+
+copy and modify N
+
+.. code-block:: sh
+   
+
+    $ cpe 'int N=1;[=]()mutable{N=2;}();P(N)' 
+    N = 1
+    
+
+
+
 optional.scm
 ====================================
 
@@ -364,6 +509,36 @@ clをloadすればcl-の接頭辞不要
 
     $ py 'add=lambda a,b,c=3:a+b+c; P(add(1,2))' 
     6
+    
+
+
+
+partial.scm
+=================================
+
+部分適応
+
+.. code-block:: sh
+   
+
+    $ s '((pa$ + 10) 5)' 
+    15
+    
+
+
+.. code-block:: sh
+   
+
+    $ he '(10+) 5' 
+    15
+    
+
+
+.. code-block:: sh
+   
+
+    $ py 'addN=lambda i, n: i+n; add10=functools.partial(addN, 10); P(add10(5))' 
+    15
     
 
 

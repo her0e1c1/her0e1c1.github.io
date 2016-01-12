@@ -103,13 +103,83 @@
 <p class="topic-title first">Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#string" id="id1">string</a><ul>
-<li><a class="reference internal" href="#replacespaceswithp20-scm" id="id2">replaceSpacesWithP20.scm</a></li>
+<li><a class="reference internal" href="#boyer-moore-scm" id="id2">boyer-moore.scm</a></li>
+<li><a class="reference internal" href="#is-substring-scm" id="id3">is-substring.scm</a></li>
+<li><a class="reference internal" href="#replacespaceswithp20-scm" id="id4">replaceSpacesWithP20.scm</a></li>
+<li><a class="reference internal" href="#trie-scm" id="id5">trie.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="boyer-moore-scm">
+<h2><a class="toc-backref" href="#id2">boyer-moore.scm</a><a class="headerlink" href="#boyer-moore-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="is-substring-scm">
+<h2><a class="toc-backref" href="#id3">is-substring.scm</a><a class="headerlink" href="#is-substring-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="brute-force-algorithm">
+<h3>brute-force algorithm<a class="headerlink" href="#brute-force-algorithm" title="Permalink to this headline">¶</a></h3>
+<p>計算量はO(nm)だが、文字の種類が多いので，たいていの場合
+パターンの先頭の 数文字を調べるだけで済むので、実質O(n)</p>
+<div class="math">
+\[\begin{eqnarray}
+
+\\f(i, j, start) = \begin{cases} 0 & (*i = 0)
+\\1 & (*j = 0)
+\\f(i+1, j+1, start) & (*i == *j)
+\\f(start+1, 0, start+1) & (else)
+\\\end{cases}
+\\
+\end{eqnarray}\]</div><div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;myc.h&gt;</span>
+<span class="kt">int</span> <span class="nf">isSubstring</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">start</span><span class="p">;</span>
+ <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+ <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!*</span><span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="n">j</span><span class="p">))</span>
+   <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!*</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span>
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="o">*</span><span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="n">j</span><span class="p">))</span> <span class="p">{</span>
+   <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+   <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+   <span class="n">i</span> <span class="o">=</span> <span class="n">start</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="cp">#define E(a, b) printf(&quot;%s, %s =&gt; %d\n&quot;, a, b, isSubstring(a, b));</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">,</span> <span class="s">&quot;abc&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;abcde&quot;</span><span class="p">,</span> <span class="s">&quot;abc&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;abcde&quot;</span><span class="p">,</span> <span class="s">&quot;bc&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;abcde&quot;</span><span class="p">,</span> <span class="s">&quot;c&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;abcde&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;abcde&quot;</span><span class="p">,</span> <span class="s">&quot;ace&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;abcabde&quot;</span><span class="p">,</span> <span class="s">&quot;abd&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;abcabde&quot;</span><span class="p">,</span> <span class="s">&quot;ad&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;ab&quot;</span><span class="p">,</span> <span class="s">&quot;abd&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;abc&quot;</span><span class="p">);</span>
+ <span class="n">E</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>abc, <span class="nv">abc</span> <span class="o">=</span>&gt; 1
+abcde, <span class="nv">abc</span> <span class="o">=</span>&gt; 1
+abcde, <span class="nv">bc</span> <span class="o">=</span>&gt; 1
+abcde, <span class="nv">c</span> <span class="o">=</span>&gt; 1
+abcde,  <span class="o">=</span>&gt; 1
+abcde, <span class="nv">ace</span> <span class="o">=</span>&gt; 0
+abcabde, <span class="nv">abd</span> <span class="o">=</span>&gt; 1
+abcabde, <span class="nv">ad</span> <span class="o">=</span>&gt; 0
+ab, <span class="nv">abd</span> <span class="o">=</span>&gt; 0
+, <span class="nv">abc</span> <span class="o">=</span>&gt; 0
+,  <span class="o">=</span>&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="replacespaceswithp20-scm">
-<h2><a class="toc-backref" href="#id2">replaceSpacesWithP20.scm</a><a class="headerlink" href="#replacespaceswithp20-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">replaceSpacesWithP20.scm</a><a class="headerlink" href="#replacespaceswithp20-scm" title="Permalink to this headline">¶</a></h2>
 <p>文字列の長さを増やす場合(減らすときは問題ない)
 mallocで新しくメモリを確保する必要がある
 &#8216;&#8217;の領域を確保し忘れないこと
@@ -160,6 +230,88 @@ ORDER: O(n) = 2 * 文字列の長さ</p>
 char* replaceSpacesWithP20<span class="o">(</span>char* s<span class="o">)</span> <span class="o">{</span>
                                     ^
 <span class="m">3</span> errors generated.
+</pre></div>
+</div>
+</div>
+<div class="section" id="trie-scm">
+<h2><a class="toc-backref" href="#id5">trie.scm</a><a class="headerlink" href="#trie-scm" title="Permalink to this headline">¶</a></h2>
+<p>ある文字列の集合について、1文字ずつ分岐させた木構造</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Trie</span> <span class="p">{</span>
+ <span class="n">Trie</span> <span class="o">*</span><span class="n">children</span><span class="p">[</span><span class="mi">26</span><span class="p">];</span>
+ <span class="n">Trie</span><span class="p">()</span> <span class="p">{</span>
+   <span class="n">memset</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">26</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Trie</span> <span class="o">*</span><span class="p">));</span>
+ <span class="p">}</span>
+ <span class="kt">void</span> <span class="n">insert</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">char</span> <span class="n">key</span> <span class="o">=</span> <span class="o">*</span><span class="n">s</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">s</span> <span class="o">==</span> <span class="sc">&#39;\0&#39;</span><span class="p">)</span>
+   <span class="k">return</span><span class="p">;</span>
+  <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">childlen</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+   <span class="n">childlen</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="p">();</span>
+  <span class="n">childlen</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">insert</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+ <span class="p">}</span>
+ <span class="kt">bool</span> <span class="n">find</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">char</span> <span class="n">key</span> <span class="o">=</span> <span class="o">*</span><span class="n">s</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">s</span> <span class="o">==</span> <span class="sc">&#39;\0&#39;</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">childlen</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">childlen</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">find</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+ <span class="p">}</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>&lt;stdin&gt;:4:4: error: use of undeclared identifier <span class="s1">&#39;memset&#39;</span>
+   memset<span class="o">(</span>children, 0, <span class="m">26</span> * sizeof<span class="o">(</span>Trie *<span class="o">))</span><span class="p">;</span>
+   ^
+&lt;stdin&gt;:7:19: error: use of undeclared identifier <span class="s1">&#39;a&#39;</span>
+  char <span class="nv">key</span> <span class="o">=</span> *s - a<span class="p">;</span>
+                  ^
+&lt;stdin&gt;:10:12: error: use of undeclared identifier <span class="s1">&#39;childlen&#39;</span><span class="p">;</span> did you mean <span class="s1">&#39;children&#39;</span>?
+  <span class="k">else</span> <span class="k">if</span> <span class="o">(</span>childlen<span class="o">[</span>key<span class="o">]</span> <span class="o">==</span> NULL<span class="o">)</span>
+           ^~~~~~~~
+           children
+&lt;stdin&gt;:2:8: note: <span class="s1">&#39;children&#39;</span> declared here
+ Trie *children<span class="o">[</span>26<span class="o">]</span><span class="p">;</span>
+       ^
+&lt;stdin&gt;:10:29: error: use of undeclared identifier <span class="s1">&#39;NULL&#39;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="o">(</span>childlen<span class="o">[</span>key<span class="o">]</span> <span class="o">==</span> NULL<span class="o">)</span>
+                            ^
+&lt;stdin&gt;:11:4: error: use of undeclared identifier <span class="s1">&#39;childlen&#39;</span><span class="p">;</span> did you mean <span class="s1">&#39;children&#39;</span>?
+   childlen<span class="o">[</span>key<span class="o">]</span> <span class="o">=</span> new Trie<span class="o">()</span><span class="p">;</span>
+   ^~~~~~~~
+   children
+&lt;stdin&gt;:2:8: note: <span class="s1">&#39;children&#39;</span> declared here
+ Trie *children<span class="o">[</span>26<span class="o">]</span><span class="p">;</span>
+       ^
+&lt;stdin&gt;:12:3: error: use of undeclared identifier <span class="s1">&#39;childlen&#39;</span><span class="p">;</span> did you mean <span class="s1">&#39;children&#39;</span>?
+  childlen<span class="o">[</span>key<span class="o">]</span>-&gt;insert<span class="o">(</span>s + 1<span class="o">)</span><span class="p">;</span>
+  ^~~~~~~~
+  children
+&lt;stdin&gt;:2:8: note: <span class="s1">&#39;children&#39;</span> declared here
+ Trie *children<span class="o">[</span>26<span class="o">]</span><span class="p">;</span>
+       ^
+&lt;stdin&gt;:15:19: error: use of undeclared identifier <span class="s1">&#39;a&#39;</span>
+  char <span class="nv">key</span> <span class="o">=</span> *s - a<span class="p">;</span>
+                  ^
+&lt;stdin&gt;:18:12: error: use of undeclared identifier <span class="s1">&#39;childlen&#39;</span><span class="p">;</span> did you mean <span class="s1">&#39;children&#39;</span>?
+  <span class="k">else</span> <span class="k">if</span> <span class="o">(</span>childlen<span class="o">[</span>key<span class="o">]</span> <span class="o">==</span> NULL<span class="o">)</span>
+           ^~~~~~~~
+           children
+&lt;stdin&gt;:2:8: note: <span class="s1">&#39;children&#39;</span> declared here
+ Trie *children<span class="o">[</span>26<span class="o">]</span><span class="p">;</span>
+       ^
+&lt;stdin&gt;:18:29: error: use of undeclared identifier <span class="s1">&#39;NULL&#39;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="o">(</span>childlen<span class="o">[</span>key<span class="o">]</span> <span class="o">==</span> NULL<span class="o">)</span>
+                            ^
+&lt;stdin&gt;:20:10: error: use of undeclared identifier <span class="s1">&#39;childlen&#39;</span><span class="p">;</span> did you mean <span class="s1">&#39;children&#39;</span>?
+  <span class="k">return</span> childlen<span class="o">[</span>key<span class="o">]</span>-&gt;find<span class="o">(</span>s + 1<span class="o">)</span><span class="p">;</span>
+         ^~~~~~~~
+         children
+&lt;stdin&gt;:2:8: note: <span class="s1">&#39;children&#39;</span> declared here
+ Trie *children<span class="o">[</span>26<span class="o">]</span><span class="p">;</span>
+       ^
+<span class="m">10</span> errors generated.
 </pre></div>
 </div>
 </div>

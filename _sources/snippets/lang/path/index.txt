@@ -28,8 +28,10 @@ basename
 .. code-block:: sh
    
 
-    $ ghc -e 'System.FilePath.takeFileName "/path/to/file.txt"' 
-    "file.txt"
+    $ he 'System.FilePath.takeFileName "/path/to/file.txt"' 
+    
+    /tmp/tmp.GrvKeYAk:7:15:
+        Not in scope: ‘System.FilePath.takeFileName’
     
 
 

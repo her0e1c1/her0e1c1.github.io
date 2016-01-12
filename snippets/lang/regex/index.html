@@ -322,7 +322,7 @@ None
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(match(r&quot;abc(?!def)&quot;, &quot;abcDEF&quot;))&#39;</span>
-&lt;_sre.SRE_Match object at 0x8007e4098&gt;
+&lt;_sre.SRE_Match object at 0x8007e8100&gt;
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;$_=q/abcdef/; say if /(?!abc)def/&#39;</span>
@@ -341,12 +341,12 @@ abcDEF
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(p (#/(?!abc)def/ &quot;abcdef&quot;))&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x162b330&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1630fc0&gt;</span>
 <span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(p (#/(?!abc)def/ &quot;ABCdef&quot;))&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x162b330&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1630fc0&gt;</span>
 <span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
@@ -356,7 +356,7 @@ abcDEF
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(p (#/abc(?!def)/ &quot;abcDEF&quot;))&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x162b300&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1630fc0&gt;</span>
 <span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
@@ -400,7 +400,7 @@ There is a woman
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(search(r&quot;(?&lt;!wo)man&quot;, &quot;There is a man&quot;))&#39;</span>
-&lt;_sre.SRE_Match object at 0x8007e4098&gt;
+&lt;_sre.SRE_Match object at 0x8007e8100&gt;
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(search(r&quot;(?&lt;!wo)man&quot;, &quot;There is a woman&quot;))&#39;</span>
@@ -427,7 +427,7 @@ st
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(match(r&quot;(?&lt;=.*?)st&quot;, &quot;test&quot;))&#39;</span>
 Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
-  File <span class="s2">&quot;&lt;string&gt;&quot;</span>, line 13, in &lt;module&gt;
+  File <span class="s2">&quot;&lt;string&gt;&quot;</span>, line 15, in &lt;module&gt;
   File <span class="s2">&quot;/usr/local/lib/python2.7/re.py&quot;</span>, line 141, in match
     <span class="k">return</span> _compile<span class="o">(</span>pattern, flags<span class="o">)</span>.match<span class="o">(</span>string<span class="o">)</span>
   File <span class="s2">&quot;/usr/local/lib/python2.7/re.py&quot;</span>, line 251, in _compile
@@ -454,7 +454,7 @@ st
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(#/str/ &quot;strng&quot;)&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x162b720&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x162b3c0&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;((#/str/ &quot;strng&quot;) 0)&#39;</span>
@@ -616,7 +616,7 @@ abc
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;P(match(r&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a   b c&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;, &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;abc&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;, X))&#39;</span>
-&lt;_sre.SRE_Match object at 0x8007e4098&gt;
+&lt;_sre.SRE_Match object at 0x8007e8100&gt;
 </pre></div>
 </div>
 </div>

@@ -95,7 +95,7 @@ fill 0
         char*p=calloc(10, sizeof(char)); ps(p);
                                          ^
     1 warning generated.
-    /tmp/--y8dngo.o: In function `main':
+    /tmp/--Ll9aA3.o: In function `main':
     -:(.text+0x328): undefined reference to `ps'
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
@@ -117,7 +117,7 @@ reallocはO(n)じゃないの?; realloc uses copy
         char*p=malloc(10);memcpy(p, "abcd", 5); if (realloc(p, 5) != p) ps("not same");
                                                                         ^
     1 warning generated.
-    /tmp/--dXzs0K.o: In function `main':
+    /tmp/--B7PYG3.o: In function `main':
     -:(.text+0x34b): undefined reference to `ps'
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
@@ -132,7 +132,7 @@ mallocも0で初期化されているみたい
         char*p=malloc(1 << 10); REP(i,10) if(p[i]) ps("1");
                                                    ^
     1 warning generated.
-    /tmp/--z4ukaw.o: In function `main':
+    /tmp/--VXvpcZ.o: In function `main':
     -:(.text+0x33d): undefined reference to `ps'
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     

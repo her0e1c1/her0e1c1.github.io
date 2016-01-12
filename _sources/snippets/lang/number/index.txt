@@ -49,13 +49,14 @@ equal.scm
 .. code-block:: sh
    
 
-    $ ghc -e '(1::Int) == (1::Integer)' 
+    $ he '(1::Int) == (1::Integer)' 
     
-    <interactive>:1:14:
+    /tmp/tmp.rz51jbEc:7:28:
         Couldn't match expected type ‘Int’ with actual type ‘Integer’
         In the second argument of ‘(==)’, namely ‘(1 :: Integer)’
-        In the expression: (1 :: Int) == (1 :: Integer)
-        In an equation for ‘it’: it = (1 :: Int) == (1 :: Integer)
+        In the first argument of ‘print’, namely
+          ‘((1 :: Int) == (1 :: Integer))’
+        In the expression: print ((1 :: Int) == (1 :: Integer))
     
 
 -eq, -gt, are operators for number. NOT STRING!
@@ -290,16 +291,72 @@ toInt.scm
 .. code-block:: sh
    
 
-    $ ghc -e 'read "10"' 
-    <interactive>: Prelude.read: no parse
+    $ he 'read "10"' 
+    
+    /tmp/tmp.DXyqY07T:7:8:
+        No instance for (Show a0) arising from a use of ‘print’
+        The type variable ‘a0’ is ambiguous
+        Note: there are several potential instances:
+          instance Show a => Show (Const a b)
+            -- Defined in ‘Control.Applicative’
+          instance Show a => Show (ZipList a)
+            -- Defined in ‘Control.Applicative’
+          instance (Ix a, Show a, Show b) => Show (Array a b)
+            -- Defined in ‘GHC.Arr’
+          ...plus 39 others
+        In the expression: print (read "10")
+        In an equation for ‘main’: main = print (read "10")
+    
+    /tmp/tmp.DXyqY07T:7:15:
+        No instance for (Read a0) arising from a use of ‘read’
+        The type variable ‘a0’ is ambiguous
+        Note: there are several potential instances:
+          instance Read a => Read (Const a b)
+            -- Defined in ‘Control.Applicative’
+          instance Read a => Read (ZipList a)
+            -- Defined in ‘Control.Applicative’
+          instance (Ix a, Read a, Read b) => Read (Array a b)
+            -- Defined in ‘GHC.Read’
+          ...plus 35 others
+        In the first argument of ‘print’, namely ‘(read "10")’
+        In the expression: print (read "10")
+        In an equation for ‘main’: main = print (read "10")
     
 
 
 .. code-block:: sh
    
 
-    $ ghc -e 'reads "10"' 
-    []
+    $ he 'reads "10"' 
+    
+    /tmp/tmp.DqLlrgzO:7:8:
+        No instance for (Show a0) arising from a use of ‘print’
+        The type variable ‘a0’ is ambiguous
+        Note: there are several potential instances:
+          instance Show a => Show (Const a b)
+            -- Defined in ‘Control.Applicative’
+          instance Show a => Show (ZipList a)
+            -- Defined in ‘Control.Applicative’
+          instance (Ix a, Show a, Show b) => Show (Array a b)
+            -- Defined in ‘GHC.Arr’
+          ...plus 39 others
+        In the expression: print (reads "10")
+        In an equation for ‘main’: main = print (reads "10")
+    
+    /tmp/tmp.DqLlrgzO:7:15:
+        No instance for (Read a0) arising from a use of ‘reads’
+        The type variable ‘a0’ is ambiguous
+        Note: there are several potential instances:
+          instance Read a => Read (Const a b)
+            -- Defined in ‘Control.Applicative’
+          instance Read a => Read (ZipList a)
+            -- Defined in ‘Control.Applicative’
+          instance (Ix a, Read a, Read b) => Read (Array a b)
+            -- Defined in ‘GHC.Read’
+          ...plus 35 others
+        In the first argument of ‘print’, namely ‘(reads "10")’
+        In the expression: print (reads "10")
+        In an equation for ‘main’: main = print (reads "10")
     
 
 型を指定する必要あり
@@ -307,7 +364,7 @@ toInt.scm
 .. code-block:: sh
    
 
-    $ ghc -e 'reads "10" :: [(Int, String)]' 
+    $ he 'reads "10" :: [(Int, String)]' 
     [(10,"")]
     
 

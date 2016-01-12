@@ -127,8 +127,10 @@
 file.txt
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ghc -e <span class="s1">&#39;System.FilePath.takeFileName &quot;/path/to/file.txt&quot;&#39;</span>
-<span class="s2">&quot;file.txt&quot;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>he <span class="s1">&#39;System.FilePath.takeFileName &quot;/path/to/file.txt&quot;&#39;</span>
+
+/tmp/tmp.GrvKeYAk:7:15:
+    Not in scope: ‘System.FilePath.takeFileName’
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -M<span class="s1">&#39;File::Basename&#39;</span> -E <span class="s1">&#39;say basename qq#/path/to/text.txt#&#39;</span>

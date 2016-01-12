@@ -121,7 +121,7 @@ eval.scm
 .. code-block:: sh
    
 
-    HOGE
+     : not found
     
 
 read string as S expressions

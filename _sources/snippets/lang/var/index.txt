@@ -8,6 +8,197 @@ var
 
 
 
+const.scm
+===========================
+
+
+.. code-block:: sh
+   
+
+    a="A"
+    f(){
+     local a="a"
+     readonly a
+     echo $a
+    }
+    f
+
+.. code-block:: sh
+   
+
+    a
+    
+
+
+.. warning::
+
+    Can't modify a
+
+
+.. code-block:: sh
+   
+
+    a="A"
+    f(){
+     local a="a"
+     readonly a
+     a="HOGE"
+     echo $a
+    }
+    f
+
+.. code-block:: sh
+   
+
+    a: is read only
+    
+
+
+.. warning::
+
+    併用不可(localという名前の変数を宣言)
+
+
+.. code-block:: sh
+   
+
+    f(){
+     readonly local a="a"
+     echo "$local and $a"
+     local=1
+    }
+    f
+
+.. code-block:: sh
+   
+
+     and a
+    local: is read only
+    
+
+
+
+dynamic-scope.scm
+===================================================
+
+
+
+localの意味
+------------------------
+
+local変数の場合、その関数内の子供を含めたスコープでの書き換えは、親に影響しない
+ローカルであっても外側を参照
+
+.. code-block:: sh
+   
+
+    v=10
+    f() {
+     local v
+     echo $v
+    }
+    f
+
+.. code-block:: sh
+   
+
+    10
+    
+
+fを抜けるとローカルvの値は、書き換えたとしても、元に戻る
+
+.. code-block:: sh
+   
+
+    v=10
+    f() {
+     local v=20
+    }
+    f
+    echo $v
+
+.. code-block:: sh
+   
+
+    10
+    
+
+fを抜けるとvの値は、書き換えたまま
+
+.. code-block:: sh
+   
+
+    v=10
+    f() {
+     v=20
+    }
+    f
+    echo $v
+
+.. code-block:: sh
+   
+
+    20
+    
+
+gでの書き換えは、fで呼び出されているので、このスコープ内のvにのみ影響
+
+.. code-block:: sh
+   
+
+    v=10
+    g() {
+     v=20
+    }
+    f() {
+     local v
+     echo "before $v"
+     g
+     echo "after $v"
+    }
+    f
+    echo "last $v"
+
+.. code-block:: sh
+   
+
+    before 10
+    after 20
+    last 10
+    
+
+
+
+dynamic scope
+---------------------------------------
+
+gでvが書き換えられているので、fもその書き換わったvを参照
+
+.. code-block:: sh
+   
+
+    v=10
+    f() {
+     echo "f $v"
+    }
+    g() {
+     local v=20
+     echo "g $v"
+     f 
+    }
+    g
+    echo "last $v"
+
+.. code-block:: sh
+   
+
+    g 20
+    f 20
+    last 10
+    
+
+
+
 index.scm
 ===========================
 

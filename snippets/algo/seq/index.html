@@ -104,13 +104,17 @@
 <ul class="simple">
 <li><a class="reference internal" href="#seq" id="id3">seq</a><ul>
 <li><a class="reference internal" href="#atleastone-scm" id="id4">atLeastOne.scm</a></li>
-<li><a class="reference internal" href="#horner-scm" id="id5">horner.scm</a></li>
-<li><a class="reference internal" href="#inner-product-scm" id="id6">inner-product.scm</a></li>
-<li><a class="reference internal" href="#knapsack-scm" id="id7">knapsack.scm</a></li>
-<li><a class="reference internal" href="#max-length-seq-scm" id="id8">max-length-seq.scm</a></li>
-<li><a class="reference internal" href="#newton-scm" id="id9">newton.scm</a></li>
-<li><a class="reference internal" href="#sum-n-coins-scm" id="id10">sum-n-coins.scm</a></li>
-<li><a class="reference internal" href="#totient-scm" id="id11">totient.scm</a></li>
+<li><a class="reference internal" href="#contiguous-subseq-scm" id="id5">contiguous-subseq.scm</a></li>
+<li><a class="reference internal" href="#horner-scm" id="id6">horner.scm</a></li>
+<li><a class="reference internal" href="#inner-product-scm" id="id7">inner-product.scm</a></li>
+<li><a class="reference internal" href="#knapsack-scm" id="id8">knapsack.scm</a></li>
+<li><a class="reference internal" href="#longest-common-sequence-scm" id="id9">longest-common-sequence.scm</a></li>
+<li><a class="reference internal" href="#longest-increasing-subsequence-scm" id="id10">longest-increasing-subsequence.scm</a></li>
+<li><a class="reference internal" href="#max-length-seq-scm" id="id11">max-length-seq.scm</a></li>
+<li><a class="reference internal" href="#newton-scm" id="id12">newton.scm</a></li>
+<li><a class="reference internal" href="#subset-sum-scm" id="id13">subset-sum.scm</a></li>
+<li><a class="reference internal" href="#sum-n-coins-scm" id="id14">sum-n-coins.scm</a></li>
+<li><a class="reference internal" href="#totient-scm" id="id15">totient.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -163,8 +167,40 @@
 </div>
 </div>
 </div>
+<div class="section" id="contiguous-subseq-scm">
+<h2><a class="toc-backref" href="#id5">contiguous-subseq.scm</a><a class="headerlink" href="#contiguous-subseq-scm" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+\[\begin{eqnarray}
+
+\\f(1) = \{ a_1 \}
+\\f(n) = \max {f(n-1) + a_n, a_n}
+\\
+\end{eqnarray}\]</div><p>ある数列の連続した部分数列の和の最大値</p>
+<div class="highlight-ghc"><div class="highlight"><pre>f = go where
+ go [x] = x
+ go (x:xs) = max x ((go xs) + x)
+main = print $ f [1,-2,1,3,2,-5,1,-4,-3,1,-2]
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>5
+</pre></div>
+</div>
+<p>result of a list</p>
+<div class="highlight-ghc"><div class="highlight"><pre>import Data.List (maximumBy)
+f :: [Int] -&gt; [Int]
+f = go where
+ go [x] = [x]
+ go (x:xs) = maximumBy cmp [[x], (x:go xs)]
+ cmp a b = compare (sum a) (sum b)
+main = print $ f [1,-2,1,3,2,-5,1,-4,-3,1,-2]
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="o">[</span>1,-2,1,3,2<span class="o">]</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="horner-scm">
-<h2><a class="toc-backref" href="#id5">horner.scm</a><a class="headerlink" href="#horner-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">horner.scm</a><a class="headerlink" href="#horner-scm" title="Permalink to this headline">¶</a></h2>
 <div class="math">
 \[\begin{eqnarray}
     y = \sum_{i=0}^{n} a_i x^i
@@ -195,13 +231,57 @@
 </div>
 </div>
 <div class="section" id="inner-product-scm">
-<h2><a class="toc-backref" href="#id6">inner-product.scm</a><a class="headerlink" href="#inner-product-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">inner-product.scm</a><a class="headerlink" href="#inner-product-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="knapsack-scm">
-<h2><a class="toc-backref" href="#id7">knapsack.scm</a><a class="headerlink" href="#knapsack-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">knapsack.scm</a><a class="headerlink" href="#knapsack-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longest-common-sequence-scm">
+<h2><a class="toc-backref" href="#id9">longest-common-sequence.scm</a><a class="headerlink" href="#longest-common-sequence-scm" title="Permalink to this headline">¶</a></h2>
+<p>２数列の最長共通部分数列</p>
+<div class="math">
+\[\begin{eqnarray}
+
+\\f(x, y) = \begin{cases} 0 (x = 0 or y = 0)
+\\f(x-1, y-1) (x = y)
+\\max{f(x-1,y), f(x, y-1)}
+\\\end{cases}
+\\
+\end{eqnarray}\]</div><p>１変数のみ動かし、他の変数を固定して考えるのだと思うけど、まだよくわかってない</p>
+</div>
+<div class="section" id="longest-increasing-subsequence-scm">
+<h2><a class="toc-backref" href="#id10">longest-increasing-subsequence.scm</a><a class="headerlink" href="#longest-increasing-subsequence-scm" title="Permalink to this headline">¶</a></h2>
+<p>数列{a_n}における、最長部分増加数列</p>
+<div class="math">
+\[\begin{eqnarray}
+    f(n) = 1 + \max \{ f(k) \mid 1 \le k < n, a_k > a_n \} \cup \{ 0 \}
+\end{eqnarray}\]</div><div class="highlight-ghc"><div class="highlight"><pre>import Data.List (maximumBy)
+f :: [Int] -&gt; [Int]
+f = g where
+ c a b = compare (length a) (length b)
+ -- g [] = []
+ g (x:xs) = x : maximumBy c (map (h . flip drop xs) [0..(length xs)]) where
+  h [] = []
+  h ys = if head ys &gt; x then g ys else []
+main = print $ f [3,2,5,1,3,1,7,4]
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="o">[</span>3,5,7<span class="o">]</span>
+</pre></div>
+</div>
+<p>この方法では、計算量がO(n^2)となる。そこでbinary searchを使い、O(nlogn)に減らす</p>
+<div class="math">
+\[\begin{eqnarray}
+
+\\f_{i+1} = \begin{cases} (f_i, a_{i+1}) & (f_{i, last} =< a_{i+1})
+\\f_{i, x} := a_{i+1} & (\min_{a_{i+1} < f_{i,x}} x)
+\\f_{i} & (else)
+\\\end{cases}
+\\
+\end{eqnarray}\]</div><p>最小値は、2分木で探すことでlognで探せる</p>
 </div>
 <div class="section" id="max-length-seq-scm">
-<h2><a class="toc-backref" href="#id8">max-length-seq.scm</a><a class="headerlink" href="#max-length-seq-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">max-length-seq.scm</a><a class="headerlink" href="#max-length-seq-scm" title="Permalink to this headline">¶</a></h2>
 <div class="math">
 \[\begin{eqnarray}
     {a_n}の要素の数列で、a_{in} > a_{i(n-1)} ... > a{i1}を満たす数列で、要素数が最大のものは？(1<=ik<=n)
@@ -258,7 +338,7 @@ main = print $ maxLengthSequence [1,3,2,5,4,5,6];
 </div>
 </div>
 <div class="section" id="newton-scm">
-<h2><a class="toc-backref" href="#id9">newton.scm</a><a class="headerlink" href="#newton-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">newton.scm</a><a class="headerlink" href="#newton-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3>簡易証明<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>収束しそうな点を探す必要あり</p>
@@ -306,8 +386,50 @@ main = print $ maxLengthSequence [1,3,2,5,4,5,6];
 </div>
 </div>
 </div>
+<div class="section" id="subset-sum-scm">
+<h2><a class="toc-backref" href="#id13">subset-sum.scm</a><a class="headerlink" href="#subset-sum-scm" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+\[\begin{eqnarray}
+    s \subseteq S s.t. \sum_{a_i \in s} a_i = 0
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+
+\\f(0, 0) &=& \{ \phi \}
+\\f(0, k) &=& \phi (k \neq 0)
+\\f(n, k) &=& \{ cons(a_n, x) \mid x \in f(n-1, k-a_n) \} \cup f(n-1, k)
+\\
+\end{eqnarray}\]</div><div class="highlight-ghc"><div class="highlight"><pre>f x = go x 0 where
+ go [] 0 = [[]]
+ go [] _ = []
+ go (x:xs) k = map (x:) (go xs (k-x)) ++ go xs k
+main = print $ f [1,2,-1,-2,3]
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="o">[[</span>1,2,-1,-2<span class="o">]</span>,<span class="o">[</span>1,-1<span class="o">]</span>,<span class="o">[</span>2,-2<span class="o">]</span>,<span class="o">[</span>-1,-2,3<span class="o">]</span>,<span class="o">[]]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{eqnarray}
+    s \subseteq S, s \neq \phi s.t. \sum_{a_i \in s} a_i = 0
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+
+\\f(1, a_1) &=& \{ a_1 \}
+\\f(1, k) &=& \phi (k \neq a_1)
+\\f(n, k) &=& \{ cons(a_n, x) \mid x \in f(n-1, k-a_n) \} \cup f(n-1, k)
+\\
+\end{eqnarray}\]</div><div class="highlight-ghc"><div class="highlight"><pre>f x = go x 0 where
+ go [x] k = if x == k then [[x]] else []
+ go (x:xs) k = map (x:) (go xs (k-x)) ++ go xs k
+main = print $ f [1,2,-1,-2,3]
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="o">[[</span>-1,-2,3<span class="o">]]</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="sum-n-coins-scm">
-<h2><a class="toc-backref" href="#id10">sum-n-coins.scm</a><a class="headerlink" href="#sum-n-coins-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">sum-n-coins.scm</a><a class="headerlink" href="#sum-n-coins-scm" title="Permalink to this headline">¶</a></h2>
 <div class="math">
 \[\begin{eqnarray}
 
@@ -346,7 +468,7 @@ main = do
 </div>
 </div>
 <div class="section" id="totient-scm">
-<h2><a class="toc-backref" href="#id11">totient.scm</a><a class="headerlink" href="#totient-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id15">totient.scm</a><a class="headerlink" href="#totient-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

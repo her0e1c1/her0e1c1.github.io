@@ -23,7 +23,7 @@ all.scm
 .. code-block:: sh
    
 
-    $ ghc -e 'all even [0,2,4]' 
+    $ he 'all even [0,2,4]' 
     True
     
 
@@ -283,9 +283,9 @@ concatMap.scm
 .. code-block:: sh
    
 
-    $ ghc -e 'concatMap (->[a, '\'','\'']) ['\''a'\''..'\''e'\'']' 
+    $ he 'concatMap (->[a, '\'','\'']) ['\''a'\''..'\''e'\'']' 
     
-    <interactive>:1:12: lexical error at character '\a'
+    /tmp/tmp.MKCwf3yr:7:26: lexical error at character '\a'
     
 
 
@@ -376,7 +376,7 @@ drop.scm
 .. code-block:: sh
    
 
-    $ ghc -e 'drop 1 [1,2,3]' 
+    $ he 'drop 1 [1,2,3]' 
     [2,3]
     
 
@@ -704,6 +704,31 @@ groupby.scm
     
 
 
+.. code-block:: sh
+   
+
+    $ py 'entries = [(3,1), (1,2), (2,1), (1,1),(2,3)]
+    entries.sort()
+    groupby = itertools.groupby(entries, key=lambda x: x[0])
+    def groups():
+        key, entries = groupby.next()
+        for key in [1,2,3]:
+            if key == key:
+                yield key, entries
+                try:
+                    key, entries = groupby.next()
+                except StopIteration:
+                    continue
+            else:
+                yield key, []
+    for key, entries in groups():
+        print("%s => %s" % (key, list(entries)))' 
+    1 => [(1, 1), (1, 2)]
+    2 => [(2, 1), (2, 3)]
+    3 => [(3, 1)]
+    
+
+
 
 head.scm
 ========================
@@ -892,7 +917,7 @@ length.scm
 .. code-block:: sh
    
 
-    $ ghc -e 'length [1,2,3]' 
+    $ he 'length [1,2,3]' 
     3
     
 
@@ -1551,7 +1576,7 @@ tail.scm
 .. code-block:: sh
    
 
-    $ ghc -e 'tail [1,2,3,4,5]' 
+    $ he 'tail [1,2,3,4,5]' 
     [2,3,4,5]
     
 
@@ -1602,7 +1627,7 @@ unique.scm
 .. code-block:: sh
    
 
-    $ ghc -e 'Data.List.nub [1,1,1,2,2,3]' 
+    $ he 'Data.List.nub [1,1,1,2,2,3]' 
     [1,2,3]
     
 
@@ -1649,5 +1674,18 @@ zip.scm
 
     $ ee '(|-zip| '\''(1) '\''(4 5 6))' 
     Symbol's function definition is void: |-zip|
+    
+
+
+
+split 15 items to 3 groups
+------------------------------------------------------------------------------
+
+
+.. code-block:: sh
+   
+
+    $ py 'P(list(zip(*[iter(range(15))]*5)))' 
+    [(0, 1, 2, 3, 4), (5, 6, 7, 8, 9), (10, 11, 12, 13, 14)]
     
 
