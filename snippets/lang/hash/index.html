@@ -174,7 +174,7 @@ ReferenceError: a is not defined
 </div>
 <p>存在しないものを参照するとエラー</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(let1 t (make-hash-table) (hash-table-get t &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;no-key))&#39;</span>
-*** ERROR: <span class="c">#&lt;hash-table eq? 0x114e8c0&gt; doesn&#39;t have an entry for key no-key</span>
+*** ERROR: <span class="c">#&lt;hash-table eq? 0x17f55f0&gt; doesn&#39;t have an entry for key no-key</span>
 Stack Trace:
 _______________________________________
   <span class="m">0</span>  <span class="o">(</span><span class="nb">hash</span>-table-get t <span class="s1">&#39;no-key)</span>
@@ -251,7 +251,7 @@ NameError: name <span class="s1">&#39;a&#39;</span> is not defined
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>he <span class="s1">&#39;Data.Map.fromListWith (++) [(1, &quot;a&quot;), (1, &quot;b&quot;), (2, &quot;c&quot;)]&#39;</span>
 
-/tmp/tmp.kVagHE2E:7:15: Not in scope: ‘Data.Map.fromListWith’
+/tmp/tmp.xVlYTZ8B:7:15: Not in scope: ‘Data.Map.fromListWith’
 </pre></div>
 </div>
 <p>書く時には&#8221;key&#8221;とクオテーションで括らなくても良いです。</p>
@@ -275,7 +275,7 @@ m<span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="o">]<
 assoc =&gt; equal?
 assv =&gt; eqv?</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(make-hash-table &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;eq?)&#39;</span>
-<span class="c">#&lt;hash-table eq? 0x114eb40&gt;</span>
+<span class="c">#&lt;hash-table eq? 0x17f5820&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-py"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
@@ -343,7 +343,7 @@ int main<span class="o">(</span>int argc, char* argv<span class="o">[]){</span>
 <h2><a class="toc-backref" href="#id9">keys.scm</a><a class="headerlink" href="#keys-scm" title="Permalink to this headline">¶</a></h2>
 <p>get all hash keys</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;%a=(a=&gt;1, b=&gt;2); say keys %a&#39;</span>
-ab
+ba
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say keys %{{map {$_ =&gt; 1} (1,1,1,2,2,3)}}&#39;</span>
@@ -381,7 +381,7 @@ m<span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="o">]<
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(let1 t (make-hash-table) (hash-table-put! t &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;k 1) (describe t))&#39;</span>
-<span class="c">#&lt;hash-table eq? 0x114e8c0&gt; is an instance of class &lt;hash-table&gt;</span>
+<span class="c">#&lt;hash-table eq? 0x17f55f0&gt; is an instance of class &lt;hash-table&gt;</span>
 <span class="c">#t</span>
 </pre></div>
 </div>

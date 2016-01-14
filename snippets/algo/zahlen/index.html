@@ -104,8 +104,9 @@
 <ul class="simple">
 <li><a class="reference internal" href="#zahlen" id="id2">zahlen</a><ul>
 <li><a class="reference internal" href="#gcd-scm" id="id3">gcd.scm</a></li>
-<li><a class="reference internal" href="#prime-factorization-scm" id="id4">prime-factorization.scm</a></li>
-<li><a class="reference internal" href="#sieveoferatosthenes-scm" id="id5">sieveOfEratosthenes.scm</a></li>
+<li><a class="reference internal" href="#pollanrd-rho-scm" id="id4">pollanrd-rho.scm</a></li>
+<li><a class="reference internal" href="#prime-factorization-scm" id="id5">prime-factorization.scm</a></li>
+<li><a class="reference internal" href="#sieveoferatosthenes-scm" id="id6">sieveOfEratosthenes.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -113,14 +114,36 @@
 <div class="section" id="gcd-scm">
 <h2><a class="toc-backref" href="#id3">gcd.scm</a><a class="headerlink" href="#gcd-scm" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="pollanrd-rho-scm">
+<h2><a class="toc-backref" href="#id4">pollanrd-rho.scm</a><a class="headerlink" href="#pollanrd-rho-scm" title="Permalink to this headline">¶</a></h2>
+<p>mod nとした乱数生成関数fとし、x,yの2数を生成させ、対象の整数の因数を求める。(x=yとなった場合は失敗)</p>
+<div class="highlight-gosh"><div class="highlight"><pre>(define (polland n)
+ (define rlist (shuffle (iota n)))
+ (let1 f (^x (ref rlist x))
+       (let loop ((x 2) (y 2))
+         (let* ((x (f x))
+                (y (f (f y)))
+                (d (gcd (abs (- x y)) n)))
+           (cond ((= d 1) (loop x y))
+                 ((= d n) -1)
+                 (else d))))))
+(print (polland 108))
+(print (polland 3))
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>4
+-1
+</pre></div>
+</div>
+</div>
 <div class="section" id="prime-factorization-scm">
-<h2><a class="toc-backref" href="#id4">prime-factorization.scm</a><a class="headerlink" href="#prime-factorization-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">prime-factorization.scm</a><a class="headerlink" href="#prime-factorization-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>素因数分解<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="sieveoferatosthenes-scm">
-<h2><a class="toc-backref" href="#id5">sieveOfEratosthenes.scm</a><a class="headerlink" href="#sieveoferatosthenes-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">sieveOfEratosthenes.scm</a><a class="headerlink" href="#sieveoferatosthenes-scm" title="Permalink to this headline">¶</a></h2>
 <p>p*p以上の整数を篩にかける(残ったものが素数)</p>
 <p>size=100なら、10まで調べればOKになる
 2, 4, 6, 8, 10, 12, 14, ... 98, 100

@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using Fabric Automate Your Local Tasks &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../products.html">Products</a></li>
+            <li><a href="../index.html">Snippets</a></li>
+            <li><a href="../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="using-fabric-automate-your-local-tasks">
+<h1><a class="toc-backref" href="#id1">Using Fabric Automate Your Local Tasks</a><a class="headerlink" href="#using-fabric-automate-your-local-tasks" title="Permalink to this headline">¶</a></h1>
+<p>Fabric is a tool for deployment. But I think it&#8217;s not only for that.
+I mean I think fabric is <strong>a small wrapper of shell script</strong>.</p>
+<p>If you are not used to writing shell scripts but bored of typing same commands repeatedly.
+I recommend you should use fabric and automate them.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#using-fabric-automate-your-local-tasks" id="id1">Using Fabric Automate Your Local Tasks</a><ul>
+<li><a class="reference internal" href="#let-s-try" id="id2">Let&#8217;s try</a></li>
+<li><a class="reference internal" href="#example-for-building-shinx-documents-at-a-time" id="id3">Example for building shinx documents at a time</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="let-s-try">
+<h2><a class="toc-backref" href="#id2">Let&#8217;s try</a><a class="headerlink" href="#let-s-try" title="Permalink to this headline">¶</a></h2>
+<p>Fisrt install fabric.</p>
+<div class="highlight-python"><div class="highlight"><pre>easy_install fabric
+</pre></div>
+</div>
+<p>Create a directory and files below.</p>
+<div class="highlight-python"><div class="highlight"><pre>~/.fabricrc
+~/fabfile/
+~/fabfile/__init__.py
+</pre></div>
+</div>
+<p>Modify them below so that you can print <cite>Hello World!</cite>.</p>
+<p><cite>~/fabfile/__init__.py</cite></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="nd">@task</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><cite>~/.farricrc</cite></p>
+<div class="highlight-python"><div class="highlight"><pre># This is a setting file. if you write ``ATTR = VAL``, then you can refer the VAL with `env.ATTR`.
+msg = Hello World!
+</pre></div>
+</div>
+<p>You are ready to print <cite>Hello World!</cite>. So type the command.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>fab hello
+</pre></div>
+</div>
+<p>Output is like this.</p>
+<div class="highlight-python"><div class="highlight"><pre>[localhost] Executing task &#39;hello&#39;
+Hello World!
+
+Done.
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-for-building-shinx-documents-at-a-time">
+<h2><a class="toc-backref" href="#id3">Example for building shinx documents at a time</a><a class="headerlink" href="#example-for-building-shinx-documents-at-a-time" title="Permalink to this headline">¶</a></h2>
+<p>Someone use the command like this to build rst files.</p>
+<div class="highlight-python"><div class="highlight"><pre>cd /path/to/sphinx_doc
+make html
+</pre></div>
+</div>
+<p>I think this is too many typing.
+If you have more sphinx documents, do you want to do <cite>cd command</cite> everytime you build a shinx document?</p>
+<p>So to build all sphinx documents at a time, write codes with fabric like this.</p>
+<p><cite>~/fabfile/__init__.py</cite></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">update</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">sphinx_dir</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s">&quot;~/sphinx/article&quot;</span><span class="p">,</span> <span class="s">&quot;~/sphinx_build/article&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&quot;~/shpinx/dairy&quot;</span><span class="p">,</span> <span class="s">&quot;~/sphinx_build/dairy&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><cite>~/fabfile/update.py</cite></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="nd">@task</span>
+<span class="k">def</span> <span class="nf">sphinx</span><span class="p">():</span>
+    <span class="c"># if env doesn&#39;t have the sphinx_dir attribute, error occurs.</span>
+    <span class="n">require</span><span class="p">(</span><span class="s">&quot;sphinx_dir&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">sphinx_dir</span><span class="p">:</span>
+        <span class="n">local</span><span class="p">(</span><span class="s">&quot;sphinx-build -b html </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Once you made these files, you can build sphinx documents at one command.</p>
+<div class="highlight-python"><div class="highlight"><pre>fab update.sphinx
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

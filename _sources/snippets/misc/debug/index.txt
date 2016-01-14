@@ -1,0 +1,110 @@
+
+=======
+ Debug
+=======
+
+目的
+=====
+デバッグを駆使して、コードリーディングを行ことで、
+より素早くライブラリを理解すること。
+
+* 沢山読んで沢山理解することが、よいプログラムを書くための方法
+* Linux kernelやMysqlみたいな膨大なコードよりも、まずは小さいコードを読めるようにする
+* member変数の値、それが状態か固定値か?
+* pdbの箇所をデバッグするのは難しいみたい（ブレークポイントで止まってくれない）
+   * printデバッグになりそう
+
+* GUIのようなイベントループ系はデバッグがやりにくい
+
+printでバッグの手法も確立させたい
+   * ここにくる
+   * だらだら長いと読みにくい
+
+Environment
+============
+
+環境づくり ::
+
+   $ venv ~/python34  # dropboxとかで共有できるディレクトリ以下がなお良い
+   $ source ~/python34/bin/activate
+   $ pip install mercurial ipython bpython ipdb pudb
+   $ cd ~/python34/lib/
+   $ hg init 
+   $ hg add .
+   $ hg ci -m 'first commit'
+
+ブレークポイント ::
+
+    import pdb; pdb.set_trace()
+    import ipdb; ipdb.set_trace()
+    import bpdb; bpdb.set_trace()
+    import pudb; pu.db
+
+
+直接ライブラリを実行する ::
+
+  python -m pudb.run ~/python34/lib/python3.4/site-packages/IPython/__main__.py
+
+
+test code
+===========
+テストコードは、ライブラリのインターフェイルを知る上で大変参考になる。
+
+1. インターフェイスを理解
+2. 一部の細部と大まかな全体を理解
+3. ライブラリを使いこなせるようになる
+
+テストコードの実行::
+
+   py.test ~/python34/lib/python3.4/site-packages/urwid/tests
+
+* テストしやすいコードから始めるとよい。
+* 入出力が明確なもの
+
+sample code
+============
+
+使い方がわからないライブラリで、サンプルコードがある場合はそれをまずは実行する。::
+
+   git clone https://github.com/wardi/urwid.git
+   python urwid/example/*.py
+   
+
+sphinx
+=======
+docstringのめもをsphinxを使って表示できるようにする
+
+
+pudb
+======
+
+:~/.config/pudb/pudb.cfg: 設定ファイル
+:~/.config/pudb/saved-breakpoints-3.4: breakpoint保存
+
+
+クラスのインスタンスを作成するには
+-----------------------------------
+インスタンスの依存関係が複雑になると、デバッグがしにくくなる。
+
+インスタンスの初期化に、別のインスタンスが必要になるから。
+
+
+対話モードでの真偽判定
+----------------------
+""の真偽値に迷ったら ::
+
+ not not ""
+
+と対話モードで入力してみると良いです。 ::
+
+ not not ""
+ #False
+
+色々試してみると良いと思います。 ::
+
+ not not 0    # False
+ not not 0.0  # False
+ not not 1    # True
+
+``p help(obj)`` を実行すればデバッグ中にもオブジェクトの情報が
+閲覧できます.

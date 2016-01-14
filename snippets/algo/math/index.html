@@ -98,22 +98,24 @@
     <div class="col-md-12 content">
       
   <div class="section" id="math">
-<h1><a class="toc-backref" href="#id5">math</a><a class="headerlink" href="#math" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id4">math</a><a class="headerlink" href="#math" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#math" id="id5">math</a><ul>
-<li><a class="reference internal" href="#ack-scm" id="id6">ack.scm</a></li>
+<li><a class="reference internal" href="#math" id="id4">math</a><ul>
+<li><a class="reference internal" href="#ack-scm" id="id5">ack.scm</a></li>
+<li><a class="reference internal" href="#eq1-scm" id="id6">eq1.scm</a></li>
 <li><a class="reference internal" href="#exponetion-scm" id="id7">exponetion.scm</a></li>
 <li><a class="reference internal" href="#formula-scm" id="id8">formula.scm</a></li>
 <li><a class="reference internal" href="#gauss-scm" id="id9">gauss.scm</a></li>
 <li><a class="reference internal" href="#mod-scm" id="id10">mod.scm</a></li>
+<li><a class="reference internal" href="#mod" id="id11">Mod(合同式)</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="ack-scm">
-<h2><a class="toc-backref" href="#id6">ack.scm</a><a class="headerlink" href="#ack-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">ack.scm</a><a class="headerlink" href="#ack-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-gosh"><div class="highlight"><pre>(define (ack m n)
   (cond ((= m 0) (+ n 1))
         ((= n 0) (ack (- m 1) 1))
@@ -132,6 +134,32 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="eq1-scm">
+<h2><a class="toc-backref" href="#id6">eq1.scm</a><a class="headerlink" href="#eq1-scm" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+\[\begin{eqnarray}
+
+\\{a_1, a_2, ... a_k}, 1 \le k < i  \quad s.t. \quad
+\\f(i) = \{ a_1, a_2, ... a_{k'} \} ( \ne \phi, a_{k'} > a_i  \quad s.t. \quad  \max k')
+\\f(i) = \{ a_i \} (else)
+\\
+\end{eqnarray}\]</div><div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">ai</span><span class="p">):</span>
+ <span class="k">while</span> <span class="n">s</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">ai</span><span class="p">:</span>
+   <span class="n">s</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+  <span class="k">else</span><span class="p">:</span>
+  <span class="k">return</span> <span class="n">s</span>
+ <span class="k">else</span><span class="p">:</span>
+  <span class="k">return</span> <span class="p">[</span><span class="n">ai</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>  File <span class="s2">&quot;&lt;stdin&gt;&quot;</span>, line 7
+    <span class="k">return</span> s
+         ^
+IndentationError: expected an indented block
+</pre></div>
+</div>
+</div>
 <div class="section" id="exponetion-scm">
 <h2><a class="toc-backref" href="#id7">exponetion.scm</a><a class="headerlink" href="#exponetion-scm" title="Permalink to this headline">¶</a></h2>
 <div class="math">
@@ -139,8 +167,8 @@
 
 \\a^n = \begin{cases}
 \\ 1 & ({n = 0)
-\\ a^{n/2} * a^{n/2} & (\text{n is even})
-\\ a^{(n-1)/2} * a^{(n-1)/2} * a & (\text{n is odd})
+\\ a^{n/2} \times a^{n/2} & (\mbox{n is even})
+\\ a^{(n-1)/2} \times a^{(n-1)/2} \times a & (\mbox{n is odd})
 \\\end{cases}
 \\
 \end{eqnarray}\]</div><div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
@@ -171,22 +199,7 @@ f<span class="o">(</span>4, 3<span class="o">)</span> <span class="o">=</span> 6
 <div class="section" id="formula-scm">
 <h2><a class="toc-backref" href="#id8">formula.scm</a><a class="headerlink" href="#formula-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3>配列の３つの積の最大値は?<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<div class="math">
-\[\begin{eqnarray}
-    \max_{i,j,k \in N} a[i] \times a[j] \times a[k]
-\end{eqnarray}\]</div><div class="highlight-gosh"><div class="highlight"><pre>(print
-    (let1 l (pa$ at (sort &#39;(-4 -5 -9 -9 -7 5 0 7 2 -2)))
-       (max (* (l -1) (l -2) (l -3))
-            (* (l 0) (l 1) (l -1)))))
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre>567
-</pre></div>
-</div>
-</div>
-<div class="section" id="id2">
-<h3>特定の区間にある整数<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>特定の区間にある整数<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{eqnarray}
     \# \{i| A \leqq i \leqq B \}
@@ -235,8 +248,8 @@ f<span class="o">(</span>4, 3<span class="o">)</span> <span class="o">=</span> 6
 </pre></div>
 </div>
 </div>
-<div class="section" id="id3">
-<h3>不等式の最小値<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>不等式の最小値<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{eqnarray}
     \min_{x \in Z, a>0, b>0 \in N} x >= a/b
@@ -257,8 +270,8 @@ f<span class="o">(</span>4, 3<span class="o">)</span> <span class="o">=</span> 6
 </pre></div>
 </div>
 </div>
-<div class="section" id="id4">
-<h3>２分割した数列の差の最小値<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>２分割した数列の差の最小値<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>計算量をO(n^2) =&gt; O(n)に減らすことができる。微分みたいに、差を使うことで次元を下げるのに似ている。
 TapeEquilibrium (必ず２つに分ける必要がある場合、1&lt;= x &lt;= N-1とする必要あり)</p>
 <div class="math">
@@ -352,6 +365,33 @@ TapeEquilibrium (必ず２つに分ける必要がある場合、1&lt;= x &lt;= 
 </div>
 <div class="section" id="mod-scm">
 <h2><a class="toc-backref" href="#id10">mod.scm</a><a class="headerlink" href="#mod-scm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mod">
+<h2><a class="toc-backref" href="#id11">Mod(合同式)</a><a class="headerlink" href="#mod" title="Permalink to this headline">¶</a></h2>
+<p>%演算子は、分配法則が成り立つ</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="n">B</span><span class="p">)</span> <span class="o">%</span> <span class="n">C</span> <span class="o">=</span> <span class="n">A</span> <span class="o">%</span> <span class="n">C</span> <span class="o">+</span> <span class="n">B</span> <span class="o">%</span> <span class="n">C</span>
+</pre></div>
+</div>
+<p>0&lt;= i &lt; N の場合</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">i</span> <span class="o">%</span> <span class="n">N</span> <span class="o">=</span> <span class="n">i</span>
+</pre></div>
+</div>
+<p>iがNの倍数の場合</p>
+<div class="highlight-python"><div class="highlight"><pre>i % N = 0
+つまりiはNで割り切れる
+</pre></div>
+</div>
+<p>交換法則は成り立たない</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">A</span> <span class="o">%</span> <span class="n">B</span> <span class="o">!=</span> <span class="n">B</span> <span class="o">%</span> <span class="n">A</span>
+</pre></div>
+</div>
+<p>反例</p>
+<div class="highlight-python"><div class="highlight"><pre>10 % 3 = 1
+3 % 10 = 3
+よって
+10 % 3 != 3 % 10
+</pre></div>
+</div>
 <p><cite>答えをMODして出せ</cite>
 という指示があれば、答えの途中でもMODして良いという意味です。
 (数が大きくなりすぎない様にすることと、巡回するだけなので答えが一定になることが理由)</p>

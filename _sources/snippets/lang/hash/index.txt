@@ -110,7 +110,7 @@ get
    
 
     $ s '(let1 t (make-hash-table) (hash-table-get t '\''no-key))' 
-    *** ERROR: #<hash-table eq? 0x114e8c0> doesn't have an entry for key no-key
+    *** ERROR: #<hash-table eq? 0x17f55f0> doesn't have an entry for key no-key
     Stack Trace:
     _______________________________________
       0  (hash-table-get t 'no-key)
@@ -243,7 +243,7 @@ init.scm
 
     $ he 'Data.Map.fromListWith (++) [(1, "a"), (1, "b"), (2, "c")]' 
     
-    /tmp/tmp.kVagHE2E:7:15: Not in scope: ‘Data.Map.fromListWith’
+    /tmp/tmp.xVlYTZ8B:7:15: Not in scope: ‘Data.Map.fromListWith’
     
 
 書く時には"key"とクオテーションで括らなくても良いです。
@@ -285,7 +285,7 @@ assv => eqv?
    
 
     $ s '(make-hash-table '\''eq?)' 
-    #<hash-table eq? 0x114eb40>
+    #<hash-table eq? 0x17f5820>
     
 
 
@@ -395,7 +395,7 @@ get all hash keys
    
 
     $ perl -E '%a=(a=>1, b=>2); say keys %a'
-    ab
+    ba
     
 
 
@@ -469,7 +469,7 @@ update.scm
    
 
     $ s '(let1 t (make-hash-table) (hash-table-put! t '\''k 1) (describe t))' 
-    #<hash-table eq? 0x114e8c0> is an instance of class <hash-table>
+    #<hash-table eq? 0x17f55f0> is an instance of class <hash-table>
     #t
     
 

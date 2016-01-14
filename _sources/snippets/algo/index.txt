@@ -79,6 +79,12 @@
 .. toctree::
     :maxdepth: 1
 
+    sorted-sequence/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
     sort/index.rst
 
 

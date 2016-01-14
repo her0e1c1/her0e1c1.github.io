@@ -36,6 +36,46 @@ ack.scm
 
 
 
+eq1.scm
+=====================
+
+.. todo:: ???
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\{a_1, a_2, ... a_k}, 1 \le k < i  \quad s.t. \quad 
+    \\f(i) = \{ a_1, a_2, ... a_{k'} \} ( \ne \phi, a_{k'} > a_i  \quad s.t. \quad  \max k')
+    \\f(i) = \{ a_i \} (else)
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: py
+   
+
+    def f(s, ai):
+     while s:
+      if s[-1] < ai:
+       s.pop()
+      else:
+      return s
+     else:
+      return [ai]
+
+.. code-block:: sh
+   
+
+      File "<stdin>", line 7
+        return s
+             ^
+    IndentationError: expected an indented block
+    
+
+
+
 exponetion.scm
 ==========================================
 
@@ -47,8 +87,8 @@ exponetion.scm
         
     \\a^n = \begin{cases}
     \\ 1 & ({n = 0)
-    \\ a^{n/2} * a^{n/2} & (\text{n is even})
-    \\ a^{(n-1)/2} * a^{(n-1)/2} * a & (\text{n is odd})
+    \\ a^{n/2} \times a^{n/2} & (\mbox{n is even})
+    \\ a^{(n-1)/2} \times a^{(n-1)/2} \times a & (\mbox{n is odd})
     \\\end{cases}
     \\
     \end{eqnarray}
@@ -87,34 +127,6 @@ exponetion.scm
 
 formula.scm
 =================================
-
-
-
-配列の３つの積の最大値は?
----------------------------------------
-
-
-.. math::
-    :nowrap:
-
-    \begin{eqnarray}
-        \max_{i,j,k \in N} a[i] \times a[j] \times a[k]
-    \end{eqnarray}
-
-
-.. code-block:: gosh
-   
-
-    (print
-        (let1 l (pa$ at (sort '(-4 -5 -9 -9 -7 5 0 7 2 -2)))
-           (max (* (l -1) (l -2) (l -3))
-                (* (l 0) (l 1) (l -1)))))
-
-.. code-block:: sh
-   
-
-    567
-    
 
 
 
@@ -388,6 +400,34 @@ Gauss == floor
 
 mod.scm
 =====================
+
+
+Mod(合同式)
+===========
+
+%演算子は、分配法則が成り立つ ::
+
+  (A + B) % C = A % C + B % C
+
+0<= i < N の場合 ::
+
+    i % N = i
+
+iがNの倍数の場合 ::
+
+    i % N = 0
+    つまりiはNで割り切れる
+
+交換法則は成り立たない ::
+
+    A % B != B % A
+
+反例 ::
+
+    10 % 3 = 1
+    3 % 10 = 3
+    よって
+    10 % 3 != 3 % 10
 
 
 `答えをMODして出せ`

@@ -169,14 +169,17 @@
 </div>
 <div class="section" id="contiguous-subseq-scm">
 <h2><a class="toc-backref" href="#id5">contiguous-subseq.scm</a><a class="headerlink" href="#contiguous-subseq-scm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">ある数列の連続した部分数列の和の最大値</p>
+</div>
 <div class="math">
 \[\begin{eqnarray}
 
 \\f(1) = \{ a_1 \}
-\\f(n) = \max {f(n-1) + a_n, a_n}
+\\f(n) = \max \{ f(n-1) + a_n, a_n \}
 \\
-\end{eqnarray}\]</div><p>ある数列の連続した部分数列の和の最大値</p>
-<div class="highlight-ghc"><div class="highlight"><pre>f = go where
+\end{eqnarray}\]</div><div class="highlight-ghc"><div class="highlight"><pre>f = go where
  go [x] = x
  go (x:xs) = max x ((go xs) + x)
 main = print $ f [1,-2,1,3,2,-5,1,-4,-3,1,-2]
@@ -235,6 +238,76 @@ main = print $ f [1,-2,1,3,2,-5,1,-4,-3,1,-2]
 </div>
 <div class="section" id="knapsack-scm">
 <h2><a class="toc-backref" href="#id8">knapsack.scm</a><a class="headerlink" href="#knapsack-scm" title="Permalink to this headline">¶</a></h2>
+<p>問題としては以下
+n個の詰め物があり、サイズとその価値が決まっている。
+このとき、ナップザックのサイズのmax_sizeとし、詰め物の価値を最大にする組は何か？
+なお、総当たりの場合の場合の数は2^nとなる</p>
+<div class="math">
+\[\begin{eqnarray}
+
+\\\{ (a_i, b_i) = (詰め物のサイズ, その価値) \}
+\\\sum_i^n a_i \times x_i <= max_size (ただし、x_i \in {0, 1})
+\\ \quad s.t. \quad  \max_{x_i} \sum_i^n b_i \times x_i
+\\
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+
+\\f(i, size) = \begin{cases}
+\\max \{f(i-1, size), f(i-1, size+a_i) + b_i (if size + a_i <= max_size) \}
+\\\end{cases}
+\\
+\end{eqnarray}\]</div><div class="highlight-ghc"><div class="highlight"><pre>-- pairs = [(size, price)]
+knapsack :: (Ord a, Num a) =&gt; [(a, a)] -&gt; a -&gt; a
+knapsack pairs max_size = go pairs 0 where
+    go [] size = 0
+    go ((s,p):sps) size =
+      let
+        ssize = s + size
+        cap1 = go sps size  -- 現在の(s, p)を使わない
+        cap2 = if ssize &lt;= max_size then p + go sps ssize else 0
+      in maximum [cap1, cap2]
+main = print $ knapsack [(x, 6-x) |x &lt;- [1..5]] 6
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>12
+</pre></div>
+</div>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="kt">int</span> <span class="nf">solve</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">prices</span><span class="p">,</span> <span class="kt">int</span> <span class="n">capacity</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">sizes</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">prices</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">memo</span><span class="p">(</span><span class="n">sizes</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+
+  <span class="n">function</span> <span class="o">&lt;</span><span class="kt">int</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">dfs</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">(</span><span class="kt">int</span> <span class="n">depth</span><span class="p">,</span> <span class="kt">int</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">memo</span><span class="p">[</span><span class="n">depth</span><span class="p">][</span><span class="n">size</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">memo</span><span class="p">[</span><span class="n">depth</span><span class="p">][</span><span class="n">size</span><span class="p">];</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">sizes</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// 使用しない場合</span>
+    <span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+
+    <span class="c1">// 使用する場合(容量を超えないようにする)</span>
+    <span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="n">sizes</span><span class="p">[</span><span class="n">depth</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="n">size</span> <span class="o">&lt;=</span> <span class="n">capacity</span><span class="p">)</span>
+      <span class="n">price</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">prices</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="o">+</span> <span class="n">dfs</span><span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">s</span> <span class="o">+</span> <span class="n">size</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="n">memo</span><span class="p">[</span><span class="n">depth</span><span class="p">][</span><span class="n">size</span><span class="p">]</span> <span class="o">=</span> <span class="n">price</span><span class="p">;</span>
+  <span class="p">};</span>
+  <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">P</span><span class="p">(</span><span class="n">solve</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">},</span>
+          <span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span>
+          <span class="mi">6</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>solve<span class="o">({</span>1,2,3,4,5<span class="o">}</span>, <span class="o">{</span>5,4,3,2,1<span class="o">}</span>, 6<span class="o">)</span> <span class="o">=</span> 12
+</pre></div>
+</div>
 </div>
 <div class="section" id="longest-common-sequence-scm">
 <h2><a class="toc-backref" href="#id9">longest-common-sequence.scm</a><a class="headerlink" href="#longest-common-sequence-scm" title="Permalink to this headline">¶</a></h2>

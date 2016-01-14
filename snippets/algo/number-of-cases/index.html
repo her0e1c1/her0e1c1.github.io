@@ -147,7 +147,7 @@ Xを集合とする。 Xの部分集合全体を2^xと表す</p>
 \[\begin{eqnarray}
 
 \\f(\{ a_0 \}) = {\phi}
-\\f(\{ a_n \}) = \{ {a_n} \cup x \| x \in g \} \cup g
+\\f(\{ a_n \}) = \{ {a_n} \cup x \mid x \in g \} \cup g
 \\g = f(\{ a_{n-1} \})
 \\
 \end{eqnarray}\]</div><div class="math">
@@ -155,8 +155,8 @@ Xを集合とする。 Xの部分集合全体を2^xと表す</p>
 
 \\X = \{1,2,3\} のとき
 \\2^X = \{\phi,{1},{2},{3},{1,2},{2,3},{3,1},{1,2,3}\}
-\\\# 2^X = 2^3 = 3_C_0 + 3_C_1 + 3_C_2 + 3_C_3 = 8
-\\(つまり、 \sum_r^n n_C_r = 2^n)
+\\\# 2^X = 2^3 = {}_3 C _0 + {}_3 C _1 + {}_3 C _2 + {}_3 C _3 = 8
+\\(つまり、 \sum_r^n {}_n C _r = 2^n)
 \\
 \end{eqnarray}\]</div><p>一つ前の結果に、新しく要素を加えるか、加えないかで分けて考える
 f(x:xs)は、[[INT]]なので、xを使う場合とそうでない場合に分ける</p>
@@ -314,6 +314,10 @@ main = print $ combination 5 2
 <div class="section" id="permutation-scm">
 <h2><a class="toc-backref" href="#id7">permutation.scm</a><a class="headerlink" href="#permutation-scm" title="Permalink to this headline">¶</a></h2>
 <p>異なるn個の中から、r個並べる場合の数(nPr)</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">n!は大きな数になりやすいのでdoubleを使って極力桁溢れしないように工夫する。</p>
+</div>
 <div class="highlight-ghc"><div class="highlight"><pre>-- [1,2,3] =&gt; [(1, [2,3]), (2, [1,3]), (3, [1,2])] のように分割
 -- repeatedPermutation.hsとの違いは、使った要素を使用しないようにするところ
 split = go [] where

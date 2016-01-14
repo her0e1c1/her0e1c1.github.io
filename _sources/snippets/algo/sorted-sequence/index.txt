@@ -1,0 +1,79 @@
+
+=============================================
+sorted-sequence
+=============================================
+
+.. contents::
+    :depth: 2
+
+
+
+distinct.scm
+====================================
+
+
+
+重複を許した要素を持つ集合の区別できる要素の個数
+------------------------------------------------------------------------
+
+ソート配列に対して、現在の値nを保持しておく
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\f(i, n) = \begin{cases} 0 (i = 0)
+    \\f(i-1, a_i) + 1 & (n = a_i)
+    \\f(i-1, n) & (else)
+    \\\end{cases}
+    \\
+    \end{eqnarray}
+
+
+
+triangle-exists.scm
+=========================================================
+
+return true if a sorted array has a triangle
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        f(i) = 1 (a_i + a_{i+1} > a_{i+2})
+    \end{eqnarray}
+
+
+
+triple-product.scm
+======================================================
+
+
+
+配列の３つの積の最大値は?
+---------------------------------------
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \max_{i,j,k \in N} a[i] \times a[j] \times a[k]
+    \end{eqnarray}
+
+
+.. code-block:: gosh
+   
+
+    (print
+        (let1 l (pa$ at (sort '(3 3 3 9 -7 4 -7 1 1 -6)))
+           (max (* (l -1) (l -2) (l -3))
+                (* (l 0) (l 1) (l -1)))))
+
+.. code-block:: sh
+   
+
+    441
+    
+

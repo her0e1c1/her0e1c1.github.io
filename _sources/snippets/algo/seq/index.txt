@@ -75,17 +75,21 @@ contiguous-subseq.scm
 ===============================================================
 
 
+.. warning::
+
+    ある数列の連続した部分数列の和の最大値
+
+
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         
     \\f(1) = \{ a_1 \}
-    \\f(n) = \max {f(n-1) + a_n, a_n}
+    \\f(n) = \max \{ f(n-1) + a_n, a_n \}
     \\
     \end{eqnarray}
 
-ある数列の連続した部分数列の和の最大値
 
 .. code-block:: ghc
    
@@ -177,6 +181,100 @@ inner-product.scm
 
 knapsack.scm
 ====================================
+
+
+問題としては以下
+n個の詰め物があり、サイズとその価値が決まっている。
+このとき、ナップザックのサイズのmax_sizeとし、詰め物の価値を最大にする組は何か？
+なお、総当たりの場合の場合の数は2^nとなる
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\\{ (a_i, b_i) = (詰め物のサイズ, その価値) \}
+    \\\sum_i^n a_i \times x_i <= max_size (ただし、x_i \in {0, 1})
+    \\ \quad s.t. \quad  \max_{x_i} \sum_i^n b_i \times x_i
+    \\
+    \end{eqnarray}
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\f(i, size) = \begin{cases}
+    \\max \{f(i-1, size), f(i-1, size+a_i) + b_i (if size + a_i <= max_size) \}
+    \\\end{cases}
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: ghc
+   
+
+    -- pairs = [(size, price)]
+    knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a
+    knapsack pairs max_size = go pairs 0 where
+        go [] size = 0
+        go ((s,p):sps) size =
+          let
+            ssize = s + size
+            cap1 = go sps size  -- 現在の(s, p)を使わない
+            cap2 = if ssize <= max_size then p + go sps ssize else 0
+          in maximum [cap1, cap2]
+    main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
+
+.. code-block:: sh
+   
+
+    12
+    
+
+
+.. code-block:: cpp
+   
+
+    #include <myutils.h>
+    int solve(vector<int> sizes, vector<int> prices, int capacity) {
+      assert(sizes.size() == prices.size());
+    
+      vector<vector<int>> memo(sizes.size() + 1, vector<int>(capacity + 1, -1));
+    
+      function <int(int, int)> dfs = [&] (int depth, int size) {
+        if (memo[depth][size] != -1)
+          return memo[depth][size];
+    
+        if (depth == sizes.size())
+          return 0;
+    
+        // 使用しない場合
+        int price = dfs(depth + 1, size);
+    
+        // 使用する場合(容量を超えないようにする)
+        int s = sizes[depth];
+        if (s + size <= capacity)
+          price = max(price, prices[depth] + dfs(depth + 1, s + size));
+    
+        return memo[depth][size] = price;
+      };
+      return dfs(0, 0);
+    }
+    
+    int main() {
+      P(solve({1,2,3,4,5},
+              {5,4,3,2,1},
+              6));
+    }
+
+.. code-block:: sh
+   
+
+    solve({1,2,3,4,5}, {5,4,3,2,1}, 6) = 12
+    
 
 
 

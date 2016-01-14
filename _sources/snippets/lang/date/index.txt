@@ -29,7 +29,7 @@ epoch.scm
    
 
     $ py 'P(int(time.time()))' 
-    1452565856
+    1452762339
     
 
 
@@ -37,7 +37,7 @@ epoch.scm
    
 
     $ s '(x->integer (current-second))' 
-    1452565885
+    1452762368
     
 
 
@@ -51,7 +51,7 @@ create a date instance
    
 
     $ ne 'P(new Date())' 
-    Tue Jan 12 2016 11:30:59 GMT+0900 (JST)
+    Thu Jan 14 2016 18:05:42 GMT+0900 (JST)
     
 
 a concrete day

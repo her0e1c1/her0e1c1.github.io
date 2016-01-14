@@ -1,0 +1,14 @@
+
+=====================================
+ How To Debug Unfamiliar Python Code
+=====================================
+
+
+#. pull source code from repository
+
+#. create virtual env ::
+
+        virtualenv -p /usr/bin/pythonw2.7 --no-site-packages python27 
+        source python27/bin/activate
+        cd REPOSITORY
+        python setup.py develop

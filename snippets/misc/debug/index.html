@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Debug &mdash; Hiroyuki Ishii</title>
+    
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootswatch-3.3.4/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Hiroyuki Ishii" href="../../../index.html" />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67799795-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+  </head>
+  <body role="document">
+
+<div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../index.html">
+        Hiroyuki Ishii</a>
+      <span class="navbar-text navbar-version pull-left"><b></b></span>
+    </div>
+
+    
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        
+            <li><a href="../../../products.html">Products</a></li>
+            <li><a href="../../index.html">Snippets</a></li>
+            <li><a href="../../../about_me.html">About Me</a></li>
+        
+      </ul>
+      
+        
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="debug">
+<h1>Debug<a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>目的<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>デバッグを駆使して、コードリーディングを行ことで、
+より素早くライブラリを理解すること。</p>
+<ul>
+<li><p class="first">沢山読んで沢山理解することが、よいプログラムを書くための方法</p>
+</li>
+<li><p class="first">Linux kernelやMysqlみたいな膨大なコードよりも、まずは小さいコードを読めるようにする</p>
+</li>
+<li><p class="first">member変数の値、それが状態か固定値か?</p>
+</li>
+<li><dl class="first docutils">
+<dt>pdbの箇所をデバッグするのは難しいみたい（ブレークポイントで止まってくれない）</dt>
+<dd><ul class="first last simple">
+<li>printデバッグになりそう</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">GUIのようなイベントループ系はデバッグがやりにくい</p>
+</li>
+</ul>
+<dl class="docutils">
+<dt>printでバッグの手法も確立させたい</dt>
+<dd><ul class="first last simple">
+<li>ここにくる</li>
+<li>だらだら長いと読みにくい</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
+<p>環境づくり</p>
+<div class="highlight-python"><div class="highlight"><pre>$ venv ~/python34  # dropboxとかで共有できるディレクトリ以下がなお良い
+$ source ~/python34/bin/activate
+$ pip install mercurial ipython bpython ipdb pudb
+$ cd ~/python34/lib/
+$ hg init
+$ hg add .
+$ hg ci -m &#39;first commit&#39;
+</pre></div>
+</div>
+<p>ブレークポイント</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pdb</span><span class="p">;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+<span class="kn">import</span> <span class="nn">ipdb</span><span class="p">;</span> <span class="n">ipdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+<span class="kn">import</span> <span class="nn">bpdb</span><span class="p">;</span> <span class="n">bpdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+<span class="kn">import</span> <span class="nn">pudb</span><span class="p">;</span> <span class="n">pu</span><span class="o">.</span><span class="n">db</span>
+</pre></div>
+</div>
+<p>直接ライブラリを実行する</p>
+<div class="highlight-python"><div class="highlight"><pre>python -m pudb.run ~/python34/lib/python3.4/site-packages/IPython/__main__.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="test-code">
+<h2>test code<a class="headerlink" href="#test-code" title="Permalink to this headline">¶</a></h2>
+<p>テストコードは、ライブラリのインターフェイルを知る上で大変参考になる。</p>
+<ol class="arabic simple">
+<li>インターフェイスを理解</li>
+<li>一部の細部と大まかな全体を理解</li>
+<li>ライブラリを使いこなせるようになる</li>
+</ol>
+<p>テストコードの実行:</p>
+<div class="highlight-python"><div class="highlight"><pre>py.test ~/python34/lib/python3.4/site-packages/urwid/tests
+</pre></div>
+</div>
+<ul class="simple">
+<li>テストしやすいコードから始めるとよい。</li>
+<li>入出力が明確なもの</li>
+</ul>
+</div>
+<div class="section" id="sample-code">
+<h2>sample code<a class="headerlink" href="#sample-code" title="Permalink to this headline">¶</a></h2>
+<p>使い方がわからないライブラリで、サンプルコードがある場合はそれをまずは実行する。:</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/wardi/urwid.git
+python urwid/example/*.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="sphinx">
+<h2>sphinx<a class="headerlink" href="#sphinx" title="Permalink to this headline">¶</a></h2>
+<p>docstringのめもをsphinxを使って表示できるようにする</p>
+</div>
+<div class="section" id="pudb">
+<h2>pudb<a class="headerlink" href="#pudb" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">~/.config/pudb/pudb.cfg:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">設定ファイル</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">~/.config/pudb/saved-breakpoints-3.4:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">breakpoint保存</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id2">
+<h3>クラスのインスタンスを作成するには<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>インスタンスの依存関係が複雑になると、デバッグがしにくくなる。</p>
+<p>インスタンスの初期化に、別のインスタンスが必要になるから。</p>
+</div>
+<div class="section" id="id3">
+<h3>対話モードでの真偽判定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>&#8220;&#8221;の真偽値に迷ったら</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="ow">not</span> <span class="ow">not</span> <span class="s">&quot;&quot;</span>
+</pre></div>
+</div>
+<p>と対話モードで入力してみると良いです。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="ow">not</span> <span class="ow">not</span> <span class="s">&quot;&quot;</span>
+<span class="c">#False</span>
+</pre></div>
+</div>
+<p>色々試してみると良いと思います。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="ow">not</span> <span class="ow">not</span> <span class="mi">0</span>    <span class="c"># False</span>
+<span class="ow">not</span> <span class="ow">not</span> <span class="mf">0.0</span>  <span class="c"># False</span>
+<span class="ow">not</span> <span class="ow">not</span> <span class="mi">1</span>    <span class="c"># True</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">p</span> <span class="pre">help(obj)</span></code> を実行すればデバッグ中にもオブジェクトの情報が
+閲覧できます.</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+
+  
+  
+
+  <div class="container">
+    
+    <p>
+        &copy; Copyright 2015, Hiroyuki Ishii.<br/>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
