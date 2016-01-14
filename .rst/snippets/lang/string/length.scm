@@ -2,6 +2,7 @@
 (run "perl -E 'say length shift' abc")
 (gosh (string-length "abc"))
 (emacs (length "abc"))
+(cpp "string s=\"abc\"; P(s.size())")
 (c "p(\"%lu\", strlen(\"abc\"));"
    :msg "Return the length of string but NULL char is not contained.")
 
