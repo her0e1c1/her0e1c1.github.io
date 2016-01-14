@@ -47,3 +47,4 @@
 (ghc "Just 1 *> Just 2")
 (ghc "Just 1 <* Just 2")
 (ghc "Just 1 *> Just 2 *> Just 3 *> Just 4 <* Just 5 <* Just 6")
+
