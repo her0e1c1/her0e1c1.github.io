@@ -1,20 +1,18 @@
 
 (p "
-問題としては以下
 n個の詰め物があり、サイズとその価値が決まっている。
-このとき、ナップザックのサイズのmax_sizeとし、詰め物の価値を最大にする組は何か？
+このとき、ナップザックのサイズのmaxSizeとし、詰め物の価値を最大にする組は何か？
 なお、総当たりの場合の場合の数は2^nとなる
 ")
 
 (math "
-${ (a_i, b_i) = (詰め物のサイズ, その価値) $}
-$sum_i^n a_i $times x_i <= max_size (ただし、x_i $in {0, 1})
-S.T. $max_{x_i} $sum_i^n b_i $times x_i
+${ (a_i, b_i) &=& (詰め物のサイズ, その価値) $}
+$sum_i^n a_i x_i &$le& maxSize (ただし、x_i $in {0, 1})
+S.T. $max_{x_i} $sum_i^n b_i x_i
 ")
 
 (math "
-f(i, size) = $begin{cases}
-max ${f(i-1, size), f(i-1, size+a_i) + b_i (if size + a_i <= max_size) $}
+f(i, size) = $begin{cases} $max ${f(i-1, size), f(i-1, size+a_i) + b_i (IF size + a_i $le maxSize) $}
 $end{cases}
 ")
 
