@@ -3,17 +3,17 @@
 
 (math "
 f(i) = ($mbox{iにおける最大}, $mbox{iにおける総和}) = (m_i, s_i)
-s_0 = 0
+s_1 = a_1
 m_1 = a_1
 s_i = $max ${ a_i, s_{i-1} + a_i $}
 m_i = $max ${ m_{i-1}, s_i $}
 ")
 
 (ghc #!Q
-f = go 0 0 where
+f (x:xs) = go x x xs where
  go s m [] = m
  go s m (x:xs) = go y n xs where
-  y = max (s + x) 0
+  y = max (s + x) x
   n = max m y
 main = do
  print $ f [-10]
@@ -23,7 +23,7 @@ Q:str #t :msg "大きい負の数が来たら、足さずに0から再度開始"
 
 (ghc #!Q
 s :: [Int] -> Int
-s [] = 0
+s [x] = x
 s (x:xs) = max x (x + s xs)
 m :: [Int] -> Int
 m [x] = x
@@ -37,7 +37,7 @@ Q:str #t)
 (ghc #!Q
 import Data.List (maximumBy)
 c a b = compare (sum a) (sum b)
-s [] = []
+s [x] = [x]
 s (x:xs) = maximumBy c [[x], (x:(s xs))]
 m [x] = [x]
 m (x:xs) = maximumBy c [(m xs), (s(x:xs))]
