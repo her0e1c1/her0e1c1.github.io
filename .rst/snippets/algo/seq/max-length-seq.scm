@@ -1,7 +1,7 @@
 
 (math"{a_n}の要素の数列で、a_{in} > a_{i(n-1)} ... > a{i1}を満たす数列で、要素数が最大のものは？(1<=ik<=n)")
 
-(math "a_n > a_k $quad s.t $quad $max $# ${ f(a_n) $} = ${ a_n $} $cup $max_{0<=k<n} $# ${ f(a_k) $}")
+(math "a_n > a_k S.T. $max $# ${ f(a_n) $} = ${ a_n $} $cup $max_{0<=k<n} $# ${ f(a_k) $}")
 
 (p "pointは、f(n)はnより大きいものには依存せず、n未満で決まる")
 
