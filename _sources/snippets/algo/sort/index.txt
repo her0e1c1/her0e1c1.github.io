@@ -11,14 +11,28 @@ sort
 bubble-sort.scm
 =============================================
 
+bubble sortは末尾からsortされる ::
 
-bubble sortは末尾からsortされる
+   1回目     : 0 <= j <= size - 1
+   2回目     : 0 <= j <= size - 2
+   size-1回目: 0 <= j <= size - (size-1) = 1
+   size回目  : 0 <= j <= size - size = 0 (meaningless)
 
-- 1回目     : 0 <= j <= size - 1
-- 2回目     : 0 <= j <= size - 2
-- size-1回目: 0 <= j <= size - (size-1) = 1
-- size回目  : 0 <= j <= size - size = 0 (meaningless)
 
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\数列a_N = (a_1 a_2 ... a_N) = \hat{a}  \quad s.t. \quad 
+    \\g(N) &=& \hat{a}
+    \\g(i-1) &=& f(i, i)
+    \\f(0, end) &=& g(end)
+    \\f(j+1, end) &=& \begin{cases} swap(f(j, end), j, j+1) & (\mbox{if} \quad  a_j > a_{j+1})
+    \\f(j, end) & (else \mbox{j >= endの場合、f(j, end) = f(j+n, end)なので、プログラム上はループ終了})
+    \\\end{cases}
+    \\
+    \end{eqnarray}
 
 
 .. code-block:: c
@@ -46,16 +60,32 @@ bubble sortは末尾からsortされる
     -1, -1, 1, 1, 3, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 10, 10, 20, 33, 45, 
 
 
+.. code-block:: ghc
+   
+
+    f [] = []
+    f xs = f (take (length ys - 1) ys) ++ [last ys] where
+     ys = g xs
+    g [x] = [x]
+    g (x:y:zs)
+     | x < y     = x:g (y:zs)
+     | otherwise = y:g (x:zs)
+    main = print $ f [3,1,2,5,4]
+
+.. code-block:: sh
+   
+
+    [1,2,3,4,5]
+    
+
+
 
 heap-sort.scm
 =======================================
 
 
-===========
- Heap sort
-===========
-
-.. contents::
+Heap sort
+=========
 
 Introduction
 ============
@@ -115,17 +145,17 @@ Cの場合0始まりとする.
 
     \begin{eqnarray}
         
-    \\parent >=0 \in N (\Rightarrow child \ne 0)
-    \\s.t. \quad parent = \lfloor \frac{child-1}{2} \rfloor
+    \\parent >=0 \in N
+    \\ \quad s.t. \quad  parent = \lfloor \frac{child-1}{2} \rfloor (\Rightarrow child \ne 0)
     \\
     \\left  &=& 2 \times parent + 1
     \\right &=& 2 \times parent + 2
     \\
-    \\size &<=& left & \Rightarrow & no children
-    \\size &==& right = (left+1)& \Rightarrow & only left child
-    \\&& else & \Rightarrow & two children
+    \\size &<=& left & \Rightarrow & \mbox{no children}
+    \\size &==& right = (left+1)& \Rightarrow & \mbox{only left child}
+    \\&& else & \Rightarrow & \mbox{two children}
     \\
-    \\downHeap(parent, A) &=& downHeap(max_child, swap(A,max_child, parent)) & (*max_child > *parent and max_child > 0)
+    \\downHeap(parent, A) &=& downHeap(maxChild, swap(A,maxChild, parent)) & (*maxChild > *parent \bigwedge maxChild > 0)
     \\upHeap(child, A) &=& upHeap(parent, swap(A,child, parent)) & (*child > *parent and child > 0)
     \\heapify(i, A) &=& heapify(i+1, upHeap(i, A)) & (任意の配列を0から順番にheapを構築)
     \\sort(i, A) &=& sort(i-1, downHeap(0, swap(A, 0, i))) & (配列の末尾から昇順にソート)
@@ -208,34 +238,6 @@ insert-sort.scm
 0番目はそのままで良いので、1番目からソートする
 挿入については、適した位置が見つかれば、その時点でi番目までソート済みになる。
 そのため、ソート済み配列をソートする場合の計算量は、O(n)となる。
-
-.. code-block:: c
-   
-
-    
-    #include <myc.h>
-    static inline void swap(int *x, int *y) { int t=*x; *x=*y; *y=t; }
-    void sort(int *a, int len) {
-     for (int i = 1; i < len; i++) {
-      int j = i;
-      while (j >= 1 && a[j-1] > a[j]) {
-       swap(&a[j-1], &a[j]);
-       j--;
-      }
-     }
-    }
-    int main() {
-     int a[] = {-57, -79, -10, -78, -82, 79, 72, 57, 14, 16, 0, 41, 7, -36, 37, 72, -81, 46, -90, -85};
-     sort(a, SIZE(a));
-     PVI(a);
-    }
-    
-
-.. code-block:: sh
-   
-
-    -90, -85, -82, -81, -79, -78, -57, -36, -10, 0, 7, 14, 16, 37, 41, 46, 57, 72, 72, 79, 
-
 
 
 msort.scm
@@ -702,7 +704,7 @@ i番目における現時点での最小値を決めたい. (常にa[i]と比較
      }
     }
     int main() {
-     int a[] = {-49, -1, -73, 3, 92, 29, 47, 36, 85, -76, -53, -11, -57, -72, -83, -50, -48, 11, 43, 56};
+     int a[] = {-87, 45, 52, 52, 37, -32, -99, -22, -94, 95, -8, -75, -10, 87, 59, 90, -69, 97, 71, -1};
      sort(a, SIZE(a));
      PVI(a);
     }
@@ -711,7 +713,7 @@ i番目における現時点での最小値を決めたい. (常にa[i]と比較
 .. code-block:: sh
    
 
-    -83, -76, -73, -72, -57, -53, -50, -49, -48, -11, -1, 3, 11, 29, 36, 43, 47, 56, 85, 92, 
+    -99, -94, -87, -75, -69, -32, -22, -10, -8, -1, 37, 45, 52, 52, 59, 71, 87, 90, 95, 97, 
 
 
 
@@ -741,7 +743,7 @@ gap==1で最終的にソートされる
      }
     }
     int main() {
-     int a[] = {-21, -19, -19, 97, 46, -16, 80, -46, 22, 31, -5, 99, 37, -73, 34, 16, -21, 96, -35, 0};
+     int a[] = {-81, -44, 30, 90, -56, -12, 79, -58, 48, -24, -69, -70, 89, 2, -36, 5, 60, -69, 59, -20};
      int len = sizeof(a)/sizeof(a[0]);
      sort(a, len);
      for (int i = 0; i < len; i++)
@@ -752,7 +754,7 @@ gap==1で最終的にソートされる
 .. code-block:: sh
    
 
-    -73, -46, -35, -21, -21, -19, -19, -16, -5, 0, 16, 22, 31, 34, 37, 46, 80, 96, 97, 99, 
+    -81, -70, -69, -69, -58, -56, -44, -36, -24, -20, -12, 2, 5, 30, 48, 59, 60, 79, 89, 90, 
 
 An array is divided to k-groups. apply insert sort to each group
 
@@ -777,7 +779,7 @@ An array is divided to k-groups. apply insert sort to each group
      }
     }
     int main() {
-     int a[] = {-21, -19, -19, 97, 46, -16, 80, -46, 22, 31, -5, 99, 37, -73, 34, 16, -21, 96, -35, 0};
+     int a[] = {-81, -44, 30, 90, -56, -12, 79, -58, 48, -24, -69, -70, 89, 2, -36, 5, 60, -69, 59, -20};
      int len = sizeof(a)/sizeof(a[0]);
      sort(a, len);
      for (int i = 0; i < len; i++) printf("%d, ", a[i]);
@@ -787,7 +789,7 @@ An array is divided to k-groups. apply insert sort to each group
 .. code-block:: sh
    
 
-    -73, -46, -35, -21, -21, -19, -19, -16, -5, 0, 16, 22, 31, 34, 37, 46, 80, 96, 97, 99, 
+    -81, -70, -69, -69, -58, -56, -44, -36, -24, -20, -12, 2, 5, 30, 48, 59, 60, 79, 89, 90, 
 
 
 

@@ -103,15 +103,64 @@
 <p class="topic-title first">Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#sorted-sequence" id="id3">sorted-sequence</a><ul>
-<li><a class="reference internal" href="#distinct-scm" id="id4">distinct.scm</a></li>
-<li><a class="reference internal" href="#triangle-exists-scm" id="id5">triangle-exists.scm</a></li>
-<li><a class="reference internal" href="#triple-product-scm" id="id6">triple-product.scm</a></li>
+<li><a class="reference internal" href="#common-range-scm" id="id4">common-range.scm</a></li>
+<li><a class="reference internal" href="#distinct-scm" id="id5">distinct.scm</a></li>
+<li><a class="reference internal" href="#triangle-exists-scm" id="id6">triangle-exists.scm</a></li>
+<li><a class="reference internal" href="#triple-product-scm" id="id7">triple-product.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="common-range-scm">
+<h2><a class="toc-backref" href="#id4">common-range.scm</a><a class="headerlink" href="#common-range-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="a-i-b-i">
+<h3>[(a_i, b_i)]における共通部分<a class="headerlink" href="#a-i-b-i" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+
+\\a_i \le b_i  \quad s.t. \quad
+\\f(i, no) = \begin{cases}
+\\f(i, no+1) & (a_i > no)
+\\f(i, print(no)+1) & (a_i \le no < b_i)
+\\f(k, print(no)+1) & (\min_{b_i < b_k} k)
+\\\end{cases}
+\\
+\end{eqnarray}\]</div><div class="highlight-py"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">lines</span><span class="o">=</span><span class="s">&quot;0 1 2 3 4 5 6 7 8 9 10&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">no</span><span class="p">):</span>
+ <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+  <span class="k">return</span>
+ <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">no</span><span class="p">:</span>
+  <span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">no</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+ <span class="k">elif</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">no</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">no</span><span class="p">])</span>
+  <span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">no</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">no</span><span class="p">])</span>
+  <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+  <span class="k">while</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+   <span class="k">if</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+    <span class="k">break</span>
+   <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="n">f</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">no</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>1
+2
+3
+4
+5
+6
+7
+9
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="distinct-scm">
-<h2><a class="toc-backref" href="#id4">distinct.scm</a><a class="headerlink" href="#distinct-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">distinct.scm</a><a class="headerlink" href="#distinct-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>重複を許した要素を持つ集合の区別できる要素の個数<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>ソート配列に対して、現在の値nを保持しておく</p>
@@ -126,26 +175,26 @@
 \end{eqnarray}\]</div></div>
 </div>
 <div class="section" id="triangle-exists-scm">
-<h2><a class="toc-backref" href="#id5">triangle-exists.scm</a><a class="headerlink" href="#triangle-exists-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">triangle-exists.scm</a><a class="headerlink" href="#triangle-exists-scm" title="Permalink to this headline">¶</a></h2>
 <p>return true if a sorted array has a triangle</p>
 <div class="math">
 \[\begin{eqnarray}
     f(i) = 1 (a_i + a_{i+1} > a_{i+2})
 \end{eqnarray}\]</div></div>
 <div class="section" id="triple-product-scm">
-<h2><a class="toc-backref" href="#id6">triple-product.scm</a><a class="headerlink" href="#triple-product-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">triple-product.scm</a><a class="headerlink" href="#triple-product-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3>配列の３つの積の最大値は?<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{eqnarray}
     \max_{i,j,k \in N} a[i] \times a[j] \times a[k]
 \end{eqnarray}\]</div><div class="highlight-gosh"><div class="highlight"><pre>(print
-    (let1 l (pa$ at (sort &#39;(3 3 3 9 -7 4 -7 1 1 -6)))
+    (let1 l (pa$ at (sort &#39;(6 -1 1 3 -2 -9 -10 -8 1 6)))
        (max (* (l -1) (l -2) (l -3))
             (* (l 0) (l 1) (l -1)))))
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>441
+<div class="highlight-sh"><div class="highlight"><pre>540
 </pre></div>
 </div>
 </div>

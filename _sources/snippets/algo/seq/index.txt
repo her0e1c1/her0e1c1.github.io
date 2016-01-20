@@ -71,8 +71,8 @@ CO
 
 
 
-contiguous-subseq.scm
-===============================================================
+contiguous-subsequence.scm
+==============================================================================
 
 
 .. warning::
@@ -85,24 +85,58 @@ contiguous-subseq.scm
 
     \begin{eqnarray}
         
-    \\f(1) = \{ a_1 \}
-    \\f(n) = \max \{ f(n-1) + a_n, a_n \}
+    \\f(i) = (\mbox{iにおける最大}, \mbox{iにおける総和}) = (m_i, s_i)
+    \\s_1 = a_1
+    \\m_1 = a_1
+    \\s_i = \max \{ a_i, s_{i-1} + a_i \}
+    \\m_i = \max \{ m_{i-1}, s_i \}
     \\
     \end{eqnarray}
+
+大きい負の数が来たら、足さずに0から再度開始
+
+.. code-block:: ghc
+   
+
+    f (x:xs) = go x x xs where
+     go s m [] = m
+     go s m (x:xs) = go y n xs where
+      y = max (s + x) x
+      n = max m y
+    main = do
+     print $ f [-10]
+     print $ f [0,4,-6,2,3]
+     print $ f [1,-2,1,3,2,-5,1,-4,-3,1,-2]
+
+.. code-block:: sh
+   
+
+    -10
+    5
+    6
+    
 
 
 .. code-block:: ghc
    
 
-    f = go where
-     go [x] = x
-     go (x:xs) = max x ((go xs) + x)
-    main = print $ f [1,-2,1,3,2,-5,1,-4,-3,1,-2]
+    s :: [Int] -> Int
+    s [x] = x
+    s (x:xs) = max x (x + s xs)
+    m :: [Int] -> Int
+    m [x] = x
+    m (x:xs) = max (m xs) (s $ x:xs)
+    main = do
+     print $ m [-10]
+     print $ m [0,4,-6,2,3]
+     print $ m [1,-2,1,3,2,-5,1,-4,-3,1,-2]
 
 .. code-block:: sh
    
 
+    -10
     5
+    6
     
 
 result of a list
@@ -111,17 +145,222 @@ result of a list
    
 
     import Data.List (maximumBy)
-    f :: [Int] -> [Int]
-    f = go where
-     go [x] = [x]
-     go (x:xs) = maximumBy cmp [[x], (x:go xs)]
-     cmp a b = compare (sum a) (sum b)
-    main = print $ f [1,-2,1,3,2,-5,1,-4,-3,1,-2]
+    c a b = compare (sum a) (sum b)
+    s [x] = [x]
+    s (x:xs) = maximumBy c [[x], (x:(s xs))]
+    m [x] = [x]
+    m (x:xs) = maximumBy c [(m xs), (s(x:xs))]
+    main = do
+     print $ m [-10]
+     print $ m [0,4,-6,2,3]
+     print $ m [1,-2,1,3,2,-5,1,-4,-3,1,-2]
 
 .. code-block:: sh
    
 
-    [1,-2,1,3,2]
+    [-10]
+    [2,3]
+    [1,3,2]
+    
+
+
+
+dominator.scm
+=======================================
+
+
+
+ある数列における、半数超過を占める要素を求める
+---------------------------------------------------------------------
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\f(i,stack_size,n) = \begin{cases}
+    \\f(i+1,stack_size+1, n) & (a_i = n)
+    \\f(i+1,stack_size-1, n) & (a_i \ne n, stack_size > 0)
+    \\f(i+1, 1, a_i) & (else)
+    \\\end{cases}
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: py
+   
+
+    def f(a):
+     def g(i, size, n):
+      print(i, size, n)
+      if i == len(a):
+       return n
+      elif a[i] == n:
+       return g(i+1, size+1, n)
+      elif size > 0:
+       return g(i+1, size-1, n)
+      else:
+       return g(i+1, 1, a[i])
+     return g(0, 0, None)
+     # return g(0, 1, a[0])  # こっちだと半分以上になる?
+    print(f([2,1,2,3,4,2,3,4,2,3,2]))
+    print(f([1,1,1,2,1,2,3]))
+    print(f([1,1,1,2,2,2]))
+    print(f([1,1,2,2,3]))  # 候補がない場合のバリデーションも別途必要そう
+
+.. code-block:: sh
+   
+
+    (0, 0, None)
+    (1, 1, 2)
+    (2, 0, 2)
+    (3, 1, 2)
+    (4, 0, 2)
+    (5, 1, 4)
+    (6, 0, 4)
+    (7, 1, 3)
+    (8, 0, 3)
+    (9, 1, 2)
+    (10, 0, 2)
+    (11, 1, 2)
+    2
+    (0, 0, None)
+    (1, 1, 1)
+    (2, 2, 1)
+    (3, 3, 1)
+    (4, 2, 1)
+    (5, 3, 1)
+    (6, 2, 1)
+    (7, 1, 1)
+    1
+    (0, 0, None)
+    (1, 1, 1)
+    (2, 2, 1)
+    (3, 3, 1)
+    (4, 2, 1)
+    (5, 1, 1)
+    (6, 0, 1)
+    1
+    (0, 0, None)
+    (1, 1, 1)
+    (2, 2, 1)
+    (3, 1, 1)
+    (4, 0, 1)
+    (5, 1, 3)
+    3
+    
+
+
+
+equileader.scm
+==========================================
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\\{a_n\} \mbox{の半分超過の要素x}  \quad s.t. \quad  2集合 \{a_1, a_2 ... a_k\}, \{a_{k+1}, a_{k+2} ... a_n \}
+    \\\mbox{が、それぞれxが超過要素となる場合の数}
+    \end{eqnarray}
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\f(i, n, s) = f(i+1, N, S)
+    \\where
+    \\num = \mbox{\{a_n\}におけるxの要素数}
+    \\N = n + 1 (if a_i = x)
+    \\S = s + 1 (if 2n > i + 1, 2(num - n) > length(a_n) - (i + 1))
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: py
+   
+
+    def f(A, d):
+     num = len([a for a in A if a == d])
+     s = 0
+     n = 0
+     for i in range(len(A)):
+      if A[i] == d:
+       n += 1
+      if 2 * n > i + 1 and 2 * (num - n) > len(A) - (i + 1):
+       s += 1
+     return s
+    print(f([4, 3, 4, 4, 4, 2], 4))
+
+.. code-block:: sh
+   
+
+    2
+    
+
+
+
+grep.scm
+========================
+
+
+
+if the pattern matches line, then print the line and the N previous and N next lines
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\f(i, n, q) = \begin{cases}
+    \\f(i+1, N, \{\}) & (match(a_i, pattern))
+    \\f(i+1, n-1, \{\})  & (n > 0)
+    \\f(i+1, 0, insert(a_1, q)) & (else)
+    \\\mbox{ただし、qは最大NまでのF\mbox{if} \quad Oデータ構造}
+    \\\end{cases}
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: py
+   
+
+    def f(lines, pattern, N):
+     queue = []
+     n = 0
+     for line in lines:    
+      if pattern in line:
+       while queue:
+        print(queue.pop(0))
+       print(line)
+       n = N
+      elif n > 0:
+       print(line)
+       n =- 1
+      else:
+       queue.append(line)
+      if len(queue) > N:
+       queue.pop(0)
+    f("1 p 3 2 1 4 3 3 4".split(), "3", 2)
+
+.. code-block:: sh
+   
+
+    1
+    p
+    3
+    2
+    1
+    4
+    3
+    3
+    4
     
 
 
@@ -183,9 +422,8 @@ knapsack.scm
 ====================================
 
 
-問題としては以下
 n個の詰め物があり、サイズとその価値が決まっている。
-このとき、ナップザックのサイズのmax_sizeとし、詰め物の価値を最大にする組は何か？
+このとき、ナップザックのサイズのmaxSizeとし、詰め物の価値を最大にする組は何か？
 なお、総当たりの場合の場合の数は2^nとなる
 
 
@@ -194,9 +432,9 @@ n個の詰め物があり、サイズとその価値が決まっている。
 
     \begin{eqnarray}
         
-    \\\{ (a_i, b_i) = (詰め物のサイズ, その価値) \}
-    \\\sum_i^n a_i \times x_i <= max_size (ただし、x_i \in {0, 1})
-    \\ \quad s.t. \quad  \max_{x_i} \sum_i^n b_i \times x_i
+    \\\{ (a_i, b_i) &=& (詰め物のサイズ, その価値) \}
+    \\\sum_i^n a_i x_i &\le& maxSize (ただし、x_i \in {0, 1})
+    \\ \quad s.t. \quad  \max_{x_i} \sum_i^n b_i x_i
     \\
     \end{eqnarray}
 
@@ -206,8 +444,7 @@ n個の詰め物があり、サイズとその価値が決まっている。
 
     \begin{eqnarray}
         
-    \\f(i, size) = \begin{cases}
-    \\max \{f(i-1, size), f(i-1, size+a_i) + b_i (if size + a_i <= max_size) \}
+    \\f(i, size) = \begin{cases} \max \{f(i-1, size), f(i-1, size+a_i) + b_i (\mbox{if} \quad  size + a_i \le maxSize) \}
     \\\end{cases}
     \\
     \end{eqnarray}
@@ -363,7 +600,7 @@ max-length-seq.scm
     :nowrap:
 
     \begin{eqnarray}
-        a_n > a_k \quad s.t \quad \max \# \{ f(a_n) \} = \{ a_n \} \cup \max_{0<=k<n} \# \{ f(a_k) \}
+        a_n > a_k  \quad s.t. \quad  \max \# \{ f(a_n) \} = \{ a_n \} \cup \max_{0<=k<n} \# \{ f(a_k) \}
     \end{eqnarray}
 
 pointは、f(n)はnより大きいものには依存せず、n未満で決まる
@@ -425,6 +662,52 @@ S0=[] -- ここまで必ず分割すること(終了条件)
 
     1, 2, 3, 4, 5, 
     1, 2, 4, 5, 6, 
+    
+
+
+
+max-profit.scm
+==========================================
+
+
+
+株価の儲けの最大を求める
+------------------------------------
+
+差を求めて、それに対してKadane’s algorithを適用
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\d(i) = f(i+1) - f(i) (1 \le i \le n - 1)
+    \\g(i) = (m_i, s_i)
+    \\s_1 = m_1 = d(1)
+    \\s_i = \max \{d(i), s_{i-1} + d(i) \}
+    \\m_i = \max \{m_{i-1}, s_i\}
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: ghc
+   
+
+    f (x:y:xs)= g (x-y) (x-y) (y:xs) where
+     g s m [x] = max m 0
+     g s m (x:y:xs) = g ns nm (y:xs) where
+      d  = x - y
+      ns = max d (s + d)
+      nm = max m ns
+    main = do
+     print $ f $ reverse [4,1,2,5,3]
+     print $ f $ reverse [5,4,3,2,1]
+
+.. code-block:: sh
+   
+
+    4
+    0
     
 
 

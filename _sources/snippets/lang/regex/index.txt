@@ -345,7 +345,7 @@ if string does not match (?!...), then match
    
 
     $ py 'P(match(r"abc(?!def)", "abcDEF"))' 
-    <_sre.SRE_Match object at 0x8007e8100>
+    <_sre.SRE_Match object at 0x802e30510>
     
 
 
@@ -384,7 +384,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "abcdef"))' 
-    #<<regmatch> 0x1651600>
+    #<<regmatch> 0x16512d0>
     #<undef>
     
 
@@ -393,7 +393,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "ABCdef"))' 
-    #<<regmatch> 0x1651600>
+    #<<regmatch> 0x16512d0>
     #<undef>
     
 
@@ -411,7 +411,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/abc(?!def)/ "abcDEF"))' 
-    #<<regmatch> 0x1651600>
+    #<<regmatch> 0x16512d0>
     #<undef>
     
 
@@ -492,7 +492,7 @@ lookbehind-negative.scm
    
 
     $ py 'P(search(r"(?<!wo)man", "There is a man"))' 
-    <_sre.SRE_Match object at 0x8007e8100>
+    <_sre.SRE_Match object at 0x802e30510>
     
 
 
@@ -587,7 +587,7 @@ match.scm
    
 
     $ s '(#/str/ "strng")' 
-    #<<regmatch> 0x16519f0>
+    #<<regmatch> 0x16516c0>
     
 
 
@@ -869,6 +869,6 @@ with x option, ignore whitespace
    
 
     $ py 'P(match(r'\''a   b c'\'', '\''abc'\'', X))' 
-    <_sre.SRE_Match object at 0x8007e8100>
+    <_sre.SRE_Match object at 0x802e30510>
     
 
