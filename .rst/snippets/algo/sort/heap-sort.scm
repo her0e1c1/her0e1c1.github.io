@@ -1,10 +1,7 @@
 
 (p"
-===========
- Heap sort
-===========
-
-.. contents::
+Heap sort
+=========
 
 Introduction
 ============
@@ -60,17 +57,17 @@ Cの場合0始まりとする.
 ")
 
 (math "
-parent >=0 $in N ($Rightarrow child $ne 0)
-s.t. $quad parent = $lfloor $frac{child-1}{2} $rfloor
+parent >=0 $in N
+S.T. parent = $lfloor $frac{child-1}{2} $rfloor ($Rightarrow child $ne 0)
 
 left  &=& 2 $times parent + 1
 right &=& 2 $times parent + 2
 
-size &<=& left & $Rightarrow & no children
-size &==& right = (left+1)& $Rightarrow & only left child
-&& else & $Rightarrow & two children
+size &<=& left & $Rightarrow & $mbox{no children}
+size &==& right = (left+1)& $Rightarrow & $mbox{only left child}
+&& else & $Rightarrow & $mbox{two children}
 
-downHeap(parent, A) &=& downHeap(max_child, swap(A,max_child, parent)) & (*max_child > *parent and max_child > 0)
+downHeap(parent, A) &=& downHeap(maxChild, swap(A,maxChild, parent)) & (*maxChild > *parent $bigwedge maxChild > 0)
 upHeap(child, A) &=& upHeap(parent, swap(A,child, parent)) & (*child > *parent and child > 0)
 heapify(i, A) &=& heapify(i+1, upHeap(i, A)) & (任意の配列を0から順番にheapを構築)
 sort(i, A) &=& sort(i-1, downHeap(0, swap(A, 0, i))) & (配列の末尾から昇順にソート)
