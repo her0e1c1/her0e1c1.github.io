@@ -8,7 +8,7 @@ def f(groups, S):
     interval = N / groups
     for _ in range(groups):
         for i in range(0, N, interval):
-            last = i + interval
+            last = i + interval  # groupsでNを割り切れるなら、lastは常に区間の最後(端点は含まない)
             while i < last:
                 if S[i]: break
                 i += 1
