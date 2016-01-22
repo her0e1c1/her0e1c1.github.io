@@ -21,3 +21,12 @@
 
 (p ">> == (. const) . (>>=)")
 (ghc "((. const) . (>>=)) (Just 1) (Just 2)")
+
+(pw "文脈をもつ関数の合成は.でなく<$>")
+(ghc "main = (print <$> (+1)) 1" :str #t)
+(ghc "main = print $ (+1) <$> Just 1" :str #t)
+(ghc "
+import Control.Monad
+p = print <$> (+)
+main = return ()
+" :warn "合成は引数１つの関数に限る" :str #t)
