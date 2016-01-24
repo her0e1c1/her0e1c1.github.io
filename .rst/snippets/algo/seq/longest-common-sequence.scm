@@ -8,7 +8,25 @@ max{f(x-1,y), f(x, y-1)}
 $end{cases}
 ")
 
+(p "f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮しなくてよい")
 (p "１変数のみ動かし、他の変数を固定して考えるのだと思うけど、まだよくわかってない")
+
+(ghc #!Q
+import Data.List (maximumBy)
+c a b = compare (length a) (length b)
+f = g where
+ g xss@(x:xs) yss@(y:ys)
+  | x == y    = x : g xs ys
+  | otherwise = maximumBy c [(g xss ys), (g xs yss)]
+ g _ _ = ""
+p = print <$> f
+main = do
+ print $ f "abcdefg" "bde"
+ print $ f "abcdefg" "ace"
+ print $ f "abcdefg" "kakcke"
+ print $ f "abcdefg" "kakdkbkekcdf"
+ print $ f "azbzczdzezfzg" "kakdkbkekcdf"
+Q:str #t)
 
 (cpp #!Q
 #include "myutils.h"
