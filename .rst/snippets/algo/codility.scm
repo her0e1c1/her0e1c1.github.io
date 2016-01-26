@@ -109,5 +109,9 @@ int dfs(int depth) {
 }
 
 - https://codility.com/demo/results/trainingQGMGT9-RFD/
-|#
 
+- prim
+- 4分木
+- kb木
+- r木
+|#
