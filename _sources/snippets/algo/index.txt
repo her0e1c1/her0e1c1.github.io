@@ -3,21 +3,6 @@
  Algorithm
 ===========
 
-..
-    the missing one == ((n+1)n/2 - sigma |aj|)
-
-    prefix sum == scan
-
-    三角形の存在条件
-    sorted(A); A[i] + A[i+1] > A[i+2]
-
-    parse
-    "(()(())())"
-    parse
-    "(()){[]}"
-
-    Prim
-
 
 
 .. toctree::
@@ -36,6 +21,12 @@
     :maxdepth: 1
 
     number-of-cases/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    prefix-sum/index.rst
 
 
 .. toctree::
@@ -73,7 +64,9 @@
 .. toctree::
     :maxdepth: 1
 
-    
+    struct/vector.rst
+    struct/string.rst
+    struct/index.rst
 
 
 .. toctree::
