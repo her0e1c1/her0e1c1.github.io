@@ -32,8 +32,10 @@ def write_doc(self, docname, doctree):
 
 def on_builder_inited(app):
     if app.builder.name == 'html':
+        unusedjs = ["underscore.js", "doctools.js"]
         replacer = lambda uri: re.sub('^_static/', app.config.staticdir_name, uri)
-        app.builder.script_files = map(replacer, app.builder.script_files)
+        files = [js for js in app.builder.script_files if os.path.basename(js) not in unusedjs]
+        app.builder.script_files = map(replacer, files)
         app.builder.css_files = map(replacer, app.builder.css_files)
         app.builder.imagedir = "images"
         app.builder.write_doc = lambda docname, doctree: write_doc(app.builder, docname, doctree)
