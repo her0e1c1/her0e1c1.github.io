@@ -66,3 +66,28 @@ int main() {
           6));
 }
 Q :str #t :msg "dp")
+
+(cpp #!Q
+#include <myutils.h>
+// dpでは、一つ前の状態から、現在の状態へ遷移することを考える
+int solve(vector<int> sizes, vector<int> prices, int capacity) {
+  assert(sizes.size() == prices.size());
+  int S = sizes.size();
+  vector<int> dp(capacity + 1, 0);
+  for (int s = 0; s < S; s++) {
+    for (int c = 0; c <= capacity; c++) {  // =を忘れない
+      int c1 = c - sizes[s];
+      if (c1 >= 0)
+        dp[c] = max(dp[c], dp[c1] + prices[s]);
+      else
+        dp[c] = dp[c];
+    }
+  }
+  return dp[capacity];
+}
+int main() {
+  P(solve({1,2,3,4,5},
+          {5,4,3,2,1},
+          6));
+}
+Q :str #t :msg "dp")
