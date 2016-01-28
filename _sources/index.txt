@@ -10,7 +10,7 @@
    <textarea id="input" rows="10" cols="50">
     (begin
       (define msg "You are wellcome!")
-      (define (hello) (alert msg))
+      (define hello (lambda () (alert msg)))
       (hello))
    </textarea>
    <button onclick="parse($('#input').val())">Run</button>
