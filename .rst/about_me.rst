@@ -7,7 +7,7 @@ I am a software engineer.
 
 I think simple is best for programming.
 
-I like oneliner.
+I like oneliner and functional programming.
 
 SNS Links
 =========
@@ -27,5 +27,6 @@ Resume
 ======
 
 .. toctree::
+   :maxdepth: 1
 
    resume
