@@ -393,7 +393,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "ABCdef"))' 
-    #<<regmatch> 0x16512d0>
+    #<<regmatch> 0x1651300>
     #<undef>
     
 

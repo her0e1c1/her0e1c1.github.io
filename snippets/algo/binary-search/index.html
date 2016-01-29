@@ -90,49 +90,106 @@
     <div class="col-md-12 content">
       
   <div class="section" id="binary-search">
-<h1><a class="toc-backref" href="#id3">binary-search</a><a class="headerlink" href="#binary-search" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id5">binary-search</a><a class="headerlink" href="#binary-search" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#binary-search" id="id3">binary-search</a><ul>
-<li><a class="reference internal" href="#findsqrtn-scm" id="id4">findSqrtN.scm</a></li>
-<li><a class="reference internal" href="#index-scm" id="id5">index.scm</a></li>
-<li><a class="reference internal" href="#id2" id="id6">ビット演算でのイメージ</a></li>
-<li><a class="reference internal" href="#rotate-scm" id="id7">rotate.scm</a></li>
-<li><a class="reference internal" href="#zero-scm" id="id8">zero.scm</a></li>
+<li><a class="reference internal" href="#binary-search" id="id5">binary-search</a><ul>
+<li><a class="reference internal" href="#find-min-x-scm" id="id6">find-min-x.scm</a></li>
+<li><a class="reference internal" href="#findsqrtn-scm" id="id7">findSqrtN.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id8">index.scm</a></li>
+<li><a class="reference internal" href="#id3" id="id9">ビット演算でのイメージ</a></li>
+<li><a class="reference internal" href="#minimize-sum-sequence-scm" id="id10">minimize-sum-sequence.scm</a></li>
+<li><a class="reference internal" href="#rotate-scm" id="id11">rotate.scm</a></li>
+<li><a class="reference internal" href="#zero-scm" id="id12">zero.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="findsqrtn-scm">
-<h2><a class="toc-backref" href="#id4">findSqrtN.scm</a><a class="headerlink" href="#findsqrtn-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="find-min-x-scm">
+<h2><a class="toc-backref" href="#id6">find-min-x.scm</a><a class="headerlink" href="#find-min-x-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="compute-the-square-root">
 <h3>Compute the square root<a class="headerlink" href="#compute-the-square-root" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{eqnarray}
-    n \in N s.t. \max_{x} f(x) = x^2 - n \le 0
-\end{eqnarray}\]</div><p>f(x) &lt;= 0の場合に、+ 2^xを大きい方から累積する。単調増加関数である必要あり</p>
-<div class="highlight-gosh"><div class="highlight"><pre>(let* ((n 15241578750190521)
-       (f (^x (- (* x x) n)))
-       (g (^(a acc)
-            (let1 x (+ a acc) (if (&lt;= (f x) 0) x acc)))))
-  (print (fold g 0 (map (pa$ expt 2) (reverse (iota 63))))))
+    n \in N s.t. \min_{x} f(x) = x^2 - n \ge 0
+\end{eqnarray}\]</div><p>min f(x) &gt;= 0の場合は、foldを使えないが、whileによる解法あり.
+foldが使えるのは、high側が常に失敗する場合のみ。今回はhigh側がTrueの場合
+[0, 2^30]の範囲で探索</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+    <span class="n">lo</span> <span class="o">=</span> <span class="n">rv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">30</span>
+    <span class="k">while</span> <span class="n">lo</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">:</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="p">(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">hi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">f</span><span class="p">(</span><span class="n">mi</span><span class="p">):</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="n">mi</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">rv</span>
+<span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="mi">15241578750190521</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>123456789
 </pre></div>
 </div>
-<div class="highlight-gosh"><div class="highlight"><pre>(print
- (let* ((n 15241578750190521)
-        (f (^x (- (* x x) n))))
-   (let loop ((low 0) (high (expt 2 63)))
-     (if (&gt; low high)
-         -1
-         (let* ((x (div (+ low high) 2))
-                (fx (f x)))
-           (cond ((= fx 0) x)
-                 ((&lt; fx 0) (loop (+ x 1) high))
-                 (else (loop low (- x 1)))))))))
+</div>
+</div>
+<div class="section" id="findsqrtn-scm">
+<h2><a class="toc-backref" href="#id7">findSqrtN.scm</a><a class="headerlink" href="#findsqrtn-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Compute the square root<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    n \in N s.t. \max_{x} f(x) = x^2 - n \le 0
+\end{eqnarray}\]</div><p>f(x) &lt;= 0の場合に、+ 2^xを大きい方から累積する。単調増加関数である必要あり</p>
+<div class="highlight-ghc"><div class="highlight"><pre>h n = foldl g 0 (map (2^) [64,63..0]) where
+ f x = x * x - n &lt;= 0
+ g acc a = let x = a + acc in if f x then x else acc
+main = print $ h 15241578750190521
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>123456789
+</pre></div>
+</div>
+<p>[0, 2^30]の範囲で探索</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span>
+    <span class="n">lo</span> <span class="o">=</span> <span class="n">rv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">30</span>
+    <span class="k">while</span> <span class="n">lo</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">:</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="p">(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">hi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">f</span><span class="p">(</span><span class="n">mi</span><span class="p">):</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="n">mi</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">rv</span>
+<span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="mi">15241578750190521</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>123456789
+</pre></div>
+</div>
+<p>目的の値を取得したところで探索終了</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">n</span>
+    <span class="n">lo</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">30</span>
+    <span class="k">while</span> <span class="n">lo</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">:</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="p">(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">hi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">mi</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rv</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mi</span>
+        <span class="k">elif</span> <span class="n">rv</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="mi">15241578750190521</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>123456789
@@ -141,9 +198,9 @@
 </div>
 </div>
 <div class="section" id="index-scm">
-<h2><a class="toc-backref" href="#id5">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3>基本的な考え方<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h2><a class="toc-backref" href="#id8">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>基本的な考え方<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{eqnarray}
 
@@ -197,8 +254,8 @@
 <p>つまり、解ではないことが判明したmidを区間に含めないように、mid+1, mid-1して区間を狭める必要がある。</p>
 </div>
 </div>
-<div class="section" id="id2">
-<h2><a class="toc-backref" href="#id6">ビット演算でのイメージ</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id9">ビット演算でのイメージ</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">f(x)</span> <span class="pre">=</span> <span class="pre">-x^2</span> <span class="pre">+</span> <span class="pre">10*x</span> <span class="pre">+</span> <span class="pre">1</span></code> の <code class="docutils literal"><span class="pre">max</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">N</span> <span class="pre">st</span> <span class="pre">f(x)</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> を考える。
 答えは、 <code class="docutils literal"><span class="pre">f(10)</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">f(11)</span> <span class="pre">=</span> <span class="pre">-10</span></code> よりx=10である。</p>
 <p><code class="docutils literal"><span class="pre">f(2^4)</span> <span class="pre">&lt;</span> <span class="pre">0</span></code> なので、4乗は境界線を超えている(当然f(2^5)なども、この関数では同様)。
@@ -231,9 +288,48 @@ xは8以上なので、ここで <code class="docutils literal"><span class="pre
 <p class="first admonition-title">Warning</p>
 <p class="last">bit演算の問題点は、負の数には対応できないので、注意すること。</p>
 </div>
+<div class="section" id="id4">
+<h3>使えない場合の例<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>[5,6,5,6,1,1,1,1,6,5,6,5]の数列の極大値を各グループごとに含むようにして、できるだけ多く分割したい場合
+n=3で失敗するからといって、n=4も失敗するとは限らない</p>
+</div>
+</div>
+<div class="section" id="minimize-sum-sequence-scm">
+<h2><a class="toc-backref" href="#id10">minimize-sum-sequence.scm</a><a class="headerlink" href="#minimize-sum-sequence-scm" title="Permalink to this headline">¶</a></h2>
+<p>ある配列をK個に区分したときの、区分配列のうち最大和の最小値を求める
+[max(A), sum(A)]の範囲で2分探索することで、SUMの最小値がもとまる</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;myutils.h&quot;</span>
+<span class="kt">bool</span> <span class="nf">f</span><span class="p">(</span><span class="kt">int</span> <span class="n">SUM</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">A</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">SUM</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">s</span> <span class="o">+=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">k</span><span class="o">++</span><span class="p">;</span>
+      <span class="n">s</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="n">K</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">P</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">}));</span>
+  <span class="n">P</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">}));</span>
+  <span class="n">P</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">}));</span>
+  <span class="n">P</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">0</span><span class="p">}));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>f<span class="o">(</span>7, 3,<span class="o">{</span>2, 1, 5, 1, 2, 2, 2<span class="o">})</span> <span class="o">=</span> 1
+f<span class="o">(</span>6, 3,<span class="o">{</span>2, 1, 5, 1, 2, 2, 2<span class="o">})</span> <span class="o">=</span> 1
+f<span class="o">(</span>5, 3,<span class="o">{</span>2, 1, 5, 1, 2, 2, 2<span class="o">})</span> <span class="o">=</span> 0
+f<span class="o">(</span>1000, 1,<span class="o">{</span>0, 1000, 0<span class="o">})</span> <span class="o">=</span> 1
+</pre></div>
+</div>
 </div>
 <div class="section" id="rotate-scm">
-<h2><a class="toc-backref" href="#id7">rotate.scm</a><a class="headerlink" href="#rotate-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">rotate.scm</a><a class="headerlink" href="#rotate-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="k-roteated-increasing-order-array">
 <h3>k-roteated increasing order array<a class="headerlink" href="#k-roteated-increasing-order-array" title="Permalink to this headline">¶</a></h3>
 <p>&#8211; A &#8211; left &#8211; B &#8211; mid &#8211; C &#8211; right &#8211; D &#8211;</p>
@@ -290,7 +386,7 @@ linerでなくても求まる!</p>
 </div>
 </div>
 <div class="section" id="zero-scm">
-<h2><a class="toc-backref" href="#id8">zero.scm</a><a class="headerlink" href="#zero-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">zero.scm</a><a class="headerlink" href="#zero-scm" title="Permalink to this headline">¶</a></h2>
 <p>interspersedWithZero (0が途中に混ざった場合のbinary search)
 CI 9.5</p>
 <ul class="simple">

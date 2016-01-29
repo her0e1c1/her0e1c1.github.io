@@ -116,7 +116,7 @@ mktemp.scm
    
 
     $ s '(receive (oport name) (sys-mkstemp "/tmp/test"))' 
-    #<oport /tmp/testtvNzeI 0x1893840>
+    #<oport /tmp/test3AoFJP 0x1893840>
     
 
 just filename
@@ -126,7 +126,7 @@ just filename
 
     $ ee '(make-temp-name "/tmp/")' 
     
-    "/tmp/41162Ngv"
+    "/tmp/9521H3r"
     
 
 
@@ -143,14 +143,12 @@ just filename
 mv.scm
 ==================
 
-ファイルシステムをまたいでmove
 
 .. code-block:: sh
    
 
-    $ find ./ -print0 | perl -MFile::Copy -MFile::Basename -l0ne 'move($_, "/path/to/" . basename($_)'
-    syntax error at -e line 1, at EOF
-    Execution of -e aborted due to compilation errors.
+    $ s '(let* ((s "a.txt") (d "b.txt")) (touch-file s) (move-file s d) (remove-file d))' 
+    #t
     
 
 

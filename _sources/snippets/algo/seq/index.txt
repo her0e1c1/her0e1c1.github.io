@@ -443,10 +443,15 @@ n個の詰め物があり、サイズとその価値が決まっている。
     :nowrap:
 
     \begin{eqnarray}
-        
-    \\f(i, size) = \begin{cases} \max \{f(i-1, size), f(i-1, size+a_i) + b_i (\mbox{if} \quad  size + a_i \le maxSize) \}
-    \\\end{cases}
-    \\
+        f(i, size) = \begin{cases} \max \{f(i-1, size), f(i-1, size + a_i) + b_i (\mbox{if} \quad  size + a_i \le maxSize) \}\end{cases}
+    \end{eqnarray}
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        f(i, size) = \begin{cases} \max \{f(i-1, size), f(i-1, size - a_i) + b_i (\mbox{if} \quad  size - a_i \ge 0) \}
     \end{eqnarray}
 
 
@@ -472,35 +477,49 @@ n個の詰め物があり、サイズとその価値が決まっている。
     
 
 
+.. code-block:: ghc
+   
+
+    -- pairs = [(size, price)]
+    knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a
+    knapsack pairs size = go pairs size where
+        go [] size = 0
+        go ((s,p):sps) size =
+          let
+            ssize = size - s
+            cap1 = go sps size  -- 現在の(s, p)を使わない
+            cap2 = if ssize >= 0 then p + go sps ssize else 0
+          in maximum [cap1, cap2]
+    main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
+
+.. code-block:: sh
+   
+
+    12
+    
+
+dp
+
 .. code-block:: cpp
    
 
     #include <myutils.h>
+    // dpでは、一つ前の状態から、現在の状態へ遷移することを考える
     int solve(vector<int> sizes, vector<int> prices, int capacity) {
       assert(sizes.size() == prices.size());
-    
-      vector<vector<int>> memo(sizes.size() + 1, vector<int>(capacity + 1, -1));
-    
-      function <int(int, int)> dfs = [&] (int depth, int size) {
-        if (memo[depth][size] != -1)
-          return memo[depth][size];
-    
-        if (depth == sizes.size())
-          return 0;
-    
-        // 使用しない場合
-        int price = dfs(depth + 1, size);
-    
-        // 使用する場合(容量を超えないようにする)
-        int s = sizes[depth];
-        if (s + size <= capacity)
-          price = max(price, prices[depth] + dfs(depth + 1, s + size));
-    
-        return memo[depth][size] = price;
-      };
-      return dfs(0, 0);
+      int S = sizes.size();
+      vector<vector<int>> dp(sizes.size() + 1, vector<int>(capacity + 1, 0));
+      for (int s = 0; s < S; s++) {
+        for (int c = 0; c <= capacity; c++) {  // =を忘れない
+          int c1 = c- sizes[s];
+          if (c1 >= 0)
+            dp[s+1][c] = max(dp[s][c], dp[s][c1] + prices[s]);
+          else
+            dp[s+1][c] = dp[s][c];
+        }
+      }
+      return dp[S][capacity];
     }
-    
     int main() {
       P(solve({1,2,3,4,5},
               {5,4,3,2,1},
@@ -513,12 +532,84 @@ n個の詰め物があり、サイズとその価値が決まっている。
     solve({1,2,3,4,5}, {5,4,3,2,1}, 6) = 12
     
 
+dp
+
+.. code-block:: cpp
+   
+
+    #include <myutils.h>
+    // dpでは、一つ前の状態から、現在の状態へ遷移することを考える
+    int solve(vector<int> sizes, vector<int> prices, int capacity) {
+      assert(sizes.size() == prices.size());
+      int S = sizes.size();
+      vector<int> dp(capacity + 1, 0);
+      for (int s = 0; s < S; s++) {
+        for (int c = 0; c <= capacity; c++) {  // =を忘れない
+          int c1 = c - sizes[s];
+          if (c1 >= 0)
+            dp[c] = max(dp[c], dp[c1] + prices[s]);
+          else
+            dp[c] = dp[c];
+        }
+      }
+      return dp[capacity];
+    }
+    int main() {
+      P(solve({1,2,3,4,5},
+              {5,4,3,2,1},
+              6));
+    }
+
+.. code-block:: sh
+   
+
+    solve({1,2,3,4,5}, {5,4,3,2,1}, 6) = 30
+    
+
+
+
+local-maximun.scm
+===================================================
+
+極大値
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        x[i-1] < x[i] > x[i+1]  \quad s.t. \quad  i \in \[1, n-1\]
+    \end{eqnarray}
+
+
+.. code-block:: py
+   
+
+    
+    A = [5,6,5,6,1,1,1,1,6,5,6,5]
+    N = len(A)
+    P = [False] * N  # 極大値ならTrue
+    Q = []  # 極大値をとるxを順に格納
+    for i in range(1, N-1):
+        if A[i-1] < A[i] > A[i+1]:
+            P[i] = True
+            Q.append(i)
+    print(P)
+    print(Q)
+    
+
+.. code-block:: sh
+   
+
+    [False, True, False, True, False, False, False, False, True, False, True, False]
+    [1, 3, 8, 10]
+    
+
 
 
 longest-common-sequence.scm
 =================================================================================
 
-２数列の最長共通部分数列
+２数列の最長共通部分数列(連続する必要なし)
 
 .. math::
     :nowrap:
@@ -532,7 +623,73 @@ longest-common-sequence.scm
     \\
     \end{eqnarray}
 
+f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮しなくてよい
 １変数のみ動かし、他の変数を固定して考えるのだと思うけど、まだよくわかってない
+
+.. code-block:: ghc
+   
+
+    import Data.List (maximumBy)
+    c a b = compare (length a) (length b)
+    f = g where
+     g xss@(x:xs) yss@(y:ys)
+      | x == y    = x : g xs ys
+      | otherwise = maximumBy c [(g xss ys), (g xs yss)]
+     g _ _ = ""
+    p = print <$> f
+    main = do
+     print $ f "abcdefg" "bde"
+     print $ f "abcdefg" "ace"
+     print $ f "abcdefg" "kakcke"
+     print $ f "abcdefg" "kakdkbkekcdf"
+     print $ f "azbzczdzezfzg" "kakdkbkekcdf"
+
+.. code-block:: sh
+   
+
+    
+    /tmp/tmp.ZFJlf6pP.hs:8:5:
+        No instance for (Show ([Char] -> [Char]))
+          (maybe you haven't applied enough arguments to a function?)
+          arising from a use of ‘print’
+        In the first argument of ‘(<$>)’, namely ‘print’
+        In the expression: print <$> f
+        In an equation for ‘p’: p = print <$> f
+    
+
+
+.. code-block:: cpp
+   
+
+    #include "myutils.h"
+    string f(string a, string b) {
+      function <string(int, int)> loop = [&] (int i, int j) {
+        if (i == a.size() || j == b.size())
+          return string();
+        else if (a[i] == b[j])
+          return a[i] + loop(i+1, j+1);
+        string s1 = loop(i, j+1);
+        string s2 = loop(i+1, j);
+        return (s1.size() > s2.size()) ? s1 : s2;
+      };
+      return loop(0, 0);
+    }
+    int main() {
+      P(f("abcdefg", "ace"));
+      P(f("abcdefg", "kakcke"));
+      P(f("abcdefg", "kakdkbkekcdf"));
+      P(f("azbzczdzezfzg", "kakdkbkekcdf"));
+    }
+
+.. code-block:: sh
+   
+
+    f("abcdefg", "ace") = ace
+    f("abcdefg", "kakcke") = ace
+    f("abcdefg", "kakdkbkekcdf") = abcdf
+    f("azbzczdzezfzg", "kakdkbkekcdf") = abcdf
+    
+
 
 
 longest-increasing-subsequence.scm
@@ -582,6 +739,59 @@ longest-increasing-subsequence.scm
     \end{eqnarray}
 
 最小値は、2分木で探すことでlognで探せる
+
+
+max-interval-of-local-maximuns.scm
+======================================================================================================
+
+極大値における最大一定間隔
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        0 \le j \le K, S_n \mbox{を極大値の数列としたとき} |a_{ij} - a_{i(j+1)}| \ge \max K
+    \end{eqnarray}
+
+
+K=1のとき、間隔1の区間が1つとれるようにする。
+K=1のとき、間隔Kの区間がkつとれるようにする。
+なお、Kの最大は2分探索で求める
+
+
+.. code-block:: py
+   
+
+    
+    # 極大値が間隔Kで取れる場合はTrue
+    def f(K, S):
+        i = 0  # 左端から貪欲に
+        N = len(S)
+        for _ in range(K-1):  # 2つ目の間隔が取れるか?から開始
+            if (i == N): return False
+            P = S[i]
+            j = i + 1
+            while j < N:
+                Q = S[j]
+                if Q - P >= K: break
+                j += 1
+            if j == N: return False
+            i = j
+        return True
+    A = [1,3,5,10]
+    print(f(2, A))
+    print(f(3, A))
+    print(f(4, A))
+    
+
+.. code-block:: sh
+   
+
+    True
+    True
+    False
+    
+
 
 
 max-length-seq.scm
@@ -662,6 +872,43 @@ S0=[] -- ここまで必ず分割すること(終了条件)
 
     1, 2, 3, 4, 5, 
     1, 2, 4, 5, 6, 
+    
+
+
+
+max-number-group-of-local-maximuns.scm
+==================================================================================================================
+
+各一定区間内に極大値をもつよう区分
+
+.. code-block:: py
+   
+
+    
+    def f(groups, S):
+        N = len(S)
+        assert N % groups == 0
+        interval = N / groups
+        for _ in range(groups):
+            for i in range(0, N, interval):
+                last = i + interval  # groupsでNを割り切れるなら、lastは常に区間の最後(端点は含まない)
+                while i < last:
+                    if S[i]: break
+                    i += 1
+                if i == last: return False
+        return True
+    A = [False, True, False, True, False, False, False, False, True, False, True, False]
+    print(f(2, A))
+    print(f(3, A))
+    print(f(4, A))
+    
+
+.. code-block:: sh
+   
+
+    True
+    False
+    True
     
 
 

@@ -303,5 +303,5 @@ yates-shuffle.scm
 .. code-block:: sh
    
 
-    3, 5, 4, 2, 1, 
+    4, 5, 2, 1, 3, 
 

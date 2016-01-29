@@ -8,6 +8,54 @@ binary-search
 
 
 
+find-min-x.scm
+==========================================
+
+
+
+Compute the square root
+---------------------------------------------------------------------
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        n \in N s.t. \min_{x} f(x) = x^2 - n \ge 0
+    \end{eqnarray}
+
+min f(x) >= 0の場合は、foldを使えないが、whileによる解法あり.
+foldが使えるのは、high側が常に失敗する場合のみ。今回はhigh側がTrueの場合
+[0, 2^30]の範囲で探索
+
+.. code-block:: py
+   
+
+    
+    def g(n):
+        def f(x):
+            return x * x - n >= 0
+        lo = rv = 0
+        hi = 2 ** 30
+        while lo <= hi:
+            mi = (lo + hi) / 2
+            if f(mi):
+                hi = mi - 1
+                rv = mi
+            else:
+                lo = mi + 1
+        return rv
+    print(g(15241578750190521))
+    
+
+.. code-block:: sh
+   
+
+    123456789
+    
+
+
+
 findSqrtN.scm
 =======================================
 
@@ -26,15 +74,14 @@ Compute the square root
 
 f(x) <= 0の場合に、+ 2^xを大きい方から累積する。単調増加関数である必要あり 
 
-.. code-block:: gosh
+.. code-block:: ghc
    
 
     
-    (let* ((n 15241578750190521)
-           (f (^x (- (* x x) n)))
-           (g (^(a acc)
-                (let1 x (+ a acc) (if (<= (f x) 0) x acc)))))
-      (print (fold g 0 (map (pa$ expt 2) (reverse (iota 63))))))
+    h n = foldl g 0 (map (2^) [64,63..0]) where
+     f x = x * x - n <= 0
+     g acc a = let x = a + acc in if f x then x else acc
+    main = print $ h 15241578750190521
     
 
 .. code-block:: sh
@@ -43,22 +90,55 @@ f(x) <= 0の場合に、+ 2^xを大きい方から累積する。単調増加関
     123456789
     
 
+[0, 2^30]の範囲で探索
 
-.. code-block:: gosh
+.. code-block:: py
    
 
     
-    (print
-     (let* ((n 15241578750190521)
-            (f (^x (- (* x x) n))))
-       (let loop ((low 0) (high (expt 2 63)))
-         (if (> low high)
-             -1
-             (let* ((x (div (+ low high) 2))
-                    (fx (f x)))
-               (cond ((= fx 0) x)
-                     ((< fx 0) (loop (+ x 1) high))
-                     (else (loop low (- x 1)))))))))
+    def g(n):
+        def f(x):
+            return x * x - n <= 0
+        lo = rv = 0
+        hi = 2 ** 30
+        while lo <= hi:
+            mi = (lo + hi) / 2
+            if f(mi):
+                lo = mi + 1
+                rv = mi
+            else:
+                hi = mi - 1
+        return rv
+    print(g(15241578750190521))
+    
+
+.. code-block:: sh
+   
+
+    123456789
+    
+
+目的の値を取得したところで探索終了
+
+.. code-block:: py
+   
+
+    
+    def g(n):
+        def f(x):
+            return x * x - n
+        lo = 0
+        hi = 2 ** 30
+        while lo <= hi:
+            mi = (lo + hi) / 2
+            rv = f(mi)
+            if rv == 0:
+                return mi
+            elif rv < 0:
+                lo = mi + 1
+            else:
+                hi = mi - 1
+    print(g(15241578750190521))
     
 
 .. code-block:: sh
@@ -183,6 +263,55 @@ xは8以上なので、ここで ``f(2^2)`` などを計算することに意味
 つまり、大きい方から範囲を徐々に狭めるイメージ。
 
 .. warning:: bit演算の問題点は、負の数には対応できないので、注意すること。
+
+
+使えない場合の例
+------------------------
+
+[5,6,5,6,1,1,1,1,6,5,6,5]の数列の極大値を各グループごとに含むようにして、できるだけ多く分割したい場合
+n=3で失敗するからといって、n=4も失敗するとは限らない
+
+
+minimize-sum-sequence.scm
+===========================================================================
+
+ある配列をK個に区分したときの、区分配列のうち最大和の最小値を求める
+[max(A), sum(A)]の範囲で2分探索することで、SUMの最小値がもとまる
+
+.. code-block:: cpp
+   
+
+    #include "myutils.h"
+    bool f(int SUM, int K, vector<int> A) {
+      int s = 0;
+      int k = 0;
+      for (int i = 0; i < A.size(); i++) {
+        if (s + A[i] <= SUM) {
+          s += A[i];
+        } else {
+          k++;
+          s = A[i];
+        }
+        if (k == K) return false;
+      }
+      return true;
+    }
+    int main() {
+      P(f(7, 3,{2, 1, 5, 1, 2, 2, 2}));
+      P(f(6, 3,{2, 1, 5, 1, 2, 2, 2}));
+      P(f(5, 3,{2, 1, 5, 1, 2, 2, 2}));
+      P(f(1000, 1,{0, 1000, 0}));
+    }
+
+.. code-block:: sh
+   
+
+    f(7, 3,{2, 1, 5, 1, 2, 2, 2}) = 1
+    f(6, 3,{2, 1, 5, 1, 2, 2, 2}) = 1
+    f(5, 3,{2, 1, 5, 1, 2, 2, 2}) = 0
+    f(1000, 1,{0, 1000, 0}) = 1
+    
+
 
 
 rotate.scm

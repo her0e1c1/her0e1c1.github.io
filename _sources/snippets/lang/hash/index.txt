@@ -243,7 +243,7 @@ init.scm
 
     $ he 'Data.Map.fromListWith (++) [(1, "a"), (1, "b"), (2, "c")]' 
     
-    /tmp/tmp.AJSBYSZy:7:15: Not in scope: ‘Data.Map.fromListWith’
+    /tmp/tmp.fiABDeFu:7:15: Not in scope: ‘Data.Map.fromListWith’
     
 
 書く時には"key"とクオテーションで括らなくても良いです。
@@ -343,8 +343,8 @@ items.scm
    
 
     $ perl -E '%a=(a=>1, b=>2); while(($k, $v) =each %a){say "$k = $v"}'
-    a = 1
     b = 2
+    a = 1
     
 
 
@@ -395,7 +395,7 @@ get all hash keys
    
 
     $ perl -E '%a=(a=>1, b=>2); say keys %a'
-    ab
+    ba
     
 
 

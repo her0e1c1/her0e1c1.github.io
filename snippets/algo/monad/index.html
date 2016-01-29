@@ -253,7 +253,7 @@ Just 21
 <p>ラッパに入った値に対しては関数は適用できない</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>he <span class="s1">&#39;(2+) (Just 3)&#39;</span>
 
-/tmp/tmp.mfyOHTSP:7:8:
+/tmp/tmp.RkuzOETT:7:8:
     No instance <span class="k">for</span> <span class="o">(</span>Show a0<span class="o">)</span> arising from a use of ‘print’
     The <span class="nb">type </span>variable ‘a0’ is ambiguous
     Note: there are several potential instances:
@@ -266,13 +266,13 @@ Just 21
     In the expression: print <span class="o">((</span><span class="m">2</span> +<span class="o">)</span> <span class="o">(</span>Just 3<span class="o">))</span>
     In an equation <span class="k">for</span> ‘main’: <span class="nv">main</span> <span class="o">=</span> print <span class="o">((</span><span class="m">2</span> +<span class="o">)</span> <span class="o">(</span>Just 3<span class="o">))</span>
 
-/tmp/tmp.mfyOHTSP:7:17:
+/tmp/tmp.RkuzOETT:7:17:
     No instance <span class="k">for</span> <span class="o">(</span>Num <span class="o">(</span>Maybe a0<span class="o">))</span> arising from a use of ‘+’
     In the expression: <span class="m">2</span> +
     In the first argument of ‘print’, namely ‘<span class="o">((</span><span class="m">2</span> +<span class="o">)</span> <span class="o">(</span>Just 3<span class="o">))</span>’
     In the expression: print <span class="o">((</span><span class="m">2</span> +<span class="o">)</span> <span class="o">(</span>Just 3<span class="o">))</span>
 
-/tmp/tmp.mfyOHTSP:7:26:
+/tmp/tmp.RkuzOETT:7:26:
     No instance <span class="k">for</span> <span class="o">(</span>Num a0<span class="o">)</span> arising from the literal ‘3’
     The <span class="nb">type </span>variable ‘a0’ is ambiguous
     Note: there are several potential instances:
@@ -303,6 +303,54 @@ Just 1
 <p>&gt;&gt; == (. const) . (&gt;&gt;=)</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>he <span class="s1">&#39;((. const) . (&gt;&gt;=)) (Just 1) (Just 2)&#39;</span>
 Just 2
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">文脈をもつ関数の合成は.でなく&lt;$&gt;</p>
+</div>
+<div class="highlight-ghc"><div class="highlight"><pre>main = (print &lt;$&gt; (+1)) 1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>2
+</pre></div>
+</div>
+<div class="highlight-ghc"><div class="highlight"><pre>main = print $ (+1) &lt;$&gt; Just 1
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>Just 2
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">合成は引数１つの関数に限る</p>
+</div>
+<div class="highlight-ghc"><div class="highlight"><pre>import Control.Monad
+p = print &lt;$&gt; (+)
+main = return ()
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>/tmp/tmp.uGqZKOaR.hs:3:5:
+    No instance for (Show (a0 -&gt; a0))
+      (maybe you haven&#39;t applied enough arguments to a function?)
+      arising from a use of ‘print’
+    In the first argument of ‘(&lt;$&gt;)’, namely ‘print’
+    In the expression: print &lt;$&gt; (+)
+    In an equation for ‘p’: p = print &lt;$&gt; (+)
+
+/tmp/tmp.uGqZKOaR.hs:3:15:
+    No instance for (Num a0) arising from a use of ‘+’
+    The type variable ‘a0’ is ambiguous
+    Relevant bindings include
+      p :: a0 -&gt; IO () (bound at /tmp/tmp.uGqZKOaR.hs:3:1)
+    Note: there are several potential instances:
+      instance Num Integer -- Defined in ‘GHC.Num’
+      instance Num Double -- Defined in ‘GHC.Float’
+      instance Num Float -- Defined in ‘GHC.Float’
+      ...plus two others
+    In the second argument of ‘(&lt;$&gt;)’, namely ‘(+)’
+    In the expression: print &lt;$&gt; (+)
+    In an equation for ‘p’: p = print &lt;$&gt; (+)
 </pre></div>
 </div>
 </div>
