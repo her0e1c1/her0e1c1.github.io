@@ -64,7 +64,9 @@
 .. toctree::
     :maxdepth: 1
 
-    
+    struct/vector.rst
+    struct/string.rst
+    struct/index.rst
 
 
 .. toctree::
