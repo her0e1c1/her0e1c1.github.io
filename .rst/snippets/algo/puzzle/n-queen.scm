@@ -1,4 +1,14 @@
 
+(py "
+from itertools import permutations
+n = 4
+queens = range(n)
+for pos in permutations(queens):
+    if (n == len(set(pos[i] + i for i in queens))
+          == len(set(pos[i] - i for i in queens))):
+        print pos
+" :str #t :msg "全ての駒を斜め上(左右両方)に移動させる。枠から出てもよい。")
+
 (ghc #!Q
 canAttack :: [Int] -> Int -> Bool
 canAttack queens x = go queens 1 where
