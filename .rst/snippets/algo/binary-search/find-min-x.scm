@@ -1,6 +1,6 @@
 
 (ps "Compute the square root")
-(math "n $in N s.t. $min_{x} f(x) = x^2 - n $ge 0")
+(math "n $in N S.T. $min_{x} f(x) = x^2 - n $ge 0")
 (p "min f(x) >= 0の場合は、foldを使えないが、whileによる解法あり.
 foldが使えるのは、high側が常に失敗する場合のみ。今回はhigh側がTrueの場合")
 
