@@ -28,3 +28,12 @@ int main() {
  P(fib[N]);
 }
 " :str #t)
+
+(py "
+def fib(n):
+ dp = [0, 1]
+ for i in range(n-1):
+  dp.append(dp[i+1] + dp[i])
+ return dp[n]
+print(fib(35))
+" :str #t :msg "pythonic")
