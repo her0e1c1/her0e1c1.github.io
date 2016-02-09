@@ -16,7 +16,6 @@ atLeastOne.scm
 配列の要素が、少なくとも1回ずつ出現する数列のうち、最小のもの
 ---------------------------------------------------------------------------------------------
 
-CO 
 
 .. math::
     :nowrap:
@@ -25,13 +24,11 @@ CO
         
     \\\exists I \in N, \forall a_i \in S_N, 0 \le a_i \le I s.t.
     \\
-    \\\min_{x} g(S_x) = \begin{cases}
-    \\x  & (\sum_{i==0}^I f(i) = I + 1)
+    \\\min_{x} g(S_x) = \begin{cases} x  & (\sum_{i==0}^I f(i) = I + 1)
     \\-1 & (else)
     \\\end{cases}
     \\
-    \\f(a) = \begin{cases}
-    \\1 & (a \in S_x)
+    \\f(a) = \begin{cases} 1 & (a \in S_x)
     \\0 & (else)
     \\\end{cases}
     \\
@@ -74,35 +71,31 @@ CO
 contiguous-subsequence.scm
 ==============================================================================
 
-
-.. warning::
-
-    ある数列の連続した部分数列の和の最大値
-
+ある数列の連続した部分数列の和の最大値
 
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         
-    \\f(i) = (\mbox{iにおける最大}, \mbox{iにおける総和}) = (m_i, s_i)
-    \\s_1 = a_1
-    \\m_1 = a_1
-    \\s_i = \max \{ a_i, s_{i-1} + a_i \}
-    \\m_i = \max \{ m_{i-1}, s_i \}
+    \\f(i) &=& (\mbox{iにおける最大}, \mbox{iにおける総和}) = (m_i, s_i)
+    \\s_1 &=& a_1
+    \\m_1 &=& a_1
+    \\s_i &=& \max \{ a_i, s_{i-1} + a_i \}
+    \\m_i &=& \max \{ m_{i-1}, s_i \}
     \\
     \end{eqnarray}
 
-大きい負の数が来たら、足さずに0から再度開始
+今までの総和よりも大きい数ならば、それを優先
 
 .. code-block:: ghc
    
 
     f (x:xs) = go x x xs where
      go s m [] = m
-     go s m (x:xs) = go y n xs where
-      y = max (s + x) x
-      n = max m y
+     go s m (x:xs) = go si mi xs where
+      si = max (s + x) x
+      mi = max m si
     main = do
      print $ f [-10]
      print $ f [0,4,-6,2,3]
@@ -164,6 +157,31 @@ result of a list
     
 
 
+.. code-block:: cpp
+   
+
+    #include <myutils.h>
+    int f(vector<int> a) {
+     if (a.empty()) return 0;
+     int m, s;
+     m = s = a[0];
+     for (int i = 1; i < a.size(); i++) {
+      s = max(s + a[i], a[i]);
+      m = max(m, s);
+     }
+     return m;
+    }
+    int main() {
+     P(f({1,-2,1,3,2,-5,1,-4,-3,1,-2}));
+    }
+
+.. code-block:: sh
+   
+
+    f({1,-2,1,3,2,-5,1,-4,-3,1,-2}) = 6
+    
+
+
 
 dominator.scm
 =======================================
@@ -179,9 +197,8 @@ dominator.scm
 
     \begin{eqnarray}
         
-    \\f(i,stack_size,n) = \begin{cases}
-    \\f(i+1,stack_size+1, n) & (a_i = n)
-    \\f(i+1,stack_size-1, n) & (a_i \ne n, stack_size > 0)
+    \\f(i,stackSize,n) = \begin{cases} f(i+1,stackSize+1, n) & (a_i = n)
+    \\f(i+1,stackSize-1, n) & (a_i \ne n, stackSize > 0)
     \\f(i+1, 1, a_i) & (else)
     \\\end{cases}
     \\
@@ -193,7 +210,6 @@ dominator.scm
 
     def f(a):
      def g(i, size, n):
-      print(i, size, n)
       if i == len(a):
        return n
       elif a[i] == n:
@@ -201,54 +217,25 @@ dominator.scm
       elif size > 0:
        return g(i+1, size-1, n)
       else:
+       assert size == 0
        return g(i+1, 1, a[i])
-     return g(0, 0, None)
-     # return g(0, 1, a[0])  # こっちだと半分以上になる?
-    print(f([2,1,2,3,4,2,3,4,2,3,2]))
+     d = g(0, 0, None)
+     if 2 * len([x for x in a if x == d]) > len(a):
+      return d
     print(f([1,1,1,2,1,2,3]))
+    print(f([1,1,1,1,2,2,2]))
     print(f([1,1,1,2,2,2]))
-    print(f([1,1,2,2,3]))  # 候補がない場合のバリデーションも別途必要そう
+    print(f([1,1,2,2,3]))
+    print(f([2,1,2,3,4,2,3,4,2,3,2,1,1]))
 
 .. code-block:: sh
    
 
-    (0, 0, None)
-    (1, 1, 2)
-    (2, 0, 2)
-    (3, 1, 2)
-    (4, 0, 2)
-    (5, 1, 4)
-    (6, 0, 4)
-    (7, 1, 3)
-    (8, 0, 3)
-    (9, 1, 2)
-    (10, 0, 2)
-    (11, 1, 2)
-    2
-    (0, 0, None)
-    (1, 1, 1)
-    (2, 2, 1)
-    (3, 3, 1)
-    (4, 2, 1)
-    (5, 3, 1)
-    (6, 2, 1)
-    (7, 1, 1)
     1
-    (0, 0, None)
-    (1, 1, 1)
-    (2, 2, 1)
-    (3, 3, 1)
-    (4, 2, 1)
-    (5, 1, 1)
-    (6, 0, 1)
     1
-    (0, 0, None)
-    (1, 1, 1)
-    (2, 2, 1)
-    (3, 1, 1)
-    (4, 0, 1)
-    (5, 1, 3)
-    3
+    None
+    None
+    None
     
 
 
@@ -300,6 +287,57 @@ equileader.scm
    
 
     2
+    
+
+
+
+fib-move.scm
+====================================
+
+fibの歩数で移動
+
+.. code-block:: py
+   
+
+    
+    MAX = 2 ** 30 
+    def make(N):
+        f = [1, 1]
+        for i in range(N):
+            a = f[i+1] + f[i]
+            f.append(a)
+            if a > N:
+                return f
+        return f
+    
+    def solution(A):
+        N = len(A)
+        fibs = make(N)
+        dp = [MAX] * (N+1)
+        for f in fibs:
+            n = f - 1
+            if n == N or (0<= n < N and A[n] == 1):
+                dp[n] = 1
+        for i in range(N+1):
+            if i == N:
+                pass
+            elif A[i] == 0:
+                continue
+            for f in fibs:
+                n = i + f
+                if not (n <= N):
+                    break
+                elif n == N or A[n] == 1:
+                    dp[n] = min(dp[n],  dp[i]+1)
+        return -1 if dp[N] == MAX else dp[N]
+    A = [0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0] 
+    print(solution(A))
+    
+
+.. code-block:: sh
+   
+
+    3
     
 
 
@@ -648,7 +686,7 @@ f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮�
    
 
     
-    /tmp/tmp.ZFJlf6pP.hs:8:5:
+    /tmp/tmp.TpCkZRJs.hs:8:5:
         No instance for (Show ([Char] -> [Char]))
           (maybe you haven't applied enough arguments to a function?)
           arising from a use of ‘print’

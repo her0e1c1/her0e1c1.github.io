@@ -39,6 +39,52 @@ afterを定義したので、(echo)を実行した後に呼びだされる
 
 
 
+classmethod.scm
+=============================================
+
+メンバ変数にアクセスはできない
+
+.. code-block:: py
+   
+
+    
+    class Math(object):
+     pi = 3.14
+     @classmethod
+     def get_circle_area(cls, r):
+      return r * r * cls.pi
+    print(Math.get_circle_area(10))
+    
+
+.. code-block:: sh
+   
+
+    314.0
+    
+
+
+.. code-block:: ruby
+   
+
+    
+    # Mathはバッティングするのでエラー
+    class MyMath
+     @@pi = 3.14
+     def MyMath.get_circle_area(r)
+      r * r * @@pi
+     end
+    end
+    puts MyMath.get_circle_area 10
+    
+
+.. code-block:: sh
+   
+
+    314.0
+    
+
+
+
 get.scm
 =====================
 

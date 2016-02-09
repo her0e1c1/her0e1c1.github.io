@@ -8,6 +8,73 @@ func
 
 
 
+decorator.scm
+=======================================
+
+f = wrap(f)
+
+
+partial
+---------------------
+
+
+.. code-block:: py
+   
+
+    
+    def partial(f, *a1, **k1):
+     def wrap(*a2, **k2):
+      k2.update(k1)
+      return f(*(a1 + a2), **k2)
+     return wrap
+    add = lambda x, y: x + y
+    add10 = partial(add, 10)
+    print(add10(20))
+    add10 = partial(add, x=10)
+    print(add10(y=20))
+    
+
+.. code-block:: sh
+   
+
+    30
+    30
+    
+
+
+
+memo
+------------
+
+
+.. code-block:: py
+   
+
+    
+    def memo(f):
+     cache = {}
+     def wrap(*args):
+      if args in cache:
+       return cache[args]
+      cache[args] = f(*args)
+      return cache[args]
+     return wrap
+    @memo
+    def fib(n):
+     if n == 0 or n == 1:
+      return n
+     return fib(n-1) + fib(n-2)
+    print(fib(35))
+    
+
+.. code-block:: sh
+   
+
+    9227465
+    
+
+
+
 define.scm
 ==============================
 
@@ -288,7 +355,7 @@ lambda.scm
    
 
     $ perl -E 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
-    BzTwKzf2pdTgSZeSc9LacAPmVxzTLXdRpgp37vSNNkVr0glcEgxltEC860PAaxKsdInQGHy6uMIRKZXdjMu6C4Mf8Uzav2B4UtmCOzzSVxH7o58rhcS3wMUcHmYE2aKJ2zJNoqkM0FPYZBaVSHokosYHOs94CTJYbiXmVkTAeJakGnH0fvneEnL0Ngip3ylItlgMS1cNopCAUlgSieUdv5uclGRlNTlgyrdLL9zVwlwTVQkTuJaAWdI5K5IdIw2
+    DmVE06wHgyvaC2KaUCkCLTqmhBzUC12D3yOuDXKiFk6Jpa8L8d6S9qxwEjBhloBSWnjOVAi23WFx9esPfEILPJwXfmxiQTJ5RurOFQUFQpq35WvfGzjIuuH3dfQD6CzJiJfKmPvwsLJqhRviG6AL8h5rIJEJh6WvKTzLZGc1axJvuWEFbSIfc1jLFLIgqZk92K9aRPmPM2S70ggVSKVmcqF94TCOeyGfJfWJFEMvN8yPKAx7Cb7feyzz0gfy18h
 
 
 .. code-block:: sh

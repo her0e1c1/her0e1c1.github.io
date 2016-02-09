@@ -227,6 +227,18 @@ main = print $ f 10
 <div class="highlight-sh"><div class="highlight"><pre>fib<span class="o">[</span>N<span class="o">]</span> <span class="o">=</span> 55
 </pre></div>
 </div>
+<p>pythonic</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+ <span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+  <span class="n">dp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+ <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fib</span><span class="p">(</span><span class="mi">35</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>9227465
+</pre></div>
+</div>
 </div>
 <div class="section" id="formula-scm">
 <h2><a class="toc-backref" href="#id10">formula.scm</a><a class="headerlink" href="#formula-scm" title="Permalink to this headline">¶</a></h2>

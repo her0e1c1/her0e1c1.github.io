@@ -64,9 +64,7 @@
 .. toctree::
     :maxdepth: 1
 
-    struct/vector.rst
-    struct/string.rst
-    struct/index.rst
+    
 
 
 .. toctree::
@@ -103,6 +101,12 @@
 .. toctree::
     :maxdepth: 1
 
+    hash/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
     design-pattern/index.rst
 
 
@@ -110,6 +114,12 @@
     :maxdepth: 1
 
     binary-search/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
+    set/index.rst
 
 
 .. toctree::

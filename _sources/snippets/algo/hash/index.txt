@@ -1,0 +1,41 @@
+
+============
+hash
+============
+
+.. contents::
+    :depth: 2
+
+
+
+counter.scm
+=================================
+
+文字列における同一文字の数え上げ
+
+.. code-block:: py
+   
+
+    import collections as c
+    print(c.Counter('abcdabcaba'))
+
+.. code-block:: sh
+   
+
+    Counter({'a': 4, 'b': 3, 'c': 2, 'd': 1})
+    
+
+
+.. code-block:: c
+   
+
+    
+
+.. code-block:: sh
+   
+
+    /usr/lib/crt1.o: In function `_start':
+    /usr/src/lib/csu/amd64/crt1.c:(.text+0x14b): undefined reference to `main'
+    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+    
+

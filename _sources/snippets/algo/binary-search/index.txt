@@ -21,7 +21,7 @@ Compute the square root
     :nowrap:
 
     \begin{eqnarray}
-        n \in N s.t. \min_{x} f(x) = x^2 - n \ge 0
+        n \in N  \quad s.t. \quad  \min_{x} f(x) = x^2 - n \ge 0
     \end{eqnarray}
 
 min f(x) >= 0の場合は、foldを使えないが、whileによる解法あり.
