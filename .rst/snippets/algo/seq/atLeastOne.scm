@@ -1,7 +1,5 @@
 (ps "配列の要素が、少なくとも1回ずつ出現する数列のうち、最小のもの")
 
-(p "CO ")
-
 (math "
 $exists I $in N, $forall a_i $in S_N, 0 $le a_i $le I s.t.
 
