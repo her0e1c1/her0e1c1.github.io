@@ -5,13 +5,11 @@
 (math "
 $exists I $in N, $forall a_i $in S_N, 0 $le a_i $le I s.t.
 
-$min_{x} g(S_x) = $begin{cases}
-x  & ($sum_{i==0}^I f(i) = I + 1)
+$min_{x} g(S_x) = $begin{cases} x  & ($sum_{i==0}^I f(i) = I + 1)
 -1 & (else)
 $end{cases}
 
-f(a) = $begin{cases}
-1 & (a $in S_x)
+f(a) = $begin{cases} 1 & (a $in S_x)
 0 & (else)
 $end{cases}
 ")
