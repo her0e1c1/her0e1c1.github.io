@@ -21,6 +21,7 @@ def f(a):
    assert size == 0
    return g(i+1, 1, a[i])
  d = g(0, 0, None)
+ # 過半数を超えているか確認
  if 2 * len([x for x in a if x == d]) > len(a):
   return d
 print(f([1,1,1,2,1,2,3]))
