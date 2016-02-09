@@ -10,8 +10,10 @@ def move(n, src, buf, dst):
  if n > 0:
   move(n-1, src, dst, buf)
   dst.append(src.pop())
+  assert len(dst) <= 1 or dst[-1] < dst[-2], 'move wrong'
+  print(s, b, d)
   move(n-1, buf, src, dst)
-src, buf, dst = [5,4,3,2,1], [], []
-move(len(src), src, buf, dst)
-print(src, buf, dst)
+s, b, d = [5, 4, 3, 2, 1], [], []
+move(len(s), s, b, d)
+print(s, b, d)
 " :str #t)
