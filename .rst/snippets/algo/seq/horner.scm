@@ -20,7 +20,9 @@ int S(int *a, int n, int x) {
 }
 int main() {
  int a[] = {3,2,1};  // 3x^2 + 2x + 1
- P("%d", S(a, SIZE(a), 2));
+ P("%d\n", S(a, SIZE(a), 2));
+ P("%d\n", S(a, SIZE(a), 1));
+ P("%d\n", S(a, SIZE(a), 0));
 }
 Q :str #t)
 
