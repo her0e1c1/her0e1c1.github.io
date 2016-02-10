@@ -6,15 +6,14 @@
 - 1 + 1 + 1 + 1 + 1 = 5
 - 2 + 1 + 1 + 1 = 5
 - 2 + 2 + 1 = 5
-
 ")
 
 (ghc "
 f n
  | n == 0 || n == 1 = n
- | otherwise = f (n-1) + f (n-2)
+ | otherwise        = f (n-1) + f (n-2)
 main = print $ f 10
-" :str #t)
+" :warn "simple but slow")
 
 (cpp "
 #include <myutils.h>
@@ -27,13 +26,20 @@ int main() {
  }
  P(fib[N]);
 }
-" :str #t)
+")
 
-(py "
-def fib(n):
- dp = [0, 1]
- for i in range(n-1):
-  dp.append(dp[i+1] + dp[i])
- return dp[n]
-print(fib(35))
-" :str #t :msg "pythonic")
+(cpp "
+#include <myutils.h>
+int f(int N) {
+ int s0=0, s1=1;
+ for (int i = 0; i < N-1; i++) {
+  int t = s1;
+  s1 = s1 + s0;
+  s0 = t;
+ }
+ return s1;
+}
+int main() {
+ P(f(10));
+}
+")
