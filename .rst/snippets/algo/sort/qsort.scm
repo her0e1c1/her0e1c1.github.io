@@ -1,16 +1,14 @@
 (define test1 "1, 4, 45, 3, 7, 6, 7, 7, 7, 10, 8, 8, 8, 8, 1, 10, -1, 3, 20, 5, 9, 33, -1, 4,5,3,6 ")
 (define to-i (^x (map (^y (x->integer (string-trim-both y))) (string-split x ","))))
 
+(p "再帰関数の呼び出しするときに、スタックに実引数を積む必要があるので、メモリスペースは、平均O(logN)必要")
+
 (define code1 "
   int pivot = a[left];
   int k = left;
   // items from left+1 to k are smaller than pivot
-  for (int i = left + 1; i <= right; i++) {
-    if (a[i] < pivot) {
-      k++;
-      swap(a, k, i);
-    }
-  }
+  for (int i = left + 1; i <= right; i++)
+    if (a[i] < pivot) swap(a, ++k, i);
   swap(a, left, k);
   // items from left to k-1 are smaller than pivot
   qsort(a, left, k-1);
