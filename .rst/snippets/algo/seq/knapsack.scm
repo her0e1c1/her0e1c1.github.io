@@ -15,21 +15,7 @@ S.T. $max_{x_i} $sum_i^n b_i x_i
 (math "f(i, size) = $begin{cases} $max ${f(i-1, size), f(i-1, size - a_i) + b_i (IF size - a_i $ge 0) $}")
 
 (ghc #!Q
--- pairs = [(size, price)]
-knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a
-knapsack pairs max_size = go pairs 0 where
-    go [] size = 0
-    go ((s,p):sps) size =
-      let
-        ssize = s + size
-        cap1 = go sps size  -- 現在の(s, p)を使わない
-        cap2 = if ssize <= max_size then p + go sps ssize else 0
-      in maximum [cap1, cap2]
-main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
-Q :str #t)
-
-(ghc #!Q
--- pairs = [(size, price)]
+-- pairs = [(size, price)] (逆方向)
 knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a
 knapsack pairs size = go pairs size where
     go [] size = 0
@@ -44,13 +30,12 @@ Q :str #t)
 
 (cpp #!Q
 #include <myutils.h>
-// dpでは、一つ前の状態から、現在の状態へ遷移することを考える
 int solve(vector<int> sizes, vector<int> prices, int capacity) {
   assert(sizes.size() == prices.size());
   int S = sizes.size();
   vector<vector<int>> dp(sizes.size() + 1, vector<int>(capacity + 1, 0));
   for (int s = 0; s < S; s++) {
-    for (int c = 0; c <= capacity; c++) {  // =を忘れない
+    for (int c = 0; c <= capacity; c++) {  // =を忘れない(順方向)
       int c1 = c- sizes[s];
       if (c1 >= 0)
         dp[s+1][c] = max(dp[s][c], dp[s][c1] + prices[s]);
@@ -69,20 +54,14 @@ Q :str #t :msg "dp")
 
 (cpp #!Q
 #include <myutils.h>
-// dpでは、一つ前の状態から、現在の状態へ遷移することを考える
+// 配列の再利用(正直、ループの順方向と逆方向で結果が変わる理由がよくわかってない！)
 int solve(vector<int> sizes, vector<int> prices, int capacity) {
   assert(sizes.size() == prices.size());
   int S = sizes.size();
   vector<int> dp(capacity + 1, 0);
-  for (int s = 0; s < S; s++) {
-    for (int c = 0; c <= capacity; c++) {  // =を忘れない
-      int c1 = c - sizes[s];
-      if (c1 >= 0)
-        dp[c] = max(dp[c], dp[c1] + prices[s]);
-      else
-        dp[c] = dp[c];
-    }
-  }
+  for (int s = 0; s < S; s++)
+   for (int c = capacity; c >= sizes[s]; c--)
+    dp[c] = max(dp[c], dp[c-sizes[s]] + prices[s]);
   return dp[capacity];
 }
 int main() {
