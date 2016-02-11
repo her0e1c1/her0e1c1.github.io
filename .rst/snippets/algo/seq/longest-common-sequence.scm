@@ -3,7 +3,7 @@
 
 (math "
 f(x, y) = $begin{cases} 0 & (x = 0 or y = 0)
-f(x-1, y-1) & (x = y)
+f(x-1, y-1) + 1 & (x = y)
 $max ${f(x-1,y), f(x, y-1) $} & (else)
 $end{cases}
 ")
@@ -31,16 +31,17 @@ Q :str #t)
 (cpp #!Q
 #include "myutils.h"
 string f(string a, string b) {
-  function <string(int, int)> loop = [&] (int i, int j) {
-    if (i == a.size() || j == b.size())
-      return string();
-    else if (a[i] == b[j])
-      return a[i] + loop(i+1, j+1);
-    string s1 = loop(i, j+1);
-    string s2 = loop(i+1, j);
-    return (s1.size() > s2.size()) ? s1 : s2;
-  };
-  return loop(0, 0);
+  vector<vector<string>> dp(a.size()+1, vector<string>(b.size()+1 , ""));
+ for (int x=0; x<a.size(); x++) {
+  for (int y=0; y<b.size(); y++) {
+   if (a[x] == b[y]) dp[x+1][y+1] = dp[x][y] + a[x];
+   else {
+    string s1 = dp[x][y+1], s2 = dp[x+1][y];
+    dp[x+1][y+1] = (s1.size() > s2.size()) ? s1 : s2;
+   }
+  }
+ }
+ return dp[a.size()][b.size()];
 }
 int main() {
   P(f("abcdefg", "ace"));
