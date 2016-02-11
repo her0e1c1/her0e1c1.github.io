@@ -11,8 +11,8 @@ $sum_i^n a_i x_i &$le& maxSize (ただし、x_i $in {0, 1})
 S.T. $max_{x_i} $sum_i^n b_i x_i
 ")
 
-(math "f(i, size) = $begin{cases} $max ${f(i-1, size), f(i-1, size + a_i) + b_i (IF size + a_i $le maxSize) $}$end{cases}")
-(math "f(i, size) = $begin{cases} $max ${f(i-1, size), f(i-1, size - a_i) + b_i (IF size - a_i $ge 0) $}")
+(math "f(i, size)=$begin{cases} $max ${f(i-1, size), f(i-1, size + a_i) + b_i (IF size + a_i $le maxSize)$} $end{cases}")
+(math "f(i, size)=$begin{cases} $max ${f(i-1, size), f(i-1, size - a_i) + b_i (IF size - a_i $ge 0)$} $end{cases}")
 
 (ghc #!Q
 -- pairs = [(size, price)] (逆方向)
@@ -70,3 +70,6 @@ int main() {
           6));
 }
 Q :str #t :msg "dp")
+
+
+(p "再利用ができるのは、i=>i+1へ単純に値を渡している場合.")
