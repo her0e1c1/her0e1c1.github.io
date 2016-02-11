@@ -1247,6 +1247,24 @@ setはシンボルを引数にとる
 
 
 
+sub.scm
+=====================
+
+
+.. warning::
+
+    decrement operator -=
+
+
+.. code-block:: sh
+   
+
+    $ py 'a = 10; a =- 1; P(a)' 
+    -1
+    
+
+
+
 typeof.scm
 ==============================
 

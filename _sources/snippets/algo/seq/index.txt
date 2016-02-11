@@ -220,6 +220,7 @@ dominator.scm
        assert size == 0
        return g(i+1, 1, a[i])
      d = g(0, 0, None)
+     # 過半数を超えているか確認
      if 2 * len([x for x in a if x == d]) > len(a):
       return d
     print(f([1,1,1,2,1,2,3]))
@@ -249,8 +250,8 @@ equileader.scm
 
     \begin{eqnarray}
         
-    \\\{a_n\} \mbox{の半分超過の要素x}  \quad s.t. \quad  2集合 \{a_1, a_2 ... a_k\}, \{a_{k+1}, a_{k+2} ... a_n \}
-    \\\mbox{が、それぞれxが超過要素となる場合の数}
+    \\\{a_n\} \mbox{の半分超過の要素x}  \quad s.t. \quad 
+    \\2集合 \{a_1, a_2 ... a_i\}, \{a_{i+1}, a_{i+2} ... a_n \} \mbox{が、それぞれxが超過要素となる場合の数}
     \end{eqnarray}
 
 
@@ -259,11 +260,11 @@ equileader.scm
 
     \begin{eqnarray}
         
-    \\f(i, n, s) = f(i+1, N, S)
+    \\f(i, n, s) &=& f(i+1, N, S)
     \\where
-    \\num = \mbox{\{a_n\}におけるxの要素数}
-    \\N = n + 1 (if a_i = x)
-    \\S = s + 1 (if 2n > i + 1, 2(num - n) > length(a_n) - (i + 1))
+    \\num &=& \{a_n\}におけるxの要素数
+    \\N   &=& n + 1 (\mbox{if} \quad  a_i = x)
+    \\S   &=& s + 1 (\mbox{if} \quad  2n \gl i + 1 and 2(num - n) \gl length(a_n) - (i + 1))
     \\
     \end{eqnarray}
 
@@ -271,22 +272,26 @@ equileader.scm
 .. code-block:: py
    
 
-    def f(A, d):
-     num = len([a for a in A if a == d])
-     s = 0
-     n = 0
+    def f(A, x):
+     num = len([a for a in A if a == x])
+     # nは、i番目までにおけるxの要素数
+     s = n = 0
      for i in range(len(A)):
-      if A[i] == d:
+      if A[i] == x:
        n += 1
+      # 区間[0, i]にて、    xが半分超過すること
+      # 区間[i+1, n-1]にて、xが半分超過すること
       if 2 * n > i + 1 and 2 * (num - n) > len(A) - (i + 1):
        s += 1
      return s
-    print(f([4, 3, 4, 4, 4, 2], 4))
+    print(f([4, 3, 4, 4, 4, 2], 4))  # ([4], [3,4,4,4,2]), ([4,3,4], [4,4,2])
+    print(f([2, 4, 4, 4, 4, 4], 4))
 
 .. code-block:: sh
    
 
     2
+    3
     
 
 
@@ -356,11 +361,10 @@ if the pattern matches line, then print the line and the N previous and N next l
 
     \begin{eqnarray}
         
-    \\f(i, n, q) = \begin{cases}
-    \\f(i+1, N, \{\}) & (match(a_i, pattern))
+    \\f(i, n, q) = \begin{cases} f(i+1, N, \{\}) & (match(a_i, pattern))
     \\f(i+1, n-1, \{\})  & (n > 0)
-    \\f(i+1, 0, insert(a_1, q)) & (else)
-    \\\mbox{ただし、qは最大NまでのF\mbox{if} \quad Oデータ構造}
+    \\f(i+1, 0, insert(a_i, q)) & (else)
+    \\\mbox{ただし、qは最大Nまでのfifoデータ構造}
     \\\end{cases}
     \\
     \end{eqnarray}
@@ -380,16 +384,26 @@ if the pattern matches line, then print the line and the N previous and N next l
        n = N
       elif n > 0:
        print(line)
-       n =- 1
+       n -= 1
       else:
        queue.append(line)
-      if len(queue) > N:
-       queue.pop(0)
-    f("1 p 3 2 1 4 3 3 4".split(), "3", 2)
+       if len(queue) > N:
+        queue.pop(0)
+    f("1 p 3 2 1 4 3 3 4".split(), "3", 1); print("")
+    f("1 p 3 2 1 4 3 3 4".split(), "3", 2); print("")
+    f("1 p 3 2 1 4 3 3 4".split(), "2", 2); print("")
 
 .. code-block:: sh
    
 
+    p
+    3
+    2
+    4
+    3
+    3
+    4
+    
     1
     p
     3
@@ -399,6 +413,13 @@ if the pattern matches line, then print the line and the N previous and N next l
     3
     3
     4
+    
+    p
+    3
+    2
+    1
+    4
+    
     
 
 
@@ -420,11 +441,11 @@ horner.scm
 
     \begin{eqnarray}
         
-    \\S_0 & = & a_n
-    \\S_1 & = & a_n x + a_{n-1} & = & S_0 * x + a_{n-1}
-    \\S_2 & = & a_n x^2 + a_{n-1} x + a_{n-2} & = & S_1 * x + a_{n-2}
-    \\...
-    \\S_i & = & S_{i-1} * x + a_{n-i}
+    \\S_n &=& a_0 x^n + a_1 x^{n-1} + ... + a_{n-1} x + a_n
+    \\    &=& \sum_{i=0}^{n} a_i x^{n-i}
+    \\    &=& \sum_{i=0}^{n-1} a_i x^{n-i} + a_n
+    \\    &=& x \sum_{i=0}^{n-1} a_i x^{(n-1)-i} + a_n
+    \\    &=& x S_{n-1} + a_n
     \\
     \end{eqnarray}
 
@@ -434,20 +455,40 @@ horner.scm
 
     #include <myc.h>
     int S(int *a, int n, int x) {
-     int y = a[n - 1];
-     for (int i = n - 2; i >= 0; i--)
-      y = y * x + a[i];
-     return y;
+     assert(n > 0);
+     int s = a[0];
+     for (int i = 1; i < n; i++)
+      s = s * x + a[i];
+     return s;
     }
     int main() {
-     int a[] = {3,2,1};
-     P("%d", S(a, SIZE(a), 2));
+     int a[] = {3,2,1};  // 3x^2 + 2x + 1
+     P("%d\n", S(a, SIZE(a), 2));
+     P("%d\n", S(a, SIZE(a), 1));
+     P("%d\n", S(a, SIZE(a), 0));
     }
 
 .. code-block:: sh
    
 
-    11
+    17
+    6
+    1
+    
+
+
+
+one byte offset
+---------------------------------------------
+
+last - first = n - 1
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \sum_{i=1}^{n} a_i = \sum_{i=0}^{n-1} a_{i+1} = \sum_{i=2}^{n+1} a_{i-1}
+    \end{eqnarray}
 
 
 
@@ -686,7 +727,7 @@ f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮�
    
 
     
-    /tmp/tmp.TpCkZRJs.hs:8:5:
+    /tmp/tmp.beyH1M8a.hs:8:5:
         No instance for (Show ([Char] -> [Char]))
           (maybe you haven't applied enough arguments to a function?)
           arising from a use of ‘print’

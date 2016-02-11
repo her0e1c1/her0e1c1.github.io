@@ -109,8 +109,9 @@
 <li><a class="reference internal" href="#let-scm" id="id13">let.scm</a></li>
 <li><a class="reference internal" href="#pass-scm" id="id14">pass.scm</a></li>
 <li><a class="reference internal" href="#set-scm" id="id15">set.scm</a></li>
-<li><a class="reference internal" href="#typeof-scm" id="id16">typeof.scm</a></li>
-<li><a class="reference internal" href="#when-scm" id="id17">when.scm</a></li>
+<li><a class="reference internal" href="#sub-scm" id="id16">sub.scm</a></li>
+<li><a class="reference internal" href="#typeof-scm" id="id17">typeof.scm</a></li>
+<li><a class="reference internal" href="#when-scm" id="id18">when.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -852,8 +853,19 @@ HOGE
 </div>
 </div>
 </div>
+<div class="section" id="sub-scm">
+<h2><a class="toc-backref" href="#id16">sub.scm</a><a class="headerlink" href="#sub-scm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">decrement operator -=</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>py <span class="s1">&#39;a = 10; a =- 1; P(a)&#39;</span>
+-1
+</pre></div>
+</div>
+</div>
 <div class="section" id="typeof-scm">
-<h2><a class="toc-backref" href="#id16">typeof.scm</a><a class="headerlink" href="#typeof-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">typeof.scm</a><a class="headerlink" href="#typeof-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="typeof">
 <h3>typeof<a class="headerlink" href="#typeof" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ne <span class="s1">&#39;typeof(true)&#39;</span>
@@ -886,7 +898,7 @@ HOGE
 </div>
 </div>
 <div class="section" id="when-scm">
-<h2><a class="toc-backref" href="#id17">when.scm</a><a class="headerlink" href="#when-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id18">when.scm</a><a class="headerlink" href="#when-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre>$ ee &#39;(|--when-let| (+ 1 2 3) (* it it))&#39;
 Symbol&#39;s function definition is void: |--when-let|
 </pre></div>
