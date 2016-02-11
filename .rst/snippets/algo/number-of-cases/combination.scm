@@ -2,9 +2,9 @@
 (p "異なるn個の中から重複を許さずr個取り出す場合の数(nCr)")
 
 (math "
-f(${a_n$}, 0) = ${$phi$}
-f($phi, x) = $phi
-f(${a_n$}, k) = ${{a_n} $cup x $| x $in f(${a_{n-1}, k-1$}) $} $cup f(${a_{n-1}$}, k)
+f(n, 0) &=& ${$phi$}
+f(0, x) &=& $phi
+f(n, k) &=& ${ ${a_n$} $cup x $mid x $in f(n-1, k-1) $} $cup f(n-1, k)
 ")
 
 (ghc #!Q
@@ -25,14 +25,13 @@ comb = go [] where
   go acc _ 0      = [acc]  -- 先頭に記述すること
   go acc [] _     = []
   go acc (x:xs) n = go (x:acc) xs (n-1) ++ go acc xs n
-  -- 以下がrepeatedPermutation.hs
-  -- go acc (x:xs) n = go (x:acc) (x:xs) (n-1) ++ go acc xs n
 main = do
   print $ comb [1..3] 2
   print $ comb [1..5] 4
 Q :str #t)
 
 (ps "nC3(using loop)")
+
 (cpp #!Q
 #include <myutils.h>
 void nC3(vector<int> N){
@@ -45,18 +44,23 @@ void nC3(vector<int> N){
     }
   }
 }
-int main() {
-}
+int main() { nC3({1,2,3,4,5}); }
 Q :str #t)
 
 (ps "nCr")
+
 (pw "be careful of overflow")
 
-(ghc #!Q
-combination :: (Integral a) => a -> a -> a
-combination n r
+(math "
+{}_n C _0 &=& 1
+{}_n C _n &=& 1
+{}_n C _r &=& {}_{n-1} C _r + {}_{n-1} C _{r-1}
+")
+
+(ghc "
+comb :: (Integral a) => a -> a -> a
+comb n r
   | r == 0 || n == r = 1
-  | 0 <= r && r <= n = combination (n-1) r + combination (n-1) (r-1)
-  | otherwise = error "bad args"
-main = print $ combination 5 2
-Q :str #t)
+  | 0 <= r && r <= n = comb (n-1) r + comb (n-1) (r-1)
+main = print $ comb 5 2
+")
