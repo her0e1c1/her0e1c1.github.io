@@ -384,7 +384,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "abcdef"))' 
-    #<<regmatch> 0x16512d0>
+    #<<regmatch> 0x1639210>
     #<undef>
     
 
@@ -393,7 +393,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/(?!abc)def/ "ABCdef"))' 
-    #<<regmatch> 0x16512d0>
+    #<<regmatch> 0x1657b40>
     #<undef>
     
 
@@ -411,7 +411,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/abc(?!def)/ "abcDEF"))' 
-    #<<regmatch> 0x16512d0>
+    #<<regmatch> 0x1658a80>
     #<undef>
     
 
@@ -587,7 +587,7 @@ match.scm
    
 
     $ s '(#/str/ "strng")' 
-    #<<regmatch> 0x16516c0>
+    #<<regmatch> 0x1657f30>
     
 
 

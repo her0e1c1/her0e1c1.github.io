@@ -49,18 +49,15 @@ all-subsets.scm
 
 べき乗
 Xを集合とする。 Xの部分集合全体を2^xと表す
-
 異なるn個の中で構成される全ての組み合わせ
 
-
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         
-    \\f(\{ a_0 \}) = {\phi}
-    \\f(\{ a_n \}) = \{ {a_n} \cup x \mid x \in g \} \cup g
-    \\g = f(\{ a_{n-1} \})
+    \\f(0) &=& {\phi}
+    \\f(n) &=& \{ {a_n} \cup x \mid x \in f(n-1) \} \cup f(n-1)
     \\
     \end{eqnarray}
 
@@ -70,19 +67,20 @@ Xを集合とする。 Xの部分集合全体を2^xと表す
 
     \begin{eqnarray}
         
-    \\X = \{1,2,3\} のとき
-    \\2^X = \{\phi,{1},{2},{3},{1,2},{2,3},{3,1},{1,2,3}\}
-    \\\# 2^X = 2^3 = {}_3 C _0 + {}_3 C _1 + {}_3 C _2 + {}_3 C _3 = 8
-    \\(つまり、 \sum_r^n {}_n C _r = 2^n)
+    \\X      &=& \{1,2,3\} のとき
+    \\2^X    &=& \{ \phi,\{1\},\{2\},\{3\},\{1,2\},\{2,3\},\{3,1\},\{1,2,3\}\ \}
+    \\\# 2^X &=& 2^3 = {}_3 C _0 + {}_3 C _1 + {}_3 C _2 + {}_3 C _3 = 8
+    \\(つまり、 \sum_{r=0}^n {}_n C _r = 2^n)
     \\
     \end{eqnarray}
 
-一つ前の結果に、新しく要素を加えるか、加えないかで分けて考える
+一つ前の結果に、新しく要素を加えるか、加えないかで分けて考える.
 f(x:xs)は、[[INT]]なので、xを使う場合とそうでない場合に分ける
 
 .. code-block:: ghc
    
 
+    
     comb :: (Num a) => [a] -> [[a]]
     comb = go where
       go []    = [[]]
@@ -90,55 +88,13 @@ f(x:xs)は、[[INT]]なので、xを使う場合とそうでない場合に分�
     main = do
       print $ comb [1..3]
       print $ comb [1..5]
+    
 
 .. code-block:: sh
    
 
     [[1,2,3],[1,2],[1,3],[1],[2,3],[2],[3],[]]
     [[1,2,3,4,5],[1,2,3,4],[1,2,3,5],[1,2,3],[1,2,4,5],[1,2,4],[1,2,5],[1,2],[1,3,4,5],[1,3,4],[1,3,5],[1,3],[1,4,5],[1,4],[1,5],[1],[2,3,4,5],[2,3,4],[2,3,5],[2,3],[2,4,5],[2,4],[2,5],[2],[3,4,5],[3,4],[3,5],[3],[4,5],[4],[5],[]]
-    
-
-
-.. code-block:: cpp
-   
-
-    #include "myutils.h"
-    vector<vector<int>> comb(vector<int>& set, int index) {
-      if (set.size() == index) {
-        return vector<vector<int>>(1, vector<int>());
-      }
-      vector<vector<int>> r;
-      auto q = comb(set, index + 1);
-      for (auto x: q)
-        r.push_back(x);
-      int a = set[index];
-      for (auto x: q) {
-        x.push_back(a);
-        r.push_back(x);
-      }
-      return r;
-    }
-    int main() {
-      vector<int> x = {1,2,3};
-      vector<vector<int>> xs = comb(x, 0);
-      REP(i, xs.size()){
-        REP(j, xs[i].size())
-          cout << xs[i][j] << ", ";
-        cout << endl;
-      }
-    }
-
-.. code-block:: sh
-   
-
-    
-    3, 
-    2, 
-    3, 2, 
-    1, 
-    3, 1, 
-    2, 1, 
-    3, 2, 1, 
     
 
 
@@ -183,9 +139,9 @@ combination.scm
 
     \begin{eqnarray}
         
-    \\f(\{a_n\}, 0) = \{\phi\}
-    \\f(\phi, x) = \phi
-    \\f(\{a_n\}, k) = \{{a_n} \cup x \| x \in f(\{a_{n-1}, k-1\}) \} \cup f(\{a_{n-1}\}, k)
+    \\f(n, 0) &=& \{\phi\}
+    \\f(0, x) &=& \phi
+    \\f(n, k) &=& \{ \{a_n\} \cup x \mid x \in f(n-1, k-1) \} \cup f(n-1, k)
     \\
     \end{eqnarray}
 
@@ -219,8 +175,6 @@ combination.scm
       go acc _ 0      = [acc]  -- 先頭に記述すること
       go acc [] _     = []
       go acc (x:xs) n = go (x:acc) xs (n-1) ++ go acc xs n
-      -- 以下がrepeatedPermutation.hs
-      -- go acc (x:xs) n = go (x:acc) (x:xs) (n-1) ++ go acc xs n
     main = do
       print $ comb [1..3] 2
       print $ comb [1..5] 4
@@ -252,12 +206,21 @@ nC3(using loop)
         }
       }
     }
-    int main() {
-    }
+    int main() { nC3({1,2,3,4,5}); }
 
 .. code-block:: sh
    
 
+    1, 2, 3
+    1, 2, 4
+    1, 2, 5
+    1, 3, 4
+    1, 3, 5
+    1, 4, 5
+    2, 3, 4
+    2, 3, 5
+    2, 4, 5
+    3, 4, 5
     
 
 
@@ -271,15 +234,28 @@ nCr
     be careful of overflow
 
 
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\{}_n C _0 &=& 1
+    \\{}_n C _n &=& 1
+    \\{}_n C _r &=& {}_{n-1} C _r + {}_{n-1} C _{r-1}
+    \\
+    \end{eqnarray}
+
+
 .. code-block:: ghc
    
 
-    combination :: (Integral a) => a -> a -> a
-    combination n r
+    
+    comb :: (Integral a) => a -> a -> a
+    comb n r
       | r == 0 || n == r = 1
-      | 0 <= r && r <= n = combination (n-1) r + combination (n-1) (r-1)
-      | otherwise = error "bad args"
-    main = print $ combination 5 2
+      | 0 <= r && r <= n = comb (n-1) r + comb (n-1) (r-1)
+    main = print $ comb 5 2
+    
 
 .. code-block:: sh
    
@@ -441,7 +417,7 @@ combinationとの違いは、使用しても消費しない
         
     \\H(n, 0) &=& \{ \phi \}
     \\H(0, r) &=& \phi
-    \\H(n, r) &=& \{cons(a_n, x) \mid x \in H(n, r-1) \} \cup H(n-1, r)
+    \\H(n, r) &=& \{ \{a_n\} \cup x \mid x \in H(n, r-1) \} \cup H(n-1, r)
     \\
     \end{eqnarray}
 
@@ -450,36 +426,18 @@ combinationとの違いは、使用しても消費しない
 .. code-block:: ghc
    
 
+    
     h = go where
       go xs 0 = [[]]
       go [] _ = []
-      go (x:xs) n = map (x:) (go (x:xs) (n-1)) ++ go xs n
+      go (x:xs) n = [x:ys | ys<-go (x:xs) (n-1)] ++ go xs n
     main = print $ h [1..3] 2
+    
 
 .. code-block:: sh
    
 
     [[1,1],[1,2],[1,3],[2,2],[2,3],[3,3]]
-    
-
-変数accを使う場合
-
-.. code-block:: ghc
-   
-
-    h :: [a] -> Int -> [[a]]
-    h = go [] where
-      go acc _ 0 = [acc]
-      go acc [] _ = []
-      -- combinationとの違いは xsと(x:xs)の違い
-      -- go acc (x:xs) n = go (x:acc) xs (n-1) ++ go acc xs n
-      go acc (x:xs) n = go (x:acc) (x:xs) (n-1) ++ go acc xs n
-    main = print $ h [1..3] 2
-
-.. code-block:: sh
-   
-
-    [[1,1],[2,1],[3,1],[2,2],[3,2],[3,3]]
     
 
 
@@ -492,7 +450,7 @@ nHr
     :nowrap:
 
     \begin{eqnarray}
-         {}_n H _r = {}_{n+r-1} H _r
+         {}_n H _r = {}_{n+r-1} C _r
     \end{eqnarray}
 
 n個のボールをr-1個の棒で仕切る並べ方に一致

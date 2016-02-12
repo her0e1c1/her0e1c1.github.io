@@ -8,6 +8,31 @@ binary-search
 
 
 
+count-k.scm
+=================================
+
+長さnのソート配列に含まれるkの個数
+
+.. warning::
+
+    upper_bound/lower_boundは、有限な配列に対してのみ有効
+
+
+.. code-block:: sh
+   
+
+    $ cpe 'upper_bound(a, a + n, k) - lower_bound(a, a + n, k);' 
+    <stdin>:45:17: error: use of undeclared identifier 'a'
+        upper_bound(a, a + n, k) - lower_bound(a, a + n, k);
+                    ^
+    <stdin>:45:44: error: use of undeclared identifier 'a'
+        upper_bound(a, a + n, k) - lower_bound(a, a + n, k);
+                                               ^
+    2 errors generated.
+    
+
+
+
 find-min-x.scm
 ==========================================
 

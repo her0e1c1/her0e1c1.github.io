@@ -110,7 +110,7 @@ get
    
 
     $ s '(let1 t (make-hash-table) (hash-table-get t '\''no-key))' 
-    *** ERROR: #<hash-table eq? 0x17f5500> doesn't have an entry for key no-key
+    *** ERROR: #<hash-table eq? 0x17c85a0> doesn't have an entry for key no-key
     Stack Trace:
     _______________________________________
       0  (hash-table-get t 'no-key)
@@ -243,7 +243,7 @@ init.scm
 
     $ he 'Data.Map.fromListWith (++) [(1, "a"), (1, "b"), (2, "c")]' 
     
-    /tmp/tmp.Ty9gqL9f:7:15: Not in scope: ‘Data.Map.fromListWith’
+    /tmp/tmp.LEV0J4Fa:7:15: Not in scope: ‘Data.Map.fromListWith’
     
 
 書く時には"key"とクオテーションで括らなくても良いです。
@@ -285,7 +285,7 @@ assv => eqv?
    
 
     $ s '(make-hash-table '\''eq?)' 
-    #<hash-table eq? 0x17f5730>
+    #<hash-table eq? 0x17c8820>
     
 
 
@@ -361,26 +361,27 @@ iter.scm
 ========================
 
 
-.. code-block:: sh
+.. code-block:: cpp
    
 
-    $ cpe '
+    
       map<int, string>::iterator it = m.begin();
       for(; it != m.end(); it++){
         cout << (*it).first << ": " << it->second << endl;
-    ' 
-    <stdin>:46:35: error: use of undeclared identifier 'm'
+    
+
+.. code-block:: sh
+   
+
+    <stdin>:2:3: error: unknown type name 'map'
       map<int, string>::iterator it = m.begin();
-                                      ^
-    <stdin>:47:15: error: use of undeclared identifier 'm'
+      ^
+    <stdin>:2:6: error: expected unqualified-id
+      map<int, string>::iterator it = m.begin();
+         ^
+    <stdin>:3:3: error: expected unqualified-id
       for(; it != m.end(); it++){
-                  ^
-    <stdin>:51:2: error: expected '}'
-    }
-     ^
-    <stdin>:44:33: note: to match this '{'
-    int main(int argc, char* argv[]){
-                                    ^
+      ^
     3 errors generated.
     
 
@@ -395,7 +396,7 @@ get all hash keys
    
 
     $ perl -E '%a=(a=>1, b=>2); say keys %a'
-    ba
+    ab
     
 
 
@@ -403,7 +404,7 @@ get all hash keys
    
 
     $ perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
-    321
+    231
     
 
 
@@ -469,7 +470,7 @@ update.scm
    
 
     $ s '(let1 t (make-hash-table) (hash-table-put! t '\''k 1) (describe t))' 
-    #<hash-table eq? 0x17f5500> is an instance of class <hash-table>
+    #<hash-table eq? 0x17c85a0> is an instance of class <hash-table>
     #t
     
 

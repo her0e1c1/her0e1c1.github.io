@@ -82,6 +82,12 @@
 .. toctree::
     :maxdepth: 1
 
+    liner-algebra/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+
     puzzle/index.rst
 
 

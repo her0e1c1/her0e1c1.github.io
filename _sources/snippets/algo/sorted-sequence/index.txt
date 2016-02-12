@@ -130,13 +130,13 @@ triple-product.scm
    
 
     (print
-        (let1 l (pa$ at (sort '(2 -2 1 5 -4 -3 6 2 -2 4)))
+        (let1 l (pa$ at (sort '(-3 -7 4 5 8 5 8 -2 -6 -2)))
            (max (* (l -1) (l -2) (l -3))
                 (* (l 0) (l 1) (l -1)))))
 
 .. code-block:: sh
    
 
-    120
+    336
     
 

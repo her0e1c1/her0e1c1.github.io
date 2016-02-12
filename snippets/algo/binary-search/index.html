@@ -95,19 +95,38 @@
 <p class="topic-title first">Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#binary-search" id="id5">binary-search</a><ul>
-<li><a class="reference internal" href="#find-min-x-scm" id="id6">find-min-x.scm</a></li>
-<li><a class="reference internal" href="#findsqrtn-scm" id="id7">findSqrtN.scm</a></li>
-<li><a class="reference internal" href="#index-scm" id="id8">index.scm</a></li>
-<li><a class="reference internal" href="#id3" id="id9">ビット演算でのイメージ</a></li>
-<li><a class="reference internal" href="#minimize-sum-sequence-scm" id="id10">minimize-sum-sequence.scm</a></li>
-<li><a class="reference internal" href="#rotate-scm" id="id11">rotate.scm</a></li>
-<li><a class="reference internal" href="#zero-scm" id="id12">zero.scm</a></li>
+<li><a class="reference internal" href="#count-k-scm" id="id6">count-k.scm</a></li>
+<li><a class="reference internal" href="#find-min-x-scm" id="id7">find-min-x.scm</a></li>
+<li><a class="reference internal" href="#findsqrtn-scm" id="id8">findSqrtN.scm</a></li>
+<li><a class="reference internal" href="#index-scm" id="id9">index.scm</a></li>
+<li><a class="reference internal" href="#id3" id="id10">ビット演算でのイメージ</a></li>
+<li><a class="reference internal" href="#minimize-sum-sequence-scm" id="id11">minimize-sum-sequence.scm</a></li>
+<li><a class="reference internal" href="#rotate-scm" id="id12">rotate.scm</a></li>
+<li><a class="reference internal" href="#zero-scm" id="id13">zero.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="count-k-scm">
+<h2><a class="toc-backref" href="#id6">count-k.scm</a><a class="headerlink" href="#count-k-scm" title="Permalink to this headline">¶</a></h2>
+<p>長さnのソート配列に含まれるkの個数</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">upper_bound/lower_boundは、有限な配列に対してのみ有効</p>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>cpe <span class="s1">&#39;upper_bound(a, a + n, k) - lower_bound(a, a + n, k);&#39;</span>
+&lt;stdin&gt;:45:17: error: use of undeclared identifier <span class="s1">&#39;a&#39;</span>
+    upper_bound<span class="o">(</span>a, a + n, k<span class="o">)</span> - lower_bound<span class="o">(</span>a, a + n, k<span class="o">)</span><span class="p">;</span>
+                ^
+&lt;stdin&gt;:45:44: error: use of undeclared identifier <span class="s1">&#39;a&#39;</span>
+    upper_bound<span class="o">(</span>a, a + n, k<span class="o">)</span> - lower_bound<span class="o">(</span>a, a + n, k<span class="o">)</span><span class="p">;</span>
+                                           ^
+<span class="m">2</span> errors generated.
+</pre></div>
+</div>
+</div>
 <div class="section" id="find-min-x-scm">
-<h2><a class="toc-backref" href="#id6">find-min-x.scm</a><a class="headerlink" href="#find-min-x-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">find-min-x.scm</a><a class="headerlink" href="#find-min-x-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="compute-the-square-root">
 <h3>Compute the square root<a class="headerlink" href="#compute-the-square-root" title="Permalink to this headline">¶</a></h3>
 <div class="math">
@@ -138,7 +157,7 @@ foldが使えるのは、high側が常に失敗する場合のみ。今回はhig
 </div>
 </div>
 <div class="section" id="findsqrtn-scm">
-<h2><a class="toc-backref" href="#id7">findSqrtN.scm</a><a class="headerlink" href="#findsqrtn-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">findSqrtN.scm</a><a class="headerlink" href="#findsqrtn-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>Compute the square root<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="math">
@@ -198,7 +217,7 @@ main = print $ h 15241578750190521
 </div>
 </div>
 <div class="section" id="index-scm">
-<h2><a class="toc-backref" href="#id8">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3>基本的な考え方<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="math">
@@ -255,7 +274,7 @@ main = print $ h 15241578750190521
 </div>
 </div>
 <div class="section" id="id3">
-<h2><a class="toc-backref" href="#id9">ビット演算でのイメージ</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">ビット演算でのイメージ</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">f(x)</span> <span class="pre">=</span> <span class="pre">-x^2</span> <span class="pre">+</span> <span class="pre">10*x</span> <span class="pre">+</span> <span class="pre">1</span></code> の <code class="docutils literal"><span class="pre">max</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">N</span> <span class="pre">st</span> <span class="pre">f(x)</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> を考える。
 答えは、 <code class="docutils literal"><span class="pre">f(10)</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">f(11)</span> <span class="pre">=</span> <span class="pre">-10</span></code> よりx=10である。</p>
 <p><code class="docutils literal"><span class="pre">f(2^4)</span> <span class="pre">&lt;</span> <span class="pre">0</span></code> なので、4乗は境界線を超えている(当然f(2^5)なども、この関数では同様)。
@@ -295,7 +314,7 @@ n=3で失敗するからといって、n=4も失敗するとは限らない</p>
 </div>
 </div>
 <div class="section" id="minimize-sum-sequence-scm">
-<h2><a class="toc-backref" href="#id10">minimize-sum-sequence.scm</a><a class="headerlink" href="#minimize-sum-sequence-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">minimize-sum-sequence.scm</a><a class="headerlink" href="#minimize-sum-sequence-scm" title="Permalink to this headline">¶</a></h2>
 <p>ある配列をK個に区分したときの、区分配列のうち最大和の最小値を求める
 [max(A), sum(A)]の範囲で2分探索することで、SUMの最小値がもとまる</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;myutils.h&quot;</span>
@@ -329,7 +348,7 @@ f<span class="o">(</span>1000, 1,<span class="o">{</span>0, 1000, 0<span class="
 </div>
 </div>
 <div class="section" id="rotate-scm">
-<h2><a class="toc-backref" href="#id11">rotate.scm</a><a class="headerlink" href="#rotate-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">rotate.scm</a><a class="headerlink" href="#rotate-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="k-roteated-increasing-order-array">
 <h3>k-roteated increasing order array<a class="headerlink" href="#k-roteated-increasing-order-array" title="Permalink to this headline">¶</a></h3>
 <p>&#8211; A &#8211; left &#8211; B &#8211; mid &#8211; C &#8211; right &#8211; D &#8211;</p>
@@ -386,7 +405,7 @@ linerでなくても求まる!</p>
 </div>
 </div>
 <div class="section" id="zero-scm">
-<h2><a class="toc-backref" href="#id12">zero.scm</a><a class="headerlink" href="#zero-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">zero.scm</a><a class="headerlink" href="#zero-scm" title="Permalink to this headline">¶</a></h2>
 <p>interspersedWithZero (0が途中に混ざった場合のbinary search)
 CI 9.5</p>
 <ul class="simple">

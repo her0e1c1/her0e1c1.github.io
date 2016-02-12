@@ -203,8 +203,8 @@ expand symbol link
     #x = (1 + 2 + 3)
     x  = 6
     __func__ = main
-    __DATE__ = Feb 10 2016
-    __TIME__ = 14:46:29
+    __DATE__ = Feb 12 2016
+    __TIME__ = 10:50:18
     
 
 
@@ -229,14 +229,18 @@ length-of-arguments.scm
 .. code-block:: sh
    
 
-    $ sh -c '
+    
     f(){
          [ $# -eq 1 ] && echo one
          [ $# -eq 2 ] && echo two
        }
     f 1
     f 1 2
-    ' 
+    
+
+.. code-block:: sh
+   
+
     one
     two
     
@@ -293,7 +297,7 @@ getCurrentPID
    
 
     $ perl -E 'say $$' 
-    73483
+    58005
     
 
 
@@ -301,6 +305,6 @@ getCurrentPID
    
 
     $ echo $$
-    73502
+    58024
     
 

@@ -670,40 +670,40 @@ ok
 </pre></div>
 </div>
 <p>Multi liners</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;</span>
-<span class="s1">if true; then</span>
-<span class="s1">    echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;if&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;</span>
-<span class="s1">elif false; then</span>
-<span class="s1">    echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;elif&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;</span>
-<span class="s1">else</span>
-<span class="s1">    echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;else&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;</span>
-<span class="s1">fi</span>
-<span class="s1">&#39;</span>
-<span class="k">if</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;</span>
-<span class="s1">if false; then</span>
-<span class="s1">    echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;if&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;</span>
-<span class="s1">elif true; then</span>
-<span class="s1">    echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;elif&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;</span>
-<span class="s1">else</span>
-<span class="s1">    echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;else&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;</span>
-<span class="s1">fi</span>
-<span class="s1">&#39;</span>
-<span class="k">elif</span>
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;</span>
-<span class="s1">if false; then</span>
-<span class="s1">    echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;if&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;</span>
-<span class="s1">elif false; then</span>
-<span class="s1">    echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;elif&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;</span>
-<span class="s1">else</span>
-<span class="s1">    echo &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;else&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;;</span>
-<span class="s1">fi</span>
-<span class="s1">&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="k">if</span> <span class="nb">true</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s1">&#39;if&#39;</span><span class="p">;</span>
+<span class="k">elif</span> <span class="nb">false</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s1">&#39;elif&#39;</span><span class="p">;</span>
 <span class="k">else</span>
+    <span class="nb">echo</span> <span class="s1">&#39;else&#39;</span><span class="p">;</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="k">if</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="k">if</span> <span class="nb">false</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s1">&#39;if&#39;</span><span class="p">;</span>
+<span class="k">elif</span> <span class="nb">true</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s1">&#39;elif&#39;</span><span class="p">;</span>
+<span class="k">else</span>
+    <span class="nb">echo</span> <span class="s1">&#39;else&#39;</span><span class="p">;</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="k">elif</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="k">if</span> <span class="nb">false</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s1">&#39;if&#39;</span><span class="p">;</span>
+<span class="k">elif</span> <span class="nb">false</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s1">&#39;elif&#39;</span><span class="p">;</span>
+<span class="k">else</span>
+    <span class="nb">echo</span> <span class="s1">&#39;else&#39;</span><span class="p">;</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span class="k">else</span>
 </pre></div>
 </div>
 <div class="section" id="using-var">

@@ -930,15 +930,19 @@ Multi liners
 .. code-block:: sh
    
 
-    $ sh -c '
+    
     if true; then
-        echo '\''if'\'';
+        echo 'if';
     elif false; then 
-        echo '\''elif'\'';
+        echo 'elif';
     else
-        echo '\''else'\'';
+        echo 'else';
     fi
-    ' 
+    
+
+.. code-block:: sh
+   
+
     if
     
 
@@ -946,15 +950,19 @@ Multi liners
 .. code-block:: sh
    
 
-    $ sh -c '
+    
     if false; then
-        echo '\''if'\'';
+        echo 'if';
     elif true; then 
-        echo '\''elif'\'';
+        echo 'elif';
     else
-        echo '\''else'\'';
+        echo 'else';
     fi
-    ' 
+    
+
+.. code-block:: sh
+   
+
     elif
     
 
@@ -962,15 +970,19 @@ Multi liners
 .. code-block:: sh
    
 
-    $ sh -c '
+    
     if false; then
-        echo '\''if'\'';
+        echo 'if';
     elif false; then 
-        echo '\''elif'\'';
+        echo 'elif';
     else
-        echo '\''else'\'';
+        echo 'else';
     fi
-    ' 
+    
+
+.. code-block:: sh
+   
+
     else
     
 

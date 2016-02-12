@@ -203,9 +203,13 @@ f<span class="o">(</span>4, 3<span class="o">)</span> <span class="o">=</span> 6
 <li>2 + 1 + 1 + 1 = 5</li>
 <li>2 + 2 + 1 = 5</li>
 </ul>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">simple but slow</p>
+</div>
 <div class="highlight-ghc"><div class="highlight"><pre>f n
  | n == 0 || n == 1 = n
- | otherwise = f (n-1) + f (n-2)
+ | otherwise        = f (n-1) + f (n-2)
 main = print $ f 10
 </pre></div>
 </div>
@@ -227,16 +231,22 @@ main = print $ f 10
 <div class="highlight-sh"><div class="highlight"><pre>fib<span class="o">[</span>N<span class="o">]</span> <span class="o">=</span> 55
 </pre></div>
 </div>
-<p>pythonic</p>
-<div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
- <span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
- <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-  <span class="n">dp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
- <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="n">fib</span><span class="p">(</span><span class="mi">35</span><span class="p">))</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="kt">int</span> <span class="nf">f</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">s0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">s1</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+ <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">s1</span><span class="p">;</span>
+  <span class="n">s1</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">+</span> <span class="n">s0</span><span class="p">;</span>
+  <span class="n">s0</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="n">s1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="n">P</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>9227465
+<div class="highlight-sh"><div class="highlight"><pre>f<span class="o">(</span>10<span class="o">)</span> <span class="o">=</span> 55
 </pre></div>
 </div>
 </div>

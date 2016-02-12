@@ -224,8 +224,8 @@ This is a &#8220;&#64;array&#8221; delimiter</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="c">#x = (1 + 2 + 3)</span>
 <span class="nv">x</span>  <span class="o">=</span> 6
 <span class="nv">__func__</span> <span class="o">=</span> main
-<span class="nv">__DATE__</span> <span class="o">=</span> Feb <span class="m">10</span> 2016
-<span class="nv">__TIME__</span> <span class="o">=</span> 14:46:29
+<span class="nv">__DATE__</span> <span class="o">=</span> Feb <span class="m">12</span> 2016
+<span class="nv">__TIME__</span> <span class="o">=</span> 10:50:18
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;*program-name*&#39;</span>
@@ -239,15 +239,15 @@ This is a &#8220;&#64;array&#8221; delimiter</p>
 <p class="first admonition-title">Warning</p>
 <p class="last">等しいに文字列の=を使わない!</p>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sh -c <span class="s1">&#39;</span>
-<span class="s1">f(){</span>
-<span class="s1">     [ $# -eq 1 ] &amp;&amp; echo one</span>
-<span class="s1">     [ $# -eq 2 ] &amp;&amp; echo two</span>
-<span class="s1">   }</span>
-<span class="s1">f 1</span>
-<span class="s1">f 1 2</span>
-<span class="s1">&#39;</span>
-one
+<div class="highlight-sh"><div class="highlight"><pre>f<span class="o">(){</span>
+     <span class="o">[</span> <span class="nv">$# </span>-eq <span class="m">1</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo </span>one
+     <span class="o">[</span> <span class="nv">$# </span>-eq <span class="m">2</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo </span>two
+   <span class="o">}</span>
+f 1
+f <span class="m">1</span> 2
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>one
 two
 </pre></div>
 </div>
@@ -280,11 +280,11 @@ two
 <h2><a class="toc-backref" href="#id10">process-id.scm</a><a class="headerlink" href="#process-id-scm" title="Permalink to this headline">¶</a></h2>
 <p>getCurrentPID</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say $$&#39;</span>
-73483
+58005
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$$</span>
-73502
+58024
 </pre></div>
 </div>
 </div>

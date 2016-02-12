@@ -333,12 +333,12 @@ abcDEF
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(p (#/(?!abc)def/ &quot;abcdef&quot;))&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x16512d0&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1639210&gt;</span>
 <span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(p (#/(?!abc)def/ &quot;ABCdef&quot;))&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x16512d0&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1657b40&gt;</span>
 <span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
@@ -348,7 +348,7 @@ abcDEF
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(p (#/abc(?!def)/ &quot;abcDEF&quot;))&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x16512d0&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1658a80&gt;</span>
 <span class="c">#&lt;undef&gt;</span>
 </pre></div>
 </div>
@@ -446,7 +446,7 @@ st
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(#/str/ &quot;strng&quot;)&#39;</span>
-<span class="c">#&lt;&lt;regmatch&gt; 0x16516c0&gt;</span>
+<span class="c">#&lt;&lt;regmatch&gt; 0x1657f30&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;((#/str/ &quot;strng&quot;) 0)&#39;</span>

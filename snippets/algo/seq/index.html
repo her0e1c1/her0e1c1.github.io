@@ -112,9 +112,10 @@
 <li><a class="reference internal" href="#max-number-group-of-local-maximuns-scm" id="id20">max-number-group-of-local-maximuns.scm</a></li>
 <li><a class="reference internal" href="#max-profit-scm" id="id21">max-profit.scm</a></li>
 <li><a class="reference internal" href="#newton-scm" id="id22">newton.scm</a></li>
-<li><a class="reference internal" href="#subset-sum-scm" id="id23">subset-sum.scm</a></li>
-<li><a class="reference internal" href="#sum-n-coins-scm" id="id24">sum-n-coins.scm</a></li>
-<li><a class="reference internal" href="#totient-scm" id="id25">totient.scm</a></li>
+<li><a class="reference internal" href="#partition-function-scm" id="id23">partition-function.scm</a></li>
+<li><a class="reference internal" href="#subset-sum-scm" id="id24">subset-sum.scm</a></li>
+<li><a class="reference internal" href="#sum-n-coins-scm" id="id25">sum-n-coins.scm</a></li>
+<li><a class="reference internal" href="#totient-scm" id="id26">totient.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -304,8 +305,8 @@ None
 \\f(i, n, s) &=& f(i+1, N, S)
 \\where
 \\num &=& \{a_n\}におけるxの要素数
-\\N   &=& n + 1 (\mbox{if} \quad  a_i = x)
-\\S   &=& s + 1 (\mbox{if} \quad  2n \gl i + 1 and 2(num - n) \gl length(a_n) - (i + 1))
+\\N   &=& n + 1 (\mbox{if}  a_i = x)
+\\S   &=& s + 1 (\mbox{if}  2n \gl i + 1 and 2(num - n) \gl length(a_n) - (i + 1))
 \\
 \end{eqnarray}\]</div><div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
  <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">A</span> <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">x</span><span class="p">])</span>
@@ -490,27 +491,11 @@ p
 \\
 \end{eqnarray}\]</div><div class="math">
 \[\begin{eqnarray}
-    f(i, size) = \begin{cases} \max \{f(i-1, size), f(i-1, size + a_i) + b_i (\mbox{if} \quad  size + a_i \le maxSize) \}\end{cases}
+    f(i, size)=\begin{cases} \max \{f(i-1, size), f(i-1, size + a_i) + b_i (\mbox{if}  size + a_i \le maxSize)\} \end{cases}
 \end{eqnarray}\]</div><div class="math">
 \[\begin{eqnarray}
-    f(i, size) = \begin{cases} \max \{f(i-1, size), f(i-1, size - a_i) + b_i (\mbox{if} \quad  size - a_i \ge 0) \}
-\end{eqnarray}\]</div><div class="highlight-ghc"><div class="highlight"><pre>-- pairs = [(size, price)]
-knapsack :: (Ord a, Num a) =&gt; [(a, a)] -&gt; a -&gt; a
-knapsack pairs max_size = go pairs 0 where
-    go [] size = 0
-    go ((s,p):sps) size =
-      let
-        ssize = s + size
-        cap1 = go sps size  -- 現在の(s, p)を使わない
-        cap2 = if ssize &lt;= max_size then p + go sps ssize else 0
-      in maximum [cap1, cap2]
-main = print $ knapsack [(x, 6-x) |x &lt;- [1..5]] 6
-</pre></div>
-</div>
-<div class="highlight-sh"><div class="highlight"><pre>12
-</pre></div>
-</div>
-<div class="highlight-ghc"><div class="highlight"><pre>-- pairs = [(size, price)]
+    f(i, size)=\begin{cases} \max \{f(i-1, size), f(i-1, size - a_i) + b_i (\mbox{if}  size - a_i \ge 0)\} \end{cases}
+\end{eqnarray}\]</div><div class="highlight-ghc"><div class="highlight"><pre>-- pairs = [(size, price)] (逆方向)
 knapsack :: (Ord a, Num a) =&gt; [(a, a)] -&gt; a -&gt; a
 knapsack pairs size = go pairs size where
     go [] size = 0
@@ -528,13 +513,12 @@ main = print $ knapsack [(x, 6-x) |x &lt;- [1..5]] 6
 </div>
 <p>dp</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
-<span class="c1">// dpでは、一つ前の状態から、現在の状態へ遷移することを考える</span>
 <span class="kt">int</span> <span class="nf">solve</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">prices</span><span class="p">,</span> <span class="kt">int</span> <span class="n">capacity</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">sizes</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">prices</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
   <span class="kt">int</span> <span class="n">S</span> <span class="o">=</span> <span class="n">sizes</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
   <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">dp</span><span class="p">(</span><span class="n">sizes</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">;</span> <span class="n">s</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="n">capacity</span><span class="p">;</span> <span class="n">c</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// =を忘れない</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="n">capacity</span><span class="p">;</span> <span class="n">c</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// =を忘れない(順方向)</span>
       <span class="kt">int</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">c</span><span class="o">-</span> <span class="n">sizes</span><span class="p">[</span><span class="n">s</span><span class="p">];</span>
       <span class="k">if</span> <span class="p">(</span><span class="n">c1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">dp</span><span class="p">[</span><span class="n">s</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">c</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">c1</span><span class="p">]</span> <span class="o">+</span> <span class="n">prices</span><span class="p">[</span><span class="n">s</span><span class="p">]);</span>
@@ -556,20 +540,14 @@ main = print $ knapsack [(x, 6-x) |x &lt;- [1..5]] 6
 </div>
 <p>dp</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
-<span class="c1">// dpでは、一つ前の状態から、現在の状態へ遷移することを考える</span>
+<span class="c1">// 配列の再利用(正直、ループの順方向と逆方向で結果が変わる理由がよくわかってない！)</span>
 <span class="kt">int</span> <span class="nf">solve</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">prices</span><span class="p">,</span> <span class="kt">int</span> <span class="n">capacity</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">sizes</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">prices</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
   <span class="kt">int</span> <span class="n">S</span> <span class="o">=</span> <span class="n">sizes</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
   <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">dp</span><span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">;</span> <span class="n">s</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="n">capacity</span><span class="p">;</span> <span class="n">c</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// =を忘れない</span>
-      <span class="kt">int</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">c</span> <span class="o">-</span> <span class="n">sizes</span><span class="p">[</span><span class="n">s</span><span class="p">];</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">c1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">dp</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">c1</span><span class="p">]</span> <span class="o">+</span> <span class="n">prices</span><span class="p">[</span><span class="n">s</span><span class="p">]);</span>
-      <span class="k">else</span>
-        <span class="n">dp</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">;</span> <span class="n">s</span><span class="o">++</span><span class="p">)</span>
+   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">capacity</span><span class="p">;</span> <span class="n">c</span> <span class="o">&gt;=</span> <span class="n">sizes</span><span class="p">[</span><span class="n">s</span><span class="p">];</span> <span class="n">c</span><span class="o">--</span><span class="p">)</span>
+    <span class="n">dp</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">c</span><span class="o">-</span><span class="n">sizes</span><span class="p">[</span><span class="n">s</span><span class="p">]]</span> <span class="o">+</span> <span class="n">prices</span><span class="p">[</span><span class="n">s</span><span class="p">]);</span>
   <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">capacity</span><span class="p">];</span>
 <span class="p">}</span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
@@ -579,9 +557,10 @@ main = print $ knapsack [(x, 6-x) |x &lt;- [1..5]] 6
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>solve<span class="o">({</span>1,2,3,4,5<span class="o">}</span>, <span class="o">{</span>5,4,3,2,1<span class="o">}</span>, 6<span class="o">)</span> <span class="o">=</span> 30
+<div class="highlight-sh"><div class="highlight"><pre>solve<span class="o">({</span>1,2,3,4,5<span class="o">}</span>, <span class="o">{</span>5,4,3,2,1<span class="o">}</span>, 6<span class="o">)</span> <span class="o">=</span> 12
 </pre></div>
 </div>
+<p>再利用ができるのは、i=&gt;i+1へ単純に値を渡している場合.</p>
 </div>
 <div class="section" id="local-maximun-scm">
 <h2><a class="toc-backref" href="#id15">local-maximun.scm</a><a class="headerlink" href="#local-maximun-scm" title="Permalink to this headline">¶</a></h2>
@@ -612,13 +591,14 @@ main = print $ knapsack [(x, 6-x) |x &lt;- [1..5]] 6
 <div class="math">
 \[\begin{eqnarray}
 
-\\f(x, y) = \begin{cases} 0 (x = 0 or y = 0)
-\\f(x-1, y-1) (x = y)
-\\max{f(x-1,y), f(x, y-1)}
+\\f(x, y) = \begin{cases} 0 & (x = 0 or y = 0)
+\\f(x-1, y-1) + 1 & (x = y)
+\\\max \{f(x-1,y), f(x, y-1) \} & (else)
 \\\end{cases}
 \\
-\end{eqnarray}\]</div><p>f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮しなくてよい
-１変数のみ動かし、他の変数を固定して考えるのだと思うけど、まだよくわかってない</p>
+\end{eqnarray}\]</div><p>f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮しなくてよい.
+１変数のみ動かし、他の変数を固定して考えるのだと思うけど、まだよくわかってない.
+ただ、単純に(x,y)の手前は(x-1,y)か(x,y-1)ということで良さそう.</p>
 <div class="highlight-ghc"><div class="highlight"><pre>import Data.List (maximumBy)
 c a b = compare (length a) (length b)
 f = g where
@@ -626,36 +606,34 @@ f = g where
   | x == y    = x : g xs ys
   | otherwise = maximumBy c [(g xss ys), (g xs yss)]
  g _ _ = &quot;&quot;
-p = print &lt;$&gt; f
 main = do
  print $ f &quot;abcdefg&quot; &quot;bde&quot;
  print $ f &quot;abcdefg&quot; &quot;ace&quot;
  print $ f &quot;abcdefg&quot; &quot;kakcke&quot;
- print $ f &quot;abcdefg&quot; &quot;kakdkbkekcdf&quot;
+ print $ f &quot;abcdefg&quot;       &quot;kakdkbkekcdf&quot;
  print $ f &quot;azbzczdzezfzg&quot; &quot;kakdkbkekcdf&quot;
 </pre></div>
 </div>
-<div class="highlight-sh"><div class="highlight"><pre>/tmp/tmp.beyH1M8a.hs:8:5:
-    No instance for (Show ([Char] -&gt; [Char]))
-      (maybe you haven&#39;t applied enough arguments to a function?)
-      arising from a use of ‘print’
-    In the first argument of ‘(&lt;$&gt;)’, namely ‘print’
-    In the expression: print &lt;$&gt; f
-    In an equation for ‘p’: p = print &lt;$&gt; f
+<div class="highlight-sh"><div class="highlight"><pre><span class="s2">&quot;bde&quot;</span>
+<span class="s2">&quot;ace&quot;</span>
+<span class="s2">&quot;ace&quot;</span>
+<span class="s2">&quot;abcdf&quot;</span>
+<span class="s2">&quot;abcdf&quot;</span>
 </pre></div>
 </div>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;myutils.h&quot;</span>
 <span class="n">string</span> <span class="nf">f</span><span class="p">(</span><span class="n">string</span> <span class="n">a</span><span class="p">,</span> <span class="n">string</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">function</span> <span class="o">&lt;</span><span class="n">string</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">loop</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">||</span> <span class="n">j</span> <span class="o">==</span> <span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
-      <span class="k">return</span> <span class="n">string</span><span class="p">();</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-      <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">loop</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">string</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">loop</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">string</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">loop</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">s2</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="o">?</span> <span class="nl">s1</span> <span class="p">:</span> <span class="n">s2</span><span class="p">;</span>
-  <span class="p">};</span>
-  <span class="k">return</span> <span class="n">loop</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&gt;</span> <span class="n">dp</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span> <span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">));</span>
+ <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">x</span><span class="o">&lt;</span><span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">y</span><span class="o">&lt;</span><span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="p">[</span><span class="n">y</span><span class="p">])</span> <span class="n">dp</span><span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">];</span>
+   <span class="k">else</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">y</span><span class="p">];</span>
+    <span class="n">dp</span><span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">s2</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="o">?</span> <span class="nl">s1</span> <span class="p">:</span> <span class="n">s2</span><span class="p">;</span>
+   <span class="p">}</span>
+  <span class="p">}</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()][</span><span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">()];</span>
 <span class="p">}</span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
   <span class="n">P</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="s">&quot;abcdefg&quot;</span><span class="p">,</span> <span class="s">&quot;ace&quot;</span><span class="p">));</span>
@@ -696,12 +674,44 @@ main = print $ f [3,2,5,1,3,1,7,4]
 <div class="math">
 \[\begin{eqnarray}
 
-\\f_{i+1} = \begin{cases} (f_i, a_{i+1}) & (f_{i, last} =< a_{i+1})
-\\f_{i, x} := a_{i+1} & (\min_{a_{i+1} < f_{i,x}} x)
-\\f_{i} & (else)
+\\f_i = \begin{cases} (f_{i-1}, a_i}) & (f_{i-1, last} \le a_i)
+\\f_{i-1, x} := a_i & (\min_{a_i < f_{i-1,x}} x) \mbox{配列f_iのx番目をa_iで更新したもの(f_{i-1,x}はa_i以下)}
+\\f_{i-1} & (else)
 \\\end{cases}
 \\
 \end{eqnarray}\]</div><p>最小値は、2分木で探すことでlognで探せる</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;myutils.h&gt;</span>
+<span class="kt">int</span> <span class="nf">f</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+ <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">dp</span><span class="p">;</span>
+ <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">dp</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">dp</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+   <span class="n">dp</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="k">else</span> <span class="p">{</span>
+   <span class="c1">// *lower_bound(dp.begin(), dp.end(), a[i]) = a[i]; continue;</span>
+   <span class="kt">int</span> <span class="n">lo</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">dp</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="k">while</span> <span class="p">(</span><span class="n">lo</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">mi</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">dp</span><span class="p">[</span><span class="n">mi</span><span class="p">])</span> <span class="p">{</span>
+     <span class="n">hi</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+     <span class="n">rt</span> <span class="o">=</span> <span class="n">mi</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span>
+     <span class="n">lo</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="n">dp</span><span class="p">[</span><span class="n">rt</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="n">dp</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="n">P</span><span class="p">(</span><span class="n">f</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">}));</span>
+ <span class="n">P</span><span class="p">(</span><span class="n">f</span><span class="p">({</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">}));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>f<span class="o">({</span>3,2,5,1,3,1,7,4<span class="o">})</span> <span class="o">=</span> 3
+f<span class="o">({</span>4,2,3,1,5<span class="o">})</span> <span class="o">=</span> 3
+</pre></div>
+</div>
 </div>
 <div class="section" id="max-interval-of-local-maximuns-scm">
 <h2><a class="toc-backref" href="#id18">max-interval-of-local-maximuns.scm</a><a class="headerlink" href="#max-interval-of-local-maximuns-scm" title="Permalink to this headline">¶</a></h2>
@@ -903,8 +913,11 @@ main = do
 </div>
 </div>
 </div>
+<div class="section" id="partition-function-scm">
+<h2><a class="toc-backref" href="#id23">partition-function.scm</a><a class="headerlink" href="#partition-function-scm" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="subset-sum-scm">
-<h2><a class="toc-backref" href="#id23">subset-sum.scm</a><a class="headerlink" href="#subset-sum-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id24">subset-sum.scm</a><a class="headerlink" href="#subset-sum-scm" title="Permalink to this headline">¶</a></h2>
 <div class="math">
 \[\begin{eqnarray}
     s \subseteq S s.t. \sum_{a_i \in s} a_i = 0
@@ -946,7 +959,7 @@ main = print $ f [1,2,-1,-2,3]
 </div>
 </div>
 <div class="section" id="sum-n-coins-scm">
-<h2><a class="toc-backref" href="#id24">sum-n-coins.scm</a><a class="headerlink" href="#sum-n-coins-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id25">sum-n-coins.scm</a><a class="headerlink" href="#sum-n-coins-scm" title="Permalink to this headline">¶</a></h2>
 <div class="math">
 \[\begin{eqnarray}
 
@@ -985,7 +998,7 @@ main = do
 </div>
 </div>
 <div class="section" id="totient-scm">
-<h2><a class="toc-backref" href="#id25">totient.scm</a><a class="headerlink" href="#totient-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id26">totient.scm</a><a class="headerlink" href="#totient-scm" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

@@ -263,8 +263,8 @@ equileader.scm
     \\f(i, n, s) &=& f(i+1, N, S)
     \\where
     \\num &=& \{a_n\}におけるxの要素数
-    \\N   &=& n + 1 (\mbox{if} \quad  a_i = x)
-    \\S   &=& s + 1 (\mbox{if} \quad  2n \gl i + 1 and 2(num - n) \gl length(a_n) - (i + 1))
+    \\N   &=& n + 1 (\mbox{if}  a_i = x)
+    \\S   &=& s + 1 (\mbox{if}  2n \gl i + 1 and 2(num - n) \gl length(a_n) - (i + 1))
     \\
     \end{eqnarray}
 
@@ -522,7 +522,7 @@ n個の詰め物があり、サイズとその価値が決まっている。
     :nowrap:
 
     \begin{eqnarray}
-        f(i, size) = \begin{cases} \max \{f(i-1, size), f(i-1, size + a_i) + b_i (\mbox{if} \quad  size + a_i \le maxSize) \}\end{cases}
+        f(i, size)=\begin{cases} \max \{f(i-1, size), f(i-1, size + a_i) + b_i (\mbox{if}  size + a_i \le maxSize)\} \end{cases}
     \end{eqnarray}
 
 
@@ -530,36 +530,14 @@ n個の詰め物があり、サイズとその価値が決まっている。
     :nowrap:
 
     \begin{eqnarray}
-        f(i, size) = \begin{cases} \max \{f(i-1, size), f(i-1, size - a_i) + b_i (\mbox{if} \quad  size - a_i \ge 0) \}
+        f(i, size)=\begin{cases} \max \{f(i-1, size), f(i-1, size - a_i) + b_i (\mbox{if}  size - a_i \ge 0)\} \end{cases}
     \end{eqnarray}
 
 
 .. code-block:: ghc
    
 
-    -- pairs = [(size, price)]
-    knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a
-    knapsack pairs max_size = go pairs 0 where
-        go [] size = 0
-        go ((s,p):sps) size =
-          let
-            ssize = s + size
-            cap1 = go sps size  -- 現在の(s, p)を使わない
-            cap2 = if ssize <= max_size then p + go sps ssize else 0
-          in maximum [cap1, cap2]
-    main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
-
-.. code-block:: sh
-   
-
-    12
-    
-
-
-.. code-block:: ghc
-   
-
-    -- pairs = [(size, price)]
+    -- pairs = [(size, price)] (逆方向)
     knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a
     knapsack pairs size = go pairs size where
         go [] size = 0
@@ -583,13 +561,12 @@ dp
    
 
     #include <myutils.h>
-    // dpでは、一つ前の状態から、現在の状態へ遷移することを考える
     int solve(vector<int> sizes, vector<int> prices, int capacity) {
       assert(sizes.size() == prices.size());
       int S = sizes.size();
       vector<vector<int>> dp(sizes.size() + 1, vector<int>(capacity + 1, 0));
       for (int s = 0; s < S; s++) {
-        for (int c = 0; c <= capacity; c++) {  // =を忘れない
+        for (int c = 0; c <= capacity; c++) {  // =を忘れない(順方向)
           int c1 = c- sizes[s];
           if (c1 >= 0)
             dp[s+1][c] = max(dp[s][c], dp[s][c1] + prices[s]);
@@ -617,20 +594,14 @@ dp
    
 
     #include <myutils.h>
-    // dpでは、一つ前の状態から、現在の状態へ遷移することを考える
+    // 配列の再利用(正直、ループの順方向と逆方向で結果が変わる理由がよくわかってない！)
     int solve(vector<int> sizes, vector<int> prices, int capacity) {
       assert(sizes.size() == prices.size());
       int S = sizes.size();
       vector<int> dp(capacity + 1, 0);
-      for (int s = 0; s < S; s++) {
-        for (int c = 0; c <= capacity; c++) {  // =を忘れない
-          int c1 = c - sizes[s];
-          if (c1 >= 0)
-            dp[c] = max(dp[c], dp[c1] + prices[s]);
-          else
-            dp[c] = dp[c];
-        }
-      }
+      for (int s = 0; s < S; s++)
+       for (int c = capacity; c >= sizes[s]; c--)
+        dp[c] = max(dp[c], dp[c-sizes[s]] + prices[s]);
       return dp[capacity];
     }
     int main() {
@@ -642,9 +613,10 @@ dp
 .. code-block:: sh
    
 
-    solve({1,2,3,4,5}, {5,4,3,2,1}, 6) = 30
+    solve({1,2,3,4,5}, {5,4,3,2,1}, 6) = 12
     
 
+再利用ができるのは、i=>i+1へ単純に値を渡している場合.
 
 
 local-maximun.scm
@@ -695,15 +667,16 @@ longest-common-sequence.scm
 
     \begin{eqnarray}
         
-    \\f(x, y) = \begin{cases} 0 (x = 0 or y = 0)
-    \\f(x-1, y-1) (x = y)
-    \\max{f(x-1,y), f(x, y-1)}
+    \\f(x, y) = \begin{cases} 0 & (x = 0 or y = 0)
+    \\f(x-1, y-1) + 1 & (x = y)
+    \\\max \{f(x-1,y), f(x, y-1) \} & (else)
     \\\end{cases}
     \\
     \end{eqnarray}
 
-f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮しなくてよい
-１変数のみ動かし、他の変数を固定して考えるのだと思うけど、まだよくわかってない
+f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮しなくてよい.
+１変数のみ動かし、他の変数を固定して考えるのだと思うけど、まだよくわかってない.
+ただ、単純に(x,y)の手前は(x-1,y)か(x,y-1)ということで良さそう.
 
 .. code-block:: ghc
    
@@ -715,25 +688,21 @@ f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮�
       | x == y    = x : g xs ys
       | otherwise = maximumBy c [(g xss ys), (g xs yss)]
      g _ _ = ""
-    p = print <$> f
     main = do
      print $ f "abcdefg" "bde"
      print $ f "abcdefg" "ace"
      print $ f "abcdefg" "kakcke"
-     print $ f "abcdefg" "kakdkbkekcdf"
+     print $ f "abcdefg"       "kakdkbkekcdf"
      print $ f "azbzczdzezfzg" "kakdkbkekcdf"
 
 .. code-block:: sh
    
 
-    
-    /tmp/tmp.beyH1M8a.hs:8:5:
-        No instance for (Show ([Char] -> [Char]))
-          (maybe you haven't applied enough arguments to a function?)
-          arising from a use of ‘print’
-        In the first argument of ‘(<$>)’, namely ‘print’
-        In the expression: print <$> f
-        In an equation for ‘p’: p = print <$> f
+    "bde"
+    "ace"
+    "ace"
+    "abcdf"
+    "abcdf"
     
 
 
@@ -742,16 +711,17 @@ f(x-1, y-1)は、f(x-1,y)とf(x,y-1)の次の遷移に含まれるから考慮�
 
     #include "myutils.h"
     string f(string a, string b) {
-      function <string(int, int)> loop = [&] (int i, int j) {
-        if (i == a.size() || j == b.size())
-          return string();
-        else if (a[i] == b[j])
-          return a[i] + loop(i+1, j+1);
-        string s1 = loop(i, j+1);
-        string s2 = loop(i+1, j);
-        return (s1.size() > s2.size()) ? s1 : s2;
-      };
-      return loop(0, 0);
+      vector<vector<string>> dp(a.size()+1, vector<string>(b.size()+1 , ""));
+     for (int x=0; x<a.size(); x++) {
+      for (int y=0; y<b.size(); y++) {
+       if (a[x] == b[y]) dp[x+1][y+1] = dp[x][y] + a[x];
+       else {
+        string s1 = dp[x][y+1], s2 = dp[x+1][y];
+        dp[x+1][y+1] = (s1.size() > s2.size()) ? s1 : s2;
+       }
+      }
+     }
+     return dp[a.size()][b.size()];
     }
     int main() {
       P(f("abcdefg", "ace"));
@@ -787,6 +757,7 @@ longest-increasing-subsequence.scm
 .. code-block:: ghc
    
 
+    
     import Data.List (maximumBy)
     f :: [Int] -> [Int]
     f = g where
@@ -796,6 +767,7 @@ longest-increasing-subsequence.scm
       h [] = []
       h ys = if head ys > x then g ys else []
     main = print $ f [3,2,5,1,3,1,7,4]
+    
 
 .. code-block:: sh
    
@@ -810,14 +782,54 @@ longest-increasing-subsequence.scm
 
     \begin{eqnarray}
         
-    \\f_{i+1} = \begin{cases} (f_i, a_{i+1}) & (f_{i, last} =< a_{i+1})
-    \\f_{i, x} := a_{i+1} & (\min_{a_{i+1} < f_{i,x}} x)
-    \\f_{i} & (else)
+    \\f_i = \begin{cases} (f_{i-1}, a_i}) & (f_{i-1, last} \le a_i)
+    \\f_{i-1, x} := a_i & (\min_{a_i < f_{i-1,x}} x) \mbox{配列f_iのx番目をa_iで更新したもの(f_{i-1,x}はa_i以下)}
+    \\f_{i-1} & (else)
     \\\end{cases}
     \\
     \end{eqnarray}
 
 最小値は、2分木で探すことでlognで探せる
+
+.. code-block:: cpp
+   
+
+    
+    #include <myutils.h>
+    int f(vector<int> a) {
+     vector<int> dp;
+     for (int i = 0; i < a.size(); i++) {
+      if (dp.empty() || dp.back() < a[i])
+       dp.push_back(a[i]);
+      else {
+       // *lower_bound(dp.begin(), dp.end(), a[i]) = a[i]; continue;
+       int lo = 0, hi = dp.size() - 1, rt = 0;
+       while (lo <= hi) {
+        int mi = lo + (hi - lo) / 2;
+        if (a[i] <= dp[mi]) {
+         hi = mi - 1;
+         rt = mi;
+        } else
+         lo = mi + 1;
+       }
+       dp[rt] = a[i];
+      }
+     }
+     return dp.size();
+    }
+    int main() {
+     P(f({3,2,5,1,3,1,7,4}));
+     P(f({4,2,3,1,5}));
+    }
+    
+
+.. code-block:: sh
+   
+
+    f({3,2,5,1,3,1,7,4}) = 3
+    f({4,2,3,1,5}) = 3
+    
+
 
 
 max-interval-of-local-maximuns.scm
@@ -1111,6 +1123,11 @@ solve x^2 = n by newton
     1.414214
     10.000000
     
+
+
+
+partition-function.scm
+==================================================================
 
 
 
