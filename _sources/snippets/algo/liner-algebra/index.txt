@@ -17,3 +17,340 @@ index.scm
 ---
 
 群とは、以下の3つ満たす演算Xを定めることができる集合G
+
+結合法則
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        (a X b) X c = a X (b X c)
+    \end{eqnarray}
+
+
+単位元の存在
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        a X e = e X a = a
+    \end{eqnarray}
+
+
+逆元xの存在
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        a X x = x X a = e
+    \end{eqnarray}
+
+
+
+可換群(アーベル群)
+------------------------------
+
+
+群の性質に加えて可換も成立
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        a X b = b X a
+    \end{eqnarray}
+
+
+
+写像
+------
+
+
+集合AからBへの写像f
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        f : A \rightarrow B, a \in A, f(a) \in B
+    \end{eqnarray}
+
+
+fが単射
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        a \ne b \Rightarrow f(a) \ne f(b)
+    \end{eqnarray}
+
+
+fが全射
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \forall b \in B, \exists a \in A  \quad s.t. \quad  f(a) = b
+    \end{eqnarray}
+
+全単射は、単射かつ全射
+f(x) = ax + bは、全単射
+f(x) = e^xは、単射
+f(x) = x^2は、f(x)>=0において、全射
+
+
+行列の積
+------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        l \times m 行列Aと m \times n 行列Bの積は、 l \times n 行列AB
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        c_{ij} = \sum_{k=1}^m a_{ik} b_{kj}
+    \end{eqnarray}
+
+
+結合法則
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        (AB)C = A(BC)
+    \end{eqnarray}
+
+
+
+転置行列
+------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        {}^t A = a_{ji}
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        {}^t (AB) = {}^t B {}^A
+    \end{eqnarray}
+
+
+
+エルミート行列
+---------------------
+
+
+
+正則行列
+------------
+
+
+n次正方行列Aに対してXが存在すれば、Aは正方行列でXはAの逆行列
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        XA=AX=E
+    \end{eqnarray}
+
+
+逆行列は一意に決まる
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        (AB)^{-1} = B^{-1} A^{-1}
+    \end{eqnarray}
+
+
+
+置換
+------
+
+
+
+ベクトル空間
+------------------
+
+
++について可換群
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \forall x, y \in V  \quad s.t. \quad  x + y \in V
+    \end{eqnarray}
+
+
+2種分配法則, 結合法則, 1の存在
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \forall x \in V, \forall l \in K  \quad s.t. \quad  l x \in V
+    \end{eqnarray}
+
+
+
+線形写像
+------------
+
+V, V'をK上のベクトル空間とし、写像T:V->V'が以下を満たすときTを線形写像と呼ぶ
+
+x, y $in V
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        T(x+y) = T(x) + T(y)
+    \end{eqnarray}
+
+
+x $in V, l $in K
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        T(lx) = lT(x)
+    \end{eqnarray}
+
+
+VとV'は同型
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Tが全単射 \Leftrightarrow V \cong V'
+    \end{eqnarray}
+
+
+
+部分空間
+------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        W \subset V, \forall x,y \in W, \forall m,n \in K  \quad s.t. \quad  m x + n y \in W
+    \end{eqnarray}
+
+
+
+Ker, Im
+---------------------
+
+線形写像T:V->V'
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Ker(T) = \{x \in V \mid T(x) = 0 \}
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Im(T) = \{T(x) \in V' \mid x \in V \}
+    \end{eqnarray}
+
+
+
+内積
+------
+
+VをR上のベクトル空間とし、Vの任意のベクトルa,bについて、実数(a,b)が定義されるとき、(,)をV上の内積という
+
+対称性
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        (a,b) = (b,a)
+    \end{eqnarray}
+
+
+線形性(和)
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        (a_1+a_2,b) = (a_1,b)+(a_2,b)
+    \end{eqnarray}
+
+
+線形性(定数倍)
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        (la,b) = l(a,b)
+    \end{eqnarray}
+
+
+正値性
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        (a,a) \ge 0 and (a,a)=0 \Rightarrow a=0
+    \end{eqnarray}
+

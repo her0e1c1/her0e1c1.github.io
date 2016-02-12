@@ -90,22 +90,165 @@
     <div class="col-md-12 content">
       
   <div class="section" id="liner-algebra">
-<h1><a class="toc-backref" href="#id2">liner-algebra</a><a class="headerlink" href="#liner-algebra" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id13">liner-algebra</a><a class="headerlink" href="#liner-algebra" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#liner-algebra" id="id2">liner-algebra</a><ul>
-<li><a class="reference internal" href="#index-scm" id="id3">index.scm</a></li>
+<li><a class="reference internal" href="#liner-algebra" id="id13">liner-algebra</a><ul>
+<li><a class="reference internal" href="#index-scm" id="id14">index.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="index-scm">
-<h2><a class="toc-backref" href="#id3">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>群<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>群とは、以下の3つ満たす演算Xを定めることができる集合G</p>
+<p>結合法則</p>
+<div class="math">
+\[\begin{eqnarray}
+    (a X b) X c = a X (b X c)
+\end{eqnarray}\]</div><p>単位元の存在</p>
+<div class="math">
+\[\begin{eqnarray}
+    a X e = e X a = a
+\end{eqnarray}\]</div><p>逆元xの存在</p>
+<div class="math">
+\[\begin{eqnarray}
+    a X x = x X a = e
+\end{eqnarray}\]</div></div>
+<div class="section" id="id2">
+<h3>可換群(アーベル群)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>群の性質に加えて可換も成立</p>
+<div class="math">
+\[\begin{eqnarray}
+    a X b = b X a
+\end{eqnarray}\]</div></div>
+<div class="section" id="id3">
+<h3>写像<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>集合AからBへの写像f</p>
+<div class="math">
+\[\begin{eqnarray}
+    f : A \rightarrow B, a \in A, f(a) \in B
+\end{eqnarray}\]</div><p>fが単射</p>
+<div class="math">
+\[\begin{eqnarray}
+    a \ne b \Rightarrow f(a) \ne f(b)
+\end{eqnarray}\]</div><p>fが全射</p>
+<div class="math">
+\[\begin{eqnarray}
+    \forall b \in B, \exists a \in A  \quad s.t. \quad  f(a) = b
+\end{eqnarray}\]</div><p>全単射は、単射かつ全射
+f(x) = ax + bは、全単射
+f(x) = e^xは、単射
+f(x) = x^2は、f(x)&gt;=0において、全射</p>
 </div>
+<div class="section" id="id4">
+<h3>行列の積<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    l \times m 行列Aと m \times n 行列Bの積は、 l \times n 行列AB
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    c_{ij} = \sum_{k=1}^m a_{ik} b_{kj}
+\end{eqnarray}\]</div><p>結合法則</p>
+<div class="math">
+\[\begin{eqnarray}
+    (AB)C = A(BC)
+\end{eqnarray}\]</div></div>
+<div class="section" id="id5">
+<h3>転置行列<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    {}^t A = a_{ji}
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    {}^t (AB) = {}^t B {}^A
+\end{eqnarray}\]</div></div>
+<div class="section" id="id6">
+<h3>エルミート行列<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id7">
+<h3>正則行列<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>n次正方行列Aに対してXが存在すれば、Aは正方行列でXはAの逆行列</p>
+<div class="math">
+\[\begin{eqnarray}
+    XA=AX=E
+\end{eqnarray}\]</div><p>逆行列は一意に決まる</p>
+<div class="math">
+\[\begin{eqnarray}
+
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    (AB)^{-1} = B^{-1} A^{-1}
+\end{eqnarray}\]</div></div>
+<div class="section" id="id8">
+<h3>置換<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id9">
+<h3>ベクトル空間<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>+について可換群</p>
+<div class="math">
+\[\begin{eqnarray}
+    \forall x, y \in V  \quad s.t. \quad  x + y \in V
+\end{eqnarray}\]</div><p>2種分配法則, 結合法則, 1の存在</p>
+<div class="math">
+\[\begin{eqnarray}
+    \forall x \in V, \forall l \in K  \quad s.t. \quad  l x \in V
+\end{eqnarray}\]</div></div>
+<div class="section" id="id10">
+<h3>線形写像<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>V, V&#8217;をK上のベクトル空間とし、写像T:V-&gt;V&#8217;が以下を満たすときTを線形写像と呼ぶ</p>
+<p>x, y $in V</p>
+<div class="math">
+\[\begin{eqnarray}
+    T(x+y) = T(x) + T(y)
+\end{eqnarray}\]</div><p>x $in V, l $in K</p>
+<div class="math">
+\[\begin{eqnarray}
+    T(lx) = lT(x)
+\end{eqnarray}\]</div><p>VとV&#8217;は同型</p>
+<div class="math">
+\[\begin{eqnarray}
+    Tが全単射 \Leftrightarrow V \cong V'
+\end{eqnarray}\]</div></div>
+<div class="section" id="id11">
+<h3>部分空間<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    W \subset V, \forall x,y \in W, \forall m,n \in K  \quad s.t. \quad  m x + n y \in W
+\end{eqnarray}\]</div></div>
+<div class="section" id="ker-im">
+<h3>Ker, Im<a class="headerlink" href="#ker-im" title="Permalink to this headline">¶</a></h3>
+<p>線形写像T:V-&gt;V&#8217;</p>
+<div class="math">
+\[\begin{eqnarray}
+    Ker(T) = \{x \in V \mid T(x) = 0 \}
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    Im(T) = \{T(x) \in V' \mid x \in V \}
+\end{eqnarray}\]</div></div>
+<div class="section" id="id12">
+<h3>内積<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>VをR上のベクトル空間とし、Vの任意のベクトルa,bについて、実数(a,b)が定義されるとき、(,)をV上の内積という</p>
+<p>対称性</p>
+<div class="math">
+\[\begin{eqnarray}
+    (a,b) = (b,a)
+\end{eqnarray}\]</div><p>線形性(和)</p>
+<div class="math">
+\[\begin{eqnarray}
+    (a_1+a_2,b) = (a_1,b)+(a_2,b)
+\end{eqnarray}\]</div><p>線形性(定数倍)</p>
+<div class="math">
+\[\begin{eqnarray}
+    (la,b) = l(a,b)
+\end{eqnarray}\]</div><p>正値性</p>
+<div class="math">
+\[\begin{eqnarray}
+    (a,a) \ge 0 and (a,a)=0 \Rightarrow a=0
+\end{eqnarray}\]</div></div>
 </div>
 </div>
 
