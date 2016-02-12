@@ -1,5 +1,6 @@
 
 (perl "say for map {$_ + 1} 1..3")
+(node "P([1,2,3].map(x => x+1))")
 
 (gosh (map cons '(1 2 3) '(4 5 6)))
 (gosh (map (lambda (x y) (+ x y)) '(1 2 3) '(4 5 6))
