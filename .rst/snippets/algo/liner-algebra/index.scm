@@ -35,28 +35,19 @@
 (math "(AB)^{-1} = B^{-1} A^{-1}")
 
 (ps "置換")
+(math "$mbox{{1..n}から{1..n}への全単射の集合をS_nとし、その要素を置換と呼ぶ }")
 
-(ps "ベクトル空間")
-(math "$forall x, y $in V S.T. x + y $in V" :msg "+について可換群")
-(math "$forall x $in V, $forall l $in K S.T. l x $in V" :msg "2種分配法則, 結合法則, 1の存在")
+(ps "互換")
+(math "$mbox{ {1..n}のうち2のみを動かし残りはそのままな置換を互換と呼ぶ}")
 
-(ps "線形写像")
-(p "V, V'をK上のベクトル空間とし、写像T:V->V'が以下を満たすときTを線形写像と呼ぶ")
-(math "T(x+y) = T(x) + T(y)" :msg "x, y $in V")
-(math "T(lx) = lT(x)" :msg "x $in V, l $in K")
-(math "Tが全単射 $Leftrightarrow V $cong V'" :msg "VとV'は同型")
+(ps "sgn")
+(p "+1 or -1")
+(math "sgn($sigma) = $prod_{i,j} $frac{$sigma(i) - $sigma(j)}{i-j}" :msg "分母は正にできるので、s(i)>s(j)の転倒数が偶数なら1")
+(math "sgn(e) = 1")
+(math "sgn(互換) = -1")
 
-(ps "部分空間")
-(math "W $subset V, $forall x,y $in W, $forall m,n $in K S.T. m x + n y $in W")
-
-(ps "Ker, Im")
-(p "線形写像T:V->V'")
-(math "Ker(T) = ${x $in V $mid T(x) = 0 $}")
-(math "Im(T) = ${T(x) $in V' $mid x $in V $}")
-
-(ps "内積")
-(p "VをR上のベクトル空間とし、Vの任意のベクトルa,bについて、実数(a,b)が定義されるとき、(,)をV上の内積という")
-(math "(a,b) = (b,a)" :msg "対称性")
-(math "(a_1+a_2,b) = (a_1,b)+(a_2,b)" :msg "線形性(和)")
-(math "(la,b) = l(a,b)" :msg "線形性(定数倍)")
-(math "(a,a) $ge 0 and (a,a)=0 $Rightarrow a=0" :msg "正値性")
+(ps "行列式")
+(math "|A| = det A = $sum_{s $in S_n} sgn(s) a_{1s(1)} a_{2s(2)} ... a_{ns(n)}")
+(math "|{}_t A| = |A|")
+(math "det (a_1, ..., a_i, ..., a_j, ... a_n) = det (a_1, ... a_i + k a_j, ..., a_j, ... a_n)"
+      :msg "多重線形性+交代性(ある列に他の列の定数倍を加えてもよい)")
