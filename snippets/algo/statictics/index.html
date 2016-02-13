@@ -90,26 +90,64 @@
     <div class="col-md-12 content">
       
   <div class="section" id="statictics">
-<h1><a class="toc-backref" href="#id1">statictics</a><a class="headerlink" href="#statictics" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id2">statictics</a><a class="headerlink" href="#statictics" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#statictics" id="id1">statictics</a><ul>
-<li><a class="reference internal" href="#index-scm" id="id2">index.scm</a></li>
-<li><a class="reference internal" href="#question" id="id3">Question</a></li>
-<li><a class="reference internal" href="#references" id="id4">References</a></li>
+<li><a class="reference internal" href="#statictics" id="id2">statictics</a><ul>
+<li><a class="reference internal" href="#index-scm" id="id3">index.scm</a></li>
+<li><a class="reference internal" href="#question" id="id4">Question</a></li>
+<li><a class="reference internal" href="#references" id="id5">References</a></li>
+<li><a class="reference internal" href="#liner-regression-scm" id="id6">liner-regression.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="index-scm">
-<h2><a class="toc-backref" href="#id2">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="arithmetic-mean">
 <h3>arithmetic mean<a class="headerlink" href="#arithmetic-mean" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{eqnarray}
     \overline{x} = \frac{\sum_{i=1}^{n} x_i}{n}
 \end{eqnarray}\]</div></div>
+<div class="section" id="geometric-meahn">
+<h3>geometric meahn<a class="headerlink" href="#geometric-meahn" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    x_G = \sqrt{n}{x_1 x_2 ... x_n}
+\end{eqnarray}\]</div></div>
+<div class="section" id="harmonic-mean">
+<h3>harmonic mean<a class="headerlink" href="#harmonic-mean" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    \frac{1}{x_H} = \frac{1}{n} \sum_{i=1}^n \frac{1}{x_i}
+\end{eqnarray}\]</div></div>
+<div class="section" id="variance">
+<h3>variance<a class="headerlink" href="#variance" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \overline{x})^2
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+
+\\s^2 &=& \frac{1}{n} \sum_{i=1}^n (x_i - \overline{x})^2
+\\    &=& \frac{1}{n} \sum_{i=1}^n (x_i^2 - 2 x_i \overline{x} + \overline{x}^2)
+\\    &=& \frac{1}{n} \sum_{i=1}^n (x_i^2) - 2 \overline{x}^2 + \overline{x}^2
+\\    &=& \frac{1}{n} \sum_{i=1}^n (x_i^2) - \overline{x}^2
+\\
+\\(because \frac{1}{n} \sum_i x_i = \overline{x}, \sum_i \overline{x}^2 = n \overline{x}^2)
+\\
+\end{eqnarray}\]</div></div>
+<div class="section" id="median">
+<h3>median<a class="headerlink" href="#median" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="percentile">
+<h3>percentile<a class="headerlink" href="#percentile" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="mode">
+<h3>mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
+</div>
 <div class="section" id="cross-validation">
 <h3>Cross Validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h3>
 <p>標本を集めるのが困難な場合などは交差検定を行う.
@@ -117,17 +155,31 @@
 </div>
 </div>
 <div class="section" id="question">
-<h2><a class="toc-backref" href="#id3">Question</a><a class="headerlink" href="#question" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Question</a><a class="headerlink" href="#question" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul class="simple">
 </ul>
 </div>
 </div>
 <div class="section" id="references">
-<h2><a class="toc-backref" href="#id4">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference external" href="http://ruby.kyoto-wu.ac.jp/~konami/Text/Statistics.pdf">http://ruby.kyoto-wu.ac.jp/~konami/Text/Statistics.pdf</a></li>
 </ul>
+</div>
+<div class="section" id="liner-regression-scm">
+<h2><a class="toc-backref" href="#id6">liner-regression.scm</a><a class="headerlink" href="#liner-regression-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>線形回帰<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>モデルy = ax + bとし、xからyを予測する. (x_i, y_i)は観測データ</p>
+<div class="math">
+\[\begin{eqnarray}
+
+\\\hat{y_i} = a x_i + b
+\\F(a,b) = \sum_i (y_i - \hat{y_i})^2 = \sum_i (y_i - a x_i - b)^2
+\\min F(a, b)を求める
+\\
+\end{eqnarray}\]</div></div>
 </div>
 </div>
 

@@ -17,6 +17,8 @@ arithmetic mean
 ---------------------------------------------
 
 
+
+
 .. math::
     :nowrap:
 
@@ -26,11 +28,93 @@ arithmetic mean
 
 
 
+geometric meahn
+---------------------------------------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        x_G = \sqrt{n}{x_1 x_2 ... x_n}
+    \end{eqnarray}
+
+
+
+harmonic mean
+---------------------------------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \frac{1}{x_H} = \frac{1}{n} \sum_{i=1}^n \frac{1}{x_i}
+    \end{eqnarray}
+
+
+
+variance
+------------------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \overline{x})^2
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\s^2 &=& \frac{1}{n} \sum_{i=1}^n (x_i - \overline{x})^2
+    \\    &=& \frac{1}{n} \sum_{i=1}^n (x_i^2 - 2 x_i \overline{x} + \overline{x}^2)
+    \\    &=& \frac{1}{n} \sum_{i=1}^n (x_i^2) - 2 \overline{x}^2 + \overline{x}^2
+    \\    &=& \frac{1}{n} \sum_{i=1}^n (x_i^2) - \overline{x}^2
+    \\
+    \\(because \frac{1}{n} \sum_i x_i = \overline{x}, \sum_i \overline{x}^2 = n \overline{x}^2)
+    \\
+    \end{eqnarray}
+
+
+
+median
+------------------
+
+
+
+percentile
+------------------------------
+
+
+
+mode
+------------
+
+
+
 Cross Validation
 ------------------------------------------------
 
 標本を集めるのが困難な場合などは交差検定を行う.
 これは 標本データの一部を解析して残る部分でテストを行う手法.
+
+
+
+
+
 
 Question
 ========
@@ -42,4 +126,29 @@ Question
 References
 ==========
 - http://ruby.kyoto-wu.ac.jp/~konami/Text/Statistics.pdf
+
+
+
+liner-regression.scm
+============================================================
+
+
+
+線形回帰
+------------
+
+モデルy = ax + bとし、xからyを予測する. (x_i, y_i)は観測データ
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\\hat{y_i} = a x_i + b
+    \\F(a,b) = \sum_i (y_i - \hat{y_i})^2 = \sum_i (y_i - a x_i - b)^2
+    \\min F(a, b)を求める
+    \\
+    \end{eqnarray}
 

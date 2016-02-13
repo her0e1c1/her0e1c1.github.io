@@ -16,6 +16,7 @@
 (p "線形写像T:V->V'")
 (math "Ker(T) = ${x $in V $mid T(x) = 0 $}")
 (math "Im(T) = ${T(x) $in V' $mid x $in V $}")
+(math "Im(T) = V' $Rightarrow Tは全射")
 
 (ps "内積")
 (p "VをR上のベクトル空間とし、Vの任意のベクトルa,bについて、実数(a,b)が定義されるとき、(,)をV上の内積という")

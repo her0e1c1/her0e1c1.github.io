@@ -148,7 +148,7 @@ f(x) = x^2は、f(x)>=0において、全射
     :nowrap:
 
     \begin{eqnarray}
-        {}^t A = a_{ji}
+        {}^t A = a_{ji} = tr A
     \end{eqnarray}
 
 
@@ -182,6 +182,16 @@ n次正方行列Aに対してXが存在すれば、Aは正方行列でXはAの�
     \end{eqnarray}
 
 
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Aが正則 \Leftrightarrow |A| \ne 0
+    \end{eqnarray}
+
+
 逆行列は一意に決まる
 
 .. math::
@@ -205,6 +215,157 @@ n次正方行列Aに対してXが存在すれば、Aは正方行列でXはAの�
 
 置換
 ------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \mbox{{1..n}から{1..n}への全単射の集合をS_nとし、その要素を置換と呼ぶ }
+    \end{eqnarray}
+
+
+
+互換
+------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \mbox{ {1..n}のうち2のみを動かし残りはそのままな置換を互換と呼ぶ}
+    \end{eqnarray}
+
+
+
+sgn
+---------
+
++1 or -1
+
+分母は正にできるので、s(i)>s(j)の転倒数が偶数なら1
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        sgn(\sigma) = \prod_{i,j} \frac{\sigma(i) - \sigma(j)}{i-j}
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        sgn(e) = 1
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        sgn(互換) = -1
+    \end{eqnarray}
+
+
+
+行列式
+---------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        |A| = det A = \sum_{s \in S_n} sgn(s) a_{1s(1)} a_{2s(2)} ... a_{ns(n)}
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        |{}_t A| = |A|
+    \end{eqnarray}
+
+
+多重線形性+交代性(ある列に他の列の定数倍を加えてもよい)
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        det (a_1, ..., a_i, ..., a_j, ... a_n) = det (a_1, ... a_i + k a_j, ..., a_j, ... a_n)
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        det AB = det A det B
+    \end{eqnarray}
+
+
+
+第1列に関する|A|の余因子展開
+------------------------------------------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        det A = \sum_{i=1}^n (-1)^{i-1} a_{i1} |i行目以外| = \sum_{i=1} a_{i1} \tilde{a_{i1}}
+    \end{eqnarray}
+
+
+行列Aからi行j列を除いた行列を第(i,j)小行列D_{ij}と表す.(i,j)余因子
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \tilde{a_{ij}} = (-1)^{i+j} \Delta_{ij}
+    \end{eqnarray}
+
+
+
+逆行列
+---------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        A^{-1} = \frac{\tilde{A}}{|A|}
+    \end{eqnarray}
+
+
+
+vector.scm
+==============================
 
 
 

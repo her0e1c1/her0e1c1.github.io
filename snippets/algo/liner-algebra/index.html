@@ -90,18 +90,19 @@
     <div class="col-md-12 content">
       
   <div class="section" id="liner-algebra">
-<h1><a class="toc-backref" href="#id13">liner-algebra</a><a class="headerlink" href="#liner-algebra" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id16">liner-algebra</a><a class="headerlink" href="#liner-algebra" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#liner-algebra" id="id13">liner-algebra</a><ul>
-<li><a class="reference internal" href="#index-scm" id="id14">index.scm</a></li>
+<li><a class="reference internal" href="#liner-algebra" id="id16">liner-algebra</a><ul>
+<li><a class="reference internal" href="#index-scm" id="id17">index.scm</a></li>
+<li><a class="reference internal" href="#vector-scm" id="id18">vector.scm</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="index-scm">
-<h2><a class="toc-backref" href="#id14">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">index.scm</a><a class="headerlink" href="#index-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>群<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>群とは、以下の3つ満たす演算Xを定めることができる集合G</p>
@@ -161,7 +162,7 @@ f(x) = x^2は、f(x)&gt;=0において、全射</p>
 <h3>転置行列<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{eqnarray}
-    {}^t A = a_{ji}
+    {}^t A = a_{ji} = tr A
 \end{eqnarray}\]</div><div class="math">
 \[\begin{eqnarray}
     {}^t (AB) = {}^t B {}^A
@@ -175,6 +176,9 @@ f(x) = x^2は、f(x)&gt;=0において、全射</p>
 <div class="math">
 \[\begin{eqnarray}
     XA=AX=E
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    Aが正則 \Leftrightarrow |A| \ne 0
 \end{eqnarray}\]</div><p>逆行列は一意に決まる</p>
 <div class="math">
 \[\begin{eqnarray}
@@ -185,9 +189,67 @@ f(x) = x^2は、f(x)&gt;=0において、全射</p>
 \end{eqnarray}\]</div></div>
 <div class="section" id="id8">
 <h3>置換<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-</div>
+<div class="math">
+\[\begin{eqnarray}
+    \mbox{{1..n}から{1..n}への全単射の集合をS_nとし、その要素を置換と呼ぶ }
+\end{eqnarray}\]</div></div>
 <div class="section" id="id9">
-<h3>ベクトル空間<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>互換<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    \mbox{ {1..n}のうち2のみを動かし残りはそのままな置換を互換と呼ぶ}
+\end{eqnarray}\]</div></div>
+<div class="section" id="sgn">
+<h3>sgn<a class="headerlink" href="#sgn" title="Permalink to this headline">¶</a></h3>
+<p>+1 or -1</p>
+<p>分母は正にできるので、s(i)&gt;s(j)の転倒数が偶数なら1</p>
+<div class="math">
+\[\begin{eqnarray}
+    sgn(\sigma) = \prod_{i,j} \frac{\sigma(i) - \sigma(j)}{i-j}
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    sgn(e) = 1
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    sgn(互換) = -1
+\end{eqnarray}\]</div></div>
+<div class="section" id="id10">
+<h3>行列式<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    |A| = det A = \sum_{s \in S_n} sgn(s) a_{1s(1)} a_{2s(2)} ... a_{ns(n)}
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    |{}_t A| = |A|
+\end{eqnarray}\]</div><p>多重線形性+交代性(ある列に他の列の定数倍を加えてもよい)</p>
+<div class="math">
+\[\begin{eqnarray}
+    det (a_1, ..., a_i, ..., a_j, ... a_n) = det (a_1, ... a_i + k a_j, ..., a_j, ... a_n)
+\end{eqnarray}\]</div><div class="math">
+\[\begin{eqnarray}
+    det AB = det A det B
+\end{eqnarray}\]</div></div>
+<div class="section" id="a">
+<h3>第1列に関する|A|の余因子展開<a class="headerlink" href="#a" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    det A = \sum_{i=1}^n (-1)^{i-1} a_{i1} |i行目以外| = \sum_{i=1} a_{i1} \tilde{a_{i1}}
+\end{eqnarray}\]</div><p>行列Aからi行j列を除いた行列を第(i,j)小行列D_{ij}と表す.(i,j)余因子</p>
+<div class="math">
+\[\begin{eqnarray}
+    \tilde{a_{ij}} = (-1)^{i+j} \Delta_{ij}
+\end{eqnarray}\]</div></div>
+<div class="section" id="id11">
+<h3>逆行列<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="math">
+\[\begin{eqnarray}
+    A^{-1} = \frac{\tilde{A}}{|A|}
+\end{eqnarray}\]</div></div>
+</div>
+<div class="section" id="vector-scm">
+<h2><a class="toc-backref" href="#id18">vector.scm</a><a class="headerlink" href="#vector-scm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h3>ベクトル空間<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>+について可換群</p>
 <div class="math">
 \[\begin{eqnarray}
@@ -197,8 +259,8 @@ f(x) = x^2は、f(x)&gt;=0において、全射</p>
 \[\begin{eqnarray}
     \forall x \in V, \forall l \in K  \quad s.t. \quad  l x \in V
 \end{eqnarray}\]</div></div>
-<div class="section" id="id10">
-<h3>線形写像<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>線形写像<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>V, V&#8217;をK上のベクトル空間とし、写像T:V-&gt;V&#8217;が以下を満たすときTを線形写像と呼ぶ</p>
 <p>x, y $in V</p>
 <div class="math">
@@ -213,8 +275,8 @@ f(x) = x^2は、f(x)&gt;=0において、全射</p>
 \[\begin{eqnarray}
     Tが全単射 \Leftrightarrow V \cong V'
 \end{eqnarray}\]</div></div>
-<div class="section" id="id11">
-<h3>部分空間<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>部分空間<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{eqnarray}
     W \subset V, \forall x,y \in W, \forall m,n \in K  \quad s.t. \quad  m x + n y \in W
@@ -229,8 +291,8 @@ f(x) = x^2は、f(x)&gt;=0において、全射</p>
 \[\begin{eqnarray}
     Im(T) = \{T(x) \in V' \mid x \in V \}
 \end{eqnarray}\]</div></div>
-<div class="section" id="id12">
-<h3>内積<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>内積<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>VをR上のベクトル空間とし、Vの任意のベクトルa,bについて、実数(a,b)が定義されるとき、(,)をV上の内積という</p>
 <p>対称性</p>
 <div class="math">
