@@ -17,6 +17,7 @@ Languages
     lang/char/index
     lang/class/index
     lang/cmd/index
+    lang/container/index
     lang/date/index
     lang/elisp/index
     lang/exception/index
