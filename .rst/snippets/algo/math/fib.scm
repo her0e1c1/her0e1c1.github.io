@@ -29,9 +29,12 @@ int main() {
 ")
 
 (cpp "
+// f(Sn, Sn-1, n) = f(Sn-1 + Sn-2, Sn-1, n-1) (n >= 2)
+// f(S1, S0, 1) = f(1, 0, 1)
 #include <myutils.h>
 int f(int N) {
- int s0=0, s1=1;
+ if (N == 0) return 0;
+ int s1=1, s0=0;
  for (int i = 0; i < N-1; i++) {
   int t = s1;
   s1 = s1 + s0;
