@@ -64,7 +64,22 @@
 (math "A^{-1} = $frac{$tilde{A}}{|A|}")
 
 (ps "対象行列(symmetric matrix)")
-(math "A = {}_^t A")
+(math "
+A = {}_^t A
+a_{ij} = a_{ji}
+")
 
 (ps "交代行列(skew symmetric matrix)")
-(math "A = - {}_^t A")
+(math "
+A = - {}_^t A
+a_{ij} = - a_{ji}
+")
+
+(ps "余因子行列")
+(math "$overline{A} = $overline{a_{ji}}")
+
+(ps "エルミート行列")
+(math "A = {}^t $overline {A}" :msg "共役複素数")
+
+(ps "歪エルミート行列")
+(math "A = - {}^t $overline {A}")
