@@ -1,4 +1,6 @@
 
+(p (sphinx-contents))
+
 (ps "群")
 (p "群とは、以下の3つ満たす演算Xを定めることができる集合G")
 (math "(a X b) X c = a X (b X c)" :msg "結合法則")
@@ -60,3 +62,9 @@
 
 (ps "逆行列")
 (math "A^{-1} = $frac{$tilde{A}}{|A|}")
+
+(ps "対象行列(symmetric matrix)")
+(math "A = {}_^t A")
+
+(ps "交代行列(skew symmetric matrix)")
+(math "A = - {}_^t A")
