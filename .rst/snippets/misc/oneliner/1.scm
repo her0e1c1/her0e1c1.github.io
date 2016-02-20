@@ -62,3 +62,6 @@
 
 (p "find")
 ; (run "perl -E 'sub f{$a=shift; for(glob($a.\"/*\")){say if -f; f($_) if -d}}; f(shift);' ~/")
+
+(run #!Q find . -name "*.py"| xargs perl -i -plE 'say "# ***FIRST LINE***" if 1..1; $.=0 if eof ' Q
+:msg "insert string at the first line of each file")
