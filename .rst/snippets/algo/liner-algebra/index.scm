@@ -51,6 +51,8 @@
 
 (ps "行列式")
 (math "|A| = det A = $sum_{s $in S_n} sgn(s) a_{1s(1)} a_{2s(2)} ... a_{ns(n)}")
+(math "a_{11}a_{22} - a_{12}a_{21}" :msg "n=2")
+
 (math "|{}_t A| = |A|")
 (math "det (a_1, ..., a_i, ..., a_j, ... a_n) = det (a_1, ... a_i + k a_j, ..., a_j, ... a_n)"
       :msg "多重線形性+交代性(ある列に他の列の定数倍を加えてもよい)")
