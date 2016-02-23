@@ -116,7 +116,7 @@ find.scm
     <stdin>:45:30: error: invalid operands to binary expression ('VI' (aka 'vector<int>') and 'size_type' (aka 'unsigned long'))
         VI v{1,2,3}; P(find(v, v + v.size(), 3) != v.end());
                                ~ ^ ~~~~~~~~
-    /home/me/lib/cpp/myutils.h:63:38: note: expanded from macro 'P'
+    /home/me/lib/cpp/myutils.h:64:38: note: expanded from macro 'P'
     #define P(x) cout << #x << " = " << (x) << endl;
                                          ^
     /usr/include/c++/v1/iterator:614:1: note: candidate template ignored: could not match 'reverse_iterator<type-parameter-0-0>' against 'unsigned long'
@@ -188,7 +188,7 @@ find.scm
     <stdin>:45:18: error: invalid operands to binary expression ('basic_ostream<char, std::__1::char_traits<char> >' and 'std::__1::__wrap_iter<int *>')
         VI v{1,2,3}; P(find(v.begin(), v.end(), 3));
                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    /home/me/lib/cpp/myutils.h:63:34: note: expanded from macro 'P'
+    /home/me/lib/cpp/myutils.h:64:34: note: expanded from macro 'P'
     #define P(x) cout << #x << " = " << (x) << endl;
                  ~~~~~~~~~~~~~~~~~~~ ^  ~~~
     /usr/include/c++/v1/ostream:175:20: note: candidate function not viable: no known conversion from 'std::__1::__wrap_iter<int *>' to 'std::__1::basic_ostream<char> &(*)(std::__1::basic_ostream<char> &)' for 1st argument
@@ -498,7 +498,7 @@ Create a vector of [0, 0, 0]
     <stdin>:45:49: error: member reference base type 'int [5]' is not a structure or union
         int a[]={1,2,3,4,5}; vector<int> v(a, a+5); PE(a)
                                                     ^~~~~
-    /home/me/lib/cpp/myutils.h:65:28: note: expanded from macro 'PE'
+    /home/me/lib/cpp/myutils.h:66:28: note: expanded from macro 'PE'
       {for (int i = 0 ; i < (x).size(); i++){       \
                             ~~~^~~~~
     1 error generated.
@@ -754,13 +754,13 @@ length.scm
     <stdin>:45:35: error: member reference base type 'value_type' (aka 'int') is not a structure or union
         VI v{1,2,3}; REP(i, v.size()) PE(v[i]);
                                       ^~~~~~~~
-    /home/me/lib/cpp/myutils.h:65:28: note: expanded from macro 'PE'
+    /home/me/lib/cpp/myutils.h:66:28: note: expanded from macro 'PE'
       {for (int i = 0 ; i < (x).size(); i++){       \
                             ~~~^~~~~
     <stdin>:45:35: error: subscripted value is not an array, pointer, or vector
         VI v{1,2,3}; REP(i, v.size()) PE(v[i]);
                                       ^~~~~~~~
-    /home/me/lib/cpp/myutils.h:66:16: note: expanded from macro 'PE'
+    /home/me/lib/cpp/myutils.h:67:16: note: expanded from macro 'PE'
         cout << (x)[i] << ", "; \
                 ~~~^~
     2 errors generated.
@@ -774,13 +774,13 @@ length.scm
     <stdin>:45:35: error: member reference base type 'value_type' (aka 'int') is not a structure or union
         VI v{1,2,3}; REP(a, v.size()) PE(v[a]);
                                       ^~~~~~~~
-    /home/me/lib/cpp/myutils.h:65:28: note: expanded from macro 'PE'
+    /home/me/lib/cpp/myutils.h:66:28: note: expanded from macro 'PE'
       {for (int i = 0 ; i < (x).size(); i++){       \
                             ~~~^~~~~
     <stdin>:45:35: error: subscripted value is not an array, pointer, or vector
         VI v{1,2,3}; REP(a, v.size()) PE(v[a]);
                                       ^~~~~~~~
-    /home/me/lib/cpp/myutils.h:66:16: note: expanded from macro 'PE'
+    /home/me/lib/cpp/myutils.h:67:16: note: expanded from macro 'PE'
         cout << (x)[i] << ", "; \
                 ~~~^~
     2 errors generated.
@@ -963,7 +963,7 @@ compare (r)begin and (r)end
     <stdin>:45:35: error: invalid operands to binary expression ('reverse_iterator' (aka 'reverse_iterator<iterator>') and 'std::__1::__wrap_iter<int *>')
         VI v{1,2,3,4,5}; P(v.rbegin() == v.end() - 5)
                            ~~~~~~~~~~ ^  ~~~~~~~~~~~
-    /home/me/lib/cpp/myutils.h:63:38: note: expanded from macro 'P'
+    /home/me/lib/cpp/myutils.h:64:38: note: expanded from macro 'P'
     #define P(x) cout << #x << " = " << (x) << endl;
                                          ^
     1 error generated.

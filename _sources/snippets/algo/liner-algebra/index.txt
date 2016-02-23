@@ -8,8 +8,46 @@ liner-algebra
 
 
 
+equation.scm
+====================================
+
+
+
+左基本変形(連立方程式を解く場合の手法)
+------------------------------------------------------------
+
+
+- 行と行を入れ替える
+- 行に0でない定数をかける
+- 別の行の程数倍を加える
+
+
+.. warning::
+
+    行列式は行と行の入れ替えに、符号を反転させる必要があるので、行列式の計算とは若干異なる
+
+
+
+independent.scm
+=============================================
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \sum k_i a_iが一次独立 \leftrightarrow \forall k_i \ne 0  \quad s.t. \quad  \sum k_i a_i = 0
+    \end{eqnarray}
+
+
+
 index.scm
 ===========================
+
+.. contents::
+
 
 
 
@@ -293,6 +331,16 @@ sgn
     \end{eqnarray}
 
 
+n=2
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        a_{11}a_{22} - a_{12}a_{21}
+    \end{eqnarray}
+
+
 
 
 .. math::
@@ -360,6 +408,87 @@ sgn
 
     \begin{eqnarray}
         A^{-1} = \frac{\tilde{A}}{|A|}
+    \end{eqnarray}
+
+
+
+対象行列(symmetric matrix)
+------------------------------------------------------------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\A = {}_^t A
+    \\a_{ij} = a_{ji}
+    \\
+    \end{eqnarray}
+
+
+
+交代行列(skew symmetric matrix)
+---------------------------------------------------------------------------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\A = - {}_^t A
+    \\a_{ij} = - a_{ji}
+    \\
+    \end{eqnarray}
+
+
+
+余因子行列
+---------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \overline{A} = \overline{a_{ji}}
+    \end{eqnarray}
+
+
+
+エルミート行列
+---------------------
+
+
+共役複素数
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        A = {}^t \overline {A}
+    \end{eqnarray}
+
+
+
+歪エルミート行列
+------------------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        A = - {}^t \overline {A}
     \end{eqnarray}
 
 
@@ -467,6 +596,16 @@ Ker, Im
 
     \begin{eqnarray}
         Im(T) = \{T(x) \in V' \mid x \in V \}
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Im(T) = V' \Rightarrow Tは全射
     \end{eqnarray}
 
 

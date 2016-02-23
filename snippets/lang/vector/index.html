@@ -167,7 +167,7 @@ find<span class="o">(</span>ALL<span class="o">(</span>v<span class="o">)</span>
 &lt;stdin&gt;:45:30: error: invalid operands to binary expression <span class="o">(</span><span class="s1">&#39;VI&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;vector&lt;int&gt;&#39;</span><span class="o">)</span> and <span class="s1">&#39;size_type&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;unsigned long&#39;</span><span class="o">))</span>
     VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> P<span class="o">(</span>find<span class="o">(</span>v, v + v.size<span class="o">()</span>, 3<span class="o">)</span> !<span class="o">=</span> v.end<span class="o">())</span><span class="p">;</span>
                            ~ ^ ~~~~~~~~
-/home/me/lib/cpp/myutils.h:63:38: note: expanded from macro <span class="s1">&#39;P&#39;</span>
+/home/me/lib/cpp/myutils.h:64:38: note: expanded from macro <span class="s1">&#39;P&#39;</span>
 <span class="c">#define P(x) cout &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; (x) &lt;&lt; endl;</span>
                                      ^
 /usr/include/c++/v1/iterator:614:1: note: candidate template ignored: could not match <span class="s1">&#39;reverse_iterator&lt;type-parameter-0-0&gt;&#39;</span> against <span class="s1">&#39;unsigned long&#39;</span>
@@ -230,7 +230,7 @@ find<span class="o">(</span>v.begin<span class="o">()</span>, v.end<span class="
 &lt;stdin&gt;:45:18: error: invalid operands to binary expression <span class="o">(</span><span class="s1">&#39;basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;&#39;</span> and <span class="s1">&#39;std::__1::__wrap_iter&lt;int *&gt;&#39;</span><span class="o">)</span>
     VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> P<span class="o">(</span>find<span class="o">(</span>v.begin<span class="o">()</span>, v.end<span class="o">()</span>, 3<span class="o">))</span><span class="p">;</span>
                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/home/me/lib/cpp/myutils.h:63:34: note: expanded from macro <span class="s1">&#39;P&#39;</span>
+/home/me/lib/cpp/myutils.h:64:34: note: expanded from macro <span class="s1">&#39;P&#39;</span>
 <span class="c">#define P(x) cout &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; (x) &lt;&lt; endl;</span>
              ~~~~~~~~~~~~~~~~~~~ ^  ~~~
 /usr/include/c++/v1/ostream:175:20: note: candidate <span class="k">function</span> not viable: no known conversion from <span class="s1">&#39;std::__1::__wrap_iter&lt;int *&gt;&#39;</span> to <span class="s1">&#39;std::__1::basic_ostream&lt;char&gt; &amp;(*)(std::__1::basic_ostream&lt;char&gt; &amp;)&#39;</span> <span class="k">for</span> 1st argument
@@ -452,7 +452,7 @@ v.empty<span class="o">()</span> <span class="o">=</span> 1
 &lt;stdin&gt;:45:49: error: member reference base <span class="nb">type</span> <span class="s1">&#39;int [5]&#39;</span> is not a structure or union
     int a<span class="o">[]={</span>1,2,3,4,5<span class="o">}</span><span class="p">;</span> vector&lt;int&gt; v<span class="o">(</span>a, a+5<span class="o">)</span><span class="p">;</span> PE<span class="o">(</span>a<span class="o">)</span>
                                                 ^~~~~
-/home/me/lib/cpp/myutils.h:65:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
+/home/me/lib/cpp/myutils.h:66:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
   <span class="o">{</span><span class="k">for</span> <span class="o">(</span>int <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="o">(</span>x<span class="o">)</span>.size<span class="o">()</span><span class="p">;</span> i++<span class="o">){</span>       <span class="se">\</span>
                         ~~~^~~~~
 <span class="m">1</span> error generated.
@@ -608,13 +608,13 @@ v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 3
 &lt;stdin&gt;:45:35: error: member reference base <span class="nb">type</span> <span class="s1">&#39;value_type&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;int&#39;</span><span class="o">)</span> is not a structure or union
     VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>i, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>i<span class="o">])</span><span class="p">;</span>
                                   ^~~~~~~~
-/home/me/lib/cpp/myutils.h:65:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
+/home/me/lib/cpp/myutils.h:66:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
   <span class="o">{</span><span class="k">for</span> <span class="o">(</span>int <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="o">(</span>x<span class="o">)</span>.size<span class="o">()</span><span class="p">;</span> i++<span class="o">){</span>       <span class="se">\</span>
                         ~~~^~~~~
 &lt;stdin&gt;:45:35: error: subscripted value is not an array, pointer, or vector
     VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>i, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>i<span class="o">])</span><span class="p">;</span>
                                   ^~~~~~~~
-/home/me/lib/cpp/myutils.h:66:16: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
+/home/me/lib/cpp/myutils.h:67:16: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
     cout &lt;&lt; <span class="o">(</span>x<span class="o">)[</span>i<span class="o">]</span> &lt;&lt; <span class="s2">&quot;, &quot;</span><span class="p">;</span> <span class="se">\</span>
             ~~~^~
 <span class="m">2</span> errors generated.
@@ -624,13 +624,13 @@ v<span class="o">[</span>i<span class="o">]</span> <span class="o">=</span> 3
 &lt;stdin&gt;:45:35: error: member reference base <span class="nb">type</span> <span class="s1">&#39;value_type&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;int&#39;</span><span class="o">)</span> is not a structure or union
     VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>a, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>a<span class="o">])</span><span class="p">;</span>
                                   ^~~~~~~~
-/home/me/lib/cpp/myutils.h:65:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
+/home/me/lib/cpp/myutils.h:66:28: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
   <span class="o">{</span><span class="k">for</span> <span class="o">(</span>int <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="o">(</span>x<span class="o">)</span>.size<span class="o">()</span><span class="p">;</span> i++<span class="o">){</span>       <span class="se">\</span>
                         ~~~^~~~~
 &lt;stdin&gt;:45:35: error: subscripted value is not an array, pointer, or vector
     VI v<span class="o">{</span>1,2,3<span class="o">}</span><span class="p">;</span> REP<span class="o">(</span>a, v.size<span class="o">())</span> PE<span class="o">(</span>v<span class="o">[</span>a<span class="o">])</span><span class="p">;</span>
                                   ^~~~~~~~
-/home/me/lib/cpp/myutils.h:66:16: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
+/home/me/lib/cpp/myutils.h:67:16: note: expanded from macro <span class="s1">&#39;PE&#39;</span>
     cout &lt;&lt; <span class="o">(</span>x<span class="o">)[</span>i<span class="o">]</span> &lt;&lt; <span class="s2">&quot;, &quot;</span><span class="p">;</span> <span class="se">\</span>
             ~~~^~
 <span class="m">2</span> errors generated.
@@ -727,7 +727,7 @@ v.rbegin<span class="o">()</span> <span class="o">==</span> v.rend<span class="o
 &lt;stdin&gt;:45:35: error: invalid operands to binary expression <span class="o">(</span><span class="s1">&#39;reverse_iterator&#39;</span> <span class="o">(</span>aka <span class="s1">&#39;reverse_iterator&lt;iterator&gt;&#39;</span><span class="o">)</span> and <span class="s1">&#39;std::__1::__wrap_iter&lt;int *&gt;&#39;</span><span class="o">)</span>
     VI v<span class="o">{</span>1,2,3,4,5<span class="o">}</span><span class="p">;</span> P<span class="o">(</span>v.rbegin<span class="o">()</span> <span class="o">==</span> v.end<span class="o">()</span> - 5<span class="o">)</span>
                        ~~~~~~~~~~ ^  ~~~~~~~~~~~
-/home/me/lib/cpp/myutils.h:63:38: note: expanded from macro <span class="s1">&#39;P&#39;</span>
+/home/me/lib/cpp/myutils.h:64:38: note: expanded from macro <span class="s1">&#39;P&#39;</span>
 <span class="c">#define P(x) cout &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; (x) &lt;&lt; endl;</span>
                                      ^
 <span class="m">1</span> error generated.

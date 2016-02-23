@@ -17,6 +17,8 @@ atLeastOne.scm
 ---------------------------------------------------------------------------------------------
 
 
+
+
 .. math::
     :nowrap:
 
@@ -72,6 +74,8 @@ contiguous-subsequence.scm
 ==============================================================================
 
 ある数列の連続した部分数列の和の最大値
+
+
 
 .. math::
     :nowrap:
@@ -192,6 +196,8 @@ dominator.scm
 ---------------------------------------------------------------------
 
 
+
+
 .. math::
     :nowrap:
 
@@ -245,6 +251,8 @@ equileader.scm
 ==========================================
 
 
+
+
 .. math::
     :nowrap:
 
@@ -253,6 +261,8 @@ equileader.scm
     \\\{a_n\} \mbox{の半分超過の要素x}  \quad s.t. \quad 
     \\2集合 \{a_1, a_2 ... a_i\}, \{a_{i+1}, a_{i+2} ... a_n \} \mbox{が、それぞれxが超過要素となる場合の数}
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -356,6 +366,8 @@ if the pattern matches line, then print the line and the N previous and N next l
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
 .. math::
     :nowrap:
 
@@ -428,12 +440,16 @@ horner.scm
 ==============================
 
 
+
+
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         y = \sum_{i=0}^{n} a_i x^i
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -483,6 +499,8 @@ one byte offset
 
 last - first = n - 1
 
+
+
 .. math::
     :nowrap:
 
@@ -506,6 +524,8 @@ n個の詰め物があり、サイズとその価値が決まっている。
 なお、総当たりの場合の場合の数は2^nとなる
 
 
+
+
 .. math::
     :nowrap:
 
@@ -518,12 +538,16 @@ n個の詰め物があり、サイズとその価値が決まっている。
     \end{eqnarray}
 
 
+
+
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         f(i, size)=\begin{cases} \max \{f(i-1, size), f(i-1, size + a_i) + b_i (\mbox{if}  size + a_i \le maxSize)\} \end{cases}
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -624,6 +648,8 @@ local-maximun.scm
 
 極大値
 
+
+
 .. math::
     :nowrap:
 
@@ -661,6 +687,8 @@ longest-common-sequence.scm
 =================================================================================
 
 ２数列の最長共通部分数列(連続する必要なし)
+
+
 
 .. math::
     :nowrap:
@@ -746,6 +774,8 @@ longest-increasing-subsequence.scm
 
 数列{a_n}における、最長部分増加数列
 
+
+
 .. math::
     :nowrap:
 
@@ -776,6 +806,8 @@ longest-increasing-subsequence.scm
     
 
 この方法では、計算量がO(n^2)となる。そこでbinary searchを使い、O(nlogn)に減らす
+
+
 
 .. math::
     :nowrap:
@@ -837,6 +869,8 @@ max-interval-of-local-maximuns.scm
 
 極大値における最大一定間隔
 
+
+
 .. math::
     :nowrap:
 
@@ -889,12 +923,16 @@ max-length-seq.scm
 ======================================================
 
 
+
+
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         {a_n}の要素の数列で、a_{in} > a_{i(n-1)} ... > a{i1}を満たす数列で、要素数が最大のものは？(1<=ik<=n)
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -1014,6 +1052,8 @@ max-profit.scm
 
 差を求めて、それに対してKadane’s algorithを適用
 
+
+
 .. math::
     :nowrap:
 
@@ -1060,6 +1100,8 @@ newton.scm
 
 収束しそうな点を探す必要あり
 
+
+
 .. math::
     :nowrap:
 
@@ -1077,6 +1119,8 @@ newton.scm
     \end{eqnarray}
 
 
+
+
 .. math::
     :nowrap:
 
@@ -1090,6 +1134,8 @@ newton.scm
 
 solve x^2 = n by newton
 ---------------------------------------------------------------------
+
+
 
 
 .. math::
@@ -1131,8 +1177,69 @@ partition-function.scm
 
 
 
+分割数
+---------
+
+dp[i][n]をnをi以下に分割する場合の数とおく.
+右のように置き換えることが可能「nをi以下に分割 <=> nをi-1以下に分割 + nをiに分割」
+前者はdp[i-1][n]となる。
+後者については右のように置き換えることが可能「nをi分割 <=> n-iをi以下に分割」
+後者はdp[i][n-i]となる。(各の場合の各分割について、1増やす.)
+
+後者の例(6を3分割 <=> 3を3以下に分割)
+
+- 3 = 3 + 0 + 0 (1分割)
+- 3 = 2 + 1 + 0 (2分割)
+- 3 = 1 + 1 + 1 (3分割)
+
+上記の各場合の各分割に1を加える
+
+- 6 = 4 + 1 + 1 (3分割)
+- 6 = 3 + 2 + 1 (3分割)
+- 6 = 2 + 2 + 2 (3分割)
+
+1を加えることで、i分割した場合を求めることができる.
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\dp(1, _) = 1
+    \\dp(i, n) = dp(i-1, n) + dp(i, n-i)
+    \\
+    \end{eqnarray}
+
+
+.. code-block:: ghc
+   
+
+    
+    f i n
+     | i == 1 = 1
+     | n >= i           = f (i-1) n + f i (n-i)
+     | otherwise        = f (i-1) n
+    main = do
+     print $ f 3 4 -- 4
+     print $ f 10 10 -- 42
+    
+
+.. code-block:: sh
+   
+
+    4
+    42
+    
+
+
+
 subset-sum.scm
 ==========================================
+
+
 
 
 .. math::
@@ -1141,6 +1248,8 @@ subset-sum.scm
     \begin{eqnarray}
         s \subseteq S s.t. \sum_{a_i \in s} a_i = 0
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -1171,6 +1280,8 @@ subset-sum.scm
     
 
 
+
+
 .. math::
     :nowrap:
 
@@ -1179,6 +1290,8 @@ subset-sum.scm
     \end{eqnarray}
 
 .. todo:: 最後の要素を必ず使うようになってるのを修正
+
+
 
 .. math::
     :nowrap:
@@ -1210,6 +1323,8 @@ subset-sum.scm
 
 sum-n-coins.scm
 =============================================
+
+
 
 
 .. math::

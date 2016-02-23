@@ -135,7 +135,7 @@ _______________________________________
   0  (print-string (|--&gt;| (undefined) list (begin (p 1) (close-port (cu
         [unknown location]
   1  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -151,7 +151,7 @@ _______________________________________
   1  (print-string (|--&gt;| (undefined) list (begin (close-port (current-
         [unknown location]
   2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 </div>
@@ -431,7 +431,7 @@ foo
 <p>argv is a list of argument strings. they are stored in memory. the last item is NULL.
 you can also say like char** is [String]</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;while(*argv){p(&quot;%s &quot;, *argv); argv++;}&#39;</span> <span class="m">1</span> <span class="m">2</span> 3
-/tmp/tmp.p09RAtJb <span class="m">1</span> <span class="m">2</span> 3
+/tmp/tmp.h9By1KqK <span class="m">1</span> <span class="m">2</span> 3
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;argv += 1; p(&quot;%s&quot;, *argv);&#39;</span> Increment pointer. ++ and +<span class="o">=</span><span class="m">1</span> are no different. btw argv<span class="o">[</span>0<span class="o">]</span> is <span class="nb">exec </span>path.
@@ -482,7 +482,7 @@ Unrecognized switch: -        <span class="o">(</span>-h will show valid options
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ps aux <span class="p">|</span> perl -anle <span class="s1">&#39;print $F[1]&#39;</span> <span class="p">|</span> head -n2
 PID
-1642
+4436
 </pre></div>
 </div>
 <p>print 0 ~ 4 columns in the argument file</p>
@@ -630,11 +630,11 @@ a.out
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(car (generator-&gt;list (integers$ 7) 1))&#39;</span>
-2
+0
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say int(rand(7))&#39;</span>
-5
+4
 </pre></div>
 </div>
 <p>rand returns a 0 to RAND_MAX integer</p>
@@ -643,7 +643,7 @@ a.out
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ce <span class="s1">&#39;srand(time(NULL));P(&quot;%d&quot;, rand());&#39;</span>
-552500360
+2041900041
 </pre></div>
 </div>
 <div class="section" id="get-an-integer-from-a-to-b">
@@ -708,7 +708,7 @@ ls: HOGE: そのようなファイルまたはディレクトリはありませ�
 <div class="section" id="signal-scm">
 <h2><a class="toc-backref" href="#id21">signal.scm</a><a class="headerlink" href="#signal-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>perl -E <span class="s1">&#39;say join q/, /, keys %SIG&#39;</span>
-TTOU, PIPE, ALRM, CONT, ABRT, KILL, WINCH, QUIT, IOT, INFO, THR, HUP, URG, TERM, INT, SYS, TTIN, XFSZ, VTALRM, BUS, STOP, ILL, SEGV, USR1, IO, FPE, CHLD, XCPU, PROF, TRAP, EMT, TSTP, USR2
+PROF, USR2, IOT, SEGV, ABRT, FPE, WINCH, CHLD, ILL, STOP, XCPU, KILL, VTALRM, THR, PIPE, INFO, URG, USR1, BUS, HUP, TRAP, TTIN, TSTP, IO, CONT, XFSZ, TERM, INT, EMT, TTOU, QUIT, ALRM, SYS
 </pre></div>
 </div>
 <p>catch the signal when a child process exit</p>
@@ -891,7 +891,7 @@ TEST
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>he <span class="s1">&#39;System.Cmd.system $ &quot;echo &quot; ++ unwords [[x, &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;] ++ y | x &lt;-[&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;..&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;c&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;], y &lt;- [&quot;csv&quot;, &quot;txt&quot;]]&#39;</span>
 
-/tmp/tmp.qyWDyWT3:7:15: Not in scope: ‘System.Cmd.system’
+/tmp/tmp.RQh4D4e9:7:15: Not in scope: ‘System.Cmd.system’
 </pre></div>
 </div>
 <p>l list, v vector, e env
@@ -948,7 +948,7 @@ in this case, because I run this command as subprocess, these results are NULL.<
     ps<span class="o">(</span>ttyname<span class="o">(</span>0<span class="o">))</span><span class="p">;</span>
     ^
 <span class="m">1</span> warning generated.
-/tmp/--N1USUe.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
+/tmp/--amyzKL.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
 <span class="s1">-:(.text+0x310): undefined reference to `ps&#39;</span>
 clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
 </pre></div>
@@ -958,7 +958,7 @@ clang: error: linker <span class="nb">command </span>failed with <span class="nb
     ps<span class="o">(</span>ttyname<span class="o">(</span>1<span class="o">))</span><span class="p">;</span>
     ^
 <span class="m">1</span> warning generated.
-/tmp/--yHm91B.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
+/tmp/--etAOg4.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
 <span class="s1">-:(.text+0x310): undefined reference to `ps&#39;</span>
 clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
 </pre></div>
@@ -968,7 +968,7 @@ clang: error: linker <span class="nb">command </span>failed with <span class="nb
     ps<span class="o">(</span>ttyname<span class="o">(</span>2<span class="o">))</span><span class="p">;</span>
     ^
 <span class="m">1</span> warning generated.
-/tmp/--44AcIr.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
+/tmp/--gXyWY6.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
 <span class="s1">-:(.text+0x310): undefined reference to `ps&#39;</span>
 clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
 </pre></div>

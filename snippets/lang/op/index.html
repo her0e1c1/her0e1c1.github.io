@@ -157,7 +157,7 @@ _______________________________________
   1  (print-string (|--&gt;| (undefined) list (apply + &#39;(1 (+ 1 2) 3))))
         [unknown location]
   2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -175,7 +175,7 @@ _______________________________________
   2  (print-string (|--&gt;| (undefined) list (apply + `,(1 (+ 1 2) 3))))
         [unknown location]
   3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -191,7 +191,7 @@ _______________________________________
   1  (print-string (|--&gt;| (undefined) list (apply and &#39;(#t #f))))
         [unknown location]
   2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(+ 1 2)&#39;</span>
@@ -478,9 +478,9 @@ ls: HOGE: そのようなファイルまたはディレクトリはありませ�
 Stack Trace:
 _______________________________________
   0  (read-from-string (string-append &quot;(list &quot; (x-&gt;string exp) &quot;)&quot;))
-        At line 94 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 95 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
   1  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre>$ s &#39;(if #&lt;undef&gt; #t)&#39;
@@ -489,9 +489,9 @@ _______________________________________
 Stack Trace:
 _______________________________________
   0  (read-from-string (string-append &quot;(list &quot; (x-&gt;string exp) &quot;)&quot;))
-        At line 94 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 95 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
   1  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -539,45 +539,46 @@ nil
 <span class="m">5</span> char-set
 <span class="m">6</span> class
 <span class="m">7</span> cmd
-<span class="m">8</span> date
-<span class="m">9</span> elisp
-<span class="m">10</span> exception
-<span class="m">11</span> func
-<span class="m">12</span> <span class="nb">hash</span>
-<span class="m">13</span> haskell.scm
-<span class="m">14</span> hook.sh.tmp
-<span class="m">15</span> html
-<span class="m">16</span> http
-<span class="m">17</span> ifdef.c
-<span class="m">18</span> index.rst
-<span class="m">19</span> index.scm
-<span class="m">20</span> index.sh
-<span class="m">21</span> io
-<span class="m">22</span> java.scm
-<span class="m">23</span> lazy
-<span class="m">24</span> list
-<span class="m">25</span> macro
-<span class="m">26</span> math
-<span class="m">27</span> memory
-<span class="m">28</span> module
-<span class="m">29</span> number
-<span class="m">30</span> op
-<span class="m">31</span> path
-<span class="m">32</span> pointer
-<span class="m">33</span> process
-<span class="m">34</span> range
-<span class="m">35</span> regex
-<span class="m">36</span> <span class="nb">set</span>
-<span class="m">37</span> special_variables
-<span class="m">38</span> stack
-<span class="m">39</span> string
-<span class="m">40</span> sys
-<span class="m">41</span> <span class="nb">test</span>
-<span class="m">42</span> test.tmp
-<span class="m">43</span> tuple
-<span class="m">44</span> <span class="nb">type</span>
-<span class="m">45</span> var
-<span class="m">46</span> vector
+<span class="m">8</span> container
+<span class="m">9</span> date
+<span class="m">10</span> elisp
+<span class="m">11</span> exception
+<span class="m">12</span> func
+<span class="m">13</span> <span class="nb">hash</span>
+<span class="m">14</span> haskell.scm
+<span class="m">15</span> hook.sh.tmp
+<span class="m">16</span> html
+<span class="m">17</span> http
+<span class="m">18</span> ifdef.c
+<span class="m">19</span> index.rst
+<span class="m">20</span> index.scm
+<span class="m">21</span> index.sh
+<span class="m">22</span> io
+<span class="m">23</span> java.scm
+<span class="m">24</span> lazy
+<span class="m">25</span> list
+<span class="m">26</span> macro
+<span class="m">27</span> math
+<span class="m">28</span> memory
+<span class="m">29</span> module
+<span class="m">30</span> number
+<span class="m">31</span> op
+<span class="m">32</span> path
+<span class="m">33</span> pointer
+<span class="m">34</span> process
+<span class="m">35</span> range
+<span class="m">36</span> regex
+<span class="m">37</span> <span class="nb">set</span>
+<span class="m">38</span> special_variables
+<span class="m">39</span> stack
+<span class="m">40</span> string
+<span class="m">41</span> sys
+<span class="m">42</span> <span class="nb">test</span>
+<span class="m">43</span> test.tmp
+<span class="m">44</span> tuple
+<span class="m">45</span> <span class="nb">type</span>
+<span class="m">46</span> var
+<span class="m">47</span> vector
 </pre></div>
 </div>
 <div class="admonition warning">

@@ -204,7 +204,7 @@ f g => (f (g x))
       2  (print-string (|-->| (undefined) list ((pa$ not zero?) 1)))
             [unknown location]
       3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 
@@ -293,7 +293,7 @@ concatMap.scm
 
     $ he 'concatMap (->[a, '\'','\'']) ['\''a'\''..'\''e'\'']' 
     
-    /tmp/tmp.YvTT0CLK:7:26: lexical error at character '\a'
+    /tmp/tmp.InvaVUuP:7:26: lexical error at character '\a'
     
 
 
@@ -1387,7 +1387,7 @@ destructive!
         VIa={1,2,3}; reverse(a.begin(), a.end()); PE(a)'
         ^~~
         VI
-    /home/me/lib/cpp/myutils.h:108:21: note: 'VI' declared here
+    /home/me/lib/cpp/myutils.h:109:21: note: 'VI' declared here
     typedef vector<int> VI;
                         ^
     <stdin>:45:8: error: expected unqualified-id
@@ -1399,11 +1399,11 @@ destructive!
     <stdin>:45:50: error: use of undeclared identifier 'a'
         VIa={1,2,3}; reverse(a.begin(), a.end()); PE(a)'
                                                      ^
-    /home/me/lib/cpp/myutils.h:65:26: note: expanded from macro 'PE'
+    /home/me/lib/cpp/myutils.h:66:26: note: expanded from macro 'PE'
       {for (int i = 0 ; i < (x).size(); i++){       \
                              ^
     <stdin>:45:50: error: use of undeclared identifier 'a'
-    /home/me/lib/cpp/myutils.h:66:14: note: expanded from macro 'PE'
+    /home/me/lib/cpp/myutils.h:67:14: note: expanded from macro 'PE'
         cout << (x)[i] << ", "; \
                  ^
     <stdin>:45:52: warning: missing terminating ' character [-Winvalid-pp-token]

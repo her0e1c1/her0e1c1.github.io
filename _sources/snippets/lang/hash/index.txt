@@ -118,7 +118,7 @@ get
       1  (print-string (|-->| (undefined) list (let1 t (make-hash-table) (h
             [unknown location]
       2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 
@@ -243,7 +243,7 @@ init.scm
 
     $ he 'Data.Map.fromListWith (++) [(1, "a"), (1, "b"), (2, "c")]' 
     
-    /tmp/tmp.LEV0J4Fa:7:15: Not in scope: ‘Data.Map.fromListWith’
+    /tmp/tmp.yE74m1BE:7:15: Not in scope: ‘Data.Map.fromListWith’
     
 
 書く時には"key"とクオテーションで括らなくても良いです。
@@ -343,8 +343,8 @@ items.scm
    
 
     $ perl -E '%a=(a=>1, b=>2); while(($k, $v) =each %a){say "$k = $v"}'
-    b = 2
     a = 1
+    b = 2
     
 
 
@@ -404,7 +404,7 @@ get all hash keys
    
 
     $ perl -E 'say keys %{{map {$_ => 1} (1,1,1,2,2,3)}}'
-    231
+    213
     
 
 

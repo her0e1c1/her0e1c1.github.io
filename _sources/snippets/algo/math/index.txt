@@ -41,6 +41,8 @@ eq1.scm
 
 .. todo:: ???
 
+
+
 .. math::
     :nowrap:
 
@@ -78,6 +80,8 @@ eq1.scm
 
 exponetion.scm
 ==========================================
+
+
 
 
 .. math::
@@ -127,6 +131,8 @@ exponetion.scm
 
 fib.scm
 =====================
+
+
 
 
 .. math::
@@ -192,9 +198,12 @@ fib.scm
    
 
     
+    // f(Sn, Sn-1, n) = f(Sn-1 + Sn-2, Sn-1, n-1) (n >= 2)
+    // f(S1, S0, 1) = f(1, 0, 1)
     #include <myutils.h>
     int f(int N) {
-     int s0=0, s1=1;
+     if (N == 0) return 0;
+     int s1=1, s0=0;
      for (int i = 0; i < N-1; i++) {
       int t = s1;
       s1 = s1 + s0;
@@ -224,6 +233,8 @@ formula.scm
 ------------------------------
 
 
+
+
 .. math::
     :nowrap:
 
@@ -238,6 +249,8 @@ formula.scm
     $ s '(let1 f (^ (A B) (if (>= A B) 0 (+ (- B A) 1))) (f 3 9))' 
     7
     
+
+
 
 
 .. math::
@@ -256,12 +269,16 @@ formula.scm
     
 
 
+
+
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         \# \{i| A < i \leqq B \}
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -285,12 +302,16 @@ formula.scm
 ------------------------------------------
 
 
+
+
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         \# \{i| A \leqq i \leqq B, i \bmod K = 0 \}
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -324,12 +345,16 @@ formula.scm
 ---------------------
 
 
+
+
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         \min_{x \in Z, a>0, b>0 \in N} x >= a/b
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -368,12 +393,16 @@ formula.scm
 計算量をO(n^2) => O(n)に減らすことができる。微分みたいに、差を使うことで次元を下げるのに似ている。
 TapeEquilibrium (必ず２つに分ける必要がある場合、1<= x <= N-1とする必要あり)
 
+
+
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         S_{Nx} = \sum_{i=x+1}^{N} a_i - \sum_{i=1}^{x} a_i \quad \text{s.t.} \quad \min_{x} | S_{Nx} |
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -440,12 +469,16 @@ Gauss == floor
 ------------------------------------------
 
 
+
+
 .. math::
     :nowrap:
 
     \begin{eqnarray}
         \lfloor x \rfloor \leqq x < \lfloor x \rfloor + 1
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -535,6 +568,8 @@ f(n)=f(n-1) (再帰したい場合、条件で分岐)
 ---------
 
 ルートNまでの総和はN
+
+
 
 .. math::
     :nowrap:

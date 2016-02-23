@@ -122,7 +122,7 @@ error!!
 Stack Trace:
 _______________________________________
   0  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(guard (exc) 1)&#39;</span>
@@ -140,7 +140,7 @@ _______________________________________
   2  (print-string (|--&gt;| (undefined) list (guard (exc) (/ 1 0))))
         [unknown location]
   3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(guard (exc (else 0)) (/ 1 0))&#39;</span>

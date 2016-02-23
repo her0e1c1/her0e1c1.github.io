@@ -47,7 +47,7 @@ guard
     Stack Trace:
     _______________________________________
       0  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 
@@ -73,7 +73,7 @@ guard
       2  (print-string (|-->| (undefined) list (guard (exc) (/ 1 0))))
             [unknown location]
       3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 

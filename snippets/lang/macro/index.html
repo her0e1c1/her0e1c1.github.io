@@ -204,7 +204,7 @@ _______________________________________
   2  (print-string (|--&gt;| (undefined) list (let1 HOGE 1 (eval (read-fro
         [unknown location]
   3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <p>Need to evaluate HOGE first</p>
@@ -232,7 +232,7 @@ _______________________________________
   4  (print-string (|--&gt;| (undefined) list (let ((lambda. lambda)) ((ev
         [unknown location]
   5  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>s <span class="s1">&#39;(let ((lambda. ((with-module gauche.internal global-id) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;lambda))) ((eval `(,lambda. (arg) arg) (interaction-environment)) 123))&#39;</span>
@@ -375,7 +375,7 @@ _______________________________________
   2  (print-string (|--&gt;| (undefined) list (let ((fact (lambda (n) (if
         [unknown location]
   3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) &#39;())
-        At line 125 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
+        At line 126 of &quot;/home/me/github/onelinerForGauche/main.scm&quot;
 </pre></div>
 </div>
 </div>

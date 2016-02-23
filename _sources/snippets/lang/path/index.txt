@@ -30,7 +30,7 @@ basename
 
     $ he 'System.FilePath.takeFileName "/path/to/file.txt"' 
     
-    /tmp/tmp.wVHCorS8:7:15:
+    /tmp/tmp.XDnzmrXM:7:15:
         Not in scope: ‘System.FilePath.takeFileName’
     
 
@@ -246,6 +246,7 @@ glob.scm
     memory
     macro
     exception
+    container
     special_variables
     hash
     index.scm
@@ -288,6 +289,7 @@ glob.scm
     char-set
     class
     cmd
+    container
     date
     elisp
     exception
@@ -334,7 +336,7 @@ glob.scm
    
 
     $ s '(glob "*")' 
-    (haskell.scm path func date http type vector io sys pointer cmd char-set a.out test test.tmp ifdef.c list stack java.scm range lazy string var index.scm hash special_variables exception macro memory index.rst number regex html elisp hook.sh.tmp class tuple bit index.sh math module async op char byte set process)
+    (haskell.scm path func date http type vector io sys pointer cmd char-set a.out test test.tmp ifdef.c list stack java.scm range lazy string var index.scm hash special_variables container exception macro memory index.rst number regex html elisp hook.sh.tmp class tuple bit index.sh math module async op char byte set process)
     
 
 

@@ -110,7 +110,8 @@
 <li><a class="reference internal" href="#pointer-scm" id="id19">pointer.scm</a></li>
 <li><a class="reference internal" href="#polymorphism-scm" id="id20">polymorphism.scm</a></li>
 <li><a class="reference internal" href="#stack-scm" id="id21">stack.scm</a></li>
-<li><a class="reference internal" href="#write-scm" id="id22">write.scm</a></li>
+<li><a class="reference internal" href="#unit-scm" id="id22">unit.scm</a></li>
+<li><a class="reference internal" href="#write-scm" id="id23">write.scm</a></li>
 </ul>
 </li>
 </ul>
@@ -441,8 +442,45 @@ if (node != NULL &amp;&amp; node-&gt;next != NULL) {</p>
 <div class="section" id="stack-scm">
 <h2><a class="toc-backref" href="#id21">stack.scm</a><a class="headerlink" href="#stack-scm" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="unit-scm">
+<h2><a class="toc-backref" href="#id22">unit.scm</a><a class="headerlink" href="#unit-scm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+ <span class="n">sign</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+ <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+  <span class="n">n</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">sign</span> <span class="o">=</span> <span class="s">&#39;-&#39;</span>
+ <span class="k">def</span> <span class="nf">to_s</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+  <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s%.1f%s</span><span class="s">B&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sign</span><span class="p">,</span> <span class="n">x</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">unit</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span>
+ <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;K&#39;</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;G&#39;</span><span class="p">]):</span>
+  <span class="n">start</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">index</span><span class="p">)</span>
+  <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+   <span class="k">return</span> <span class="n">to_s</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+  <span class="k">return</span> <span class="n">to_s</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">show</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">show</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">show</span><span class="p">(</span><span class="mi">1440</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">show</span><span class="p">(</span><span class="o">-</span><span class="mi">1440</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">show</span><span class="p">(</span><span class="mi">1444</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">show</span><span class="p">(</span><span class="mi">1444000</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">show</span><span class="p">(</span><span class="mi">1444000</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">show</span><span class="p">(</span><span class="mi">1444000</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre>0.0B
+1.0B
+1.4KB
+-1.4KB
+1.4KB
+1.4MB
+1.4GB
+1444000000000.0B
+</pre></div>
+</div>
+</div>
 <div class="section" id="write-scm">
-<h2><a class="toc-backref" href="#id22">write.scm</a><a class="headerlink" href="#write-scm" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id23">write.scm</a><a class="headerlink" href="#write-scm" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="class-data-methods">
 <h3>class = data + methods<a class="headerlink" href="#class-data-methods" title="Permalink to this headline">¶</a></h3>
 <p>オブジェクトは型、インスタンスは実体（変数などの値をもつもの）

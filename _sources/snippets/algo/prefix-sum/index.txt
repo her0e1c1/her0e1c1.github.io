@@ -50,6 +50,8 @@ has-range.scm
 
 数列a_nの要素が、少なくとも一つ[x, y]に含まれているか?
 
+
+
 .. math::
     :nowrap:
 

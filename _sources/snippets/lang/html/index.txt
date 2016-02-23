@@ -52,9 +52,9 @@ init.scm
 
 .. raw:: html
 
-   <button id='G2358'>RUN</button>
+   <button id='G2363'>RUN</button>
    <script>
-     $('#G2358').on('click', function(){ alert('hello') });
+     $('#G2363').on('click', function(){ alert('hello') });
    </script> 
 
 <=> forward
@@ -68,9 +68,9 @@ init.scm
 
 .. raw:: html
 
-   <button id='G2359'>RUN</button>
+   <button id='G2364'>RUN</button>
    <script>
-     $('#G2359').on('click', function(){ history.back() });
+     $('#G2364').on('click', function(){ history.back() });
    </script> 
 
 Scroll to 1000px from the top in 1.2 sec. (arguments are px and time)
@@ -84,9 +84,9 @@ Scroll to 1000px from the top in 1.2 sec. (arguments are px and time)
 
 .. raw:: html
 
-   <button id='G2360'>RUN</button>
+   <button id='G2365'>RUN</button>
    <script>
-     $('#G2360').on('click', function(){ $('html,body').animate({scrollTop:1000}, 1200); });
+     $('#G2365').on('click', function(){ $('html,body').animate({scrollTop:1000}, 1200); });
    </script> 
 
 HOGE
@@ -400,8 +400,8 @@ Scroll to 0px in 2 sec
 
 .. raw:: html
 
-   <button id='G2361'>RUN</button>
+   <button id='G2366'>RUN</button>
    <script>
-     $('#G2361').on('click', function(){ $('html,body').animate({scrollTop:0}, 2000); });
+     $('#G2366').on('click', function(){ $('html,body').animate({scrollTop:0}, 2000); });
    </script> 
 

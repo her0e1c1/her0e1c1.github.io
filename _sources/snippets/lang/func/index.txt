@@ -281,7 +281,7 @@ declare minimum
     Stack Trace:
     _______________________________________
       0  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 
@@ -355,7 +355,7 @@ lambda.scm
    
 
     $ perl -E 'sub {print $_[rand @_] for 1 .. 255}->("a" .. "z", 0 .. 9, "A" .. "Z")' 
-    RH4Q8NMlFNTJaUAza9apawaRViT0IgHlAURjHSJWzH2hO9zA2chhx1toTA1r7PKdMmrl8yk8MB56YSUiTAqutq3RjkImTF4gq2taaU48EDMC7A3p9ejqqBbwbykGXPF6nlqFlTksxlngSCcgnJinC746A8hPdKaqh4KhCfvGlmql7a8nyRJPdCRuEVxE7wbb2uYFxMTTmt6EDRCTkp0vruYuojEJ6RomIH8TS5OqjB6CBRYgbFQI0mvxpvezhg2
+    J8XUPZSElj6eTlyuwIpgAW92155f3fDWL0EEGVcP2O4YZd4hWPR3R19GT0qgg0x1iFXTURIPNSgE1rRgmXTCgQD0eqPITC1hj3NJncNYUm7cUoaaBoDyp8a5Nppgw6OcT6hhU2BnvR5WPustzcqz6hnLgqOW7XQZecANbt4cZwAAgd4NjE98T2GkefFERqetPRRHAlYXSIVCDKyRmLBjDtcdwGokUNzXDRwYtNaBitVUZpu3ISdhRvYbWzIYA6z
 
 
 .. code-block:: sh

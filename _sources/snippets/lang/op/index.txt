@@ -76,7 +76,7 @@ apply.scm
       1  (print-string (|-->| (undefined) list (apply + '(1 (+ 1 2) 3))))
             [unknown location]
       2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 
@@ -99,7 +99,7 @@ apply.scm
       2  (print-string (|-->| (undefined) list (apply + `,(1 (+ 1 2) 3))))
             [unknown location]
       3  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 
@@ -120,7 +120,7 @@ apply.scm
       1  (print-string (|-->| (undefined) list (apply and '(#t #f))))
             [unknown location]
       2  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 
@@ -645,9 +645,9 @@ see http://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_8.html
     Stack Trace:
     _______________________________________
       0  (read-from-string (string-append "(list " (x->string exp) ")"))
-            At line 94 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 95 of "/home/me/github/onelinerForGauche/main.scm"
       1  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 
@@ -660,9 +660,9 @@ see http://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_8.html
     Stack Trace:
     _______________________________________
       0  (read-from-string (string-append "(list " (x->string exp) ")"))
-            At line 94 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 95 of "/home/me/github/onelinerForGauche/main.scm"
       1  (eval `(main+ (list ,@(cdr rest)) ,(car rest)) '())
-            At line 125 of "/home/me/github/onelinerForGauche/main.scm"
+            At line 126 of "/home/me/github/onelinerForGauche/main.scm"
     
 
 
@@ -736,45 +736,46 @@ for.scm
     5 char-set
     6 class
     7 cmd
-    8 date
-    9 elisp
-    10 exception
-    11 func
-    12 hash
-    13 haskell.scm
-    14 hook.sh.tmp
-    15 html
-    16 http
-    17 ifdef.c
-    18 index.rst
-    19 index.scm
-    20 index.sh
-    21 io
-    22 java.scm
-    23 lazy
-    24 list
-    25 macro
-    26 math
-    27 memory
-    28 module
-    29 number
-    30 op
-    31 path
-    32 pointer
-    33 process
-    34 range
-    35 regex
-    36 set
-    37 special_variables
-    38 stack
-    39 string
-    40 sys
-    41 test
-    42 test.tmp
-    43 tuple
-    44 type
-    45 var
-    46 vector
+    8 container
+    9 date
+    10 elisp
+    11 exception
+    12 func
+    13 hash
+    14 haskell.scm
+    15 hook.sh.tmp
+    16 html
+    17 http
+    18 ifdef.c
+    19 index.rst
+    20 index.scm
+    21 index.sh
+    22 io
+    23 java.scm
+    24 lazy
+    25 list
+    26 macro
+    27 math
+    28 memory
+    29 module
+    30 number
+    31 op
+    32 path
+    33 pointer
+    34 process
+    35 range
+    36 regex
+    37 set
+    38 special_variables
+    39 stack
+    40 string
+    41 sys
+    42 test
+    43 test.tmp
+    44 tuple
+    45 type
+    46 var
+    47 vector
     
 
 

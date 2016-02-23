@@ -13,6 +13,8 @@ accumulatedPermutaion.scm
 
 異なるn個の中から重複を許さずr個以下を取り出す場合の数(nPr (0 <= ALL r <= n))
 
+
+
 .. math::
     :nowrap:
 
@@ -51,6 +53,8 @@ all-subsets.scm
 Xを集合とする。 Xの部分集合全体を2^xと表す
 異なるn個の中で構成される全ての組み合わせ
 
+
+
 .. math::
     :nowrap:
 
@@ -60,6 +64,8 @@ Xを集合とする。 Xの部分集合全体を2^xと表す
     \\f(n) &=& \{ {a_n} \cup x \mid x \in f(n-1) \} \cup f(n-1)
     \\
     \end{eqnarray}
+
+
 
 
 .. math::
@@ -104,6 +110,8 @@ cartesian-product.scm
 
 集合直積
 
+
+
 .. math::
     :nowrap:
 
@@ -133,6 +141,8 @@ combination.scm
 =============================================
 
 異なるn個の中から重複を許さずr個取り出す場合の数(nCr)
+
+
 
 .. math::
     :nowrap:
@@ -232,6 +242,8 @@ nCr
 .. warning::
 
     be careful of overflow
+
+
 
 
 .. math::
@@ -410,6 +422,8 @@ repeatedCombination.scm
 同じものを使い続けるか、それを使わずに次へいくか
 combinationとの違いは、使用しても消費しない
 
+
+
 .. math::
     :nowrap:
 
@@ -446,6 +460,8 @@ nHr
 ---------
 
 
+
+
 .. math::
     :nowrap:
 
@@ -461,6 +477,8 @@ repeatedPermutation.scm
 
 異なるn個の中から重複を許してr個取り出す場合の数(nPIr)
 permutaionとの違いは、使用しても消費しない
+
+
 
 .. math::
     :nowrap:

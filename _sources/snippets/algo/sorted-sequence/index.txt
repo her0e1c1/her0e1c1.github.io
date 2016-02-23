@@ -17,6 +17,8 @@ common-range.scm
 ------------------------------------------------------------
 
 
+
+
 .. math::
     :nowrap:
 
@@ -81,6 +83,8 @@ distinct.scm
 
 ソート配列に対して、現在の値nを保持しておく
 
+
+
 .. math::
     :nowrap:
 
@@ -100,6 +104,8 @@ triangle-exists.scm
 
 return true if a sorted array has a triangle
 
+
+
 .. math::
     :nowrap:
 
@@ -118,6 +124,8 @@ triple-product.scm
 ---------------------------------------
 
 
+
+
 .. math::
     :nowrap:
 
@@ -130,13 +138,13 @@ triple-product.scm
    
 
     (print
-        (let1 l (pa$ at (sort '(-3 -7 4 5 8 5 8 -2 -6 -2)))
+        (let1 l (pa$ at (sort '(-10 2 -3 -2 8 -7 -4 4 1 2)))
            (max (* (l -1) (l -2) (l -3))
                 (* (l 0) (l 1) (l -1)))))
 
 .. code-block:: sh
    
 
-    336
+    560
     
 
