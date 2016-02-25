@@ -14,7 +14,12 @@
 (math "f : A $rightarrow B, a $in A, f(a) $in B" :msg "集合AからBへの写像f")
 (math "a $ne b $Rightarrow f(a) $ne f(b)" :msg "fが単射")
 (math "$forall b $in B, $exists a $in A S.T. f(a) = b" :msg "fが全射")
-(p "全単射は、単射かつ全射")
+(math "全単射 $Leftrightarrow 逆写像f^{-1}が存在")
+(math "全単射 $Leftrightarrow 単射かつ全射")
+
+(p "関数は入力1つに対して出力1つだけ.つまり、減ることはあっても増えることは絶対ない.")
+(math "| ${ f(a) $} | $le | A |" :msg "等号が成立するのは、fが単射の場合のみ.そうでない場合、f(a)と同じ値をとるf(b)が存在する")
+(math "| ${ f(a) $} | $ge 1" :msg "等号が成立するのは、全て同じ値へ変換される場合.")
 
 (p "f(x) = ax + bは、全単射")
 (p "f(x) = e^xは、単射")
@@ -32,8 +37,15 @@
 (ps "エルミート行列")
 
 (ps "正則行列")
+(pw "行列式は、正方行列でしか定義されていないm * n行列に対しては未定義")
 (math "XA=AX=E" :msg "n次正方行列Aに対してXが存在すれば、Aは正方行列でXはAの逆行列")
 (math "Aが正則 $Leftrightarrow |A| $ne 0")
+(math "Aが正則 $Leftrightarrow 逆行列A^{-1}が存在")
+(math "Aが正則 $Leftrightarrow rank A = n")
+(math "Aが正則 $Leftrightarrow 斎次方程式Ax=0は自明の解のみ")
+(math "Aが正則 $Leftrightarrow 線形写像T_A(x)=Axは全単射")
+(math "Aが正則 $Leftrightarrow $sum_i^n x_i a_iが一次独立")
+
 (math "" :msg "逆行列は一意に決まる")
 (math "(AB)^{-1} = B^{-1} A^{-1}")
 
@@ -51,6 +63,7 @@
 
 (ps "行列式")
 (math "|A| = det A = $sum_{s $in S_n} sgn(s) a_{1s(1)} a_{2s(2)} ... a_{ns(n)}")
+(p "0を含む列 or 行が存在するならば|A|=0")
 (math "a_{11}a_{22} - a_{12}a_{21}" :msg "n=2")
 
 (math "|{}_t A| = |A|")
@@ -85,3 +98,9 @@ a_{ij} = - a_{ji}
 
 (ps "歪エルミート行列")
 (math "A = - {}^t $overline {A}")
+
+(ps "rank")
+(p "rank自体は、 m*nの行列に対して定義される.")
+(math "0 <= rank A <= min {m, n}" :msg "一方を超えることは、ありえない.")
+(math "0 <= rank A <= n" :msg "とくに行列Aがn次正方行列の場合")
+(math "Aが正則 $rightarrow rank A = n $rightarrow m = n")
