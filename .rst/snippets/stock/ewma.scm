@@ -9,3 +9,5 @@ $mbox{平滑化係数} a = $frac{2}{N+1} ($mbox{Nは時系列区間})
 EWMA_{i+1} &=& (1 - a) EWMA_i + a price_i
  &=& EWMA_i + a (price_i - EWMA_i)
 ")
+
+(p "とくにa = 1のとき、EWMA_i = price_i")

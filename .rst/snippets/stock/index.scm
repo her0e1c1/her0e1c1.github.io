@@ -15,6 +15,9 @@ LINKS (株の入門)
 - https://www.gaitameonline.com/academy_chart.jsp
 - http://kabu.com/investment/guide/technical/default.html
 
+統計
+- http://www.toukei-kentei.jp/
+
 株サイト
 - http://kabutan.jp/
 
