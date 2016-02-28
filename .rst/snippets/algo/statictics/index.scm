@@ -19,6 +19,14 @@ s^2 &=& $frac{1}{n} $sum_{i=1}^n (x_i - $overline{x})^2
 (because $frac{1}{n} $sum_i x_i = $overline{x}, $sum_i $overline{x}^2 = n $overline{x}^2)
 ")
 
+(math "
+z = a x + b
+s_{z}^2 = (a s_{x})^2
+")
+
+(math "z_i = $frac{x_i - $overline{x}}{S_x}")
+
+
 (ps "median")
 (ps "percentile")
 (ps "mode")

@@ -7,7 +7,11 @@
 (p "V, V'をK上のベクトル空間とし、写像T:V->V'が以下を満たすときTを線形写像と呼ぶ")
 (math "T(x+y) = T(x) + T(y)" :msg "x, y $in V")
 (math "T(lx) = lT(x)" :msg "x $in V, l $in K")
+(math "T(0) = 0" :msg "l=0のとき必ず成立")
 (math "Tが全単射 $Leftrightarrow V $cong V'" :msg "VとV'は同型")
+(math "Tが全単射 $Leftrightarrow dim V = dim V'")
+
+(math "Tが単射 $Leftrightarrow T(x)=0 $rightarrow x=0")
 
 (ps "部分空間")
 (math "W $subset V, $forall x,y $in W, $forall m,n $in K S.T. m x + n y $in W")

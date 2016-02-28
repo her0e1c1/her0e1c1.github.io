@@ -104,3 +104,4 @@ a_{ij} = - a_{ji}
 (math "0 <= rank A <= min {m, n}" :msg "一方を超えることは、ありえない.")
 (math "0 <= rank A <= n" :msg "とくに行列Aがn次正方行列の場合")
 (math "Aが正則 $rightarrow rank A = n $rightarrow m = n")
+(math "rank _^{t} A = rank A" :msg "転置してあっても、掃き出したら同じE_rになる")
