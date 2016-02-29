@@ -51,7 +51,7 @@ equal.scm
 
     $ he '(1::Int) == (1::Integer)' 
     
-    /tmp/tmp.3jiXaLqa:7:28:
+    /tmp/tmp.1C3LugyC:7:28:
         Couldn't match expected type ‘Int’ with actual type ‘Integer’
         In the second argument of ‘(==)’, namely ‘(1 :: Integer)’
         In the first argument of ‘print’, namely
@@ -293,7 +293,7 @@ toInt.scm
 
     $ he 'read "10"' 
     
-    /tmp/tmp.s6bN15kp:7:8:
+    /tmp/tmp.NZVeEx7b:7:8:
         No instance for (Show a0) arising from a use of ‘print’
         The type variable ‘a0’ is ambiguous
         Note: there are several potential instances:
@@ -307,7 +307,7 @@ toInt.scm
         In the expression: print (read "10")
         In an equation for ‘main’: main = print (read "10")
     
-    /tmp/tmp.s6bN15kp:7:15:
+    /tmp/tmp.NZVeEx7b:7:15:
         No instance for (Read a0) arising from a use of ‘read’
         The type variable ‘a0’ is ambiguous
         Note: there are several potential instances:
@@ -329,7 +329,7 @@ toInt.scm
 
     $ he 'reads "10"' 
     
-    /tmp/tmp.ruuRMEE7:7:8:
+    /tmp/tmp.S8s5p1a7:7:8:
         No instance for (Show a0) arising from a use of ‘print’
         The type variable ‘a0’ is ambiguous
         Note: there are several potential instances:
@@ -343,7 +343,7 @@ toInt.scm
         In the expression: print (reads "10")
         In an equation for ‘main’: main = print (reads "10")
     
-    /tmp/tmp.ruuRMEE7:7:15:
+    /tmp/tmp.S8s5p1a7:7:15:
         No instance for (Read a0) arising from a use of ‘reads’
         The type variable ‘a0’ is ambiguous
         Note: there are several potential instances:

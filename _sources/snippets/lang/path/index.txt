@@ -30,7 +30,7 @@ basename
 
     $ he 'System.FilePath.takeFileName "/path/to/file.txt"' 
     
-    /tmp/tmp.XDnzmrXM:7:15:
+    /tmp/tmp.qzWS6TH7:7:15:
         Not in scope: ‘System.FilePath.takeFileName’
     
 

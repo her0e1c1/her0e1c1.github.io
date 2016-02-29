@@ -90,6 +90,29 @@ variance
 
 
 
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\z = a x + b
+    \\s_{z}^2 = (a s_{x})^2
+    \\
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        z_i = \frac{x_i - \overline{x}}{S_x}
+    \end{eqnarray}
+
+
+
 median
 ------------------
 

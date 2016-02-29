@@ -8,6 +8,61 @@ liner-algebra
 
 
 
+eigenvalue.scm
+==========================================
+
+
+
+固有値
+---------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        n次正方行列Aの固有値aは、x \ne 0に対して、Ax=axを満たすxが存在するときのa.xを固有ベクトルと呼ぶ
+    \end{eqnarray}
+
+
+
+固有空間
+------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        aがAの固有値 \Leftrightarrow det(A-aE)=0
+    \end{eqnarray}
+
+
+
+対角化
+---------
+
+
+
+ケイリー・ハミルトンの定理
+---------------------------------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        対角化可能 \Leftrightarrow AB=BA
+    \end{eqnarray}
+
+
+
 equation.scm
 ====================================
 
@@ -21,15 +76,58 @@ equation.scm
 - 行に0でない定数をかける
 - 別の行の程数倍を加える
 
+基本行列を左側から掛けることを左基本変形と呼ぶ.
 
 .. warning::
 
     行列式は行と行の入れ替えに、符号を反転させる必要があるので、行列式の計算とは若干異なる
 
+基本行列P,Q,Rは正則行列. また逆行列も基本行列
+
+
+斎次方程式
+---------------
+
+Aが正則ならば、Ax = 0の解は、自明でない解のみ
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        
+    \\正則なのでA^{-1}が存在し、x=0が解となる。
+    \\また、x \ne 0の場合、A = 0が成立するが、Aが正則であることに矛盾。
+    \\よって、x ne 0において、Ax = 0が成立することはない。
+    \\以上より、自明でない解のみをもつことが言える。
+    \\
+    \end{eqnarray}
+
 
 
 independent.scm
 =============================================
+
+
+
+一次結合(線形結合)
+------------------------------
+
+
+和を表現しているだけであって、一次独立とまでは言わない.
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        \sum k_i a_i
+    \end{eqnarray}
+
+
+
+一次独立
+------------
 
 
 
@@ -41,6 +139,117 @@ independent.scm
         \sum k_i a_iが一次独立 \leftrightarrow \forall k_i \ne 0  \quad s.t. \quad  \sum k_i a_i = 0
     \end{eqnarray}
 
+一次従属 $leftrightarrow ベクトルを別の基底の線形結合で表現可能
+
+
+基底
+------
+
+e_iがVの基底であるとは、 Vの任意のベクトルがe_iの一次結合として一意に表せる
+Vがn個からなる基底をもつとき、nをVの次元と呼び、dim V = nと表す
+基底の個数はdim V個だが、組みは、V上で任意にとることが可能
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        e_iがVの基底 \rightarrow e_i \in V
+    \end{eqnarray}
+
+n個のベクトルa_iが一次独立 $leftrightarrow a_iは、n次元ベクトル空間Vの基底
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        n = dim V = dim Ker(T) + dim Im (T)
+    \end{eqnarray}
+
+
+
+階数
+------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        dim Ker(T) + rank A = n
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        線形写像T:V->V'に対し、rank T := dim (Im (T))
+    \end{eqnarray}
+
+
+
+部分空間
+------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        span(a_i) = <a_1, a_2, ..., a_n> := \{ \sum_i^n k_i a_i \mid k_i \in K \}
+    \end{eqnarray}
+
+
+線形包の要素なら、ある一次結合で表現可能
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        b \in span(a_i) \rightarrow \exists k_i \in K  \quad s.t. \quad  b = \sum k_i a_i
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        V=span(a_i)のa_iが一次独立 \leftrightarrow a_iはVの基底
+    \end{eqnarray}
+
+
+
+直和
+------
+
+
+
+表現行列
+------------
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        A' = Q^{-1}AP
+    \end{eqnarray}
+
+線形写像T:V->V'において、V=V'の場合、Tを一次変換と呼ぶ
 
 
 index.scm
@@ -135,7 +344,47 @@ fが全射
         \forall b \in B, \exists a \in A  \quad s.t. \quad  f(a) = b
     \end{eqnarray}
 
-全単射は、単射かつ全射
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        全単射 \Leftrightarrow 逆写像f^{-1}が存在
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        全単射 \Leftrightarrow 単射かつ全射
+    \end{eqnarray}
+
+関数は入力1つに対して出力1つだけ.つまり、減ることはあっても増えることは絶対ない.
+
+等号が成立するのは、fが単射の場合のみ.そうでない場合、f(a)と同じ値をとるf(b)が存在する
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        | \{ f(a) \} | \le | A |
+    \end{eqnarray}
+
+
+等号が成立するのは、全て同じ値へ変換される場合.
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        | \{ f(a) \} | \ge 1
+    \end{eqnarray}
+
 f(x) = ax + bは、全単射
 f(x) = e^xは、単射
 f(x) = x^2は、f(x)>=0において、全射
@@ -210,6 +459,11 @@ f(x) = x^2は、f(x)>=0において、全射
 ------------
 
 
+.. warning::
+
+    行列式は、正方行列でしか定義されていないm * n行列に対しては未定義
+
+
 n次正方行列Aに対してXが存在すれば、Aは正方行列でXはAの逆行列
 
 .. math::
@@ -227,6 +481,56 @@ n次正方行列Aに対してXが存在すれば、Aは正方行列でXはAの�
 
     \begin{eqnarray}
         Aが正則 \Leftrightarrow |A| \ne 0
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Aが正則 \Leftrightarrow 逆行列A^{-1}が存在
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Aが正則 \Leftrightarrow rank A = n
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Aが正則 \Leftrightarrow 斎次方程式Ax=0は自明の解のみ
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Aが正則 \Leftrightarrow 線形写像T_A(x)=Axは全単射
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Aが正則 \Leftrightarrow \sum_i^n x_i a_iが一次独立
     \end{eqnarray}
 
 
@@ -330,6 +634,7 @@ sgn
         |A| = det A = \sum_{s \in S_n} sgn(s) a_{1s(1)} a_{2s(2)} ... a_{ns(n)}
     \end{eqnarray}
 
+0を含む列 or 行が存在するならば|A|=0
 
 n=2
 
@@ -493,6 +798,72 @@ n=2
 
 
 
+rank
+------------
+
+rank自体は、 m*nの行列に対して定義される.
+
+一方を超えることは、ありえない.
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        0 <= rank A <= min {m, n}
+    \end{eqnarray}
+
+
+とくに行列Aがn次正方行列の場合
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        0 <= rank A <= n
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Aが正則 \rightarrow rank A = n \rightarrow m = n
+    \end{eqnarray}
+
+
+転置してあっても、掃き出したら同じE_rになる
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        rank _^{t} A = rank A
+    \end{eqnarray}
+
+
+
+product.scm
+=================================
+
+
+
+内積
+------
+
+
+
+直交座標
+------------
+
+
+
+シュミレットの直交化法
+---------------------------------
+
+
+
 vector.scm
 ==============================
 
@@ -548,6 +919,16 @@ x $in V, l $in K
     \end{eqnarray}
 
 
+l=0のとき必ず成立
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        T(0) = 0
+    \end{eqnarray}
+
+
 VとV'は同型
 
 .. math::
@@ -555,6 +936,26 @@ VとV'は同型
 
     \begin{eqnarray}
         Tが全単射 \Leftrightarrow V \cong V'
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Tが全単射 \Leftrightarrow dim V = dim V'
+    \end{eqnarray}
+
+
+
+
+.. math::
+    :nowrap:
+
+    \begin{eqnarray}
+        Tが単射 \Leftrightarrow T(x)=0 \rightarrow x=0
     \end{eqnarray}
 
 

@@ -411,7 +411,7 @@ if string does not match (?!...), then match
    
 
     $ s '(p (#/abc(?!def)/ "abcDEF"))' 
-    #<<regmatch> 0x165cc00>
+    #<<regmatch> 0x1657480>
     #<undef>
     
 

@@ -71,7 +71,6 @@
     <div class="collapse navbar-collapse nav-collapse">
       <ul class="nav navbar-nav">
         
-            <li><a href="../../../products.html">Products</a></li>
             <li><a href="../../index.html">Snippets</a></li>
             <li><a href="../../../about_me.html">About Me</a></li>
         
@@ -298,7 +297,7 @@ Symbol&#39;s function definition is void: |-concat|
 <h2><a class="toc-backref" href="#id8">concatMap.scm</a><a class="headerlink" href="#concatmap-scm" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>he <span class="s1">&#39;concatMap (-&gt;[a, &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;,&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;]) [&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;a&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;..&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;e&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;]&#39;</span>
 
-/tmp/tmp.InvaVUuP:7:26: lexical error at character <span class="s1">&#39;\a&#39;</span>
+/tmp/tmp.SWPXNgDZ:7:26: lexical error at character <span class="s1">&#39;\a&#39;</span>
 </pre></div>
 </div>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ee <span class="s1">&#39;(mapcan (lambda (x) (list x (* x x))) &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;(1 2 3))&#39;</span>
