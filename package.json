@@ -13,6 +13,8 @@
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.10",
     "babel-register": "^6.18.0",
+    "babel-preset-react": "^6.3.13",
+    "babel-plugin-transform-react-jsx": "^6.7.5",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-env": "^1.1.4",
     "html-webpack-plugin": "^2.25.0",
