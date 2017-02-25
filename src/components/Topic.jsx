@@ -43,7 +43,7 @@ class Topic extends React.Component {
     const {topic, event, channel} = this.state
     let showMessage = channel != null 
     return (
-      <div style="border: 1px solid black;">
+      <div style={{ border: "1px solid black" }}>
         TOPIC: {showMessage ? topic : <input type="text" onChange={e => this.setState({topic: e.target.value})}/>}
         <br/>
         EVENT: {showMessage ? event :<input type="text" onChange={e => this.setState({event: e.target.value})}/>}
