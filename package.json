@@ -1,8 +1,8 @@
 {
-  "name": "frontjs",
-  "version": "0.0.1",
+  "name": "her0e1c1.github.io",
+  "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/her0e1c1/remote.git",
+  "repository": "http://her0e1c1.github.io/",
   "author": "Hiroyuki Ishii",
   "scripts": {
     "start": "/app/node_modules/.bin/webpack-dev-server -d --config webpack.config.js --host 0.0.0.0",

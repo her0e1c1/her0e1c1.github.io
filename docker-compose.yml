@@ -3,7 +3,7 @@ version: '2'
 services:
   main:
     container_name: github
-    image: test1
+    image: github
     tty: true
     stdin_open: true
     entrypoint: /bin/bash

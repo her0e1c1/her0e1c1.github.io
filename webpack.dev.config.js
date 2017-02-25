@@ -7,8 +7,8 @@ const devConfig = {
     home: './src/index.js',
   },
   output: {
-    filename: '[name].index.js',
-    path: './dist',
+    filename: '[name].js',
+    path: './',
   },
   module: {
     loaders: [{
