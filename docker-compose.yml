@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  front:
+    container_name: github
+    image: github
+    tty: true
+    stdin_open: true
+    entrypoint: /bin/bash
+    ports:
+        - 13380:8080
+    volumes:
+        - .:/docker
+    working_dir: /docker
+    environment:
+      NODE_PATH: /app/node_modules
