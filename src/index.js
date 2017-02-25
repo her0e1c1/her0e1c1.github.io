@@ -42,10 +42,7 @@ const method = 'GET'
 // window.fetch(`http://${API_HOST}/${path}`, {
 //   headers,
 //   method,
-// }).then(res => {
-//   cosole.log("hi")
-//   Inferno.render(<div>{res}</div>, main)
-// })
+// }).then(res => {})
 
 // e.target.checked
 // dangerouslySetInnerHTM
