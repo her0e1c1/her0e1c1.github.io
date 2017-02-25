@@ -1,5 +1,5 @@
-import Inferno from 'inferno'
-import Component from 'inferno-component'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 import Topic from './components/Topic.jsx'
 import Analytics from './components/Analytics/index.jsx'
@@ -18,7 +18,7 @@ socket.connect()
 socket.onError( () => console.log("there was an error with the connection!") )
 socket.onClose( () => console.log("the connection dropped") )
 
-Inferno.render(
+ReactDOM.render(
     <div>
     {t.hello}
     <Topic socket={socket} />
@@ -28,7 +28,7 @@ Inferno.render(
 
 const head = document.createElement('div')
 // const head = document.getElementsByTagName("head")
-Inferno.render(<Analytics/>, head)
+ReactDOM.render(<Analytics/>, head)
 document.head.appendChild(head)
 
 const headers = {

@@ -1,11 +1,9 @@
-import Inferno from 'inferno'
-import Component from 'inferno-component'
-
+import React from 'react'
 import Input from './Input/index.jsx'
 import Message from './Message.jsx'
 
 
-class Topic extends Component {
+class Topic extends React.Component {
   constructor(props) {
     super(props)
     if (props.socket == undefined)

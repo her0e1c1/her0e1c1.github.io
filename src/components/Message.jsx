@@ -1,7 +1,6 @@
-import Inferno from 'inferno'
-import Component from 'inferno-component'
+import React from 'react'
 
-class Message extends Component {
+class Message extends React.Component {
   constructor(props) {
     super(props)
     let channel = props.channel

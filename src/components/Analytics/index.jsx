@@ -1,7 +1,6 @@
-import Inferno from 'inferno'
-import Component from 'inferno-component'
+import React from 'react'
 
-class Analytics extends Component {
+class Analytics extends React.Component {
   render() {
     return (
     <script>

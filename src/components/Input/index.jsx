@@ -1,7 +1,6 @@
-import Inferno from 'inferno'
-import Component from 'inferno-component'
+import React from 'react'
 
-class Input extends Component {
+class Input extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
