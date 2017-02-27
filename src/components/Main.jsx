@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Input from './Input/index.jsx'
 import Message from './Message.jsx'
 import Topic from './Topic.jsx'
@@ -24,9 +25,7 @@ class Main extends React.Component {
     return (
     <div>
       <Header />
-    {t.hello}
-      
-      {/* <footer> &copy; Hiroyuki Ishii 2017. All Rights Reserved </footer> */}
+      {t.hello}
     </div>
   )}
 }
