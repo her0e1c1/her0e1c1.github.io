@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from 'react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
 
 import Input from './Input/index.jsx'
 import Message from './Message.jsx'
@@ -44,12 +44,15 @@ class Main extends React.Component {
     <div>
       <Header />
 
-      <Alert bsStyle="danger" onDismiss={() => {alertVisible: showConnectionError}}>
-        CONNECTION ERROR!
-      </Alert>
+      {showConnectionError && 
+       <Alert bsStyle="danger" onDismiss={() => false}>
+         CONNECTION ERROR!
+       </Alert>
+      }
+
       {t.hello}<br />
       <textarea rows="5" cols="40" value={code} onChange={e => this.setState({code: e.target.value}) }/>
-      <br/><button onClick={() => parse(code) }>Run</button>
+      <br/><Button onClick={() => parse(code) }>Run</Button>
     </div>
   )}
 }
