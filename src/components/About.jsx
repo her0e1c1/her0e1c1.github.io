@@ -5,8 +5,6 @@ import Message from './Message.jsx'
 import Topic from './Topic.jsx'
 import Header from './Header.jsx'
 
-import {Socket} from './../phoenix.js'
-
 class About extends React.Component {
   constructor(props) {
     super(props)

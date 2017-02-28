@@ -28,11 +28,22 @@ const devConfig = {
       assets: path.resolve('./assets'),
     }
   },
+  devServer: {
+    port: 8080
+  },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: 'index.html',  // build時に、この名前のファイル生成
       template: './src/index.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true
+      }
    }),
+    new webpack.DefinePlugin({
+      __WEBSOCKET_URL__: JSON.stringify("ws://128.199.158.226:13309/socket")
+    })
   ]
 }
 
