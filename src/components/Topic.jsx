@@ -1,8 +1,66 @@
 import React from 'react'
-import Input from './Input/index.jsx'
-import Message from './Message.jsx'
 
+class Input extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: "",
+      event: props.events.length > 0 ? props.events[0] : "",
+      events: props.events || [],
+      channel: props.channel,
+    }
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  handleClick(e) {
+    console.log(this.state)
+    this.state.channel.push(this.state.event, {body: this.state.value}, 10000)
+    // this.setState({value: ""})
+  }
 
+  render() {
+    const {value, event, events} = this.state
+    return (
+      <div>
+      <select onChange={e => this.setState({event: e.target.value})} >
+          {events.map(i => <option value={i}>{i}</option>)}
+        </select>
+        <input type="text" onChange={e => this.setState({value: e.target.value})} placeholder={"echo hi"}/>
+        <button onClick={this.handleClick} >submit</button>
+      </div>
+    )}
+}
+
+class Message extends React.Component {
+
+  constructor(props) {
+    super(props)
+    let channel = props.channel
+    this.state = {
+      channel: props.channel,
+      events: props.events || [],
+      children: [],
+    }
+    this.state.events.map(e => {
+      channel.on(e, (msg) => {
+        this.setState({children: [<li>{msg.body} from {e}</li>, ...this.state.children]})
+      })
+    })
+  }
+
+  render() {
+    const {children, channel, events} = this.state
+    return (
+      <div>
+        TOPIC: {channel.topic} {' '}
+        EVENTS: {events.join(",")}
+        <Input channel={channel} events={events} />
+        <ol>{children}</ol>
+      </div>
+    )}
+}
+
+// TODO: JOINボタン
 class Topic extends React.Component {
   constructor(props) {
     super(props)
@@ -11,7 +69,7 @@ class Topic extends React.Component {
     this.state = {
       socket: props.socket,
       topic: props.topic,
-      event: props.event,
+      events: props.events || [],
       channel: null,
     }
     this.handleClick = this.handleClick.bind(this);
@@ -40,19 +98,13 @@ class Topic extends React.Component {
   }
 
   render() {
-    const {topic, event, channel} = this.state
+    const {topic, events, channel} = this.state
     let showMessage = channel != null 
     return (
       <div style={{ border: "1px solid black" }}>
-        TOPIC: {showMessage ? topic : <input type="text" onChange={e => this.setState({topic: e.target.value})}/>}
-        <br/>
-        EVENT: {showMessage ? event :<input type="text" onChange={e => this.setState({event: e.target.value})}/>}
-        {!showMessage && <button onClick={this.handleClick}>JOIN</button>}
-        {showMessage && <Input channel={channel} event={event}/>}
-        {showMessage && <Message channel={channel} event={event}/>}
+        {showMessage && <Message channel={channel} events={events}/>}
     </div>
     )}
 }
-
 
 export default Topic

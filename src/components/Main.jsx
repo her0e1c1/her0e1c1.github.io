@@ -3,8 +3,6 @@ import { Alert, Button } from 'react-bootstrap'
 import {Socket} from './../phoenix.js'
 import marked from 'marked'
 
-import Input from './Input/index.jsx'
-import Message from './Message.jsx'
 import Topic from './Topic.jsx'
 import Header from './Header.jsx'
 
@@ -59,6 +57,8 @@ class Main extends React.Component {
          <br/><Button onClick={() => parse(code) }>Run</Button>
         </div>
       }
+
+      <Topic socket={socket} topic={"chat:client"} events={["bot", "new", "from_slack", "event"]} />
 
     </div>
   )}
