@@ -23,3 +23,4 @@ const method = 'GET'
 //<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 var loadenv = require("node-env-file"); loadenv(".env")
+@import url(https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css);
