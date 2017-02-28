@@ -1,2 +1,0 @@
-
-(gosh (string-every #\space "   "))

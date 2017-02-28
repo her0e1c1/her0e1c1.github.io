@@ -1,3 +1,0 @@
-
-
-(sh "echo hoge|rev")

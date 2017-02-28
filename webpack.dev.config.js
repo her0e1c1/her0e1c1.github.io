@@ -1,6 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const marked = require("marked");
+const renderer = new marked.Renderer();
 
 const devConfig = {
   entry: {
@@ -20,7 +22,7 @@ const devConfig = {
       loaders: [
         'json-loader',
       ]
-    }],
+    }]
   },
   resolve: {
     // extensions: ['', 'js', 'jsx'],

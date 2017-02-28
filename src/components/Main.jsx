@@ -1,6 +1,7 @@
 import React from 'react'
 import { Alert, Button } from 'react-bootstrap'
 import {Socket} from './../phoenix.js'
+import marked from 'marked'
 
 import Input from './Input/index.jsx'
 import Message from './Message.jsx'
@@ -19,6 +20,8 @@ const code = `\
 (define hello (lambda () (alert msg)))
 (hello))
 `
+
+console.log(marked('I am using __markdown__.'));
 
 class Main extends React.Component {
   constructor(props) {
@@ -56,6 +59,7 @@ class Main extends React.Component {
          <br/><Button onClick={() => parse(code) }>Run</Button>
         </div>
       }
+
     </div>
   )}
 }

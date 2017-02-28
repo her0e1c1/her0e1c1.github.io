@@ -1,48 +1,39 @@
 
-================
- Hiroyuki Ishii
-================
+# Hiroyuki Ishii
 
 - hiroyuki.ishii.42@gmail.com
 - https://github.com/her0e1c1
 - http://her0e1c1.github.io/ (personal page)
 
-Proficiency
-===========
+## Proficiency
 
 I have used followings through my 2 years professional experiences as a software engineer.
 
 - Languages
-
-  - Python
-  - JavaScript
+-- Python
+-- JavaScript
 
 - Platforms
-
-  - Linux (Ubuntu)
+-- Linux (Ubuntu)
 
 - Tools
-
-  - Emacs
-  - Zsh
-  - RCS (hg, git)
+-- Emacs
+-- Zsh
+-- RCS (hg, git)
 
 - etc
+-- MySQL
+-- Pylons
+-- jQuery
 
-  - MySQL
-  - Pylons
-  - jQuery
-
-Education
-=========
+## Education
 
 Computer Science, B.S. (I learned especially about Bioinformatics)
 
 2009/04 - 2013/03 Tokyo Institute of Technology, Japan
 
-Experience
-==========
+## Experience
 
-* `Triax <http://triax.jp/>`_ , Tokyo Japan
-
-  Web Application Engineer - June 2013 to July 2015
+- Triax <http://triax.jp/> , Tokyo Japan
+--  Web Application Engineer - June 2013 to July 2015
+`)
