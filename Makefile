@@ -13,5 +13,5 @@ docker-build:
 
 # make add a=XXX
 add:
-	docker exec -it github yarn add ${a}
+	docker exec -it github yarn add ${a} --modules-folder /app/node_modules
 	docker commit github github	
