@@ -1,10 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 
 import Root from './components/Root.jsx'
+import Reducers from './reducers/index.jsx'
 
-const main = document.getElementById('main')
-ReactDOM.render(<Root /> ,main)
+let store = createStore(Reducers)
+const Main = () => <Provider store={store}><Root /></Provider>
+ReactDOM.render(<Main /> ,document.getElementById('main'))
 
 // const Head = () => <div/>
 // const head = document.getElementsByTagName("head")[0]

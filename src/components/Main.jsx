@@ -1,5 +1,6 @@
 import React from 'react'
 import { Alert, Button } from 'react-bootstrap'
+import { connect } from 'react-redux';
 import {Socket} from './../phoenix.js'
 import marked from 'marked'
 
@@ -38,11 +39,12 @@ class Main extends React.Component {
   }
   render() {
     const {socket, code, showConnectionError, showSchemajs} = this.state
+    console.log(this.props)
     return (
     <div>
       <Header />
 
-      <h1>{t.hello}</h1>
+      <h1>{this.props.translation.hello }</h1>
 
       {showConnectionError && 
        <Alert bsStyle="danger" onDismiss={() => false}>
@@ -63,4 +65,9 @@ class Main extends React.Component {
   )}
 }
 
-export default Main
+Main.propTypes = {}
+const mapStateToProps = state => ({
+  translation: state.languages.translation
+})
+const mapDispatchToProps = dispatch => ({})
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
