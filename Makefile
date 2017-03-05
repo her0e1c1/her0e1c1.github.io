@@ -15,3 +15,8 @@ docker-build:
 add:
 	docker exec -it github yarn add ${a} --modules-folder /app/node_modules
 	docker commit github github	
+
+commit: build
+	git add index.html home.js
+	git commit -m 'update'
+	git push
