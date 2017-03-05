@@ -24,3 +24,9 @@ const method = 'GET'
 
 var loadenv = require("node-env-file"); loadenv(".env")
 @import url(https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css);
+
+<input type="text" ref="name"/> <input type="text" ref="mail"/>
+this.refs.nameまたはthis.refs.mailと指定すると、それぞれのコンポーネントにアクセス
+
+- window / document
+- this.ref / <div ref={r => r}>

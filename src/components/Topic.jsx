@@ -15,7 +15,6 @@ class Input extends React.Component {
   handleClick(e) {
     console.log(this.state)
     this.state.channel.push(this.state.event, {body: this.state.value}, 10000)
-    // this.setState({value: ""})
   }
 
   render() {
@@ -23,7 +22,7 @@ class Input extends React.Component {
     return (
       <div>
       <select onChange={e => this.setState({event: e.target.value})} >
-          {events.map(i => <option value={i}>{i}</option>)}
+          {events.map(i => <option value={i} key={i}>{i}</option>)}
         </select>
         <input type="text" onChange={e => this.setState({value: e.target.value})} placeholder={"echo hi"}/>
         <button onClick={this.handleClick} >submit</button>
@@ -43,7 +42,8 @@ class Message extends React.Component {
     }
     this.state.events.map(e => {
       channel.on(e, (msg) => {
-        this.setState({children: [<li>{msg.body} from {e}</li>, ...this.state.children]})
+        const li = <li key={this.state.children.length}>{msg.body} from {e}</li>
+        this.setState({children: [li, ...this.state.children]})
       })
     })
   }
@@ -82,7 +82,6 @@ class Topic extends React.Component {
   join({topic}) {
     if (topic == null) return
     let channel = this.state.socket.channel(topic)
-    console.log(channel)
     this.setState({channel})
     channel.join()
       .receive("ok", (resp) => {

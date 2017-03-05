@@ -8,7 +8,7 @@ class Header extends React.Component {
   render() {
     return (
     <header>
-      <ul style={{ border: "1px solid blue" }}>
+      <ul style={{ border: "1px solid blue" }} className="list-inline">
         <li><Link to="/">HOME</Link></li>
         <li><Link to="/about">ABOUT</Link></li>
         <li><Link to="/sample">SAMPLE</Link></li>

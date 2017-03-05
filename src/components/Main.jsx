@@ -26,7 +26,6 @@ class Main extends React.Component {
     super(props)
 
     const socket = new Socket(WEBSOCKET_URL)
-    console.log(socket)
     socket.connect()
     socket.onError(() => this.setState({showConnectionError: true}))
     socket.onClose(() => console.log("the connection dropped"))
@@ -54,7 +53,7 @@ class Main extends React.Component {
       {showSchemajs &&
        <div>
          <textarea rows="5" cols="40" value={code} onChange={e => this.setState({code: e.target.value}) }/>
-         <br/><Button onClick={() => parse(code) }>Run</Button>
+         <br/><Button bsSize="large" onClick={() => parse(code) }>Run</Button>
         </div>
       }
 
