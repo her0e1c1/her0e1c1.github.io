@@ -11,6 +11,15 @@ const LANGUAGES = [
   ["ja", "日本語"],
 ]
 
+const Languages = ({parent}) =>
+  <NavDropdown title={parent.props.translation.language} id="language">
+    {LANGUAGES.map(([k, v]) =>
+      <MenuItem key={k}
+       onClick={() => parent.props.changeLanguage(k)}>{v}
+      </MenuItem>
+    )}
+  </NavDropdown>
+
 class Header extends React.Component {
   constructor(props) {
     super(props)
@@ -20,16 +29,10 @@ class Header extends React.Component {
     <header>
       <ul style={{ border: "1px solid blue" }} className="list-inline">
         <li><Link to="/">HOME</Link></li>
-        <li><Link to="/about">ABOUT</Link></li>
+        <li><Link to="/about">{this.props.translation.about}</Link></li>
         <li><Link to="/sample">SAMPLE</Link></li>
+        <Languages parent={this} />
       </ul>
-      <NavDropdown title={this.props.translation.language} id="language">
-        {LANGUAGES.map(([k, v]) =>
-          <MenuItem key={k}
-            onClick={() => this.props.changeLanguage(k)}>{v}
-          </MenuItem>
-         )}
-      </NavDropdown>
     </header>
   )}
 }

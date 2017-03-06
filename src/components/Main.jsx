@@ -7,6 +7,7 @@ import marked from 'marked'
 import Schemejs from './Schemejs.jsx'
 import Topic from './Topic.jsx'
 import Header from './Header.jsx'
+import Sample from './Sample.jsx'
 
 const WEBSOCKET_URL = __WEBSOCKET_URL__
 
@@ -35,6 +36,7 @@ class Main extends React.Component {
        </Alert>
       }
       <Schemejs />
+      <Sample />
       <Topic socket={socket} topic={"chat:client"} events={["bot", "new", "from_slack", "event"]} />
     </div>
   )}

@@ -12,9 +12,9 @@ const initialState = {
 }
 
 const languages = (state = initialState, action) => {
-  console.log("languages=>")
-  console.log(state)
-  console.log(action)
+  /* console.log("languages=>")
+   * console.log(state)
+   * console.log(action)*/
   switch (action.type) {
     case "CHANGE_LANGUAGE": {
       return {...state, language: action.language, translation: translations[action.language]}
