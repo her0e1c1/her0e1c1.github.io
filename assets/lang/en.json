@@ -1,5 +1,8 @@
 {
-    "hello": "Hello",
     "language": "LANGUAGE",
-    "about": "ABOUT"
+    "home": "HOME",
+    "about": "ABOUT",
+    "introduce": "I am a software engineer",
+    "resume": "RESUME",
+    "hello": "Hello"
 }

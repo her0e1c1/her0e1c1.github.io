@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 import Main from './Main.jsx'
 import About from './About.jsx'
-import Header from './Header.jsx'
+import Resume from './Resume.jsx'
 
 const Footer = () =>
   <footer />
@@ -11,10 +11,10 @@ const Footer = () =>
 
 const Root = () =>
   <Router history={browserHistory}>
-    <Route path="/" component={Main}>
-      <IndexRoute component={Main} />
-      <Route path="about" component={About} />
-    </Route>
+    <Route path="/" component={Main} />
+    <Route path="/about" component={About} />
+    <Route path="/sample" component={Main} />
+    <Route path="/resume" component={Resume} />
   </Router>
 
 export default Root

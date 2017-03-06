@@ -25,7 +25,7 @@ class Sample extends React.Component {
       <Grid>
         <Row className="show-grid">
           <Col xs={6} md={4}>
-            <textarea rows="5" cols="40" value={inputCSV} onChange={e => this.setState({code: e.target.value}) }/>
+            <textarea rows="5" cols="40" value={inputCSV} onChange={e => this.setState({inputCSV: e.target.value}) }/>
           </Col>
           <Col xs={6} md={4}>
             <Button onClick={() => alert(convert(runCsvParser(this.state.inputCSV))) }>Run</Button>

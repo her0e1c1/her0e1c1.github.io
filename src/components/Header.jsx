@@ -28,7 +28,7 @@ class Header extends React.Component {
     return (
     <header>
       <ul style={{ border: "1px solid blue" }} className="list-inline">
-        <li><Link to="/">HOME</Link></li>
+        <li><Link to="/">{this.props.translation.home}</Link></li>
         <li><Link to="/about">{this.props.translation.about}</Link></li>
         <li><Link to="/sample">SAMPLE</Link></li>
         <Languages parent={this} />
