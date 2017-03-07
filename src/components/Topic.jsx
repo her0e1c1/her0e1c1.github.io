@@ -1,5 +1,28 @@
 import React from 'react'
 
+class Command extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: props.value,
+      event: props.event,
+      channel: props.channel,
+    }
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  handleClick(e) {
+    this.state.channel.push(this.state.event, {body: this.state.value})
+  }
+
+  render() {
+    const {value, event} = this.state
+    const {children} = this.props
+    return <button onClick={this.handleClick} >{children}</button>
+  }
+}
+
+
 class Input extends React.Component {
   constructor(props) {
     super(props)
@@ -18,16 +41,17 @@ class Input extends React.Component {
   }
 
   render() {
-    const {value, event, events} = this.state
+    const {value, event, events, channel} = this.state
     return (
       <div>
-      <select onChange={e => this.setState({event: e.target.value})} >
+        <select onChange={e => this.setState({event: e.target.value})} >
           {events.map(i => <option value={i} key={i}>{i}</option>)}
         </select>
         <input type="text" onChange={e => this.setState({value: e.target.value})} placeholder={"echo hi"}/>
         <button onClick={this.handleClick} >submit</button>
+        <Command value="GET2 NIKKEI/INDEX" channel={channel} event="bot">Predict NIKKEI/INDEX</Command>
       </div>
-    )}
+  )}
 }
 
 class Message extends React.Component {
