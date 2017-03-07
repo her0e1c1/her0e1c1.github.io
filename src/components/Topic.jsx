@@ -49,7 +49,7 @@ class Input extends React.Component {
         </select>
         <input type="text" onChange={e => this.setState({value: e.target.value})} placeholder={"echo hi"}/>
         <button onClick={this.handleClick} >submit</button>
-        <Command value="GET2 TSE/7203" channel={channel} event="bot">Predict TSE/7203</Command>
+        <Command value="get2 TSE/7203" channel={channel} event="bot">Predict TSE/7203</Command>
       </div>
   )}
 }
