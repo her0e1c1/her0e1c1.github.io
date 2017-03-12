@@ -7,7 +7,6 @@ import Schemejs from './Schemejs.jsx'
 import Topic from './Topic.jsx'
 import Header from './Header.jsx'
 import Sample from './Sample.jsx'
-import Code from './Code.jsx'
 
 const WEBSOCKET_URL = __WEBSOCKET_URL__
 
@@ -27,7 +26,6 @@ class Main extends React.Component {
     return (
     <div>
       <Header />
-      <Code />
       <h1>{this.props.translation.hello }</h1>
       {showConnectionError && 
        <Alert bsStyle="danger" onDismiss={() => false}>

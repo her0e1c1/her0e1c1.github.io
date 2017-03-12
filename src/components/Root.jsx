@@ -4,6 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import Main from './Main.jsx'
 import About from './About.jsx'
 import Resume from './Resume.jsx'
+import Code from './Code.jsx'
 
 const Footer = () =>
   <footer />
@@ -13,7 +14,7 @@ const Root = () =>
   <Router history={browserHistory}>
     <Route path="/" component={Main} />
     <Route path="/about" component={About} />
-    <Route path="/sample" component={Main} />
+    <Route path="/sample" component={Code} />
     <Route path="/resume" component={Resume} />
   </Router>
 

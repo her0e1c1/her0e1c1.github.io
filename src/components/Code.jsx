@@ -3,25 +3,31 @@ import { Alert, Button } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import Highlight from 'react-highlight'
 
+// var path = require("path")
+
 const HOST = __HOST__
 
 const fetchCode = (path) => new Promise((resolve, reject) => {
-  fetch("http://" + HOST + "/sample/main.go")
+  fetch("http://" + HOST + "/" + path)
     .then(r => resolve(r.text()))
 })
 
 class Code extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {code: ""}
-    fetchCode("/sample/main.go").then(code => this.setState({code}))
+    this.state = {code: "", codes: []}
+    __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [code,...this.state.codes]})))
   }
   render() {
-    const {code} = this.state
+    const {codes} = this.state
     return (
-      <Highlight className='go'>
-        {code}
-      </Highlight>
+      <div>
+      {codes.map(code => 
+        <Highlight className='go'>
+          {code}
+        </Highlight>
+      )}
+      </div>
   )}
 }
 
