@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const marked = require("marked");
 const renderer = new marked.Renderer();
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 const devConfig = {
   entry: {
     home: './src/index.js',
@@ -24,6 +26,11 @@ const devConfig = {
           renderer
         }
       }]
+    }, {
+      test: /\.css$/,
+      loader:  ExtractTextPlugin.extract({
+        loader: 'css-loader?importLoaders=1',
+      })
     }, {
       test: /\.jsx?$/,
       exclude: /node_modules/,
@@ -53,7 +60,8 @@ const devConfig = {
    }),
     new webpack.DefinePlugin({
       __WEBSOCKET_URL__: JSON.stringify("ws://128.199.158.226:13309/socket")
-    })
+    }),
+    new ExtractTextPlugin("styles.css")
   ]
 }
 
