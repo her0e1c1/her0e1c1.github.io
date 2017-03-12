@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const marked = require("marked");
 const renderer = new marked.Renderer();
 
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const devConfig = {
@@ -59,7 +61,8 @@ const devConfig = {
       }
    }),
     new webpack.DefinePlugin({
-      __WEBSOCKET_URL__: JSON.stringify("ws://128.199.158.226:13309/socket")
+      __WEBSOCKET_URL__: JSON.stringify("ws://128.199.158.226:13309/socket"),
+      __HOST__: JSON.stringify(IS_PRODUCTION ? "her0e1c1.github.io" : "localhost:10000")
     }),
     new ExtractTextPlugin("styles.css")
   ]

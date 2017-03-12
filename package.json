@@ -6,7 +6,7 @@
   "author": "Hiroyuki Ishii",
   "scripts": {
     "start": "/app/node_modules/.bin/webpack-dev-server -d --config webpack.config.js --host 0.0.0.0 --history-api-fallback",
-    "build": "/app/node_modules/.bin/webpack -p --config webpack.config.js"
+    "build": "NODE_ENV=production /app/node_modules/.bin/webpack -p --config webpack.config.js"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
