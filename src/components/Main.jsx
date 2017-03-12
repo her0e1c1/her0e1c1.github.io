@@ -2,16 +2,14 @@ import React from 'react'
 import { Alert, Button } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import {Socket} from './../phoenix.js'
-import marked from 'marked'
 
 import Schemejs from './Schemejs.jsx'
 import Topic from './Topic.jsx'
 import Header from './Header.jsx'
 import Sample from './Sample.jsx'
+import Code from './Code.jsx'
 
 const WEBSOCKET_URL = __WEBSOCKET_URL__
-
-console.log(marked('I am using __markdown__.'));
 
 class Main extends React.Component {
   constructor(props) {
@@ -29,6 +27,7 @@ class Main extends React.Component {
     return (
     <div>
       <Header />
+      <Code />
       <h1>{this.props.translation.hello }</h1>
       {showConnectionError && 
        <Alert bsStyle="danger" onDismiss={() => false}>
