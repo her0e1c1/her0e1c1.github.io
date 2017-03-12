@@ -31,13 +31,13 @@ class Main extends React.Component {
       <h1>{this.props.translation.hello }</h1>
       {showConnectionError && 
        <Alert bsStyle="danger" onDismiss={() => false}>
-         CONNECTION ERROR!
+         PHOENIX CONNECTION ERROR!
        </Alert>
       }
       <Schemejs />
       <Sample />
       <Topic socket={socket} topic={"chat:client"} events={["bot", "new", "from_slack", "event"]} />
-      個人投資家のためのサイト開発中です! => <a href="https://f1nance.herokuapp.com">pystock</a>
+      {/* 個人投資家のためのサイト開発中です! => <a href="https://f1nance.herokuapp.com">pystock</a> */}
     </div>
   )}
 }
