@@ -13,17 +13,25 @@ const devConfig = {
     path: './',
   },
   module: {
-    loaders: [{
+    rules: [{
+      test: /\.md$/,
+      use: [{
+        loader: "html-loader"
+      }, {
+        loader: "markdown-loader",
+        options: {
+          pedantic: true,
+          renderer
+        }
+      }]
+    }, {
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel-loader',
-    }, {
-      test: /\.json$/,
-      loaders: [
-        'json-loader',
-      ]
-    }]
-  },
+      use: [{
+        loader: 'babel-loader'
+      }]
+    },
+  ]},
   resolve: {
     // extensions: ['', 'js', 'jsx'],
     alias: {

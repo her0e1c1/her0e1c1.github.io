@@ -21,8 +21,10 @@
     "css-loader": "^0.26.1",
     "html-webpack-plugin": "^2.25.0",
     "json-loader": "^0.5.4",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "html-loader": "^0.4.5",
+    "webpack-dev-server": "^1.16.2",
+    "markdown-loader": "^2.0.0",
+    "webpack": "^2.2.1"
   },
   "dependencies": {
     "marked": "^0.3.6",

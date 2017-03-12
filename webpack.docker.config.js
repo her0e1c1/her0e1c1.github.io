@@ -1,13 +1,17 @@
+const path = require('path')
 const devConfig = require('./webpack.dev.config.js')
 
 const dockerConfig = {
   ...devConfig,
   resolve: {
     ...devConfig.resolve,
-    root: ['/app/node_modules']
+    modules: [
+      path.resolve('./src'),
+      '/app/node_modules',
+    ],
   },
   resolveLoader: {
-    modulesDirectories: [
+    modules: [
         '/app/node_modules',
     ]
   }
