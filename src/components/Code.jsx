@@ -7,6 +7,7 @@ import "highlight.js/styles/dark.css"
 import "./code.css"
 
 import Header from './Header.jsx'
+var Swipeable = require('react-swipeable')
 
 const HOST = __HOST__
 
@@ -18,25 +19,27 @@ const fetchCode = (path) => new Promise((resolve, reject) => {
 class Code extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {code: "", codes: [], disableScroll: false}
-    __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [code,...this.state.codes]})))
+    this.state = {index: 0, codes: [], disableScroll: false}
+    __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [{code, name: c} ,...this.state.codes]})))
   }
 
   render() {
-    const {codes, disableScroll} = this.state
+    const {codes, disableScroll, index} = this.state
+    let code = ""
+    if (codes.length > 0) {
+      code = codes[index].code
+    }
+    /* <div key={idx} onClick={() => this.setState({disableScroll: !this.state.disableScroll})}>
+     * </div>*/
     return (
       <div>
         <Header />
-        <button type="button" onClick={() => this.refs.code.prev()}>Prev</button>
-        <button type="button" onClick={() => this.refs.code.next()}>Next</button>
+        <button type="button" onClick={() => this.setState({index: this.state.index - 1})}>Prev</button>
+        <button type="button" onClick={() =>this.setState({index: this.state.index + 1}) }>Next</button>
         {disableScroll ? "ON" : "OFF"}
-        <ReactSwipe key={codes.length} ref="code" className="mySwipe" swipeOptions={{disableScroll}}>
-        {codes.map((code, idx) => 
-          <div key={idx} onClick={() => this.setState({disableScroll: !this.state.disableScroll})}>
+        <Swipeable onSwipingRight={e => this.setState({index: this.state.index + 1})} ref="code">
             <Highlight className='go'>{code}</Highlight>
-          </div>
-        )}
-        </ReactSwipe>
+        </Swipeable>
       </div>
   )}
 }
