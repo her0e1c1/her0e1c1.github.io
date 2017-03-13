@@ -6,4 +6,5 @@
     letter-spacing: 0px;
     background-color: black;
     white-space: pre;
+    word-wrap: normal;
 }
