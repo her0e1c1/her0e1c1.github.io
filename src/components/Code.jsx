@@ -18,20 +18,21 @@ const fetchCode = (path) => new Promise((resolve, reject) => {
 class Code extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {code: "", codes: []}
+    this.state = {code: "", codes: [], disableScroll: false}
     __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [code,...this.state.codes]})))
   }
 
   render() {
-    const {codes} = this.state
+    const {codes, disableScroll} = this.state
     return (
       <div>
         <Header />
         <button type="button" onClick={() => this.refs.code.prev()}>Prev</button>
         <button type="button" onClick={() => this.refs.code.next()}>Next</button>
-        <ReactSwipe key={codes.length} ref="code" className="mySwipe">
+        {disableScroll ? "ON" : "OFF"}
+        <ReactSwipe key={codes.length} ref="code" className="mySwipe" swipeOptions={{disableScroll}}>
         {codes.map((code, idx) => 
-          <div key={idx}>
+          <div key={idx} onClick={() => this.setState({disableScroll: !this.state.disableScroll})}>
             <Highlight className='go'>{code}</Highlight>
           </div>
         )}
