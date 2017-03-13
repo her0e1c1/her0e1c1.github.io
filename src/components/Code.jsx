@@ -2,8 +2,8 @@ import React from 'react'
 import { Alert, Button } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import Highlight from 'react-highlight'
-
-// var path = require("path")
+import "highlight.js/styles/dark.css"
+import "./code.css"
 
 const HOST = __HOST__
 
@@ -24,7 +24,7 @@ class Code extends React.Component {
       <div>
       {codes.map(code => 
         <Highlight className='go'>
-          {code}
+         {code}
         </Highlight>
       )}
       </div>

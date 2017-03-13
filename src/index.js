@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 
 import Root from './components/Root.jsx'
 import Reducers from './reducers/index.jsx'
-import "highlight.js/styles/dark.css"
 import 'whatwg-fetch'
 
 let store = createStore(Reducers)
