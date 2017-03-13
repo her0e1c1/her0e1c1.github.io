@@ -1,9 +1,12 @@
 import React from 'react'
 import { Alert, Button } from 'react-bootstrap'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import Highlight from 'react-highlight'
+import ReactSwipe from 'react-swipe'
 import "highlight.js/styles/dark.css"
 import "./code.css"
+
+import Header from './Header.jsx'
 
 const HOST = __HOST__
 
@@ -18,15 +21,21 @@ class Code extends React.Component {
     this.state = {code: "", codes: []}
     __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [code,...this.state.codes]})))
   }
+
   render() {
     const {codes} = this.state
     return (
       <div>
-      {codes.map(code => 
-        <Highlight className='go'>
-         {code}
-        </Highlight>
-      )}
+        <Header />
+        <button type="button" onClick={() => this.refs.code.prev()}>Prev</button>
+        <button type="button" onClick={() => this.refs.code.next()}>Next</button>
+        <ReactSwipe key={codes.length} ref="code" className="mySwipe">
+        {codes.map((code, idx) => 
+          <div key={idx}>
+            <Highlight className='go'>{code}</Highlight>
+          </div>
+        )}
+        </ReactSwipe>
       </div>
   )}
 }
