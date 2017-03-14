@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { Alert, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import Highlight from 'react-highlight'
@@ -26,13 +27,17 @@ class Code extends React.Component {
   }
 
   next() {
-    if (!this.state.disableScroll && this.state.index < this.state.codes.length)
-      this.setState({index: this.state.index + 1});
+    if (!this.state.disableScroll && this.state.index < this.state.codes.length) {
+      this.setState({index: this.state.index + 1})
+      ReactDOM.findDOMNode(this.refs.code).children[0].scrollLeft = 0  // pre > code
+    }
   }
 
   prev() {
-    if (!this.state.disableScroll && this.state.index > 0)
+    if (!this.state.disableScroll && this.state.index > 0) {
       this.setState({index: this.state.index - 1});
+      ReactDOM.findDOMNode(this.refs.code).children[0].scrollLeft = 0  // pre > code
+    }
   }
 
   render() {
@@ -43,17 +48,20 @@ class Code extends React.Component {
     }
     return (
       <div>
-        <Header />
-        <button type="button" onClick={this.prev}>Prev</button>
-        <button type="button" onClick={this.next}>Next</button>
-        {disableScroll ? "ON" : "OFF"}
-        <Swipeable
-          onSwipedRight={this.prev}
-          onSwipedLeft={this.next}
-          onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
-        >
-            <Highlight className='go'>{code}</Highlight>
-        </Swipeable>
+        <div style={{position: "fixed", backgroundColor: "black", width: "100%"}}>
+          <button type="button" onClick={this.prev}>Prev</button>
+          <button type="button" onClick={this.next}>Next</button>
+          {disableScroll ? "ON" : "OFF"}
+        </div>
+        <div style={{height: "600px", overflow: "scroll", paddingTop: "20px"}}>
+          <Swipeable
+            onSwipedRight={this.prev}
+            onSwipedLeft={this.next}
+            onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
+          >
+           <Highlight className='go' ref="code">{code}</Highlight>
+         </Swipeable>
+       </div>
       </div>
   )}
 }
