@@ -20,24 +20,26 @@ class Code extends React.Component {
   constructor(props) {
     super(props)
     this.state = {index: 0, codes: [], disableScroll: false}
-    __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [{code, name: c} ,...this.state.codes]})))
+    __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [...this.state.codes, {code, name: c}]})))
   }
 
   render() {
     const {codes, disableScroll, index} = this.state
     let code = ""
-    if (codes.length > 0) {
+    if (0 <= index && index < codes.length) {
       code = codes[index].code
     }
-    /* <div key={idx} onClick={() => this.setState({disableScroll: !this.state.disableScroll})}>
-     * </div>*/
     return (
       <div>
         <Header />
         <button type="button" onClick={() => this.setState({index: this.state.index - 1})}>Prev</button>
         <button type="button" onClick={() =>this.setState({index: this.state.index + 1}) }>Next</button>
         {disableScroll ? "ON" : "OFF"}
-        <Swipeable onSwipingRight={e => this.setState({index: this.state.index + 1})} ref="code">
+        <Swipeable
+          onSwipedRight={e => this.setState({index: this.state.index - 1})}
+          onSwipedLeft={e => this.setState({index: this.state.index + 1})}
+          onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
+        >
             <Highlight className='go'>{code}</Highlight>
         </Swipeable>
       </div>
