@@ -30,8 +30,8 @@ class Code extends React.Component {
     if (!this.state.disableScroll && this.state.index < this.state.codes.length) {
       this.setState({index: this.state.index + 1})
       let code = ReactDOM.findDOMNode(this.refs.code).children[0]
-      code.scrollTop = 0
       code.scrollLeft = 0
+      ReactDOM.findDOMNode(this).scrollIntoView()
     }
   }
 
@@ -39,8 +39,8 @@ class Code extends React.Component {
     if (!this.state.disableScroll && this.state.index > 0) {
       this.setState({index: this.state.index - 1});
       let code = ReactDOM.findDOMNode(this.refs.code).children[0]
-      code.scrollTop = 0
       code.scrollLeft = 0
+      ReactDOM.findDOMNode(this).scrollIntoView()
     }
   }
 
@@ -52,12 +52,12 @@ class Code extends React.Component {
     }
     return (
       <div>
-        <div style={{position: "fixed", backgroundColor: "black", width: "100%"}}>
+        <div style={{position: "fixed", backgroundColor: "black", width: "100%", fontSize: "1.2em"}}>
           <button type="button" onClick={this.prev}>Prev</button>
           <button type="button" onClick={this.next}>Next</button>
           {disableScroll ? "ON" : "OFF"}
         </div>
-        <div style={{height: "600px", overflow: "scroll", paddingTop: "20px"}}>
+        <div style={{paddingTop: "15px"}}>
           <Swipeable
             onSwipedRight={this.prev}
             onSwipedLeft={this.next}
