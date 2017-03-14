@@ -17,10 +17,17 @@ const fetchCode = (path) => new Promise((resolve, reject) => {
     .then(r => resolve(r.text()))
 })
 
+const List = ({parent, names}) => (
+  <ul>
+    {names.map((n, i) =>
+      <li key={i} onClick={() => parent.setState({index: i, showList: false})}>{n}</li>
+     )}
+ </ul>)
+
 class Code extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {index: 0, codes: [], disableScroll: false}
+    this.state = {index: 0, codes: [], disableScroll: false, showList: false}
     __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [...this.state.codes, {code, name: c}]})))
     this.next = this.next.bind(this)
     this.prev = this.prev.bind(this)
@@ -45,20 +52,24 @@ class Code extends React.Component {
   }
 
   render() {
-    const {codes, disableScroll, index} = this.state
+    const {codes, disableScroll, index, showList} = this.state
     let code = ""
+    let name = ""
     if (0 <= index && index < codes.length) {
       code = codes[index].code
+      name = codes[index].name
     }
     return (
       <div>
+        {showList &&<List parent={this} names={__CODES__}/>}
         <div style={{position: "fixed", backgroundColor: "black", width: "100%", fontSize: "1.2em"}}>
           <button type="button" onClick={this.prev}>Prev</button>
           <button type="button" onClick={this.next}>Next</button>
           {disableScroll ? "ON" : "OFF"}
+          {' '}{name}
+          {' '}<span onClick={() => this.setState({showList: true})}>CODES</span>
         </div>
-        {/* minHeightは白の余白ができるのを防ぐ */}
-        <div style={{paddingTop: "15px", minHeight: "600px"}}>
+        <div style={{paddingTop: "15px"}}>
           <Swipeable
             onSwipedRight={this.prev}
             onSwipedLeft={this.next}
