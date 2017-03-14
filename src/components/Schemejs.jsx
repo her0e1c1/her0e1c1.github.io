@@ -29,7 +29,7 @@ class Schemejs extends React.Component {
       this.setState({showSchemejs: true})  // import `parse`
     })
     this.state = {showSchemejs: false, code: codes.hello}
-    this.changeCode = this.changeCode.bind(this);
+    this.changeCode = this.changeCode.bind(this)
   }
 
   changeCode(key) {

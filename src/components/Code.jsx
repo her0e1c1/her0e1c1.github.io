@@ -21,6 +21,18 @@ class Code extends React.Component {
     super(props)
     this.state = {index: 0, codes: [], disableScroll: false}
     __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [...this.state.codes, {code, name: c}]})))
+    this.next = this.next.bind(this)
+    this.prev = this.prev.bind(this)
+  }
+
+  next() {
+    if (!this.state.disableScroll && this.state.index < this.state.codes.length)
+      this.setState({index: this.state.index + 1});
+  }
+
+  prev() {
+    if (!this.state.disableScroll && this.state.index > 0)
+      this.setState({index: this.state.index - 1});
   }
 
   render() {
@@ -32,12 +44,12 @@ class Code extends React.Component {
     return (
       <div>
         <Header />
-        <button type="button" onClick={() => this.setState({index: this.state.index - 1})}>Prev</button>
-        <button type="button" onClick={() =>this.setState({index: this.state.index + 1}) }>Next</button>
+        <button type="button" onClick={this.prev}>Prev</button>
+        <button type="button" onClick={this.next}>Next</button>
         {disableScroll ? "ON" : "OFF"}
         <Swipeable
-          onSwipedRight={e => this.setState({index: this.state.index - 1})}
-          onSwipedLeft={e => this.setState({index: this.state.index + 1})}
+          onSwipedRight={this.prev}
+          onSwipedLeft={this.next}
           onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
         >
             <Highlight className='go'>{code}</Highlight>
