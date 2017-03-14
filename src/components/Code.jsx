@@ -29,14 +29,18 @@ class Code extends React.Component {
   next() {
     if (!this.state.disableScroll && this.state.index < this.state.codes.length) {
       this.setState({index: this.state.index + 1})
-      ReactDOM.findDOMNode(this.refs.code).children[0].scrollLeft = 0  // pre > code
+      let code = ReactDOM.findDOMNode(this.refs.code).children[0]
+      code.scrollTop = 0
+      code.scrollLeft = 0
     }
   }
 
   prev() {
     if (!this.state.disableScroll && this.state.index > 0) {
       this.setState({index: this.state.index - 1});
-      ReactDOM.findDOMNode(this.refs.code).children[0].scrollLeft = 0  // pre > code
+      let code = ReactDOM.findDOMNode(this.refs.code).children[0]
+      code.scrollTop = 0
+      code.scrollLeft = 0
     }
   }
 
