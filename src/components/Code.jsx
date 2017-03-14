@@ -57,7 +57,8 @@ class Code extends React.Component {
           <button type="button" onClick={this.next}>Next</button>
           {disableScroll ? "ON" : "OFF"}
         </div>
-        <div style={{paddingTop: "15px", minHeight: "600px"}}>  // minHeightは白の余白ができるのを防ぐ
+        {/* minHeightは白の余白ができるのを防ぐ */}
+        <div style={{paddingTop: "15px", minHeight: "600px"}}>
           <Swipeable
             onSwipedRight={this.prev}
             onSwipedLeft={this.next}
