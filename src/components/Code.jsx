@@ -1,14 +1,25 @@
+import path from 'path'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Alert, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import katex from 'katex'
 import Highlight from 'react-highlight'
-import ReactSwipe from 'react-swipe'
 import "highlight.js/styles/dark.css"
+import Swipeable from 'react-swipeable'
 import "./code.css"
-
 import Header from './Header.jsx'
-var Swipeable = require('react-swipeable')
+
+export class Tex extends React.Component{
+  render(){
+    let { texContent } = this.props;
+    let katexString = katex.renderToString(texContent,{"throwOnError":false});
+    console.log(katexString)
+    return(
+      <span dangerouslySetInnerHTML={{__html: katexString.replace("AA", "<br />")}}/>
+    )
+  }
+}
 
 const fetchCode = (path) => new Promise((resolve, reject) => {
   fetch(`http://${__HOST__}/${path}`)
@@ -21,6 +32,13 @@ const List = ({parent, names}) => (
       <li key={i} onClick={() => parent.setState({index: i, showList: false})}>{n}</li>
      )}
  </ul>)
+
+/* const a = String.raw`
+ * a_N = (a_1 a_2 ... a_N) = \hat{a}
+ * a_N = (a_1 a_2 ... a_N) = \hat{a}
+ * \bigskip
+ * This is the first line of the next paragraph.
+ * `*/
 
 class Code extends React.Component {
   constructor(props) {
@@ -73,6 +91,7 @@ class Code extends React.Component {
       code = codes[index].code
       name = codes[index].name
     }
+    const ext = path.extname(name).substr(1)  // skip the first .
     return (
       <div>
         {showList &&<List parent={this} names={__CODES__}/>}
@@ -90,7 +109,7 @@ class Code extends React.Component {
             onSwipedLeft={this.next}
             onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
           >
-           <Highlight className='go' ref="code">{code}</Highlight>
+          <Highlight className={ext} ref="code">{code}</Highlight>
          </Swipeable>
        </div>
       </div>
