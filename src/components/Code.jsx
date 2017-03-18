@@ -10,10 +10,8 @@ import "./code.css"
 import Header from './Header.jsx'
 var Swipeable = require('react-swipeable')
 
-const HOST = __HOST__
-
 const fetchCode = (path) => new Promise((resolve, reject) => {
-  fetch("http://" + HOST + "/" + path)
+  fetch(`http://${__HOST__}/${path}`)
     .then(r => resolve(r.text()))
 })
 
@@ -42,6 +40,7 @@ class Code extends React.Component {
         fetchCode(name).then(code => {
           window.localStorage.setItem(name, code)
           codes = [...codes, {code, name}]
+          this.setState({codes})
         })
       }
     })
