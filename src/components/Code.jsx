@@ -18,7 +18,7 @@ const fetchCode = (path) => new Promise((resolve, reject) => {
 })
 
 const List = ({parent, names}) => (
-  <ul>
+  <ul style={{ fontSize: "1.5em"}}>
     {names.map((n, i) =>
       <li key={i} onClick={() => parent.setState({index: i, showList: false})}>{n}</li>
      )}
@@ -28,13 +28,28 @@ class Code extends React.Component {
   constructor(props) {
     super(props)
     this.state = {index: 0, codes: [], disableScroll: false, showList: false}
-    __CODES__.forEach(c => fetchCode(c).then(code => this.setState({codes: [...this.state.codes, {code, name: c}]})))
     this.next = this.next.bind(this)
     this.prev = this.prev.bind(this)
   }
 
+  componentDidMount() {
+    let codes = []
+    __CODES__.forEach(name => {
+      const code = window.localStorage.getItem(name)
+      if (code != undefined) {
+        codes = [...codes, {code, name}]
+      } else {
+        fetchCode(name).then(code => {
+          window.localStorage.setItem(name, code)
+          codes = [...codes, {code, name}]
+        })
+      }
+    })
+    this.setState({codes})
+  }
+
   next() {
-    if (!this.state.disableScroll && this.state.index < this.state.codes.length) {
+    if (!this.state.disableScroll && this.state.index < this.state.codes.length - 1) {
       this.setState({index: this.state.index + 1})
       let code = ReactDOM.findDOMNode(this.refs.code).children[0]
       code.scrollLeft = 0
@@ -66,6 +81,7 @@ class Code extends React.Component {
           <button type="button" onClick={this.prev}>Prev</button>
           <button type="button" onClick={this.next}>Next</button>
           {disableScroll ? "ON" : "OFF"}
+          {' '}{index}/{codes.length-1}
           {' '}{name}
           {' '}<span onClick={() => this.setState({showList: true})}>CODES</span>
         </div>
