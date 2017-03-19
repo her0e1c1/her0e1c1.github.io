@@ -28,12 +28,27 @@ const getExt = name => path.extname(name).substr(1)  // skip the first "."
 
 const Lang = ({parent}) => {
   const l = new Set(parent.state.ALLCODES.map(code => getExt(code.name)))
+  const category = parent.state.category
   return (
     <NavDropdown title={parent.state.lang || "language"} id="language">
-      <MenuItem key={"all"} active={!parent.state.lang} onClick={() => parent.filter({lang: null})} >all</MenuItem>
+      <MenuItem key={"all"} active={!parent.state.lang} onClick={() => parent.filter({lang: null, category})} >all</MenuItem>
     {[...l].map(lang =>
       <MenuItem key={lang} active={lang == parent.state.lang}
-       onClick={() => parent.filter({lang})}>{lang}
+       onClick={() => parent.filter({lang, category})}>{lang}
+      </MenuItem>
+    )}
+  </NavDropdown>
+  )}
+
+const Category = ({parent}) => {
+  const l = ["sort", "cases"]
+  const lang = parent.state.lang
+  return (
+    <NavDropdown title={parent.state.category || "category"} id="category">
+      <MenuItem key={"all"} active={!parent.state.category} onClick={() => parent.filter({lang, category: null})} >all</MenuItem>
+    {l.map(c =>
+      <MenuItem key={c} active={c == parent.state.category}
+       onClick={() => parent.filter({category: c, lang})}>{c}
       </MenuItem>
     )}
   </NavDropdown>
@@ -65,6 +80,7 @@ class Header extends React.Component {
             parent.setState({codes})})
             } >UPDATE</Button></li>
             <Lang parent={this.props.parent} />
+            <Category parent={this.props.parent} />
           </ul>
         </div>
     )}
@@ -75,12 +91,14 @@ class Code extends React.Component {
     super(props)
     const index = parseInt(window.localStorage.getItem("index")) || 0
     const lang = window.localStorage.getItem("lang")
+    const category = window.localStorage.getItem("category")
     this.state = {
       codes: [],
       ALLCODES: [],
       disableScroll: false,
       showList: false,
       lang,
+      category,
       index
     }
     this.next = this.next.bind(this)
@@ -113,14 +131,18 @@ class Code extends React.Component {
     window.localStorage.setItem("lang", this.state.lang)
   }
 
-  filter ({lang}) {
+  filter ({lang, category}) {
     let index = 0
     const codes = this.state.ALLCODES.filter(code => {
-      if (!this.state.lang || !lang) {
-        return true
+      let ok = true
+      if (lang) {
+        const ext = getExt(code.name)
+        ok = !ext.endsWith(lang)
       }
-      const ext = getExt(code.name)
-      return ext.endsWith(lang)
+      if (category) {
+        ok = code.name.indexOf(category) >= 0
+      }
+      return ok
     }).map((code, i) => ({...code, i}))
     this.setState({codes, index, lang})
   }
