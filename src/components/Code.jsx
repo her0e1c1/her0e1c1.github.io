@@ -9,6 +9,8 @@ import Swipeable from 'react-swipeable'
 import "highlight.js/styles/dark.css"
 import "./code.css"
 
+const toNullIfNeeded = s => s == "null" ? null : s
+
 const fetchCode = (path) => new Promise((resolve, reject) => {
   fetch(`http://${__HOST__}/${path}`)
     .then(r => resolve(r.text()))
@@ -28,13 +30,13 @@ const getExt = name => path.extname(name).substr(1)  // skip the first "."
 
 const Lang = ({parent}) => {
   const l = new Set(parent.state.ALLCODES.map(code => getExt(code.name)))
-  const category = parent.state.category
+  const {lang, category} = parent.state
   return (
-    <NavDropdown title={parent.state.lang || "language"} id="language">
-      <MenuItem key={"all"} active={!parent.state.lang} onClick={() => parent.filter({lang: null, category})} >all</MenuItem>
-    {[...l].map(lang =>
-      <MenuItem key={lang} active={lang == parent.state.lang}
-       onClick={() => parent.filter({lang, category})}>{lang}
+    <NavDropdown title={lang || "language"} id="language">
+      <MenuItem key={"all"} active={!lang} onClick={() => parent.filter({lang: null, category})} >all</MenuItem>
+    {[...l].map(l =>
+      <MenuItem key={l} active={l == lang}
+       onClick={() => parent.filter({lang: l, category})}>{l}
       </MenuItem>
     )}
   </NavDropdown>
@@ -42,10 +44,10 @@ const Lang = ({parent}) => {
 
 const Category = ({parent}) => {
   const l = ["sort", "cases"]
-  const lang = parent.state.lang
+  const {lang, category} = parent.state
   return (
-    <NavDropdown title={parent.state.category || "category"} id="category">
-      <MenuItem key={"all"} active={!parent.state.category} onClick={() => parent.filter({lang, category: null})} >all</MenuItem>
+    <NavDropdown title={category || "category"} id="category">
+      <MenuItem key={"all"} active={!category} onClick={() => parent.filter({lang, category: null})} >all</MenuItem>
     {l.map(c =>
       <MenuItem key={c} active={c == parent.state.category}
        onClick={() => parent.filter({category: c, lang})}>{c}
@@ -90,8 +92,8 @@ class Code extends React.Component {
   constructor(props) {
     super(props)
     const index = parseInt(window.localStorage.getItem("index")) || 0
-    const lang = window.localStorage.getItem("lang")
-    const category = window.localStorage.getItem("category")
+    const lang = toNullIfNeeded(window.localStorage.getItem("lang"))
+    const category = toNullIfNeeded(window.localStorage.getItem("category"))
     this.state = {
       codes: [],
       ALLCODES: [],
@@ -121,7 +123,7 @@ class Code extends React.Component {
       }
     })
     this.setState({codes, ALLCODES: codes})
-    this.filter({lang: this.state.lang})
+    // this.filter({lang: this.state.lang, category: this.state.category})
   }
 
   componentDidUpdate() {
@@ -129,23 +131,24 @@ class Code extends React.Component {
       MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
     window.localStorage.setItem("index", this.state.index)
     window.localStorage.setItem("lang", this.state.lang)
+    window.localStorage.setItem("category", this.state.category)
   }
 
   filter ({lang, category}) {
     let index = 0
     const codes = this.state.ALLCODES.filter(code => {
-      let ok = true
-      if (lang) {
-        const ext = getExt(code.name)
-        ok = !ext.endsWith(lang)
+      const ext = getExt(code.name)
+      if (lang && !ext.endsWith(lang)) {
+        return false
       }
-      if (category) {
-        ok = code.name.indexOf(category) >= 0
+      if (category && code.name.indexOf(category) == -1) {
+        return false
       }
-      return ok
+      return true
     }).map((code, i) => ({...code, i}))
-    this.setState({codes, index, lang})
+    this.setState({codes, index, lang, category})
   }
+
   next() {
     if (!this.state.disableScroll && this.state.index < this.state.codes.length - 1) {
       this.setState({index: this.state.index + 1})
