@@ -6,7 +6,6 @@ import { NavDropdown, MenuItem } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import Highlight from 'react-highlight'
 import Swipeable from 'react-swipeable'
-import Header from './Header.jsx'
 import "highlight.js/styles/dark.css"
 import "./code.css"
 
@@ -19,7 +18,7 @@ const List = ({parent}) => {
   const codes = parent.state.codes
   return (
   <ul style={{ fontSize: "1.5em"}}>
-    {codes.filter(code => !parent.state.lang || code.name.endsWith(parent.state.lang)).map(code =>
+    {codes.map(code =>
       <li key={code.i} onClick={() => parent.setState({index: code.i, showList: false})}>{code.name}</li>
      )}
   </ul>
@@ -28,16 +27,48 @@ const List = ({parent}) => {
 const getExt = name => path.extname(name).substr(1)  // skip the first "."
 
 const Lang = ({parent}) => {
-  const l = new Set(parent.state.codes.map(code => getExt(code.name)))
+  const l = new Set(parent.state.ALLCODES.map(code => getExt(code.name)))
   return (
     <NavDropdown title={parent.state.lang || "language"} id="language">
+      <MenuItem key={"all"} active={!parent.state.lang} onClick={() => parent.filter({lang: null})} >all</MenuItem>
     {[...l].map(lang =>
       <MenuItem key={lang} active={lang == parent.state.lang}
-       onClick={() => parent.setState({lang})}>{lang}
+       onClick={() => parent.filter({lang})}>{lang}
       </MenuItem>
     )}
   </NavDropdown>
   )}
+
+class Header extends React.Component {
+
+  render() {
+    const parent = this.props.parent
+    const {index, codes} = parent.state
+    // TODO: refactor
+    let code = ""
+    let name = ""
+    if (0 <= index && index < codes.length) {
+      code = codes[index].code
+      name = codes[index].name
+    }
+    return (
+        <div style={{position: "fixed", backgroundColor: "black", width: "100%", fontSize: "1.2em"}}>
+          <ul style={{ border: "1px solid blue" }} className="list-inline">
+            <li><Button bsSize="xsmall" onClick={parent.prev}>Prev</Button></li>
+            <li><Button bsSize="xsmall" onClick={parent.next}>Next</Button></li>
+            <li>{index}/{codes.length-1}</li>
+            <li><Button bsSize="xsmall" onClick={() => parent.setState({showList: true})}>CODES</Button></li>
+            <li><Button bsSize="xsmall" onClick={() => fetchCode(name).then(code => {
+            let codes = parent.state.codes
+            window.localStorage.setItem(name, code)
+            codes[index] = {code, name, i: index}
+            parent.setState({codes})})
+            } >UPDATE</Button></li>
+            <Lang parent={this.props.parent} />
+          </ul>
+        </div>
+    )}
+}
 
 class Code extends React.Component {
   constructor(props) {
@@ -46,6 +77,7 @@ class Code extends React.Component {
     const lang = window.localStorage.getItem("lang")
     this.state = {
       codes: [],
+      ALLCODES: [],
       disableScroll: false,
       showList: false,
       lang,
@@ -65,11 +97,11 @@ class Code extends React.Component {
         fetchCode(name).then(code => {
           window.localStorage.setItem(name, code)
           codes = [...codes, {code, name, i}]
-          this.setState({codes})
+          this.setState({codes, ALLCODES: codes})
         })
       }
     })
-    this.setState({codes})
+    this.setState({codes, ALLCODES: codes})
   }
 
   componentDidUpdate() {
@@ -79,6 +111,17 @@ class Code extends React.Component {
     window.localStorage.setItem("lang", this.state.lang)
   }
 
+  filter ({lang}) {
+    let index = 0
+    const codes = this.state.ALLCODES.filter(code => {
+      if (!this.state.lang || !lang) {
+        return true
+      }
+      const ext = getExt(code.name)
+      return ext.endsWith(lang)
+    }).map((code, i) => ({...code, i}))
+    this.setState({codes, index, lang})
+  }
   next() {
     if (!this.state.disableScroll && this.state.index < this.state.codes.length - 1) {
       this.setState({index: this.state.index + 1})
@@ -110,26 +153,12 @@ class Code extends React.Component {
       name = codes[index].name
     }
     const ext = getExt(name)
+    const paddingTop = disableScroll ? 0 : "20px"
     return (
       <div>
         {showList &&<List parent={this} />}
-        <div style={{position: "fixed", backgroundColor: "black", width: "100%", fontSize: "1.2em"}}>
-          <ul style={{ border: "1px solid blue" }} className="list-inline">
-            <li><Button bsSize="xsmall" onClick={this.prev}>Prev</Button></li>
-            <li><Button bsSize="xsmall" onClick={this.next}>Next</Button></li>
-            <li>{disableScroll ? "ON" : "OFF"}</li>
-            <li>{index}/{codes.length-1}</li>
-            <li><Button bsSize="xsmall" onClick={() => this.setState({showList: true})}>CODES</Button></li>
-            <li><Button bsSize="xsmall" onClick={() => fetchCode(name).then(code => {
-            let codes = this.state.codes
-            window.localStorage.setItem(name, code)
-            codes[index] = {code, name, i: index}
-            this.setState({codes})})
-            } >UPDATE</Button></li>
-            <Lang parent={this} />
-          </ul>
-        </div>
-        <div style={{paddingTop: "20px"}}>
+        {!disableScroll && <Header parent={this}/>}
+        <div style={{paddingTop}}>
           <Swipeable
             onSwipedRight={this.prev}
             onSwipedLeft={this.next}
