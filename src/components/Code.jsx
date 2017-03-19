@@ -3,23 +3,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Alert, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import katex from 'katex'
 import Highlight from 'react-highlight'
-import "highlight.js/styles/dark.css"
 import Swipeable from 'react-swipeable'
-import "./code.css"
 import Header from './Header.jsx'
-
-export class Tex extends React.Component{
-  render(){
-    let { texContent } = this.props;
-    let katexString = katex.renderToString(texContent,{"throwOnError":false});
-    console.log(katexString)
-    return(
-      <span dangerouslySetInnerHTML={{__html: katexString.replace("AA", "<br />")}}/>
-    )
-  }
-}
+import "highlight.js/styles/dark.css"
+import "./code.css"
 
 const fetchCode = (path) => new Promise((resolve, reject) => {
   fetch(`http://${__HOST__}/${path}`)
@@ -33,17 +21,11 @@ const List = ({parent, names}) => (
      )}
  </ul>)
 
-/* const a = String.raw`
- * a_N = (a_1 a_2 ... a_N) = \hat{a}
- * a_N = (a_1 a_2 ... a_N) = \hat{a}
- * \bigskip
- * This is the first line of the next paragraph.
- * `*/
-
 class Code extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {index: 0, codes: [], disableScroll: false, showList: false}
+    const index = parseInt(window.localStorage.getItem("index")) || 0
+    this.state = {index, codes: [], disableScroll: false, showList: false}
     this.next = this.next.bind(this)
     this.prev = this.prev.bind(this)
   }
@@ -65,21 +47,31 @@ class Code extends React.Component {
     this.setState({codes})
   }
 
+  componentDidUpdate() {
+    if (typeof MathJax !== "undefined")
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    window.localStorage.setItem("index", this.state.index)
+  }
+
   next() {
     if (!this.state.disableScroll && this.state.index < this.state.codes.length - 1) {
       this.setState({index: this.state.index + 1})
-      let code = ReactDOM.findDOMNode(this.refs.code).children[0]
-      code.scrollLeft = 0
       ReactDOM.findDOMNode(this).scrollIntoView()
+      let code = ReactDOM.findDOMNode(this.refs.code)
+      if (code && code.children.length > 0) {
+        code.children[0].scrollLeft = 0
+      }
     }
   }
 
   prev() {
     if (!this.state.disableScroll && this.state.index > 0) {
       this.setState({index: this.state.index - 1});
-      let code = ReactDOM.findDOMNode(this.refs.code).children[0]
-      code.scrollLeft = 0
       ReactDOM.findDOMNode(this).scrollIntoView()
+      let code = ReactDOM.findDOMNode(this.refs.code)
+      if (code && code.children.length > 0) {
+        code.children[0].scrollLeft = 0
+      }
     }
   }
 
@@ -91,7 +83,7 @@ class Code extends React.Component {
       code = codes[index].code
       name = codes[index].name
     }
-    const ext = path.extname(name).substr(1)  // skip the first .
+    const ext = path.extname(name).substr(1)  // skip the first "."
     return (
       <div>
         {showList &&<List parent={this} names={__CODES__}/>}
@@ -100,8 +92,14 @@ class Code extends React.Component {
           <button type="button" onClick={this.next}>Next</button>
           {disableScroll ? "ON" : "OFF"}
           {' '}{index}/{codes.length-1}
-          {' '}{name}
-          {' '}<span onClick={() => this.setState({showList: true})}>CODES</span>
+          {/*' '}{name*/}
+          {' '}<Button onClick={() => this.setState({showList: true})}>CODES</Button>
+          {' '}<Button onClick={() => fetchCode(name).then(code => {
+            let codes = this.state.codes
+            window.localStorage.setItem(name, code)
+            codes[index] = {code, name}
+            this.setState({codes})})
+          } >UPDATE</Button>
         </div>
         <div style={{paddingTop: "15px"}}>
           <Swipeable
@@ -109,7 +107,11 @@ class Code extends React.Component {
             onSwipedLeft={this.next}
             onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
           >
-          <Highlight className={ext} ref="code">{code}</Highlight>
+          {ext == "tex" ?
+            <div ref="code" dangerouslySetInnerHTML={{__html: code}} style={{paddingTop: "20px"}}/>
+            :
+            <Highlight className={ext} ref="code">{code}</Highlight>
+          }
          </Swipeable>
        </div>
       </div>

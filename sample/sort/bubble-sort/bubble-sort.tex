@@ -1,16 +1,9 @@
-bubble sortは末尾からsortされる ::
-
-   1回目     : 0 <= j <= size - 1
-   2回目     : 0 <= j <= size - 2
-   size-1回目: 0 <= j <= size - (size-1) = 1
-   size回目  : 0 <= j <= size - size = 0 (meaningless)
-
-数列a_N = (a_1 a_2 ... a_N) = \hat{a} S.T.
-g(N)        &=& \hat{a}
-g(i-1)      &=& f(i, i)
-f(0, end)   &=& g(end)
-f(j+1, end) &=&
-\begin{cases}
-  swap(f(j, end), j, j+1) & (IF a_j > a_{j+1})
-  f(j, end)               & (else \mbox{j >= endの場合、f(j, end) = f(j+n, end)なので、プログラム上はループ終了})
-\end{cases}
+Bubble sort sorts an array from its tail.
+$$
+\begin{array}{ll}
+1     & 0 \le j \le & size - 1 \\
+2     & 0 \le j \le & size - 2 \\
+size-1& 0 \le j \le & size - (size-1) & = 1 \\
+size  & 0 \le j \le & size - size & = 0 (NOTHING)
+\end{array}
+$$
