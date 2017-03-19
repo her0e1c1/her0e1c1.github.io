@@ -56,7 +56,7 @@ class Header extends React.Component {
           <ul style={{ border: "1px solid blue" }} className="list-inline">
             <li><Button bsSize="xsmall" onClick={parent.prev}>Prev</Button></li>
             <li><Button bsSize="xsmall" onClick={parent.next}>Next</Button></li>
-            <li>{index}/{codes.length-1}</li>
+            <li>{index}{codes.length > 0 ? `/${codes.length-1}` : ""}</li>
             <li><Button bsSize="xsmall" onClick={() => parent.setState({showList: true})}>CODES</Button></li>
             <li><Button bsSize="xsmall" onClick={() => fetchCode(name).then(code => {
             let codes = parent.state.codes
@@ -85,6 +85,7 @@ class Code extends React.Component {
     }
     this.next = this.next.bind(this)
     this.prev = this.prev.bind(this)
+    this.filter = this.filter.bind(this)
   }
 
   componentDidMount() {
@@ -102,6 +103,7 @@ class Code extends React.Component {
       }
     })
     this.setState({codes, ALLCODES: codes})
+    this.filter({lang: this.state.lang})
   }
 
   componentDidUpdate() {
@@ -156,21 +158,22 @@ class Code extends React.Component {
     const paddingTop = disableScroll ? 0 : "20px"
     return (
       <div>
-        {showList &&<List parent={this} />}
+      {showList ? <List parent={this} /> :
+        <div>
         {!disableScroll && <Header parent={this}/>}
-        <div style={{paddingTop}}>
-          <Swipeable
-            onSwipedRight={this.prev}
-            onSwipedLeft={this.next}
-            onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
-          >
-          {ext == "tex" ?
-            <div ref="code" dangerouslySetInnerHTML={{__html: code}} style={{paddingTop: "20px"}}/>
-            :
-            <Highlight className={ext} ref="code">{code}</Highlight>
-          }
-         </Swipeable>
-       </div>
+         <div style={{paddingTop}}>
+           <Swipeable
+             onSwipedRight={this.prev}
+             onSwipedLeft={this.next}
+             onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
+           >
+             {ext == "tex" ? <div ref="code" dangerouslySetInnerHTML={{__html: code}} style={{paddingTop: "20px"}}/> :
+              <Highlight className={ext} ref="code">{code}</Highlight>
+             }
+           </Swipeable>
+         </div>
+         </div>
+      }
       </div>
   )}
 }
