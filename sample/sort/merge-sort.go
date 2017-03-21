@@ -39,7 +39,7 @@ func Sort(a []int, left, right int) {
 	for i := 0; i < size; i++ {
 		// left <= left+i < left+size = right+1
 		// =>
-		// left <= a[left+1] <= right
+		// left <= a[left+i] <= right
 		a[left+i] = buf[i]
 	}
 }

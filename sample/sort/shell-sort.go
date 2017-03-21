@@ -1,26 +1,14 @@
 package main
 
-/*
-gap == 1の場合が、insert sort
-分割したinsert sortというだけ
-
-なので最終的には、gap == 1でソートされる
-*/
-
 import "fmt"
 
 type ShellSort []int
 
-func (x ShellSort) swap(a, b int) {
-	x[a], x[b] = x[b], x[a]
-}
-
-// MEMO:
 func (x ShellSort) Sort() {
 	for gap := len(x) / 2; gap >= 1; gap /= 2 {
 		for i := 0; i < len(x); i++ {
 			for j := i; j-gap >= 0 && x[j-gap] > x[j]; j -= gap {
-				x.swap(j-gap, j)
+                x[j], x[j-gap] = x[j-gap], x[j]
 			}
 		}
 	}

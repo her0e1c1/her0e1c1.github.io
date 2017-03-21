@@ -2,14 +2,7 @@ package main
 
 import "fmt"
 
-// Ok = sum CNT(i) (0 <= i < k)
-// Ok <= k < O(k+1)
-
-// 範囲が決まっていれば、個数を調べて、offsetで並べる
-// ORDER: size + range
-
-// [0, max)
-func Sort(a []int, max int) []int {
+func BucketSort(a []int, max int) []int {
 	cnt := make([]int, max)
 	for _, n := range a {
 		cnt[n]++
@@ -29,7 +22,7 @@ func Sort(a []int, max int) []int {
 	return buf
 }
 
-func main () {
-	a := []int {3,1,4,1,5,9,2,6,5,3,5,8,9}
-	fmt.Println(Sort(a, 10))
+func main() {
+	a := []int{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9}
+	fmt.Println(BucketSort(a, 10))
 }
