@@ -118,12 +118,11 @@ class Code extends React.Component {
         fetchCode(name).then(code => {
           window.localStorage.setItem(name, code)
           codes = [...codes, {code, name, i}]
-          this.setState({codes, ALLCODES: codes})
+          this.setState({codes: this._filter(codes), ALLCODES: codes})
         })
       }
     })
-    this.setState({codes, ALLCODES: codes})
-    // this.filter({lang: this.state.lang, category: this.state.category})
+    this.setState({codes: this._filter({...this.state, codes}), ALLCODES: codes})
   }
 
   componentDidUpdate() {
@@ -134,9 +133,8 @@ class Code extends React.Component {
     window.localStorage.setItem("category", this.state.category)
   }
 
-  filter ({lang, category}) {
-    let index = 0
-    const codes = this.state.ALLCODES.filter(code => {
+  _filter ({lang, category, codes=[]}) {
+    return codes.filter(code => {
       const ext = getExt(code.name)
       if (lang && !ext.endsWith(lang)) {
         return false
@@ -146,6 +144,11 @@ class Code extends React.Component {
       }
       return true
     }).map((code, i) => ({...code, i}))
+  }
+
+  filter ({lang, category}) {
+    let index = 0
+    const codes = this._filter({lang, category, codes: this.state.ALLCODES})
     this.setState({codes, index, lang, category})
   }
 
