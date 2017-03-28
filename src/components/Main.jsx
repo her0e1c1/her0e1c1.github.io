@@ -35,7 +35,6 @@ class Main extends React.Component {
       <Schemejs />
       <Sample />
       <Topic socket={socket} topic={"chat:client"} events={["bot", "new", "from_slack", "event"]} />
-      {/* 個人投資家のためのサイト開発中です! => <a href="https://f1nance.herokuapp.com">pystock</a> */}
     </div>
   )}
 }
