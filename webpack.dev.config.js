@@ -43,7 +43,6 @@ const devConfig = {
     },
   ]},
   resolve: {
-    // extensions: ['', 'js', 'jsx'],
     alias: {
       assets: path.resolve('./assets'),
     }
