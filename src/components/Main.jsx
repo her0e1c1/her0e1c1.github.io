@@ -22,15 +22,12 @@ class Main extends React.Component {
   }
   render() {
     const {socket, showConnectionError} = this.state
-    console.log(this.props)
     return (
     <div>
       <Header />
-      <h1>{this.props.translation.hello }</h1>
+      <h1>{this.props.translation.hello}</h1>
       {showConnectionError && 
-       <Alert bsStyle="danger" onDismiss={() => false}>
-         PHOENIX CONNECTION ERROR!
-       </Alert>
+       <Alert bsStyle="danger" onDismiss={() => false}>PHOENIX CONNECTION ERROR!</Alert>
       }
       <Schemejs />
       <Sample />
