@@ -109,6 +109,9 @@ class Code extends React.Component {
   }
 
   componentDidMount() {
+    const setState = ({codes}) =>
+      this.setState({codes: this._filter({...this.state, codes}), ALLCODES: codes})
+
     let codes = []
     __CODES__.forEach((name, i) => {
       const code = window.localStorage.getItem(name)
@@ -118,11 +121,11 @@ class Code extends React.Component {
         fetchCode(name).then(code => {
           window.localStorage.setItem(name, code)
           codes = [...codes, {code, name, i}]
-          this.setState({codes: this._filter(codes), ALLCODES: codes})
+          setState({codes})
         })
       }
     })
-    this.setState({codes: this._filter({...this.state, codes}), ALLCODES: codes})
+    setState({codes})
   }
 
   componentDidUpdate() {
