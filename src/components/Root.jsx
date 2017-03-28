@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import Main from './Main.jsx'
 import About from './About.jsx'
 import Resume from './Resume.jsx'
-import Code from './Code.jsx'
+import Code from './Code/index.jsx'
 
 const Footer = () =>
   <footer />
