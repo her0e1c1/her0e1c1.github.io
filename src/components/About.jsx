@@ -18,7 +18,6 @@ class About extends React.Component {
   render() {
     return (
       <div>
-        <Header />
         <h1>{this.props.translation.about}</h1>
         <p>{this.props.translation.introduce}</p>
         <ListGroup className="list-inline">
