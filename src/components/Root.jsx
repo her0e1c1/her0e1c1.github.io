@@ -1,9 +1,9 @@
 import React from 'react'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
-import Main from './Main.jsx'
+import Main from './Samples/index.jsx'
 import About from './About.jsx'
-import Resume from './Resume.jsx'
+import Resume from './Resume/index.jsx'
 import Code from './Code/index.jsx'
 
 const Footer = () =>

@@ -1,23 +1,19 @@
 import React from 'react'
 import { Alert, Button } from 'react-bootstrap'
 import { connect } from 'react-redux';
-import {Socket} from './../phoenix.js'
+import {Socket} from './../../phoenix.js'
 
+import Header from '../Header.jsx'
 import Schemejs from './Schemejs.jsx'
-import Topic from './Topic.jsx'
-import Header from './Header.jsx'
-import Sample from './Sample.jsx'
+import Topic from './PhoenixClient.jsx'
+import Sample from './CsvParser.jsx'
 
 const WEBSOCKET_URL = __WEBSOCKET_URL__
-
-
-// sample => schemajs / parser / topic(phonenix client)
 
 
 class Main extends React.Component {
   constructor(props) {
     super(props)
-
     const socket = new Socket(WEBSOCKET_URL)
     socket.connect()
     socket.onError(() => this.setState({showConnectionError: true}))

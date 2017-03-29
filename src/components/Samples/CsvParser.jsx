@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert, Grid, Row, Col, Button, DropdownButton, MenuItem } from 'react-bootstrap'
-import { runCsvParser } from './sample/csv.js'
+import { runCsvParser } from './CsvParser.js'
 
 const inputCSV = `\
 a,b,c
