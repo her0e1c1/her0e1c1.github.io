@@ -1,4 +1,5 @@
 import React from 'react'
+import {Socket} from './../../phoenix.js'
 
 class Command extends React.Component {
   constructor(props) {

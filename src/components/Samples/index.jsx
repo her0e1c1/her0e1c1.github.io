@@ -1,19 +1,19 @@
 import React from 'react'
-import { Alert, Button } from 'react-bootstrap'
+import { ListGroup, ListGroupItem } from 'react-bootstrap'
 import { connect } from 'react-redux';
-import {Socket} from './../../phoenix.js'
-
-import Schemejs from './Schemejs.jsx'
-import PhoenixClient from './PhoenixClient.jsx'
-import Sample from './CsvParser.jsx'
+import { Link } from 'react-router'
 
 class Main extends React.Component {
   render() {
     return (
     <div>
       <h1>{this.props.translation.hello}</h1>
-      <Schemejs />
-      <Sample />
+      <ListGroup className="list-inline">
+        <ListGroupItem><Link to="/samples">Schemejs</Link></ListGroupItem>
+        <ListGroupItem><Link to="/samples/csv-parser">CsvParser</Link></ListGroupItem>
+        <ListGroupItem><Link to="/samples/phoenix-client">PhoenixClient</Link></ListGroupItem>
+      </ListGroup>
+      {this.props.children}
     </div>
   )}
 }
