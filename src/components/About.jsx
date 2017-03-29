@@ -22,8 +22,8 @@ class About extends React.Component {
         <h1>{this.props.translation.about}</h1>
         <p>{this.props.translation.introduce}</p>
         <ListGroup className="list-inline">
-          {links.map(([href, icon]) =>
-            <ListGroupItem>
+          {links.map(([href, icon], idx) =>
+            <ListGroupItem key={idx}>
               <a href={href}><i className={`fa ${icon}`} style={{fontSize: "50px"}}></i></a>
             </ListGroupItem>
            )}
