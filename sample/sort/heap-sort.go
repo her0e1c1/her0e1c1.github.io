@@ -5,20 +5,20 @@ import "fmt"
 type Node int
 
 type Heap struct {
-	heap [] Node
-	size Node  // size int
+	heap []Node
+	size Node // size int
 }
 
-func (n Node) parent () Node {
-	return (n-1)/2
+func (n Node) parent() Node {
+	return (n - 1) / 2
 }
 
-func (n Node) left () Node {
-	return 2*n+1
+func (n Node) left() Node {
+	return 2*n + 1
 }
 
-func (n Node) right () Node {
-	return 2*n+ 2
+func (n Node) right() Node {
+	return 2*n + 2
 }
 
 func (h *Heap) swap(a, b Node) {
@@ -56,8 +56,8 @@ func (h *Heap) Sort() {
 		h.UpHeap(Node(i))
 		h.size++
 	}
-	for i := len(h.heap)-1; i >= 0;i-- {
-        h.swap(0, h.size-1)
+	for i := len(h.heap) - 1; i >= 0; i-- {
+		h.swap(0, h.size-1)
 		h.size--
 		h.DownHeap()
 	}
@@ -67,8 +67,8 @@ func NewHeap(heap []Node) *Heap {
 	return &Heap{heap: heap, size: 0}
 }
 
-func main () {
-	h := NewHeap([]Node {5, 3, 1, 2, 4})
+func main() {
+	h := NewHeap([]Node{5, 3, 1, 2, 4})
 	fmt.Println(h)
 	h.Sort()
 	fmt.Println(h)

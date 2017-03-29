@@ -14,7 +14,7 @@ func QuickSort(a []int, left, right int) {
 	k, pivot = left, left
 	for i := left + 1; i <= right; i++ {
 		if a[i] < a[pivot] {
-			k++  // kは前の最後の保存場所
+			k++ // kは前の最後の保存場所
 			a[i], a[k] = a[k], a[i]
 		}
 	}

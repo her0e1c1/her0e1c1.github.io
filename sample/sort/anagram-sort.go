@@ -12,20 +12,20 @@ func SortString(w string) string {
 
 type Anagram []string
 
-func (a Anagram) Len () int {
+func (a Anagram) Len() int {
 	return len(a)
 }
 
-func (a Anagram) Swap (i, j int) {
+func (a Anagram) Swap(i, j int) {
 	a[i], a[j] = a[j], a[i]
 }
 
-func (a Anagram) Less (i, j int) bool {
+func (a Anagram) Less(i, j int) bool {
 	return strings.Compare(SortString(a[i]), SortString(a[j])) == -1
 }
 
-func main () {
-	a := []string {"cb", "abc", "a", "bb", "bac", "ca", "d", "cba", "bc", "acb"}
+func main() {
+	a := []string{"cb", "abc", "a", "bb", "bac", "ca", "d", "cba", "bc", "acb"}
 	sort.Sort(Anagram(a))
 	fmt.Println(a)
 }
