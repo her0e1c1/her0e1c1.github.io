@@ -59,13 +59,17 @@ class Message extends React.Component {
 
   constructor(props) {
     super(props)
-    let channel = props.channel
+    const channel = props.channel
     this.state = {
       channel: props.channel,
       events: props.events || [],
       children: [],
     }
-    this.state.events.map(e => {
+  }
+
+  componentDidMount() {
+    const {channel, events} = this.state
+    events.map(e => {
       channel.on(e, (msg) => {
         const li = <li key={this.state.children.length}>{msg.body} from {e}</li>
         this.setState({children: [li, ...this.state.children]})
