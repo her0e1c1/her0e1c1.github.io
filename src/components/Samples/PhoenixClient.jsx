@@ -130,4 +130,23 @@ class Topic extends React.Component {
     )}
 }
 
-export default Topic
+export default class PhoenixClient extends React.Component {
+  constructor(props) {
+    super(props)
+    const socket = new Socket(__WEBSOCKET_URL__)
+    socket.connect()
+    socket.onError(() => this.setState({showConnectionError: true}))
+    socket.onClose(() => console.log("the connection dropped"))
+    this.state = {socket, showConnectionError: false}
+  }
+  render() {
+    const {socket, showConnectionError} = this.state
+    return (
+      <div>
+        {showConnectionError &&
+         <Alert bsStyle="danger" onDismiss={() => false}>PHOENIX CONNECTION ERROR!</Alert>
+        }
+        <Topic socket={socket} topic={"chat:client"} events={["bot", "new"]} />
+      </div>
+  )}
+}
