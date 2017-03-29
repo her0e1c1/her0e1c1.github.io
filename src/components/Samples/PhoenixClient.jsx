@@ -144,10 +144,11 @@ export default class PhoenixClient extends React.Component {
     const {socket, showConnectionError} = this.state
     return (
       <div>
+        <b>UNDER DEV</b>
         {showConnectionError &&
          <Alert bsStyle="danger" onDismiss={() => false}>PHOENIX CONNECTION ERROR!</Alert>
         }
-        <Topic socket={socket} topic={"chat:client"} events={["bot", "new"]} />
+        <Topic socket={socket} topic={"chat:client"} events={["bot", "new", "from_slack"]} />
       </div>
   )}
 }
