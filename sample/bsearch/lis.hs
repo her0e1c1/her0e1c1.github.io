@@ -1,9 +1,6 @@
+-- longest-increasing-subsequence O(n^2)
 import Data.List (maximumBy)
 
--- longest-increasing-subsequence.
--- この方法では、計算量がO(n^2)となる。そこでbinary searchを使い、O(nlogn)に減らす
-
--- MEMO:
 lis :: [Int] -> [Int]
 lis = g where
  c a b = compare (length a) (length b)

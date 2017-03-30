@@ -14,8 +14,5 @@ find xs target = f 0 ((length xs) - 1) where
       where
          n = xs !! i  -- 0 <= i < length xs
 
-xs1 = [0, 1, 0, 0, 2, 0, 3, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 5, 6, 0, 7, 0, 0, 8, 9, 0]
-
 main = do
-  -- print $ find xs1 2  -- 4
-  mapM_ (print . find xs1) [0..10]
+  mapM_ (print . find [0, 1, 0, 0, 2, 0, 3, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 5, 6, 0, 7, 0, 0, 8, 9, 0]) [0..10]
