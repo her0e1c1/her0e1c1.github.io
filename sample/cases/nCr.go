@@ -3,12 +3,11 @@ package main
 
 import "fmt"
 
-// be careful of overflow
 func nCr(N, R int) int {
     dp := make([]int, N + 1)
     for n := 0; n <= N; n++ {
         for r := N; r > 0; r-- {  // 逆順にするとr-1が上書きされない!
-            dp[r] += dp[r-1]
+            dp[r] += dp[r-1] // be careful of overflow
         }
         dp[0] = 1
     }
