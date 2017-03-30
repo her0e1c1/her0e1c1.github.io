@@ -1,13 +1,14 @@
-// ある配列をK個に区分したときの、区分配列のうち最大和の最小値を求める
+// ある配列をK個に区分したときの、区分配列のうち最大和の最小値を求める(ただし要素がない配列も１つと数えることが可能)
 package main
 
 import "fmt"
 
-// [max(A), sum(A)]の範囲で2分探索することで、sumの最小値がもとまる
+// 最大和をsumとした時に、実際の和がsumにならない時は、それよりも小さいsumが存在するということ
+// 最大和が小さすぎると、K個に配列を分割できない場合は、それよりも大きなsumで探索する必要がある
 func f(sum, K int, a []int) bool {
 	s, k := 0, 0
-	for i := 0; i < len(a); i++ {
-		if s+a[i] <= sum {
+	for i := 0; i < len(a); i++ { // greedy
+		if s+a[i] <= sum { // sumが緩くても大丈夫. trueを返しそれよりも小さなsumで探索
 			s += a[i]
 		} else {
 			s = a[i]
@@ -32,11 +33,12 @@ func Search(a []int, K int) int {
 		hi += a[i]
 	}
 	rv := -1
+    // [max(A), sum(A)]の範囲で2分探索する
 	for lo <= hi {
 		mi := lo + (hi-lo)/2
 		if f(mi, K, a) { // min arg f(x) >= k
-			rv = mi
 			hi = mi - 1
+			rv = mi
 		} else {
 			lo = mi + 1
 		}
