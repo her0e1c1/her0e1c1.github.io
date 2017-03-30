@@ -1,8 +1,8 @@
+// nC3
 #include <iostream>
 #include <vector>
 using namespace std;
 
-// MEMO: :Q:nC3
 void nC3(vector<int> N){
   int size = N.size();
   for (int i = 0; i < size-2; i++){

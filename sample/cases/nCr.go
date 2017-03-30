@@ -1,8 +1,8 @@
+// 異なるn個からr個取り出す組み合わせ(nCr)
 package main
 
 import "fmt"
 
-// MEMO: :Q:異なるn個からr個取り出す組み合わせ(nCr)
 func nCr(N, R int) int {
     dp := make([]int, N + 1)
     for n := 0; n <= N; n++ {

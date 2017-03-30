@@ -1,7 +1,6 @@
-
-
-# MEMO:
 # A $cup B = A $cup (B $setminus A)
+
+
 def f(A, B):
     C = []
     for x in A + B:

@@ -1,8 +1,8 @@
+// 異なるn個の中からr個並べる場合の数(nPr)
 package main
 
 import "fmt"
 
-// MEMO: :Q:異なるn個の中からr個並べる場合の数(nPr)
 // n=0なら、左端に全ての要素をswap移動. n=1はそれ以外を移動...
 func nPn(A []int) {
 	var dfs func(int)
@@ -21,13 +21,5 @@ func nPn(A []int) {
 }
 
 func main() {
-	nPn([]int{1, 2, 3})
-/*
-[1 2 3]
-[1 3 2]
-[2 1 3]
-[2 3 1]
-[3 2 1]
-[3 1 2]
-*/
+	nPn([]int{1, 2, 3}) // [1 2 3] [1 3 2] [2 1 3] [2 3 1] [3 2 1] [3 1 2]
 }
