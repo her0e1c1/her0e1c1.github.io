@@ -1,4 +1,4 @@
--- 重複順列(nPIr)
+-- repeated Permutation 重複順列 (nPIr)
 
 p :: (Num a) => [a] -> Int -> [[a]]
 p = go where

@@ -1,4 +1,4 @@
--- 重複組み合わせ(nHr)
+-- repeated Combination (nHr)
 
 h = go where
   go xs 0 = [[]]

@@ -11,7 +11,7 @@ func comb(A []int, N int) [][]int {
 		} else if i == len(A) {
 			return [][]int{}
 		} else {
-			var a [][]int
+			var a [][]int // Cと違いheapに作られるので関数が終了しても参照可能
             // appendは局所的に破壊的な操作にならない
 			a = append(a, dfs(i+1, n-1, append(acc, A[i]))...)
 			a = append(a, dfs(i+1, n, acc)...)
@@ -23,4 +23,5 @@ func comb(A []int, N int) [][]int {
 
 func main() {
 	fmt.Println(comb([]int{1, 2, 3, 4}, 2))  // [[1 2] [1 3] [1 4] [2 3] [2 4] [3 4]]
+    fmt.Println(comb([]int{1, 2, 3, 4, 5}, 3))
 }
