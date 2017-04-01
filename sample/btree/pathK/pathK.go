@@ -23,11 +23,13 @@ func pathK(n *Node, K int) {
 		}
 		dfs(n.Left)
 		dfs(n.Right)
-		path = path[1:] // 親に戻る時は子の経路を排除
+		path = path[:len(path)-1] // 親に戻る時は子の経路を排除
 	}
 	dfs(n)
 }
 
 func main() {
-	pathK(FromSlice([]int{0, 1, 2, 3, 4, 5, 6}), 6)
+    bt := FromSlice([]int{0, 1, 2, 3, 4, 5, 6})
+    fmt.Println(bt)
+	pathK(bt, 6)
 }
