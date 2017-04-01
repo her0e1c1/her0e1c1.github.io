@@ -9,7 +9,7 @@ pathK n k = go n [] where
   go n@(Node p l r) path = a ++ b ++ c where
     a = go l (p:path)
     b = go r (p:path)
-    c = (p:path)
+    c = [(p:path)]
 
 fromList :: [Int] -> Tree Int
 fromList [] = Leaf
