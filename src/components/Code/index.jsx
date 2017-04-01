@@ -9,6 +9,8 @@ import Swipeable from 'react-swipeable'
 import "highlight.js/styles/dark.css"
 import "./code.css"
 
+import { runCsvParser } from '../Samples/CsvParser.js'
+
 const toNullIfNeeded = s => s == "null" ? null : s
 
 const fetchCode = (path) => new Promise((resolve, reject) => {
@@ -111,21 +113,12 @@ class Code extends React.Component {
   componentDidMount() {
     const setState = ({codes}) =>
       this.setState({codes: this._filter({...this.state, codes}), ALLCODES: codes})
-
-    let codes = []
-    __CODES__.forEach((name, i) => {
-      const code = window.localStorage.getItem(name)
-      if (code != undefined) {
-        codes = [...codes, {code, name, i}]
-      } else {
-        fetchCode(name).then(code => {
-          window.localStorage.setItem(name, code)
-          codes = [...codes, {code, name, i}]
-          setState({codes})
-        })
-      }
+    fetchCode("code.csv").then(csv => {
+      const codes = runCsvParser(csv)
+        .filter(row => row.length == 2)
+        .map(row => ({name: row[0], code: row[1]}))
+      setState({codes})
     })
-    setState({codes})
   }
 
   componentDidUpdate() {
