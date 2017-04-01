@@ -77,14 +77,10 @@ class Header extends React.Component {
             <li><Button bsSize="xsmall" onClick={parent.next}>Next</Button></li>
             <li>{index}{codes.length > 0 ? `/${codes.length-1}` : ""}</li>
             <li><Button bsSize="xsmall" onClick={() => parent.setState({showList: true})}>CODES</Button></li>
-            <li><Button bsSize="xsmall" onClick={() => fetchCode(name).then(code => {
-            let codes = parent.state.codes
-            window.localStorage.setItem(name, code)
-            codes[index] = {code, name, i: index}
-            parent.setState({codes})})
-            } >UPDATE</Button></li>
+            <li><Button bsSize="xsmall" onClick={() => parent.fetch() }>UPDATE</Button></li>
             <Lang parent={this.props.parent} />
             <Category parent={this.props.parent} />
+            <li><Button bsSize="xsmall" onClick={() => parent.clear() }>CLEAR</Button></li>
           </ul>
         </div>
     )}
@@ -108,9 +104,15 @@ class Code extends React.Component {
     this.next = this.next.bind(this)
     this.prev = this.prev.bind(this)
     this.filter = this.filter.bind(this)
+    this.fetch = this.fetch.bind(this)
+    this.clear = this.clear.bind(this)
   }
 
   componentDidMount() {
+    this.fetch()
+  }
+
+  fetch() {
     const setState = ({codes}) =>
       this.setState({codes: this._filter({...this.state, codes}), ALLCODES: codes})
     fetchCode("code.csv").then(csv => {
@@ -119,6 +121,10 @@ class Code extends React.Component {
         .map(row => ({name: row[0], code: row[1]}))
       setState({codes})
     })
+  }
+
+  clear() {
+    this.setState({lang: null, category: null, index: 0, codes: this.state.ALLCODES})
   }
 
   componentDidUpdate() {
@@ -191,6 +197,7 @@ class Code extends React.Component {
              onSwipedLeft={this.next}
              onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
            >
+             {!disableScroll && <p style={{paddingTop, fontWeight: "bold", fontSize: "1.2em"}}>{name}</p>}
              {ext == "tex" ? <div ref="code" dangerouslySetInnerHTML={{__html: code}} style={{paddingTop: "20px"}}/> :
               <Highlight className={ext} ref="code">{code}</Highlight>
              }
