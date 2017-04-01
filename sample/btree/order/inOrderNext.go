@@ -1,17 +1,9 @@
+// in order next
 package main
 
 import "fmt"
 import . "../../btree"
 
-// MEMO: :Q:木構造の移動方法
-// PRE:  parent -> left   -> right  (幅優先 上から下へ)
-// POST: left   -> right  -> parent (深優先 下から上へ)
-// IN:   left   -> parent -> right  (左優先 左から右へ)
-
-// 自分のノードの次にある最も近い左のノードは?
-// 逆順の時は、右になるな
-
-// MEMO:
 func InOrderNext (n, prev *Node) *Node {
 	if n == nil {
 		return nil

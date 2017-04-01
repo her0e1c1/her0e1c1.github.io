@@ -3,7 +3,6 @@ package main
 import "fmt"
 import . "../../btree"
 
-// MEMO:
 func PreOrderNext (n, prev *Node) *Node {
 	if n == nil {
 		return nil

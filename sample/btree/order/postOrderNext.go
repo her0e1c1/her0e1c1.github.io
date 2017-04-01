@@ -1,9 +1,9 @@
+// PostOrderNext
 package main
 
 import "fmt"
 import . "../../btree"
 
-// MEMO:
 func PostOrderNext (n, prev *Node) *Node {
 	if n == nil {
 		return nil

@@ -3,7 +3,6 @@ package main
 import "fmt"
 import . "../../btree"
 
-// MEMO:
 func PreOrderPrev (n, prev *Node) *Node {
 	if n == nil {
 		return nil
@@ -14,7 +13,7 @@ func PreOrderPrev (n, prev *Node) *Node {
     } else if n.Right != prev {
         return PreOrderPrev(n.Right, n)
     } else {
-        return PreOrderPrev(n.Left, n)
+        return PreOrderPrev(n.Left, n)  // n.Left == nil と対応 (elseにふさわしい)
 	}
 }
 

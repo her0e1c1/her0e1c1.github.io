@@ -2,7 +2,6 @@ package btree
 
 import "fmt"
 
-// MEMO:
 func (n *Node) String () string {
 	v := "(" + fmt.Sprintf("%d", n.Value)
 	if n.Left != nil {
@@ -15,7 +14,6 @@ func (n *Node) String () string {
 	return v
 }
 
-// MEMO:
 func (n *Node) LeftChild () bool {
 	if n.Parent == nil {
 		return false
@@ -30,16 +28,17 @@ func (n *Node) RightChild () bool {
 	return n == n.Parent.Right
 }
 
-// MEMO:
 type Node struct {
 	Parent *Node
 	Left  *Node
 	Right *Node
 	Value int
 }
+
 func FromSlice(slice []int) *Node {
 	return fromSlice(slice, 0, nil)
 }
+
 func fromSlice(slice []int, i int, p *Node) *Node {
 	if i >= len(slice) {
 		return nil

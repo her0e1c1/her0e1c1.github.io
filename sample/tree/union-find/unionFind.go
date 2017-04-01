@@ -1,3 +1,4 @@
+// UnionFind
 package main
 
 // 自己参照テーブルに使えそう
@@ -5,12 +6,11 @@ package main
 // ack関数の逆関数の計算量らしい?(log2N)
 // http://judge.u-aizu.ac.jp/onlinejudge/commentary.jsp?id=DSL_1_A
 
-
-// MEMO: :Q:UnionFindのデータ構造
 type UnionFind struct {
     Data []int  // 親を参照 (自分自身を参照している場合はRoot)
     Rank []int  // node数
 }
+
 func NewUnionFind(size int) *UnionFind {
     d := make([]int, size)
     r := make([]int, size)
@@ -21,8 +21,6 @@ func NewUnionFind(size int) *UnionFind {
     return &UnionFind{Data: d, Rank: r}
 }
 
-
-// MEMO:
 func (uf *UnionFind) FindRoot(node int) int {
     if node != uf.Data[node] {
         uf.Data[node] = uf.FindRoot(uf.Data[node])
@@ -30,12 +28,10 @@ func (uf *UnionFind) FindRoot(node int) int {
     return uf.Data[node]
 }
 
-// MEMO:
 func (uf *UnionFind) IsSame(a, b int) bool {
     return uf.FindRoot(a) == uf.FindRoot(b)
 }
 
-// MEMO:
 func (uf *UnionFind) Union(a, b int) {
     a2 := uf.FindRoot(a)
     b2 := uf.FindRoot(b)

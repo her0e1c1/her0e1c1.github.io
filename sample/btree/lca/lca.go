@@ -1,13 +1,13 @@
+// Lowest Common Ancestor (ORDER=O(n))
 package main
 
 import "fmt"
 import . "../../btree"
 
-// MEMO: :Q:LowestCommonAncestor(ORDER=O(n))
-// pathをキャッシュする
-func LCA(n, a, b *Node) *Node {
+// cache path
+func lca(n, a, b *Node) *Node {
 	paths := []*Node{}
-	for ;a != nil; a = a.Parent {
+	for ; a != nil; a = a.Parent {
 		paths = append(paths, a)
 	}
 	for b != nil {
@@ -30,6 +30,6 @@ func find(n *Node, items []*Node) bool {
 }
 
 func main() {
-	n := FromSlice([]int{0,1,2,3,4,5,6,7})
-	fmt.Println(LCA(n, n.Right.Right, n.Right.Left))
+	n := FromSlice([]int{0, 1, 2, 3, 4, 5, 6, 7})
+	fmt.Println(lca(n, n.Right.Right, n.Right.Left))
 }

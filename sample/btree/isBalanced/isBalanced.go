@@ -1,12 +1,10 @@
+// check the tree is balanced (balanced means any two leaf have the same length form root)
 package main
 
 import "fmt"
 import . "../../btree"
 
-// check the tree is balanced
-// balanced means any two leaf have the same length form root
-
-func min (a, b int) int {
+func min(a, b int) int {
 	if a <= b {
 		return a
 	} else {
@@ -14,8 +12,7 @@ func min (a, b int) int {
 	}
 }
 
-// TODO: how to define?
-func max (a, b int) int {
+func max(a, b int) int {
 	if a >= b {
 		return a
 	} else {
@@ -23,21 +20,20 @@ func max (a, b int) int {
 	}
 }
 
-// NOTE: 別のパッケージから既存の構造体にメソッドを付与できない
-// cannot define new methods on non-local type btree.Node
-
-// MEMO:
+// 最大と最小の深さが等しければ、balancedとみなす
 func isBalanced(n *Node) bool {
-	return maxDepth(n) - minDepth(n) == 0
+	return maxDepth(n)-minDepth(n) == 0
 }
+
 func maxDepth(n *Node) int {
-	if (n == nil) {
+	if n == nil {
 		return 0
 	}
 	return 1 + max(maxDepth(n.Left), maxDepth(n.Right))
 }
+
 func minDepth(n *Node) int {
-	if (n == nil){
+	if n == nil {
 		return 0
 	}
 	return 1 + min(maxDepth(n.Left), maxDepth(n.Right))
