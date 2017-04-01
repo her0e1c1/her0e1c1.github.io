@@ -1,10 +1,10 @@
-// Lowest Common Ancestor (ORDER=O(n))
+// Lowest Common Ancestor (ORDER=O(log(n)^2))
 package main
 
 import "fmt"
 import . "../../btree"
 
-// cache path
+// rootまでのpathを保持して、もう一つのノードと比較
 func lca(n, a, b *Node) *Node {
 	paths := []*Node{}
 	for ; a != nil; a = a.Parent {

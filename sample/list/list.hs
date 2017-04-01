@@ -9,6 +9,7 @@ length' :: [a] -> Int
 length' = foldr (const (+1)) 0
 -- (const (+1)) 2 3 == 4
 -- (+1) ((const) 2 3)
+-- const 2 3 == 2
 -- Error ((+1) . const) 2 3
 
 -- MEMO:
