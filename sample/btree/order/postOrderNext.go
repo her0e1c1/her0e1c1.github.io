@@ -9,12 +9,22 @@ func PostOrderNext (n, prev *Node) *Node {
 		return nil
 	} else if prev == nil {
         return PostOrderNext(n.Parent, n)
-	} else if n.Right == nil || n.Right == prev {  // Rightに移動できない条件
+	} else if n.Right == prev {
         return n
-    } else if n.Left != prev {  // n.Left != nil 不要?
-        return PostOrderNext(n.Left, n)
-    } else {
-        return PostOrderNext(n.Right, n)
+    } else if n.Left == prev {
+        if n.Right != nil {
+            return PostOrderNext(n.Right, n)
+        } else {
+            return n
+        }
+    } else {  // n.Parent = prev
+        if n.Left != nil {
+            return PostOrderNext(n.Left, n)
+        } else if n.Right != nil {
+            return PostOrderNext(n.Right, n)
+        } else {
+            return n
+        }
 	}
 }
 
