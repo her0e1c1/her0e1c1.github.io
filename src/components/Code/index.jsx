@@ -118,12 +118,22 @@ class Code extends React.Component {
   fetch(set=true) {
     const setState = ({codes}) =>
       this.setState({codes: this._filter({...this.state, codes}), ALLCODES: codes})
-    fetchCode("code.csv").then(csv => {
+    const handle = (csv) => {
       const codes = Papa.parse(csv).data
                         .filter(row => row.length >= 2)
                         .map((row, i) => ({name: row[0], code: row[1], path: row[2], i}))
       setState({codes})
-    })
+    }
+
+    const csv = window.localStorage.getItem("csv")
+    if (csv) {
+      handle(csv)
+    } else {
+      fetchCode("code.csv").then(csv => {
+        handle(csv)
+        window.localStorage.setItem("csv", csv)
+      })
+    }
   }
 
   clear() {
