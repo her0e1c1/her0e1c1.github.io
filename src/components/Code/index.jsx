@@ -1,7 +1,7 @@
 import path from 'path'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Alert, Button } from 'react-bootstrap'
+import { Alert, Button, Modal } from 'react-bootstrap'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import Highlight from 'react-highlight'
@@ -10,6 +10,7 @@ import "highlight.js/styles/dark.css"
 import "./code.css"
 
 import { runCsvParser } from '../Samples/CsvParser.js'
+const Papa = require('papaparse')
 
 const toNullIfNeeded = s => s == "null" ? null : s
 
@@ -23,7 +24,7 @@ const List = ({parent}) => {
   return (
   <ul style={{ fontSize: "1.5em"}}>
     {codes.map(code =>
-      <li key={code.i} onClick={() => parent.setState({index: code.i, showList: false})}>{code.name}</li>
+      <li key={code.i} onClick={() => parent.setState({index: code.i, showList: false})}>{code.name} {code.i}</li>
      )}
   </ul>
   )}
@@ -31,31 +32,30 @@ const List = ({parent}) => {
 const getExt = name => path.extname(name).substr(1)  // skip the first "."
 
 const Lang = ({parent}) => {
-  const l = new Set(parent.state.ALLCODES.map(code => getExt(code.name)))
-  const {lang, category} = parent.state
+  const l = new Set(parent.state.ALLCODES.map(code => getExt(code.path)))
+  const {lang, categories} = parent.state
   return (
     <NavDropdown title={lang || "language"} id="language">
-      <MenuItem key={"all"} active={!lang} onClick={() => parent.filter({lang: null, category})} >all</MenuItem>
+      <MenuItem key={"all"} active={!lang} onClick={() => parent.filter({lang: null, categories})} >all</MenuItem>
     {[...l].map(l =>
       <MenuItem key={l} active={l == lang}
-       onClick={() => parent.filter({lang: l, category})}>{l}
+       onClick={() => parent.filter({lang: l, categories})}>{l}
       </MenuItem>
     )}
   </NavDropdown>
   )}
 
-const Category = ({parent}) => {
-  const l = ["sort", "cases"]
-  const {lang, category} = parent.state
+const Categories = ({parent}) => {
+  let l = parent.state.ALLCODES.map(c => c.path.split(/\/|\./)).reduce((acc, x) => acc.concat(...x), [])
+  l = new Array(...new Set(l))
   return (
-    <NavDropdown title={category || "category"} id="category">
-      <MenuItem key={"all"} active={!category} onClick={() => parent.filter({lang, category: null})} >all</MenuItem>
+    <ul style={{ border: "1px solid blue" }} className="list-inline">
     {l.map(c =>
-      <MenuItem key={c} active={c == parent.state.category}
-       onClick={() => parent.filter({category: c, lang})}>{c}
-      </MenuItem>
+      <li key={c}><Button key={c} bsStyle={parent.state.categories.has(c) ? "success" : "default"}
+       onClick={() => parent.updateCategories(c)}>{c}
+      </Button></li>
     )}
-  </NavDropdown>
+  </ul>
   )}
 
 class Header extends React.Component {
@@ -79,8 +79,8 @@ class Header extends React.Component {
             <li><Button bsSize="xsmall" onClick={() => parent.setState({showList: true})}>CODES</Button></li>
             <li><Button bsSize="xsmall" onClick={() => parent.fetch() }>UPDATE</Button></li>
             <Lang parent={this.props.parent} />
-            <Category parent={this.props.parent} />
             <li><Button bsSize="xsmall" onClick={() => parent.clear() }>CLEAR</Button></li>
+            <li><Button bsSize="xsmall" onClick={() => parent.setState({showCategories: true})}>CATEGORY</Button></li>
           </ul>
         </div>
     )}
@@ -92,11 +92,14 @@ class Code extends React.Component {
     const index = parseInt(window.localStorage.getItem("index")) || 0
     const lang = toNullIfNeeded(window.localStorage.getItem("lang"))
     const category = toNullIfNeeded(window.localStorage.getItem("category"))
+    const categories = JSON.parse(window.localStorage.getItem("categories")) || new Set()
     this.state = {
       codes: [],
       ALLCODES: [],
       disableScroll: false,
       showList: false,
+      showCategories: false,
+      categories: new Set(categories),
       lang,
       category,
       index
@@ -109,22 +112,34 @@ class Code extends React.Component {
   }
 
   componentDidMount() {
-    this.fetch()
+    this.fetch(false)
   }
 
-  fetch() {
+  fetch(set=true) {
     const setState = ({codes}) =>
       this.setState({codes: this._filter({...this.state, codes}), ALLCODES: codes})
     fetchCode("code.csv").then(csv => {
-      const codes = runCsvParser(csv)
-        .filter(row => row.length == 2)
-        .map(row => ({name: row[0], code: row[1]}))
+      const codes = Papa.parse(csv).data
+                        .filter(row => row.length >= 2)
+                        .map((row, i) => ({name: row[0], code: row[1], path: row[2], i}))
       setState({codes})
     })
   }
 
   clear() {
-    this.setState({lang: null, category: null, index: 0, codes: this.state.ALLCODES})
+    this.setState({lang: null, category: null, index: 0, codes: this.state.ALLCODES, categories: new Set()})
+  }
+
+  updateCategories(category) {
+    let c = new Set(this.state.categories)
+    if (!category) {
+      c.clear()
+    } else if (c.has(category)) {
+      c.delete(category)
+    } else {
+      c.add(category)
+    }
+    this.filter({...this.state, categories: c})
   }
 
   componentDidUpdate() {
@@ -132,26 +147,28 @@ class Code extends React.Component {
       MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
     window.localStorage.setItem("index", this.state.index)
     window.localStorage.setItem("lang", this.state.lang)
-    window.localStorage.setItem("category", this.state.category)
+    window.localStorage.setItem("categories", JSON.stringify([...this.state.categories]))
   }
 
-  _filter ({lang, category, codes=[]}) {
+  _filter ({lang, category, categories, codes=[]}) {
     return codes.filter(code => {
-      const ext = getExt(code.name)
+      const ext = getExt(code.path)
       if (lang && !ext.endsWith(lang)) {
         return false
       }
-      if (category && code.name.indexOf(category) == -1) {
-        return false
+      if (categories && categories.size > 0) {
+        if ([...categories].every(c => code.path.indexOf(c) == -1)) {
+          return false
+        }
       }
       return true
     }).map((code, i) => ({...code, i}))
   }
 
-  filter ({lang, category}) {
+  filter ({lang, category, categories=new Set(), codes=[]}) {
     let index = 0
-    const codes = this._filter({lang, category, codes: this.state.ALLCODES})
-    this.setState({codes, index, lang, category})
+    const c = this._filter({lang, category, categories, codes: this.state.ALLCODES})
+    this.setState({codes: c, index, lang, category, categories})
   }
 
   next() {
@@ -188,23 +205,27 @@ class Code extends React.Component {
     const paddingTop = disableScroll ? 0 : "20px"
     return (
       <div>
-      {showList ? <List parent={this} /> :
-        <div>
-        {!disableScroll && <Header parent={this}/>}
-         <div style={{paddingTop}}>
-           <Swipeable
-             onSwipedRight={this.prev}
-             onSwipedLeft={this.next}
-             onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
-           >
-             {!disableScroll && <p style={{paddingTop, fontWeight: "bold", fontSize: "1.2em"}}>{name}</p>}
-             {ext == "tex" ? <div ref="code" dangerouslySetInnerHTML={{__html: code}} style={{paddingTop: "20px"}}/> :
-              <Highlight className={ext} ref="code">{code}</Highlight>
-             }
-           </Swipeable>
-         </div>
-         </div>
-      }
+        {showList ? <List parent={this} /> :
+            <div>
+            {!disableScroll && <Header parent={this}/>}
+            <div style={{paddingTop}}>
+            <Swipeable
+            onSwipedRight={this.prev}
+            onSwipedLeft={this.next}
+            onClick={e => this.setState({disableScroll: !this.state.disableScroll})}
+            >
+            {!disableScroll && <p style={{paddingTop, fontWeight: "bold", fontSize: "1.2em"}}>{name}</p>}
+            {ext == "tex" ? <div ref="code" dangerouslySetInnerHTML={{__html: code}} style={{paddingTop: "20px"}}/> :
+            <Highlight className={ext} ref="code">{code}</Highlight>
+            }
+            </Swipeable>
+            </div>
+            </div>
+            }
+        <Modal show={this.state.showCategories} keyboard={true} backdrop={true} onHide={() => this.setState({showCategories: false})}>
+          <Modal.Body><Categories parent={this} /></Modal.Body>
+          <Modal.Footer><Button onClick={() => this.setState({showCategories: false})} >Close</Button></Modal.Footer>
+        </Modal>
       </div>
   )}
 }
