@@ -15,7 +15,7 @@ const devConfig = {
   },
   output: {
     filename: '[name].js',
-    path: './',
+    path: path.resolve('./'),
   },
   module: {
     rules: [{
