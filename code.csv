@@ -1,4 +1,48 @@
-お釣りの問題,"solve :: [Int] -> Int -> [[Int]]solve [] sum = [[]]
+長さlのソート配列に含まれるNの個数,"func search(a []int, f func(int) bool) int {
+    rt, lo, hi := 0, 0, len(a)-1
+    for lo <= hi {
+        mi := lo + (hi - lo) / 2
+        if a[i] <= a[mi] {
+            hi = mi - 1
+            rt = mi
+        } else {
+            lo = mi + 1
+        }
+    }
+	return len(dp)
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/count-elem.go
+長さlのソート配列に含まれるNの個数,"countElem xs n = (foldl f 0 bits) - (foldl g (2^32) bits) + 1 where
+  f acc x = if f2 (acc + x) then acc + x else acc
+  g acc x = if g2 (acc - x) then acc - x else acc  -- (head xs) > n なら-1を返すべき. (head xs) < nの場合は(length xs)を返す
+  f2 a = (length xs) > a && xs !! a <= n
+  g2 a = (length xs) <= a || a >= 0 && xs !! a >= n  -- 配列のサイズを超える場合は、indexが小さくなる方向へ
+  bits = reverse [2^i | i<-[0..32]]
+",/Users/mbp/workspace/sandbox/algo/binary-search/count-elem.hs
+"func InOrderPrev (n, prev *Node) *Node ","func InOrderPrev (n, prev *Node) *Node {
+// left -> parent -> right PREV で考えずに
+// left <- parent <- right NEXT で考える
+	if n == nil {
+		return nil
+	} else if prev == nil {
+		if n.Left != nil {
+			return InOrderPrev(n.Left, n)
+        } else {
+			return InOrderPrev(n.Parent, n)
+		}
+	} else {
+        if n.Right == nil || n.Right == prev {
+			return n
+		} else if n.Left == prev {
+			return InOrderPrev(n.Parent, n)
+		} else {
+			return InOrderPrev(n.Right, n)
+		}
+	}
+}
+",/Users/mbp/workspace/sandbox/algo/binary-tree/order/inOrderPrev.go
+お釣りの問題,"solve :: [Int] -> Int -> [[Int]]
+solve [] sum = [[]]
 -- coinsは降順ソート
 solve (c:coins) csum = concatMap (g . f) [0 .. (div csum c)]
   where
@@ -7,7 +51,8 @@ solve (c:coins) csum = concatMap (g . f) [0 .. (div csum c)]
     f x = map ((take x (repeat c)) ++) (solve coins (csum - c * x))
     g = filter (\a-> sum a == csum)
 ",/Users/mbp/workspace/sandbox/algo/dp/change/change.hs
-:Q:circusTower,"// (身長、体重) がそれぞれ下にいる人よりも小さくなることを制限として、最も長い人タワーを作る時の組み合わせfunc circusTower(A []Pair) []Pair {
+:Q:circusTower,"// (身長、体重) がそれぞれ下にいる人よりも小さくなることを制限として、最も長い人タワーを作る時の組み合わせ
+func circusTower(A []Pair) []Pair {
 	sort.Sort(Pairs(A))
 	var dfs func(int) []Pair
 	dfs = func(i int) []Pair {
@@ -31,7 +76,8 @@ solve (c:coins) csum = concatMap (g . f) [0 .. (div csum c)]
 	return dfs(0)
 }
 ",/Users/mbp/workspace/sandbox/algo/dp/circusTower/circusTower.go
-"func solve(sizes, prices []int, capacity int) int ","	dp := make([]int, capacity + 1)
+"func solve(sizes, prices []int, capacity int) int ","func solve(sizes, prices []int, capacity int) int {
+	dp := make([]int, capacity + 1)
 	for s := 0; s < len(sizes); s++ {
 		for c := capacity; c >= sizes[s]; c-- { // 再利用ができるのは、i=>i+1へ単純に値を渡している場合.
 			dp[c] = max(dp[c], dp[c-sizes[s]] + prices[s])
@@ -43,7 +89,8 @@ func main() {
 	fmt.Println(solve([]int{1,2,3,4,5}, []int{5,4,3,2,1}, 6))  // 12 = (1,2,3)
 }
 ",/Users/mbp/workspace/sandbox/algo/dp/knapsack/knapsack.go
-"knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a","-- pairs = [(size, price)] (逆方向)
+"knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a","knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a
+-- pairs = [(size, price)] (逆方向)
 knapsack pairs size = go pairs size where
     go [] size = 0
     go ((s,p):sps) size =
@@ -54,7 +101,8 @@ knapsack pairs size = go pairs size where
       in maximum [cap1, cap2]
 main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
 ",/Users/mbp/workspace/sandbox/algo/dp/knapsack/knapsack.hs
-:Q:繰り返し二乗法(bottom up),"func pow(a, n int) int {    // 下位ビットから、x^iを掛ける/掛けないをすることでも行き先を決めることができる！
+:Q:繰り返し二乗法(bottom up),"func pow(a, n int) int {
+    // 下位ビットから、x^iを掛ける/掛けないをすることでも行き先を決めることができる！
     // 2^6 = (2^2 * 2^2) * (2^1 * 2^1) (正しい遷移)
     // この考え方に釣られると、pow(x, n) = pow(x * x, n / 2) * x
     // 2^6 = (2^3 * 2^3) * 2^1  (再帰的ではあるが、この場合は間違った遷移となる)
@@ -69,7 +117,8 @@ main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
     return x
 }
 ",/Users/mbp/workspace/sandbox/algo/dp/pow.go
-:Q:繰り返し二乗法(dp),"func pow_dp(a, n int) int {    // => 向きには１方向. それを利用して0からnへのルートを知ることができる
+:Q:繰り返し二乗法(dp),"func pow_dp(a, n int) int {
+    // => 向きには１方向. それを利用して0からnへのルートを知ることができる
     x := 1
     for d := 32; d >= 0; d-- {
         x = x * x  // x==1なので1bitが立つまでは初期状態
@@ -80,7 +129,8 @@ main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
     return x
 }
 ",/Users/mbp/workspace/sandbox/algo/dp/pow_dp.go
-(define (add list1 list2),"  (let loop ((a list1) (b list2) (carry 0))
+(define (add list1 list2),"(define (add list1 list2)
+  (let loop ((a list1) (b list2) (carry 0))
     (let* ((sum (+ (if (null? a) 0 (car a))
                    (if (null? b) 0 (car b))
                    carry))
@@ -92,8 +142,10 @@ main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
           (if (= carry 1) '(1) '())
           (cons digit (loop next-a next-b next-carry))))))
 ",/Users/mbp/workspace/sandbox/algo/famous/AddEachDigitOf2Lists/AddEachDigitOf2Lists.scm
-:Q:BIT(Binary Indexed Tree)とは?,// a1からanまでの総和をlog(n)で求めることができるデータ構造,/Users/mbp/workspace/sandbox/algo/famous/bit.go
-type Bit struct ,"	data []int
+:Q:BIT(Binary Indexed Tree)とは?,"// a1からanまでの総和をlog(n)で求めることができるデータ構造
+",/Users/mbp/workspace/sandbox/algo/famous/bit.go
+type Bit struct ,"type Bit struct {
+	data []int
 	size int
 }
 func NewBit(size int) *Bit {
@@ -102,7 +154,8 @@ func NewBit(size int) *Bit {
 	return b
 }
 ",/Users/mbp/workspace/sandbox/algo/famous/bit.go
-func (b *Bit) read (idx int) int ,"	sum := 0
+func (b *Bit) read (idx int) int ,"func (b *Bit) read (idx int) int {
+	sum := 0
 	for idx > 0 {
 		sum += (*b).data[idx]
 		idx -= idx & -idx
@@ -110,7 +163,8 @@ func (b *Bit) read (idx int) int ,"	sum := 0
 	return sum
 }
 ",/Users/mbp/workspace/sandbox/algo/famous/bit.go
-"func (b *Bit) update (idx, value int) ","    /*
+"func (b *Bit) update (idx, value int) ","func (b *Bit) update (idx, value int) {
+    /*
      * idx == 0の場合は1のbitがないので
      * 常に0のままになる
      * そのため、idx >= 1が条件
@@ -122,7 +176,8 @@ func (b *Bit) read (idx int) int ,"	sum := 0
 	}
 }
 ",/Users/mbp/workspace/sandbox/algo/famous/bit.go
-":Q:a[i]=iの時のS(5),S(10)","	b := NewBit(100)	for i := 0; i <= 10; i++ {
+":Q:a[i]=iの時のS(5),S(10)","	b := NewBit(100)
+	for i := 0; i <= 10; i++ {
 		b.update(i, i)
 	}
 	fmt.Println(b.read(1))  // 1
@@ -132,7 +187,8 @@ func (b *Bit) read (idx int) int ,"	sum := 0
 	fmt.Println(b)
 }
 ",/Users/mbp/workspace/sandbox/algo/famous/bit.go
-func findConsecutiveSegments(s []int) string ,"    return loop(s, nil, nil)
+func findConsecutiveSegments(s []int) string ,"func findConsecutiveSegments(s []int) string {
+    return loop(s, nil, nil)
 }
 func loop(s []int, start, prev *int) string {
     format := func () string {
@@ -155,7 +211,8 @@ func loop(s []int, start, prev *int) string {
 	}
 }
 ",/Users/mbp/workspace/sandbox/algo/famous/findConsecutiveSegments.go
-"def f(lines, pattern, N):"," queue = []
+"def f(lines, pattern, N):","def f(lines, pattern, N):
+ queue = []
  n = 0
  for line in lines:    
   if pattern in line:
@@ -174,7 +231,8 @@ f(""1 p 3 2 1 4 3 3 4"".split(), ""3"", 1); print("""")
 f(""1 p 3 2 1 4 3 3 4"".split(), ""3"", 2); print("""")
 f(""1 p 3 2 1 4 3 3 4"".split(), ""2"", 2); print("""")
 ",/Users/mbp/workspace/sandbox/algo/famous/grep.py
-"def move(n, src, buf, dst):","    assert len(src + buf + dst) == N, ""move wrong""
+"def move(n, src, buf, dst):","def move(n, src, buf, dst):
+    assert len(src + buf + dst) == N, ""move wrong""
     assert n <= len(src), ""move wrong""
     if n > 0:
         move(n - 1, src, dst, buf)  # この関数が返ると、bufにn-1個移したことになる
@@ -183,7 +241,8 @@ f(""1 p 3 2 1 4 3 3 4"".split(), ""2"", 2); print("""")
         print(s, b, d)
         move(n - 1, buf, src, dst)
 ",/Users/mbp/workspace/sandbox/algo/famous/hanoi/hanoi.py
-:Q:ページング式,"-- 幅(width) (ページ数は常に一定)-- == 2 * diff + 1
+:Q:ページング式,"-- 幅(width) (ページ数は常に一定)
+-- == 2 * diff + 1
 -- == 右端 - 左端 + 1  (右端>左端)
 -- ページ数は一定になるよう式変形し、表現変更
 -- == x - (x - 2 * diff) + 1 (IF last < x + diff)
@@ -191,7 +250,8 @@ f(""1 p 3 2 1 4 3 3 4"".split(), ""2"", 2); print("""")
 -- == (x + diff) - (x - diff) + 1 (IF first <= x - diff <= x + diff <= last)
 -- first + diff <= x <= last - diff (十分な幅がある条件)
 ",/Users/mbp/workspace/sandbox/algo/famous/paging/paging.hs
-"paging :: Int -> Int -> Int -> (Int, Int)","paging = go 0 where
+"paging :: Int -> Int -> Int -> (Int, Int)","paging :: Int -> Int -> Int -> (Int, Int)
+paging = go 0 where
   go first diff cur last
         | not $ (first <= cur) && (cur <= last) = error ""bad args""
         | (last - first + 1) <= 2 * diff + 1 = (first, last)  -- 幅が十分大きい場合
@@ -202,7 +262,8 @@ paging2 = paging 2  -- diff == 2
 main = do
   mapM_ (\x -> (putStr . show) x >> (print $ paging2 x 10)) [0..10]
 ",/Users/mbp/workspace/sandbox/algo/famous/paging/paging.hs
-solve :: Int -> [[Int]],"solve boardSize = go [] where
+solve :: Int -> [[Int]],"solve :: Int -> [[Int]]
+solve boardSize = go [] where
   go queens = if length queens == boardSize
               then [queens]
               else concatMap (go . flip (:) queens) $ filter f [0 .. (boardSize - 1)]
@@ -213,7 +274,8 @@ canAttack x queens = go queens 0 where
   go [] _ = False
   go (q:queens) n = q == x + (n + 1) || q == x - (n + 1) || go queens (n + 1)
 ",/Users/mbp/workspace/sandbox/algo/famous/queen/queen.hs
-:Q:人に見やすいフォーマットに変換,"def show(n, binary=False):    if n < 0:
+:Q:人に見やすいフォーマットに変換,"def show(n, binary=False):
+    if n < 0:
         return ""-"" + show(-1 * n, binary)
     def to_s(x, unit, label=''):
         return '%.1f%sB' % (x / float(unit), label)
@@ -229,7 +291,8 @@ canAttack x queens = go queens 0 where
     else:
         return to_s(n, 1)
 ",/Users/mbp/workspace/sandbox/algo/famous/show-human.py
-(define (choose choices),"  (if (null? choices)
+(define (choose choices),"(define (choose choices)
+  (if (null? choices)
       (try-again)
       (call/cc
        (lambda (cc)
@@ -240,7 +303,8 @@ canAttack x queens = go queens 0 where
                 *alternatives*))
                   (car choices)))))
 ",/Users/mbp/workspace/sandbox/algo/fp/amb.scm
-(define try-again #f),"(define *alternatives* '())
+(define try-again #f),"(define try-again #f)
+(define *alternatives* '())
 (call/cc
  (lambda (cc)
    (set! try-again
@@ -251,9 +315,11 @@ canAttack x queens = go queens 0 where
                  (set! *alternatives* (cdr *alternatives*))
                  (next)))))))
 ",/Users/mbp/workspace/sandbox/algo/fp/amb.scm
-:Q:amb,"(define (amb . choices)    (choose choices))
+:Q:amb,"(define (amb . choices)
+    (choose choices))
 ",/Users/mbp/workspace/sandbox/algo/fp/amb.scm
-:Q:try-againのサンプル,";; (test*;;  ""try-again * 3""
+:Q:try-againのサンプル,";; (test*
+;;  ""try-again * 3""
 ;;  '(3 a)
 ;;  (begin
 ;;    (let ((x (amb 1 2 3))
@@ -265,9 +331,11 @@ canAttack x queens = go queens 0 where
 ;;    )
 ;; )
 ",/Users/mbp/workspace/sandbox/algo/fp/amb.scm
-:Q:require,"(define (require p)  (if (not p) (amb)))
+:Q:require,"(define (require p)
+  (if (not p) (amb)))
 ",/Users/mbp/workspace/sandbox/algo/fp/amb.scm
-:Q:requireのサンプルコード,"(test* ""triangle""
+:Q:requireのサンプルコード,"(test*
+ ""triangle""
  '(3 4 5)
  (let ((x (amb 1 2 3 4 5))
        (y (amb 1 2 3 4 5))
@@ -276,28 +344,40 @@ canAttack x queens = go queens 0 where
    (list x y z))
  )
 ",/Users/mbp/workspace/sandbox/algo/fp/amb.scm
-":Q:[1..10]=>[2,4,6,8,10,1,3,5,7,9]","  print $ (uncurry (++) . partition even) [1..10]",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-":Q:[-5..5]=>[0,1,2,3,4,5,-5,-4,-3,-2,-1]","  print $ (uncurry (flip (++)) . break (>=0)) [-5..5]",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-:Q:[1..10]=>偶数だけ取り出す=>1加算=>Sum,"  -- (.)は、引数が一つだけの関数を連結するときに使用できる  print $ (foldl (+) 0 . map (+1) . filter even) [1..10]  -- 35
+":Q:[1..10]=>[2,4,6,8,10,1,3,5,7,9]","  print $ (uncurry (++) . partition even) [1..10]
 ",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-":Q:[Left1,Right2,Left3]=>[1,3]","  print $ [x | (Left x) <- [Left 1, Right 2, Left 3]]",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-":Q:[1..3]=>[Just1,Just2,Just3]","  print $ map Just [1..3]",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-":Q:[1..5]=>[[1..5],[2..5],[3,4,5],[4,5],[5],[]]","  print $ let xs = [1..5] in map (flip drop xs) [0..length xs]",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-:Q:[a]==[a](uncurry使う),"  -- uncurryは、２タプルの１結果を２引数の関数に適用するのに使う  print $ uncurry (++) (splitAt 1 [1..5])
+":Q:[-5..5]=>[0,1,2,3,4,5,-5,-4,-3,-2,-1]","  print $ (uncurry (flip (++)) . break (>=0)) [-5..5]
 ",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-:Q:チャーチ数0,"; 0 := λ f x . x(define zero (lambda(f) (lambda(x) x)))
+:Q:[1..10]=>偶数だけ取り出す=>1加算=>Sum,"  -- (.)は、引数が一つだけの関数を連結するときに使用できる
+  print $ (foldl (+) 0 . map (+1) . filter even) [1..10]  -- 35
+",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
+":Q:[Left1,Right2,Left3]=>[1,3]","  print $ [x | (Left x) <- [Left 1, Right 2, Left 3]]
+",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
+":Q:[1..3]=>[Just1,Just2,Just3]","  print $ map Just [1..3]
+",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
+":Q:[1..5]=>[[1..5],[2..5],[3,4,5],[4,5],[5],[]]","  print $ let xs = [1..5] in map (flip drop xs) [0..length xs]
+",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
+:Q:[a]==[a](uncurry使う),"  -- uncurryは、２タプルの１結果を２引数の関数に適用するのに使う
+  print $ uncurry (++) (splitAt 1 [1..5])
+",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
+:Q:チャーチ数0,"; 0 := λ f x . x
+(define zero (lambda(f) (lambda(x) x)))
 ",/Users/mbp/workspace/sandbox/algo/fp/calculus.scm
-:Q:チャーチ数1,"; 1 := λ f x . f x(define one  (lambda(f) (lambda(x) (f x))))
+:Q:チャーチ数1,"; 1 := λ f x . f x
+(define one  (lambda(f) (lambda(x) (f x))))
 ",/Users/mbp/workspace/sandbox/algo/fp/calculus.scm
-:Q:チャーチ数2,"; 2 := λ f x . f f x(define two  (lambda(f) (lambda(x) (f (f x)))))
+:Q:チャーチ数2,"; 2 := λ f x . f f x
+(define two  (lambda(f) (lambda(x) (f (f x)))))
 ",/Users/mbp/workspace/sandbox/algo/fp/calculus.scm
-:Q:チャーチ数から整数への変換する関数,"; 関数 toInt は数字を表現する関数を受け取り、0 を引数として1を加算する関数を渡します。; 数字を表現する関数がその数字の回数だけ1を加算します
+:Q:チャーチ数から整数への変換する関数,"; 関数 toInt は数字を表現する関数を受け取り、0 を引数として1を加算する関数を渡します。
+; 数字を表現する関数がその数字の回数だけ1を加算します
 (define toInt (lambda(n) ((n (lambda(x)(+ x 1))) 0)))
 (test* ""zero"" 0 (toInt zero))
 (test* ""one""  1 (toInt one))
 (test* ""two""  2 (toInt two))
 ",/Users/mbp/workspace/sandbox/algo/fp/calculus.scm
-(define (fact/cps n cont),"; mは(fact (- n 1))の結果が来る
+(define (fact/cps n cont),"(define (fact/cps n cont)
+; mは(fact (- n 1))の結果が来る
 ; (cont XXX)とするとXXXが(fact/cps n cont)の戻り値となる.
   (if (= n 1)
       (cont 1)
@@ -305,7 +385,8 @@ canAttack x queens = go queens 0 where
 (test* ""(fact/cps 1)""  1   (fact/cps 1 values))
 (test* ""(fact/cps 10)"" 120 (fact/cps 5 values))
 ",/Users/mbp/workspace/sandbox/algo/fp/cps.scm
-(define (fib/cps n k),"  (cond ((= n 0) (k 0))
+(define (fib/cps n k),"(define (fib/cps n k)
+  (cond ((= n 0) (k 0))
         ((= n 1) (k 1))
         (else
          (fib/cps (- n 1)
@@ -313,7 +394,8 @@ canAttack x queens = go queens 0 where
                     (fib/cps (- n 2) (lambda (r2)
                                        (k (+ r1 r2)))))))))
 ",/Users/mbp/workspace/sandbox/algo/fp/cps.scm
-(define (flatten/cps tree k),"  (cond ((null? tree) (k '()))
+(define (flatten/cps tree k),"(define (flatten/cps tree k)
+  (cond ((null? tree) (k '()))
         ((pair? tree)
          (flatten/cps (car tree)
                       (lambda (r1)
@@ -322,19 +404,23 @@ canAttack x queens = go queens 0 where
                          (lambda (r2) (k (append r1 r2)))))))
         (else (k (list tree)))))
 ",/Users/mbp/workspace/sandbox/algo/fp/cps.scm
-(define (leaf-count/cps tree k),"  (if (pair? tree)
+(define (leaf-count/cps tree k),"(define (leaf-count/cps tree k)
+  (if (pair? tree)
       (leaf-count/cps (car tree) (lambda (n)
                         (leaf-count/cps (cdr tree) (lambda (m) (k (+ n m))))))
       (k 1)))
 ",/Users/mbp/workspace/sandbox/algo/fp/cps.scm
-(define (even-odd? x),"  ((lambda (even? odd?) (even? even? odd? x))
+(define (even-odd? x),"(define (even-odd? x)
+  ((lambda (even? odd?) (even? even? odd? x))
    (lambda (ev? od? n) (if (= n 0) #t (od? ev? od? (- n 1))))
    (lambda (ev? od? n) (if (= n 0) #f (ev? ev? od? (- n 1))))))
 (print (even-odd? 10))  ; #t
 (print (even-odd? 11))  ; #f
 ",/Users/mbp/workspace/sandbox/algo/fp/y/even-odd.scm
-:Q:不動点とは,; fixed point combinator f(x)=xを満たすxの事,/Users/mbp/workspace/sandbox/algo/fp/y/fact.scm
-:Q:fact-Y-combinator,"(define fact  (lambda (f)
+:Q:不動点とは,"; fixed point combinator f(x)=xを満たすxの事
+",/Users/mbp/workspace/sandbox/algo/fp/y/fact.scm
+:Q:fact-Y-combinator,"(define fact
+  (lambda (f)
     (lambda (n)
       (if (= n 0) 1 (* n (f (- n 1)))))))
 (define Y
@@ -348,15 +434,19 @@ canAttack x queens = go queens 0 where
 (define factorial (Y fact))
 (print (factorial 5))  ; 120
 ",/Users/mbp/workspace/sandbox/algo/fp/y/fact.scm
-:Q:(Lx.(x+1))1の意味,"; xは引数で、(x+1)は戻り値、1は実引数でx=1; (Lx.x+1)1=>(1+1)=>2 (実引数を適用するとLも除外)
+:Q:(Lx.(x+1))1の意味,"; xは引数で、(x+1)は戻り値、1は実引数でx=1
+; (Lx.x+1)1=>(1+1)=>2 (実引数を適用するとLも除外)
 ",/Users/mbp/workspace/sandbox/algo/fp/y/fact.scm
-:Q:FixedPointCombinators,"; Y = Lf.(Lx.f(x x)) (Lx.f(x x)) とおくと; Y g = (Lf.(Lx.f(x x)) (Lx.f(x x))) g
+:Q:FixedPointCombinators,"; Y = Lf.(Lx.f(x x)) (Lx.f(x x)) とおくと
+; Y g = (Lf.(Lx.f(x x)) (Lx.f(x x))) g
 ; = (Lx.g(x x)) (Lx.g(x x))  ; これが繰り返し現れる
 ; = g((Lx.g(x x)) (Lx.g(x x)))
 ; = g (Y g)
 ",/Users/mbp/workspace/sandbox/algo/fp/y/fact.scm
-ZCombinator,; λf.(λx.f(λy.xxy))(λx.f(λy.xxy)),/Users/mbp/workspace/sandbox/algo/fp/y/fact.scm
-; inner関数がなくても、lambdaで内部関数定義できる,"(define fib
+ZCombinator,"; λf.(λx.f(λy.xxy))(λx.f(λy.xxy))
+",/Users/mbp/workspace/sandbox/algo/fp/y/fact.scm
+; inner関数がなくても、lambdaで内部関数定義できる,"; inner関数がなくても、lambdaで内部関数定義できる
+(define fib
   (lambda (n)
     ((lambda (f) (f f n))
      (lambda (self a)
@@ -366,7 +456,8 @@ ZCombinator,; λf.(λx.f(λy.xxy))(λx.f(λy.xxy)),/Users/mbp/workspace/sandbox/
                       (self self (- a 2)))))))))
 (print (fib 10))  ; 55
 ",/Users/mbp/workspace/sandbox/algo/fp/y/fib.scm
-"func (g *Graph) IsConected(src int, dst int) bool ","	q := []int {src}
+"func (g *Graph) IsConected(src int, dst int) bool ","func (g *Graph) IsConected(src int, dst int) bool {
+	q := []int {src}
 	visited := make([]bool, g.N)
 	for len(q) != 0 {
 		node := q[0]
@@ -384,7 +475,8 @@ ZCombinator,; λf.(λx.f(λy.xxy))(λx.f(λy.xxy)),/Users/mbp/workspace/sandbox/
 	return false
 }
 ",/Users/mbp/workspace/sandbox/algo/graph/bfs/is_connected.go
-"func NewGraph(x []int, y []int, N int) (*Graph) ","	g := &Graph{N: N}
+"func NewGraph(x []int, y []int, N int) (*Graph) ","func NewGraph(x []int, y []int, N int) (*Graph) {
+	g := &Graph{N: N}
 	E := make([][]int, N)
 	for i := 0; i < len(x); i++ {
 		xi := x[i]
@@ -395,7 +487,8 @@ ZCombinator,; λf.(λx.f(λy.xxy))(λx.f(λy.xxy)),/Users/mbp/workspace/sandbox/
 	return g
 }
 ",/Users/mbp/workspace/sandbox/algo/graph/bfs/shortest_path.go
-"func (g *Graph) Find(src, dst int) []int ","	q := []int {src}
+"func (g *Graph) Find(src, dst int) []int ","func (g *Graph) Find(src, dst int) []int {
+	q := []int {src}
 	visited := make([]bool, g.N)
 	previous := make([]int, g.N)
 	for i := 0; i < g.N; i++ { previous[i] = -1 }  // TODO: how to make values default
@@ -420,7 +513,8 @@ ZCombinator,; λf.(λx.f(λy.xxy))(λx.f(λy.xxy)),/Users/mbp/workspace/sandbox/
 	return []int {}
 }
 ",/Users/mbp/workspace/sandbox/algo/graph/bfs/shortest_path.go
-func (g *Graph) TopologicalSort() []int ,"	var dfs func(n int)  // 宣言必須!
+func (g *Graph) TopologicalSort() []int ,"func (g *Graph) TopologicalSort() []int {
+	var dfs func(n int)  // 宣言必須!
 	sorted := []int {}
 	visited := make([]bool, g.N)
 	dfs = func (n int) {
@@ -438,8 +532,10 @@ func (g *Graph) TopologicalSort() []int ,"	var dfs func(n int)  // 宣言必須!
 	return sorted
 }
 ",/Users/mbp/workspace/sandbox/algo/graph/dfs/topological-sort.go
-:Q:wfloydの特徴,// マイナスを含んだ重み付き有向グラフの全ペアの最短経路問題,/Users/mbp/workspace/sandbox/algo/graph/floyd/floyd.cpp
-int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので多少小さい値にすること,"int wf(int n, vector<int> x, vector<int> y, vector<int> w){
+:Q:wfloydの特徴,"// マイナスを含んだ重み付き有向グラフの全ペアの最短経路問題
+",/Users/mbp/workspace/sandbox/algo/graph/floyd/floyd.cpp
+int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので多少小さい値にすること,"int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので多少小さい値にすること
+int wf(int n, vector<int> x, vector<int> y, vector<int> w){
   vector<vector<int>> a(n, vector<int>(n, inf));
   for (int i = 0; i < n; i++) a[i][i] = 0;  // 0とINFの初期化必須
   for (int i = 0; i < x.size(); i++) a[x[i]][y[i]] = w[i];  // u => v (cost)
@@ -450,7 +546,7 @@ int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので
   return a[0][n-1];
 }
 ",/Users/mbp/workspace/sandbox/algo/graph/floyd/floyd.cpp
-"// if A[K] = X, such that 1 ≤ X ≤ N, then operation K is increase(X) AND if A[K] = N + 1 then operation K is max counter.","func maxCounters(A []int, N int) []int {
+"if A[K] = X, such that 1 ≤ X ≤ N, then operation K is increase(X) AND if A[K] = N + 1 then operation K is max counter.","func maxCounters(A []int, N int) []int {
     c := make([]int, N)
     ma, base := 0, 0
     for i := 0; i < len(A); i++ {
@@ -477,7 +573,8 @@ int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので
     return c
 }
 ",/Users/mbp/workspace/sandbox/algo/greedy/maxCounters.go
-:Q:極大値が間隔Kで取れる場合はTrue,"func maxIntervalOfLocalMaximuns(K int, S []int) bool {	// Sは極大値のx座標のリスト
+極大値が間隔Kで取れる場合はTrue,"func maxIntervalOfLocalMaximuns(K int, S []int) bool {
+	// Sは極大値のx座標のリスト
     i := 0  // 左端から貪欲に
     for cnt := 0; cnt < K-1; cnt++ {  // 2つ目の間隔が取れるか?から開始
 		if i == len(S) {
@@ -500,8 +597,11 @@ int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので
     return true
 }
 ",/Users/mbp/workspace/sandbox/algo/greedy/maxIntervalOfLocalMaximuns.go
-:Q:各一定区間内に極大値をもつよう区分,"func maxNumberGroupOfLocalMaximuns(groups int, S []bool) bool {    N := len(S)
-    if N % groups != 0 { panic(""N % groups == 0"") }
+各一定区間内に極大値をもつよう区分,"func maxNumberGroupOfLocalMaximuns(groups int, S []bool) bool {
+    N := len(S)
+    if N % groups != 0 {
+        panic(""N % groups == 0"")
+    }
     interval := N / groups
     for cnt := 0; cnt < groups; cnt++ {
 		for i := 0; i < N; i += interval {
@@ -520,13 +620,113 @@ int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので
     return true
 }
 ",/Users/mbp/workspace/sandbox/algo/greedy/maxNumberGroupOfLocalMaximuns.go
-"; f(123, 0) = f(12, 3) = f(1, 32) = f(0, 321)","(define (reverseInt-tail num)
+char* reverse(char* s) ,"char* reverse(char* s) {
+  if (*s == '\0') return s;
+  char *head = s;
+  char *e = s;
+  while (*(e + 1)) e++;
+  while (s < e) swap(s++, e--);
+  return head;
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+char* unique(char* str) ,"char* unique(char* str) {
+  char *dst = str;
+  for (char *i = str; *i ;i++) {
+    char *j;
+    for (j = str; j < dst; j++) {
+      if (*j == *i)
+        break;
+    }
+    if (j == dst)  // breakしなかった場合
+      *dst++ = *i;
+  }
+  *dst = '\0';
+  return str;
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+length' :: [a] -> Int,"length' :: [a] -> Int
+length' = foldr (const (+1)) 0
+-- (const (+1)) 2 3 == 4
+-- (+1) ((const) 2 3)
+-- const 2 3 == 2
+-- Error ((+1) . const) 2 3
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+reverse' :: [a] -> [a],"reverse' :: [a] -> [a]
+reverse' = foldl (flip (:)) []
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+elem' :: (Eq a) => a -> [a] -> Bool  -- O(n),"elem' :: (Eq a) => a -> [a] -> Bool  -- O(n)
+elem' a [] = False
+elem' a (x:xs) = a == x || elem' a xs -- (n-1)の結果を使うものは、共有メモリで計算できると思った
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+unique' :: (Eq a) => [a] -> [a] -- O(n^2),"unique' :: (Eq a) => [a] -> [a] -- O(n^2)
+unique' [] = []
+unique' (x:xs) = let ys = unique' xs in if elem' x ys then ys else x:ys
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+foldl' :: (b -> a -> b) -> b -> [a] -> b,"foldl' :: (b -> a -> b) -> b -> [a] -> b
+-- a0 + a1 + ... an = (((a0 + a1) + ... ) + an-1) + an)
+-- foldl f a0 Sn = f (foldl a0 Sn-1) an
+foldl' f acc [] = acc
+foldl' f acc (x:xs) = foldl' f (f acc x) xs  -- 末尾再帰
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+foldr' :: (a -> b -> b) -> b -> [a] -> b,"foldr' :: (a -> b -> b) -> b -> [a] -> b
+-- a1 + ... an + a0 = (a1 + ... + (an-1 + (an + a0)))
+-- foldr f a0 Sn = f (foldr a0 Sn-1) an
+foldr' f acc [] = acc
+foldr' f acc (x:xs) = f x (foldr' f acc xs)
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+:Q:foldlとfoldrの違い,"-- foldlは左の要素から計算(+) かつ、(acc X x)
+-- foldrは右の要素から計算(cons) かつ、 (x X acc)
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+"span' :: (a -> Bool) -> [a] -> ([a], [a])","span' :: (a -> Bool) -> [a] -> ([a], [a])
+-- 条件に合致し続けるまでの要素, それ以外
+span' f [] = ([], [])
+span' f (x:xs)
+  | f x = let (ys, zs) = span' f xs in (x:ys, zs)
+  | otherwise =  ([], x:xs)
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+"break' :: (a -> Bool) -> [a] -> ([a], [a])","break' :: (a -> Bool) -> [a] -> ([a], [a])
+-- 条件に合致し続したところで終了
+break' p = span (not . p)
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+groupBy' :: (a -> a -> Bool) -> [a] -> [[a]],"groupBy' :: (a -> a -> Bool) -> [a] -> [[a]]
+-- A sorted list is required
+groupBy' p [] = []
+groupBy' p (x:xs) = (x:ys):(groupBy' p zs) where
+  (ys, zs) = span (p x) xs
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+"zip' :: [a] -> [b] -> [(a,b)]","zip' :: [a] -> [b] -> [(a,b)]
+-- ２つの配列のうち、要素数の少ない方に要素数を合わせる
+zip' [] y = []
+zip' x [] = []
+zip' (x:xs) (y:ys) = (x,y):zip' xs ys
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c],"zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith' f xs ys = map (uncurry f) (zip xs ys)
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+deleteBy' :: Eq a => (a -> Bool) -> [a] -> [a],"deleteBy' :: Eq a => (a -> Bool) -> [a] -> [a]
+deleteBy' eq [] = []
+deleteBy' eq (x:xs) = let ys = deleteBy' eq xs in if eq x then ys else x:ys
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+"unstableSplit :: [a] -> ([a], [a])","unstableSplit :: [a] -> ([a], [a])
+-- リストの先頭の要素を2つ取り出して、双方に渡す
+unstableSplit (x:y:zs) = (x:xs, y:ys) where (xs, ys) = unstableSplit zs
+unstableSplit xs = (xs, [])
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+"stableSplit :: [a] -> ([a], [a])","stableSplit :: [a] -> ([a], [a])
+-- xsは1つ消費, ysは2つ消費. zsが0 or 1になるところでちょうどxsは半分消費したことになるので、そこで半分に分割
+stableSplit xs = go xs xs where
+  go (x:xs) (_:_:ys) = (x:us, vs) where (us, vs) = go xs ys
+  go xs _ = ([], xs)
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+"; f(123, 0) = f(12, 3) = f(1, 32) = f(0, 321)","; f(123, 0) = f(12, 3) = f(1, 32) = f(0, 321)
+(define (reverseInt-tail num)
   (let loop ((n num) (acc 0))
     (if (= n 0)
         acc
         (loop (div n 10) (+ (* acc 10) (mod n 10))))))
 ",/Users/mbp/workspace/sandbox/algo/list/reverseInt/reverseInt-tail.scm
-"struct node* reverse(struct node* head, int k) ","  int flag, count;
+"struct node* reverse(struct node* head, int k) ","struct node* reverse(struct node* head, int k) {
+  int flag, count;
   struct node *n, *first, *last, *bf, *bl;
   flag = 1;
   count = 0;
@@ -565,7 +765,9 @@ int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので
   return first;
 }
 ",/Users/mbp/workspace/sandbox/algo/list/reverseK/reverseK.c
-reverseK k xs = go xs where,"  go xs
+reverseK :: Int -> [Int] -> [Int],"reverseK :: Int -> [Int] -> [Int]
+reverseK k xs = go xs where
+  go xs
     | length xs <= k     = a1
     | length xs <= 2 * k = a1 ++ a2
     | otherwise          = a1 ++ a2 ++ go a3
@@ -574,171 +776,28 @@ reverseK k xs = go xs where,"  go xs
       a2 = take k $ drop k xs
       a3 = drop (2 * k) xs
 ",/Users/mbp/workspace/sandbox/algo/list/reverseK/reverseK.hs
-":Q:配列[x,y]にtrueの要素がいくつあるか?","def f(A, x, y):    N = len(A)
-    if not (0 <= x <= y < N):
-        return None
-    elif x == y:
-        return A[x]  # this is not needed
-    S = [0] * N
-    S[0] = A[0]
-    for i in range(1, N):
-        a = 1 if A[i] else 0
-        S[i] = S[i - 1] + a
-    if x == 0:
-        return S[y]
-    else:
-        return S[y] - S[x - 1]
-",/Users/mbp/workspace/sandbox/algo/prefix-sum/count-true-in-list.py
-":Q:数列a_nの要素が、少なくとも一つ[x, y]に含まれているか? (全体の範囲は[0,M))","def f(A, x, y):    if not (0 <= x <= y <= len(A)):
-        return None
-    s = [0] * M  # メモリ確保
-    for a in A:
-        s[a] = 1
-    for i in range(len(s) - 1):
-        s[i + 1] += s[i]
-    if x == 0:
-        return s[y] == 1
-    return s[y] != s[x - 1]
-",/Users/mbp/workspace/sandbox/algo/prefix-sum/element-in-range.py
-長さlのソート配列に含まれるNの個数,"func search(a []int, f func(int) bool) int {    rt, lo, hi := 0, 0, len(a)-1
-    for lo <= hi {
-        mi := lo + (hi - lo) / 2
-        if a[i] <= a[mi] {
-            hi = mi - 1
-            rt = mi
-        } else {
-            lo = mi + 1
-        }
-    }
-	return len(dp)
-}
-",/Users/mbp/workspace/sandbox/algo/sample/binary-search/count-elem.go
-長さlのソート配列に含まれるNの個数,"countElem xs n = (foldl f 0 bits) - (foldl g (2^32) bits) + 1 where  f acc x = if f2 (acc + x) then acc + x else acc
-  g acc x = if g2 (acc - x) then acc - x else acc  -- (head xs) > n なら-1を返すべき. (head xs) < nの場合は(length xs)を返す
-  f2 a = (length xs) > a && xs !! a <= n
-  g2 a = (length xs) <= a || a >= 0 && xs !! a >= n  -- 配列のサイズを超える場合は、indexが小さくなる方向へ
-  bits = reverse [2^i | i<-[0..32]]
-",/Users/mbp/workspace/sandbox/algo/sample/binary-search/count-elem.hs
-"func InOrderPrev (n, prev *Node) *Node ","// left -> parent -> right PREV で考えずに
-// left <- parent <- right NEXT で考える
-	if n == nil {
-		return nil
-	} else if prev == nil {
-		if n.Left != nil {
-			return InOrderPrev(n.Left, n)
-        } else {
-			return InOrderPrev(n.Parent, n)
-		}
-	} else {
-        if n.Right == nil || n.Right == prev {
-			return n
-		} else if n.Left == prev {
-			return InOrderPrev(n.Parent, n)
-		} else {
-			return InOrderPrev(n.Right, n)
-		}
-	}
-}
-",/Users/mbp/workspace/sandbox/algo/sample/btree/order/inOrderPrev.go
-char* reverse(char* s) ,"  if (*s == '\0') return s;
-  char *head = s;
-  char *e = s;
-  while (*(e + 1)) e++;
-  while (s < e) swap(s++, e--);
-  return head;
-}
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.c
-char* unique(char* str) ,"  char *dst = str;
-  for (char *i = str; *i ;i++) {
-    char *j;
-    for (j = str; j < dst; j++) {
-      if (*j == *i)
-        break;
-    }
-    if (j == dst)  // breakしなかった場合
-      *dst++ = *i;
-  }
-  *dst = '\0';
-  return str;
-}
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.c
-length' :: [a] -> Int,"length' = foldr (const (+1)) 0
--- (const (+1)) 2 3 == 4
--- (+1) ((const) 2 3)
--- const 2 3 == 2
--- Error ((+1) . const) 2 3
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-reverse' :: [a] -> [a],"reverse' = foldl (flip (:)) []
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-elem' :: (Eq a) => a -> [a] -> Bool  -- O(n),"elem' a [] = False
-elem' a (x:xs) = a == x || elem' a xs -- (n-1)の結果を使うものは、共有メモリで計算できると思った
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-unique' :: (Eq a) => [a] -> [a] -- O(n^2),"unique' [] = []
-unique' (x:xs) = let ys = unique' xs in if elem' x ys then ys else x:ys
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-foldl' :: (b -> a -> b) -> b -> [a] -> b,"-- a0 + a1 + ... an = (((a0 + a1) + ... ) + an-1) + an)
--- foldl f a0 Sn = f (foldl a0 Sn-1) an
-foldl' f acc [] = acc
-foldl' f acc (x:xs) = foldl' f (f acc x) xs  -- 末尾再帰
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-foldr' :: (a -> b -> b) -> b -> [a] -> b,"-- a1 + ... an + a0 = (a1 + ... + (an-1 + (an + a0)))
--- foldr f a0 Sn = f (foldr a0 Sn-1) an
-foldr' f acc [] = acc
-foldr' f acc (x:xs) = f x (foldr' f acc xs)
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-:Q:foldlとfoldrの違い,"-- foldlは左の要素から計算(+) かつ、(acc X x)-- foldrは右の要素から計算(cons) かつ、 (x X acc)
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-"span' :: (a -> Bool) -> [a] -> ([a], [a])","-- 条件に合致し続けるまでの要素, それ以外
-span' f [] = ([], [])
-span' f (x:xs)
-  | f x = let (ys, zs) = span' f xs in (x:ys, zs)
-  | otherwise =  ([], x:xs)
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-"break' :: (a -> Bool) -> [a] -> ([a], [a])","-- 条件に合致し続したところで終了
-break' p = span (not . p)
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-groupBy' :: (a -> a -> Bool) -> [a] -> [[a]],"-- A sorted list is required
-groupBy' p [] = []
-groupBy' p (x:xs) = (x:ys):(groupBy' p zs) where
-  (ys, zs) = span (p x) xs
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-"zip' :: [a] -> [b] -> [(a,b)]","-- ２つの配列のうち、要素数の少ない方に要素数を合わせる
-zip' [] y = []
-zip' x [] = []
-zip' (x:xs) (y:ys) = (x,y):zip' xs ys
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c],"zipWith' f xs ys = map (uncurry f) (zip xs ys)
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-deleteBy' :: Eq a => (a -> Bool) -> [a] -> [a],"deleteBy' eq [] = []
-deleteBy' eq (x:xs) = let ys = deleteBy' eq xs in if eq x then ys else x:ys
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-"unstableSplit :: [a] -> ([a], [a])","-- リストの先頭の要素を2つ取り出して、双方に渡す
-unstableSplit (x:y:zs) = (x:xs, y:ys) where (xs, ys) = unstableSplit zs
-unstableSplit xs = (xs, [])
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-"stableSplit :: [a] -> ([a], [a])","-- xsは1つ消費, ysは2つ消費. zsが0 or 1になるところでちょうどxsは半分消費したことになるので、そこで半分に分割
-stableSplit xs = go xs xs where
-  go (x:xs) (_:_:ys) = (x:us, vs) where (us, vs) = go xs ys
-  go xs _ = ([], xs)
-",/Users/mbp/workspace/sandbox/algo/sample/list/list.hs
-def transpose(A):,"    m, n = len(A), len(A[0])
+def transpose(A):,"def transpose(A):
+    m, n = len(A), len(A[0])
     B = [[None] * m for _ in range(n)]
     for i in range(m):
         for j in range(n):
             B[j][i] = A[i][j]
     return B
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/LU.py
-":Q:r[i,j]を求める式","# i<=j の時# lr[i,j] = sum l[i,k]r[k,j] = l[i,1]r[1,j] + ... + l[i,i-1]r[i-1,j] + l[i,i]r[i,j]
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+":Q:r[i,j]を求める式","# i<=j の時
+# lr[i,j] = sum l[i,k]r[k,j] = l[i,1]r[1,j] + ... + l[i,i-1]r[i-1,j] + l[i,i]r[i,j]
 # l[i,i] = 1より
 # r[i,j] = lr[i,j] - sum(1<=k<=i-1) l[i,k]r[k,j] (i>=2)
 # r[1,j] = lr[i,j] (i=1)  # 一番上の行は何もしない
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/LU.py
-":Q:l[i,j]を求める式","# j<i の時# lr[i,j] = sum l[i,k]r[k,j] = l[i,1]r[1,j] + ... + l[i,j-1]r[j-1,j] + l[i,j]r[j,j]
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+":Q:l[i,j]を求める式","# j<i の時
+# lr[i,j] = sum l[i,k]r[k,j] = l[i,1]r[1,j] + ... + l[i,j-1]r[j-1,j] + l[i,j]r[j,j]
 # l[i,j] = {lr[i,j] - sum(1<=k<=j-1) l[i,k]r[k,j]} / r[j,j] (j>=2)
 # l[i,1] = lr[i,1] / r[1,1] (j=1)  # i>=2以上についてr[1,1]で割る
 # なお、 sum(1<=k<=0)=0とすれば、一つの式で表せる
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/LU.py
-:Q:decomposeWithoutPivot,"def decompose(A):    m, n = len(A), len(A[0])
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+:Q:decomposeWithoutPivot,"def decompose(A):
+    m, n = len(A), len(A[0])
     for k in range(max(m, n)):
         for i in range(k + 1, m):
             A[i][k] /= float(A[k][k])
@@ -748,13 +807,16 @@ def transpose(A):,"    m, n = len(A), len(A[0])
     return A
 # kを固定して[i,j]を動かす
 # kまで求めたら、A[k,k]でそれより下の要素を割る
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/LU.py
-:Q:Lx=yを求める式,"# y[i] = sum A[i,k] x[k] = A[i,1] x[1] + ... + A[i,i-1] x[i-1] + 1 * x[i] + 0 ...# x[i] = y[i] - sum (1<=k<=i-1) A[i,k] x[k]
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/LU.py
-:Q:Rx=zを求める式,"# z[i] = sum A[i,k] x[k] = A[i,i] x[i] + ... + A[i,n] x[n]  # i-1以下は0# z[i] = sum (n>=k>=i) A[i,k] x[k]
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+:Q:Lx=yを求める式,"# y[i] = sum A[i,k] x[k] = A[i,1] x[1] + ... + A[i,i-1] x[i-1] + 1 * x[i] + 0 ...
+# x[i] = y[i] - sum (1<=k<=i-1) A[i,k] x[k]
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+:Q:Rx=zを求める式,"# z[i] = sum A[i,k] x[k] = A[i,i] x[i] + ... + A[i,n] x[n]  # i-1以下は0
+# z[i] = sum (n>=k>=i) A[i,k] x[k]
 # A[i,i] x[i] = z[i] - sum (n>=k>=i+1) A[i,k] x[k]  # 最後にA[i,i]で割る
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/LU.py
-:Q:Ax=yを解くプログラム,"def solve(A, y, do_decompose=True):    # Ax=y => LUx=y => Lz=y => Ux=zの順に求める(y=>z=>xの順に解を上書き)
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+:Q:Ax=yを解くプログラム,"def solve(A, y, do_decompose=True):
+    # Ax=y => LUx=y => Lz=y => Ux=zの順に求める(y=>z=>xの順に解を上書き)
     n = len(A)  # 連立方程式は正方行列の必要あり
     if do_decompose:
         decompose(A)
@@ -766,22 +828,25 @@ def transpose(A):,"    m, n = len(A), len(A[0])
             y[i] -= A[i][k] * y[k]  # i<k, y[k]=x[k]
         y[i] /= float(A[i][i])
     return y
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/LU.py
-:Q:AX=Eの逆行列を求める,"def inv(A):    n = len(A)  # 逆行列は正則である必要あり
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+:Q:AX=Eの逆行列を求める,"def inv(A):
+    n = len(A)  # 逆行列は正則である必要あり
     decompose(A)  # LU分解は一度だけ行う
     X = []
     for i in range(n):
         e = [1 if i == j else 0 for j in range(n)]
         X.append(solve(A, e, do_decompose=False))
     return transpose(X)
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/LU.py
-:Q:fibを行列で表現,"# a(n+2)=1*a(n+1)+1*a(n)# a(n+1)=1*a(n+1)+0*a(n)
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+:Q:fibを行列で表現,"# a(n+2)=1*a(n+1)+1*a(n)
+# a(n+1)=1*a(n+1)+0*a(n)
 # A=[[1,1],[1,0]]の行列で、３項間を表せる
 # また(現在)=定数(一つ前)のような等比数列の形をしているので
 # [a(n+2), a(n+1)]=A[a(n+1), a(n+0)]=A^2[a(n+0), a(n-1)] = ... =A^(n+1)[a1, a0]
 # 検算(n=-1の時, 左辺=右辺に成る必要があるのでA^0=Eになる必要がある)
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/fib.py
-:Q:行列計算でのfib,"def fib(n):    # mulは行列の積の計算. 繰り返し二乗法を用いてO(log n)
+",/Users/mbp/workspace/sandbox/algo/math/matrix/fib.py
+:Q:行列計算でのfib,"def fib(n):
+    # mulは行列の積の計算. 繰り返し二乗法を用いてO(log n)
     def loop(n):
         if n == 0:
             return E
@@ -796,8 +861,9 @@ def transpose(A):,"    m, n = len(A), len(A[0])
     E = [[1, 0], [0, 1]]
     A = [[1, 1], [1, 0]]
     return mul(loop(n), [[1], [0]])[1][0]
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/fib.py
-:Q:行列AとBの積,"def mul(A, B):    # 正方行列であることの仮定あり
+",/Users/mbp/workspace/sandbox/algo/math/matrix/fib.py
+:Q:行列AとBの積,"def mul(A, B):
+    # 正方行列であることの仮定あり
     assert len(A) > 0 and len(B) > 0
     assert len(A[0]) == len(B)
     l, m, n = len(A), len(B), len(B[0])
@@ -807,192 +873,59 @@ def transpose(A):,"    m, n = len(A), len(A[0])
         for j in range(n):
             C[i][j] = sum(A[i][k] * B[k][j] for k in range(m))
     return C
-",/Users/mbp/workspace/sandbox/algo/sample/math/matrix/product.py
-:Q:anagram同士が隣同士になるようソート(CI9.2),"sort' :: [String] -> [String]sort' = Data.List.sortBy (\a b -> compare (sort a) (sort b))
-",/Users/mbp/workspace/sandbox/algo/sample/sort/anagram-sort.hs
-"void bsort(int *a, int *buff, int size, int range) ","  int counter[range], offset[range];
-  for (int i = 0; i < range; i++) counter[i] = offset[i] = 0;
-  for (int i = 0; i < size; i++) counter[a[i]]++;
-  offset[0] = 0;
-  for (int i = 0; i < range - 1; i++) offset[i + 1] = offset[i] + counter[i];
-  for (int i = 0; i < size; i++) {
-    int v = a[i];
-    buff[offset[v]++] = v;  // 加えたら同じ値のoffsetは更新
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/sample/sort/bucket-sort.c
-"bucketsortBy :: (a -> Int) -> (Int, Int) -> [a] -> [a]","bucketsortBy getkey dom = concatMap reverse . filter (not . null)
-    . elems . accumArray (flip (:)) [] dom . map (\x -> (getkey x, x))
-",/Users/mbp/workspace/sandbox/algo/sample/sort/bucket-sort.hs
-bucketsort' :: [Int] -> [Int] -> [Int],"bucketsort' keys xs = [x| k <- keys, x <- xs, x == k]
-",/Users/mbp/workspace/sandbox/algo/sample/sort/bucket-sort.hs
-"int find(int *a, int left, int right, int pos) ","  int k = left;
-  int pivot = a[left];
-  for (int i = left + 1; i <= right; i++)
-    if (a[i] < pivot) swap(&a[i], &a[++k]);
-  swap(&a[left], &a[k]);
-  if (k == pos) return a[k];
-  else if (pos < k) return find(a, left, k-1, pos);
-  else return find(a, k+1, right, pos);
-}
-",/Users/mbp/workspace/sandbox/algo/sample/sort/find-kth-smallest.c
-"data_type maxChild(data_type *a, int parent, int size) ","  int left, right;
-  if ((left = LEFT(parent)) >= size)
-    return 0;
-  else if ((right = RIGHT(parent)) == size) {
-    return left;
-  } else if (a[left] < a[right])
-    return right;
-  else
-    return left;
-}
-",/Users/mbp/workspace/sandbox/algo/sample/sort/heap-sort.c
-"void downHeap(data_type *a, int size) ","  int parent = 0;
-  while (1) {
-    int child = maxChild(a, parent, size);
-    if (child > 0 && a[parent] < a[child]) {
-      swap(a, parent, child);
-      parent = child;
-    } else
-      break;
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/sample/sort/heap-sort.c
-"data_type *heapSort(data_type *array, int size) ","  for (int i = 0; i < size; i++)
-    upHeap(array, i);
-  for (int i = size - 1; i >= 0; i--) {
-    // swapではiは有効, downHeapではiは無効
-    swap(array, 0, i);  // sort from last to first
-    downHeap(array, i); 
-  }
-  return array;
-}
-",/Users/mbp/workspace/sandbox/algo/sample/sort/heap-sort.c
-data Heap a = Leaf | Node a [Heap a],"  deriving Show
-",/Users/mbp/workspace/sandbox/algo/sample/sort/heap-sort.hs
-unify :: Ord a => [Heap a] -> Heap a,"unify [] = Leaf
-unify [x] = x
-unify (x:y:zs) = merge (merge x y) (unify zs)
-",/Users/mbp/workspace/sandbox/algo/sample/sort/heap-sort.hs
-merge :: Ord a => Heap a -> Heap a -> Heap a,"merge Leaf h = h
-merge h Leaf = h
-merge lhs@(Node l lh) rhs@(Node r rh)
-  | compare l r == LT = Node l (rhs:lh)
-  | otherwise         = Node r (lhs:rh)
-",/Users/mbp/workspace/sandbox/algo/sample/sort/heap-sort.hs
-fromList :: Ord a => [a] -> Heap a,"fromList = unify . map (\x -> (Node x []))
-",/Users/mbp/workspace/sandbox/algo/sample/sort/heap-sort.hs
-toList :: Ord a => Heap a -> [a],"toList Leaf = []
-toList (Node x xs) = x : toList (unify xs)
-",/Users/mbp/workspace/sandbox/algo/sample/sort/heap-sort.hs
-sort :: Ord a => [a] -> [a],"sort [] = []
-sort (x:xs) = insert x $ sort xs where
-  insert y [] = [y]
-  insert y (x:xs)
-    | x < y = x:insert y xs
-    | otherwise = y:x:xs
-",/Users/mbp/workspace/sandbox/algo/sample/sort/insert-sort.hs
-"void msort(int *a, int left, int right) ","  if (left >= right)
-    return;
-  int mid = left + (right - left) / 2;
-  msort(a, left, mid);
-  msort(a, mid + 1, right);
-  int l = left, r = mid + 1, k = 0;
-  int len = right - left + 1;
-  int buff[len];  // O(n)のスペースが必要(VLA)
-  while (l <= mid && r <= right) {  // どちらか一方の配列を全て使い切るまでloop
-    if (a[l] < a[r])
-      buff[k++] = a[l++];
-    else
-      buff[k++] = a[r++];
-  }
-  while (l <= mid)   buff[k++] = a[l++];  // 残りの一方の配列をappend
-  while (r <= right) buff[k++] = a[r++];
-  memcpy(a + left, buff,  sizeof(int) * len);  // sizeof忘れ、offsetのleft忘れ
-  /* for (int i = 0; i < len; i++) a[left + i] = buff[i]; */
-}
-",/Users/mbp/workspace/sandbox/algo/sample/sort/merge-sort.c
-sort :: Ord a => [a] -> [a],"sort [] = []
-sort [x] = [x]
-sort xs = merge (sort ys) (sort zs) where
-  (ys, zs) = split xs
-merge :: Ord a => [a] -> [a] -> [a]
-merge xs [] = xs
-merge [] ys = ys
-merge xxs@(x:xs) yys@(y:ys)
-  | x < y     = x:merge xs yys
-  | otherwise = y:merge xxs ys
-",/Users/mbp/workspace/sandbox/algo/sample/sort/merge-sort.hs
-"split :: [a] -> ([a], [a])  -- this is not stable","split (x:y:zs) = (x:xs, y:ys) where (xs, ys) = split zs
-split xs = (xs, [])  -- after match
--- split []  = ([] , [])
--- split [x] = ([x], [])
-",/Users/mbp/workspace/sandbox/algo/sample/sort/merge-sort.hs
-"void swap (int *x, int *y) ","  int t = *x;
-  *x = *y;
-  *y = t;
-}
-",/Users/mbp/workspace/sandbox/algo/sample/sort/quick-sort.c
-"void qsort (int *a, int left, int right) ","  if (left >= right)
-    return;
-  int pivot = a[left];
-  int l = left;
-  int r = right;
-  while (1) {  // l <= r可能?
-    while (a[l] < pivot) l++;
-    while (a[r] > pivot) r--;
-    if (l <= r) {
-      swap(&a[l], &a[r]);
-      l++;
-      r--;
-    } else
-      break;
-  }
-  qsort(a, left, r);
-  qsort(a, l, right);
-}
-",/Users/mbp/workspace/sandbox/algo/sample/sort/quick-sort.c
-"func QuickSort(a []int, left, right int) ","	if !(left < right) {
-		return
-	}
-	// pivotは左右を含むし、どこでもいいはず、なら左端に決め打つ
-	var k, pivot int
-	k, pivot = left, left
-	for i := left + 1; i <= right; i++ {
-		if a[i] < a[pivot] {
-			k++ // kは前の最後の保存場所
-			a[i], a[k] = a[k], a[i]
-		}
-	}
-	// pivotを(全体の)k番目にする (覚えておくと組み立てやすい)
-	a[pivot], a[k] = a[k], a[pivot]
-	// pivotを境にソートされているので、kを含まなくて良い
-	QuickSort(a, left, k-1)
-	QuickSort(a, k+1, right)
-}
-",/Users/mbp/workspace/sandbox/algo/sample/sort/quick-sort.go
-positiveLsdSort :: (Bits a) => [a] -> [a],"positiveLsdSort = flip (foldl f) [0..bitSize (0 :: Int)] where
-  f acc x = uncurry (++) $ partition (not . flip testBit x) acc
-",/Users/mbp/workspace/sandbox/algo/sample/sort/radix-sort.hs
-:Q:赤黒木のdata,"data Color = B | R deriving Showdata Hash k v = Leaf | Node Color (Hash k v) (k, v) (Hash k v) deriving Show
+",/Users/mbp/workspace/sandbox/algo/math/matrix/product.py
+":Q:配列[x,y]にtrueの要素がいくつあるか?","def f(A, x, y):
+    N = len(A)
+    if not (0 <= x <= y < N):
+        return None
+    elif x == y:
+        return A[x]  # this is not needed
+    S = [0] * N
+    S[0] = A[0]
+    for i in range(1, N):
+        a = 1 if A[i] else 0
+        S[i] = S[i - 1] + a
+    if x == 0:
+        return S[y]
+    else:
+        return S[y] - S[x - 1]
+",/Users/mbp/workspace/sandbox/algo/prefix-sum/count-true-in-list.py
+":Q:数列a_nの要素が、少なくとも一つ[x, y]に含まれているか? (全体の範囲は[0,M))","def f(A, x, y):
+    if not (0 <= x <= y <= len(A)):
+        return None
+    s = [0] * M  # メモリ確保
+    for a in A:
+        s[a] = 1
+    for i in range(len(s) - 1):
+        s[i + 1] += s[i]
+    if x == 0:
+        return s[y] == 1
+    return s[y] != s[x - 1]
+",/Users/mbp/workspace/sandbox/algo/prefix-sum/element-in-range.py
+:Q:赤黒木のdata,"data Color = B | R deriving Show
+data Hash k v = Leaf | Node Color (Hash k v) (k, v) (Hash k v) deriving Show
 ",/Users/mbp/workspace/sandbox/algo/sample/tree/red-black/red-black.hs
-insert' :: Ord k => k -> v -> Hash k v -> Hash k v,"insert' k v Leaf = Node R Leaf (k, v) Leaf
+insert' :: Ord k => k -> v -> Hash k v -> Hash k v,"insert' :: Ord k => k -> v -> Hash k v -> Hash k v
+insert' k v Leaf = Node R Leaf (k, v) Leaf
 insert' k v (Node c a (k', v') b) = case compare k k' of
   LT -> balance $ Node c (insert' k v a) (k', v') b
   GT -> balance $ Node c a (k', v') (insert' k v b)
   EQ -> Node c a (k, v) b
 ",/Users/mbp/workspace/sandbox/algo/sample/tree/red-black/red-black.hs
-balance :: Ord k => Hash k v -> Hash k v,"balance (Node B (Node R (Node R a x b) y c) z d) = (Node R (Node B a x b) y (Node B c z d))
+balance :: Ord k => Hash k v -> Hash k v,"balance :: Ord k => Hash k v -> Hash k v
+balance (Node B (Node R (Node R a x b) y c) z d) = (Node R (Node B a x b) y (Node B c z d))
 balance (Node B (Node R a x (Node R b y c)) z d) = (Node R (Node B a x b) y (Node B c z d))
 balance (Node B a x (Node R (Node R b y c) z d)) = (Node R (Node B a x b) y (Node B c z d))
 balance (Node B a x (Node R b y (Node R d z c))) = (Node R (Node B a x b) y (Node B c z d))
 balance x  = x
 ",/Users/mbp/workspace/sandbox/algo/sample/tree/red-black/red-black.hs
-"fromList :: Ord k => [(k, v)] -> Hash k v","fromList = foldl insert Leaf
+"fromList :: Ord k => [(k, v)] -> Hash k v","fromList :: Ord k => [(k, v)] -> Hash k v
+fromList = foldl insert Leaf
 insert :: Ord k => Hash k v -> (k, v) -> Hash k v
 insert x (k, v) = turnB $ insert' k v x
 ",/Users/mbp/workspace/sandbox/algo/sample/tree/red-black/red-black.hs
-:Q:配列を三等分する時の最大和(max(A[j:i]+A[i+k])),"func MaxDoubleSliceSum(A []int) int {	K1 := make([]int, len(A)) // [0,i)までの最大和
+:Q:配列を三等分する時の最大和(max(A[j:i]+A[i+k])),"func MaxDoubleSliceSum(A []int) int {
+	K1 := make([]int, len(A)) // [0,i)までの最大和
 	K2 := make([]int, len(A)) // (i,len(A)-1]までの最大和
 	for i := 1; i < len(A)-1; i++ {
 		K1[i] = max(K1[i-1] + A[i], 0)
@@ -1007,7 +940,8 @@ insert x (k, v) = turnB $ insert' k v x
 	return m
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/MaxDoubleSliceSum.go
-:Q:0からN-1まで1~6ずつ進む中で、合計値が最大のもの,"func NumberSolitaire(A []int) int {	var dfs func(int) int
+:Q:0からN-1まで1~6ずつ進む中で、合計値が最大のもの,"func NumberSolitaire(A []int) int {
+	var dfs func(int) int
 	var min int = -1 << 30
 	var memo = make([]int, len(A))
 	for i := range memo { memo[i] = min }
@@ -1031,7 +965,8 @@ insert x (k, v) = turnB $ insert' k v x
 	return dfs(0)
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/NumberSolitaire.go
-:Q:一次元を二次元に変換,"func OneToTwo(N, x int) int {	if x >= N*N {
+:Q:一次元を二次元に変換,"func OneToTwo(N, x int) int {
+	if x >= N*N {
 		panic(""x is huge"")
 	}
 	a := make([][]int, N)
@@ -1045,7 +980,8 @@ insert x (k, v) = turnB $ insert' k v x
     return a[x/N][x%N]
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/OneToTwo.go
-:Q:互いに通り過ぎる車の組み合わせ,"// 0=>, <=1に進むとして、1側を固定し0がいくつ通過するか数えるfunc solve(a []int) int {
+:Q:互いに通り過ぎる車の組み合わせ,"// 0=>, <=1に進むとして、1側を固定し0がいくつ通過するか数える
+func solve(a []int) int {
 	s := make([]int, len(a))
 	s[len(a)-1] = 0
 	for i := len(a)-1; i >= 1; i-- {
@@ -1060,7 +996,8 @@ insert x (k, v) = turnB $ insert' k v x
 	return ans
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/PassingCars.go
-:Q:数列Snを２分割した数列の差の最小値,"func solve(a []int) int {	sum := 0
+:Q:数列Snを２分割した数列の差の最小値,"func solve(a []int) int {
+	sum := 0
 	for i := 0; i < len(a); i++ { sum += a[i] }
 	ms := abs(sum)
 	for i := 0; i < len(a); i++ {
@@ -1072,7 +1009,8 @@ insert x (k, v) = turnB $ insert' k v x
 	return ms
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/TapeEquilibrium.go
-"int anagram(char* p, char* q) ","  char counter[256] = {0};  // 256文字までと仮定
+"int anagram(char* p, char* q) ","int anagram(char* p, char* q) {
+  char counter[256] = {0};  // 256文字までと仮定
   int pl, ql;
   pl = ql = 0;
   // pにおけるそれぞれの文字数をカウント
@@ -1094,8 +1032,10 @@ insert x (k, v) = turnB $ insert' k v x
   return 0;
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/anagram/anagram.c
-:Q:anagram,anagram p q = (sort p) == (sort q),/Users/mbp/workspace/sandbox/algo/seq/anagram/anagram.hs
-:Q:配列の要素が、少なくとも1回ずつ出現する数列のうち、最小のもの,"func atLeastOne(S []int, I int) int {	buff := make([]int, len(S))
+:Q:anagram,"anagram p q = (sort p) == (sort q)
+",/Users/mbp/workspace/sandbox/algo/seq/anagram/anagram.hs
+:Q:配列の要素が、少なくとも1回ずつ出現する数列のうち、最小のもの,"func atLeastOne(S []int, I int) int {
+	buff := make([]int, len(S))
 	sum := 0
 	for i := 0; i < len(S); i++ {
 		a := S[i]
@@ -1114,7 +1054,8 @@ func main() {
 	fmt.Println(atLeastOne([]int{4,4,1,2,0,5,5,3,1,2}, 5))  // 7
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/atLeastOne.go
-func continuousSubseq(a []int) int ,"	if (len(a) == 0) {
+func continuousSubseq(a []int) int ,"func continuousSubseq(a []int) int {
+	if (len(a) == 0) {
 		return 0
 	}
 	var m, s int
@@ -1126,12 +1067,14 @@ func continuousSubseq(a []int) int ,"	if (len(a) == 0) {
 	return m
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/continuousSubseq/continuousSubseq.go
-:Q:ある数列の連続した部分数列の和の最大値,"c a b = compare (sum a) (sum b)s [x] = [x]
+:Q:ある数列の連続した部分数列の和の最大値,"c a b = compare (sum a) (sum b)
+s [x] = [x]
 s (x:xs) = maximumBy c [[x], (x:(s xs))]  -- xから新しくカウントし直す
 m [x] = [x]  -- [-10]と[]を比べるため
 m (x:xs) = maximumBy c [(m xs), (s(x:xs))]  -- 一つ手前と今
 ",/Users/mbp/workspace/sandbox/algo/seq/continuousSubseq/continuousSubseq.hs
-func dominant(a []int) *int ,"	if len(a) == 0 {
+func dominant(a []int) *int ,"func dominant(a []int) *int {
+	if len(a) == 0 {
 		return nil
 	}
 	stack := 1
@@ -1155,7 +1098,8 @@ func dominant(a []int) *int ,"	if len(a) == 0 {
 	return nil
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/dominant/dominant.go
-"func equileader(A []int, x int) int ","	// xが超過する場合の数を返す
+"func equileader(A []int, x int) int ","func equileader(A []int, x int) int {
+	// xが超過する場合の数を返す
 	num := 0
 	for i := 0; i < len(A); i++ {
 		if A[i] == x {
@@ -1176,7 +1120,8 @@ func dominant(a []int) *int ,"	if len(a) == 0 {
 	return s
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/equileader.go
-"func exp(a, n int) int ","	if (n == 0) {
+"func exp(a, n int) int ","func exp(a, n int) int {
+	if (n == 0) {
 		return 1;
 	} else if (n % 2 == 0) {
 		x := exp(a, n / 2)
@@ -1187,10 +1132,12 @@ func dominant(a []int) *int ,"	if len(a) == 0 {
 	}
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/exp/exp.go
-fib n,"  | n == 0 || n == 1 = n
+fib n,"fib n
+  | n == 0 || n == 1 = n
   | otherwise        = fib(n - 1) + fib(n - 2)
 ",/Users/mbp/workspace/sandbox/algo/seq/fib/fib.hs
-list_t* find(list_t* node) ,"  if (node == NULL)
+list_t* find(list_t* node) ,"list_t* find(list_t* node) {
+  if (node == NULL)
     return NULL;
   list_t *fast, *slow;
   fast = slow = node;
@@ -1212,12 +1159,15 @@ list_t* find(list_t* node) ,"  if (node == NULL)
   return slow;
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/floyd-cycle-finding.c
-":Q:gcd(44,12)のプロセス",; 44 12 => 12 8 => 8 4 => 4 0 (ans = 4),/Users/mbp/workspace/sandbox/algo/seq/gcd/gcd.scm
-(define (gcd m n),"  (cond ((< m n) (gcd n m))
+":Q:gcd(44,12)のプロセス","; 44 12 => 12 8 => 8 4 => 4 0 (ans = 4)
+",/Users/mbp/workspace/sandbox/algo/seq/gcd/gcd.scm
+(define (gcd m n),"(define (gcd m n)
+  (cond ((< m n) (gcd n m))
         ((= n 0) m)
         (else (gcd n (mod m n)))))
 ",/Users/mbp/workspace/sandbox/algo/seq/gcd/gcd.scm
-:Q:共通約数のみ存在する場合はTrue,"f :: Int -> Int -> Boolf a b = g a where
+:Q:共通約数のみ存在する場合はTrue,"f :: Int -> Int -> Bool
+f a b = g a where
   g x = let y = gcd x b in
     if y == 1 then x == 1 else g (div x y)
 main = do
@@ -1225,7 +1175,8 @@ main = do
   print $ f 15 75
   print $ f 8 15
 ",/Users/mbp/workspace/sandbox/algo/seq/has-other-divisor/has-other-divisor.hs
-"func Horner(a []int, x int) int ","	if len(a) == 0 { panic(""ERROR"") }
+"func Horner(a []int, x int) int ","func Horner(a []int, x int) int {
+	if len(a) == 0 { panic(""ERROR"") }
 	s := a[0]
 	for i := 1; i < len(a); i++ {
 		s = s * x + a[i]
@@ -1233,9 +1184,11 @@ main = do
 	return s
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/horner.go
-:Q:Least Common Multiple,"-- ab = lcm(a,b) * gcd(a,b)の関係式よりlcm' a b = div (a * b) (gcd a b)
+:Q:Least Common Multiple,"-- ab = lcm(a,b) * gcd(a,b)の関係式より
+lcm' a b = div (a * b) (gcd a b)
 ",/Users/mbp/workspace/sandbox/algo/seq/lcm/lcm.hs
-"func f(a, b string) string ","	dp := make([][]string, len(a) + 1)
+"func f(a, b string) string ","func f(a, b string) string {
+	dp := make([][]string, len(a) + 1)
 	for i := 0 ; i < len(dp); i++ { dp[i] = make([]string, len(b) + 1)}
 	for x := 0; x < len(a); x++ {
 		for y := 0; y < len(b); y++ {
@@ -1255,7 +1208,8 @@ main = do
 	return dp[len(a)][len(b)]
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/lcs/lcs.go
-:Q:LongestCommonSequence,"c a b = compare (length a) (length b)f = g where
+:Q:LongestCommonSequence,"c a b = compare (length a) (length b)
+f = g where
  g xss@(x:xs) yss@(y:ys)
   | x == y    = x : g xs ys
   | otherwise = maximumBy c [(g xss ys), (g xs yss)]
@@ -1267,7 +1221,8 @@ f(x, y)
  = $max ${f(x-1,y), f(x, y-1) $} (else)
 -}
 ",/Users/mbp/workspace/sandbox/algo/seq/lcs/lcs.hs
-func localMaximum(x []int) []bool ,"	bs := make([]bool, len(x))
+func localMaximum(x []int) []bool ,"func localMaximum(x []int) []bool {
+	bs := make([]bool, len(x))
 	for i := 1; i < len(x)-1; i++ {
 		if x[i-1] < x[i] && x[i] > x[i+1] {
 			bs[i] = true
@@ -1277,7 +1232,8 @@ func localMaximum(x []int) []bool ,"	bs := make([]bool, len(x))
 }
   
 ",/Users/mbp/workspace/sandbox/algo/seq/localMaximum.go
-:Q:Kadane'sAlgorithm,"-- 株価の儲けの最大を求めるf (x:y:xs) = g (x-y) (x-y) (y:xs) where
+:Q:Kadane'sAlgorithm,"-- 株価の儲けの最大を求める
+f (x:y:xs) = g (x-y) (x-y) (y:xs) where
   g s m (x:y:xs) = g ns nm (y:xs) where
     d  = x - y
     ns = max d (s + d)
@@ -1288,7 +1244,8 @@ main = do
   print $ f $ reverse [5,4,3,2,1]  -- -1 (失敗)
   print $ f $ reverse [4,1,2,5,3,4] -- 4
 ",/Users/mbp/workspace/sandbox/algo/seq/maxProfix.hs
-:Q:x^2=n(newton),"// x(n+1) = xn - f(xn)/f'(xn)func f(n, x1, e float64) float64 {
+:Q:x^2=n(newton),"// x(n+1) = xn - f(xn)/f'(xn)
+func f(n, x1, e float64) float64 {
 	for {
 		x2 := x1 - (x1 * x1 - n) / (2 * x1)
 		if (abs(x2-x1) < e) { return x2 }
@@ -1296,7 +1253,8 @@ main = do
 	}
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/newton.go
-:Q:polland,"; mod nとした乱数生成関数fとし、x,yの2数を生成させ、対象の整数の因数を求める。(x=yとなった場合は失敗)(define (polland n)
+:Q:polland,"; mod nとした乱数生成関数fとし、x,yの2数を生成させ、対象の整数の因数を求める。(x=yとなった場合は失敗)
+(define (polland n)
  (define rlist (shuffle (iota n)))
  (let1 f (^x (ref rlist x))
        (let loop ((x 2) (y 2))
@@ -1311,7 +1269,8 @@ main = do
   (print (polland 3))  ; -1
   0)
 ",/Users/mbp/workspace/sandbox/algo/seq/polland/pollanrd-rho.scm
-:Q:２つの素数の積の集合(同じものを含む),"def f(N): p = [True] * (N+1)
+:Q:２つの素数の積の集合(同じものを含む),"def f(N):
+ p = [True] * (N+1)
  p[0] = p[1] = False
  i = 2
  while i*i <= N:
@@ -1331,7 +1290,8 @@ main = do
 print(f(4))  # [4]
 print(f(100))  # [4, 6, 9, 10, 14, 15, 21, 22, 25, 26, 33, 34, 35, 38, 39, 46, 49, 51, 55, 57, 58, 62, 65, 69, 74, 77, 82, 85, 86, 87, 91, 93, 94, 95]
 ",/Users/mbp/workspace/sandbox/algo/seq/semi-prime/semi-prime.py
-vector<bool> make_prime_table(int size),"  vector<bool>isPrime(size, true);
+vector<bool> make_prime_table(int size),"vector<bool> make_prime_table(int size){
+  vector<bool>isPrime(size, true);
   isPrime[0] = isPrime[1] = false;  // 0, 1は素数でないので2から始める
   for (int i = 2; i * i < size; i++) {  // (size-1)まで参照
     if (isPrime[i]) {
@@ -1343,7 +1303,8 @@ vector<bool> make_prime_table(int size),"  vector<bool>isPrime(size, true);
   return isPrime;
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/sieve/sieve.cpp
-func generate() chan int ,"	ch := make(chan int)
+func generate() chan int ,"func generate() chan int {
+	ch := make(chan int)
 	go func() {
 		for i := 2; ; i++ {
 			ch <- i
@@ -1352,7 +1313,8 @@ func generate() chan int ,"	ch := make(chan int)
 	return ch
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/sieve/sieve.go
-"func filter(in chan int, prime int) chan int ","	out := make(chan int)
+"func filter(in chan int, prime int) chan int ","func filter(in chan int, prime int) chan int {
+	out := make(chan int)
 	go func() {
 		for {
 			if i := <- in; i % prime != 0 {
@@ -1363,7 +1325,8 @@ func generate() chan int ,"	ch := make(chan int)
 	return out
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/sieve/sieve.go
-func sieve() chan int ,"	out := make(chan int)
+func sieve() chan int ,"func sieve() chan int {
+	out := make(chan int)
 	go func () {
 		ch := generate()
 		for {
@@ -1375,10 +1338,12 @@ func sieve() chan int ,"	out := make(chan int)
 	return out
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/sieve/sieve.go
-:Q:prime,"-- p*p以上の整数を篩にかける(残ったものが素数)primes = f [2..] where
+:Q:prime,"-- p*p以上の整数を篩にかける(残ったものが素数)
+primes = f [2..] where
   f (p:xs) = p:f [x | x <- xs, (mod x p) /= 0]
 ",/Users/mbp/workspace/sandbox/algo/seq/sieve/sieve.hs
-:Q:yates-shuffle,"// 末尾と取り替えるインデックスを決めて、それと末尾を入れ替えfunc shuffle(a []int) {
+:Q:yates-shuffle,"// 末尾と取り替えるインデックスを決めて、それと末尾を入れ替え
+func shuffle(a []int) {
 	for i := len(a) - 1; i >= 1; i-- {
 		j := rand.Int() % (i + 1)
 		if ! (0 <= j && j <= i) { panic(""invalid"") }
@@ -1386,7 +1351,195 @@ func sieve() chan int ,"	out := make(chan int)
  }
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/yates/yates.go
-"func hasArrayTwoCandidates(arr []int, sum int) bool ","	left := 0
+:Q:anagram同士が隣同士になるようソート(CI9.2),"sort' :: [String] -> [String]
+sort' = Data.List.sortBy (\a b -> compare (sort a) (sort b))
+",/Users/mbp/workspace/sandbox/algo/sort/anagram-sort.hs
+"void bsort(int *a, int *buff, int size, int range) ","void bsort(int *a, int *buff, int size, int range) {
+  int counter[range], offset[range];
+  for (int i = 0; i < range; i++) counter[i] = offset[i] = 0;
+  for (int i = 0; i < size; i++) counter[a[i]]++;
+  offset[0] = 0;
+  for (int i = 0; i < range - 1; i++) offset[i + 1] = offset[i] + counter[i];
+  for (int i = 0; i < size; i++) {
+    int v = a[i];
+    buff[offset[v]++] = v;  // 加えたら同じ値のoffsetは更新
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/sort/bucket-sort.c
+"bucketsortBy :: (a -> Int) -> (Int, Int) -> [a] -> [a]","bucketsortBy :: (a -> Int) -> (Int, Int) -> [a] -> [a]
+bucketsortBy getkey dom = concatMap reverse . filter (not . null)
+    . elems . accumArray (flip (:)) [] dom . map (\x -> (getkey x, x))
+",/Users/mbp/workspace/sandbox/algo/sort/bucket-sort.hs
+bucketsort' :: [Int] -> [Int] -> [Int],"bucketsort' :: [Int] -> [Int] -> [Int]
+bucketsort' keys xs = [x| k <- keys, x <- xs, x == k]
+",/Users/mbp/workspace/sandbox/algo/sort/bucket-sort.hs
+"int find(int *a, int left, int right, int pos) ","int find(int *a, int left, int right, int pos) {
+  int k = left;
+  int pivot = a[left];
+  for (int i = left + 1; i <= right; i++)
+    if (a[i] < pivot) swap(&a[i], &a[++k]);
+  swap(&a[left], &a[k]);
+  if (k == pos) return a[k];
+  else if (pos < k) return find(a, left, k-1, pos);
+  else return find(a, k+1, right, pos);
+}
+",/Users/mbp/workspace/sandbox/algo/sort/find-kth-smallest.c
+"data_type maxChild(data_type *a, int parent, int size) ","data_type maxChild(data_type *a, int parent, int size) {
+  int left, right;
+  if ((left = LEFT(parent)) >= size)
+    return 0;
+  else if ((right = RIGHT(parent)) == size) {
+    return left;
+  } else if (a[left] < a[right])
+    return right;
+  else
+    return left;
+}
+",/Users/mbp/workspace/sandbox/algo/sort/heap-sort.c
+"void downHeap(data_type *a, int size) ","void downHeap(data_type *a, int size) {
+  int parent = 0;
+  while (1) {
+    int child = maxChild(a, parent, size);
+    if (child > 0 && a[parent] < a[child]) {
+      swap(a, parent, child);
+      parent = child;
+    } else
+      break;
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/sort/heap-sort.c
+"data_type *heapSort(data_type *array, int size) ","data_type *heapSort(data_type *array, int size) {
+  for (int i = 0; i < size; i++)
+    upHeap(array, i);
+  for (int i = size - 1; i >= 0; i--) {
+    // swapではiは有効, downHeapではiは無効
+    swap(array, 0, i);  // sort from last to first
+    downHeap(array, i); 
+  }
+  return array;
+}
+",/Users/mbp/workspace/sandbox/algo/sort/heap-sort.c
+data Heap a = Leaf | Node a [Heap a],"data Heap a = Leaf | Node a [Heap a]
+  deriving Show
+",/Users/mbp/workspace/sandbox/algo/sort/heap-sort.hs
+unify :: Ord a => [Heap a] -> Heap a,"unify :: Ord a => [Heap a] -> Heap a
+unify [] = Leaf
+unify [x] = x
+unify (x:y:zs) = merge (merge x y) (unify zs)
+",/Users/mbp/workspace/sandbox/algo/sort/heap-sort.hs
+merge :: Ord a => Heap a -> Heap a -> Heap a,"merge :: Ord a => Heap a -> Heap a -> Heap a
+merge Leaf h = h
+merge h Leaf = h
+merge lhs@(Node l lh) rhs@(Node r rh)
+  | compare l r == LT = Node l (rhs:lh)
+  | otherwise         = Node r (lhs:rh)
+",/Users/mbp/workspace/sandbox/algo/sort/heap-sort.hs
+fromList :: Ord a => [a] -> Heap a,"fromList :: Ord a => [a] -> Heap a
+fromList = unify . map (\x -> (Node x []))
+",/Users/mbp/workspace/sandbox/algo/sort/heap-sort.hs
+toList :: Ord a => Heap a -> [a],"toList :: Ord a => Heap a -> [a]
+toList Leaf = []
+toList (Node x xs) = x : toList (unify xs)
+",/Users/mbp/workspace/sandbox/algo/sort/heap-sort.hs
+sort :: Ord a => [a] -> [a],"sort :: Ord a => [a] -> [a]
+sort [] = []
+sort (x:xs) = insert x $ sort xs where
+  insert y [] = [y]
+  insert y (x:xs)
+    | x < y = x:insert y xs
+    | otherwise = y:x:xs
+",/Users/mbp/workspace/sandbox/algo/sort/insert-sort.hs
+"void msort(int *a, int left, int right) ","void msort(int *a, int left, int right) {
+  if (left >= right)
+    return;
+  int mid = left + (right - left) / 2;
+  msort(a, left, mid);
+  msort(a, mid + 1, right);
+  int l = left, r = mid + 1, k = 0;
+  int len = right - left + 1;
+  int buff[len];  // O(n)のスペースが必要(VLA)
+  while (l <= mid && r <= right) {  // どちらか一方の配列を全て使い切るまでloop
+    if (a[l] < a[r])
+      buff[k++] = a[l++];
+    else
+      buff[k++] = a[r++];
+  }
+  while (l <= mid)   buff[k++] = a[l++];  // 残りの一方の配列をappend
+  while (r <= right) buff[k++] = a[r++];
+  memcpy(a + left, buff,  sizeof(int) * len);  // sizeof忘れ、offsetのleft忘れ
+  /* for (int i = 0; i < len; i++) a[left + i] = buff[i]; */
+}
+",/Users/mbp/workspace/sandbox/algo/sort/merge-sort.c
+sort :: Ord a => [a] -> [a],"sort :: Ord a => [a] -> [a]
+sort [] = []
+sort [x] = [x]
+sort xs = merge (sort ys) (sort zs) where
+  (ys, zs) = split xs
+merge :: Ord a => [a] -> [a] -> [a]
+merge xs [] = xs
+merge [] ys = ys
+merge xxs@(x:xs) yys@(y:ys)
+  | x < y     = x:merge xs yys
+  | otherwise = y:merge xxs ys
+",/Users/mbp/workspace/sandbox/algo/sort/merge-sort.hs
+"split :: [a] -> ([a], [a])  -- this is not stable","split :: [a] -> ([a], [a])  -- this is not stable
+split (x:y:zs) = (x:xs, y:ys) where (xs, ys) = split zs
+split xs = (xs, [])  -- after match
+-- split []  = ([] , [])
+-- split [x] = ([x], [])
+",/Users/mbp/workspace/sandbox/algo/sort/merge-sort.hs
+"void swap (int *x, int *y) ","void swap (int *x, int *y) {
+  int t = *x;
+  *x = *y;
+  *y = t;
+}
+",/Users/mbp/workspace/sandbox/algo/sort/quick-sort.c
+"void qsort (int *a, int left, int right) ","void qsort (int *a, int left, int right) {
+  if (left >= right)
+    return;
+  int pivot = a[left];
+  int l = left;
+  int r = right;
+  while (1) {  // l <= r可能?
+    while (a[l] < pivot) l++;
+    while (a[r] > pivot) r--;
+    if (l <= r) {
+      swap(&a[l], &a[r]);
+      l++;
+      r--;
+    } else
+      break;
+  }
+  qsort(a, left, r);
+  qsort(a, l, right);
+}
+",/Users/mbp/workspace/sandbox/algo/sort/quick-sort.c
+"func QuickSort(a []int, left, right int) ","func QuickSort(a []int, left, right int) {
+	if !(left < right) {
+		return
+	}
+	// pivotは左右を含むし、どこでもいいはず、なら左端に決め打つ
+	var k, pivot int
+	k, pivot = left, left
+	for i := left + 1; i <= right; i++ {
+		if a[i] < a[pivot] {
+			k++ // kは前の最後の保存場所
+			a[i], a[k] = a[k], a[i]
+		}
+	}
+	// pivotを(全体の)k番目にする (覚えておくと組み立てやすい)
+	a[pivot], a[k] = a[k], a[pivot]
+	// pivotを境にソートされているので、kを含まなくて良い
+	QuickSort(a, left, k-1)
+	QuickSort(a, k+1, right)
+}
+",/Users/mbp/workspace/sandbox/algo/sort/quick-sort.go
+positiveLsdSort :: (Bits a) => [a] -> [a],"positiveLsdSort :: (Bits a) => [a] -> [a]
+positiveLsdSort = flip (foldl f) [0..bitSize (0 :: Int)] where
+  f acc x = uncurry (++) $ partition (not . flip testBit x) acc
+",/Users/mbp/workspace/sandbox/algo/sort/radix-sort.hs
+"func hasArrayTwoCandidates(arr []int, sum int) bool ","func hasArrayTwoCandidates(arr []int, sum int) bool {
+	left := 0
 	right := len(arr) - 1
 	for left < right {
 		s := arr[left] + arr[right]
@@ -1401,20 +1554,24 @@ func sieve() chan int ,"	out := make(chan int)
 	return false
 }
 ",/Users/mbp/workspace/sandbox/algo/sorted/hasArrayTwoCandidates/hasArrayTwoCandidates.go
-:Q:returnTrueIfSortedArrayHasTtriangle,f a = any id [a!!i + a!!i+1 > a!!i+2 | i<-[0..length a-2]],/Users/mbp/workspace/sandbox/algo/sorted/triangle-exists.hs
-:Q:配列の３つの積の最大値は,"# $max_{i,j,k $in N} a[i] $times a[j] $times a[k]def f(data):
+:Q:returnTrueIfSortedArrayHasTtriangle,"f a = any id [a!!i + a!!i+1 > a!!i+2 | i<-[0..length a-2]]
+",/Users/mbp/workspace/sandbox/algo/sorted/triangle-exists.hs
+:Q:配列の３つの積の最大値は,"# $max_{i,j,k $in N} a[i] $times a[j] $times a[k]
+def f(data):
     s = sorted(data)
     m1 = s[-1] * s[-2] * s[3]
     m2 = s[0] * s[1] * s[-1]
     return max(m1, m2)
 ",/Users/mbp/workspace/sandbox/algo/sorted/triple-product.py
-:Q:最小値をO(1)で取得できるstack.push()(ただし重複した値をpushしない),"func (s *Stack) Push(v Node) {	s.stack = append(s.stack, v)
+:Q:最小値をO(1)で取得できるstack.push()(ただし重複した値をpushしない),"func (s *Stack) Push(v Node) {
+	s.stack = append(s.stack, v)
 	if len(s.cache) == 0 || s.Min().value > v.value {
 		s.cache = append(s.cache, v)
 	}
 }
 ",/Users/mbp/workspace/sandbox/algo/stack/minium-stack.go
-:Q:最小値をO(1)で取得できるstack.pop()(ただし重複した値をpushしない),"func (s *Stack) Pop() *Node {	if s.Empty() {
+:Q:最小値をO(1)で取得できるstack.pop()(ただし重複した値をpushしない),"func (s *Stack) Pop() *Node {
+	if s.Empty() {
 		return nil
 	}
 	x := s.stack[len(s.stack)-1]
@@ -1425,7 +1582,8 @@ func sieve() chan int ,"	out := make(chan int)
 	return &x
 }
 ",/Users/mbp/workspace/sandbox/algo/stack/minium-stack.go
-class SetOfStacks ,"private:
+class SetOfStacks ,"class SetOfStacks {
+private:
   int threshold;
   list<stack<int>> stacks;
 public:
@@ -1464,7 +1622,8 @@ public:
   }
 };
 ",/Users/mbp/workspace/sandbox/algo/stack/setOfStack.cpp
-:Q:2つのqueueでstackを実装,"type Queue struct {	s1 Stack
+:Q:2つのqueueでstackを実装,"type Queue struct {
+	s1 Stack
 	s2 Stack
 }
 func (q *Queue) Push(x int) {
@@ -1487,11 +1646,15 @@ func (q *Queue)Empty() bool {
     return q.s1.Empty() && q.s2.Empty()
 }
 ",/Users/mbp/workspace/sandbox/algo/stack/stackQueue.go
-fibの級数表記をzipWidthで表現,"fib = 0:1:zipWith (+) fib (tail fib)fib'@(_ : tf) = 0:1:zipWith (+) fib' tf
+fibの級数表記をzipWidthで表現,"fib = 0:1:zipWith (+) fib (tail fib)
+fib'@(_ : tf) = 0:1:zipWith (+) fib' tf
 ",/Users/mbp/workspace/sandbox/algo/stream/fib.hs
-:Q:等比数列2^(n-1),a = 1: map (*2) a,/Users/mbp/workspace/sandbox/algo/stream/geometric.hs
-整数の級数表記をzipWidthで表現,integer = 1: zipWith (+) (repeat 1) integer,/Users/mbp/workspace/sandbox/algo/stream/int.hs
-// 以下の関係であればtrue,"// apple == pleap
+:Q:等比数列2^(n-1),"a = 1: map (*2) a
+",/Users/mbp/workspace/sandbox/algo/stream/geometric.hs
+整数の級数表記をzipWidthで表現,"integer = 1: zipWith (+) (repeat 1) integer
+",/Users/mbp/workspace/sandbox/algo/stream/int.hs
+// 以下の関係であればtrue,"// 以下の関係であればtrue
+// apple == pleap
 int isRotation(char* p, char* q) {
   int pl = strlen(p);
   int ql = strlen(q);
@@ -1508,7 +1671,8 @@ int isRotation(char* p, char* q) {
   return result;
 }
 ",/Users/mbp/workspace/sandbox/algo/string/isRotation/isRotation.c
-char* replaceSpacesWithP20(char* s) ,"  int length = 0;
+char* replaceSpacesWithP20(char* s) ,"char* replaceSpacesWithP20(char* s) {
+  int length = 0;
   for (char* it = s; *it; it++) {
     if (*it == ' ')
       length += 3;
@@ -1530,7 +1694,8 @@ char* replaceSpacesWithP20(char* s) ,"  int length = 0;
   return head;
 }
 ",/Users/mbp/workspace/sandbox/algo/string/replaceSpacesWithP20.c
-void insert(char* s) ,"    char key = *s - 'a';
+void insert(char* s) ,"  void insert(char* s) {
+    char key = *s - 'a';
     if (*s == '\0')
       return;
     else if (children[key] == NULL)
@@ -1538,7 +1703,8 @@ void insert(char* s) ,"    char key = *s - 'a';
     children[key]->insert(s + 1);
   }
 ",/Users/mbp/workspace/sandbox/algo/string/trie.cpp
-bool find(char* s) ,"    char key = *s - 'a';
+bool find(char* s) ,"  bool find(char* s) {
+    char key = *s - 'a';
     if (*s == '\0')
       return true;
     else if (children[key] == NULL)
@@ -1546,7 +1712,8 @@ bool find(char* s) ,"    char key = *s - 'a';
     return children[key]->find(s + 1);
   }
 ",/Users/mbp/workspace/sandbox/algo/string/trie.cpp
-struct _bst ,"  data_type data;
+struct _bst ,"struct _bst {
+  data_type data;
   struct _bst *parent;
   struct _bst *left;
   struct _bst *right;
@@ -1565,7 +1732,8 @@ bst_t *bst_init(data_type data) {
   return tree;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/bst.c
-"void bst_insert(bst_t **bst, data_type data, bst_t *parent) ","  // O(log2n)
+"void bst_insert(bst_t **bst, data_type data, bst_t *parent) ","void bst_insert(bst_t **bst, data_type data, bst_t *parent) {
+  // O(log2n)
   // you don't need the arparent of parent as previous data
   // but it makes code more simple
   // WARN: it takes O(n) to insert a sorted list
@@ -1582,7 +1750,8 @@ bst_t *bst_init(data_type data) {
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/bst.c
-"bst_t *bst_search(bst_t *tree, data_type data) {  // O(log2n)","  if (tree == NULL)
+"bst_t *bst_search(bst_t *tree, data_type data) {  // O(log2n)","bst_t *bst_search(bst_t *tree, data_type data) {  // O(log2n)
+  if (tree == NULL)
     return NULL;
   else if (tree->data == data)
     return tree;
@@ -1592,7 +1761,8 @@ bst_t *bst_init(data_type data) {
     return bst_search(tree->right, data);
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/bst.c
-:Q:DeleteBST,"// if tree has 2 children, find the child of the min data at the side of right// TODO: how to delete root?
+:Q:DeleteBST,"// if tree has 2 children, find the child of the min data at the side of right
+// TODO: how to delete root?
 void bst_delete(bst_t **bst, data_type data) {
   bst_t *tree = *bst;
   // which side is connected with parent
@@ -1640,7 +1810,8 @@ void bst_delete(bst_t **bst, data_type data) {
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/bst.c
-:Q:tree構造+init,"typedef struct _tree {  int data;
+:Q:tree構造+init,"typedef struct _tree {
+  int data;
   struct _tree* parent;
   struct _tree* left;
   struct _tree* right;
@@ -1652,7 +1823,8 @@ btree *btree_init(int data) {
   return t;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/btree.h
-struct _entry ,"  char *key;
+struct _entry ,"struct _entry {
+  char *key;
   data_type data;
   struct _entry *next;
 };
@@ -1663,7 +1835,8 @@ struct _hash_table {
 typedef struct _entry entry_t;
 typedef struct _hash_table hash_table_t;
 ",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"int get_hash(hash_table_t *table, char *key) ","  // hash must unsigned because it is used by an index of an array
+"int get_hash(hash_table_t *table, char *key) ","int get_hash(hash_table_t *table, char *key) {
+  // hash must unsigned because it is used by an index of an array
   unsigned int v = 0;
   char *p = key;
   while (*p) {
@@ -1672,7 +1845,8 @@ typedef struct _hash_table hash_table_t;
   return v % table->size;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"entry_t *make_entry(char *key, data_type data) ","  entry_t *n = (entry_t *)malloc(sizeof(entry_t));
+"entry_t *make_entry(char *key, data_type data) ","entry_t *make_entry(char *key, data_type data) {
+  entry_t *n = (entry_t *)malloc(sizeof(entry_t));
   char *k = strdup(key);
   if (n == NULL || k == NULL) {
     printf(""Out of memory"");
@@ -1684,7 +1858,8 @@ typedef struct _hash_table hash_table_t;
   return n;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"entry_t *ht_search(hash_table_t *ht, char *key) {  // O(n/size * key) ()","  int hashvalue = get_hash(ht, key);
+"entry_t *ht_search(hash_table_t *ht, char *key) {  // O(n/size * key) ()","entry_t *ht_search(hash_table_t *ht, char *key) {  // O(n/size * key) ()
+  int hashvalue = get_hash(ht, key);
   for (entry_t *e = ht->table[hashvalue]; e; e=e->next) {
     // it is better to take an action here not on the callee side
     // a key can't be hashed because collision should not occur here
@@ -1695,7 +1870,8 @@ typedef struct _hash_table hash_table_t;
   return NULL;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"void ht_insert(hash_table_t *ht, char *key, data_type data) {  // O(n/size + key)","  entry_t *e = ht_search(ht, key);
+"void ht_insert(hash_table_t *ht, char *key, data_type data) {  // O(n/size + key)","void ht_insert(hash_table_t *ht, char *key, data_type data) {  // O(n/size + key)
+  entry_t *e = ht_search(ht, key);
   if (e == NULL) {
     // create
     int hashvalue = get_hash(ht, key);
@@ -1709,7 +1885,8 @@ typedef struct _hash_table hash_table_t;
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"void ht_delete(hash_table_t *ht, char *key) {  // O(n/size + key)","  entry_t *e = ht_search(ht, key);
+"void ht_delete(hash_table_t *ht, char *key) {  // O(n/size + key)","void ht_delete(hash_table_t *ht, char *key) {  // O(n/size + key)
+  entry_t *e = ht_search(ht, key);
   if (e) {
     int hashvalue = get_hash(ht, key);
     // should move this code into ht_search
@@ -1730,7 +1907,8 @@ typedef struct _hash_table hash_table_t;
 // insert key value
 // search
 ",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-:Q:list構造,"struct _list {  int data;
+:Q:list構造,"struct _list {
+  int data;
   struct _list *next;
 };
 typedef struct _list list_t;
@@ -1744,7 +1922,8 @@ list_t* init(int data){
   return newNode;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"void append(list_t** head, int data)","  // add an item to the last of a list O(n)
+"void append(list_t** head, int data)","void append(list_t** head, int data){
+  // add an item to the last of a list O(n)
   list_t* n = init(data);
   if (*head == NULL) {
     *head = n;
@@ -1756,7 +1935,8 @@ list_t* init(int data){
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"void append1(list_t** start, list_t** end, int data)","  // add an item to the last of a list O(1)
+"void append1(list_t** start, list_t** end, int data)","void append1(list_t** start, list_t** end, int data){
+  // add an item to the last of a list O(1)
   list_t* n = init(data);
   if (*start == NULL) {
     *start = n;
@@ -1767,7 +1947,8 @@ list_t* init(int data){
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"list_t* inits(int argc, ...) ","  // with append1, O(n)
+"list_t* inits(int argc, ...) ","list_t* inits(int argc, ...) {
+  // with append1, O(n)
   // if you use append, the complexity is O(n^2)
   if (argc <= 0)
     return NULL;
@@ -1783,7 +1964,8 @@ list_t* init(int data){
   return head;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"list_t* search(list_t *head, int data) {  // O(n)","  while (head) {
+"list_t* search(list_t *head, int data) {  // O(n)","list_t* search(list_t *head, int data) {  // O(n)
+  while (head) {
     if (head->data == data)
       return head;
     head = head->next;
@@ -1791,7 +1973,8 @@ list_t* init(int data){
   return NULL;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-// Delete the node of the argument,"void deleteThis(list_t* node) {
+// Delete the node of the argument,"// Delete the node of the argument
+void deleteThis(list_t* node) {
   if (node == NULL)
     return;
   else if (node->next == NULL) {
@@ -1809,7 +1992,8 @@ list_t* init(int data){
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-int removeThis(list_t* node) ,"  if (node == NULL || node->next == NULL)
+int removeThis(list_t* node) ,"int removeThis(list_t* node) {
+  if (node == NULL || node->next == NULL)
     return 0;
   list_t* tmp = node->next;
   node->data = node->next->data;
@@ -1818,7 +2002,8 @@ int removeThis(list_t* node) ,"  if (node == NULL || node->next == NULL)
   return 1;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-list_t* unique(list_t* head) ,"  list_t* current = head;
+list_t* unique(list_t* head) ,"list_t* unique(list_t* head) {
+  list_t* current = head;
   while (current) {
     list_t* next = current->next;
     list_t* prev = current;
@@ -1837,7 +2022,8 @@ list_t* unique(list_t* head) ,"  list_t* current = head;
   return head;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-list_t* removeAllDups(list_t* head) ,"  // 同じものがあれば、全て削除する(uniqueではない)
+list_t* removeAllDups(list_t* head) ,"list_t* removeAllDups(list_t* head) {
+  // 同じものがあれば、全て削除する(uniqueではない)
   list_t *f = NULL, *l = NULL, *current = head;
   while (current) {
     int found = 0;
@@ -1872,7 +2058,8 @@ list_t* removeAllDups(list_t* head) ,"  // 同じものがあれば、全て削�
   return f;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"list_t* lastButK(list_t* node, int k) ","  // 配列の長さ-k-1で要素を取得するでもよいが、kだけ先読みしたpointerを1つ用意することで高速化可能
+"list_t* lastButK(list_t* node, int k) ","list_t* lastButK(list_t* node, int k) {
+  // 配列の長さ-k-1で要素を取得するでもよいが、kだけ先読みしたpointerを1つ用意することで高速化可能
   if (k < 0)
     return NULL;
   list_t *s, *e;
@@ -1889,22 +2076,26 @@ list_t* removeAllDups(list_t* head) ,"  // 同じものがあれば、全て削�
   return s;  // k=0の時NULL
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/list.c
-:Q:btree構造,"struct _rbtree {  enum _color color;
+:Q:btree構造,"struct _rbtree {
+  enum _color color;
   rbtree_data_type data;
   struct _rbtree *parent;
   struct _rbtree *left;
   struct _rbtree *right;
 };
 ",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"#define APPEND_L(p, c) {                        \","    (p)->left  = (c);                           \
+"#define APPEND_L(p, c) {                        \","#define APPEND_L(p, c) {                        \
+    (p)->left  = (c);                           \
     if ((c) != NULL) (c)->parent = (p);         \
   }
 ",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"#define APPEND_R(p, c) {                        \","    (p)->right = (c);                           \
+"#define APPEND_R(p, c) {                        \","#define APPEND_R(p, c) {                        \
+    (p)->right = (c);                           \
     if ((c) != NULL) (c)->parent = (p);         \
   }
 ",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"#define APPEND_P(root, tree, c) {                 \","    if ((tree)->parent == NULL) {                \
+"#define APPEND_P(root, tree, c) {                 \","#define APPEND_P(root, tree, c) {                 \
+    if ((tree)->parent == NULL) {                \
       (*root) = (c);                              \
       (c)->parent = NULL;                         \
     } else { _APPEND_P(tree, c); }               \
@@ -1917,9 +2108,12 @@ list_t* removeAllDups(list_t* head) ,"  // 同じものがあれば、全て削�
     (c1)->parent = NULL;                        \
   }
 ",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-#define LEFT_CHILD(c) ((c)->parent->left == (c)),,/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-#define RIGHT_CHILD(c) ((c)->parent->right == (c)),,/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-// -> y r-> x l-> z,"// -> x l-> y r-> z
+#define LEFT_CHILD(c) ((c)->parent->left == (c)),"#define LEFT_CHILD(c) ((c)->parent->left == (c))
+",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
+#define RIGHT_CHILD(c) ((c)->parent->right == (c)),"#define RIGHT_CHILD(c) ((c)->parent->right == (c))
+",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
+// -> y r-> x l-> z,"// -> y r-> x l-> z
+// -> x l-> y r-> z
 void rotateL(rbtree_t **root, rbtree_t *tree) {
   // rbtree_t *tree = *root;
   if (tree == NULL || tree->right == NULL) {
@@ -1933,7 +2127,8 @@ void rotateL(rbtree_t **root, rbtree_t *tree) {
   APPEND_R(tree, rl);
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"void rbtree_balance(rbtree_t **root, rbtree_t *tree) ","  rbtree_t *p, *u;  // parent, uncle
+"void rbtree_balance(rbtree_t **root, rbtree_t *tree) ","void rbtree_balance(rbtree_t **root, rbtree_t *tree) {
+  rbtree_t *p, *u;  // parent, uncle
   while ((p = tree->parent) && p->color == RED && p->parent) {
     if (LEFT_CHILD(p))
       u = p->parent->right;
@@ -1975,7 +2170,8 @@ void rotateL(rbtree_t **root, rbtree_t *tree) {
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"void rbtree_insert(rbtree_t **root, rbtree_data_type data) ","  rbtree_t *node = (rbtree_t *)malloc(sizeof(rbtree_t));
+"void rbtree_insert(rbtree_t **root, rbtree_data_type data) ","void rbtree_insert(rbtree_t **root, rbtree_data_type data) {
+  rbtree_t *node = (rbtree_t *)malloc(sizeof(rbtree_t));
   if (node == NULL) {
     printf(""Out of memory"");
     exit(1);
@@ -2013,7 +2209,8 @@ void rotateL(rbtree_t **root, rbtree_t *tree) {
   (*root)->color = BLACK;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-node_t* init(int value),"  node_t* newNode = (node_t*) malloc(sizeof(node_t));
+node_t* init(int value),"node_t* init(int value){
+  node_t* newNode = (node_t*) malloc(sizeof(node_t));
   if (newNode == NULL)
     return NULL;
   newNode->value = value;
@@ -2021,7 +2218,8 @@ node_t* init(int value),"  node_t* newNode = (node_t*) malloc(sizeof(node_t));
   return newNode;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/stack.c
-"void push(node_t** head, int value)","  // stackはリストの先頭に要素を加えていくことでO(1)を実現
+"void push(node_t** head, int value)","void push(node_t** head, int value){
+  // stackはリストの先頭に要素を加えていくことでO(1)を実現
   node_t* new = init(value);
   if (*head == NULL) {
     *head = new;
@@ -2032,7 +2230,8 @@ node_t* init(int value),"  node_t* newNode = (node_t*) malloc(sizeof(node_t));
   *head = new;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/stack.c
-void pop(node_t** head),"  node_t* first = *head;
+void pop(node_t** head),"void pop(node_t** head){
+  node_t* first = *head;
   if (first == NULL)  // empty
     return;
   int value = first->value;
@@ -2040,7 +2239,8 @@ void pop(node_t** head),"  node_t* first = *head;
   free(first);
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/stack.c
-char *s_strip(char *str) ,"  while (*str == ' ')
+char *s_strip(char *str) ,"char *s_strip(char *str) {
+  while (*str == ' ')
     str++;
   char *last = str;
   while (*last)
@@ -2052,7 +2252,8 @@ char *s_strip(char *str) ,"  while (*str == ' ')
   return str;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/string.c
-"int s_strcmp(char *p, char *q) ","  while (*p && *q) {
+"int s_strcmp(char *p, char *q) ","int s_strcmp(char *p, char *q) {
+  while (*p && *q) {
     if (*p < *q)
       return -1;
     else if (*p > *q)
@@ -2068,12 +2269,14 @@ char *s_strip(char *str) ,"  while (*str == ' ')
     return 0; // same length
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/string.c
-int s_strlen(char *str) ,"  char *last = str;
+int s_strlen(char *str) ,"int s_strlen(char *str) {
+  char *last = str;
   while (*last) last++;
   return last - str;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/string.c
-"char *s_join(char **str, char delim, int length) ","  int sum = 0;
+"char *s_join(char **str, char delim, int length) ","char *s_join(char **str, char delim, int length) {
+  int sum = 0;
   for (int i = 0; i < length; i++)
     sum += s_strlen(str[i]);
   sum += length;  // delim * (length - 1) + '\0'
@@ -2088,7 +2291,8 @@ int s_strlen(char *str) ,"  char *last = str;
   return p;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/string.c
-char *s_lower(char *str) ,"  for (char *c = str; *c; c++) {
+char *s_lower(char *str) ,"char *s_lower(char *str) {
+  for (char *c = str; *c; c++) {
     if ('A' <= *c && *c <= 'Z') {
       *c = 'a' + (*c - 'A');
     }
@@ -2096,7 +2300,8 @@ char *s_lower(char *str) ,"  for (char *c = str; *c; c++) {
   return str;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/string.c
-"int s_is_substring(char *ps, char *qs) ","  char *p, *q;
+"int s_is_substring(char *ps, char *qs) ","int s_is_substring(char *ps, char *qs) {
+  char *p, *q;
   for (char *s = ps; *s; s++) {
     char *p = s;
     char *q = qs;
@@ -2116,7 +2321,8 @@ char *s_lower(char *str) ,"  for (char *c = str; *c; c++) {
   /* printf(""%d\n"", isSubstring(""abcdefg"", """")); */
   /* printf(""%d\n"", isSubstring(""abc"", ""abcdefg"")); */
 ",/Users/mbp/workspace/sandbox/algo/struct/string.c
-"char* myremove(char c, char* str) ","  char *dst = str;
+"char* myremove(char c, char* str) ","char* myremove(char c, char* str) {
+  char *dst = str;
   for (char *it = str; *it ;it++) {
     if (*it != c)
       *dst++ = *it;
@@ -2127,11 +2333,13 @@ char *s_lower(char *str) ,"  for (char *c = str; *c; c++) {
   /* char s1[] = ""abcabc""; */
   /* printf(""%s\n"", myremove('c', s1)); */
 ",/Users/mbp/workspace/sandbox/algo/struct/string.c
-:Q:vector構造,"struct _vector {  int* data;
+:Q:vector構造,"struct _vector {
+  int* data;
   size_t size;
 };
 ",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"vector_t *inits(size_t size, ...) ","  // O(n)
+"vector_t *inits(size_t size, ...) ","vector_t *inits(size_t size, ...) {
+  // O(n)
   vector_t *n = init(size);
   va_list list;
   va_start(list, size);
@@ -2143,7 +2351,8 @@ char *s_lower(char *str) ,"  for (char *c = str; *c; c++) {
   return n;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"int equal(vector_t *v1, vector_t *v2) ","  if (v1->size != v2->size)
+"int equal(vector_t *v1, vector_t *v2) ","int equal(vector_t *v1, vector_t *v2) {
+  if (v1->size != v2->size)
     return 0;
   for (int i = 0; i < v1->size; i++)
     if (v1->data[i] != v2->data[i])
@@ -2151,7 +2360,8 @@ char *s_lower(char *str) ,"  for (char *c = str; *c; c++) {
   return 1;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"int indexAt(vector_t *head, int index) ","  // O(1)
+"int indexAt(vector_t *head, int index) ","int indexAt(vector_t *head, int index) {
+  // O(1)
   // Using a vector, you can access an element of it for a constant time.
   if (0 <= index && index < head->size)
     return head->data[index];
@@ -2159,18 +2369,21 @@ char *s_lower(char *str) ,"  for (char *c = str; *c; c++) {
   exit(1);
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"void insertAt(vector_t *head, int index, int value) ","  // O(n + 1) or O(2n)
+"void insertAt(vector_t *head, int index, int value) ","void insertAt(vector_t *head, int index, int value) {
+  // O(n + 1) or O(2n)
   // I think if realloc returns aother pinter, it means memcpy is executed so it needs O(n)
   int *data = (int *)realloc(head->data, sizeof(int) * (head->size + 1));
   if (data == NULL)
     exit(1);
   head->data = data;
 ",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"void deleteAt(vector_t *head, int index) ","  // O(n)
+"void deleteAt(vector_t *head, int index) ","void deleteAt(vector_t *head, int index) {
+  // O(n)
   if (index == 0)
     return;
 ",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"vector_t *append(vector_t *h1, vector_t *h2) ","  // O(n + m) M(n + m)
+"vector_t *append(vector_t *h1, vector_t *h2) ","vector_t *append(vector_t *h1, vector_t *h2) {
+  // O(n + m) M(n + m)
   if (h1 == NULL || h2 == NULL) {
     printf(""Can't append"");
     exit(1);
@@ -2183,19 +2396,22 @@ char *s_lower(char *str) ,"  for (char *c = str; *c; c++) {
   return n;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-:Q:flatten,"-- squishの第二引数は結果を保持data Tree a = Node a [Tree a] deriving Show
+:Q:flatten,"-- squishの第二引数は結果を保持
+data Tree a = Node a [Tree a] deriving Show
 flatten :: Tree a -> [a]
 flatten t = squish t []
   where squish (Node x ts) xs = x:foldr squish xs ts
 ",/Users/mbp/workspace/sandbox/algo/tree/flatten/flatten.hs
-(define (flatten tree),"  (fold (lambda (x acc)
+(define (flatten tree),"(define (flatten tree)
+  (fold (lambda (x acc)
           (append acc (if (pair? x)
                           (flatten x)
                           (list x))))
         '()
         tree))
 ",/Users/mbp/workspace/sandbox/algo/tree/flatten/flatten.scm
-% 0 -> 1 -> 2 -> 3の順でプロセスkilled,"c(0)->
+% 0 -> 1 -> 2 -> 3の順でプロセスkilled,"% 0 -> 1 -> 2 -> 3の順でプロセスkilled
+c(0)->
     receive after 1000 -> exit(""DEAD"") end;
 c(N) ->
     process_flag(trap_exit, true),  % EXITのシグナルキャッチ
@@ -2207,7 +2423,8 @@ main() ->
     spawn_link(chain, c, [3]),
     ok.
 ",/Users/mbp/workspace/sandbox/book/lyse/14/chain.erl
-:Q:restarter,"start() ->    spawn(?MODULE, restarter, []).
+:Q:restarter,"start() ->
+    spawn(?MODULE, restarter, []).
 judge(Album) ->
     Ref = make_ref(),  % 自分宛のメールのID
     critic ! {self(), Ref, Album},
@@ -2242,20 +2459,26 @@ main() ->
     io:format(""~p~n"", [judge(""_"")]),
     ok.
 ",/Users/mbp/workspace/sandbox/book/lyse/14/linkmon.erl
-:Q:monitorの特徴,"% they are unidirectional% they can be stacked.
+:Q:monitorの特徴,"% they are unidirectional
+% they can be stacked.
 ",/Users/mbp/workspace/sandbox/book/lyse/14/monitor.erl
-:Q:monitorの正常戻り値,"    erlang:monitor(process, spawn(fun() -> timer:sleep(100) end)),    receive {'DOWN', _Ref ,process, _Pid, normal} -> io:format(""DOWN~n"", []) end,
+:Q:monitorの正常戻り値,"    erlang:monitor(process, spawn(fun() -> timer:sleep(100) end)),
+    receive {'DOWN', _Ref ,process, _Pid, normal} -> io:format(""DOWN~n"", []) end,
 ",/Users/mbp/workspace/sandbox/book/lyse/14/monitor.erl
-:Q:demonitorのinfo,"    Ref = erlang:monitor(process, spawn(fun() -> timer:sleep(5000) end)),    io:format(""~p~n"", [demonitor(Ref, [info])]),  % まだ監視プロセスは生きているのでtrue
+:Q:demonitorのinfo,"    Ref = erlang:monitor(process, spawn(fun() -> timer:sleep(5000) end)),
+    io:format(""~p~n"", [demonitor(Ref, [info])]),  % まだ監視プロセスは生きているのでtrue
     receive _ -> io:format(""NOT REACHED~n"", []) after 100 -> ok end,
 ",/Users/mbp/workspace/sandbox/book/lyse/14/monitor.erl
-:Q:demonitorのflush,"    Ref2 = erlang:monitor(process, spawn(fun() -> ok end)),    receive after 1000 -> ok end,
+:Q:demonitorのflush,"    Ref2 = erlang:monitor(process, spawn(fun() -> ok end)),
+    receive after 1000 -> ok end,
     io:format(""~p~n"", [demonitor(Ref2, [flush])]),  % メッセージ破棄(flushがないと、メッセージを受け取る)
     receive _ -> io:format(""NOT REACHED~n"", []) after 100 -> ok end,
     ok.
 ",/Users/mbp/workspace/sandbox/book/lyse/14/monitor.erl
-:Q:linkの使いどころ,% リンクは組織的な構造というもの以上の作りになっています。 アプリケーションの構造を設計するときに、どのプロセスがどんな役割をするか決めて、何が何に依存するかを決めるでしょう。 あるプロセスは他のプロセスを監視し、あるプロセスは双子のプロセスがいないと生きていらない、などです。 この構造は通常固定されていて、事前に知ることが出来ます。 ,/Users/mbp/workspace/sandbox/book/lyse/14/trap.erl
-:Q:trapの種類,"% REPLではflush().を使ってメッセージを受け取ることmain () ->
+:Q:linkの使いどころ,"% リンクは組織的な構造というもの以上の作りになっています。 アプリケーションの構造を設計するときに、どのプロセスがどんな役割をするか決めて、何が何に依存するかを決めるでしょう。 あるプロセスは他のプロセスを監視し、あるプロセスは双子のプロセスがいないと生きていらない、などです。 この構造は通常固定されていて、事前に知ることが出来ます。 
+",/Users/mbp/workspace/sandbox/book/lyse/14/trap.erl
+:Q:trapの種類,"% REPLではflush().を使ってメッセージを受け取ること
+main () ->
     process_flag(trap_exit, true),
     spawn_link(fun() -> ok end),
     receive A1 -> io:format(""~p~n"", [A1]) end,  % {'EXIT',<0.58.0>,normal}
@@ -2274,26 +2497,31 @@ main() ->
     io:format(""~nDONE~n"", []),
     ok.
 ",/Users/mbp/workspace/sandbox/book/lyse/14/trap.erl
-(define (extend-environment vars vals base-env),"  (if (equal? (length vars) (length vals))
+(define (extend-environment vars vals base-env),"(define (extend-environment vars vals base-env)
+  (if (equal? (length vars) (length vals))
       (cons (cons vars vals) base-env)
       (error ""The lengths of vars and vals are not equal"")))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/env.scm
-(define (lookup-variable-value var env),"  (env-action var
+(define (lookup-variable-value var env),"(define (lookup-variable-value var env)
+  (env-action var
               env
               car
               (lambda () (lookup-variable-value var (enclosing-environment env)))))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/env.scm
-(define  (set-variable-value! var val env),"  (env-action var
+(define  (set-variable-value! var val env),"(define  (set-variable-value! var val env)
+  (env-action var
               env
               (lambda (vals) (set-car! vals val))
               (lambda () (set-variable-value! var val (enclosing-environment env)))))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/env.scm
-(define (define-variable! var val env),"  (env-action var
+(define (define-variable! var val env),"(define (define-variable! var val env)
+  (env-action var
               env
               (lambda (vals) (set-car! vals val))
               (lambda () (add-binding-to-frame! var val (first-frame env)))))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/env.scm
-(define (env-action var env found-action null-action),"  (define (scan-env var env)
+(define (env-action var env found-action null-action),"(define (env-action var env found-action null-action)
+  (define (scan-env var env)
     (define (loop vars vals)
       (cond ((null? vars) '())
             ((eq? var (car vars)) vals)
@@ -2308,7 +2536,8 @@ main() ->
             (null-action)
             (found-action vals)))))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/env.scm
-(define (eval-apply exp env),"  (let* ((values (map (lambda (x) (eval x env)) exp))
+(define (eval-apply exp env),"(define (eval-apply exp env)
+  (let* ((values (map (lambda (x) (eval x env)) exp))
          (proc (car values))
          (name (car proc))
          (args (cdr values)))
@@ -2325,17 +2554,20 @@ main() ->
          (last values)))
      (else (error ""Unknown procedure"" proc)))))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/eval/apply.scm
-(define (eval-begin exp env),"  (let ((exps (cdr exp)))
+(define (eval-begin exp env),"(define (eval-begin exp env)
+  (let ((exps (cdr exp)))
     (if (null? exps)
         0
         (let ((values (map (lambda (e) (eval e env)) exps)))
           (last values)))))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/eval/begin.scm
-(define (eval-define exp env),"  (let ((symbol (cadr exp))
+(define (eval-define exp env),"(define (eval-define exp env)
+  (let ((symbol (cadr exp))
         (expr (caddr exp)))
     (define-variable! symbol (eval expr env) env)))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/eval/define.scm
-(define (eval-if exp env),"  (let ((pred (cadr   exp))
+(define (eval-if exp env),"(define (eval-if exp env)
+  (let ((pred (cadr   exp))
         (true (caddr  exp))
         (false-body (cdddr exp)))
     (if (eval pred env)
@@ -2344,16 +2576,19 @@ main() ->
             '()
             (last (map (lambda (e) (eval e env)) false-body))))))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/eval/if.scm
-(define (eval-let exp env),"  (let* ((var-arg (cadr exp))
+(define (eval-let exp env),"(define (eval-let exp env)
+  (let* ((var-arg (cadr exp))
          (body (caddr exp))
          (vars (map car var-arg))
          (args (map cadr var-arg)))
   (eval `((lambda ,vars ,body) ,@args) env)))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/eval/let.scm
-(define (eval-quote exp env),"; (quote EXPR)
+(define (eval-quote exp env),"(define (eval-quote exp env)
+; (quote EXPR)
   (cadr exp))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/eval/quote.scm
-(define (eval exp env),"  (cond
+(define (eval exp env),"(define (eval exp env)
+  (cond
    ; atom
    ((string? exp) exp)
    ((number? exp) exp)
@@ -2365,11 +2600,13 @@ main() ->
    ((pair? exp) (eval-apply exp env))
    (else (error ""Unknown exp"" exp))))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/eval.scm
-(define (self-evaluating? exp),"  (cond ((number? exp) #t)
+(define (self-evaluating? exp),"(define (self-evaluating? exp)
+  (cond ((number? exp) #t)
         ((string? exp) #t)
         (else #f)))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/eval.scm
-(define (setup-environment),"  (let ((initial-env (extend-environment
+(define (setup-environment),"(define (setup-environment)
+  (let ((initial-env (extend-environment
                       (map (lambda (a) (car a)) primitive-procedures)
                       (map (lambda (a) (list 'primitive (cadr a))) primitive-procedures)
                       the-empty-environment)))
@@ -2377,13 +2614,15 @@ main() ->
     (define-variable! 'false #f initial-env)
     initial-env))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/main.scm
-(define (driver-loop),"  (print ""> "")
+(define (driver-loop),"(define (driver-loop)
+  (print ""> "")
   (let* ((intput (read))
          (output (eval intput the-global-environment)))
     (print output)
     (driver-loop)))
 ",/Users/mbp/workspace/sandbox/book/sicp/evaluator/main.scm
-func brace(str string) bool ,"	s := []byte{}
+func brace(str string) bool ,"func brace(str string) bool {
+	s := []byte{}
 	for i := 0; i < len(str); i++ {
 		c := str[i]
 		if c == '(' || c == '{' || c == '[' {
@@ -2408,7 +2647,8 @@ func brace(str string) bool ,"	s := []byte{}
 	}
 }
 ",/Users/mbp/workspace/sandbox/compiler/brace/brace.go
-:Q:JSONのdata,"data JSON =     Number Double
+:Q:JSONのdata,"data JSON = 
+    Number Double
   | Null
   | JsonString String
   | Bool Bool
@@ -2416,21 +2656,25 @@ func brace(str string) bool ,"	s := []byte{}
   | Object [(String, JSON)]
   deriving (Show, Eq)
 ",/Users/mbp/workspace/sandbox/compiler/json/json.hs
-literalString :: Parser String,"literalString = do
+literalString :: Parser String,"literalString :: Parser String
+literalString = do
   char '""'
   xs <- many $ noneOf ""\""""
   char '""'
   return xs
 ",/Users/mbp/workspace/sandbox/compiler/json/json.hs
-parseTrue :: Parser JSON,"parseTrue = string ""true"" *> (return $ Bool True)
+parseTrue :: Parser JSON,"parseTrue :: Parser JSON
+parseTrue = string ""true"" *> (return $ Bool True)
 ",/Users/mbp/workspace/sandbox/compiler/json/json.hs
-parseArray :: Parser JSON,"parseArray = do
+parseArray :: Parser JSON,"parseArray :: Parser JSON
+parseArray = do
   char '['
   xs <- sepBy (ws *> jsonValue <* ws) (char ',')
   char ']'
   return $ Array xs
 ",/Users/mbp/workspace/sandbox/compiler/json/json.hs
-parseObject :: Parser JSON,"parseObject = do
+parseObject :: Parser JSON,"parseObject :: Parser JSON
+parseObject = do
   char '{'
   xs <- sepBy (ws *> parseEntry <* ws) (char ',')
   char '}'
@@ -2442,7 +2686,8 @@ parseEntry = do
   val <- jsonValue
   return (key,  val)
 ",/Users/mbp/workspace/sandbox/compiler/json/json.hs
-jsonValue :: Parser JSON,"jsonValue =
+jsonValue :: Parser JSON,"jsonValue :: Parser JSON
+jsonValue =
       parseBool
   <|> parseNull
   <|> parseString
@@ -2450,7 +2695,8 @@ jsonValue :: Parser JSON,"jsonValue =
   <|> parseArray
   <|> parseObject
 ",/Users/mbp/workspace/sandbox/compiler/json/json.hs
--->,"### 委譲 子供 => 親```
+-->,"### 委譲 子供 => 親
+```
 # 移譲することで、継承せずに親のメソッドを利用できる
 class Node(object):
     def __init__(self, value, parent=None):
@@ -2463,10 +2709,12 @@ class Node(object):
            # Can not handle item so pass it to parent
            self.parent.handle(item)
 ```
-",/Users/mbp/workspace/sandbox/design-pattern/chain_of_responsibility/chain_of_responsibility.md,
--->,"## Composite Patternとの違い親=>子と進む(composite)か、子=>親と進む(COR)の違い
+",/Users/mbp/workspace/sandbox/design-pattern/chain_of_responsibility/chain_of_responsibility.md,,
+-->,"## Composite Patternとの違い
+親=>子と進む(composite)か、子=>親と進む(COR)の違い
 ",/Users/mbp/workspace/sandbox/design-pattern/chain_of_responsibility/chain_of_responsibility.md
-class Logger(object):,"    def log(self, msg, level):   # request method
+class Logger(object):,"class Logger(object):
+    def log(self, msg, level):   # request method
         if level <= self.level:  # Responsibility
             self.message(msg)
         elif self.next:
@@ -2474,7 +2722,8 @@ class Logger(object):,"    def log(self, msg, level):   # request method
         else:
             print(""No Logger"")
 ",/Users/mbp/workspace/sandbox/design-pattern/chain_of_responsibility/log.py
-interface EntryInterface ,"    public String name = """";
+interface EntryInterface ,"interface EntryInterface {
+    public String name = """";
     public void remove();
 }
 class Directory implements EntryInterface {
@@ -2504,19 +2753,22 @@ class File implements EntryInterface {
     }
 }
 ",/Users/mbp/workspace/sandbox/design-pattern/composite/File.java
--->,"### 参照方向 子供 => 親```
+-->,"### 参照方向 子供 => 親
+```
 # 親の参照しかないときは、rootには行き着くが、他の子供へは行けない
 class Node(object):
     def __init__(self, value, parent=None):
         self.value = value
         self.parent = parent  # Noneの場合は、root
 ```
-",/Users/mbp/workspace/sandbox/design-pattern/composite/composite.md,
--->,"### 参照方向 子供 => 親 list```
+",/Users/mbp/workspace/sandbox/design-pattern/composite/composite.md,,
+-->,"### 参照方向 子供 => 親 list
+```
 data[child] = parent
 ```
-",/Users/mbp/workspace/sandbox/design-pattern/composite/composite.md,
--->,"### 参照方向 子供 <= 親```
+",/Users/mbp/workspace/sandbox/design-pattern/composite/composite.md,,
+-->,"### 参照方向 子供 <= 親
+```
 # 子供をもつときは、rootから再帰的に木構造を辿れる
 class Node(object):
     def __init__(self, value):
@@ -2528,8 +2780,9 @@ class Node(object):
         for child in self.children:
             child.iter()
 ```
-",/Users/mbp/workspace/sandbox/design-pattern/composite/composite.md,
--->,"### 参照方向 子供 <=> 親```
+",/Users/mbp/workspace/sandbox/design-pattern/composite/composite.md,,
+-->,"### 参照方向 子供 <=> 親
+```
 class Node(object):
     def __init__(self, value, parent=None):
         self.value = value
@@ -2538,8 +2791,9 @@ class Node(object):
     def append(self, value):
         self.children.append(Node(value, parent=self))
 ```
-",/Users/mbp/workspace/sandbox/design-pattern/composite/composite.md,
--->,"### 参照方向 子供 => 親```
+",/Users/mbp/workspace/sandbox/design-pattern/composite/composite.md,,
+-->,"### 参照方向 子供 => 親
+```
 class Root(object):
     def method(self): pass
 class Node(object):
@@ -2548,10 +2802,12 @@ class Node(object):
     def method(self):
         self.parent.method()
 ```
-",/Users/mbp/workspace/sandbox/design-pattern/decorator/decorator.md,
--->,"## Composite Patternとの違いNodeを別々と見る(composite)か、全てのNodeを同一視する(decorator)かの違い
+",/Users/mbp/workspace/sandbox/design-pattern/decorator/decorator.md,,
+-->,"## Composite Patternとの違い
+Nodeを別々と見る(composite)か、全てのNodeを同一視する(decorator)かの違い
 ",/Users/mbp/workspace/sandbox/design-pattern/decorator/decorator.md
-class Human(object):  # concreat component,"    def __init__(self, name):
+class Human(object):  # concreat component,"class Human(object):  # concreat component
+    def __init__(self, name):
         self.name = name
     def dressup(self):  # operation
         return self.name
@@ -2568,7 +2824,8 @@ class Shoe(object):
 human = Cloth(Cloth(Shoe(Human(""Bob""))))  # 重ね着可能
 print(human.dressup())
 ",/Users/mbp/workspace/sandbox/design-pattern/decorator/human.py
--->,"### A <>-- B`A <>-- B`とは、AがBを所有している(one or many).
+-->,"### A <>-- B
+`A <>-- B`とは、AがBを所有している(one or many).
 このことをコードで表すと、下記のようになる.
 ```
 class A:
@@ -2576,21 +2833,25 @@ class A:
       self.B = B
 ```
 ",/Users/mbp/workspace/sandbox/design-pattern/index.md,,
--->,"## Patternごと違い- データ構造(1:N, N:N, 1:1(委譲))
+-->,"## Patternごと違い
+- データ構造(1:N, N:N, 1:1(委譲))
 - 共通インターフェイスを持つ
 - 記述はcaller or callee側?(interfaceと実装の区別)
 - 分岐if(classで代用)
 - Node, Leaf, Rootを区別するか?(狭義: wrapしたものを同一視するか?)
 ",/Users/mbp/workspace/sandbox/design-pattern/index.md
--->,"# Mediator Pattern**N:Nの関係があるとき、N+1番目を用意してN:1の関係に変更するようなbrokerを用意**
+-->,"# Mediator Pattern
+**N:Nの関係があるとき、N+1番目を用意してN:1の関係に変更するようなbrokerを用意**
 ",/Users/mbp/workspace/sandbox/design-pattern/mediator/mediator.md
--->,"### クラス図```
+-->,"### クラス図
+```
 class Broker: pass  # intermideate table
 class Publisher: publish(self, msg)
 class Subscriber: handle(self, publisher, msg)
 ```
-",/Users/mbp/workspace/sandbox/design-pattern/mediator/mediator.md,
-class Broker(object):,"    def __init__(self):
+",/Users/mbp/workspace/sandbox/design-pattern/mediator/mediator.md,,
+class Broker(object):,"class Broker(object):
+    def __init__(self):
         self.registry = []
     def publish(self, publisher, msg):
         for (pub, sub) in self.registry:
@@ -2613,7 +2874,8 @@ class Subscriber(object):
     def handle(self, publisher, msg):
         print(""%s got %s from %s"" % (self.name, msg, publisher.name))
 ",/Users/mbp/workspace/sandbox/design-pattern/mediator/pubsub.py
--->,"### クラス図```
+-->,"### クラス図
+```
 class Parent:
     def __init__(self):
         self.children = []
@@ -2621,12 +2883,15 @@ class Parent:
        for c in self.children:
            c.nofify(msg)
 ```
-",/Users/mbp/workspace/sandbox/design-pattern/observer/observer.md,
--->,"## pubsub pattern との違いどちらもN:Nの関係であるが、brokerあり(pubsub)、なし(observer)の違い
+",/Users/mbp/workspace/sandbox/design-pattern/observer/observer.md,,
+-->,"## pubsub pattern との違い
+どちらもN:Nの関係であるが、brokerあり(pubsub)、なし(observer)の違い
 ",/Users/mbp/workspace/sandbox/design-pattern/observer/observer.md
--->,"## composite pattern との違い再帰的1:N関係かつ(composite)と非再帰的N:N関係(observer)の違い
+-->,"## composite pattern との違い
+再帰的1:N関係かつ(composite)と非再帰的N:N関係(observer)の違い
 ",/Users/mbp/workspace/sandbox/design-pattern/observer/observer.md
-class Subject:,"    def __init__(self, name):
+class Subject:,"class Subject:
+    def __init__(self, name):
         self.name = name
         self._observers = []
     def register(self, *observers):
@@ -2641,7 +2906,8 @@ class Observer:
     def notify(self, observable, *args, **kwargs):
         print(self.name, 'Got', args, kwargs, 'From', observable.name)
 ",/Users/mbp/workspace/sandbox/design-pattern/observer/observer.py
-"func stack_ack(m, n int) int ","	S := []int{}
+"func stack_ack(m, n int) int ","func stack_ack(m, n int) int {
+	S := []int{}
 	for {
 		if m == 0 {
 			n++  // (elseの戻り値になってる)
@@ -2663,7 +2929,8 @@ class Observer:
 	}
 }
 ",/Users/mbp/workspace/sandbox/design-pattern/stack/ack.go
-:Q:fibWithQueue,"# Leafの総和がtotdef dfs(n):
+:Q:fibWithQueue,"# Leafの総和がtot
+def dfs(n):
     tot = 0
     stack = [n]
     while stack:
@@ -2675,7 +2942,8 @@ class Observer:
             stack.append(a - 2)
     return tot
 ",/Users/mbp/workspace/sandbox/design-pattern/stack/fib.py
-"def add(p1, p2):","    x1, y1 = p1
+"def add(p1, p2):","def add(p1, p2):
+    x1, y1 = p1
     x2, y2 = p2
     return (x1 + x2, y1 + y2)
 class Normal(object):
@@ -2705,7 +2973,8 @@ class Player(object):
         self.position = add(self.state.move(dx, dy), self.position)
         print(""(%s, %s)"" % self.position)
 ",/Users/mbp/workspace/sandbox/design-pattern/state/state.py
-interface Acceptor ,"    public void accept (final Visitor v);
+interface Acceptor ,"interface Acceptor {
+    public void accept (final Visitor v);
 }
 class A1 implements Acceptor {
     public void accept (Visitor v) {
@@ -2742,7 +3011,8 @@ public class DoubleDispatch {
     }
 }
 ",/Users/mbp/workspace/sandbox/design-pattern/visitor/DoubleDispatch.java
-class Visitor(object):,"    def visit(self, acceptor):
+class Visitor(object):,"class Visitor(object):
+    def visit(self, acceptor):
         # return getattr(self, ""visit_%s"" % acceptor.__class__.__name__)(acceptor)
         return acceptor.accept(self)  # 型あり言語の場合、acceptを全て記述する必要あり(for compiler)
     def visit_List(self, acceptor):
@@ -2773,7 +3043,8 @@ class Atom(Acceptor):
     def accept(self, visitor):
         return visitor.visit_Atom(self)
 ",/Users/mbp/workspace/sandbox/design-pattern/visitor/double_dispath.py
--->,"## Interface### visit
+-->,"## Interface
+### visit
 ```
 # 木構造をAccptorで作成
 def Acceptor(object):  # 各Node
@@ -2787,7 +3058,8 @@ def Visitor(object):
         pass
 ```
 ",/Users/mbp/workspace/sandbox/design-pattern/visitor/visitor.md,,
-newtype ParsecT s u m a,"    = ParsecT {unParser :: forall b .
+newtype ParsecT s u m a,"newtype ParsecT s u m a
+    = ParsecT {unParser :: forall b .
                  State s u
               -> (a -> State s u -> ParseError -> m b) -- consumed ok
               -> (ParseError -> m b)                   -- consumed err
@@ -2801,11 +3073,13 @@ newtype ParsecT s u m a,"    = ParsecT {unParser :: forall b .
      -- non-* type-arguments.
 #endif
 ",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-parserReturn :: a -> ParsecT s u m a,"parserReturn x
+parserReturn :: a -> ParsecT s u m a,"parserReturn :: a -> ParsecT s u m a
+parserReturn x
     = ParsecT $ \s _ _ eok _ ->
       eok x s (unknownError s)
 ",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-parserBind :: ParsecT s u m a -> (a -> ParsecT s u m b) -> ParsecT s u m b,"{-# INLINE parserBind #-}
+parserBind :: ParsecT s u m a -> (a -> ParsecT s u m b) -> ParsecT s u m b,"parserBind :: ParsecT s u m a -> (a -> ParsecT s u m b) -> ParsecT s u m b
+{-# INLINE parserBind #-}
 parserBind m k
   = ParsecT $ \s cok cerr eok eerr ->
     let
@@ -2838,7 +3112,8 @@ parserBind m k
         meerr = eerr
     in unParser m s mcok mcerr meok meerr
 ",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-parserPlus :: ParsecT s u m a -> ParsecT s u m a -> ParsecT s u m a,"{-# INLINE parserPlus #-}
+parserPlus :: ParsecT s u m a -> ParsecT s u m a -> ParsecT s u m a,"parserPlus :: ParsecT s u m a -> ParsecT s u m a -> ParsecT s u m a
+{-# INLINE parserPlus #-}
 parserPlus m n
     = ParsecT $ \s cok cerr eok eerr ->
       let
@@ -2849,11 +3124,13 @@ parserPlus m n
               in unParser n s cok cerr neok neerr
       in unParser m s cok cerr eok meerr
 ",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-try :: ParsecT s u m a -> ParsecT s u m a,"try p =
+try :: ParsecT s u m a -> ParsecT s u m a,"try :: ParsecT s u m a -> ParsecT s u m a
+try p =
     ParsecT $ \s cok _ eok eerr ->
     unParser p s cok eerr eok eerr
 ",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-tokenPrimEx showToken nextpos (Just nextState) test,"  = ParsecT $ \(State input pos user) cok cerr eok eerr -> do
+tokenPrimEx showToken nextpos (Just nextState) test,"tokenPrimEx showToken nextpos (Just nextState) test
+  = ParsecT $ \(State input pos user) cok cerr eok eerr -> do
       r <- uncons input
       case r of
         Nothing -> eerr $ unexpectError """" pos
@@ -2866,7 +3143,8 @@ tokenPrimEx showToken nextpos (Just nextState) test,"  = ParsecT $ \(State input
                            cok x newstate $ newErrorUnknown newpos
               Nothing -> eerr $ unexpectError (showToken c) pos
 ",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-manyAccum :: (a -> [a] -> [a]) -> ParsecT s u m a -> ParsecT s u m [a],"manyAccum acc p =
+manyAccum :: (a -> [a] -> [a]) -> ParsecT s u m a -> ParsecT s u m [a],"manyAccum :: (a -> [a] -> [a]) -> ParsecT s u m a -> ParsecT s u m [a]
+manyAccum acc p =
     ParsecT $ \s cok cerr eok eerr ->
     let walk xs x s' err =
             unParser p s'
@@ -2876,25 +3154,33 @@ manyAccum :: (a -> [a] -> [a]) -> ParsecT s u m a -> ParsecT s u m [a],"manyAccu
               (\e -> cok (acc x xs) s' e) -- empty-err
     in unParser p s (walk []) cerr manyErr (\e -> eok [] s e)
 ",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-:Q:monotonicClockとは?,不特定のエポックからの単調増加な時刻(時刻が巻き戻ったり settimeofday などで調整されたりしない),/Users/mbp/workspace/sandbox/lang/go/README.md
-:Q:byteの文字列を文字リストへ変換,"    if ! bytes.Equal([]byte(""abc""), []byte{'a', 'b', 'c'}) {        // stringtoslicebyteによりコピーが走る
+:Q:monotonicClockとは?,"不特定のエポックからの単調増加な時刻(時刻が巻き戻ったり settimeofday などで調整されたりしない)
+",/Users/mbp/workspace/sandbox/lang/go/README.md
+:Q:byteの文字列を文字リストへ変換,"    if ! bytes.Equal([]byte(""abc""), []byte{'a', 'b', 'c'}) {
+        // stringtoslicebyteによりコピーが走る
         t.Errorf(""abc == 'a' 'b' 'c'"")
     }
 ",/Users/mbp/workspace/sandbox/lang/go/basic/byte_test.go
-:Q:Goの参照型,"// *int, []int, []*int, *TypeStruct, []TypeStruct, []*TypeStruct// []*int{&1}は不可. []*S{{A: 1}}は可.
+:Q:Goの参照型,"// *int, []int, []*int, *TypeStruct, []TypeStruct, []*TypeStruct
+// []*int{&1}は不可. []*S{{A: 1}}は可.
 ",/Users/mbp/workspace/sandbox/lang/go/basic/deepcopy_test.go
-:Q:コピーが走る例,"// 代入文の右辺が実体の時`b := a`は、コピーが走る// a := (Struct)b // 構造体の値渡し代入
+:Q:コピーが走る例,"// 代入文の右辺が実体の時`b := a`は、コピーが走る
+// a := (Struct)b // 構造体の値渡し代入
 // a := ([]Struct)b[0]  // スライス構造体のindexアクセスによる代入
 ",/Users/mbp/workspace/sandbox/lang/go/basic/deepcopy_test.go
-:Q:makeを使う場合の条件,"- Create a channel- Create a map with space preallocated
+:Q:makeを使う場合の条件,"- Create a channel
+- Create a map with space preallocated
 - Create a slice with space preallocated or with len != cap
 */
 ",/Users/mbp/workspace/sandbox/lang/go/basic/make_test.go
-:Q:defar機能,"// defer ステートメントは、 defer へ渡した関数の実行を、呼び出し元の関数の終わり(returnする)まで遅延させるものです。// defer へ渡した関数の引数は、すぐに評価されますが、その関数自体は呼び出し元の関数がreturnするまで実行されません
+:Q:defar機能,"// defer ステートメントは、 defer へ渡した関数の実行を、呼び出し元の関数の終わり(returnする)まで遅延させるものです。
+// defer へ渡した関数の引数は、すぐに評価されますが、その関数自体は呼び出し元の関数がreturnするまで実行されません
 // defer へ渡した関数が複数ある場合、その呼び出しはスタック( stack )されます。 呼び出し元の関数がreturnするとき、 defer へ渡した関数は LIFO(last-in-first-out) の順番で実行されます。
 ",/Users/mbp/workspace/sandbox/lang/go/basic/op_test.go
-:Q:reflectが必要になるところ,"// 実行時に値が決定するもの: fmt, template",/Users/mbp/workspace/sandbox/lang/go/basic/reflect_test.go
-:Q:appendの注意点,"- 毎回コピーが走る(dst側については)- capがオーバーしたらreallocが走り、全要素コピー
+:Q:reflectが必要になるところ,"// 実行時に値が決定するもの: fmt, template
+",/Users/mbp/workspace/sandbox/lang/go/basic/reflect_test.go
+:Q:appendの注意点,"- 毎回コピーが走る(dst側については)
+- capがオーバーしたらreallocが走り、全要素コピー
 - 特にmakeの初期化した場合のサイズは0でない
 https://blog.golang.org/slices
 */
@@ -2907,7 +3193,8 @@ func TestAppend1(t *testing.T) {
         t.Error(""5+1=6"")
     }
 ",/Users/mbp/workspace/sandbox/lang/go/basic/slice_test.go
-:Q:newの使い道,"func TestNew(t *testing.T) {    // it makes easier is creating pointers to non-composite types
+:Q:newの使い道,"func TestNew(t *testing.T) {
+    // it makes easier is creating pointers to non-composite types
     f1 := func () *int {
         return new(int)
     }
@@ -2923,18 +3210,21 @@ func TestAppend1(t *testing.T) {
     }
 }
 ",/Users/mbp/workspace/sandbox/lang/go/basic/slice_test.go
-:Q:[]byteとstringの違い,"1. slice や要素の address をとれない2. 要素単位の書き換えができない, immutable: x[i] = 1 とか NG.
+:Q:[]byteとstringの違い,"1. slice や要素の address をとれない
+2. 要素単位の書き換えができない, immutable: x[i] = 1 とか NG.
 3. ""A"" == ""B""可能. []byte{'a'} == []byte{'b'}不可(slice can only be compared to nil)
 */
 ",/Users/mbp/workspace/sandbox/lang/go/basic/string_test.go
-:Q:[]byte型の別称,"    // byteはuint8のエイリアス    if ""abc"" != string([]byte{'a', 'b', 'c'}) {
+:Q:[]byte型の別称,"    // byteはuint8のエイリアス
+    if ""abc"" != string([]byte{'a', 'b', 'c'}) {
         t.Errorf(""abc"")
     }
     if ""abc"" != string([]uint8{'a', 'b', 'c'}) {
         t.Errorf(""abc"")
     }
 ",/Users/mbp/workspace/sandbox/lang/go/basic/unicode_test.go
-:Q:unicodeの１文字単位に用いられる型,"    // runeはint32のエイリアス    if ""あいう"" != string([]rune{'あ', 'い', 'う'}) {
+:Q:unicodeの１文字単位に用いられる型,"    // runeはint32のエイリアス
+    if ""あいう"" != string([]rune{'あ', 'い', 'う'}) {
         t.Errorf(""あいう"")
     }
     if ""あいう"" != string([]int32{'あ', 'い', 'う'}) {
@@ -2946,7 +3236,8 @@ func TestAppend1(t *testing.T) {
         t.Errorf(""\xe3\x81\x82"")
     }
 ",/Users/mbp/workspace/sandbox/lang/go/basic/unicode_test.go
-":Q:stringのrangeアクセス""あいう""","    for i, v := range ""あいう"" {        // byteの長さではなく、文字数回ループする
+":Q:stringのrangeアクセス""あいう""","    for i, v := range ""あいう"" {
+        // byteの長さではなく、文字数回ループする
         switch {
         case i == 0 && v == 12354:
         case i == 3 && v == 12356:
@@ -2957,31 +3248,35 @@ func TestAppend1(t *testing.T) {
     }
 }
 ",/Users/mbp/workspace/sandbox/lang/go/basic/unicode_test.go
-:Q:byteの文字列を文字リストへ変換,"    s := ""hello world""    b := *(*[]byte)(unsafe.Pointer(&s))
+:Q:byteの文字列を文字リストへ変換,"    s := ""hello world""
+    b := *(*[]byte)(unsafe.Pointer(&s))
     // b[0] = 'a'  // 代入は失敗する
     print(b)
 }
 ",/Users/mbp/workspace/sandbox/lang/go/basic/unsafe_test.go
-:Q:標準出力とエラーを交換する,"echo hoge 3>&1 1>&2 2>&3 | less  # 標準エラーに出力されるので何も表示されない# &はポインタみたいなものか.
+:Q:標準出力とエラーを交換する,"echo hoge 3>&1 1>&2 2>&3 | less  # 標準エラーに出力されるので何も表示されない
+# &はポインタみたいなものか.
 ",/Users/mbp/workspace/sandbox/lang/sh/run.sh
-:Q:標準出力を閉じる,ls >&-,/Users/mbp/workspace/sandbox/lang/sh/run.sh
-""", 2)","    if len(ss) == 1 {        
+:Q:標準出力を閉じる,"ls >&-
+",/Users/mbp/workspace/sandbox/lang/sh/run.sh
+""", 2)","    if len(ss) == 1 {
+        
     } else {
         m.Q = ss[1]
     }
 	return m
 }
 ",/Users/mbp/workspace/sandbox/main.go
-""") ","			r := ParseMemo(t)			first := """"
+""") ","			r := ParseMemo(t)
+			first := """"
 			second := """"
 			if scanner.Scan() {
 				first = scanner.Text()
 			}
 			if r.Q == """" {
 				r.Q = first
-			} else {
-				second = first
 			}
+            second = first + ""\n""
 			for scanner.Scan() {
 				t2 := scanner.Text()
 				if t2 == """" {
@@ -2996,7 +3291,8 @@ func TestAppend1(t *testing.T) {
 	}
 }
 ",/Users/mbp/workspace/sandbox/main.go
-:Q:クラスタの分け方,"trains = np.array([[-1, -1], [1, 1]])  # len(X) == len(Y)labels = np.array([1, 2])
+:Q:クラスタの分け方,"trains = np.array([[-1, -1], [1, 1]])  # len(X) == len(Y)
+labels = np.array([1, 2])
 clf = GaussianNB()
 clf.fit(trains, labels)  # predictよりも時間がかかる
 preds = clf.predict(tests)
@@ -3004,203 +3300,273 @@ preds = clf.predict(tests)
 accuracy = (preds == expecteds) / len(preds)
 print(accuracy)
 ",/Users/mbp/workspace/sandbox/math/src/GuassianNB.py
--->,"### 1bitとは0と1ので表せる単位
+-->,"### 1bitとは
+0と1ので表せる単位
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"### 1byteとは何bit?1byte = 8bit
+-->,"### 1byteとは何bit?
+1byte = 8bit
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"### 8bytesとは何bit?8bytes = 64bit
+-->,"### 8bytesとは何bit?
+8bytes = 64bit
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"### 32bitsとは何byte?32bits = 4bytes
+-->,"### 32bitsとは何byte?
+32bits = 4bytes
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"### 1byteで表せる10進数の範囲0 ~ 2^8 - 1 (0b0000 0000 ~ 0b1111 1111)
+-->,"### 1byteで表せる10進数の範囲
+0 ~ 2^8 - 1 (0b0000 0000 ~ 0b1111 1111)
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"### 1byteで表せる16進数の範囲0x00 ~ 0xFF (Fは2^4なので0bF = 0b1111)
+-->,"### 1byteで表せる16進数の範囲
+0x00 ~ 0xFF (Fは2^4なので0bF = 0b1111)
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"### ~0とは-1
+-->,"### ~0とは
+-1
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"### 2 ^ j (0<=j<=2)- 1 << 0 == 0b1
+-->,"### 2 ^ j (0<=j<=2)
+- 1 << 0 == 0b1
 - 1 << 1 == 0b10
 - 1 << 2 == 0b100
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## 0b10101の2^4倍10進数の場合は、10^nの倍数だとイメージがつきやすい`12345*10^4 = 123450000`
+-->,"## 0b10101の2^4倍
+10進数の場合は、10^nの倍数だとイメージがつきやすい`12345*10^4 = 123450000`
 同じように、2進数でも2^4を掛ければ、`0b10101*2^4 = 0b101010000`となる
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## a1bのマイナスの表現`NUM = a1b` とおく. ただしbは全て0とするので、1が一番最後の桁となる.
+-->,"## a1bのマイナスの表現
+`NUM = a1b` とおく. ただしbは全て0とするので、1が一番最後の桁となる.
 2の補数表現を使うと、`-NUM = ~(a1b) + 1` とおける。
 チルダ演算子は、それぞれのbitを反転させるだけなので、`-NUM = ~a0~b + 1`
 bは全て0なので反転させると全て1
 `-NUM = ~a0(111...1) + 1 = ~a1(000...0) = ~a1b`
 よって、`-NUM = ~a1b`
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## x & -xNUM & ~NUM = a1b & ~a1b = 1b = 1000... (xの最も右側に存在する1)
+-->,"## x & -x
+NUM & ~NUM = a1b & ~a1b = 1b = 1000... (xの最も右側に存在する1)
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## perl -E '$i=0b101; for(1..3){$i+=$i&-$i; say sprintf ""%b"", $i;}'101 => 110 => 1000 => 10000
+-->,"## perl -E '$i=0b101; for(1..3){$i+=$i&-$i; say sprintf ""%b"", $i;}'
+101 => 110 => 1000 => 10000
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## perl -E '$i=0b10110; for(1..3){$i-=$i&-$i; say sprintf ""%b"", $i;}'10110 => 10100 => 10000 => 0
+-->,"## perl -E '$i=0b10110; for(1..3){$i-=$i&-$i; say sprintf ""%b"", $i;}'
+10110 => 10100 => 10000 => 0
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## perl -E '$i=0b10110;for(1..3){$i=$i&($i-1); say sprintf ""%b"", $i;}'0b010110 => 0b010100 => 0b010000 => 0b000000
+-->,"## perl -E '$i=0b10110;for(1..3){$i=$i&($i-1); say sprintf ""%b"", $i;}'
+0b010110 => 0b010100 => 0b010000 => 0b000000
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## all, any, not all, not anyがTrueになる条件- all: 全てTrue
+-->,"## all, any, not all, not anyがTrueになる条件
+- all: 全てTrue
 - any: 少なくとも一つTrue
 - not all: 少なくとも一つFalse
 - not any: 全てFalse
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## check whether a number is even or odd`x & 1` (0なら偶数)
+-->,"## check whether a number is even or odd
+`x & 1` (0なら偶数)
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## Check power of 2`x & (x-1)` (0なら2の累乗)
+-->,"## Check power of 2
+`x & (x-1)` (0なら2の累乗)
 2の累乗数は、10...00で表せる。そこから1引いた数は11..11となる。そのため２つの&は常に0
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## What's Two Compliment?x => ~x + 1 (x + (~x + 1) = 0)
+-->,"## What's Two Compliment?
+x => ~x + 1 (x + (~x + 1) = 0)
 2の補数は、符号を入れ替えるだけ
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## What's One Compliment?x => ~x (x + ~x = -1)
+-->,"## What's One Compliment?
+x => ~x (x + ~x = -1)
 すべてのbitを反転したもの
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## 1の2の補数は?-1 = (0xFFFF)
+-->,"## 1の2の補数は?
+-1 = (0xFFFF)
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## 13の2の補数は?`13 = 8 + 4 + 1 = ^3 + ^2 + ^0 = 0b0000 1101` よって
+-->,"## 13の2の補数は?
+`13 = 8 + 4 + 1 = ^3 + ^2 + ^0 = 0b0000 1101` よって
 -13 = ~(13) + 1 = 0b0010 + 1 = 0b1111 0011
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"## 2の補数をその場で思い出すには?1 = 0b00000001と-1 = 0b11111111の二つの関係より
+-->,"## 2の補数をその場で思い出すには?
+1 = 0b00000001と-1 = 0b11111111の二つの関係より
 2の補数は`NUM = ~NUM + 1`という関係性がすぐ思い出せる。
 なお、0の場合も当てはまる0b0000 = (0b1111) + 1
 ",/Users/mbp/workspace/sandbox/math/tex/bit.md
--->,"# べき乗Xを集合とする。 Xの部分集合全体を2^xとし、異なるn個の中で構成される全ての組み合わせ
+-->,"# べき乗
+Xを集合とする。 Xの部分集合全体を2^xとし、異なるn個の中で構成される全ての組み合わせ
 f(0) &=& {$phi}
 f(n) &=& ${ {a_n} $cup x $mid x $in f(n-1) $} $cup f(n-1)
 ",/Users/mbp/workspace/sandbox/math/tex/cases/index.md
--->,"## (e^x)'e^x
+-->,"## (e^x)'
+e^x
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## (x^n)'nx^(n-1)
+-->,"## (x^n)'
+nx^(n-1)
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## (sinx)'cosx
+-->,"## (sinx)'
+cosx
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## (cosx)'-sinx
+-->,"## (cosx)'
+-sinx
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## (logx)'1/x
+-->,"## (logx)'
+1/x
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## {f(x)g(x)}'f(x)'g(x) + f(x)g(x)'
+-->,"## {f(x)g(x)}'
+f(x)'g(x) + f(x)g(x)'
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## Gamma関数F(n) = I[0,inf] t^(n-1)e^(-t) dt
+-->,"## Gamma関数
+F(n) = I[0,inf] t^(n-1)e^(-t) dt
 階乗を自然数でない正の実数にまで拡張
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## Gamma(n+1)=n!の証明F(1) = I[0,inf] e^(-t) dt = [-e^(-t)] = 1
+-->,"## Gamma(n+1)=n!の証明
+F(1) = I[0,inf] e^(-t) dt = [-e^(-t)] = 1
 F(n+1) = - ([t^(n-1)e^(-t)] - I[0,inf] nt^n e^(-t) dt)
  = 0 + n F(n) = n F(n) = n (n-1) F(n-1) = n! F(1) = n!
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## Gamma(1/2)root(pi)
+-->,"## Gamma(1/2)
+root(pi)
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## Beta関数B(x,y) = I[0,1] t^(x-1) (1-t)^(y-1) dt
+-->,"## Beta関数
+B(x,y) = I[0,1] t^(x-1) (1-t)^(y-1) dt
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## Beta関数(整数)B(a,b) = (a-1)!(b-1)!/(a+b-1)! = F(a)F(b)/F(a+b)
+-->,"## Beta関数(整数)
+B(a,b) = (a-1)!(b-1)!/(a+b-1)! = F(a)F(b)/F(a+b)
 beta関数はgammna関数で表せる
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## Sigmoid関数f(x) = 1 / (1 + e^(-ax)) (a>0)
+-->,"## Sigmoid関数
+f(x) = 1 / (1 + e^(-ax)) (a>0)
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## Sigmoid関数が点対称であることを示せf(x) + f(-x) = 1より、(0, 1/2)で点対称
+-->,"## Sigmoid関数が点対称であることを示せ
+f(x) + f(-x) = 1より、(0, 1/2)で点対称
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## ガウス積分I[-inf,inf] e^(-x^2) = root(pi)
+-->,"## ガウス積分
+I[-inf,inf] e^(-x^2) = root(pi)
 I^2 = II e^(-r2) dxdy = I[0,inf]I[0,2pi] e^(-r^2) r dsdr
 = piI 2e^(-r^2) r = pi [-e^(-r^2)] = pi(0 - (-e^0)) = pi
 よって I^2=pi より、I = root(pi)
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## ヤコビアンによる置換積分の公式J = d(x,y)/d(u,v) = det [[dx/du, dx/dv],[dy/du, dy/dv]] とし
+-->,"## ヤコビアンによる置換積分の公式
+J = d(x,y)/d(u,v) = det [[dx/du, dx/dv],[dy/du, dy/dv]] とし
 II f(x,y) dxdy = II g(u,v) |J| dudv
 つまり、変数変換すると面積とその領域も変換する必要がある.
 要するにヤコビアンは微小面積比のこと
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"## ヤコビアンによる置換積分(-inf<x, y<inf)のrとシータaの領域(x, y) = (rcosa, rsina) とすると、領域はxyの平面全域 (円状に領域が増加)
+-->,"## ヤコビアンによる置換積分(-inf<x, y<inf)のrとシータaの領域
+(x, y) = (rcosa, rsina) とすると、領域はxyの平面全域 (円状に領域が増加)
 よって、0<r<inf, 0<a<2pi
 J = det [[cosa, -rsina], [sina, rconsa]] = rcosa^2 + rsina^2 = r 
 ",/Users/mbp/workspace/sandbox/math/tex/func.md
--->,"# 固有値**n次正方行列Aの固有値aは、x != 0に対して、Ax=axを満たすxが存在するときのaとする。またxを固有ベクトルと呼ぶ**
+-->,"# 固有値
+**n次正方行列Aの固有値aは、x != 0に対して、Ax=axを満たすxが存在するときのaとする。またxを固有ベクトルと呼ぶ**
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/eigenvalue.md
--->,"## 固有空間```math
+-->,"## 固有空間
+```math
 aがAの固有値 $Leftrightarrow det(A-aE)=0
 ```
-",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/eigenvalue.md,
--->,"## 対角化の性質- Aが対角化可能 <=> n個の1次独立な固有ベクトルをもつ
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/eigenvalue.md,math,
+-->,"## 対角化の性質
+- Aが対角化可能 <=> n個の1次独立な固有ベクトルをもつ
 - n個の異なる固有値をもつ => Aは対角化可能
 - 行列AとBが対角化可能 <=> AB=BA
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/eigenvalue.md
--->,"## 群の定義- (a X b) X c = a X (b X c) (結合法則)
+-->,"## 群の定義
+- (a X b) X c = a X (b X c) (結合法則)
 - a X e = e X a = a (単位元の存在)
 - a X x = x X a = e (逆元xの存在)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 可換群(アーベル群)群の性質に加えて可換も成立. a X b = b X a
+-->,"## 可換群(アーベル群)
+群の性質に加えて可換も成立. a X b = b X a
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 写像集合AからBへの写像f: A -> B とは、$a \in A$ と $f(a) \in B$ 対応させるもの
+-->,"## 写像
+集合AからBへの写像f: A -> B とは、$a \in A$ と $f(a) \in B$ 対応させるもの
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 単射fが単射とは、 $a \ne b => f(a) \ne f(b)$ が成立
+-->,"## 単射
+fが単射とは、 $a \ne b => f(a) \ne f(b)$ が成立
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 全射fが全射とは  $\forall b \in B, \exists a \in A$ について $f(a) = b$ が成立
+-->,"## 全射
+fが全射とは  $\forall b \in B, \exists a \in A$ について $f(a) = b$ が成立
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 全単射の性質- $全単射 <=> 逆写像f^{-1}が存在$
+-->,"## 全単射の性質
+- $全単射 <=> 逆写像f^{-1}が存在$
 - $全単射 <=> 単射かつ全射$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## Aが有限個の元からなる集合の時AからAの写像fは、単射であれば、全単射になることを示せA = {a1, ... an}とおき、それぞれfで変換すると、A'={f(a1), ... f(an)}なるが、
+-->,"## Aが有限個の元からなる集合の時AからAの写像fは、単射であれば、全単射になることを示せ
+A = {a1, ... an}とおき、それぞれfで変換すると、A'={f(a1), ... f(an)}なるが、
 単射の性質より、全て異なるものに対応する、かつ要素数がnなので、A'=Aが言えるため全射である.
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## Aが有限個の元からなる集合の時AからAの写像は、全射であれば、全単射になることを示せもし、単射でないならば、a!=b => f(a)=f(b)となるような、aとbが存在することになるが、
+-->,"## Aが有限個の元からなる集合の時AからAの写像は、全射であれば、全単射になることを示せ
+もし、単射でないならば、a!=b => f(a)=f(b)となるような、aとbが存在することになるが、
 これは、n個の要素から、(n-1)いかに対応づけられたことを意味する。
 (関数は入力1つに対して出力1つだけ. つまり、減ることはあっても増えることは絶対ないので、)
 全射であるので、n個に対応づくことに矛盾する。よって単射である。
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## (全)単射の関数の例- 全単射 => f(x) = ax + b
+-->,"## (全)単射の関数の例
+- 全単射 => f(x) = ax + b
 - 単射   => f(x) = e^x
 - 全射   => f(x) = x^2 (ただしf(x)>=0)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 行列の積$l \times m$ 行列Aと $m \times n$ 行列Bの積は、$l $times n$ 行列AB となり、
+-->,"## 行列の積
+$l \times m$ 行列Aと $m \times n$ 行列Bの積は、$l $times n$ 行列AB となり、
 $AB_{ij} = \sum_{k=1}^m a_{ik} b_{kj}$ と定義
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### A^{-k}= (A^k)^{-1} = (A^{-1})^k(AA...A)(A^{-1}...A^{-1})=E
+-->,"### A^{-k}= (A^k)^{-1} = (A^{-1})^k
+(AA...A)(A^{-1}...A^{-1})=E
 A^k(A^{-1})^k=E より
 (A^k)^{-1} = (A^{-1})^k
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 対角行列の逆行列diag (a1, ..., an) diag (1/a1, ..., 1/an) = E より明らか
+-->,"### 対角行列の逆行列
+diag (a1, ..., an) diag (1/a1, ..., 1/an) = E より明らか
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### (AB)C = A(BC) (結合法則) の証明$ab_{ij}  = \sum_{p=1}^m a_{ip} b_{pj}$ より、j -> qと置き換えて
+-->,"### (AB)C = A(BC) (結合法則) の証明
+$ab_{ij}  = \sum_{p=1}^m a_{ip} b_{pj}$ より、j -> qと置き換えて
 $(ab)c_{ij} = \sum_{q=1}^n ab_{iq} c_{qj} = \sum_{q=1}^n (\sum_{p=1}^m a_{ip} b_{pq} \c_{qj})$ としcをsumの内側にして、 sumを入れ替える.
 $\sum_{p=1}^m a_{ip} (\sum_{q=1}^n  b_{pq} \c_{qj}) $ さらにaはqに無関係なので、２つ目のsumの外側へ.
 $= \sum_{p=1}^m a_{ip} bc_{pj} = a(bc)_{ij}$ よって、 $(AB)C = A(BC)$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### A = AE = EA を示せ$ae_{ij} = \sum_{k=1}^m a_{ik} e_{kj} = a_{i1} e_{1j} + ... + a_{ij} e_{jj} + ... + a_{im} e_{mj}$ より、1つを除いて0になるので、
+-->,"### A = AE = EA を示せ
+$ae_{ij} = \sum_{k=1}^m a_{ik} e_{kj} = a_{i1} e_{1j} + ... + a_{ij} e_{jj} + ... + a_{im} e_{mj}$ より、1つを除いて0になるので、
 $ae_{ij} = a_{ij}$ が成立
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 転置行列${}^t A = a_{ji}$
+-->,"### 転置行列
+${}^t A = a_{ji}$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 対角行列AのA^kAA[ij]
+-->,"### 対角行列AのA^k
+AA[ij]
  = sum a[ik]a[kj] = a[ii]a[ij] + a[ij]a[jj] = 0 (i!=j)
  = a[ii]a[ii] = a[ii]^2 (i==j)
 (a[ii]とa[jj]以外は0)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### size xy^t(n*1)(1*n)なので(n*n)の行列 (xとyは縦ベクトル)
+-->,"### size xy^t
+(n*1)(1*n)なので(n*n)の行列 (xとyは縦ベクトル)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### size x^ty(1*n)(n*1)なので(1*1)の定数
+-->,"### size x^ty
+(1*n)(n*1)なので(1*1)の定数
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### size xy(n*1)(n*1)なので未定義
+-->,"### size xy
+(n*1)(n*1)なので未定義
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### size x^ty^t(1*n)(1*n)なので未定義
+-->,"### size x^ty^t
+(1*n)(1*n)なので未定義
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### size x^tE(1*n)(n*n)なので(1*n)のベクトル
+-->,"### size x^tE
+(1*n)(n*n)なので(1*n)のベクトル
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### size xE(n*1)(n*n)なので未定義
+-->,"### size xE
+(n*1)(n*n)なので未定義
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### ${}^t (AB) = {}^t B {}^t A$ の証明$AB_{ij} = \sum_{p=1}^m a_{ip} b_{pj}$ として、ABの転置をとると
+-->,"### ${}^t (AB) = {}^t B {}^t A$ の証明
+$AB_{ij} = \sum_{p=1}^m a_{ip} b_{pj}$ として、ABの転置をとると
 ${}^t (AB_{ij}) = AB_{ji} = \sum_{p=1}^m a_{jp} b_{pi} = \sum_{p=1}^m b_{pi} a_{jp}$ となるが、
 $b_{pi}={}^t b_{ip}, a_{jp} = {}^t a_{pj}$ より
 $\sum_{p=1}^m {}^t b_{ip} {}^t a_{pj} = {}^t B {}^t A$ が成立
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 対象行列(symmetric matrix)${}^t A = A$ を満たす正方行列A
+-->,"### 対象行列(symmetric matrix)
+${}^t A = A$ を満たす正方行列A
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 交代行列(skew symmetric matrix)${}^t A = -A$ を満たす正方行列A
+-->,"### 交代行列(skew symmetric matrix)
+${}^t A = -A$ を満たす正方行列A
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## エルミート行列$A^{*} = A$ を満たす複素数正方行列A
+-->,"## エルミート行列
+$A^{*} = A$ を満たす複素数正方行列A
 A^{*}は、Aの転置かつ共役複素数にしたもの
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 正則行列定義n次正方行列Aに対してXが存在し XA = AX = E を満たせば、XはAの逆行列
+-->,"## 正則行列定義
+n次正方行列Aに対してXが存在し XA = AX = E を満たせば、XはAの逆行列
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 正則行列と同値(9)正則行列は正方行列でもある.
+-->,"## 正則行列と同値(9)
+正則行列は正方行列でもある.
 また、正則行列は単射の条件を満たせば全射でもある(逆も然り)
 - 逆行列 $A^{-1}$ が存在
 - det A !=0
@@ -3212,43 +3578,58 @@ A^{*}は、Aの転置かつ共役複素数にしたもの
 - 斎次方程式 $Ax=0$ は自明の解のみ
 - Aが固有値0を持たない 
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 逆行列は一意に決まることの証明Aの逆行列をX, Yとして、 $AY = E, XA = E$ を用いて
+-->,"### 逆行列は一意に決まることの証明
+Aの逆行列をX, Yとして、 $AY = E, XA = E$ を用いて
 $X=XE=X(AY)=(XA)Y=EY=Y$ よって $X=Y$ より一意であることが示せた
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### $(AB)^{-1} = B^{-1} A^{-1}$ を示せ$E = A A^{-1} = A (B B^{-1}) A^{-1} = (AB)(B^{-1} A^{-1})$
+-->,"### $(AB)^{-1} = B^{-1} A^{-1}$ を示せ
+$E = A A^{-1} = A (B B^{-1}) A^{-1} = (AB)(B^{-1} A^{-1})$
 $AX=E$ の形にできれば、Xが逆行列となる。
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 正方行列Aのある列が0ベクトルならば、Aは正則ではない$XA = (Xa_1, ..., X*0, ..., Xa_n) != E$ よって逆行列は存在しない
+-->,"### 正方行列Aのある列が0ベクトルならば、Aは正則ではない
+$XA = (Xa_1, ..., X*0, ..., Xa_n) != E$ よって逆行列は存在しない
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 置換{1..n}から{1..n}への全単射の集合を $S_n$ とし、その要素を置換と呼ぶ
+-->,"## 置換
+{1..n}から{1..n}への全単射の集合を $S_n$ とし、その要素を置換と呼ぶ
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 互換{1..n}のうち2のみを動かし残りは、そのままな置換を互換と呼ぶ
+-->,"### 互換
+{1..n}のうち2のみを動かし残りは、そのままな置換を互換と呼ぶ
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 置換$s -> s^{-1}$ により与えられる写像Sn->Snは全単射(意味: ある置換に対して、その逆写像を対応づける関数)
+-->,"### 置換$s -> s^{-1}$ により与えられる写像Sn->Snは全単射
+(意味: ある置換に対して、その逆写像を対応づける関数)
 それぞれの置換は{1..n}->{n!通り}に対応づけるが、s1!=s2であれば、s1^{-1}!=s2^{-1}が成立(単射)
 またSnの要素sはn!通りあり、単射であるので、要素数が減ることはない。
 Sn->Snと同じ集合に対応づけているので、全射も成立する.
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### ある置換tについて、s -> st により与えられる写像Sn->Snは全単射$s1!=s2 => s1t!=s2t$ であるから
+-->,"### ある置換tについて、s -> st により与えられる写像Sn->Snは全単射
+$s1!=s2 => s1t!=s2t$ であるから
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### sgn$sgn(\sigma) = \prod_{i,j} \frac{\sigma(i) - \sigma(j)}{i-j}$
+-->,"### sgn
+$sgn(\sigma) = \prod_{i,j} \frac{\sigma(i) - \sigma(j)}{i-j}$
 分母は正にできるので、s(i)>s(j)の転倒数が偶数なら1(+1 or -1のみとる)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### sgn関数の性質- sgn(e) = 1
+-->,"### sgn関数の性質
+- sgn(e) = 1
 - sgn(互換) = -1
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 行列式の定義$|A| = det A = \sum_{s \in S_n} sgn(s) a_{1s(1)} a_{2s(2)} ... a_{ns(n)}$
+-->,"### 行列式の定義
+$|A| = det A = \sum_{s \in S_n} sgn(s) a_{1s(1)} a_{2s(2)} ... a_{ns(n)}$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 行列式の多重線形性- $det (a_1, ..., a_j + a_J, ..., a_n) = det (a_1, ..., a_j, ..., a_n) + det (a_1, ..., a_J, ..., a_n)$
+-->,"### 行列式の多重線形性
+- $det (a_1, ..., a_j + a_J, ..., a_n) = det (a_1, ..., a_j, ..., a_n) + det (a_1, ..., a_J, ..., a_n)$
 - $det (a_1, ..., ca_j, ..., a_n) = c det (a_1, ..., a_j, ..., a_n)$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 多重線形性の証明定義より簡単に
+-->,"### 多重線形性の証明
+定義より簡単に
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 行列式の交代性det(a_{t(1)}, ... a_{t(n)}) = sgn(t) det(a_1, ... , a_n)
+-->,"### 行列式の交代性
+det(a_{t(1)}, ... a_{t(n)}) = sgn(t) det(a_1, ... , a_n)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 行列式の交代性の証明集合を全単射した集合の和は順番が変わっただけなので等しいことを利用して、
+-->,"### 行列式の交代性の証明
+集合を全単射した集合の和は順番が変わっただけなので等しいことを利用して、
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### $det AB = det A det B$を示せ多重線形性より、$det(AB) = \sum b_{i_1,1} ... b_{i_n,n} det (a_{i_1},...a_{i_n})$ と記述できる.
+-->,"### $det AB = det A det B$を示せ
+多重線形性より、$det(AB) = \sum b_{i_1,1} ... b_{i_n,n} det (a_{i_1},...a_{i_n})$ と記述できる.
 同一の列が存在するときは、det A = 0になるので、その項を除外すると、i1...inが全て異なる項のみ残る.
 置換t{1..n}={i(1)..i(n)}を利用して
 $$
@@ -3257,178 +3638,232 @@ det(AB) = \sum b_{t(1)1} ... b_{t(n)n} det (a_{t(1)},..., a_{t(n)})
  = det B * det A
 $$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 0を含む列 or 行が存在するならば|A|=0を示せx行列式の定義より、 $\sum_{s} \p a_{is(i)}$ 少なくとも1つが0になるので、合計も0となる
+-->,"### 0を含む列 or 行が存在するならば|A|=0を示せx
+行列式の定義より、 $\sum_{s} \p a_{is(i)}$ 少なくとも1つが0になるので、合計も0となる
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,### $det {}_t A = det A$ の証明,/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 行列式の多重線形性+交代性から導ける定理ある列に他の列の定数倍を加えてもよい
+-->,"### $det {}_t A = det A$ の証明
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
+-->,"### 行列式の多重線形性+交代性から導ける定理
+ある列に他の列の定数倍を加えてもよい
 $det (a_1, ..., a_i, ..., a_j, ... a_n) = det (a_1, ... a_i + k a_j, ..., a_j, ... a_n$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### あるXについて、AX = Eを満たすならば、Aは正則行列であり、XはAの逆行列である$det A det X = det AX = det E = 1$ より、$det A != 0$ が言えるので、正則.
+-->,"### あるXについて、AX = Eを満たすならば、Aは正則行列であり、XはAの逆行列である
+$det A det X = det AX = det E = 1$ より、$det A != 0$ が言えるので、正則.
 逆行列が存在し、$X = A^{-1}$ となるので、XはAの逆行列.
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### あるXについて、AX = Eを満たすならば、XA = Eが成立することを示せ$AX=E => X=A^{-1} => XA = A^{-1}A = E$ よって、 $XA = E$が成立 (Aを右から掛けるとこがミソ)
+-->,"### あるXについて、AX = Eを満たすならば、XA = Eが成立することを示せ
+$AX=E => X=A^{-1} => XA = A^{-1}A = E$ よって、 $XA = E$が成立 (Aを右から掛けるとこがミソ)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 第1列に関する|A|の余因子展開$det A = $sum_{i=1}^n (-1)^{i-1} a_{i1} |i行目以外| = $sum_{i=1} a_{i1} $tilde{a_{i1}}$
+-->,"### 第1列に関する|A|の余因子展開
+$det A = $sum_{i=1}^n (-1)^{i-1} a_{i1} |i行目以外| = $sum_{i=1} a_{i1} $tilde{a_{i1}}$
 $tilde{a_{ij}} = (-1)^{i+j} $Delta_{ij}"" :msg ""行列Aからi行j列を除いた行列を第(i,j)小行列D_{ij}と表す.(i,j)余因子
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"## 逆行列の存在の証明逆行列は、 $A^{-1} = \frac{1}{|A|} \tilde{A}$ より $det A=0$ でなければ、Aの余因子行列と行列式で表せる.
+-->,"## 逆行列の存在の証明
+逆行列は、 $A^{-1} = \frac{1}{|A|} \tilde{A}$ より $det A=0$ でなければ、Aの余因子行列と行列式で表せる.
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 余因子行列$\overline{A} = \overline{a_{ji}}$
+-->,"### 余因子行列
+$\overline{A} = \overline{a_{ji}}$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
-"### matrixとi,jの関係をイメージする","- i==jの時は、対角線
+"### matrixとi,jの関係をイメージする","### matrixとi,jの関係をイメージする
+- i==jの時は、対角線
 - i > j => 左下
 - i < j => 右上
 iが大きいほど、下側に
 jが大きいほど、右側に
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/index.md
--->,"### 一次結合(線形結合)$\sum k_i a_i$
+-->,"### 一次結合(線形結合)
+$\sum k_i a_i$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 一次独立```math
+-->,"### 一次独立
+```math
 $sum k_i a_iが一次独立 $leftrightarrow $forall k_i $ne 0 S.T. $sum k_i a_i = 0
 一次従属 $leftrightarrow ベクトルを別の基底の線形結合で表現可能
 ```
-",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md,
--->,"### 基底の定義e_iがVの基底であるとは、 Vの任意のベクトルがe_iの一次結合として一意に表せる
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md,math,
+-->,"### 基底の定義
+e_iがVの基底であるとは、 Vの任意のベクトルがe_iの一次結合として一意に表せる
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
-:Q:基底の定義 -->,"\sum_{i=1}^n a_i x_i = 0 => a_1 = a_2 = ... = a_n = 0
+:Q:基底の定義 -->,"\forall y $subseteq V \exists x_i (1 <= i <= n) s.t. y = \sum_{i=1}^n a_i x_i
+\sum_{i=1}^n a_i x_i = 0 => a_1 = a_2 = ... = a_n = 0
 
-",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md,math\forall y $subseteq V \exists x_i (1 <= i <= n) s.t. y = \sum_{i=1}^n a_i x_i,
--->,"### 基底の性質- $e_iがVの基底 \rightarrow e_i \in V#
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md,math,
+-->,"### 基底の性質
+- $e_iがVの基底 \rightarrow e_i \in V#
 - 基底の個数はdim V個だが、組みは、V上で任意にとることが可能
 - n個のベクトルa_iが一次独立 <=> a_iは、n次元ベクトル空間Vの基底
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### dim Vの定義Vがn個からなる基底をもつとき、nをVの次元と呼び、$dim V = n$と表す
+-->,"### dim Vの定義
+Vがn個からなる基底をもつとき、nをVの次元と呼び、$dim V = n$と表す
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 次元の公式n = dim V = dim Ker(T) + dim Im (T)
+-->,"### 次元の公式
+n = dim V = dim Ker(T) + dim Im (T)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 基本行列Paとb行(列)を入れ替える
+-->,"### 基本行列P
+aとb行(列)を入れ替える
 P(a,b)
  = a[ab] = a[ba] = 1
  = a[aa] = a[bb] = 0
  = a[ii] = 1
  = 0 (else)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 基本行列P(a,b)の証明",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 基本行列Qk行(列)目をc(!=0)倍する
+-->,"### 基本行列P(a,b)の証明
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
+-->,"### 基本行列Q
+k行(列)目をc(!=0)倍する
 Q(k;c)
  = a[kk] = c
  = a[ii] = 1 (i!=k)
  = 0 (else)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 基本行列Q(k;c)の証明AB[ij]= sum a[ik]b[kj] = a[ii]b[ij] (a[ii]以外は0)
+-->,"### 基本行列Q(k;c)の証明
+AB[ij]= sum a[ik]b[kj] = a[ii]b[ij] (a[ii]以外は0)
  = b[ij]  (i!=k)
  = cb[ij] (else)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,### 基本行列R,/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 基本行列の性質- 正則行列
+-->,"### 基本行列R
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
+-->,"### 基本行列の性質
+- 正則行列
 - また逆行列も基本行列
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 左基本変形**連立方程式を解く手法**
+-->,"### 左基本変形
+**連立方程式を解く手法**
 - 行と行を入れ替える
 - 行に0でない定数をかける
 - 別の行の程数倍を加える
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,### 斎次方程式,/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### (全)単射の場合のAの形状m*n n*1より、nからm次元への写像
+-->,"### 斎次方程式
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
+-->,"### (全)単射の場合のAの形状
+m*n n*1より、nからm次元への写像
 - 全単射<=> 正方行列(m=n)
 - 単射  <=> 縦長の長方形(m>n)
 - 全射  <=> 横長の長方形(m<n)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 写像とrankAの関係- 全単射<=> rankA = m = n
+-->,"### 写像とrankAの関係
+- 全単射<=> rankA = m = n
 - 単射  <=> rankA = n
 - 全射  <=> rankA = m
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### (全)単射の場合のAの次元- 全単射<=> 1to1なので、同じ次数
+-->,"### (全)単射の場合のAの次元
+- 全単射<=> 1to1なので、同じ次数
 - 単射  <=> 全ての要素が被らないようにする必要があるので、次数の増える方向
 - 全射  <=> 全ての要素に行き着く必要があるので、次数の減る方向
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### n次正方行列AのAx=0の解- rankA=n => 自明な解(x=0)
+-->,"### n次正方行列AのAx=0の解
+- rankA=n => 自明な解(x=0)
 - rankA<n => 任意の解 (実質的な式の数よりも未知数が多い)
 rankA=ImA=n(全射)=>全単射なので、2通りのみ
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 行列Ax=0の解- 全単射 <=> n個
+-->,"### 行列Ax=0の解
+- 全単射 <=> n個
 - 全射 <=> 任意の解
 - 単射 <=> 解なし
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 「Aが正則 <=> Ax = 0の解は自明な解のみ」を証明(十分)正則なのでA^{-1}が存在し、x=0が解となる。
+-->,"### 「Aが正則 <=> Ax = 0の解は自明な解のみ」を証明
+(十分)正則なのでA^{-1}が存在し、x=0が解となる。
 (必要)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"###  単射 => Ker A={0}Ax=0とする。一方A0=0でもあるので、
+-->,"###  単射 => Ker A={0}
+Ax=0とする。一方A0=0でもあるので、
 単射よりx=0が唯一の解
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"###  単射 <= Ker A={0}任意のxとyがAx=Ay を満たすとすると =>
+-->,"###  単射 <= Ker A={0}
+任意のxとyがAx=Ay を満たすとすると =>
 A(x-y)=0 => (仮定より)
 (x-y)=0
 よって単射の定義が成立
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### Ker(T)の定義Ker(T)={x in K^m | TA(x)=0} (ただしTA(x)=Ax)
+-->,"### Ker(T)の定義
+Ker(T)={x in K^m | TA(x)=0} (ただしTA(x)=Ax)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 表現行列$A' = Q^{-1}AP$
+-->,"### 表現行列
+$A' = Q^{-1}AP$
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 一次変換の定義線形写像T:V->V'において、V=V'の場合、Tを一次変換と呼ぶ.
+-->,"### 一次変換の定義
+線形写像T:V->V'において、V=V'の場合、Tを一次変換と呼ぶ.
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"### 線形写像におけるrank Tの定義線形写像T:V->V'に対し、rank T := dim (Im (T))
+-->,"### 線形写像におけるrank Tの定義
+線形写像T:V->V'に対し、rank T := dim (Im (T))
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/matrix.md
--->,"## 正則<=>一次独立正則ならば `Ax=0` において、xは自明な解0しかもたない。
+-->,"## 正則<=>一次独立
+正則ならば `Ax=0` において、xは自明な解0しかもたない。
 `Ax = (a1, a2, ..., an)x = (x1 a1, x2 a2, ..., xn an) = 0`
 よって上記式が成立するのは、x_i=0の時のみなので
 a_iは一次独立と言える
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/product.md
--->,"## det Aの解Ax=axにおいて、固有ベクトルを持つ場合、
+-->,"## det Aの解
+Ax=axにおいて、固有ベクトルを持つ場合、
 定義よりx!=0が条件である. そのため
 (A-aE)x=0よりdet(A-aE)=0が条件となる
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/product.md
--->,"# 内積VをR上のベクトル空間とし、Vの任意のベクトルa,bについて、実数(a,b)が定義されるとき、(,)をV上の内積という
+-->,"# 内積
+VをR上のベクトル空間とし、Vの任意のベクトルa,bについて、実数(a,b)が定義されるとき、(,)をV上の内積という
 (a,b) = (b,a) (対称性)
 (a_1+a_2,b) = (a_1,b)+(a_2,b) (線形性(和))
 (la,b) = l(a,b) (線形性(定数倍))
 (a,a) $ge 0 and (a,a)=0 $Rightarrow a=0 (正値性)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/product.md
--->,"## AとBが正則ならばABも正則$E = (AB)B^{-1}A^{-1}$より、逆行列$B^{-1}A^{-1}$が存在するので、正則
+-->,"## AとBが正則ならばABも正則
+$E = (AB)B^{-1}A^{-1}$より、逆行列$B^{-1}A^{-1}$が存在するので、正則
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/prove/regular.md
--->,"## Aが正則ならばA^2も正則E = (AA)A^{-1}A{-1}より正則
+-->,"## Aが正則ならばA^2も正則
+E = (AA)A^{-1}A{-1}より正則
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/prove/regular.md
--->,"# ベクトル空間$forall x, y $in V S.T. x + y $in V (+について可換群)
+-->,"# ベクトル空間
+$forall x, y $in V S.T. x + y $in V (+について可換群)
 $forall x $in V, $forall l $in K S.T. l x $in V (2種分配法則, 結合法則, 1の存在)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/vector.md
--->,"## 線形写像V, V'をK上のベクトル空間とし、写像T:V->V'が以下を満たすときTを線形写像と呼ぶ
+-->,"## 線形写像
+V, V'をK上のベクトル空間とし、写像T:V->V'が以下を満たすときTを線形写像と呼ぶ
 T(x+y) = T(x) + T(y) (x, y $in V)
 T(lx) = lT(x) (x $in V, l $in K)
 ",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/vector.md
-:Q:線形写像Tの性質 -->,"Tが全単射 <=> V $cong V' (ただし、VとV'は同型)
+:Q:線形写像Tの性質 -->,"T(0) = 0 (l=0のとき必ず成立)
+Tが全単射 <=> V $cong V' (ただし、VとV'は同型)
 Tが全単射 <=> dim V = dim V'
 Tが単射 $Leftrightarrow T(x)=0 $rightarrow x=0
 
-",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/vector.md,mathT(0) = 0 (l=0のとき必ず成立),
-:Q:全単射と同値 -->,"Tが全単射 <=> dim V = dim V'
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/vector.md,math,
+:Q:全単射と同値 -->,"Tが全単射 <=> V $cong V' (VとV'は同型)
+Tが全単射 <=> dim V = dim V'
 
-",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/vector.md,mathTが全単射 <=> V $cong V' (VとV'は同型),
--->,"## 部分空間```math
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/vector.md,math,
+-->,"## 部分空間
+```math
 W $subset V, $forall x,y $in W, $forall m,n $in K S.T. m x + n y $in W
 ```
-",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/vector.md,
--->,"## 事象AとBが起こる確率P(A) + P(B)
+",/Users/mbp/workspace/sandbox/math/tex/liner-algebra/vector.md,math,
+-->,"## 事象AとBが起こる確率
+P(A) + P(B)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/bayes.md
--->,"## 事象AとB同時に確率P(A) * P(B)
+-->,"## 事象AとB同時に確率
+P(A) * P(B)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/bayes.md
--->,"## 独立の定義P(A, B) = P(A) * P(B)
+-->,"## 独立の定義
+P(A, B) = P(A) * P(B)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/bayes.md
--->,"## ベイズの定理P(B|A) = P(A|B)P(B)/P(A)
+-->,"## ベイズの定理
+P(B|A) = P(A|B)P(B)/P(A)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/bayes.md
--->,"## ２事象のみのベイズB=全体-Aの時
+-->,"## ２事象のみのベイズ
+B=全体-Aの時
 P(E) = P(A)P(E|A) * P(B)P(E|B) が成立するため、
 P(E|A) = \frac{P(A|E)P(E)}{P(E)}
 ",/Users/mbp/workspace/sandbox/math/tex/probability/bayes.md
--->,"### 陽性の場合に、癌である確率(癌患者とそれ以外の場合における陽性の確率を既知トスる)癌患者に対して陽性である確率P(p|c)
+-->,"### 陽性の場合に、癌である確率(癌患者とそれ以外の場合における陽性の確率を既知トスる)
+癌患者に対して陽性である確率P(p|c)
 癌患者以外に対して陽性である確率P(p|-c)
 $P(c|p) = P(c, p) / (P(p|c) + P(p|-c))$
 ",/Users/mbp/workspace/sandbox/math/tex/probability/bayes.md
--->,"## Monty Hall Problemを条件つき確率で表せX={A,B,C}  # 正解の扉
+-->,"## Monty Hall Problemを条件つき確率で表せ
+X={A,B,C}  # 正解の扉
 Y={A,B,C}  # 挑戦者が選ぶ扉
 Z={A,B,C}  # 司会者が選ぶ扉
 P(X=C |Y=C, Z=B)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## Monty Hall Problem (三つの扉に一つだけヤギがいる状態で、一つ挑戦者は選び司会者は正解でない方の扉を開ける。さて選び直すべきか？)ヤギがどの扉にいるか3通りある。それぞれにつき、挑戦者が扉を選ぶ場合が3通りある。同様に確かとみなせるので、世界を9等分できる。
+-->,"## Monty Hall Problem (三つの扉に一つだけヤギがいる状態で、一つ挑戦者は選び司会者は正解でない方の扉を開ける。さて選び直すべきか？)
+ヤギがどの扉にいるか3通りある。それぞれにつき、挑戦者が扉を選ぶ場合が3通りある。同様に確かとみなせるので、世界を9等分できる。
 この条件(GIVEN)のもと司会者が不正解の扉を選択するが、(A)挑戦者が正解を選んだ場合(3/9)は、司会者は外れの扉を2通りで選べる。
 既に9等分された世界から移るので、1/18ずつの世界となる。一方で(B)挑戦者が不正解を選んだ場合(6/9)は、司会者は1通りの外れの扉しか選べないので、
 世界のサイズは9等分されたままの状態になる。よって選び直さない場合は、1/3で正解となる。(司会者関係ない)。
@@ -3436,105 +3871,140 @@ P(X=C |Y=C, Z=B)
 (B)の場合は、残っている正解の扉を1通りで選び直すので世界のサイズは変わらず1/9のままになり、2/3で正解となる。
 (分岐が発生すると今いる世界を小さくする必要がある。分割のサイズは確率で決める。)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"# (Ω, F , P) の意味- 大文字オメガ(標本空間)
+-->,"# (Ω, F , P) の意味
+- 大文字オメガ(標本空間)
 - 小文字オメガ(標本) (=それぞれの場合. 人間は知覚できない世界の1つ. ROOTから分岐した世界のノード)
 - 標本空間の部分集合AをP(A)で表す
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"# 確率変数(random variable)とは- 標本aを引数に取る関数Xのこと. X(a)
+-->,"# 確率変数(random variable)とは
+- 標本aを引数に取る関数Xのこと. X(a)
 - 人間にはaを知覚できないのでX自体が変数となる
 - X={A,B,C}とは確率変数Xのとる値を集合で表記
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"# 確率分布(random variable)とは確率変数Xが取るそれぞれの値に対する確率
+-->,"# 確率分布(random variable)とは
+確率変数Xが取るそれぞれの値に対する確率
 標本を特定する必要なし
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"# P(X=k)の意味X(標本) = kとなるような標本の面積の割合
+-->,"# P(X=k)の意味
+X(標本) = kとなるような標本の面積の割合
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## P(a <= X < b) の意味a <= X(標本) < bとなるような標本の集合をAとしたときのP(A) 
+-->,"## P(a <= X < b) の意味
+a <= X(標本) < bとなるような標本の集合をAとしたときのP(A) 
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## I.I.D (独立同一分布)- independent and identically distributed
+-->,"## I.I.D (独立同一分布)
+- independent and identically distributed
 - ここの周辺分布がどれも同じ
 - 各々独立
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## 期待値の定義E[g(X)] = sum g(xi) P(X = xi)
+-->,"## 期待値の定義
+E[g(X)] = sum g(xi) P(X = xi)
 特に、g(x) = xの時
 E[X] = sum xi P(X = xi)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## 分散の定義V[X]=E[(X-E[X])^2]=E[(X-u)^2] (ただしu = E[X])
+-->,"## 分散の定義
+V[X]=E[(X-E[X])^2]=E[(X-u)^2] (ただしu = E[X])
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## P(X=a)の言い換え- sum{y} P(X=a|Y=y) P(Y=y)
+-->,"## P(X=a)の言い換え
+- sum{y} P(X=a|Y=y) P(Y=y)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## sum P(X=x)の言い換え- sum{y} P(X=x, Y=y)
+-->,"## sum P(X=x)の言い換え
+- sum{y} P(X=x, Y=y)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## E[X]の言い換え- E[E[Y|X]]
+-->,"## E[X]の言い換え
+- E[E[Y|X]]
 - sum{a}E[X|Y=a] P(Y=a)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## 条件つき期待値の定義E[g(Y)|X=a] = sum{b}g(b)P(Y=b|X=a)
+-->,"## 条件つき期待値の定義
+E[g(Y)|X=a] = sum{b}g(b)P(Y=b|X=a)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## 条件つき分散の定義V[Y|X=a]=E[(Y-u(a))^2|X=a]
+-->,"## 条件つき分散の定義
+V[Y|X=a]=E[(Y-u(a))^2|X=a]
 ただし u(a)=E[Y|X=a]
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## E[{Y-g(X)}^2]が最小となるgは?g(a)=E[Y|X=a]
+-->,"## E[{Y-g(X)}^2]が最小となるgは?
+g(a)=E[Y|X=a]
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## 基本性質- sum P(X=x) = 1
+-->,"## 基本性質
+- sum P(X=x) = 1
 - P(X=x) >= 0
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## E[X+c] = E[X]+cE[X+c] = sum (x+c)P(X=x) = sum xP(X=x) + sum cP(X=x) = E[x] + c
+-->,"## E[X+c] = E[X]+c
+E[X+c] = sum (x+c)P(X=x) = sum xP(X=x) + sum cP(X=x) = E[x] + c
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## E[cX] = cE[X]E[X+c] = sum (xc)P(X=x) = c sum xP(X=x) = cE[x]
+-->,"## E[cX] = cE[X]
+E[X+c] = sum (xc)P(X=x) = c sum xP(X=x) = cE[x]
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## E[X+Y] = E[X] + E[Y]E[X+Y] = sum{x,y}(x + y)P(X=x, Y=y) = sum xP(X=x,Y=y) + sum yP(X=x,Y=y)
+-->,"## E[X+Y] = E[X] + E[Y]
+E[X+Y] = sum{x,y}(x + y)P(X=x, Y=y) = sum xP(X=x,Y=y) + sum yP(X=x,Y=y)
 第一項 = sum{x}sum{y}xP(X=x,Y=y) = sum{x}xP(X=x) (第二項も同様)
 E[X+Y] = sum{x}xP(X=x) + sum{y}yP(Y=y) = E[X]+E[Y]
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## E[XY] = E[X]E[Y]XとYが独立であるならば, P(xy)=P(x)P(y)なので
+-->,"## E[XY] = E[X]E[Y]
+XとYが独立であるならば, P(xy)=P(x)P(y)なので
 E[X+Y] = sum{x,y}(xy)P(X=x, Y=y) = sum{x}sum{y}(xy)P(X=x)P(Y=y) = sum{x}xP(X=x)sum{y}P(Y=y) E[X]E[Y]
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## V[X+c] = V[X]V[X+c]=V[Y]=E[(Y-v)^2]=E[{(X+c)-(u+c)}^2]=E[(X-u)^2]=V[X]
+-->,"## V[X+c] = V[X]
+V[X+c]=V[Y]=E[(Y-v)^2]=E[{(X+c)-(u+c)}^2]=E[(X-u)^2]=V[X]
 ただし, v=E[Y]=E[X+c]=E[X]+c=u+c
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## V[cX] = (c^2)V[X]V[cX]=E[(cX-v)^2]=E[c^2(X-u)^2]=(c^2)E[(X-u)^2]=(c^2)V[X]
+-->,"## V[cX] = (c^2)V[X]
+V[cX]=E[(cX-v)^2]=E[c^2(X-u)^2]=(c^2)E[(X-u)^2]=(c^2)V[X]
 v=E[cX]=cE[X]=cu
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## 確率変数の正規化W=(X-u)/s
+-->,"## 確率変数の正規化
+W=(X-u)/s
 E[W]=(1/s)(E[X]-u)=0
 V[W]=(1/s^2)(V[X])=1
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## V[X+Y] = V[X]+V[Y]V[X+Y] = V[X]+V[Y]+2E[(X-u)(Y-v)]
+-->,"## V[X+Y] = V[X]+V[Y]
+V[X+Y] = V[X]+V[Y]+2E[(X-u)(Y-v)]
 XとYが独立であるならば, 
 E[(X-u)(Y-v)]=E[X-u]E[Y-v]=(u-u)(v-v)=0
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## E[X^2] = V[X] + E[X]^2 = s^2 + u^2V[X] = E[(X-u)^2] = E[X^2+u^2-2uX] = E[X^2]+E[u^2]-2Eu[X] = E[X^2]+u^2-2u^2= E[X^2]-u^2
+-->,"## E[X^2] = V[X] + E[X]^2 = s^2 + u^2
+V[X] = E[(X-u)^2] = E[X^2+u^2-2uX] = E[X^2]+E[u^2]-2Eu[X] = E[X^2]+u^2-2u^2= E[X^2]-u^2
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## Bn(n,p)の分散s^2=np(1-p)
+-->,"## Bn(n,p)の分散
+s^2=np(1-p)
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## P(X=-1)=1/3, P(X=1)=2/3, V[X]?1-(1/3)^2=8/9
+-->,"## P(X=-1)=1/3, P(X=1)=2/3, V[X]?
+1-(1/3)^2=8/9
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## I.I.Dの平均値の期待値Z = sum Xi / n とすると
+-->,"## I.I.Dの平均値の期待値
+Z = sum Xi / n とすると
 E[Z] = E[sum Xi / n] = (sum E[Xi]) / n 
 iidなので、それぞれの期待値をuとおけて
 E[Z] = nu / n = u
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## I.I.Dの平均値の分散Z = sum Xi / n とすると
+-->,"## I.I.Dの平均値の分散
+Z = sum Xi / n とすると
 V[Z] = V[sum Xi / n] = (sum V[Xi]) / n^2
 iidなので、それぞれの分散をs^2とおけて
 V[Z] = ns / n^2 = s^2/n
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## 大数の法則iidな確率変数XiについてZ=sum Xi/nとすると
+-->,"## 大数の法則
+iidな確率変数XiについてZ=sum Xi/nとすると
 E[Z]=u, V[Z]=s^2/nとおけるので、n=>infとするとV[Z]=0となる
 これは試行回数nを無限に増やせば、バラつきがなくなることを意味する
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## nonparametric分布の具体的な関数を仮定しない
+-->,"## nonparametric
+分布の具体的な関数を仮定しない
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## parametric分布の具体的な関数を仮定する(正規分布)
+-->,"## parametric
+分布の具体的な関数を仮定する(正規分布)
 ただし期待値や分散は未知
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## MCMC解析的に解けないからシミュレーションで事後分布を求めることになった。その方法がMCMCなんだ
+-->,"## MCMC
+解析的に解けないからシミュレーションで事後分布を求めることになった。その方法がMCMCなんだ
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## Bin(m|N,u) の読み方試行回数Nと起きる確率uが与えられた場合(既知)の、確率変数mの確率分布
+-->,"## Bin(m|N,u) の読み方
+試行回数Nと起きる確率uが与えられた場合(既知)の、確率変数mの確率分布
 ",/Users/mbp/workspace/sandbox/math/tex/probability/probability.md
--->,"## 極大値(非連続)x[i-1] < x[i] > x[i+1] について i \in \[1, n-1\]
+-->,"## 極大値(非連続)
+x[i-1] < x[i] > x[i+1] について i \in \[1, n-1\]
 ",/Users/mbp/workspace/sandbox/math/tex/seq/1.md
--->,"## y = \sum_{i=0}^{n} a_i x^i$$
+-->,"## y = \sum_{i=0}^{n} a_i x^i
+$$
 S_n &=& a_0 x^n + a_1 x^{n-1} + ... + a_{n-1} x + a_n
     &=& $sum_{i=0}^{n} a_i x^{n-i}
     &=& $sum_{i=0}^{n-1} a_i x^{n-i} + a_n
@@ -3543,62 +4013,80 @@ S_n &=& a_0 x^n + a_1 x^{n-1} + ... + a_{n-1} x + a_n
 $$
 ようは、a_n除外して、xで括ったらS_{n-1}の項が出現する
 ",/Users/mbp/workspace/sandbox/math/tex/seq/1.md
--->,"## one byte offsetlast - first = n - 1
+-->,"## one byte offset
+last - first = n - 1
 $\sum_{i=1}^{n} a_i = $sum_{i=0}^{n-1} a_{i+1} = $sum_{i=2}^{n+1} a_{i-1}$
 ",/Users/mbp/workspace/sandbox/math/tex/seq/1.md
-:Q:分割数 -->,"  dp(i, n) = dp(i-1, n) + dp(i, n-i)
+:Q:分割数 -->,"  dp(1, _) = 1
+  dp(i, n) = dp(i-1, n) + dp(i, n-i)
 
-",/Users/mbp/workspace/sandbox/math/tex/seq/seq.md,"math  dp(1, _) = 1",
--->,"## 配列A[x,y]範囲に1の要素がいくつあるか?```math
+",/Users/mbp/workspace/sandbox/math/tex/seq/seq.md,math,
+-->,"## 配列A[x,y]範囲に1の要素がいくつあるか?
+```math
 S_n      = \sum_{i=0}^n A_i
 A[0,y]   = S[y]
 A[0,x-1] = S[x-1]
 A[x,y]   = a_x + a_{x+1} + ... + a_y = A[0,y] - A[0,x-1] = S[y] - S[x-1] (x > 0)
          = a_0 (x = 0)
 ```
-",/Users/mbp/workspace/sandbox/math/tex/seq/seq.md,
--->,"## パラメータのチューニング方法小さいtrainデータでパラメタを最適化してから、全てのデータを適用させる
+",/Users/mbp/workspace/sandbox/math/tex/seq/seq.md,math,
+-->,"## パラメータのチューニング方法
+小さいtrainデータでパラメタを最適化してから、全てのデータを適用させる
 ",/Users/mbp/workspace/sandbox/math/tex/svm.md
--->,"## Entropyの定義E = -sum (pi)log2(pi)
+-->,"## Entropyの定義
+E = -sum (pi)log2(pi)
 ",/Users/mbp/workspace/sandbox/math/tex/svm.md
--->,"## Entropy0
+-->,"## Entropy
+0
 ",/Users/mbp/workspace/sandbox/math/tex/svm.md
--->,"## 互いに素とは`gcd(a, b) = 1`
+-->,"## 互いに素とは
+`gcd(a, b) = 1`
 つまり最大公約数が1
 ",/Users/mbp/workspace/sandbox/math/tex/z/gcd.md
--->,"## 互いに素の例- (35, 48)
+-->,"## 互いに素の例
+- (35, 48)
 - (素数, 別の素数)
 ",/Users/mbp/workspace/sandbox/math/tex/z/gcd.md
--->,"## GCDの性質- GCD(a, a) = a
+-->,"## GCDの性質
+- GCD(a, a) = a
 - GCD(x, 1) = 1
 - GCD(pa, qa) = a (p,qは素数)
 ",/Users/mbp/workspace/sandbox/math/tex/z/gcd.md
--->,"## totientEuler's Totient Functionは、1 から n までの整数の中で、n と互いに素な数の個数を表します。
+-->,"## totient
+Euler's Totient Functionは、1 から n までの整数の中で、n と互いに素な数の個数を表します。
 n が素数 p ならば、1からp-1までの全ての数とpは互いに素なので, t(p) = p - 1 が成り立ちます。
 t(n)=n * PI (1-1/p) (pはnの素因数)
 ",/Users/mbp/workspace/sandbox/math/tex/z/gcd.md
--->,"### A <= i <= B に含まれる整数の数B - A + 1
+-->,"### A <= i <= B に含まれる整数の数
+B - A + 1
 ",/Users/mbp/workspace/sandbox/math/tex/z/index.md
--->,"### A < i < B に含まれる整数の数B - A - 1
+-->,"### A < i < B に含まれる整数の数
+B - A - 1
 ",/Users/mbp/workspace/sandbox/math/tex/z/index.md
--->,"### A <= i < B に含まれる整数の数B - A
+-->,"### A <= i < B に含まれる整数の数
+B - A
 ",/Users/mbp/workspace/sandbox/math/tex/z/index.md
--->,"### A < i <= B に含まれる整数の数B - A
+-->,"### A < i <= B に含まれる整数の数
+B - A
 ",/Users/mbp/workspace/sandbox/math/tex/z/index.md
--->,"### #${i| A $leqq i $leqq B, i $bmod K = 0 $}ある0<=n<A, 0<=n'<Bについて
+-->,"### #${i| A $leqq i $leqq B, i $bmod K = 0 $}
+ある0<=n<A, 0<=n'<Bについて
 A = Km + n <= i = K*j <= B = Km' + n' & <=> (Kで割る)
     m + n/K    <= j       <= m' + n'/K < m' + 1 
 また次を考慮し `0 $leqq & n/K, n'/K & < 1`、Kの倍数から整数に帰着
 m <= j <= m' (n/K = 0)
 m <  j <= m' (else)
 ",/Users/mbp/workspace/sandbox/math/tex/z/index.md
--->,"### #${i| 3 <= i <= 110, i % 3 = 0 $}3 = 3 * 1, 110 = 3 * 36 + 2より
+-->,"### #${i| 3 <= i <= 110, i % 3 = 0 $}
+3 = 3 * 1, 110 = 3 * 36 + 2より
 1 <= (1, 2, ... 36) <= 36なので、16通り
 ",/Users/mbp/workspace/sandbox/math/tex/z/index.md
--->,"### min x >= a/b- [a/b] & (a % b = 0)
+-->,"### min x >= a/b
+- [a/b] & (a % b = 0)
 - [a/b] + 1 & (else)
 ",/Users/mbp/workspace/sandbox/math/tex/z/index.md
--->,"### 数列Snを２分割した数列の差の最小値S_{N0} & = & a_N + a_{N-1} + ... + a_2 + a_1
+-->,"### 数列Snを２分割した数列の差の最小値
+S_{N0} & = & a_N + a_{N-1} + ... + a_2 + a_1
 S_{N1} & = & a_N + a_{N-1} + ... + a_2 - a_1
 ...
 S_{Nx}     & = & a_N + a_{N-1} + ... + a_{x+1} - a_x ... - a_2 - a_1
@@ -3608,37 +4096,47 @@ S_{NN}     & = & - a_N - a_{N-1} + ... - a_2 - a_1
 よって、２項間の差は以下のとおり
 S_{N(x+1)} - S_{Nx} & = & - 2 a_{x+1} 
 ",/Users/mbp/workspace/sandbox/math/tex/z/index.md
--->,"## newton法(簡易証明)収束しそうな点(初項)を探す必要あり
+-->,"## newton法(簡易証明)
+収束しそうな点(初項)を探す必要あり
 f(x)の $x_n$ における接戦は次の通り $y = f'(x_n)(x - x_n) + f(x_n)$
 この接線は、(x_{n+1}, 0)を通過するので $0 = f'(x_n)(x_{n+1} - x_n) + f(x_n)$
 すなわち $x_{n+1} = x_n - f(x_n)/f'(x_n)$ として、
 |$frac{x_{n+1} - x_n}{x_n}| < $epsilon を満たすまで繰り返す
 ",/Users/mbp/workspace/sandbox/math/tex/z/index.md
--->,"## 暗黙のロック- UPDATEとDELETEは暗黙的にXLOCKが必要
+-->,"## 暗黙のロック
+- UPDATEとDELETEは暗黙的にXLOCKが必要
 - CREATEする場合にも、挿入される行にXLOCKする必要がある
 - unique, foreignのチェックにもロック必要みたい
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
--->,"## ギャップロックとは?インデックスとインデックスの間にかけられるロック。
+-->,"## ギャップロックとは?
+インデックスとインデックスの間にかけられるロック。
 範囲指定での処理 存在しない行への処理
 (ex) idとstrがあるだけのシンプルなテーブル。idがPKで1~5までは順番に、その後、10,20と飛んで行が入っている
 http://qiita.com/kenjiszk/items/05f7f6e695b93570a9e1
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
--->,"## SHARE LOCKとは?- READ => CREATE (間でREADした情報がUPDATE、DELETEされないことを保証したい, 親のテーブル情報)
+-->,"## SHARE LOCKとは?
+- READ => CREATE (間でREADした情報がUPDATE、DELETEされないことを保証したい, 親のテーブル情報)
 - insertのロックは、ネクストキーロックではなくインデックスレコードロックである (つまり、ギャップロックが存在しない) 
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
--->,"### (+1)と(*2)のプロセスで10=>22に変更する処理1(R) 10 -> 1(U) 11 -> 2(R) 11 -> 2(U) -> 22
+-->,"### (+1)と(*2)のプロセスで10=>22に変更する処理
+1(R) 10 -> 1(U) 11 -> 2(R) 11 -> 2(U) -> 22
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
--->,"### (+1)と(*2)のプロセスで10=>21に変更する処理2(R) 10 -> 2(U) 20 -> 1(R) 20 -> 1(U) -> 21
+-->,"### (+1)と(*2)のプロセスで10=>21に変更する処理
+2(R) 10 -> 2(U) 20 -> 1(R) 20 -> 1(U) -> 21
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
--->,"### (+1)と(*2)のプロセスで10=>20に変更する処理1(R) 10 -> 2(R) 10 -> 1(U) 11 -> 2(U) -> 20
+-->,"### (+1)と(*2)のプロセスで10=>20に変更する処理
+1(R) 10 -> 2(R) 10 -> 1(U) 11 -> 2(U) -> 20
 2(R) 10 -> 1(R) 10 -> 1(U) 11 -> 2(U) -> 20
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
--->,"### (+1)と(*2)のプロセスで10=>11に変更する処理2(R) 10 -> 1(R) 10 -> 2(U) 20 -> 1(U) -> 11
+-->,"### (+1)と(*2)のプロセスで10=>11に変更する処理
+2(R) 10 -> 1(R) 10 -> 2(U) 20 -> 1(U) -> 11
 1(R) 10 -> 2(R) 10 -> 2(U) 20 -> 1(U) -> 11
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
--->,"# ダーティリードとは?- ロック中のテーブルを参照すること
+-->,"# ダーティリードとは?
+- ロック中のテーブルを参照すること
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
--->,"## 楽観的ロック明示的なロックをかけない
+-->,"## 楽観的ロック
+明示的なロックをかけない
 更新したデータを行に書き戻す前に、その行を読み取った後に他の誰かがその行に変更を加えていないか確認する方法
 Version パターンと呼ばれる
 INSERTによって発生する不整合を防止することはできない
@@ -3651,12 +4149,14 @@ UPDATE時に、
 0だったらエラー。行を読んでから更新する前に他の誰かが行を更新したということ
 1だったら更新成功
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
--->,"## 悲観的ロック明示的にロックをかける
+-->,"## 悲観的ロック
+明示的にロックをかける
 ロックが開放されるまで、ロックを保持していないユーザはデータを操作できない
 場合によっては処理が長時間滞ってしまい、アプリケーションのパフォーマンスを著しく低下させる
 MySQL では、LOCK TABLES、SELECT ... LOCK IN SHARE MODE, SELECT ... FOR UPDATE 等によって実現
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
-:Q:SLOCKが必要となる例(親の名前で子供を作成),"mysql db -e 'BEGIN;
+:Q:SLOCKが必要となる例(親の名前で子供を作成),"mysql db -e '
+BEGIN;
 -- set @pname = (select name from parent where id = 1);  -- SLOCKしないとFK errorとなる
 set @pname = (select name from parent where id = 1 lock in share mode);
 select sleep(2);
@@ -3667,7 +4167,8 @@ sleep 1
 mysql db -e 'delete from parent where id = 1;' &
 wait
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/slock.sh
-# Get a lock for 10 sec,"redis-cli flushall > /dev/null
+# Get a lock for 10 sec,"# Get a lock for 10 sec
+redis-cli flushall > /dev/null
 f() {
     echo ""TRY TO GET A LOCK $1""
     if redis-cli set LOCK_KEY 1 NX PX 10000 | grep OK > /dev/null; then
@@ -3683,13 +4184,16 @@ f 1 & f 2 & wait
 # ただし、ロックを取得したプロセスがクラッシュしてデッドロックしないよう
 # ロックを確保できる時間を設定する必要があるのに注意.
 ",/Users/mbp/workspace/sandbox/mid/redis/single_redis_lock.sh
--->,"## Materialized view- 参照のみ: 更新することはできないが、複雑な定義のビューに利用
+-->,"## Materialized view
+- 参照のみ: 更新することはできないが、複雑な定義のビューに利用
 - Mysql5.7の場合、viewにindexを指定することはできない
 ",/Users/mbp/workspace/sandbox/sql/README.md
--->,"## slow queryの対処- `slow_query_log_file` をセットして、遅いクエリを検知する
+-->,"## slow queryの対処
+- `slow_query_log_file` をセットして、遅いクエリを検知する
 - eager load (N+1 query)
 ",/Users/mbp/workspace/sandbox/sql/README.md
-insertによるdeadlockの例,"# unique key + bulk insertはdeadlockの可能性がある(解決方法はソート)mysql db -e '
+insertによるdeadlockの例,"# unique key + bulk insertはdeadlockの可能性がある(解決方法はソート)
+mysql db -e '
 drop table if exists p;
 CREATE TABLE p (`id` bigint(20) unsigned NOT NULL primary key);
 '
@@ -3699,78 +4203,97 @@ echo $q1 | mysql db &
 echo $q2 | mysql db &
 wait
 ",/Users/mbp/workspace/sandbox/sql/bulkInsert.sh
--- cascadeとは？,"alter table child add foreign key (parent_id) references parent (id)
+-- cascadeとは？,"-- cascadeとは？
+alter table child add foreign key (parent_id) references parent (id)
 on delete cascade on update cascade;
 -- update: 親の主キーが変更された場合に、子の参照keyを親の値に更新
 -- delete: 親のレコードを削除した場合に、子ののレコードも削除
 ",/Users/mbp/workspace/sandbox/sql/cascade/cascade.sql
-restrictとは？,"alter table child add foreign key (parent_id) references parent (id)on delete restrict on update restrict;
+restrictとは？,"alter table child add foreign key (parent_id) references parent (id)
+on delete restrict on update restrict;
 -- 子供が参照した状態で、削除更新しようとするとエラー
 -- ""SET CONSTRAINTS ALL DEFERRED""というコマンドを使うことで
 -- 外部キー制約に限ってトランザクションの終わりまで制約の検査を遅延させることができる
 ",/Users/mbp/workspace/sandbox/sql/cascade/restrict.sql
--- set nullとは？(parent/childで説明),"alter table child add foreign key (parent_id) references parent (id)
+-- set nullとは？(parent/childで説明),"-- set nullとは？(parent/childで説明)
+alter table child add foreign key (parent_id) references parent (id)
 on delete set null on update set null;
 -- update: 親の主キーが変更された場合に、子の参照keyをNULLにする
 -- delete: 親のレコードを削除した場合に、子の参照keyをNULLにする
 ",/Users/mbp/workspace/sandbox/sql/cascade/setNull.sql
-:Q:テーブルの削除,"DROP TABLE IF EXISTS child, attribute, parent CASCADE;-- CASCADEはposgresqlのみ(mysqlの時は親を最後に記述)
+:Q:テーブルの削除,"DROP TABLE IF EXISTS child, attribute, parent CASCADE;
+-- CASCADEはposgresqlのみ(mysqlの時は親を最後に記述)
 ",/Users/mbp/workspace/sandbox/sql/createTable.sql
-:Q:childにおける外部参照KEYの定義,"  id int(4) unsigned,  FOREIGN KEY (id) REFERENCES parent (id) ON DELETE CASCADE ON UPDATE CASCADE
+:Q:childにおける外部参照KEYの定義,"  id int(4) unsigned,
+  FOREIGN KEY (id) REFERENCES parent (id) ON DELETE CASCADE ON UPDATE CASCADE
 ",/Users/mbp/workspace/sandbox/sql/createTable.sql
-:Q:parentが持つ属性table,"CREATE TABLE IF NOT EXISTS attribute (  -- 1to1となるように、PKまたは、uniqueの指定が必要
+:Q:parentが持つ属性table,"CREATE TABLE IF NOT EXISTS attribute (
+  -- 1to1となるように、PKまたは、uniqueの指定が必要
   parent_id int AUTO_INCREMENT,
   PRIMARY KEY (parent_id)
 );
 ",/Users/mbp/workspace/sandbox/sql/createTable.sql
-:Q:member_id=1に関する友達の友達,"select m.id from member mjoin contact c1 on c1.user_id = m.id
+:Q:member_id=1に関する友達の友達,"select m.id from member m
+join contact c1 on c1.user_id = m.id
 join contact c2 on c2.user_id = c1.other_id
 -- join contact c3 on c3.user_id = c2.other_id  -- さらに友達
 where c2.other_id = 1;
 ",/Users/mbp/workspace/sandbox/sql/friendsFriends.sql
-:Q:最も良い成績を選択,select * from grade where score = (select max(score) from grade);,/Users/mbp/workspace/sandbox/sql/getMaxAgePerson.sql
-:Q:最も良い成績を選択(ただし結果は1recordのみ),"-- 重複した値をもたず、結果が1レコードのみで良ければ、order byが使えるselect * from grade order by score desc limit 1;
+:Q:最も良い成績を選択,"select * from grade where score = (select max(score) from grade);
 ",/Users/mbp/workspace/sandbox/sql/getMaxAgePerson.sql
-":Q:varchar(5)の時の""abcdef""の挙動","insert into size_test (n1) values (""abcdef"");-- strictの場合は、エラーとなる。
+:Q:最も良い成績を選択(ただし結果は1recordのみ),"-- 重複した値をもたず、結果が1レコードのみで良ければ、order byが使える
+select * from grade order by score desc limit 1;
+",/Users/mbp/workspace/sandbox/sql/getMaxAgePerson.sql
+":Q:varchar(5)の時の""abcdef""の挙動","insert into size_test (n1) values (""abcdef"");
+-- strictの場合は、エラーとなる。
 -- 警告の場合は、truncateされる(""abcdef"" => ""abcde"")
 ",/Users/mbp/workspace/sandbox/sql/size.sql
-":Q:varchar(5)の時の""あabc""の挙動","insert into size_test (n1) values (""あabc"");-- 「あ」は、3bytesなので、残り2bytes格納できる(""あabc"" => ""あab"")
+":Q:varchar(5)の時の""あabc""の挙動","insert into size_test (n1) values (""あabc"");
+-- 「あ」は、3bytesなので、残り2bytes格納できる(""あabc"" => ""あab"")
 -- 文字数でカウントされない
 ",/Users/mbp/workspace/sandbox/sql/size.sql
-:Q:tinytextに格納てきる日本語,"-- tinytextは、255 (2^8−1) bytesまで格納できる。utf-8の「あ」は、3byteなので、85文字格納できる。insert into size_test (n2) values (repeat(""あ"", 85));
+:Q:tinytextに格納てきる日本語,"-- tinytextは、255 (2^8−1) bytesまで格納できる。utf-8の「あ」は、3byteなので、85文字格納できる。
+insert into size_test (n2) values (repeat(""あ"", 85));
 ",/Users/mbp/workspace/sandbox/sql/size.sql
-:Q:成績の平均が上位3までの学生のSQL,"select s.id, AVG(g.score) from student s join grade gon s.id = g.student_id group by s.id order by AVG(g.score) desc limit 3;
+:Q:成績の平均が上位3までの学生のSQL,"select s.id, AVG(g.score) from student s join grade g
+on s.id = g.student_id group by s.id order by AVG(g.score) desc limit 3;
 ",/Users/mbp/workspace/sandbox/sql/top10StudentsAboutScore.sql
--- 異なるデータを一つのリストに混在させる方法,"-- 1. １つのテーブルにまとめる. (非正規化。余計なカラムが多くなる)
+-- 異なるデータを一つのリストに混在させる方法,"-- 異なるデータを一つのリストに混在させる方法
+-- 1. １つのテーブルにまとめる. (非正規化。余計なカラムが多くなる)
 -- 2. 親に共通部分をまとめる. 子供で別々のカラムを定義 (継承問題)
 -- 3. union. sortするのでoffsetのコストが高い. 予めtableをfilterしておく
 -- 4. マテリアルview. データのためのリソースとindexの再計算処理のコスト
 ",/Users/mbp/workspace/sandbox/sql/union.sql
-int main() ,"  short int word = 0x0001;  // 2byte
+int main() ,"int main() {
+  short int word = 0x0001;  // 2byte
   char *byte = (char *) &word;
   if (*byte) printf(""Little endian\n"");  // 01 00
   else printf(""big endian\n""); // 00 01
 }
 ",/Users/mbp/workspace/sandbox/unix/checkEndian.c
-# O(N)のパターン(ただし、２重ループ),"# ルートNまでの総和はO(N): 1 + 2 + ... $sqrt[]{N} = $frac{1 + $sqrt[]{N}}{2} = O(N)
+# O(N)のパターン(ただし、２重ループ),"# O(N)のパターン(ただし、２重ループ)
+# ルートNまでの総和はO(N): 1 + 2 + ... $sqrt[]{N} = $frac{1 + $sqrt[]{N}}{2} = O(N)
 def ON(N, i=1):
     while i * i <= N:
         for j in range(i):
             pass
         i += 1
 ",/Users/mbp/workspace/sandbox/unix/order.py
-# O(logN)のパターン,"# 2で割る場合や余りの場合: 1 -> 2 -> 4 -> 8 -> ... 2^(n-1)
+# O(logN)のパターン,"# O(logN)のパターン
+# 2で割る場合や余りの場合: 1 -> 2 -> 4 -> 8 -> ... 2^(n-1)
 def OlogN(N):
     while N > 0:
         N /= 2
 ",/Users/mbp/workspace/sandbox/unix/order.py
-# O(MN)のパターン,"# 掛け算の場合はどちらが外側のループになるか、2通り考えられる
+# O(MN)のパターン,"# O(MN)のパターン
+# 掛け算の場合はどちらが外側のループになるか、2通り考えられる
 def OMN(N, M):
     for _ in range(M):
         for _ in range(N):
             pass
 ",/Users/mbp/workspace/sandbox/unix/order.py
-# O(M+N)のパターン,"def OMON(N, M):
+# O(M+N)のパターン,"# O(M+N)のパターン
+def OMON(N, M):
     for _ in range(M):
         pass
     for _ in range(N):
