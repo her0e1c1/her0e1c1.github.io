@@ -1,6 +1,6 @@
 From node:7
 
-RUN npm install -g yarn
+# RUN npm install -g yarn
 
 WORKDIR /app
 
