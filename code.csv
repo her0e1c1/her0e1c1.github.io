@@ -1,3 +1,26 @@
+深さDのノードで構築されたlinkedリストを作成 (各深さごとのリストが答え),"func F(n *Node) [][]*Node {
+	// BFSでもdepth++で降りていく場合がよい例??? (ただしメモリがNode数だけ必要)
+	depth := 0
+	nodes := [][]*Node{{n}}
+	for true {
+		list := []*Node{}
+		for _, n := range nodes[depth] {
+			for _, i := range []*Node{n.Left, n.Right} {
+				if i != nil {
+					list = append(list, i)
+				}
+			}
+		}
+		if len(list) == 0 {
+			break
+		} else {
+			nodes = append(nodes, list)
+			depth++
+		}
+	}
+	return nodes
+}
+",/Users/mbp/workspace/sandbox/algo/bfs/bfs-sum.go
 長さlのソート配列に含まれるNの個数,"func search(a []int, f func(int) bool) int {
     rt, lo, hi := 0, 0, len(a)-1
     for lo <= hi {
@@ -19,6 +42,68 @@
   g2 a = (length xs) <= a || a >= 0 && xs !! a >= n  -- 配列のサイズを超える場合は、indexが小さくなる方向へ
   bits = reverse [2^i | i<-[0..32]]
 ",/Users/mbp/workspace/sandbox/algo/binary-search/count-elem.hs
+Longest Increasing Subsequence O(NlogN),"func lis(a []int) int {
+	dp := []int{}
+	for i := 0; i < len(a); i++ {
+		if len(dp) == 0 || dp[len(dp)-1] < a[i] {
+			dp = append(dp, a[i])
+		} else {
+			lo, rt, hi := 0, 0, len(dp)-1
+			for lo <= hi {
+				mi := lo + (hi-lo)/2
+				if a[i] <= dp[mi] {
+					hi = mi - 1
+					rt = mi
+				} else {
+					lo = mi + 1
+				}
+			}
+			dp[rt] = a[i]
+		}
+	}
+	return len(dp)
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/lis.go
+longest-increasing-subsequence O(n^2),"lis :: [Int] -> [Int]
+lis = g where
+ c a b = compare (length a) (length b)
+ -- g [] = []
+ g (x:xs) = x : maximumBy c (map (h . flip drop xs) [0..(length xs)]) where
+  h [] = []
+  h ys = if head ys > x then g ys else []
+",/Users/mbp/workspace/sandbox/algo/binary-search/lis.hs
+check the tree is balanced (balanced means any two leaf have the same length form root),"func isBalanced(n *Node) bool {
+    // 最大と最小の深さが等しければ、balancedとみなす
+	return maxDepth(n)-minDepth(n) == 0
+}
+func maxDepth(n *Node) int {
+	if n == nil {
+		return 0
+	}
+	return 1 + max(maxDepth(n.Left), maxDepth(n.Right))
+}
+func minDepth(n *Node) int {
+	if n == nil {
+		return 0
+	}
+	return 1 + min(maxDepth(n.Left), maxDepth(n.Right))
+}
+",/Users/mbp/workspace/sandbox/algo/binary-tree/is-balanced.go
+Lowest Common Ancestor (Without Addtional Memory),"-- rootから順にa,bを持つかどうか調べる
+-- ただしnodeの値はuniqueであることが条件
+lca :: Ord a => Tree a -> Tree a -> Tree a -> Maybe (Tree a)
+lca Leaf a b = Nothing
+lca n@(Node c l r) a b
+  | (hasNode l a) && (hasNode l b) = lca l a b
+  | (hasNode r a) && (hasNode r b) = lca r a b
+  | otherwise = Just n
+-- 第二引数のNodeを保持していればTrue
+hasNode :: Ord a => Tree a -> Tree a -> Bool
+hasNode Leaf _ = False 
+hasNode n1@(Node a1 l r) n2@(Node a2 _ _)
+  | a1 == a2 = True
+  | otherwise = (hasNode l n2) || (hasNode r n2)
+",/Users/mbp/workspace/sandbox/algo/binary-tree/lca.hs
 "func InOrderPrev (n, prev *Node) *Node ","func InOrderPrev (n, prev *Node) *Node {
 // left -> parent -> right PREV で考えずに
 // left <- parent <- right NEXT で考える
@@ -41,7 +126,81 @@
 	}
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-tree/order/inOrderPrev.go
-お釣りの問題,"solve :: [Int] -> Int -> [[Int]]
+木構造の移動方法,"- PRE:  parent -> left   -> right  (幅優先 上から下へ)
+- POST: left   -> right  -> parent (深優先 下から上へ)
+- IN:   left   -> parent -> right  (左優先 左から右へ)
+逆順の時は、矢印の向きが逆になるだけ
+",/Users/mbp/workspace/sandbox/algo/binary-tree/order/order.md
+2分木における経路の和がK,"pathK :: (Eq a, Num a) => Tree a -> a -> [[a]]
+pathK n k = go n [] where
+  go Leaf _ = []
+  go n@(Node p l r) path = a ++ b ++ c where
+    a = go l (p:path)
+    b = go r (p:path)
+    c = filter ((k==).sum) (f (p:path))
+f :: [a] -> [[a]]
+f = foldr (\x acc -> [[x]] ++ [x:ys | ys <- acc]) []
+",/Users/mbp/workspace/sandbox/algo/binary-tree/path-k.hs
+Return true If a sub tree is a part of the parent tree,"func subTree(tree, sub *Node) bool {
+	if sub == nil { // 空集合は任意の集合の部分集合
+		return true
+	} else if tree == nil {
+		return false
+	} else if matchTree(tree, sub) {
+		return true
+	} else {
+        // subはそのまま
+		return subTree(tree.Left, sub) || subTree(tree.Right, sub)
+	}
+}
+",/Users/mbp/workspace/sandbox/algo/binary-tree/sub-tree.go
+"func matchTree(a, b *Node) bool ","func matchTree(a, b *Node) bool {
+	if a == nil && b == nil {
+		return true
+	} else if a != nil && b != nil && a.Value == b.Value {
+		return matchTree(a.Left, b.Left) && matchTree(a.Right, b.Right)
+	} else {
+		return false
+	}
+}
+",/Users/mbp/workspace/sandbox/algo/binary-tree/sub-tree.go
+2分木におけるsub treeのnodeの和がK,"func sumK(n *Node, k int) {
+	var dfs func(*Node) int
+	dfs = func(n *Node) int {
+		if n == nil {
+			return 0
+		}
+        v := n.Value + dfs(n.Left) + dfs(n.Right)
+        if v == k {
+            fmt.Println(n)
+        }
+		return v
+	}
+	dfs(n)
+}
+",/Users/mbp/workspace/sandbox/algo/binary-tree/sum-k.go
+お釣りの問題(最小となる支払い方法),"func changeMoney(coins []int, sum int) int {
+	dp := make([]int, sum+1) // dp[s]は、sまで行くのに必要なコインの最小枚数(各コインのスナップショット)
+	for i := len(coins) - 1; i >= 0; i-- {
+		for s := sum; s > 0; s-- {
+            for n := 1; ; n++ { // コインの枚数
+                prev := s - coins[i]*n
+                if prev < 0 {
+                    break
+                }
+                if prev == 0 || dp[prev] != 0 { // 手前のコインから遷移できる条件
+                    if dp[s] > dp[prev] + n || dp[s] == 0 { // s!=0なので
+                        dp[s] = dp[prev] + n
+                    }
+                }
+            }
+		}
+        fmt.Println(dp)
+	}
+    return dp[sum]
+}
+",/Users/mbp/workspace/sandbox/algo/dp/change-money.go
+お釣りの問題(支払い方法全て),"solve :: [Int] -> Int -> [[Int]]
 solve [] sum = [[]]
 -- coinsは降順ソート
 solve (c:coins) csum = concatMap (g . f) [0 .. (div csum c)]
@@ -50,7 +209,7 @@ solve (c:coins) csum = concatMap (g . f) [0 .. (div csum c)]
     -- fは、c:coinsにおける使用するコインのリストを返す
     f x = map ((take x (repeat c)) ++) (solve coins (csum - c * x))
     g = filter (\a-> sum a == csum)
-",/Users/mbp/workspace/sandbox/algo/dp/change/change.hs
+",/Users/mbp/workspace/sandbox/algo/dp/change-money.hs
 :Q:circusTower,"// (身長、体重) がそれぞれ下にいる人よりも小さくなることを制限として、最も長い人タワーを作る時の組み合わせ
 func circusTower(A []Pair) []Pair {
 	sort.Sort(Pairs(A))
