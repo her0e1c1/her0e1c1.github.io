@@ -8,8 +8,8 @@
 ## Summary
 
 I have 3+ years professional experiences as software engineer.
-
-and I've also worked on frontend or others if needed.
+Mainly I have implemented backend code,
+but also worked on any others like frontend if needed.
 
 ## Experience
 
