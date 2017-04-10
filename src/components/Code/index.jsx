@@ -48,6 +48,7 @@ const Lang = ({parent}) => {
 const Categories = ({parent}) => {
   let l = parent.state.ALLCODES.map(c => c.path.split(/\/|\./)).reduce((acc, x) => acc.concat(...x), [])
   l = new Array(...new Set(l))
+  l.sort()
   return (
     <ul style={{ border: "1px solid blue" }} className="list-inline">
     {l.map(c =>
