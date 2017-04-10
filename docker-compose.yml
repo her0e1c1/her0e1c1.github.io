@@ -7,8 +7,7 @@ services:
     tty: true
     stdin_open: true
     entrypoint: /bin/bash
-    ports:
-        - 10000:8080
+    network_mode: host
     volumes:
         - .:/host
     working_dir: /host

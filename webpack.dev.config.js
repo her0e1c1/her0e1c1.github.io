@@ -61,7 +61,7 @@ const devConfig = {
       }
    }),
     new webpack.DefinePlugin({
-      __HOST__: JSON.stringify(IS_PRODUCTION ? "her0e1c1.github.io" : "localhost:10000"),
+      __HOST__: JSON.stringify(IS_PRODUCTION ? "her0e1c1.github.io" : "localhost:8080"),
       __WEBSOCKET_URL__: JSON.stringify("ws://128.199.158.226:13309/socket")
     }),
     new ExtractTextPlugin("styles.css")
