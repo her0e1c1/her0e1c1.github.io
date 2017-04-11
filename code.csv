@@ -183,6 +183,7 @@ Return true If a sub tree is a part of the parent tree,"func subTree(tree, sub *
 	dp := make([]int, sum+1) // dp[s]は、sまで行くのに必要なコインの最小枚数(各コインのスナップショット)
 	for i := len(coins) - 1; i >= 0; i-- {
 		for s := sum; s > 0; s-- {
+            // knapsackとは異なり、失敗する場合がある(==なので条件が厳しい)
             for n := 1; ; n++ { // コインの枚数
                 prev := s - coins[i]*n
                 if prev < 0 {
@@ -210,17 +211,33 @@ solve (c:coins) csum = concatMap (g . f) [0 .. (div csum c)]
     f x = map ((take x (repeat c)) ++) (solve coins (csum - c * x))
     g = filter (\a-> sum a == csum)
 ",/Users/mbp/workspace/sandbox/algo/dp/change-money.hs
-:Q:circusTower,"// (身長、体重) がそれぞれ下にいる人よりも小さくなることを制限として、最も長い人タワーを作る時の組み合わせ
-func circusTower(A []Pair) []Pair {
+circusTowerにおける型,"type Pair struct {
+	height int
+	width  int
+}
+type Pairs []Pair
+func (p Pairs) Len() int      { return len(p) }
+func (p Pairs) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
+func (p Pairs) Less(i, j int) bool {
+	if p[i].height < p[j].height {
+		return true
+	} else if p[i].height == p[j].height {
+		return p[i].width <= p[j].width
+	} else {
+		return false
+	}
+}
+",/Users/mbp/workspace/sandbox/algo/dp/circus-tower.go
+circusTower (身長、体重) がそれぞれ下にいる人よりも小さくなることを制限として、最も長い人タワーを作る時の組み合わせ,"func circusTower(A []Pair) []Pair {
 	sort.Sort(Pairs(A))
 	var dfs func(int) []Pair
 	dfs = func(i int) []Pair {
 		if i == len(A) {
-			return []Pair {}
+			return []Pair{}
 		} else {
 			var humans []Pair
 			h1, w1 := A[i].height, A[i].width
-			for j := i+1; j < len(A); j++ {
+			for j := i + 1; j < len(A); j++ {
 				h2, w2 := A[j].height, A[j].width
 				if h1 < h2 && w1 < w2 {
 					if h := dfs(j); len(humans) < len(h) {
@@ -234,20 +251,18 @@ func circusTower(A []Pair) []Pair {
 	}
 	return dfs(0)
 }
-",/Users/mbp/workspace/sandbox/algo/dp/circusTower/circusTower.go
+",/Users/mbp/workspace/sandbox/algo/dp/circus-tower.go
 "func solve(sizes, prices []int, capacity int) int ","func solve(sizes, prices []int, capacity int) int {
 	dp := make([]int, capacity + 1)
 	for s := 0; s < len(sizes); s++ {
 		for c := capacity; c >= sizes[s]; c-- { // 再利用ができるのは、i=>i+1へ単純に値を渡している場合.
-			dp[c] = max(dp[c], dp[c-sizes[s]] + prices[s])
+            // c-size[s]とcより小さい値を使っているので逆順の必要あり
+			dp[c] = max(dp[c], dp[c-sizes[s]] + prices[s]) // sを使う使わないの2通り
 		}
 	}
 	return dp[capacity]
 }
-func main() {
-	fmt.Println(solve([]int{1,2,3,4,5}, []int{5,4,3,2,1}, 6))  // 12 = (1,2,3)
-}
-",/Users/mbp/workspace/sandbox/algo/dp/knapsack/knapsack.go
+",/Users/mbp/workspace/sandbox/algo/dp/knapsack.go
 "knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a","knapsack :: (Ord a, Num a) => [(a, a)] -> a -> a
 -- pairs = [(size, price)] (逆方向)
 knapsack pairs size = go pairs size where
@@ -259,8 +274,8 @@ knapsack pairs size = go pairs size where
         cap2 = if ssize >= 0 then p + go sps ssize else 0
       in maximum [cap1, cap2]
 main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
-",/Users/mbp/workspace/sandbox/algo/dp/knapsack/knapsack.hs
-:Q:繰り返し二乗法(bottom up),"func pow(a, n int) int {
+",/Users/mbp/workspace/sandbox/algo/dp/knapsack.hs
+繰り返し二乗法(bottom up),"func pow(a, n int) int {
     // 下位ビットから、x^iを掛ける/掛けないをすることでも行き先を決めることができる！
     // 2^6 = (2^2 * 2^2) * (2^1 * 2^1) (正しい遷移)
     // この考え方に釣られると、pow(x, n) = pow(x * x, n / 2) * x
@@ -270,13 +285,21 @@ main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
         if (n & 1 == 1) {
             x *= a
         }
+        // 以下のように増加(2進数と対応付け) 9 = 8 + 1なので 2^9 == a^8 * a
+        // a^16 a^8 a^4 a^2 a
         a = a * a
         n = n >> 1
     }
     return x
 }
 ",/Users/mbp/workspace/sandbox/algo/dp/pow.go
-:Q:繰り返し二乗法(dp),"func pow_dp(a, n int) int {
+,"pow' :: Int -> Int -> Int
+pow' a 0 = 1
+pow' a n = case n `mod` 2 of
+  0 -> let x = pow' a (n `div` 2) in x * x
+  _ -> let x = pow' a ((n-1) `div` 2) in x * x * a
+",/Users/mbp/workspace/sandbox/algo/dp/pow.hs
+繰り返し二乗法(dp),"func pow_dp(a, n int) int {
     // => 向きには１方向. それを利用して0からnへのルートを知ることができる
     x := 1
     for d := 32; d >= 0; d-- {
@@ -288,21 +311,32 @@ main = print $ knapsack [(x, 6-x) |x <- [1..5]] 6
     return x
 }
 ",/Users/mbp/workspace/sandbox/algo/dp/pow_dp.go
-(define (add list1 list2),"(define (add list1 list2)
-  (let loop ((a list1) (b list2) (carry 0))
-    (let* ((sum (+ (if (null? a) 0 (car a))
-                   (if (null? b) 0 (car b))
-                   carry))
-           (digit (mod sum 10))
-           (next-carry (if (>= sum 10) 1 0))
-           (next-a (if (null? a) '() (cdr a)))
-           (next-b (if (null? b) '() (cdr b))))
-      (if (and (null? a) (null? b))
-          (if (= carry 1) '(1) '())
-          (cons digit (loop next-a next-b next-carry))))))
-",/Users/mbp/workspace/sandbox/algo/famous/AddEachDigitOf2Lists/AddEachDigitOf2Lists.scm
-:Q:BIT(Binary Indexed Tree)とは?,"// a1からanまでの総和をlog(n)で求めることができるデータ構造
-",/Users/mbp/workspace/sandbox/algo/famous/bit.go
+"func AddEachDigitOf2Lists(list1, list2 []int) []int","func AddEachDigitOf2Lists(list1, list2 []int) []int{
+	carry := 0
+	length := max(len(list1), len(list2))
+	out := make([]int, length)
+	for i := 0; i < length; i++ {
+		a, b := 0, 0
+		if (i < len(list1)) {
+			a = list1[i]
+		}
+		if (i < len(list2)) {
+			b = list2[i]
+		}
+		sum := a + b + carry
+        out[i] = sum % 10
+		// next state
+		carry = 0
+		if sum >= 10 {
+			carry = 1
+		}
+	}
+	if (carry == 1) {
+		out = append(out, 1)
+	}
+	return out
+}
+",/Users/mbp/workspace/sandbox/algo/famous/AddEachDigitOf2Lists.go
 type Bit struct ,"type Bit struct {
 	data []int
 	size int
@@ -335,17 +369,14 @@ func (b *Bit) read (idx int) int ,"func (b *Bit) read (idx int) int {
 	}
 }
 ",/Users/mbp/workspace/sandbox/algo/famous/bit.go
-":Q:a[i]=iの時のS(5),S(10)","	b := NewBit(100)
-	for i := 0; i <= 10; i++ {
-		b.update(i, i)
-	}
-	fmt.Println(b.read(1))  // 1
-	fmt.Println(b.read(5))  // 15
-	fmt.Println(b.read(10)) // 55
-	
-	fmt.Println(b)
-}
-",/Users/mbp/workspace/sandbox/algo/famous/bit.go
+BIT(Binary Indexed Tree)とは,"a1からanまでの総和をlog(n)で求めることができるデータ構造
+```
+____________1000____________
+________0100
+____0010        ____0110
+0001    0011    0101    0111
+```
+",/Users/mbp/workspace/sandbox/algo/famous/bit.md,,
 func findConsecutiveSegments(s []int) string ,"func findConsecutiveSegments(s []int) string {
     return loop(s, nil, nil)
 }
@@ -363,7 +394,7 @@ func loop(s []int, start, prev *int) string {
 		return format() + ""\n""
     } else if prev == nil {
         return loop(s[1:], &s[0], &s[0])
-    } else if s[0] - 1 == *prev {
+    } else if s[0] - 1 == *prev { // nextだとs[0] + 1 == s[1]であるが、上手くいかないっぽい
         return loop(s[1:], start, &s[0])
     } else {
 		return format() + "", "" + loop(s[1:], &s[0], &s[0])
@@ -1513,6 +1544,22 @@ func shuffle(a []int) {
 :Q:anagram同士が隣同士になるようソート(CI9.2),"sort' :: [String] -> [String]
 sort' = Data.List.sortBy (\a b -> compare (sort a) (sort b))
 ",/Users/mbp/workspace/sandbox/algo/sort/anagram-sort.hs
+"func binSort(A []int, max int) []int ","func binSort(A []int, max int) []int {
+	// 特徴: 重複した要素は扱えない
+	bucket := make([]bool, max+1)
+	for i := 0; i < len(A); i++ {
+		bucket[A[i]] = true
+	}
+	j := 0
+	for i := 0; i < max; i++ {
+		if bucket[i] {
+			A[j] = i
+			j++
+		}
+	}
+    return A[:j]
+}
+",/Users/mbp/workspace/sandbox/algo/sort/bin-sort.go
 "void bsort(int *a, int *buff, int size, int range) ","void bsort(int *a, int *buff, int size, int range) {
   int counter[range], offset[range];
   for (int i = 0; i < range; i++) counter[i] = offset[i] = 0;
