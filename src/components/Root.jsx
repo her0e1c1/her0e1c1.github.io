@@ -9,6 +9,7 @@ import PhoenixClient from './Samples/PhoenixClient.jsx'
 import About from './About.jsx'
 import Resume from './Resume/index.jsx'
 import Code from './Code/index.jsx'
+import CSS from './CSS/index.jsx'
 
 const Footer = () =>
   <footer />
@@ -38,6 +39,7 @@ const Root = () =>
       </Route>
       <Route path="about" component={About} />
       <Route path="resume" component={Resume} />
+      <Route path="css" component={CSS} />
     </Route>
     <Route path="/sample" component={Code} />
   </Router>
