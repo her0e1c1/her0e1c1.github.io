@@ -47,7 +47,9 @@ const Lang = ({parent}) => {
 
 const Categories = ({parent}) => {
   let l = parent.state.ALLCODES.map(c => c.path.split(/\/|\./)).reduce((acc, x) => acc.concat(...x), [])
-  l = new Array(...new Set(l))
+  let cnt = {}
+  l.forEach(c => c in cnt ? cnt[c]++ : cnt[c]=0)
+  l = Object.keys(cnt).filter(c => cnt[c] >= 3 && c !== "")
   l.sort()
   return (
     <ul style={{ border: "1px solid blue" }} className="list-inline">
@@ -233,7 +235,7 @@ class Code extends React.Component {
             </div>
             </div>
             }
-        <Modal show={this.state.showCategories} keyboard={true} backdrop={true} onHide={() => this.setState({showCategories: false})}>
+        <Modal style={{width: "80%"}} show={this.state.showCategories} keyboard={true} backdrop={true} onHide={() => this.setState({showCategories: false})}>
           <Modal.Body><Categories parent={this} /></Modal.Body>
           <Modal.Footer><Button onClick={() => this.setState({showCategories: false})} >Close</Button></Modal.Footer>
         </Modal>
