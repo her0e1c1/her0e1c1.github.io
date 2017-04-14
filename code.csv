@@ -1,3 +1,25 @@
+更新処理が競合しないようにするためのコード,"var v1 int32 // 共有メモリ
+var v2 int32 // 共有メモリ(atomicなし)
+func main () {
+    wg := new(sync.WaitGroup)
+    for i := 0; i < 1000; i++ {
+        wg.Add(1)
+        go func() {
+            atomic.AddInt32(&v1, 1) // atomicを使い、共有メモリの更新にロック
+            wg.Done()
+        }()
+    }
+    for i := 0; i < 1000; i++ {
+        wg.Add(1)
+        go func() {
+            v2++
+            wg.Done()
+        }()
+    }
+    wg.Wait()
+    fmt.Println(v1, v2) // 1000 855
+}
+",/Users/mbp/workspace/sandbox/algo/async/memory-atomic.go
 深さDのノードで構築されたlinkedリストを作成 (各深さごとのリストが答え),"func F(n *Node) [][]*Node {
 	// BFSでもdepth++で降りていく場合がよい例??? (ただしメモリがNode数だけ必要)
 	depth := 0
@@ -21,18 +43,77 @@
 	return nodes
 }
 ",/Users/mbp/workspace/sandbox/algo/bfs/bfs-sum.go
-長さlのソート配列に含まれるNの個数,"func search(a []int, f func(int) bool) int {
-    rt, lo, hi := 0, 0, len(a)-1
+"func IsConected(g *Graph, src int, dst int) bool ","func IsConected(g *Graph, src int, dst int) bool {
+	q := []int {src}
+	visited := make([]bool, g.N)
+	for len(q) != 0 {
+		node := q[0]
+		if node == dst {  // srcから始めて、dstに行ければtrue
+			return true
+		}
+		visited[node] = true
+		q = q[1:]
+		for _, next := range g.E[node] {
+			if ! visited[next] {
+				q = append(q, next)
+			}
+		}
+	}
+	return false
+}
+",/Users/mbp/workspace/sandbox/algo/bfs/is_connected.go
+"func (g *Graph) Find(src, dst int) []int ","func (g *Graph) Find(src, dst int) []int {
+	q := []int {src}
+	visited := make([]bool, g.N)
+	previous := make([]int, g.N)
+	for i := 0; i < g.N; i++ { previous[i] = -1 }  // TODO: how to make values default
+	for len(q) != 0 {
+		node := q[0]
+		if node == dst {
+			paths := []int {node}
+			for i := previous[node]; i != -1; i = previous[i] {
+				paths = append(paths, i)
+			}
+			return paths
+		}
+		q = q[1:]
+		visited[node] = true
+		for _, next := range g.E[node] {
+			if ! visited[next] {
+				q = append(q, next)
+				previous[next] = node
+			}
+		}
+	}
+	return []int {}
+}
+",/Users/mbp/workspace/sandbox/algo/bfs/shortest_path.go
+長さlのソート配列に含まれるNの個数,"func countElem(A []int, k int) int {
+    if len(A) == 0 || k < A[0] || A[len(A)-1] < k {
+        return 0
+    }
+    min, max := -1, -1
+    lo, hi := 0, len(A)-1
     for lo <= hi {
         mi := lo + (hi - lo) / 2
-        if a[i] <= a[mi] {
+        if A[mi] <= k {
+            lo = mi + 1
+            max = mi
+        } else {
             hi = mi - 1
-            rt = mi
+        }
+    }
+    lo, hi = 0, len(A)-1
+    for lo <= hi {
+        mi := lo + (hi - lo) / 2
+        if A[mi] >= k {
+            hi = mi - 1
+            min = mi
         } else {
             lo = mi + 1
         }
     }
-	return len(dp)
+	return max - min + 1
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-search/count-elem.go
 長さlのソート配列に含まれるNの個数,"countElem xs n = (foldl f 0 bits) - (foldl g (2^32) bits) + 1 where
@@ -42,6 +123,48 @@
   g2 a = (length xs) <= a || a >= 0 && xs !! a >= n  -- 配列のサイズを超える場合は、indexが小さくなる方向へ
   bits = reverse [2^i | i<-[0..32]]
 ",/Users/mbp/workspace/sandbox/algo/binary-search/count-elem.hs
+x^2>=15241578750190521を満たす最小のxを求める,"func findMin(N int) int {
+	g := func(x int) bool {
+		return x*x >= N
+	}
+	var hi int
+	rv, lo, hi := -1, 0, 2<<30 // warn: math.Pow(2, 30) float64
+	for lo <= hi {
+		mi := (lo + hi) / 2
+		if g(mi) {
+			hi = mi - 1
+			rv = mi
+		} else {
+			lo = mi + 1
+		}
+	}
+	return rv
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/find-min-x.go
+x^2>=15241578750190521を満たす最小のxを求める,"findMin :: Integer -> Integer
+findMin n = foldl go (2^32) (reverse [2^i | i<-[0..32]]) where
+  f x = x * x >= n
+  go acc x = if f (acc - x) then acc - x else acc
+",/Users/mbp/workspace/sandbox/algo/binary-search/find-min-x.hs
+15241578750190521の平方根,"func findSqrt(n int) (int, bool) {
+	f := func(x int) int {
+        return x * x - n
+	}
+	lo, hi := 0, 2<<31
+	for lo <= hi {
+		mi := lo + (hi-lo)/2
+        rv := f(mi)
+        if rv == 0 {
+            return mi, true
+        } else if rv > 0 {
+            hi = mi - 1
+        } else {
+            lo = mi + 1
+        }
+	}
+	return 0, false
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/find-sqrt-n.go
 Longest Increasing Subsequence O(NlogN),"func lis(a []int) int {
 	dp := []int{}
 	for i := 0; i < len(a); i++ {
@@ -72,6 +195,42 @@ lis = g where
   h [] = []
   h ys = if head ys > x then g ys else []
 ",/Users/mbp/workspace/sandbox/algo/binary-search/lis.hs
+ある配列をK個に区分したときの、区分配列のうち最大和の最小値を求める(ただし要素がない配列も１つと数えることが可能),"func f(sum, K int, a []int) bool {
+    // 最大和をsumとした時に、実際の和がsumにならない時は、それよりも小さいsumが存在するということ
+    // 最大和が小さすぎると、K個に配列を分割できない場合は、それよりも大きなsumで探索する必要がある
+	s, k := 0, 0
+	for i := 0; i < len(a); i++ { // greedy
+		if s+a[i] <= sum { // sumが緩くても大丈夫. trueを返し、それよりも小さなsumで探索を続ける
+			s += a[i]
+		} else {
+			s = a[i]
+			k++
+		}
+		if k == K {
+			return false
+		}
+	}
+	return true
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/minimize-sum-sequence.go
+0が途中に混ざった場合のbinary search,"func find(a []int, target int) int {
+	lo, hi := 0, len(a)-1 // 区間[low, high]となるため、-1を忘れない
+	for lo <= hi {
+		mi := lo + (hi-lo)/2
+		for mi > lo && a[mi] == 0 { // mi >= lo だと mi < loになる可能性がある
+			mi--
+		}
+		if a[mi] == target {
+			return mi
+		} else if target < a[mi] {
+			hi = mi - 1
+		} else {
+			lo = mi + 1
+		}
+	}
+	return -1 // NOT FOUND
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/zero.go
 check the tree is balanced (balanced means any two leaf have the same length form root),"func isBalanced(n *Node) bool {
     // 最大と最小の深さが等しければ、balancedとみなす
 	return maxDepth(n)-minDepth(n) == 0
@@ -179,6 +338,18 @@ Return true If a sub tree is a part of the parent tree,"func subTree(tree, sub *
 	dfs(n)
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-tree/sum-k.go
+type Graph struct ,"type Graph struct {
+	N int
+	E [][]int
+}
+func NewGrash(x []int, y []int, N int) *Graph {
+	E := make([][]int, N)
+	for i := 0; i < len(x); i++ {
+		E[x[i]] = append(E[x[i]], y[i])
+	}
+	return &Graph{N: N, E: E}
+}
+",/Users/mbp/workspace/sandbox/algo/common/graph.go
 お釣りの問題(最小となる支払い方法),"func changeMoney(coins []int, sum int) int {
 	dp := make([]int, sum+1) // dp[s]は、sまで行くのに必要なコインの最小枚数(各コインのスナップショット)
 	for i := len(coins) - 1; i >= 0; i-- {
@@ -299,18 +470,6 @@ pow' a n = case n `mod` 2 of
   0 -> let x = pow' a (n `div` 2) in x * x
   _ -> let x = pow' a ((n-1) `div` 2) in x * x * a
 ",/Users/mbp/workspace/sandbox/algo/dp/pow.hs
-繰り返し二乗法(dp),"func pow_dp(a, n int) int {
-    // => 向きには１方向. それを利用して0からnへのルートを知ることができる
-    x := 1
-    for d := 32; d >= 0; d-- {
-        x = x * x  // x==1なので1bitが立つまでは初期状態
-        if (1 << uint(d) & n > 0) {
-            x *= a
-        }
-    }
-    return x
-}
-",/Users/mbp/workspace/sandbox/algo/dp/pow_dp.go
 "func AddEachDigitOf2Lists(list1, list2 []int) []int","func AddEachDigitOf2Lists(list1, list2 []int) []int{
 	carry := 0
 	length := max(len(list1), len(list2))
@@ -421,37 +580,42 @@ f(""1 p 3 2 1 4 3 3 4"".split(), ""3"", 1); print("""")
 f(""1 p 3 2 1 4 3 3 4"".split(), ""3"", 2); print("""")
 f(""1 p 3 2 1 4 3 3 4"".split(), ""2"", 2); print("""")
 ",/Users/mbp/workspace/sandbox/algo/famous/grep.py
-"def move(n, src, buf, dst):","def move(n, src, buf, dst):
-    assert len(src + buf + dst) == N, ""move wrong""
-    assert n <= len(src), ""move wrong""
-    if n > 0:
-        move(n - 1, src, dst, buf)  # この関数が返ると、bufにn-1個移したことになる
-        dst.append(src.pop())
-        assert len(dst) <= 1 or dst[-1] < dst[-2], 'move wrong'  # 大小関係を満たしているか確認
-        print(s, b, d)
-        move(n - 1, buf, src, dst)
-",/Users/mbp/workspace/sandbox/algo/famous/hanoi/hanoi.py
-:Q:ページング式,"-- 幅(width) (ページ数は常に一定)
--- == 2 * diff + 1
--- == 右端 - 左端 + 1  (右端>左端)
--- ページ数は一定になるよう式変形し、表現変更
--- == x - (x - 2 * diff) + 1 (IF last < x + diff)
--- == (x + 2 * diff) - x + 1 (IF x - diff < first)
--- == (x + diff) - (x - diff) + 1 (IF first <= x - diff <= x + diff <= last)
--- first + diff <= x <= last - diff (十分な幅がある条件)
-",/Users/mbp/workspace/sandbox/algo/famous/paging/paging.hs
+"func hanoi(n int, src, buf, dst *Hanoi) ","func hanoi(n int, src, buf, dst *Hanoi) {
+	/*
+	   前提: 合計は、常にN個の要素
+	   3つのオブジェクトを同時に操作(参照を共有して破壊的操作を行う)
+	   n個のsrcをbufを用いてdstに移動させる(interface)
+	   引数に渡すオブジェクトは、それぞれ大小関係を満たしているものとする
+	   全てにおいてハノイの大小関係を全ての操作で満たす必要あり
+	*/
+	if n > src.Size() {
+		panic(""you can not move"")
+	}
+	if n > 0 {
+		hanoi(n-1, src, dst, buf) // この関数が返ると、bufにn-1個移したことになる
+		dst.Push(src.Pop())       // src = src[:len(src)-1]は不可. 呼び出し元の変数の値を更新
+		fmt.Println(n, src, buf, dst)
+		hanoi(n-1, buf, src, dst)
+	}
+}
+// 実体を書き換えないといけない
+type Hanoi struct {
+	data []int
+}
+",/Users/mbp/workspace/sandbox/algo/famous/hanoi.go
 "paging :: Int -> Int -> Int -> (Int, Int)","paging :: Int -> Int -> Int -> (Int, Int)
+-- 幅(width) (ページ数は常に一定) == 2 * diff + 1 == 右端 - 左端 + 1  (右端>左端)
 paging = go 0 where
   go first diff cur last
         | not $ (first <= cur) && (cur <= last) = error ""bad args""
         | (last - first + 1) <= 2 * diff + 1 = (first, last)  -- 幅が十分大きい場合
-        | cur < first + diff = (first, first + 2 * diff)  -- 左端
-        | last - diff < cur  = (last - 2 * diff, last)  -- 右端
-        | otherwise = (cur - diff, cur + diff)  -- [現在-幅, 現在+幅]
+        | cur - diff < first = (first, first + 2 * diff)
+        | last < cur + diff  = (last - 2 * diff, last)
+        | otherwise = (cur - diff, cur + diff)  -- [現在-幅, 現在+幅]  -- それぞれの端が[first, last]をはみ出ないのが条件
 paging2 = paging 2  -- diff == 2
 main = do
   mapM_ (\x -> (putStr . show) x >> (print $ paging2 x 10)) [0..10]
-",/Users/mbp/workspace/sandbox/algo/famous/paging/paging.hs
+",/Users/mbp/workspace/sandbox/algo/famous/paging.hs
 solve :: Int -> [[Int]],"solve :: Int -> [[Int]]
 solve boardSize = go [] where
   go queens = if length queens == boardSize
@@ -463,24 +627,41 @@ canAttack :: Int -> [Int] -> Bool
 canAttack x queens = go queens 0 where
   go [] _ = False
   go (q:queens) n = q == x + (n + 1) || q == x - (n + 1) || go queens (n + 1)
-",/Users/mbp/workspace/sandbox/algo/famous/queen/queen.hs
-:Q:人に見やすいフォーマットに変換,"def show(n, binary=False):
-    if n < 0:
-        return ""-"" + show(-1 * n, binary)
-    def to_s(x, unit, label=''):
-        return '%.1f%sB' % (x / float(unit), label)
-    for i, unit in enumerate(["""", ""K"", ""M"", ""G"", ""T"", ""P"", ""Z""]):
-        if binary:
-            start = 2 ** (10 * i)
-            end   = 2 ** (10 * (i + 1))
-        else:
-            start = 10 ** (3 * i)
-            end   = 10 ** (3 * (i + 1))  # end = start * (10 ** 3)
-        if start <= n < end:
-            return to_s(n, start, unit)
-    else:
-        return to_s(n, 1)
-",/Users/mbp/workspace/sandbox/algo/famous/show-human.py
+",/Users/mbp/workspace/sandbox/algo/famous/queen.hs
+Queen,"# 全ての駒を斜め上(左右両方)に移動させる。枠から出てもよい
+from itertools import permutations
+n = 4
+queens = range(n)
+for pos in permutations(queens):
+    if (n == len(set(pos[i] + i for i in queens))
+          == len(set(pos[i] - i for i in queens))):
+        print pos
+",/Users/mbp/workspace/sandbox/algo/famous/queen.py
+人に見やすいフォーマットに変換,"func showHuman(n int) string {
+	if n < 0 {
+		return ""-"" + showHuman(-1*n)
+	}
+	toSting := func(unit int, label string) string {
+		return fmt.Sprintf(""%.2f%sB"", float64(n)/float64(unit), label)
+	}
+	for i, label := range []string{"""", ""K"", ""M"", ""G"", ""T"", ""P"", ""Z""} {
+		start := pow(10, (3 * i))
+		end := pow(10, (3 * (i + 1))) // end = start * (10 ** 3)
+		if start <= n && n < end {
+			return toSting(start, label)
+		}
+	}
+	return toSting(1, """")
+}
+",/Users/mbp/workspace/sandbox/algo/famous/show-human.go
+curry,"((a,b) -> c) -> a -> b -> c 
+f (x, y) = curry f x y
+
+",/Users/mbp/workspace/sandbox/algo/fp/README.md,,
+uncurry,"(a -> b -> c) -> (a, b) -> c
+f x y = uncurry f (x, y)
+
+",/Users/mbp/workspace/sandbox/algo/fp/README.md,,
 (define (choose choices),"(define (choose choices)
   (if (null? choices)
       (try-again)
@@ -646,64 +827,39 @@ ZCombinator,"; λf.(λx.f(λy.xxy))(λx.f(λy.xxy))
                       (self self (- a 2)))))))))
 (print (fib 10))  ; 55
 ",/Users/mbp/workspace/sandbox/algo/fp/y/fib.scm
-"func (g *Graph) IsConected(src int, dst int) bool ","func (g *Graph) IsConected(src int, dst int) bool {
-	q := []int {src}
-	visited := make([]bool, g.N)
-	for len(q) != 0 {
-		node := q[0]
-		if node == dst {  // srcから始めて、dstに行ければtrue
-			return true
-		}
-		visited[node] = true
-		q = q[1:]
-		for _, next := range g.E[node] {
-			if ! visited[next] {
-				q = append(q, next)
+:Q:wfloydの特徴,"マイナスを含んだ重み付き有向グラフの全ペアの最短経路問題
+",/Users/mbp/workspace/sandbox/algo/graph/floyd.go
+"func floyd(N int, x, y, z []int) [][]int ","func floyd(N int, x, y, z []int) [][]int {
+	a := make([][]int, N) // 0とINFの初期化必須
+	for i := 0; i < N; i++ {
+		a[i] = make([]int, N)
+		for j := 0; j < N; j++ {
+			if i == j {
+				a[i][j] = 0
+			} else {
+                // 1 << 30にすると配列の計算でoverflowするので多少小さい値にすること
+				a[i][j] = 1 << 20
 			}
 		}
 	}
-	return false
-}
-",/Users/mbp/workspace/sandbox/algo/graph/bfs/is_connected.go
-"func NewGraph(x []int, y []int, N int) (*Graph) ","func NewGraph(x []int, y []int, N int) (*Graph) {
-	g := &Graph{N: N}
-	E := make([][]int, N)
 	for i := 0; i < len(x); i++ {
-		xi := x[i]
-		yi := y[i]
-		E[xi] = append(E[xi], yi)
+		a[x[i]][y[i]] = z[i]
 	}
-	g.E = E
-	return g
-}
-",/Users/mbp/workspace/sandbox/algo/graph/bfs/shortest_path.go
-"func (g *Graph) Find(src, dst int) []int ","func (g *Graph) Find(src, dst int) []int {
-	q := []int {src}
-	visited := make([]bool, g.N)
-	previous := make([]int, g.N)
-	for i := 0; i < g.N; i++ { previous[i] = -1 }  // TODO: how to make values default
-	for len(q) != 0 {
-		node := q[0]
-		if node == dst {
-			paths := []int {node}
-			for i := previous[node]; i != -1; i = previous[i] {
-				paths = append(paths, i)
-			}
-			return paths
-		}
-		q = q[1:]
-		visited[node] = true
-		for _, next := range g.E[node] {
-			if ! visited[next] {
-				q = append(q, next)
-				previous[next] = node
+	for k := 0; k < N; k++ {
+		for i := 0; i < N; i++ {
+			for j := 0; j < N; j++ {
+				if a[i][j] > a[i][k] + a[k][j] {
+					a[i][j] = a[i][k] + a[k][j]
+				} 
 			}
 		}
 	}
-	return []int {}
+	return a
 }
-",/Users/mbp/workspace/sandbox/algo/graph/bfs/shortest_path.go
+",/Users/mbp/workspace/sandbox/algo/graph/floyd.go
 func (g *Graph) TopologicalSort() []int ,"func (g *Graph) TopologicalSort() []int {
+    // DFSを実行し、行き先がなくなったものから順に、リストに格納
+    // you can't sort a cyclic graph!!!
 	var dfs func(n int)  // 宣言必須!
 	sorted := []int {}
 	visited := make([]bool, g.N)
@@ -714,77 +870,58 @@ func (g *Graph) TopologicalSort() []int ,"func (g *Graph) TopologicalSort() []in
 				dfs(next)
 			}
 		}
-		sorted = append(sorted, n)  // 答えは決まった時点で格納
+		sorted = append(sorted, n)
 	}
 	for node := 0; node < g.N; node++ {
 		dfs(node)
 	}
 	return sorted
 }
-",/Users/mbp/workspace/sandbox/algo/graph/dfs/topological-sort.go
-:Q:wfloydの特徴,"// マイナスを含んだ重み付き有向グラフの全ペアの最短経路問題
-",/Users/mbp/workspace/sandbox/algo/graph/floyd/floyd.cpp
-int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので多少小さい値にすること,"int inf = 1 << 20;  // 1 << 30にすると配列の計算でoverflowするので多少小さい値にすること
-int wf(int n, vector<int> x, vector<int> y, vector<int> w){
-  vector<vector<int>> a(n, vector<int>(n, inf));
-  for (int i = 0; i < n; i++) a[i][i] = 0;  // 0とINFの初期化必須
-  for (int i = 0; i < x.size(); i++) a[x[i]][y[i]] = w[i];  // u => v (cost)
-  for (int k = 0; k < n; k++) 
-    for (int i = 0; i < n; i++)
-      for (int j = 0; j < n; j++)
-        a[i][j] = min(a[i][j], a[i][k] + a[k][j]);
-  return a[0][n-1];
-}
-",/Users/mbp/workspace/sandbox/algo/graph/floyd/floyd.cpp
+",/Users/mbp/workspace/sandbox/algo/graph/topological-sort.go
 "if A[K] = X, such that 1 ≤ X ≤ N, then operation K is increase(X) AND if A[K] = N + 1 then operation K is max counter.","func maxCounters(A []int, N int) []int {
-    c := make([]int, N)
-    ma, base := 0, 0
-    for i := 0; i < len(A); i++ {
-        a := A[i]-1
-        if (a == N) {
-              base = ma
-        } else {
-            b := c[a]
-            if (b < base) {
-                c[a] = base + 1
-            } else {
-                c[a] = b + 1
-            }
-            if (ma < c[a]) {
-                ma = c[a]  // maxは逐一更新
-            }
-        }
-    }
-    for i := 0; i < N; i++ {
-        if (c[i] < base) {
+	c := make([]int, N)
+	ma, base := 0, 0
+	for i := 0; i < len(A); i++ {
+		a := A[i] - 1
+		if a == N {
+			base = ma
+		} else {
+			b := c[a]
+			if b < base {
+				c[a] = base + 1
+			} else {
+				c[a] = b + 1
+			}
+			if ma < c[a] {
+				ma = c[a] // maxは逐一更新
+			}
+		}
+	}
+	for i := 0; i < N; i++ {
+		if c[i] < base {
 			c[i] = base
 		}
-    }
-    return c
+	}
+	return c
 }
 ",/Users/mbp/workspace/sandbox/algo/greedy/maxCounters.go
-極大値が間隔Kで取れる場合はTrue,"func maxIntervalOfLocalMaximuns(K int, S []int) bool {
-	// Sは極大値のx座標のリスト
-    i := 0  // 左端から貪欲に
-    for cnt := 0; cnt < K-1; cnt++ {  // 2つ目の間隔が取れるか?から開始
-		if i == len(S) {
-			return false
-		}
-        x1 := S[i]
-        j := i + 1
-        for j < len(S) {
-            x2 := S[j]
-            if x2 - x1 >= K {
+極大値が間隔Kで取れる場合はTrue (Sは極大値のx座標のリスト),"func maxIntervalOfLocalMaximuns(K int, S []int) bool {
+	i := 0                           // 左端から貪欲に
+	for cnt := 0; cnt < K-1; cnt++ { // 2つ目との間隔がk取れるか?から開始
+		x1 := S[i]
+		var j int
+		for j = i + 1; j < len(S); j++ {
+			x2 := S[j]
+			if x2-x1 >= K {
 				break
 			}
-            j++
 		}
-        if j == len(S) {
+		if j >= len(S) {
 			return false
 		}
-        i = j
+		i = j
 	}
-    return true
+	return true
 }
 ",/Users/mbp/workspace/sandbox/algo/greedy/maxIntervalOfLocalMaximuns.go
 各一定区間内に極大値をもつよう区分,"func maxNumberGroupOfLocalMaximuns(groups int, S []bool) bool {
@@ -810,28 +947,31 @@ int wf(int n, vector<int> x, vector<int> y, vector<int> w){
     return true
 }
 ",/Users/mbp/workspace/sandbox/algo/greedy/maxNumberGroupOfLocalMaximuns.go
+"int elem(int value, node_t* head) ","int elem(int value, node_t* head) {
+  node_t *current = head;
+  while (current) {
+    if (current->value == value)
+      return 1;
+    current = current->next;
+  }
+  return 0;
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
 char* reverse(char* s) ,"char* reverse(char* s) {
+/*
+ *sが空文字でないなら、
+ 一つ先が'\0'になるようにpointerを進めること
+ sとeを入れ替えることでreverseを実現
+ 偶数・奇数で中心の文字を入れ替えるかどうかの判断が必要になるが
+ s == eの場合が奇数のときに起こるがこれは、交換してもしなくても結果的にはよい
+ 結局入れ替える条件は、s < eになる
+ */
   if (*s == '\0') return s;
   char *head = s;
   char *e = s;
   while (*(e + 1)) e++;
   while (s < e) swap(s++, e--);
   return head;
-}
-",/Users/mbp/workspace/sandbox/algo/list/list.c
-char* unique(char* str) ,"char* unique(char* str) {
-  char *dst = str;
-  for (char *i = str; *i ;i++) {
-    char *j;
-    for (j = str; j < dst; j++) {
-      if (*j == *i)
-        break;
-    }
-    if (j == dst)  // breakしなかった場合
-      *dst++ = *i;
-  }
-  *dst = '\0';
-  return str;
 }
 ",/Users/mbp/workspace/sandbox/algo/list/list.c
 length' :: [a] -> Int,"length' :: [a] -> Int
@@ -966,6 +1106,29 @@ reverseK k xs = go xs where
       a2 = take k $ drop k xs
       a3 = drop (2 * k) xs
 ",/Users/mbp/workspace/sandbox/algo/list/reverseK/reverseK.hs
+fibを行列で表現,"
+a(n+2)=1*a(n+1)+1*a(n)
+a(n+1)=1*a(n+1)+0*a(n)
+",/Users/mbp/workspace/sandbox/algo/math/eq.tex
+:Q:Lx=yを求める式,"# y[i] = sum A[i,k] x[k] = A[i,1] x[1] + ... + A[i,i-1] x[i-1] + 1 * x[i] + 0 ...
+# x[i] = y[i] - sum (1<=k<=i-1) A[i,k] x[k]
+",/Users/mbp/workspace/sandbox/algo/math/eq.tex
+:Q:Rx=zを求める式,"# z[i] = sum A[i,k] x[k] = A[i,i] x[i] + ... + A[i,n] x[n]  # i-1以下は0
+# z[i] = sum (n>=k>=i) A[i,k] x[k]
+# A[i,i] x[i] = z[i] - sum (n>=k>=i+1) A[i,k] x[k]  # 最後にA[i,i]で割る
+",/Users/mbp/workspace/sandbox/algo/math/eq.tex
+":Q:r[i,j]を求める式","# i<=j の時
+# lr[i,j] = sum l[i,k]r[k,j] = l[i,1]r[1,j] + ... + l[i,i-1]r[i-1,j] + l[i,i]r[i,j]
+# l[i,i] = 1より
+# r[i,j] = lr[i,j] - sum(1<=k<=i-1) l[i,k]r[k,j] (i>=2)
+# r[1,j] = lr[i,j] (i=1)  # 一番上の行は何もしない
+",/Users/mbp/workspace/sandbox/algo/math/eq.tex
+":Q:l[i,j]を求める式","# j<i の時
+# lr[i,j] = sum l[i,k]r[k,j] = l[i,1]r[1,j] + ... + l[i,j-1]r[j-1,j] + l[i,j]r[j,j]
+# l[i,j] = {lr[i,j] - sum(1<=k<=j-1) l[i,k]r[k,j]} / r[j,j] (j>=2)
+# l[i,1] = lr[i,1] / r[1,1] (j=1)  # i>=2以上についてr[1,1]で割る
+# なお、 sum(1<=k<=0)=0とすれば、一つの式で表せる
+",/Users/mbp/workspace/sandbox/algo/math/eq.tex
 def transpose(A):,"def transpose(A):
     m, n = len(A), len(A[0])
     B = [[None] * m for _ in range(n)]
@@ -974,19 +1137,7 @@ def transpose(A):,"def transpose(A):
             B[j][i] = A[i][j]
     return B
 ",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
-":Q:r[i,j]を求める式","# i<=j の時
-# lr[i,j] = sum l[i,k]r[k,j] = l[i,1]r[1,j] + ... + l[i,i-1]r[i-1,j] + l[i,i]r[i,j]
-# l[i,i] = 1より
-# r[i,j] = lr[i,j] - sum(1<=k<=i-1) l[i,k]r[k,j] (i>=2)
-# r[1,j] = lr[i,j] (i=1)  # 一番上の行は何もしない
-",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
-":Q:l[i,j]を求める式","# j<i の時
-# lr[i,j] = sum l[i,k]r[k,j] = l[i,1]r[1,j] + ... + l[i,j-1]r[j-1,j] + l[i,j]r[j,j]
-# l[i,j] = {lr[i,j] - sum(1<=k<=j-1) l[i,k]r[k,j]} / r[j,j] (j>=2)
-# l[i,1] = lr[i,1] / r[1,1] (j=1)  # i>=2以上についてr[1,1]で割る
-# なお、 sum(1<=k<=0)=0とすれば、一つの式で表せる
-",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
-:Q:decomposeWithoutPivot,"def decompose(A):
+decomposeWithoutPivot,"def decompose(A):
     m, n = len(A), len(A[0])
     for k in range(max(m, n)):
         for i in range(k + 1, m):
@@ -995,17 +1146,9 @@ def transpose(A):,"def transpose(A):
             for j in range(k + 1, n):
                 A[i][j] -= float(A[i][k] * A[k][j])
     return A
-# kを固定して[i,j]を動かす
-# kまで求めたら、A[k,k]でそれより下の要素を割る
+# i,jを固定した場合、kの範囲は0<=k<min(i,j)となる
 ",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
-:Q:Lx=yを求める式,"# y[i] = sum A[i,k] x[k] = A[i,1] x[1] + ... + A[i,i-1] x[i-1] + 1 * x[i] + 0 ...
-# x[i] = y[i] - sum (1<=k<=i-1) A[i,k] x[k]
-",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
-:Q:Rx=zを求める式,"# z[i] = sum A[i,k] x[k] = A[i,i] x[i] + ... + A[i,n] x[n]  # i-1以下は0
-# z[i] = sum (n>=k>=i) A[i,k] x[k]
-# A[i,i] x[i] = z[i] - sum (n>=k>=i+1) A[i,k] x[k]  # 最後にA[i,i]で割る
-",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
-:Q:Ax=yを解くプログラム,"def solve(A, y, do_decompose=True):
+Ax=yを解くプログラム,"def solve(A, y, do_decompose=True):
     # Ax=y => LUx=y => Lz=y => Ux=zの順に求める(y=>z=>xの順に解を上書き)
     n = len(A)  # 連立方程式は正方行列の必要あり
     if do_decompose:
@@ -1019,7 +1162,7 @@ def transpose(A):,"def transpose(A):
         y[i] /= float(A[i][i])
     return y
 ",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
-:Q:AX=Eの逆行列を求める,"def inv(A):
+AX=Eの逆行列を求める,"def inv(A):
     n = len(A)  # 逆行列は正則である必要あり
     decompose(A)  # LU分解は一度だけ行う
     X = []
@@ -1028,42 +1171,57 @@ def transpose(A):,"def transpose(A):
         X.append(solve(A, e, do_decompose=False))
     return transpose(X)
 ",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
-:Q:fibを行列で表現,"# a(n+2)=1*a(n+1)+1*a(n)
-# a(n+1)=1*a(n+1)+0*a(n)
-# A=[[1,1],[1,0]]の行列で、３項間を表せる
-# また(現在)=定数(一つ前)のような等比数列の形をしているので
-# [a(n+2), a(n+1)]=A[a(n+1), a(n+0)]=A^2[a(n+0), a(n-1)] = ... =A^(n+1)[a1, a0]
-# 検算(n=-1の時, 左辺=右辺に成る必要があるのでA^0=Eになる必要がある)
-",/Users/mbp/workspace/sandbox/algo/math/matrix/fib.py
-:Q:行列計算でのfib,"def fib(n):
-    # mulは行列の積の計算. 繰り返し二乗法を用いてO(log n)
-    def loop(n):
-        if n == 0:
-            return E
-        elif n == 1:
-            return A
-        elif n % 2 == 0:
-            a = loop(n / 2)
-            return mul(a, a)
-        else:
-            a = loop((n - 1) / 2)
-            return mul(A, mul(a, a))
-    E = [[1, 0], [0, 1]]
-    A = [[1, 1], [1, 0]]
-    return mul(loop(n), [[1], [0]])[1][0]
-",/Users/mbp/workspace/sandbox/algo/math/matrix/fib.py
-:Q:行列AとBの積,"def mul(A, B):
-    # 正方行列であることの仮定あり
-    assert len(A) > 0 and len(B) > 0
-    assert len(A[0]) == len(B)
-    l, m, n = len(A), len(B), len(B[0])
-    C = [[0] * n for _ in range(l)]
-    # 3重ループ
-    for i in range(l):
-        for j in range(n):
-            C[i][j] = sum(A[i][k] * B[k][j] for k in range(m))
-    return C
-",/Users/mbp/workspace/sandbox/algo/math/matrix/product.py
+"func multiple(A, B [][]int) [][]int ","func multiple(A, B [][]int) [][]int {
+    // 各配列の長さが同長であることを仮定
+	if len(A) == 0 || len(B) == 0 {
+		panic(""must have a list"")
+	} else if len(A[0]) != len(B) {
+		panic(""Can not multiple"")
+	}
+	l, m, n := len(A), len(A[0]), len(B[0])
+	C := make([][]int, l)
+	for i := 0; i < l; i++ {
+		C[i] = make([]int, n)
+		for j := 0; j < n; j++ {
+			for k := 0; k < m; k++ {
+				C[i][j] += A[i][k] * B[k][j]
+			}
+		}
+	}
+	return C
+}
+",/Users/mbp/workspace/sandbox/algo/math/matrix/fib.go
+行列演算を利用してfib(n)を求める,"func fib(n int) int {
+	A := [][]int{{1, 1}, {1, 0}}
+	x := [][]int{{1, 0}, {0, 1}} // E
+	for n > 0 {
+		if n&1 == 1 {
+			x = multiple(x, A)
+		}
+		A = multiple(A, A)
+		n = n >> 1
+	}
+    // 2*2 x 2*1 => 2*1 size
+	return multiple(x, [][]int{{1}, {0}})[1][0] // A^n [a1, a0]
+}
+func main() {
+	fmt.Println(fib(10))
+}
+",/Users/mbp/workspace/sandbox/algo/math/matrix/fib.go
+整数を文字列に変換,"func int2str(x int) string {
+    if x == 0 {
+        return ""0""
+    } else if x < 0 {
+        return ""-"" + int2str(-x)
+    }
+	rs := []rune{}
+	for d := x; d > 0; d /= 10 { // >= 0だと無限ループ
+		r := d%10 + '0'
+		rs = append(rs, rune(r))
+	}
+	return string(rs)
+}
+",/Users/mbp/workspace/sandbox/algo/misc/int2str.go
 ":Q:配列[x,y]にtrueの要素がいくつあるか?","def f(A, x, y):
     N = len(A)
     if not (0 <= x <= y < N):
@@ -1092,28 +1250,6 @@ def transpose(A):,"def transpose(A):
         return s[y] == 1
     return s[y] != s[x - 1]
 ",/Users/mbp/workspace/sandbox/algo/prefix-sum/element-in-range.py
-:Q:赤黒木のdata,"data Color = B | R deriving Show
-data Hash k v = Leaf | Node Color (Hash k v) (k, v) (Hash k v) deriving Show
-",/Users/mbp/workspace/sandbox/algo/sample/tree/red-black/red-black.hs
-insert' :: Ord k => k -> v -> Hash k v -> Hash k v,"insert' :: Ord k => k -> v -> Hash k v -> Hash k v
-insert' k v Leaf = Node R Leaf (k, v) Leaf
-insert' k v (Node c a (k', v') b) = case compare k k' of
-  LT -> balance $ Node c (insert' k v a) (k', v') b
-  GT -> balance $ Node c a (k', v') (insert' k v b)
-  EQ -> Node c a (k, v) b
-",/Users/mbp/workspace/sandbox/algo/sample/tree/red-black/red-black.hs
-balance :: Ord k => Hash k v -> Hash k v,"balance :: Ord k => Hash k v -> Hash k v
-balance (Node B (Node R (Node R a x b) y c) z d) = (Node R (Node B a x b) y (Node B c z d))
-balance (Node B (Node R a x (Node R b y c)) z d) = (Node R (Node B a x b) y (Node B c z d))
-balance (Node B a x (Node R (Node R b y c) z d)) = (Node R (Node B a x b) y (Node B c z d))
-balance (Node B a x (Node R b y (Node R d z c))) = (Node R (Node B a x b) y (Node B c z d))
-balance x  = x
-",/Users/mbp/workspace/sandbox/algo/sample/tree/red-black/red-black.hs
-"fromList :: Ord k => [(k, v)] -> Hash k v","fromList :: Ord k => [(k, v)] -> Hash k v
-fromList = foldl insert Leaf
-insert :: Ord k => Hash k v -> (k, v) -> Hash k v
-insert x (k, v) = turnB $ insert' k v x
-",/Users/mbp/workspace/sandbox/algo/sample/tree/red-black/red-black.hs
 :Q:配列を三等分する時の最大和(max(A[j:i]+A[i+k])),"func MaxDoubleSliceSum(A []int) int {
 	K1 := make([]int, len(A)) // [0,i)までの最大和
 	K2 := make([]int, len(A)) // (i,len(A)-1]までの最大和
@@ -1200,6 +1336,8 @@ func solve(a []int) int {
 }
 ",/Users/mbp/workspace/sandbox/algo/seq/TapeEquilibrium.go
 "int anagram(char* p, char* q) ","int anagram(char* p, char* q) {
+  // anagramは、ある文字列の文字の順番を入れ替えて作成した別の文字列を作る
+  // Statue of Liberty = built to stay free
   char counter[256] = {0};  // 256文字までと仮定
   int pl, ql;
   pl = ql = 0;
@@ -1221,9 +1359,9 @@ func solve(a []int) int {
     return 1;  // p, qの長さが等しいも満たす必要あり(q側に余計な文字がないことの保証)
   return 0;
 }
-",/Users/mbp/workspace/sandbox/algo/seq/anagram/anagram.c
-:Q:anagram,"anagram p q = (sort p) == (sort q)
-",/Users/mbp/workspace/sandbox/algo/seq/anagram/anagram.hs
+",/Users/mbp/workspace/sandbox/algo/seq/anagram.c
+anagram,"anagram p q = (sort p) == (sort q)
+",/Users/mbp/workspace/sandbox/algo/seq/anagram.hs
 :Q:配列の要素が、少なくとも1回ずつ出現する数列のうち、最小のもの,"func atLeastOne(S []int, I int) int {
 	buff := make([]int, len(S))
 	sum := 0
@@ -1356,7 +1494,7 @@ list_t* find(list_t* node) ,"list_t* find(list_t* node) {
         ((= n 0) m)
         (else (gcd n (mod m n)))))
 ",/Users/mbp/workspace/sandbox/algo/seq/gcd/gcd.scm
-:Q:共通約数のみ存在する場合はTrue,"f :: Int -> Int -> Bool
+共通約数のみ存在する場合はTrue,"f :: Int -> Int -> Bool
 f a b = g a where
   g x = let y = gcd x b in
     if y == 1 then x == 1 else g (div x y)
@@ -1365,7 +1503,8 @@ main = do
   print $ f 15 75
   print $ f 8 15
 ",/Users/mbp/workspace/sandbox/algo/seq/has-other-divisor/has-other-divisor.hs
-"func Horner(a []int, x int) int ","func Horner(a []int, x int) int {
+f(x) = sum an * x^n,"func Horner(a []int, x int) int {
+    // 
 	if len(a) == 0 { panic(""ERROR"") }
 	s := a[0]
 	for i := 1; i < len(a); i++ {
@@ -1373,10 +1512,13 @@ main = do
 	}
 	return s
 }
+func main () {
+	fmt.Println(Horner([]int{3,2,1}, 2))  // f(x=2)=3x^2 + 2x + 1 = 17
+}
 ",/Users/mbp/workspace/sandbox/algo/seq/horner.go
-:Q:Least Common Multiple,"-- ab = lcm(a,b) * gcd(a,b)の関係式より
+Least Common Multiple (最小公倍数),"-- ab = lcm(a,b) * gcd(a,b)の関係式より
 lcm' a b = div (a * b) (gcd a b)
-",/Users/mbp/workspace/sandbox/algo/seq/lcm/lcm.hs
+",/Users/mbp/workspace/sandbox/algo/seq/lcm.hs
 "func f(a, b string) string ","func f(a, b string) string {
 	dp := make([][]string, len(a) + 1)
 	for i := 0 ; i < len(dp); i++ { dp[i] = make([]string, len(b) + 1)}
@@ -1745,6 +1887,8 @@ positiveLsdSort = flip (foldl f) [0..bitSize (0 :: Int)] where
   f acc x = uncurry (++) $ partition (not . flip testBit x) acc
 ",/Users/mbp/workspace/sandbox/algo/sort/radix-sort.hs
 "func hasArrayTwoCandidates(arr []int, sum int) bool ","func hasArrayTwoCandidates(arr []int, sum int) bool {
+    // 配列がソートされている場合に限り
+    // 2つの要素の和があるsumになる場合を探すのはO(n)
 	left := 0
 	right := len(arr) - 1
 	for left < right {
@@ -1759,11 +1903,11 @@ positiveLsdSort = flip (foldl f) [0..bitSize (0 :: Int)] where
 	}
 	return false
 }
-",/Users/mbp/workspace/sandbox/algo/sorted/hasArrayTwoCandidates/hasArrayTwoCandidates.go
-:Q:returnTrueIfSortedArrayHasTtriangle,"f a = any id [a!!i + a!!i+1 > a!!i+2 | i<-[0..length a-2]]
+",/Users/mbp/workspace/sandbox/algo/sorted/hasArrayTwoCandidates.go
+return True If Sorted Array Has Ttriangle,"-- 三角形の長辺は、これに異なる２辺の長さの和より小さい
+f a = any id [a!!i + a!!i+1 > a!!i+2 | i<-[0..length a-2]]
 ",/Users/mbp/workspace/sandbox/algo/sorted/triangle-exists.hs
-:Q:配列の３つの積の最大値は,"# $max_{i,j,k $in N} a[i] $times a[j] $times a[k]
-def f(data):
+ソート配列の３つの積の最大値は?,"def f(data):
     s = sorted(data)
     m1 = s[-1] * s[-2] * s[3]
     m2 = s[0] * s[1] * s[-1]
@@ -1840,7 +1984,7 @@ func (q *Queue) Pop() int {
 	if !q.s2.Empty() {
 		return q.s2.Pop()
 	}
-	for !q.s1.Empty() {  // s1は全てからにする!
+	for !q.s1.Empty() { // s1は全てからにする!
 		q.s2.Push(q.s1.Pop())
 	}
 	if !q.s2.Empty() {
@@ -1848,20 +1992,31 @@ func (q *Queue) Pop() int {
 	}
 	panic(""Queue is empty"")
 }
-func (q *Queue)Empty() bool {
-    return q.s1.Empty() && q.s2.Empty()
+func (q *Queue) Empty() bool {
+	return q.s1.Empty() && q.s2.Empty()
 }
 ",/Users/mbp/workspace/sandbox/algo/stack/stackQueue.go
 fibの級数表記をzipWidthで表現,"fib = 0:1:zipWith (+) fib (tail fib)
 fib'@(_ : tf) = 0:1:zipWith (+) fib' tf
+{-
+fib = 0 1 1 2 3 5 8 13 21 34
+(+)       0 1 1 2 3 5  8  13 21 34
+          1 1 2 3 5 8  13 21 34
+-}
 ",/Users/mbp/workspace/sandbox/algo/stream/fib.hs
 :Q:等比数列2^(n-1),"a = 1: map (*2) a
+{-
+a = 1 2   4 8 ...
+a =   2(1 2 4 ...
+-}
 ",/Users/mbp/workspace/sandbox/algo/stream/geometric.hs
 整数の級数表記をzipWidthで表現,"integer = 1: zipWith (+) (repeat 1) integer
 ",/Users/mbp/workspace/sandbox/algo/stream/int.hs
-// 以下の関係であればtrue,"// 以下の関係であればtrue
-// apple == pleap
-int isRotation(char* p, char* q) {
+"1, 1, 1...の級数","one = 1:one
+",/Users/mbp/workspace/sandbox/algo/stream/one.hs
+"int isRotation(char* p, char* q) ","int isRotation(char* p, char* q) {
+  // (ex) apple == pleap => true
+  // ２回、文字列を並べることで、全てのローテーションのパターンが作られる(最後のdは不要だけれども)
   int pl = strlen(p);
   int ql = strlen(q);
   if (pl != ql)
@@ -1876,8 +2031,32 @@ int isRotation(char* p, char* q) {
   free(pp);  // 結果がわかれば領域は用済み
   return result;
 }
-",/Users/mbp/workspace/sandbox/algo/string/isRotation/isRotation.c
+",/Users/mbp/workspace/sandbox/algo/string/is-rotation.c
+"func isSubstring(str, sub string) bool ","func isSubstring(str, sub string) bool {
+	// brute-force algorithm
+	// 計算量はO(nm)だが、文字の種類が多いので，たいていの場合
+	// パターンの先頭の 数文字を調べるだけで済むので、実質O(n)
+	for start := 0; start <= len(str)-len(sub); start++ {
+		i, j := start, 0
+		for ; j < len(sub); i, j = i+1, j+1 {
+			if str[i] != sub[j] { // i < len(str)は保証
+				break
+			}
+		}
+		if j == len(sub) {
+			return true
+		}
+	}
+	return false
+}
+",/Users/mbp/workspace/sandbox/algo/string/is-string.go
 char* replaceSpacesWithP20(char* s) ,"char* replaceSpacesWithP20(char* s) {
+  /*
+    文字列の長さを増やす場合(減らすときは問題ない)
+    mallocで新しくメモリを確保する必要がある
+    '\0'の領域を確保し忘れないこと
+    ORDER: O(n) = 2 * 文字列の長さ
+  */
   int length = 0;
   for (char* it = s; *it; it++) {
     if (*it == ' ')
@@ -1900,24 +2079,39 @@ char* replaceSpacesWithP20(char* s) ,"char* replaceSpacesWithP20(char* s) {
   return head;
 }
 ",/Users/mbp/workspace/sandbox/algo/string/replaceSpacesWithP20.c
-void insert(char* s) ,"  void insert(char* s) {
-    char key = *s - 'a';
-    if (*s == '\0')
-      return;
-    else if (children[key] == NULL)
-      children[key] = new Trie();
-    children[key]->insert(s + 1);
+type Trie struct ,"type Trie struct {
+    children []*Trie // ['a', ... ,'z']
+}
+func NewTrie () *Trie {
+    return &Trie{children: make([]*Trie, 26)}
+}
+",/Users/mbp/workspace/sandbox/algo/string/trie.go
+func (t *Trie) Insert(s string) ,"func (t *Trie) Insert(s string) {
+    if len(s) == 0 {
+        return
+    }
+    key := s[0] - 'a'
+    if t.children[key] == nil {
+        t.children[key] = NewTrie()
+    }
+    t.children[key].Insert(s[1:])
+}
+",/Users/mbp/workspace/sandbox/algo/string/trie.go
+char* unique(char* str) ,"char* unique(char* str) {
+  char *dst = str;
+  for (char *i = str; *i ;i++) {
+    char *j;
+    for (j = str; j < dst; j++) {
+      if (*j == *i)
+        break;
+    }
+    if (j == dst)  // breakしなかった場合
+      *dst++ = *i;
   }
-",/Users/mbp/workspace/sandbox/algo/string/trie.cpp
-bool find(char* s) ,"  bool find(char* s) {
-    char key = *s - 'a';
-    if (*s == '\0')
-      return true;
-    else if (children[key] == NULL)
-      return false;
-    return children[key]->find(s + 1);
-  }
-",/Users/mbp/workspace/sandbox/algo/string/trie.cpp
+  *dst = '\0';
+  return str;
+}
+",/Users/mbp/workspace/sandbox/algo/string/unique.c
 struct _bst ,"struct _bst {
   data_type data;
   struct _bst *parent;
@@ -2602,7 +2796,7 @@ char *s_lower(char *str) ,"char *s_lower(char *str) {
   return n;
 }
 ",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-:Q:flatten,"-- squishの第二引数は結果を保持
+flatten,"-- squishの第二引数は結果を保持
 data Tree a = Node a [Tree a] deriving Show
 flatten :: Tree a -> [a]
 flatten t = squish t []
@@ -2616,6 +2810,63 @@ flatten t = squish t []
         '()
         tree))
 ",/Users/mbp/workspace/sandbox/algo/tree/flatten/flatten.scm
+:Q:赤黒木のdata,"data Color = B | R deriving Show
+data Hash k v = Leaf | Node Color (Hash k v) (k, v) (Hash k v) deriving Show
+",/Users/mbp/workspace/sandbox/algo/tree/red-black/red-black.hs
+insert' :: Ord k => k -> v -> Hash k v -> Hash k v,"insert' :: Ord k => k -> v -> Hash k v -> Hash k v
+insert' k v Leaf = Node R Leaf (k, v) Leaf
+insert' k v (Node c a (k', v') b) = case compare k k' of
+  LT -> balance $ Node c (insert' k v a) (k', v') b
+  GT -> balance $ Node c a (k', v') (insert' k v b)
+  EQ -> Node c a (k, v) b
+",/Users/mbp/workspace/sandbox/algo/tree/red-black/red-black.hs
+balance :: Ord k => Hash k v -> Hash k v,"balance :: Ord k => Hash k v -> Hash k v
+balance (Node B (Node R (Node R a x b) y c) z d) = (Node R (Node B a x b) y (Node B c z d))
+balance (Node B (Node R a x (Node R b y c)) z d) = (Node R (Node B a x b) y (Node B c z d))
+balance (Node B a x (Node R (Node R b y c) z d)) = (Node R (Node B a x b) y (Node B c z d))
+balance (Node B a x (Node R b y (Node R d z c))) = (Node R (Node B a x b) y (Node B c z d))
+balance x  = x
+",/Users/mbp/workspace/sandbox/algo/tree/red-black/red-black.hs
+"fromList :: Ord k => [(k, v)] -> Hash k v","fromList :: Ord k => [(k, v)] -> Hash k v
+fromList = foldl insert Leaf
+insert :: Ord k => Hash k v -> (k, v) -> Hash k v
+insert x (k, v) = turnB $ insert' k v x
+",/Users/mbp/workspace/sandbox/algo/tree/red-black/red-black.hs
+UnionFindのデータ構造,"type UnionFind struct {
+    Data []int  // 親を参照 (自分自身を参照している場合はRoot)
+    Rank []int  // node数
+}
+func NewUnionFind(size int) *UnionFind {
+    d := make([]int, size)
+    r := make([]int, size)
+    for i := 0; i < size; i++ {
+        d[i] = i
+        r[i] = 1
+    }
+    return &UnionFind{Data: d, Rank: r}
+}
+",/Users/mbp/workspace/sandbox/algo/tree/unionFind.go
+func (uf *UnionFind) FindRoot(node int) int ,"func (uf *UnionFind) FindRoot(node int) int {
+    if node != uf.Data[node] {
+        uf.Data[node] = uf.FindRoot(uf.Data[node])
+    }
+    return uf.Data[node]
+}
+",/Users/mbp/workspace/sandbox/algo/tree/unionFind.go
+"func (uf *UnionFind) Union(a, b int) ","func (uf *UnionFind) Union(a, b int) {
+    a2 := uf.FindRoot(a)
+    b2 := uf.FindRoot(b)
+    if a2 == b2 {
+        return
+    } else if uf.Rank[a2] >= uf.Rank[b2] {
+        uf.Data[b2] = a2
+        uf.Rank[a2] += uf.Rank[b2]
+    } else {
+        uf.Data[a2] = b2
+        uf.Rank[b2] += uf.Rank[a2]
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/tree/unionFind.go
 % 0 -> 1 -> 2 -> 3の順でプロセスkilled,"% 0 -> 1 -> 2 -> 3の順でプロセスkilled
 c(0)->
     receive after 1000 -> exit(""DEAD"") end;
@@ -3465,13 +3716,7 @@ func TestAppend1(t *testing.T) {
 ",/Users/mbp/workspace/sandbox/lang/sh/run.sh
 :Q:標準出力を閉じる,"ls >&-
 ",/Users/mbp/workspace/sandbox/lang/sh/run.sh
-""", 2)","    if len(ss) == 1 {
-        
-    } else {
-        m.Q = ss[1]
-    }
-	return m
-}
+""", 2)","	if len(ss) == 1 {
 ",/Users/mbp/workspace/sandbox/main.go
 """) ","			r := ParseMemo(t)
 			first := """"
@@ -3482,14 +3727,14 @@ func TestAppend1(t *testing.T) {
 			if r.Q == """" {
 				r.Q = first
 			}
-            second = first + ""\n""
+			second = first + ""\n""
 			for scanner.Scan() {
 				t2 := scanner.Text()
 				if t2 == """" {
 					break
 				}
 				second += t2 + ""\n""
-			}	
+			}
 			r.A = second
 			r.path = path
 			c.WriteRecord(r)
