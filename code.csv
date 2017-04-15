@@ -1,3 +1,66 @@
+vector構造,"struct _vector {
+  int* data;
+  size_t size;
+};
+",/Users/mbp/workspace/sandbox/algo/array/array.c
+"vector_t *inits(size_t size, ...) ","vector_t *inits(size_t size, ...) {
+  // O(n)
+  vector_t *n = init(size);
+  va_list list;
+  va_start(list, size);
+  int *data = n->data;
+  for (int i = 0; i < size; i++) {
+    *data++ = va_arg(list, int);
+  }
+  va_end(list);
+  return n;
+}
+",/Users/mbp/workspace/sandbox/algo/array/array.c
+"int equal(vector_t *v1, vector_t *v2) ","int equal(vector_t *v1, vector_t *v2) {
+  if (v1->size != v2->size)
+    return 0;
+  for (int i = 0; i < v1->size; i++)
+    if (v1->data[i] != v2->data[i])
+      return 0;
+  return 1;
+}
+",/Users/mbp/workspace/sandbox/algo/array/array.c
+"int indexAt(vector_t *head, int index) ","int indexAt(vector_t *head, int index) {
+  // O(1)
+  // Using a vector, you can access an element of it for a constant time.
+  if (0 <= index && index < head->size)
+    return head->data[index];
+  printf(""Out of index"");
+  exit(1);
+}
+",/Users/mbp/workspace/sandbox/algo/array/array.c
+"void insertAt(vector_t *head, int index, int value) ","void insertAt(vector_t *head, int index, int value) {
+  // O(n + 1) or O(2n)
+  // I think if realloc returns aother pinter, it means memcpy is executed so it needs O(n)
+  int *data = (int *)realloc(head->data, sizeof(int) * (head->size + 1));
+  if (data == NULL)
+    exit(1);
+  head->data = data;
+",/Users/mbp/workspace/sandbox/algo/array/array.c
+"void deleteAt(vector_t *head, int index) ","void deleteAt(vector_t *head, int index) {
+  // O(n)
+  if (index == 0)
+    return;
+",/Users/mbp/workspace/sandbox/algo/array/array.c
+"vector_t *append(vector_t *h1, vector_t *h2) ","vector_t *append(vector_t *h1, vector_t *h2) {
+  // O(n + m) M(n + m)
+  if (h1 == NULL || h2 == NULL) {
+    printf(""Can't append"");
+    exit(1);
+  }
+  // At first you need the size of h1 + h2 to get memory
+  size_t s = h1->size + h2->size;
+  vector_t *n = init(s);
+  memcpy(n->data, h1->data, sizeof(int) * h1->size);
+  memcpy(n->data + h1->size, h2->data, sizeof(int) * h2->size);
+  return n;
+}
+",/Users/mbp/workspace/sandbox/algo/array/array.c
 更新処理が競合しないようにするためのコード,"var v1 int32 // 共有メモリ
 var v2 int32 // 共有メモリ(atomicなし)
 func main () {
@@ -20,6 +83,184 @@ func main () {
     fmt.Println(v1, v2) // 1000 855
 }
 ",/Users/mbp/workspace/sandbox/algo/async/memory-atomic.go
+red-black tree structure,"enum _color {
+  BLACK = 1,
+  RED = 2,
+};
+#define rbtree_data_type int
+struct _rbtree {
+  enum _color color;
+  rbtree_data_type data;
+  struct _rbtree *parent;
+  struct _rbtree *left;
+  struct _rbtree *right;
+};
+typedef struct _rbtree rbtree_t;
+typedef enum _color color_e;
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+"#define APPEND_L(p, c) {                        \","#define APPEND_L(p, c) {                        \
+    (p)->left  = (c);                           \
+    if ((c) != NULL) (c)->parent = (p);         \
+  }
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+"#define APPEND_R(p, c) {                        \","#define APPEND_R(p, c) {                        \
+    (p)->right = (c);                           \
+    if ((c) != NULL) (c)->parent = (p);         \
+  }
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+"#define APPEND_P(root, tree, c) {                 \","#define APPEND_P(root, tree, c) {                 \
+    if ((tree)->parent == NULL) {                \
+      (*root) = (c);                              \
+      (c)->parent = NULL;                         \
+    } else { _APPEND_P(tree, c); }               \
+  }
+#define _APPEND_P(c1, c2) {                     \
+    if ((c1)->parent->left == (c1))             \
+      { (c1)->parent->left = (c2); }            \
+    else { (c1)->parent->right = (c2); }        \
+    (c2)->parent = (c1)->parent;                \
+    (c1)->parent = NULL;                        \
+  }
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+#define LEFT_CHILD(c) ((c)->parent->left == (c)),"#define LEFT_CHILD(c) ((c)->parent->left == (c))
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+#define RIGHT_CHILD(c) ((c)->parent->right == (c)),"#define RIGHT_CHILD(c) ((c)->parent->right == (c))
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+"void rotateR(rbtree_t **root, rbtree_t *tree) ","void rotateR(rbtree_t **root, rbtree_t *tree) {
+  // y <= z <= x
+  // from -> x l-> y r-> z
+  // to   -> y r-> x l-> z
+  // rbtree_t *tree = *root;
+  if (tree == NULL || tree->left == NULL) {
+    printf(""Can't rotate"");
+    exit(1);
+  }
+  rbtree_t *l = tree->left;
+  rbtree_t *lr = l->right;
+  APPEND_P(root, tree, l);
+  APPEND_R(l, tree);
+  APPEND_L(tree, lr);
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+"void rotateL(rbtree_t **root, rbtree_t *tree) ","void rotateL(rbtree_t **root, rbtree_t *tree) {
+  // -> y r-> x l-> z
+  // -> x l-> y r-> z
+  // rbtree_t *tree = *root;
+  if (tree == NULL || tree->right == NULL) {
+    printf(""Can't rotate"");
+    exit(1);
+  }
+  rbtree_t *r = tree->right;
+  rbtree_t *rl = r->left;
+  APPEND_P(root, tree, r);
+  APPEND_L(r, tree);
+  APPEND_R(tree, rl);
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+"void rbtree_balance(rbtree_t **root, rbtree_t *tree) ","void rbtree_balance(rbtree_t **root, rbtree_t *tree) {
+  rbtree_t *p, *u;  // parent, uncle
+  while ((p = tree->parent) && p->color == RED && p->parent) {
+    if (LEFT_CHILD(p))
+      u = p->parent->right;
+    else
+      u = p->parent->left;
+    if (u && u->color == RED) {
+      // make a grand parent RED and loop from it recursively
+      p->parent->color = RED;
+      p->color = u->color = BLACK;
+      tree = tree->parent->parent;
+    } else {
+      // make a parent BLACK and a grand parent RED and rotate
+      // (on other way, make a current tree black and loop recursively!)
+      // so that the parent is at the top. And finish loop
+      // in other words, swap the colors between a parent and a grand parent
+      if (LEFT_CHILD(p)) {
+        if (RIGHT_CHILD(tree)) {
+          // LR
+          // after rotation, a tree's pointer is the same as LL
+          tree = p;
+          rotateL(root, tree);
+        }
+        // LL
+        tree->parent->color = BLACK;
+        tree->parent->parent->color = RED;
+        rotateR(root, tree->parent->parent);
+      } else {
+        if (LEFT_CHILD(tree)) {
+          // RL
+          tree = p;
+          rotateR(root, tree);
+        }
+        // RR
+        tree->parent->color = BLACK;
+        tree->parent->parent->color = RED;
+        rotateL(root, tree->parent->parent);
+      }
+    }
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+"void rbtree_insert(rbtree_t **root, rbtree_data_type data) ","void rbtree_insert(rbtree_t **root, rbtree_data_type data) {
+  rbtree_t *node = (rbtree_t *)malloc(sizeof(rbtree_t));
+  if (node == NULL) {
+    printf(""Out of memory"");
+    exit(1);
+  }
+  node->color = RED;  // new data is always RED
+  node->data = data;
+  node->left = node->right = node->parent = NULL;
+  if (*root == NULL) {
+    *root = node;
+  } else {
+    rbtree_t *parent = NULL, *tree = *root;
+    while (1) {
+      if (tree->data >= data) {
+        if (tree->left) {
+          parent = tree->parent;
+          tree = tree->left;
+        } else {
+          tree->left = node;
+          node->parent = tree;
+          break;
+        }
+      } else {
+        if (tree->right) {
+          parent = tree->parent;
+          tree = tree->right;
+        } else {
+          tree->right = node;
+          node->parent = tree;
+          break;
+        }
+      }
+    }
+    rbtree_balance(root, node);
+  }
+  (*root)->color = BLACK;
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+:Q:赤黒木のdata,"data Color = B | R deriving Show
+data Hash k v = Leaf | Node Color (Hash k v) (k, v) (Hash k v) deriving Show
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.hs
+insert' :: Ord k => k -> v -> Hash k v -> Hash k v,"insert' :: Ord k => k -> v -> Hash k v -> Hash k v
+insert' k v Leaf = Node R Leaf (k, v) Leaf
+insert' k v (Node c a (k', v') b) = case compare k k' of
+  LT -> balance $ Node c (insert' k v a) (k', v') b
+  GT -> balance $ Node c a (k', v') (insert' k v b)
+  EQ -> Node c a (k, v) b
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.hs
+balance :: Ord k => Hash k v -> Hash k v,"balance :: Ord k => Hash k v -> Hash k v
+balance (Node B (Node R (Node R a x b) y c) z d) = (Node R (Node B a x b) y (Node B c z d))
+balance (Node B (Node R a x (Node R b y c)) z d) = (Node R (Node B a x b) y (Node B c z d))
+balance (Node B a x (Node R (Node R b y c) z d)) = (Node R (Node B a x b) y (Node B c z d))
+balance (Node B a x (Node R b y (Node R d z c))) = (Node R (Node B a x b) y (Node B c z d))
+balance x  = x
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.hs
+"fromList :: Ord k => [(k, v)] -> Hash k v","fromList :: Ord k => [(k, v)] -> Hash k v
+fromList = foldl insert Leaf
+insert :: Ord k => Hash k v -> (k, v) -> Hash k v
+insert x (k, v) = turnB $ insert' k v x
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.hs
 深さDのノードで構築されたlinkedリストを作成 (各深さごとのリストが答え),"func F(n *Node) [][]*Node {
 	// BFSでもdepth++で降りていく場合がよい例??? (ただしメモリがNode数だけ必要)
 	depth := 0
@@ -88,6 +329,119 @@ func main () {
 	return []int {}
 }
 ",/Users/mbp/workspace/sandbox/algo/bfs/shortest_path.go
+binary-search-tree structure,"// left <= parent <= right
+// all the children of left are not larger than parent
+// all the children of right are not smaller than parent
+// 上記の不等式を満たす必要がないのがbinary-tree
+struct _bst {
+  data_type data;
+  struct _bst *parent;
+  struct _bst *left;
+  struct _bst *right;
+};
+typedef struct _bst bst_t;
+bst_t *bst_init(data_type data) {
+  bst_t *tree = (bst_t *)malloc(sizeof(bst_t));
+  if (tree == NULL) {
+    printf(""Out of memory\n"");
+    exit(1);
+  }
+  tree->data = data;
+  tree->parent = NULL;
+  tree->left = NULL;
+  tree->right = NULL;
+  return tree;
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
+"void bst_insert(bst_t **bst, data_type data, bst_t *parent) ","void bst_insert(bst_t **bst, data_type data, bst_t *parent) {
+  // O(log2n)
+  // you don't need the arparent of parent as previous data
+  // but it makes code more simple
+  // WARN: it takes O(n) to insert a sorted list
+  // if you insert range(0, 10), the height is 10
+  bst_t *tree = *bst;
+  if (tree == NULL) {
+    tree = bst_init(data);
+    tree->parent = parent;
+    *bst = tree;
+  } else if (tree->data >= data) {
+    bst_insert(&(tree->left), data, tree);
+  } else {
+    bst_insert(&(tree->right), data, tree);
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
+"bst_t *bst_search(bst_t *tree, data_type data) ","bst_t *bst_search(bst_t *tree, data_type data) {
+  // O(log2n)
+  if (tree == NULL)
+    return NULL;
+  else if (tree->data == data)
+    return tree;
+  else if (tree->data >= data)
+    return bst_search(tree->left, data);
+  else
+    return bst_search(tree->right, data);
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
+Delete BST,"// if tree has 2 children, find the child of the min data at the side of right
+// TODO: how to delete root?
+void bst_delete(bst_t **bst, data_type data) {
+  bst_t *tree = *bst;
+  // which side is connected with parent
+  // left == 1 or right == -1 or root == 0
+  int left = 0;
+  while (1) {
+    if (tree == NULL) {
+      break;  // NOT FOUND
+    } else if (tree->data > data) {
+      left = 1;
+      tree = tree->left;
+    } else if (tree->data < data) { 
+      left = -1;
+      tree = tree->right;
+    } else {
+      // data is found
+      bst_t *next = NULL;
+      if (tree->left == NULL) {
+        next = tree->right;  // it is ok whether right is NULL or not
+      } else if (tree->right == NULL) {
+        next = tree->left;
+      } else {
+        // the current tree has 2 children
+        // so get the succesor tree, which is the min data
+        bst_t *tmp = tree;
+        left = tree->right->left ? 1 : -1;
+        tree = tree->right;
+        while (tree->left)
+          tree = tree->left;
+        tmp->data = tree->data;
+        next = tree->right;
+      }
+      if (left == 1) {
+        tree->parent->left = next;
+      } else if (left == -1) {
+        tree->parent->right = next;
+      } else {
+        *bst = next; // root which doesn't have both of the 2 children
+      }
+      if (next)
+        next->parent = tree->parent;
+      free(tree);
+      break;
+    }
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
+"void bst_display(bst_t *tree, int depth) ","void bst_display(bst_t *tree, int depth) {
+    if (tree) {
+      for(int i = 0; i < depth; i++) printf("" "");
+      // pre order (TODO: in-order)
+      printf(""%d\n"", tree->data);
+      bst_display(tree->left, depth+1);
+      bst_display(tree->right, depth+1);
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
 長さlのソート配列に含まれるNの個数,"func countElem(A []int, k int) int {
     if len(A) == 0 || k < A[0] || A[len(A)-1] < k {
         return 0
@@ -947,8 +1301,159 @@ func (g *Graph) TopologicalSort() []int ,"func (g *Graph) TopologicalSort() []in
     return true
 }
 ",/Users/mbp/workspace/sandbox/algo/greedy/maxNumberGroupOfLocalMaximuns.go
-"int elem(int value, node_t* head) ","int elem(int value, node_t* head) {
-  node_t *current = head;
+struct _entry ,"struct _entry {
+  char *key;
+  data_type data;
+  struct _entry *next;
+};
+struct _hash_table {
+  int size;
+  struct _entry **table;
+};
+typedef struct _entry entry_t;
+typedef struct _hash_table hash_table_t;
+",/Users/mbp/workspace/sandbox/algo/hash/hash.c
+"int get_hash(hash_table_t *table, char *key) ","int get_hash(hash_table_t *table, char *key) {
+  // hash must unsigned because it is used by an index of an array
+  unsigned int v = 0;
+  char *p = key;
+  while (*p) {
+    v += *p++;
+  }
+  return v % table->size;
+}
+",/Users/mbp/workspace/sandbox/algo/hash/hash.c
+"entry_t *make_entry(char *key, data_type data) ","entry_t *make_entry(char *key, data_type data) {
+  entry_t *n = (entry_t *)malloc(sizeof(entry_t));
+  char *k = strdup(key);
+  if (n == NULL || k == NULL) {
+    printf(""Out of memory"");
+    exit(1);
+  }
+  n->key = k;
+  n->data = data;
+  n->next = NULL;
+  return n;
+}
+",/Users/mbp/workspace/sandbox/algo/hash/hash.c
+"entry_t *ht_search(hash_table_t *ht, char *key) {  // O(n/size * key) ()","entry_t *ht_search(hash_table_t *ht, char *key) {  // O(n/size * key) ()
+  int hashvalue = get_hash(ht, key);
+  for (entry_t *e = ht->table[hashvalue]; e; e=e->next) {
+    // it is better to take an action here not on the callee side
+    // a key can't be hashed because collision should not occur here
+    // so if you use a long key, it takes a long time to compare
+    if (strcmp(e->key, key) == 0)
+      return e;
+  }
+  return NULL;
+}
+",/Users/mbp/workspace/sandbox/algo/hash/hash.c
+"void ht_insert(hash_table_t *ht, char *key, data_type data) {  // O(n/size + key)","void ht_insert(hash_table_t *ht, char *key, data_type data) {  // O(n/size + key)
+  entry_t *e = ht_search(ht, key);
+  if (e == NULL) {
+    // create
+    int hashvalue = get_hash(ht, key);
+    entry_t *n = make_entry(key, data);
+    // insert at the head
+    n->next = ht->table[hashvalue];
+    ht->table[hashvalue] = n;
+  } else {
+    // update
+    e->data = data;
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/hash/hash.c
+"void ht_delete(hash_table_t *ht, char *key) {  // O(n/size + key)","void ht_delete(hash_table_t *ht, char *key) {  // O(n/size + key)
+  entry_t *e = ht_search(ht, key);
+  if (e) {
+    int hashvalue = get_hash(ht, key);
+    // should move this code into ht_search
+    for (entry_t *e = ht->table[hashvalue], *p = NULL; e; p=e, e=e->next) {
+      if (strcmp(e->key, key) == 0) {
+        if (p == NULL)
+          ht->table[hashvalue] = e->next;
+        else
+          p->next = e->next;
+        free(e);
+      }
+    }
+  } else {
+    printf(""Not found key"");
+    exit(1);
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/hash/hash.c
+list構造,"struct _list {
+  int value;
+  struct _list *next;
+};
+typedef struct _list list_t;
+list_t* init(int value){
+  list_t* newNode = (list_t*) malloc(sizeof(list_t));
+  if (newNode == NULL) {
+    exit(1);
+  }
+  newNode->value = value;
+  newNode->next = NULL;
+  return newNode;
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+void display(list_t* head),"void display(list_t* head){
+  printf(""<list> "");
+  if (head == NULL) {
+    printf(""\n"");
+    return;
+  }
+  list_t* n;
+  for(n = head; n->next; n = n->next) // nでなくn->nextとするのがポイント
+    printf(""%d,"", n->value);
+  printf(""%d\n"", n->value);
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+"void append(list_t** head, int value)","void append(list_t** head, int value){
+  // add an item to the last of a list O(n)
+  list_t* n = init(value);
+  if (*head == NULL) {
+    *head = n;
+  } else {
+    list_t* last = *head;
+    while(last->next)
+      last = last->next;
+    last->next = n;
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+"void append1(list_t** start, list_t** end, int value)","void append1(list_t** start, list_t** end, int value){
+  // add an item to the last of a list O(1)
+  list_t* n = init(value);
+  if (*start == NULL) {
+    *start = n;
+    *end = n;
+  } else {
+    (*end)->next = n;
+    *end = n;
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+"list_t* inits(int argc, ...) ","list_t* inits(int argc, ...) {
+  // with append1, O(n)
+  // if you use append, the complexity is O(n^2)
+  if (argc <= 0)
+    return NULL;
+  va_list list;
+  va_start(list, argc);
+  // WARN: you need NULL, or sometimes it's initilized by the other value
+  // NULL needs including stdio.h header
+  list_t* head = NULL;
+  list_t* tail = NULL;
+  for (int i = 0; i < argc; i++)
+    append1(&head, &tail, va_arg(list, int)); // append1関数より後に記述
+  va_end(list);
+  return head;
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+"int elem(int value, list_t* head) ","int elem(int value, list_t* head) {
+  list_t *current = head;
   while (current) {
     if (current->value == value)
       return 1;
@@ -957,21 +1462,116 @@ func (g *Graph) TopologicalSort() []int ,"func (g *Graph) TopologicalSort() []in
   return 0;
 }
 ",/Users/mbp/workspace/sandbox/algo/list/list.c
-char* reverse(char* s) ,"char* reverse(char* s) {
-/*
- *sが空文字でないなら、
- 一つ先が'\0'になるようにpointerを進めること
- sとeを入れ替えることでreverseを実現
- 偶数・奇数で中心の文字を入れ替えるかどうかの判断が必要になるが
- s == eの場合が奇数のときに起こるがこれは、交換してもしなくても結果的にはよい
- 結局入れ替える条件は、s < eになる
- */
-  if (*s == '\0') return s;
-  char *head = s;
-  char *e = s;
-  while (*(e + 1)) e++;
-  while (s < e) swap(s++, e--);
+list_t* unique(list_t* head) ,"list_t* unique(list_t* head) {
+  list_t* current = head;
+  while (current) {
+    list_t* next = current->next;
+    list_t* prev = current;
+    while (next) {
+      if (next->value == current->value) {
+        prev->next = next->next;
+        free(next);
+        next = prev->next;
+      } else {
+        prev = next;
+        next = next->next;
+      }
+    }
+    current = current->next;
+  }
   return head;
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+// Delete the node of the argument,"// Delete the node of the argument
+void deleteThis(list_t* node) {
+  if (node == NULL)
+    return;
+  else if (node->next == NULL) {
+    // the last item;
+    // you need previous node to set null the next node
+    // free(prev);
+    // prev->next = null;  // I can't do here!
+    printf(""Can't delete the last item"");
+    exit(1);
+  } else {
+    list_t *tmp = node->next;
+    node->data = tmp->data;
+    node->next = tmp->next;
+    free(tmp);  // Don't forget!
+  }
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+"list_t* search(list_t *head, int value) {  // O(n)","list_t* search(list_t *head, int value) {  // O(n)
+  while (head) {
+    if (head->value == value)
+      return head;
+    head = head->next;
+  }
+  return NULL;
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+int removeThis(list_t* node) ,"int removeThis(list_t* node) {
+  if (node == NULL || node->next == NULL)
+    return 0;
+  list_t* tmp = node->next;
+  node->value = node->next->value;
+  node->next = node->next->next;
+  free(tmp);
+  return 1;
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+list_t* removeAllDups(list_t* head) ,"list_t* removeAllDups(list_t* head) {
+  // 同じものがあれば、全て削除する(uniqueではない)
+  list_t *f = NULL, *l = NULL, *current = head;
+  while (current) {
+    int found = 0;
+    list_t* next = current->next;
+    list_t* prev = current;
+    while (next) {  // ここはuniqueと同じ
+      if (next->value == current->value) {
+        found = 1;
+        prev->next = next->next;
+        free(next);
+        next = prev->next;
+      } else {
+        prev = next;
+        next = next->next;
+      }
+    }
+    if (found) {  // 自分自身も削除
+      list_t* tmp = current; 
+      current = current->next;
+      free(tmp);
+    } else {
+      if (f == NULL && l == NULL) {
+        f = l = current;
+      } else {
+        l->next = current;
+        l = l->next;
+      }
+      current = current->next;
+      l->next = NULL;
+    }
+  }
+  return f;
+}
+",/Users/mbp/workspace/sandbox/algo/list/list.c
+"list_t* lastButK(list_t* node, int k) ","list_t* lastButK(list_t* node, int k) {
+  // 配列の長さ-k-1で要素を取得するでもよいが、kだけ先読みしたpointerを1つ用意することで高速化可能
+  if (k < 0)
+    return NULL;
+  list_t *s, *e;
+  s = e = node;
+  for (int i = 0; i < k; i++) {
+    if (e == NULL)
+      return NULL;
+    e = e->next;
+  }
+  while (e) {  // s <= eが成立
+    s = s->next;
+    e = e->next;
+  }
+  return s;  // k=0の時NULL
 }
 ",/Users/mbp/workspace/sandbox/algo/list/list.c
 length' :: [a] -> Int,"length' :: [a] -> Int
@@ -1054,7 +1654,7 @@ stableSplit xs = go xs xs where
     (if (= n 0)
         acc
         (loop (div n 10) (+ (* acc 10) (mod n 10))))))
-",/Users/mbp/workspace/sandbox/algo/list/reverseInt/reverseInt-tail.scm
+",/Users/mbp/workspace/sandbox/algo/list/reverseInt-tail.scm
 "struct node* reverse(struct node* head, int k) ","struct node* reverse(struct node* head, int k) {
   int flag, count;
   struct node *n, *first, *last, *bf, *bl;
@@ -1094,7 +1694,7 @@ stableSplit xs = go xs xs where
     last->next = bf;
   return first;
 }
-",/Users/mbp/workspace/sandbox/algo/list/reverseK/reverseK.c
+",/Users/mbp/workspace/sandbox/algo/list/reverseK.c
 reverseK :: Int -> [Int] -> [Int],"reverseK :: Int -> [Int] -> [Int]
 reverseK k xs = go xs where
   go xs
@@ -1105,7 +1705,7 @@ reverseK k xs = go xs where
       a1 = reverse $ take k xs
       a2 = take k $ drop k xs
       a3 = drop (2 * k) xs
-",/Users/mbp/workspace/sandbox/algo/list/reverseK/reverseK.hs
+",/Users/mbp/workspace/sandbox/algo/list/reverseK.hs
 fibを行列で表現,"
 a(n+2)=1*a(n+1)+1*a(n)
 a(n+1)=1*a(n+1)+0*a(n)
@@ -1797,6 +2397,60 @@ sort (x:xs) = insert x $ sort xs where
     | x < y = x:insert y xs
     | otherwise = y:x:xs
 ",/Users/mbp/workspace/sandbox/algo/sort/insert-sort.hs
+data structure for kway-merge-sort,"type Heap []item
+func (h Heap) Len() int           { return len(h) }
+func (h Heap) Less(i, j int) bool { return h[i].get() < h[j].get() } // for max heap to use > instead
+func (h Heap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+func (h *Heap) Push(x interface{}) {
+	*h = append(*h, x.(item))
+}
+func (h *Heap) Pop() interface{} {
+	l := len(*h) - 1
+	x := (*h)[l] // out of indexは呼び出し側の責務
+	*h = (*h)[:l]
+	return x
+}
+func (h *Heap) First() interface{} {
+	return &(*h)[0]
+}
+type item struct {
+	i    int
+	data []int
+}
+func (i *item) get() int { return (*i).data[(*i).i] }
+func (i *item) next() bool {
+	if (*i).i < len((*i).data)-1 { // -1の時点で次はないのでPop
+		(*i).i++
+		return true
+	}
+	return false
+}
+",/Users/mbp/workspace/sandbox/algo/sort/kway-merge-sort.go
+func MergeKArrays(ss [][]int) []int ,"func MergeKArrays(ss [][]int) []int {
+	// k個のソート済み配列を用意し、heapを利用して次どの配列から取得するか決める
+    // heapを使わないnaive場合、各配列の先頭要素のうち最小を見つけるのにlen(ss)かかる
+	h := &Heap{}
+	cnt := 0 // 全配列の総和
+	for _, s := range ss {
+		if len(s) > 0 {
+            *h = append(*h, item{0, s})
+            cnt += len(s)
+		}
+	}
+	heap.Init(h)
+	out := make([]int, cnt)
+	for i := 0; i < cnt; i++ {
+		f := h.First().(*item) // cntの制約があるので要素が必ずある
+		out[i] = f.get()
+		if f.next() {
+			heap.Fix(h, 0) // down heap
+		} else {
+			heap.Pop(h) // 全て捜査したので不要
+		}
+	}
+	return out
+}
+",/Users/mbp/workspace/sandbox/algo/sort/kway-merge-sort.go
 "void msort(int *a, int left, int right) ","void msort(int *a, int left, int right) {
   if (left >= right)
     return;
@@ -1972,6 +2626,28 @@ public:
   }
 };
 ",/Users/mbp/workspace/sandbox/algo/stack/setOfStack.cpp
+"void push(node_t** head, int value)","void push(node_t** head, int value){
+  // stackはリストの先頭に要素を加えていくことでO(1)を実現
+  node_t* new = init(value);
+  if (*head == NULL) {
+    *head = new;
+    return;
+  }
+  node_t* first = *head;
+  new->next = first;
+  *head = new;
+}
+",/Users/mbp/workspace/sandbox/algo/stack/stack.c
+void pop(node_t** head),"void pop(node_t** head){
+  node_t* first = *head;
+  if (first == NULL) {
+    exit(1); // error
+  }
+  int value = first->value;
+  *head = first->next;
+  free(first);
+}
+",/Users/mbp/workspace/sandbox/algo/stack/stack.c
 :Q:2つのqueueでstackを実装,"type Queue struct {
 	s1 Stack
 	s2 Stack
@@ -2079,566 +2755,6 @@ char* replaceSpacesWithP20(char* s) ,"char* replaceSpacesWithP20(char* s) {
   return head;
 }
 ",/Users/mbp/workspace/sandbox/algo/string/replaceSpacesWithP20.c
-type Trie struct ,"type Trie struct {
-    children []*Trie // ['a', ... ,'z']
-}
-func NewTrie () *Trie {
-    return &Trie{children: make([]*Trie, 26)}
-}
-",/Users/mbp/workspace/sandbox/algo/string/trie.go
-func (t *Trie) Insert(s string) ,"func (t *Trie) Insert(s string) {
-    if len(s) == 0 {
-        return
-    }
-    key := s[0] - 'a'
-    if t.children[key] == nil {
-        t.children[key] = NewTrie()
-    }
-    t.children[key].Insert(s[1:])
-}
-",/Users/mbp/workspace/sandbox/algo/string/trie.go
-char* unique(char* str) ,"char* unique(char* str) {
-  char *dst = str;
-  for (char *i = str; *i ;i++) {
-    char *j;
-    for (j = str; j < dst; j++) {
-      if (*j == *i)
-        break;
-    }
-    if (j == dst)  // breakしなかった場合
-      *dst++ = *i;
-  }
-  *dst = '\0';
-  return str;
-}
-",/Users/mbp/workspace/sandbox/algo/string/unique.c
-struct _bst ,"struct _bst {
-  data_type data;
-  struct _bst *parent;
-  struct _bst *left;
-  struct _bst *right;
-};
-typedef struct _bst bst_t;
-bst_t *bst_init(data_type data) {
-  bst_t *tree = (bst_t *)malloc(sizeof(bst_t));
-  if (tree == NULL) {
-    printf(""Out of memory\n"");
-    exit(1);
-  }
-  tree->data = data;
-  tree->parent = NULL;
-  tree->left = NULL;
-  tree->right = NULL;
-  return tree;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/bst.c
-"void bst_insert(bst_t **bst, data_type data, bst_t *parent) ","void bst_insert(bst_t **bst, data_type data, bst_t *parent) {
-  // O(log2n)
-  // you don't need the arparent of parent as previous data
-  // but it makes code more simple
-  // WARN: it takes O(n) to insert a sorted list
-  // if you insert range(0, 10), the height is 10
-  bst_t *tree = *bst;
-  if (tree == NULL) {
-    tree = bst_init(data);
-    tree->parent = parent;
-    *bst = tree;
-  } else if (tree->data >= data) {
-    bst_insert(&(tree->left), data, tree);
-  } else {
-    bst_insert(&(tree->right), data, tree);
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/struct/bst.c
-"bst_t *bst_search(bst_t *tree, data_type data) {  // O(log2n)","bst_t *bst_search(bst_t *tree, data_type data) {  // O(log2n)
-  if (tree == NULL)
-    return NULL;
-  else if (tree->data == data)
-    return tree;
-  else if (tree->data >= data)
-    return bst_search(tree->left, data);
-  else
-    return bst_search(tree->right, data);
-}
-",/Users/mbp/workspace/sandbox/algo/struct/bst.c
-:Q:DeleteBST,"// if tree has 2 children, find the child of the min data at the side of right
-// TODO: how to delete root?
-void bst_delete(bst_t **bst, data_type data) {
-  bst_t *tree = *bst;
-  // which side is connected with parent
-  // left == 1 or right == -1 or root == 0
-  int left = 0;
-  while (1) {
-    if (tree == NULL) {
-      break;  // NOT FOUND
-    } else if (tree->data > data) {
-      left = 1;
-      tree = tree->left;
-    } else if (tree->data < data) { 
-      left = -1;
-      tree = tree->right;
-    } else {
-      // data is found
-      bst_t *next = NULL;
-      if (tree->left == NULL) {
-        next = tree->right;  // it is ok whether right is NULL or not
-      } else if (tree->right == NULL) {
-        next = tree->left;
-      } else {
-        // the current tree has 2 children
-        // so get the succesor tree, which is the min data
-        bst_t *tmp = tree;
-        left = tree->right->left ? 1 : -1;
-        tree = tree->right;
-        while (tree->left)
-          tree = tree->left;
-        tmp->data = tree->data;
-        next = tree->right;
-      }
-      if (left == 1) {
-        tree->parent->left = next;
-      } else if (left == -1) {
-        tree->parent->right = next;
-      } else {
-        *bst = next; // root which doesn't have both of the 2 children
-      }
-      if (next)
-        next->parent = tree->parent;
-      free(tree);
-      break;
-    }
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/struct/bst.c
-:Q:tree構造+init,"typedef struct _tree {
-  int data;
-  struct _tree* parent;
-  struct _tree* left;
-  struct _tree* right;
-} btree;
-btree *btree_init(int data) {
-  btree *t = (btree *)malloc(sizeof(btree));
-  t->parent = t->left = t->right = NULL;
-  t->data = data;
-  return t;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/btree.h
-struct _entry ,"struct _entry {
-  char *key;
-  data_type data;
-  struct _entry *next;
-};
-struct _hash_table {
-  int size;
-  struct _entry **table;
-};
-typedef struct _entry entry_t;
-typedef struct _hash_table hash_table_t;
-",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"int get_hash(hash_table_t *table, char *key) ","int get_hash(hash_table_t *table, char *key) {
-  // hash must unsigned because it is used by an index of an array
-  unsigned int v = 0;
-  char *p = key;
-  while (*p) {
-    v += *p++;
-  }
-  return v % table->size;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"entry_t *make_entry(char *key, data_type data) ","entry_t *make_entry(char *key, data_type data) {
-  entry_t *n = (entry_t *)malloc(sizeof(entry_t));
-  char *k = strdup(key);
-  if (n == NULL || k == NULL) {
-    printf(""Out of memory"");
-    exit(1);
-  }
-  n->key = k;
-  n->data = data;
-  n->next = NULL;
-  return n;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"entry_t *ht_search(hash_table_t *ht, char *key) {  // O(n/size * key) ()","entry_t *ht_search(hash_table_t *ht, char *key) {  // O(n/size * key) ()
-  int hashvalue = get_hash(ht, key);
-  for (entry_t *e = ht->table[hashvalue]; e; e=e->next) {
-    // it is better to take an action here not on the callee side
-    // a key can't be hashed because collision should not occur here
-    // so if you use a long key, it takes a long time to compare
-    if (strcmp(e->key, key) == 0)
-      return e;
-  }
-  return NULL;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"void ht_insert(hash_table_t *ht, char *key, data_type data) {  // O(n/size + key)","void ht_insert(hash_table_t *ht, char *key, data_type data) {  // O(n/size + key)
-  entry_t *e = ht_search(ht, key);
-  if (e == NULL) {
-    // create
-    int hashvalue = get_hash(ht, key);
-    entry_t *n = make_entry(key, data);
-    // insert at the head
-    n->next = ht->table[hashvalue];
-    ht->table[hashvalue] = n;
-  } else {
-    // update
-    e->data = data;
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-"void ht_delete(hash_table_t *ht, char *key) {  // O(n/size + key)","void ht_delete(hash_table_t *ht, char *key) {  // O(n/size + key)
-  entry_t *e = ht_search(ht, key);
-  if (e) {
-    int hashvalue = get_hash(ht, key);
-    // should move this code into ht_search
-    for (entry_t *e = ht->table[hashvalue], *p = NULL; e; p=e, e=e->next) {
-      if (strcmp(e->key, key) == 0) {
-        if (p == NULL)
-          ht->table[hashvalue] = e->next;
-        else
-          p->next = e->next;
-        free(e);
-      }
-    }
-  } else {
-    printf(""Not found key"");
-    exit(1);
-  }
-}
-// insert key value
-// search
-",/Users/mbp/workspace/sandbox/algo/struct/hashtable.c
-:Q:list構造,"struct _list {
-  int data;
-  struct _list *next;
-};
-typedef struct _list list_t;
-list_t* init(int data){
-  list_t* newNode = (list_t*) malloc(sizeof(list_t));
-  if (newNode == NULL) {
-    exit(1);
-  }
-  newNode->data = data;
-  newNode->next = NULL;
-  return newNode;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"void append(list_t** head, int data)","void append(list_t** head, int data){
-  // add an item to the last of a list O(n)
-  list_t* n = init(data);
-  if (*head == NULL) {
-    *head = n;
-  } else {
-    list_t* last = *head;
-    while(last->next)
-      last = last->next;
-    last->next = n;
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"void append1(list_t** start, list_t** end, int data)","void append1(list_t** start, list_t** end, int data){
-  // add an item to the last of a list O(1)
-  list_t* n = init(data);
-  if (*start == NULL) {
-    *start = n;
-    *end = n;
-  } else {
-    (*end)->next = n;
-    *end = n;
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"list_t* inits(int argc, ...) ","list_t* inits(int argc, ...) {
-  // with append1, O(n)
-  // if you use append, the complexity is O(n^2)
-  if (argc <= 0)
-    return NULL;
-  va_list list;
-  va_start(list, argc);
-  // WARN: you need NULL, or sometimes it's initilized by the other value
-  // NULL needs including stdio.h header
-  list_t* head = NULL;
-  list_t* tail = NULL;
-  for (int i = 0; i < argc; i++)
-    append1(&head, &tail, va_arg(list, int));
-  va_end(list);
-  return head;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"list_t* search(list_t *head, int data) {  // O(n)","list_t* search(list_t *head, int data) {  // O(n)
-  while (head) {
-    if (head->data == data)
-      return head;
-    head = head->next;
-  }
-  return NULL;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-// Delete the node of the argument,"// Delete the node of the argument
-void deleteThis(list_t* node) {
-  if (node == NULL)
-    return;
-  else if (node->next == NULL) {
-    // the last item;
-    // you need previous node to set null the next node
-    // free(prev);
-    // prev->next = null;  // I can't do here!
-    printf(""Can't delete the last item"");
-    exit(1);
-  } else {
-    list_t *tmp = node->next;
-    node->data = tmp->data;
-    node->next = tmp->next;
-    free(tmp);  // Don't forget!
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-int removeThis(list_t* node) ,"int removeThis(list_t* node) {
-  if (node == NULL || node->next == NULL)
-    return 0;
-  list_t* tmp = node->next;
-  node->data = node->next->data;
-  node->next = node->next->next;
-  free(tmp);
-  return 1;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-list_t* unique(list_t* head) ,"list_t* unique(list_t* head) {
-  list_t* current = head;
-  while (current) {
-    list_t* next = current->next;
-    list_t* prev = current;
-    while (next) {
-      if (next->data == current->data) {
-        prev->next = next->next;
-        free(next);
-        next = prev->next;
-      } else {
-        prev = next;
-        next = next->next;
-      }
-    }
-    current = current->next;
-  }
-  return head;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-list_t* removeAllDups(list_t* head) ,"list_t* removeAllDups(list_t* head) {
-  // 同じものがあれば、全て削除する(uniqueではない)
-  list_t *f = NULL, *l = NULL, *current = head;
-  while (current) {
-    int found = 0;
-    list_t* next = current->next;
-    list_t* prev = current;
-    while (next) {  // ここはuniqueと同じ
-      if (next->data == current->data) {
-        found = 1;
-        prev->next = next->next;
-        free(next);
-        next = prev->next;
-      } else {
-        prev = next;
-        next = next->next;
-      }
-    }
-    if (found) {  // 自分自身も削除
-      list_t* tmp = current; 
-      current = current->next;
-      free(tmp);
-    } else {
-      if (f == NULL && l == NULL) {
-        f = l = current;
-      } else {
-        l->next = current;
-        l = l->next;
-      }
-      current = current->next;
-      l->next = NULL;
-    }
-  }
-  return f;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-"list_t* lastButK(list_t* node, int k) ","list_t* lastButK(list_t* node, int k) {
-  // 配列の長さ-k-1で要素を取得するでもよいが、kだけ先読みしたpointerを1つ用意することで高速化可能
-  if (k < 0)
-    return NULL;
-  list_t *s, *e;
-  s = e = node;
-  for (int i = 0; i < k; i++) {
-    if (e == NULL)
-      return NULL;
-    e = e->next;
-  }
-  while (e) {  // s <= eが成立
-    s = s->next;
-    e = e->next;
-  }
-  return s;  // k=0の時NULL
-}
-",/Users/mbp/workspace/sandbox/algo/struct/list.c
-:Q:btree構造,"struct _rbtree {
-  enum _color color;
-  rbtree_data_type data;
-  struct _rbtree *parent;
-  struct _rbtree *left;
-  struct _rbtree *right;
-};
-",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"#define APPEND_L(p, c) {                        \","#define APPEND_L(p, c) {                        \
-    (p)->left  = (c);                           \
-    if ((c) != NULL) (c)->parent = (p);         \
-  }
-",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"#define APPEND_R(p, c) {                        \","#define APPEND_R(p, c) {                        \
-    (p)->right = (c);                           \
-    if ((c) != NULL) (c)->parent = (p);         \
-  }
-",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"#define APPEND_P(root, tree, c) {                 \","#define APPEND_P(root, tree, c) {                 \
-    if ((tree)->parent == NULL) {                \
-      (*root) = (c);                              \
-      (c)->parent = NULL;                         \
-    } else { _APPEND_P(tree, c); }               \
-  }
-#define _APPEND_P(c1, c2) {                     \
-    if ((c1)->parent->left == (c1))             \
-      { (c1)->parent->left = (c2); }            \
-    else { (c1)->parent->right = (c2); }        \
-    (c2)->parent = (c1)->parent;                \
-    (c1)->parent = NULL;                        \
-  }
-",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-#define LEFT_CHILD(c) ((c)->parent->left == (c)),"#define LEFT_CHILD(c) ((c)->parent->left == (c))
-",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-#define RIGHT_CHILD(c) ((c)->parent->right == (c)),"#define RIGHT_CHILD(c) ((c)->parent->right == (c))
-",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-// -> y r-> x l-> z,"// -> y r-> x l-> z
-// -> x l-> y r-> z
-void rotateL(rbtree_t **root, rbtree_t *tree) {
-  // rbtree_t *tree = *root;
-  if (tree == NULL || tree->right == NULL) {
-    printf(""Can't rotate"");
-    exit(1);
-  }
-  rbtree_t *r = tree->right;
-  rbtree_t *rl = r->left;
-  APPEND_P(root, tree, r);
-  APPEND_L(r, tree);
-  APPEND_R(tree, rl);
-}
-",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"void rbtree_balance(rbtree_t **root, rbtree_t *tree) ","void rbtree_balance(rbtree_t **root, rbtree_t *tree) {
-  rbtree_t *p, *u;  // parent, uncle
-  while ((p = tree->parent) && p->color == RED && p->parent) {
-    if (LEFT_CHILD(p))
-      u = p->parent->right;
-    else
-      u = p->parent->left;
-    if (u && u->color == RED) {
-      // make a grand parent RED and loop from it recursively
-      p->parent->color = RED;
-      p->color = u->color = BLACK;
-      tree = tree->parent->parent;
-    } else {
-      // make a parent BLACK and a grand parent RED and rotate
-      // (on other way, make a current tree black and loop recursively!)
-      // so that the parent is at the top. And finish loop
-      // in other words, swap the colors between a parent and a grand parent
-      if (LEFT_CHILD(p)) {
-        if (RIGHT_CHILD(tree)) {
-          // LR
-          // after rotation, a tree's pointer is the same as LL
-          tree = p;
-          rotateL(root, tree);
-        }
-        // LL
-        tree->parent->color = BLACK;
-        tree->parent->parent->color = RED;
-        rotateR(root, tree->parent->parent);
-      } else {
-        if (LEFT_CHILD(tree)) {
-          // RL
-          tree = p;
-          rotateR(root, tree);
-        }
-        // RR
-        tree->parent->color = BLACK;
-        tree->parent->parent->color = RED;
-        rotateL(root, tree->parent->parent);
-      }
-    }
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-"void rbtree_insert(rbtree_t **root, rbtree_data_type data) ","void rbtree_insert(rbtree_t **root, rbtree_data_type data) {
-  rbtree_t *node = (rbtree_t *)malloc(sizeof(rbtree_t));
-  if (node == NULL) {
-    printf(""Out of memory"");
-    exit(1);
-  }
-  node->color = RED;  // new data is always RED
-  node->data = data;
-  node->left = node->right = node->parent = NULL;
-  if (*root == NULL) {
-    *root = node;
-  } else {
-    rbtree_t *parent = NULL, *tree = *root;
-    while (1) {
-      if (tree->data >= data) {
-        if (tree->left) {
-          parent = tree->parent;
-          tree = tree->left;
-        } else {
-          tree->left = node;
-          node->parent = tree;
-          break;
-        }
-      } else {
-        if (tree->right) {
-          parent = tree->parent;
-          tree = tree->right;
-        } else {
-          tree->right = node;
-          node->parent = tree;
-          break;
-        }
-      }
-    }
-    rbtree_balance(root, node);
-  }
-  (*root)->color = BLACK;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/myrbtree.h
-node_t* init(int value),"node_t* init(int value){
-  node_t* newNode = (node_t*) malloc(sizeof(node_t));
-  if (newNode == NULL)
-    return NULL;
-  newNode->value = value;
-  newNode->next = NULL;
-  return newNode;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/stack.c
-"void push(node_t** head, int value)","void push(node_t** head, int value){
-  // stackはリストの先頭に要素を加えていくことでO(1)を実現
-  node_t* new = init(value);
-  if (*head == NULL) {
-    *head = new;
-    return;
-  }
-  node_t* first = *head;
-  new->next = first;
-  *head = new;
-}
-",/Users/mbp/workspace/sandbox/algo/struct/stack.c
-void pop(node_t** head),"void pop(node_t** head){
-  node_t* first = *head;
-  if (first == NULL)  // empty
-    return;
-  int value = first->value;
-  *head = first->next;
-  free(first);
-}
-",/Users/mbp/workspace/sandbox/algo/struct/stack.c
 char *s_strip(char *str) ,"char *s_strip(char *str) {
   while (*str == ' ')
     str++;
@@ -2651,7 +2767,7 @@ char *s_strip(char *str) ,"char *s_strip(char *str) {
   *++last = '\0';
   return str;
 }
-",/Users/mbp/workspace/sandbox/algo/struct/string.c
+",/Users/mbp/workspace/sandbox/algo/string/string.c
 "int s_strcmp(char *p, char *q) ","int s_strcmp(char *p, char *q) {
   while (*p && *q) {
     if (*p < *q)
@@ -2668,13 +2784,13 @@ char *s_strip(char *str) ,"char *s_strip(char *str) {
   else
     return 0; // same length
 }
-",/Users/mbp/workspace/sandbox/algo/struct/string.c
+",/Users/mbp/workspace/sandbox/algo/string/string.c
 int s_strlen(char *str) ,"int s_strlen(char *str) {
   char *last = str;
   while (*last) last++;
   return last - str;
 }
-",/Users/mbp/workspace/sandbox/algo/struct/string.c
+",/Users/mbp/workspace/sandbox/algo/string/string.c
 "char *s_join(char **str, char delim, int length) ","char *s_join(char **str, char delim, int length) {
   int sum = 0;
   for (int i = 0; i < length; i++)
@@ -2690,7 +2806,7 @@ int s_strlen(char *str) ,"int s_strlen(char *str) {
   *--q = '\0';
   return p;
 }
-",/Users/mbp/workspace/sandbox/algo/struct/string.c
+",/Users/mbp/workspace/sandbox/algo/string/string.c
 char *s_lower(char *str) ,"char *s_lower(char *str) {
   for (char *c = str; *c; c++) {
     if ('A' <= *c && *c <= 'Z') {
@@ -2699,7 +2815,7 @@ char *s_lower(char *str) ,"char *s_lower(char *str) {
   }
   return str;
 }
-",/Users/mbp/workspace/sandbox/algo/struct/string.c
+",/Users/mbp/workspace/sandbox/algo/string/string.c
 "int s_is_substring(char *ps, char *qs) ","int s_is_substring(char *ps, char *qs) {
   char *p, *q;
   for (char *s = ps; *s; s++) {
@@ -2720,7 +2836,7 @@ char *s_lower(char *str) ,"char *s_lower(char *str) {
   /* printf(""%d\n"", isSubstring(""abcdefg"", ""ced"")); */
   /* printf(""%d\n"", isSubstring(""abcdefg"", """")); */
   /* printf(""%d\n"", isSubstring(""abc"", ""abcdefg"")); */
-",/Users/mbp/workspace/sandbox/algo/struct/string.c
+",/Users/mbp/workspace/sandbox/algo/string/string.c
 "char* myremove(char c, char* str) ","char* myremove(char c, char* str) {
   char *dst = str;
   for (char *it = str; *it ;it++) {
@@ -2732,106 +2848,75 @@ char *s_lower(char *str) ,"char *s_lower(char *str) {
 }
   /* char s1[] = ""abcabc""; */
   /* printf(""%s\n"", myremove('c', s1)); */
-",/Users/mbp/workspace/sandbox/algo/struct/string.c
-:Q:vector構造,"struct _vector {
-  int* data;
-  size_t size;
-};
-",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"vector_t *inits(size_t size, ...) ","vector_t *inits(size_t size, ...) {
-  // O(n)
-  vector_t *n = init(size);
-  va_list list;
-  va_start(list, size);
-  int *data = n->data;
-  for (int i = 0; i < size; i++) {
-    *data++ = va_arg(list, int);
+",/Users/mbp/workspace/sandbox/algo/string/string.c
+char* unique(char* str) ,"char* unique(char* str) {
+  char *dst = str;
+  for (char *i = str; *i ;i++) {
+    char *j;
+    for (j = str; j < dst; j++) {
+      if (*j == *i)
+        break;
+    }
+    if (j == dst)  // breakしなかった場合
+      *dst++ = *i;
   }
-  va_end(list);
-  return n;
+  *dst = '\0';
+  return str;
 }
-",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"int equal(vector_t *v1, vector_t *v2) ","int equal(vector_t *v1, vector_t *v2) {
-  if (v1->size != v2->size)
-    return 0;
-  for (int i = 0; i < v1->size; i++)
-    if (v1->data[i] != v2->data[i])
-      return 0;
-  return 1;
+",/Users/mbp/workspace/sandbox/algo/string/string.c
+char* reverse(char* s) ,"char* reverse(char* s) {
+/*
+ *sが空文字でないなら、
+ 一つ先が'\0'になるようにpointerを進めること
+ sとeを入れ替えることでreverseを実現
+ 偶数・奇数で中心の文字を入れ替えるかどうかの判断が必要になるが
+ s == eの場合が奇数のときに起こるがこれは、交換してもしなくても結果的にはよい
+ 結局入れ替える条件は、s < eになる
+ */
+  if (*s == '\0') return s;
+  char *head = s;
+  char *e = s;
+  while (*(e + 1)) e++;
+  while (s < e) swap(s++, e--);
+  return head;
 }
-",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"int indexAt(vector_t *head, int index) ","int indexAt(vector_t *head, int index) {
-  // O(1)
-  // Using a vector, you can access an element of it for a constant time.
-  if (0 <= index && index < head->size)
-    return head->data[index];
-  printf(""Out of index"");
-  exit(1);
+",/Users/mbp/workspace/sandbox/algo/string/string.c
+type Trie struct ,"type Trie struct {
+    children []*Trie // ['a', ... ,'z']
 }
-",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"void insertAt(vector_t *head, int index, int value) ","void insertAt(vector_t *head, int index, int value) {
-  // O(n + 1) or O(2n)
-  // I think if realloc returns aother pinter, it means memcpy is executed so it needs O(n)
-  int *data = (int *)realloc(head->data, sizeof(int) * (head->size + 1));
-  if (data == NULL)
-    exit(1);
-  head->data = data;
-",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"void deleteAt(vector_t *head, int index) ","void deleteAt(vector_t *head, int index) {
-  // O(n)
-  if (index == 0)
-    return;
-",/Users/mbp/workspace/sandbox/algo/struct/vector.c
-"vector_t *append(vector_t *h1, vector_t *h2) ","vector_t *append(vector_t *h1, vector_t *h2) {
-  // O(n + m) M(n + m)
-  if (h1 == NULL || h2 == NULL) {
-    printf(""Can't append"");
-    exit(1);
-  }
-  // At first you need the size of h1 + h2 to get memory
-  size_t s = h1->size + h2->size;
-  vector_t *n = init(s);
-  memcpy(n->data, h1->data, sizeof(int) * h1->size);
-  memcpy(n->data + h1->size, h2->data, sizeof(int) * h2->size);
-  return n;
+func NewTrie () *Trie {
+    return &Trie{children: make([]*Trie, 26)}
 }
-",/Users/mbp/workspace/sandbox/algo/struct/vector.c
+",/Users/mbp/workspace/sandbox/algo/string/trie.go
+func (t *Trie) Insert(s string) ,"func (t *Trie) Insert(s string) {
+    if len(s) == 0 {
+        return
+    }
+    key := s[0] - 'a'
+    if t.children[key] == nil {
+        t.children[key] = NewTrie()
+    }
+    t.children[key].Insert(s[1:])
+}
+",/Users/mbp/workspace/sandbox/algo/string/trie.go
 flatten,"-- squishの第二引数は結果を保持
 data Tree a = Node a [Tree a] deriving Show
 flatten :: Tree a -> [a]
 flatten t = squish t []
   where squish (Node x ts) xs = x:foldr squish xs ts
-",/Users/mbp/workspace/sandbox/algo/tree/flatten/flatten.hs
+",/Users/mbp/workspace/sandbox/algo/tree/flatten.hs
 (define (flatten tree),"(define (flatten tree)
-  (fold (lambda (x acc)
-          (append acc (if (pair? x)
-                          (flatten x)
-                          (list x))))
+  (foldr (lambda (x acc)
+          (if (pair? x)
+              (append (flatten x) acc)
+              (cons x acc)))
         '()
         tree))
-",/Users/mbp/workspace/sandbox/algo/tree/flatten/flatten.scm
-:Q:赤黒木のdata,"data Color = B | R deriving Show
-data Hash k v = Leaf | Node Color (Hash k v) (k, v) (Hash k v) deriving Show
-",/Users/mbp/workspace/sandbox/algo/tree/red-black/red-black.hs
-insert' :: Ord k => k -> v -> Hash k v -> Hash k v,"insert' :: Ord k => k -> v -> Hash k v -> Hash k v
-insert' k v Leaf = Node R Leaf (k, v) Leaf
-insert' k v (Node c a (k', v') b) = case compare k k' of
-  LT -> balance $ Node c (insert' k v a) (k', v') b
-  GT -> balance $ Node c a (k', v') (insert' k v b)
-  EQ -> Node c a (k, v) b
-",/Users/mbp/workspace/sandbox/algo/tree/red-black/red-black.hs
-balance :: Ord k => Hash k v -> Hash k v,"balance :: Ord k => Hash k v -> Hash k v
-balance (Node B (Node R (Node R a x b) y c) z d) = (Node R (Node B a x b) y (Node B c z d))
-balance (Node B (Node R a x (Node R b y c)) z d) = (Node R (Node B a x b) y (Node B c z d))
-balance (Node B a x (Node R (Node R b y c) z d)) = (Node R (Node B a x b) y (Node B c z d))
-balance (Node B a x (Node R b y (Node R d z c))) = (Node R (Node B a x b) y (Node B c z d))
-balance x  = x
-",/Users/mbp/workspace/sandbox/algo/tree/red-black/red-black.hs
-"fromList :: Ord k => [(k, v)] -> Hash k v","fromList :: Ord k => [(k, v)] -> Hash k v
-fromList = foldl insert Leaf
-insert :: Ord k => Hash k v -> (k, v) -> Hash k v
-insert x (k, v) = turnB $ insert' k v x
-",/Users/mbp/workspace/sandbox/algo/tree/red-black/red-black.hs
+(define (foldr f last alist)
+  (if (pair? alist)
+      (f (car alist) (foldr f last (cdr alist)))
+      last))
+",/Users/mbp/workspace/sandbox/algo/tree/flatten.scm
 UnionFindのデータ構造,"type UnionFind struct {
     Data []int  // 親を参照 (自分自身を参照している場合はRoot)
     Rank []int  // node数
