@@ -80,7 +80,7 @@ class Header extends React.Component {
             <li><Button bsSize="xsmall" onClick={parent.next}>Next</Button></li>
             <li>{index}{codes.length > 0 ? `/${codes.length-1}` : ""}</li>
             <li><Button bsSize="xsmall" onClick={() => parent.setState({showList: true})}>CODES</Button></li>
-            <li><Button bsSize="xsmall" onClick={() => parent.fetch() }>UPDATE</Button></li>
+            <li><Button bsSize="xsmall" onClick={() => parent.fetch(false) }>UPDATE</Button></li>
             <Lang parent={this.props.parent} />
             <li><Button bsSize="xsmall" onClick={() => parent.clear() }>CLEAR</Button></li>
             <li><Button bsSize="xsmall" onClick={() => parent.setState({showCategories: true})}>CATEGORY</Button></li>
@@ -115,10 +115,10 @@ class Code extends React.Component {
   }
 
   componentDidMount() {
-    this.fetch(false)
+    this.fetch(true)
   }
 
-  fetch(set=true) {
+  fetch(cache) {
     const setState = ({codes}) =>
       this.setState({codes: this._filter({...this.state, codes}), ALLCODES: codes})
     const handle = (csv) => {
@@ -129,10 +129,10 @@ class Code extends React.Component {
     }
 
     const csv = window.localStorage.getItem("csv")
-    if (csv) {
+    if (csv && cache) {
       handle(csv)
     } else {
-      fetchCode("code.csv").then(csv => {
+      fetchCode("codes.csv").then(csv => {
         handle(csv)
         window.localStorage.setItem("csv", csv)
       })
