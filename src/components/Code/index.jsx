@@ -132,7 +132,7 @@ class Code extends React.Component {
     if (csv && cache) {
       handle(csv)
     } else {
-      fetchCode("codes.csv").then(csv => {
+      fetchCode("code.csv").then(csv => {
         handle(csv)
         window.localStorage.setItem("csv", csv)
       })
