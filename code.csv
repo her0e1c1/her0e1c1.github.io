@@ -1,31 +1,43 @@
-vector構造,"struct _vector {
-  int* data;
-  size_t size;
+vector structure,"#define data_type int
+struct _array {
+    size_t size;
+    size_t capacity;
+    data_type *data;
 };
+typedef struct _array array_t;
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
-"vector_t *inits(size_t size, ...) ","vector_t *inits(size_t size, ...) {
-  // O(n)
-  vector_t *n = init(size);
-  va_list list;
-  va_start(list, size);
-  int *data = n->data;
-  for (int i = 0; i < size; i++) {
-    *data++ = va_arg(list, int);
-  }
-  va_end(list);
-  return n;
+array_t *init(size_t size) ,"array_t *init(size_t size) {
+    array_t *cv = malloc(sizeof(array_t));
+    size_t capacity = round2up(size);
+    data_type *data = malloc(sizeof(data_type) * capacity);
+    if (cv == NULL || data == NULL) {
+        printf(""Out of memory"");
+        exit(1);
+    }
+    cv->data = data;
+    cv->size = size;
+    cv->capacity = capacity;
+    return cv;
+}
+size_t round2up(size_t size) {
+    assert ((size << 1) >= size);  // check overflow (use `== size` for 0)
+    size_t n = 1;
+    while (n <= size)
+        n <<= 1;
+    return n;
 }
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
-"int equal(vector_t *v1, vector_t *v2) ","int equal(vector_t *v1, vector_t *v2) {
-  if (v1->size != v2->size)
-    return 0;
-  for (int i = 0; i < v1->size; i++)
-    if (v1->data[i] != v2->data[i])
-      return 0;
-  return 1;
+"array_t *inits(size_t size, ...) ","array_t *inits(size_t size, ...) {
+    array_t *a = init(size);
+    va_list va;
+    va_start(va, size);
+    for (int i = 0; i < size; i++)
+        a->data[i] = va_arg(va, data_type);
+    va_end(va);
+    return a;
 }
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
-"int indexAt(vector_t *head, int index) ","int indexAt(vector_t *head, int index) {
+"int indexAt(array_t *head, int index) ","int indexAt(array_t *head, int index) {
   // O(1)
   // Using a vector, you can access an element of it for a constant time.
   if (0 <= index && index < head->size)
@@ -34,31 +46,88 @@ vector構造,"struct _vector {
   exit(1);
 }
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
-"void insertAt(vector_t *head, int index, int value) ","void insertAt(vector_t *head, int index, int value) {
-  // O(n + 1) or O(2n)
-  // I think if realloc returns aother pinter, it means memcpy is executed so it needs O(n)
-  int *data = (int *)realloc(head->data, sizeof(int) * (head->size + 1));
-  if (data == NULL)
-    exit(1);
-  head->data = data;
+"int equal(array_t *a1, array_t *a2) ","int equal(array_t *a1, array_t *a2) {
+    if (a1 == NULL && a2 == NULL)
+        return 1;
+    else if (a1 == NULL || a2 == NULL)
+        return 0;
+    else if (a1->size != a2->size)
+        return 0;
+    for (int i = 0; i < a1->size; i++) {
+        if (a1->data[i] != a2->data[i])
+            return 0;
+    }
+    return 1;
+}
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
-"void deleteAt(vector_t *head, int index) ","void deleteAt(vector_t *head, int index) {
+"void insertAt(array_t *a, int index, int value) ","void insertAt(array_t *a, int index, int value) {
+    // O(n + 1) or O(2n) => listよりもinsertは時間がかかる処理
+    // 以下の仕様はOSごとに確認 (拡張とコピーする？)
+    // reallocは、古いメモリブロックにあったデータは可能な限り新しいメモリブロックにコピー
+    // また、メモリの位置から拡張できるのであれば、そのアドレスから拡張
+    // I think if realloc returns aother pinter, it means memcpy is executed so it needs O(n)
+    if (!(a->size + 1 <= a->capacity)) {
+        a->capacity = round2up(a->size + 1);
+        a->data = realloc(a->data, sizeof(data_type) * a->capacity); // copyされてることを前提
+    }
+    /* You need to move an element one by one from index. */
+    for (int i = a->size; i > index; i--)
+        a->data[i] = a->data[i - 1];
+    a->data[index] = value;
+    a->size++;
+}
+",/Users/mbp/workspace/sandbox/algo/array/array.c
+"void deleteAt(array_t *a, int index) ","void deleteAt(array_t *a, int index) {
   // O(n)
-  if (index == 0)
-    return;
+  // You need to move each item from index to the next
+  // no need to resize memory
+  int i = index;
+  for (int i = index; i < a->size - 1; i++)
+    a->data[i] = a->data[i + 1];
+  // WARN: 最後要素 a->size-1は不要になるが、freeで解放してはいけない
+  // free(a->data + (a->size - 1));
+  a->size--; // index == a->size-1のときは、shiftするだけ
+}
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
-"vector_t *append(vector_t *h1, vector_t *h2) ","vector_t *append(vector_t *h1, vector_t *h2) {
-  // O(n + m) M(n + m)
-  if (h1 == NULL || h2 == NULL) {
-    printf(""Can't append"");
-    exit(1);
-  }
-  // At first you need the size of h1 + h2 to get memory
-  size_t s = h1->size + h2->size;
-  vector_t *n = init(s);
-  memcpy(n->data, h1->data, sizeof(int) * h1->size);
-  memcpy(n->data + h1->size, h2->data, sizeof(int) * h2->size);
-  return n;
+"array_t* concat(array_t *a1, array_t *a2) ","array_t* concat(array_t *a1, array_t *a2) {
+    // O(n + m) M(n + m)
+    if (a1 == NULL || a2 == NULL) {
+        printf(""Can't append"");
+        exit(1);
+    }
+    // you need the size of a1 + a2 to get memory
+    size_t a1_size = a1->size;
+    size_t size = a1->size + a2->size;
+    if (size >= a1->capacity) {
+        a1->size = size;
+        a1->capacity = round2up(size);
+        a1->data = realloc(a1->data, sizeof(data_type) * a1->capacity); // copy前提
+        if (a1->data == NULL)
+            exit(1);
+    }
+    for (int i = a1_size; i < size; i++)
+        a1->data[i] = a2->data[i - a1_size];
+    return a1;
+}
+",/Users/mbp/workspace/sandbox/algo/array/array.c
+"void pushBack(array_t *a, data_type data) ","void pushBack(array_t *a, data_type data) {
+    if (a->size >= a->capacity) {
+        a->capacity = round2up(a->size);
+        a->data = realloc(a->data, sizeof(data_type) * a->capacity);
+        if (a->data == NULL)
+            exit(1);
+    }
+    a->data[a->size] = data;
+    a->size++;
+}
+",/Users/mbp/workspace/sandbox/algo/array/array.c
+data_type popBack(array_t *a) ,"data_type popBack(array_t *a) {
+    // サイズを減らさない仕様
+    if (a->size <= 0)
+        exit(1);
+    data_type data = a->data[a->size];
+    a->size--;
+    return data;
 }
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
 更新処理が競合しないようにするためのコード,"var v1 int32 // 共有メモリ
@@ -127,10 +196,8 @@ typedef enum _color color_e;
 #define RIGHT_CHILD(c) ((c)->parent->right == (c)),"#define RIGHT_CHILD(c) ((c)->parent->right == (c))
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
 "void rotateR(rbtree_t **root, rbtree_t *tree) ","void rotateR(rbtree_t **root, rbtree_t *tree) {
-  // y <= z <= x
-  // from -> x l-> y r-> z
-  // to   -> y r-> x l-> z
-  // rbtree_t *tree = *root;
+  // a < x < b < y c < z < d
+  // ((a x b) y (c z d)) => ((_ a _) x (b y (c z d)))
   if (tree == NULL || tree->left == NULL) {
     printf(""Can't rotate"");
     exit(1);
@@ -140,12 +207,14 @@ typedef enum _color color_e;
   APPEND_P(root, tree, l);
   APPEND_R(l, tree);
   APPEND_L(tree, lr);
+  // ((a R2 b) R1 c) => (a R2 (b R1 c)) の場合、黒の経路数変わらず
+  // ((a R b) B c) => (a R (b B c)) の場合、aの経路においてBが一つ減る
+  // => (a B (b R c)) と入れ替えることで、a側1つ増え, c側そのまま, bも変わらず
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
 "void rotateL(rbtree_t **root, rbtree_t *tree) ","void rotateL(rbtree_t **root, rbtree_t *tree) {
-  // -> y r-> x l-> z
-  // -> x l-> y r-> z
-  // rbtree_t *tree = *root;
+  // a < x < b < y c < z < d
+  // ((a x b) y (c z d)) => (((a x b) y c) z (_ d _))
   if (tree == NULL || tree->right == NULL) {
     printf(""Can't rotate"");
     exit(1);
@@ -158,30 +227,40 @@ typedef enum _color color_e;
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
 "void rbtree_balance(rbtree_t **root, rbtree_t *tree) ","void rbtree_balance(rbtree_t **root, rbtree_t *tree) {
+  /*
+   (制約)
+   1. 赤が２つ続いてはいけない 
+   2. 全ての経路において黒の数が等しい (経路数変わらないから、rootは常に黒で良い)
+   もし、現在平衡状態として、赤を新しく加えると
+   (1) grand parent is redの場合 その子供は黒でないとなので、平衡のまま
+   (2) grand parent is blackの場合
+   (2.1) 2 parents are blackの場合 平衡のまま
+   (2.2) 2 parents are black and redの場合 黒に追加する場合は平衡のまま
+   つまり、祖父が黒で親が(赤, 赤), (赤, 黒)の2通りについて考える
+   (赤, 赤) => 親と叔父を黒にして、祖父を赤にすれば平衡状態. (ただし祖父で再帰必要) (これはまとめられる)
+   */
   rbtree_t *p, *u;  // parent, uncle
+  // この関数はtreeが赤であることを呼び出し元で保証されている
   while ((p = tree->parent) && p->color == RED && p->parent) {
     if (LEFT_CHILD(p))
       u = p->parent->right;
     else
       u = p->parent->left;
     if (u && u->color == RED) {
-      // make a grand parent RED and loop from it recursively
       p->parent->color = RED;
       p->color = u->color = BLACK;
       tree = tree->parent->parent;
     } else {
-      // make a parent BLACK and a grand parent RED and rotate
-      // (on other way, make a current tree black and loop recursively!)
-      // so that the parent is at the top. And finish loop
-      // in other words, swap the colors between a parent and a grand parent
       if (LEFT_CHILD(p)) {
         if (RIGHT_CHILD(tree)) {
           // LR
           // after rotation, a tree's pointer is the same as LL
           tree = p;
           rotateL(root, tree);
+          // 同じ色のUncle/Parentなので、黒の経路数変わらない
         }
         // LL
+        // 左親は黒一つ減る状態になるので祖父を黒にする. 代わりに右親を赤くし黒の個数を平衡に (右親の子供２人は黒なので問題無い)
         tree->parent->color = BLACK;
         tree->parent->parent->color = RED;
         rotateR(root, tree->parent->parent);
@@ -200,6 +279,31 @@ typedef enum _color color_e;
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+"void rbtree_balance(rbtree_t **root, rbtree_t *tree) ","void rbtree_balance(rbtree_t **root, rbtree_t *tree) {
+  // reduce cases from 6 to 4
+  // you need to bottom up a tree to root althoug coloring only a current tree BLACK
+  rbtree_t *p, *u;  // parent, uncle
+  while ((p = tree->parent) && p->color == RED && p->parent) {
+    if (LEFT_CHILD(p)) {
+      if (RIGHT_CHILD(tree)) {
+        tree = p;
+        rotateL(root, tree);
+      }
+      tree->color = BLACK;
+      rotateR(root, tree->parent->parent);
+    } else {
+      if (LEFT_CHILD(tree)) {
+        tree = p;
+        rotateR(root, tree);
+      }
+      tree->color = BLACK;
+      rotateL(root, tree->parent->parent);
+    }
+    tree = tree->parent;
+  }
+}
+*/
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
 "void rbtree_insert(rbtree_t **root, rbtree_data_type data) ","void rbtree_insert(rbtree_t **root, rbtree_data_type data) {
   rbtree_t *node = (rbtree_t *)malloc(sizeof(rbtree_t));
   if (node == NULL) {
@@ -216,9 +320,9 @@ typedef enum _color color_e;
     while (1) {
       if (tree->data >= data) {
         if (tree->left) {
-          parent = tree->parent;
+          parent = tree->parent; // いらない?
           tree = tree->left;
-        } else {
+        } else { // 挿入
           tree->left = node;
           node->parent = tree;
           break;
@@ -696,6 +800,7 @@ type Graph struct ,"type Graph struct {
 	N int
 	E [][]int
 }
+// matrix / list / class のうちの listパターン
 func NewGrash(x []int, y []int, N int) *Graph {
 	E := make([][]int, N)
 	for i := 0; i < len(x); i++ {
@@ -1259,25 +1364,6 @@ func (g *Graph) TopologicalSort() []int ,"func (g *Graph) TopologicalSort() []in
 	return c
 }
 ",/Users/mbp/workspace/sandbox/algo/greedy/maxCounters.go
-極大値が間隔Kで取れる場合はTrue (Sは極大値のx座標のリスト),"func maxIntervalOfLocalMaximuns(K int, S []int) bool {
-	i := 0                           // 左端から貪欲に
-	for cnt := 0; cnt < K-1; cnt++ { // 2つ目との間隔がk取れるか?から開始
-		x1 := S[i]
-		var j int
-		for j = i + 1; j < len(S); j++ {
-			x2 := S[j]
-			if x2-x1 >= K {
-				break
-			}
-		}
-		if j >= len(S) {
-			return false
-		}
-		i = j
-	}
-	return true
-}
-",/Users/mbp/workspace/sandbox/algo/greedy/maxIntervalOfLocalMaximuns.go
 各一定区間内に極大値をもつよう区分,"func maxNumberGroupOfLocalMaximuns(groups int, S []bool) bool {
     N := len(S)
     if N % groups != 0 {
@@ -1286,12 +1372,11 @@ func (g *Graph) TopologicalSort() []int ,"func (g *Graph) TopologicalSort() []in
     interval := N / groups
     for cnt := 0; cnt < groups; cnt++ {
 		for i := 0; i < N; i += interval {
-			last := i + interval  // [i, last)で右端は含めない
-			for i < last {
+			var last int // [i, last)で右端は含めない
+			for last = i + interval; i < last; i++ {
 				if S[i] {
 					break
 				}
-				i++
 			}
 			if i == last {
 				return false
@@ -1601,11 +1686,20 @@ foldl' f acc (x:xs) = foldl' f (f acc x) xs  -- 末尾再帰
 foldr' :: (a -> b -> b) -> b -> [a] -> b,"foldr' :: (a -> b -> b) -> b -> [a] -> b
 -- a1 + ... an + a0 = (a1 + ... + (an-1 + (an + a0)))
 -- foldr f a0 Sn = f (foldr a0 Sn-1) an
-foldr' f acc [] = acc
-foldr' f acc (x:xs) = f x (foldr' f acc xs)
+foldr' f init [] = init
+foldr' f init (x:xs) = f x (foldr' f init xs)
 ",/Users/mbp/workspace/sandbox/algo/list/list.hs
 :Q:foldlとfoldrの違い,"-- foldlは左の要素から計算(+) かつ、(acc X x)
 -- foldrは右の要素から計算(cons) かつ、 (x X acc)
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+scanl' :: (b -> a -> b) -> b -> [a] -> [b],"scanl' :: (b -> a -> b) -> b -> [a] -> [b]
+-- scanl f z [x1, x2, ...] == [z, z `f` x1, (z `f` x1) `f` x2, ...]
+scanl' _ acc [] = [acc]
+scanl' f acc (x:xs) = acc: scanl' f (f acc x) xs
+",/Users/mbp/workspace/sandbox/algo/list/list.hs
+scanr' :: (a -> b -> b) -> b -> [a] -> [b],"scanr' :: (a -> b -> b) -> b -> [a] -> [b]
+scanr' _ init [] = [init]
+scanr' f init (x:xs) = let yss@(y:_) = scanr' f init xs in (f x y) : yss
 ",/Users/mbp/workspace/sandbox/algo/list/list.hs
 "span' :: (a -> Bool) -> [a] -> ([a], [a])","span' :: (a -> Bool) -> [a] -> ([a], [a])
 -- 条件に合致し続けるまでの要素, それ以外
@@ -1822,7 +1916,7 @@ func main() {
 	return string(rs)
 }
 ",/Users/mbp/workspace/sandbox/algo/misc/int2str.go
-":Q:配列[x,y]にtrueの要素がいくつあるか?","def f(A, x, y):
+"配列[x,y]にtrueの要素がいくつあるか?","def f(A, x, y):
     N = len(A)
     if not (0 <= x <= y < N):
         return None
@@ -1838,18 +1932,21 @@ func main() {
     else:
         return S[y] - S[x - 1]
 ",/Users/mbp/workspace/sandbox/algo/prefix-sum/count-true-in-list.py
-":Q:数列a_nの要素が、少なくとも一つ[x, y]に含まれているか? (全体の範囲は[0,M))","def f(A, x, y):
-    if not (0 <= x <= y <= len(A)):
-        return None
-    s = [0] * M  # メモリ確保
-    for a in A:
-        s[a] = 1
-    for i in range(len(s) - 1):
-        s[i + 1] += s[i]
-    if x == 0:
-        return s[y] == 1
-    return s[y] != s[x - 1]
-",/Users/mbp/workspace/sandbox/algo/prefix-sum/element-in-range.py
+"数列a_nの要素が、少なくとも一つ[x, y]に含まれているか? 全体の範囲は[0,M)","func elementInRange(A []int, x, y, M int) bool {
+    a := make([]int, M)
+    for _, e := range A {
+        a[e] = 1
+    }
+    s := make([]int, M)
+    for i := 1; i < M; i++ {
+        s[i] = s[i-1] + a[i]
+    }
+    if x == 0 {
+        return s[y] > 0
+    }
+    return s[y] - s[x-1] > 0
+}
+",/Users/mbp/workspace/sandbox/algo/prefix-sum/element-in-range.go
 :Q:配列を三等分する時の最大和(max(A[j:i]+A[i+k])),"func MaxDoubleSliceSum(A []int) int {
 	K1 := make([]int, len(A)) // [0,i)までの最大和
 	K2 := make([]int, len(A)) // (i,len(A)-1]までの最大和
@@ -2176,7 +2273,7 @@ main = do
   print $ f $ reverse [5,4,3,2,1]  -- -1 (失敗)
   print $ f $ reverse [4,1,2,5,3,4] -- 4
 ",/Users/mbp/workspace/sandbox/algo/seq/maxProfix.hs
-:Q:x^2=n(newton),"// x(n+1) = xn - f(xn)/f'(xn)
+x^2=n(newton),"// x(n+1) = xn - f(xn)/f'(xn)
 func f(n, x1, e float64) float64 {
 	for {
 		x2 := x1 - (x1 * x1 - n) / (2 * x1)
@@ -2881,6 +2978,33 @@ char* reverse(char* s) ,"char* reverse(char* s) {
   return head;
 }
 ",/Users/mbp/workspace/sandbox/algo/string/string.c
+func suffixArray(s string) []string ,"func suffixArray(s string) []string {
+    // 文字列の接尾辞を要素とする配列を接尾辞に関して辞書順に並べ替えて得られる配列
+    ss := make([]string, len(s))
+    for i := 0; i < len(s); i++ {
+        ss[i] = s[i:]
+    }
+    sort.Strings(ss)
+    return ss
+}
+",/Users/mbp/workspace/sandbox/algo/string/suffix-array.go
+"func findFromSuffixArray(sa []string, target string) bool ","func findFromSuffixArray(sa []string, target string) bool {
+    // O(target * log(len(sa)))
+    lo, hi := 0, len(sa)
+    for lo <= hi {
+        mi := lo + (hi - lo) / 2
+        s := sa[mi]
+        if len(s) >= len(target) && s[:len(target)] == target {
+            return true
+        } else if s < target { // 文字列の2回比較遅い
+            lo = mi + 1
+        } else {
+            hi = mi - 1
+        }
+    }
+    return false
+}
+",/Users/mbp/workspace/sandbox/algo/string/suffix-array.go
 type Trie struct ,"type Trie struct {
     children []*Trie // ['a', ... ,'z']
 }
