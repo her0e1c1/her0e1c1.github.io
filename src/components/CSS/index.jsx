@@ -28,6 +28,15 @@ const FlexBox3 = ({children}) => (
   </div>
 )
 
+// 要素がはみ出ない場合は flex-shrinkは機能しないので、nowrap必要. widthを指定してもautoが優先
+const FlexBox4 = ({children}) => (
+    <div style={{display: "flex", border: "1px solid red", width: "100%", flexFlow: "row nowrap"}}>
+      {[1,5,1,3,1].map((e, i) => <div key={i} style={{border: "1px solid red", flex: `0 ${e} auto`, width: "100px"}}>{i}-{e}</div>)}
+    </div>
+)
+{/* <div style={{display: "flex", border: "1px solid red", flexFlow: "row nowrap"}}>
+    {[1,2,3,4,5].map((flex, i) => <div key={i} style={{border: "1px solid red", flex: "1 0 auto"}}>{i}</div>)}
+    </div> */}
 
 const FontBox = (props) => (
   <div style={{border: "1px solid red"}}>
@@ -86,6 +95,7 @@ class CSS extends React.Component {
         <FlexBox2 children={[1,2,1,2,1]} />
 
         <FlexBox3 children={["abc", "a", "aaaaaaaaaaaaa"]} />
+        <FlexBox4 children={["abc", "a", "aaaaaaaaaaaaa"]} />
 
         {justifyContentList.map(e => <FlexBox justifyContent={e} />)}
         {flexWrapList.map(e => <FlexBox flexWrap={e} width="30px" />)}
