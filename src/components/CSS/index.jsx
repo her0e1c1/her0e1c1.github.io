@@ -9,6 +9,26 @@ const FlexBox = (props) => (
   </div>
 )
 
+// 各要素の幅の比を指定して余白を埋める
+const FlexBox2 = ({children}) => (
+  <div style={{display: "flex", border: "1px solid red", flexWrap: "nowrap"}}>
+    {children.map((flex, i) => <div key={i} style={{border: "1px solid red", flex: `${flex} 0 0`, padding: "0 30"}}>{i}</div>)}
+  </div>
+)
+
+// baiasのautoと0の違い
+const FlexBox3 = ({children}) => (
+  <div>
+    <div style={{display: "flex", border: "1px solid red"}}>
+      {children.map((e, i) => <div key={i} style={{border: "1px solid red", flex: "1 0 0"}}>{i}-{e}</div>)}
+    </div>
+    <div style={{display: "flex", border: "1px solid red"}}>
+      {children.map((e, i) => <div key={i} style={{border: "1px solid red", flex: "1 0 auto"}}>{i}-{e}</div>)}
+    </div>
+  </div>
+)
+
+
 const FontBox = (props) => (
   <div style={{border: "1px solid red"}}>
     <div>{Object.keys(props).map(e => `${e}=${props[e]}`).join(", ")}</div>
@@ -61,13 +81,20 @@ class CSS extends React.Component {
   render() {
     return (
       <div style={{backgroundColor: "white"}}>
+        <FlexBox2 children={[0,0,0,0,0]} />
+        <FlexBox2 children={[1,1,1,1,1]} />
+        <FlexBox2 children={[1,2,1,2,1]} />
+
+        <FlexBox3 children={["abc", "a", "aaaaaaaaaaaaa"]} />
+
+        {justifyContentList.map(e => <FlexBox justifyContent={e} />)}
+        {flexWrapList.map(e => <FlexBox flexWrap={e} width="30px" />)}
+
+        <List />
+        <List display="inline-block" />
         {cross(fontSizeList, fontWeightList, fontStyleList).map(e =>
           <FontBox fontSize={e[0]} fontWeight={e[1]} fontStyle={e[2]} />
          )}
-        {justifyContentList.map(e => <FlexBox justifyContent={e} />)}
-        {flexWrapList.map(e => <FlexBox flexWrap={e} width="30px" />)}
-        <List />
-        <List display="inline-block" />
       </div>
     )
   }
