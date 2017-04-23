@@ -809,6 +809,39 @@ func NewGrash(x []int, y []int, N int) *Graph {
 	return &Graph{N: N, E: E}
 }
 ",/Users/mbp/workspace/sandbox/algo/common/graph.go
+type MatrixGraph struct ,"type MatrixGraph struct {
+	N int
+	W [][]int
+    MaxWeight int
+}
+func NewWeighGraph(x, y, w []int, N int) *MatrixGraph {
+    // 疎行列には向かないデータ構造
+	W := make([][]int, N)
+	for i := 0; i < N; i++ {
+		W[i] = make([]int, N) // もっと良い方法は?
+        for j := 0; j < N; j++ {
+            W[i][j] = math.MaxInt32 // 移動不可
+        }
+	}
+    for i := 0; i < len(x); i++ {
+        W[x[i]][y[i]] = w[i]
+        // W[y[i]][x[i]] = w[i]
+    }
+	return &MatrixGraph{N: N, W: W, MaxWeight: math.MaxInt32}
+}
+func NewWeighGraphFromMatrix(w [][]int) *MatrixGraph {
+	return &MatrixGraph{N: len(w), W: w, MaxWeight: math.MaxInt32}
+}
+func (g *MatrixGraph) Neighbor(node int) []int {
+    n := []int{}
+    for i := 0; i < g.N; i++ {
+        if w := g.W[node][i]; w != g.MaxWeight {
+            n = append(n, i)
+        }
+    }
+    return n
+}
+",/Users/mbp/workspace/sandbox/algo/common/graph.go
 お釣りの問題(最小となる支払い方法),"func changeMoney(coins []int, sum int) int {
 	dp := make([]int, sum+1) // dp[s]は、sまで行くのに必要なコインの最小枚数(各コインのスナップショット)
 	for i := len(coins) - 1; i >= 0; i-- {
@@ -1286,6 +1319,95 @@ ZCombinator,"; λf.(λx.f(λy.xxy))(λx.f(λy.xxy))
                       (self self (- a 2)))))))))
 (print (fib 10))  ; 55
 ",/Users/mbp/workspace/sandbox/algo/fp/y/fib.scm
+graph for a star,"type Graph struct {
+    N int
+    Nodes [][]*Node
+}
+type Node struct {
+    graph *Graph
+    p Point
+    parent *Node // the previous path from this Node
+    cost int // total cost from start to this node (暫定)
+    score int // cost[current] + weight(current, next) + h(next, goal) (暫定)
+    visited bool // Close (List)
+",/Users/mbp/workspace/sandbox/algo/graph/a-star.go
+Neighbor for a star,"func (n *Node) Neighbor() []*Node {
+    N := n.graph.N
+    ns := []*Node{}
+    for _, d := range [][]int{{1,0}, {0,1},{-1, 0},{0, -1}}{
+        dx, dy := d[0], d[1]
+        x, y := n.p.x + dx, n.p.y + dy
+        if 0 <= x && x < N && 0 <= y && y < N {
+            if next := n.graph.Nodes[x][y]; !next.isWall {
+                ns = append(ns, next)
+            }
+        }
+    }
+    return ns
+}
+func (n *Node) Cost(to *Node) int {
+    return 1
+}
+type Point struct {
+    x int
+    y int
+}
+",/Users/mbp/workspace/sandbox/algo/graph/a-star.go
+"func aStar(g *Graph, start, goal *Node) int ","func aStar(g *Graph, start, goal *Node) int {
+    // 現在のnodeから隣接ノードのコストを計算. 最小コストを次の現在のnodeにする (dijkstra)
+    // ただしこのコストは、そのノードからゴールまでの見積もりも含めたもの (= score)
+    h := func (p1, p2 Point) int { // ゴールまでのコストを暫定的に見積もる関数
+        return abs(p1.x - p2.x) + abs(p1.y - p2.y)
+    }
+    start.cost = 0
+    pq := &Heap{start} // Open List
+    heap.Init(pq)
+    for pq.Len() != 0 {
+        p := heap.Remove(pq, 0).(*Node)
+        p.visited = true
+        if p == goal {
+            return goal.cost
+        }
+        for _, next := range p.Neighbor() {
+            c := p.Cost(next) + p.cost
+            s := c + h(next.p, goal.p)
+            if !next.visited && s < next.score {
+                next.parent = p
+                next.score = s
+                next.cost = c
+                heap.Push(pq, next)
+            }
+        }
+    }
+    return -1
+}
+",/Users/mbp/workspace/sandbox/algo/graph/a-star.go
+dijkstraとは?,"// 全てのエッジのコストが 0 以上であること
+// 現在のnodeから隣接ノードのコストを計算. 最小コストを次の現在のnodeにする
+",/Users/mbp/workspace/sandbox/algo/graph/dijkstra.go
+"func dijkstra(g *MatrixGraph, start int) []int ","func dijkstra(g *MatrixGraph, start int) []int {
+	pq := &Heap{start}
+	heap.Init(pq)
+	visited := make([]bool, g.N)
+	costs := make([]int, g.N) // total costs from start to each node
+	for i := 0; i < g.N; i++ {
+		costs[i] = g.MaxWeight
+	}
+	costs[start] = 0
+	for pq.Len() != 0 {
+		n := heap.Remove(pq, 0).(int)
+		visited[n] = true
+		for _, next := range g.Neighbor(n) {
+			c := costs[n] + g.W[n][next]
+			if !visited[next] && c < costs[next] {
+				costs[next] = c
+				heap.Push(pq, next) // 存在確認した方が良い?
+			}
+		}
+	}
+	return costs
+}
+",/Users/mbp/workspace/sandbox/algo/graph/dijkstra.go
 :Q:wfloydの特徴,"マイナスを含んだ重み付き有向グラフの全ペアの最短経路問題
 ",/Users/mbp/workspace/sandbox/algo/graph/floyd.go
 "func floyd(N int, x, y, z []int) [][]int ","func floyd(N int, x, y, z []int) [][]int {
@@ -1316,6 +1438,32 @@ ZCombinator,"; λf.(λx.f(λy.xxy))(λx.f(λy.xxy))
 	return a
 }
 ",/Users/mbp/workspace/sandbox/algo/graph/floyd.go
+"func prim(g *MatrixGraph, start int) int ","func prim(g *MatrixGraph, start int) int {
+    // 現在のMST(Minimum spanning tree)に含まれないノードのうち、最小枝を持つものをMSTに加える (貪欲)
+	pq := &Heap{node{parent: start, index: start, cost: 0}}
+	heap.Init(pq)
+	visited := make([]bool, g.N)
+	costs := make([]int, g.N) // MSTに含まれていないノードとの距離
+	for i := 0; i < g.N; i++ {
+		costs[i] = g.MaxWeight
+	}
+    sum := 0
+	for pq.Len() != 0 {
+		n := heap.Remove(pq, 0).(node)
+		visited[n.index] = true
+        sum += n.cost
+        fmt.Println(n.parent, "" => "", n.index)
+		for _, next := range g.Neighbor(n.index) {
+			c := g.W[n.index][next]
+			if !visited[next] && c < costs[next] {
+				costs[next] = c
+				heap.Push(pq, node{parent: n.index, index: next, cost: c}) // 上書きすべき
+			}
+		}
+	}
+    return sum
+}
+",/Users/mbp/workspace/sandbox/algo/graph/prim.go
 func (g *Graph) TopologicalSort() []int ,"func (g *Graph) TopologicalSort() []int {
     // DFSを実行し、行き先がなくなったものから順に、リストに格納
     // you can't sort a cyclic graph!!!
@@ -1831,7 +1979,7 @@ def transpose(A):,"def transpose(A):
             B[j][i] = A[i][j]
     return B
 ",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
-decomposeWithoutPivot,"def decompose(A):
+decompose Without Pivot (lu_k loop),"def decompose2(A):
     m, n = len(A), len(A[0])
     for k in range(max(m, n)):
         for i in range(k + 1, m):
@@ -1841,6 +1989,20 @@ decomposeWithoutPivot,"def decompose(A):
                 A[i][j] -= float(A[i][k] * A[k][j])
     return A
 # i,jを固定した場合、kの範囲は0<=k<min(i,j)となる
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+decompose Without Pivot,"def decompose(A):
+    m, n = len(A), len(A[0])
+    for i in range(m):
+        for j in range(n):
+            for k in range(min(i, j)):
+                A[i][j] -= float(A[i][k] * A[k][j])
+            if i > j:
+                A[i][j] /= float(A[j][j])
+    return A
+",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
+"decompose With Pivot (A = PLU, ただしPは置換行列の積)","# =0と判定するのは数値計算ではナンセンス. 最大を毎回行頭にするのが良い工夫
+def decompose3(A):
+    pass
 ",/Users/mbp/workspace/sandbox/algo/math/matrix/LU.py
 Ax=yを解くプログラム,"def solve(A, y, do_decompose=True):
     # Ax=y => LUx=y => Lz=y => Ux=zの順に求める(y=>z=>xの順に解を上書き)
@@ -1903,17 +2065,17 @@ func main() {
 }
 ",/Users/mbp/workspace/sandbox/algo/math/matrix/fib.go
 整数を文字列に変換,"func int2str(x int) string {
-    if x == 0 {
-        return ""0""
-    } else if x < 0 {
-        return ""-"" + int2str(-x)
-    }
+	if x == 0 {
+		return ""0""
+	} else if x < 0 {
+		return ""-"" + int2str(-x)
+	}
 	rs := []rune{}
 	for d := x; d > 0; d /= 10 { // >= 0だと無限ループ
 		r := d%10 + '0'
 		rs = append(rs, rune(r))
 	}
-	return string(rs)
+	return string(reverse(rs))
 }
 ",/Users/mbp/workspace/sandbox/algo/misc/int2str.go
 "配列[x,y]にtrueの要素がいくつあるか?","def f(A, x, y):
@@ -2430,6 +2592,7 @@ bucketsort' keys xs = [x| k <- keys, x <- xs, x == k]
 }
 ",/Users/mbp/workspace/sandbox/algo/sort/find-kth-smallest.c
 "data_type maxChild(data_type *a, int parent, int size) ","data_type maxChild(data_type *a, int parent, int size) {
+  // binary heap
   int left, right;
   if ((left = LEFT(parent)) >= size)
     return 0;
@@ -3361,6 +3524,21 @@ jsonValue =
   <|> parseArray
   <|> parseObject
 ",/Users/mbp/workspace/sandbox/compiler/json/json.hs
+solveRPN :: String -> Float,"solveRPN :: String -> Float
+solveRPN = head . foldl foldingFunction [] . words
+    where
+      foldingFunction (x:y:ys) ""*"" = (x * y):ys
+      foldingFunction (x:y:ys) ""+"" = (x + y):ys
+      foldingFunction (x:y:ys) ""-"" = (y - x):ys
+      foldingFunction (x:y:ys) ""/"" = (y / x):ys
+      foldingFunction (x:y:ys) ""^"" = (y ** x):ys
+      foldingFunction (x:xs) ""ln"" = log x:xs
+      foldingFunction xs ""sum"" = [sum xs]
+      foldingFunction xs numberString = read numberString:xs
+main = do
+  print $ solveRPN ""1 2 3 + +""   -- 6.0
+  print $ solveRPN ""90 34 12 33 55 66 + * - + -""  -- 4037.0
+",/Users/mbp/workspace/sandbox/compiler/lang/solveRPN.hs
 -->,"### 委譲 子供 => 親
 ```
 # 移譲することで、継承せずに親のメソッドを利用できる
@@ -3595,19 +3773,6 @@ class Observer:
 	}
 }
 ",/Users/mbp/workspace/sandbox/design-pattern/stack/ack.go
-:Q:fibWithQueue,"# Leafの総和がtot
-def dfs(n):
-    tot = 0
-    stack = [n]
-    while stack:
-        a = stack.pop()
-        if a in [0, 1]:
-            tot += a
-        else:
-            stack.append(a - 1)
-            stack.append(a - 2)
-    return tot
-",/Users/mbp/workspace/sandbox/design-pattern/stack/fib.py
 "def add(p1, p2):","def add(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
@@ -3724,102 +3889,6 @@ def Visitor(object):
         pass
 ```
 ",/Users/mbp/workspace/sandbox/design-pattern/visitor/visitor.md,,
-newtype ParsecT s u m a,"newtype ParsecT s u m a
-    = ParsecT {unParser :: forall b .
-                 State s u
-              -> (a -> State s u -> ParseError -> m b) -- consumed ok
-              -> (ParseError -> m b)                   -- consumed err
-              -> (a -> State s u -> ParseError -> m b) -- empty ok
-              -> (ParseError -> m b)                   -- empty err
-              -> m b
-             }
-#if MIN_VERSION_base(4,7,0)
-     deriving ( Typeable )
-     -- GHC 7.6 doesn't like deriving instances of Typeabl1 for types with
-     -- non-* type-arguments.
-#endif
-",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-parserReturn :: a -> ParsecT s u m a,"parserReturn :: a -> ParsecT s u m a
-parserReturn x
-    = ParsecT $ \s _ _ eok _ ->
-      eok x s (unknownError s)
-",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-parserBind :: ParsecT s u m a -> (a -> ParsecT s u m b) -> ParsecT s u m b,"parserBind :: ParsecT s u m a -> (a -> ParsecT s u m b) -> ParsecT s u m b
-{-# INLINE parserBind #-}
-parserBind m k
-  = ParsecT $ \s cok cerr eok eerr ->
-    let
-        -- consumed-okay case for m
-        mcok x s err =
-            let
-                 -- if (k x) consumes, those go straigt up
-                 pcok = cok
-                 pcerr = cerr
-                 -- if (k x) doesn't consume input, but is okay,
-                 -- we still return in the consumed continuation
-                 peok x s err' = cok x s (mergeError err err')
-                 -- if (k x) doesn't consume input, but errors,
-                 -- we return the error in the 'consumed-error'
-                 -- continuation
-                 peerr err' = cerr (mergeError err err')
-            in  unParser (k x) s pcok pcerr peok peerr                      
-        -- empty-ok case for m
-        meok x s err =
-            let
-                -- in these cases, (k x) can return as empty
-                pcok = cok
-                peok x s err' = eok x s (mergeError err err')
-                pcerr = cerr
-                peerr err' = eerr (mergeError err err') 
-            in  unParser (k x) s pcok pcerr peok peerr
-        -- consumed-error case for m
-        mcerr = cerr
-        -- empty-error case for m
-        meerr = eerr
-    in unParser m s mcok mcerr meok meerr
-",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-parserPlus :: ParsecT s u m a -> ParsecT s u m a -> ParsecT s u m a,"parserPlus :: ParsecT s u m a -> ParsecT s u m a -> ParsecT s u m a
-{-# INLINE parserPlus #-}
-parserPlus m n
-    = ParsecT $ \s cok cerr eok eerr ->
-      let
-          meerr err =
-              let
-                  neok y s' err' = eok y s' (mergeError err err')
-                  neerr err' = eerr $ mergeError err err'
-              in unParser n s cok cerr neok neerr
-      in unParser m s cok cerr eok meerr
-",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-try :: ParsecT s u m a -> ParsecT s u m a,"try :: ParsecT s u m a -> ParsecT s u m a
-try p =
-    ParsecT $ \s cok _ eok eerr ->
-    unParser p s cok eerr eok eerr
-",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-tokenPrimEx showToken nextpos (Just nextState) test,"tokenPrimEx showToken nextpos (Just nextState) test
-  = ParsecT $ \(State input pos user) cok cerr eok eerr -> do
-      r <- uncons input
-      case r of
-        Nothing -> eerr $ unexpectError """" pos
-        Just (c,cs)
-         -> case test c of
-              Just x -> let newpos = nextpos pos c cs
-                            newUser = nextState pos c cs user
-                            newstate = State cs newpos newUser
-                        in seq newpos $ seq newstate $
-                           cok x newstate $ newErrorUnknown newpos
-              Nothing -> eerr $ unexpectError (showToken c) pos
-",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
-manyAccum :: (a -> [a] -> [a]) -> ParsecT s u m a -> ParsecT s u m [a],"manyAccum :: (a -> [a] -> [a]) -> ParsecT s u m a -> ParsecT s u m [a]
-manyAccum acc p =
-    ParsecT $ \s cok cerr eok eerr ->
-    let walk xs x s' err =
-            unParser p s'
-              (seq xs $ walk $ acc x xs)  -- consumed-ok
-              cerr                        -- consumed-err
-              manyErr                     -- empty-ok
-              (\e -> cok (acc x xs) s' e) -- empty-err
-    in unParser p s (walk []) cerr manyErr (\e -> eok [] s e)
-",/Users/mbp/workspace/sandbox/dev/parsec/Text/Parsec/Prim.hs
 :Q:monotonicClockとは?,"不特定のエポックからの単調増加な時刻(時刻が巻き戻ったり settimeofday などで調整されたりしない)
 ",/Users/mbp/workspace/sandbox/lang/go/README.md
 :Q:byteの文字列を文字リストへ変換,"    if ! bytes.Equal([]byte(""abc""), []byte{'a', 'b', 'c'}) {
