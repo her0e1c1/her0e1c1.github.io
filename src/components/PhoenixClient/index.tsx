@@ -1,6 +1,7 @@
 import React = require('react')
 import { Socket } from 'src/phoenix.js'
 
+// <Command value="get2 TSE/7203" channel={channel} event="bot">Predict TSE/7203</Command>
 class Command extends React.Component {
   constructor(props) {
     super(props)
@@ -71,6 +72,7 @@ class Message extends React.Component {
     const {channel, events} = this.state
     events.map(e => {
       channel.on(e, (msg) => {
+        console.log(msg)
         const li = <li key={this.state.children.length}>{msg.body} from {e}</li>
         this.setState({children: [li, ...this.state.children]})
       })
@@ -157,4 +159,7 @@ class PhoenixClient extends React.Component {
   )}
 }
 
-export = PhoenixClient
+export = {
+  PhoenixClient,
+  Topic,
+}

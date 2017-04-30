@@ -22,9 +22,11 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     // ?path=REDIRECT_PATH on github
-    const qs = parser.parse(window.location.search)
+    let qs = parser.parse(window.location.search)
     if (qs.path) {
-      window.location.href = qs.path
+      const path = qs.path
+      delete qs.path
+      window.location.href = `${path}?${parser.stringify(qs)}`
     }
   }
   
@@ -38,10 +40,9 @@ class App extends React.Component {
     )}
 }
 
-// <Redirect from="/" to="/samples/schemejs" />
 const Root = () =>
   <Router history={browserHistory}>
-    <Redirect from="/" to="/chart" />
+    <Redirect from="/" to="/samples/schemejs" />
     <Route path="/" component={App}>
       <IndexRoute component={Main} />
       <Route path="samples" component={Main}>
