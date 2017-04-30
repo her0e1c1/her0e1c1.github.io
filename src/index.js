@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
-import Root from './components/Root.jsx'
-import Reducers from './reducers/index.jsx'
+import Root from './components/Root'
+import Reducers from './reducers'
 import 'whatwg-fetch'
 
 let store = createStore(Reducers)

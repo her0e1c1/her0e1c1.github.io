@@ -49,7 +49,7 @@ const devConfig = {
     },
   ]},
   resolve: {
-    // extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
     plugins: [
       // new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
     ],

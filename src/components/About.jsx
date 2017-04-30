@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
 import { Link } from 'react-router'
-import Header from './Header.jsx'
+import Header from './Header'
 
 const links = [
   ["http://github.com/her0e1c1", "fa-github-square"],

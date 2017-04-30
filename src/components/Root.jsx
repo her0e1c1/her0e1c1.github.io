@@ -1,15 +1,15 @@
 import React from 'react'
 import { Router, Route, Redirect, IndexRoute, browserHistory } from 'react-router'
 
-import Header from './Header.jsx'
-import Main from './Samples/index.jsx'
-import Schemejs from './Samples/Schemejs.jsx'
-import CsvParser from './Samples/CsvParser.jsx'
-import PhoenixClient from './Samples/PhoenixClient.jsx'
-import About from './About.jsx'
-import Resume from './Resume/index.jsx'
-import Code from './Code/index.jsx'
-import CSS from './CSS/index.jsx'
+import Header from './Header'
+import Main from './Samples'
+import Schemejs from './Samples/Schemejs'
+import CsvParser from './Samples/CsvParser'
+import PhoenixClient from './Samples/PhoenixClient'
+import About from './About'
+import Resume from './Resume'
+import Code from './Code'
+import CSS from './CSS'
 
 const Footer = () =>
   <footer />
