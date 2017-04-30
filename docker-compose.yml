@@ -7,9 +7,12 @@ services:
     tty: true
     stdin_open: true
     entrypoint: /bin/bash
-    network_mode: host
+    # can not work on mac
+    # network_mode: host
+    ports:
+      - 10000:10000
     volumes:
-        - .:/host
+      - .:/host
     working_dir: /host
     environment:
       NODE_PATH: /app/node_modules

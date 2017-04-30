@@ -2,6 +2,9 @@
 start:
 	docker exec -it github yarn start
 
+start0:
+	docker exec -it github yarn start0
+
 build:
 	docker exec -it github yarn build
 

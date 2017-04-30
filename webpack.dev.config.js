@@ -1,17 +1,18 @@
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const marked = require("marked");
 const renderer = new marked.Renderer();
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 // const script = require('./script.js')
 
-const IS_PRODUCTION = process.env.NODE_ENV === 'production'
-
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const DEV_PORT = 10000;
 
 const devConfig = {
   entry: {
-    home: './src/index.js',
+    home: './src/index.tsx',
   },
   output: {
     filename: '[name]-[id].js',
@@ -37,8 +38,8 @@ const devConfig = {
     }, {
       test: /\.tsx?$/,
       use: [{
-          loader: "awesome-typescript-loader?configFileName=tsconfig.json"
-       }]
+        loader: "awesome-typescript-loader?configFileName=tsconfig.json"
+      }]
     }, {
       test: /\.jsx?$/,
       exclude: /node_modules/,
@@ -48,12 +49,16 @@ const devConfig = {
     },
   ]},
   resolve: {
+    // extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+    plugins: [
+      // new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
+    ],
     alias: {
       assets: path.resolve('./assets'),
     }
   },
   devServer: {
-    port: 8080
+    port: DEV_PORT
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -66,7 +71,7 @@ const devConfig = {
       }
    }),
     new webpack.DefinePlugin({
-      __HOST__: JSON.stringify(IS_PRODUCTION ? "her0e1c1.github.io" : "localhost:8080"),
+      __HOST__: JSON.stringify(IS_PRODUCTION ? "her0e1c1.github.io" : `localhost:${DEV_PORT}`),
       __WEBSOCKET_URL__: JSON.stringify("ws://128.199.158.226:13309/socket")
     }),
     new ExtractTextPlugin("styles.css")

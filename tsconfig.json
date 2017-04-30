@@ -4,16 +4,17 @@
     "declaration": false,
     "noResolve": false,
     "jsx": "react",
-    "reactNamespace": "RX",
     "module": "commonjs",
     "target": "es5",
     "experimentalDecorators": true,
     "sourceMap": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "outDir": ".",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "."
   },
   "include": [
-    "./src/**/*",
+    "./src/**/*"
   ]
 }
