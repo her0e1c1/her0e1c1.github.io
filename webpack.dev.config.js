@@ -4,8 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const marked = require("marked");
 const renderer = new marked.Renderer();
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
-// const script = require('./script.js')
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const DEV_PORT = 10000;
@@ -15,7 +13,7 @@ const devConfig = {
     home: './src/index.js',
   },
   output: {
-    filename: '[name]-[id].js',
+    filename: '[name].js',  // [hash], [id]
     path: path.resolve('./'),
   },
   module: {
