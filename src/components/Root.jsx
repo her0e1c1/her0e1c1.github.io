@@ -1,7 +1,7 @@
 import React from 'react'
 import { Router, Route, Redirect, IndexRoute, browserHistory } from 'react-router'
 
-import Header from './Header.jsx'
+import Header from './Header'
 import Main from './Samples/index.jsx'
 import Schemejs from './Samples/Schemejs.jsx'
 import CsvParser from './Samples/CsvParser.jsx'

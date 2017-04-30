@@ -14,7 +14,7 @@ const devConfig = {
     home: './src/index.js',
   },
   output: {
-    filename: '[name].js',
+    filename: '[name]-[id].js',
     path: path.resolve('./'),
   },
   module: {
@@ -34,6 +34,11 @@ const devConfig = {
       loader:  ExtractTextPlugin.extract({
         loader: 'css-loader?importLoaders=1',
       })
+    }, {
+      test: /\.tsx?$/,
+      use: [{
+          loader: "awesome-typescript-loader?configFileName=tsconfig.json"
+       }]
     }, {
       test: /\.jsx?$/,
       exclude: /node_modules/,
