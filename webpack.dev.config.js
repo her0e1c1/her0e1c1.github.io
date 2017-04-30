@@ -12,7 +12,7 @@ const DEV_PORT = 10000;
 
 const devConfig = {
   entry: {
-    home: './src/index.tsx',
+    home: './src/index.js',
   },
   output: {
     filename: '[name]-[id].js',

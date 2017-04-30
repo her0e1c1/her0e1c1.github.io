@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 
-import { changeLanguage } from '../actions'
+import { changeLanguage } from '../actions.ts'
 
 const LANGUAGES = [
   ["en", "ENGLISH"],
@@ -20,10 +20,7 @@ const Languages = ({parent}) =>
     )}
   </NavDropdown>
 
-interface Props extends React.Component {
-  translation: any
-}
-class Header extends React.Component<Props, null> {
+class Header extends React.Component {
   constructor(props) {
     super(props)
   }
