@@ -53,6 +53,7 @@ const devConfig = {
     ],
     alias: {
       assets: path.resolve('./assets'),
+      src: path.resolve("./src"),
     }
   },
   devServer: {

@@ -1,5 +1,5 @@
-import React from 'react'
-import {Socket} from './../../phoenix.js'
+import React = require('react')
+import { Socket } from 'src/phoenix.js'
 
 class Command extends React.Component {
   constructor(props) {
@@ -135,7 +135,7 @@ class Topic extends React.Component {
     )}
 }
 
-export default class PhoenixClient extends React.Component {
+class PhoenixClient extends React.Component {
   constructor(props) {
     super(props)
     const socket = new Socket(__WEBSOCKET_URL__)
@@ -156,3 +156,5 @@ export default class PhoenixClient extends React.Component {
       </div>
   )}
 }
+
+export = PhoenixClient
