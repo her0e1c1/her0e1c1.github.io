@@ -6,7 +6,7 @@ start0:
 	docker exec -it github yarn start0
 
 build:
-	docker exec -it github yarn build
+	-docker exec -it github yarn build
 
 up:
 	docker-compose up -d
