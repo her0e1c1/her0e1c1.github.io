@@ -21,12 +21,11 @@ class App extends React.Component {
 
   constructor(props) {
     super(props)
-    // ?path=REDIRECT_PATH on github
     let qs = parser.parse(window.location.search)
     if (qs.path) {
       const path = qs.path
       delete qs.path
-      window.location.href = `${path}?${parser.stringify(qs)}`
+      browserHistory.push(`${path}?${parser.stringify(qs)}`)  // can't use window.location.href on github
     }
   }
   

@@ -32,14 +32,20 @@ class Message extends React.Component {
 
     events.map(e => {
       channel.on(e, (msg) => {
-        console.log(msg.data)
+        console.log(msg)
         this.setState({data: msg.data})
       })
     })
+
   }
 
   render() {
-    const {children, channel, events, data, buy_price} = this.state
+    const {children, channel, events, buy_price} = this.state
+    let data = this.state.data.map(e => {
+      e[0] = new Date(e[0]).getTime();
+      return e
+    })
+    console.log(data)
     var config = {
       rangeSelector: {
         selected: 1
@@ -48,8 +54,8 @@ class Message extends React.Component {
         text: 'Stock Price'
       },
       yAxis: {
-        // max: buy_price ? buy_price + 10: null, or max(data)
-        min: 0,
+        /* max: Math.max(data.map(e => e[1])),
+         * min: Math.min(data.map(e => e[1])),*/
         plotLines: [{
           value: buy_price || -1,
           color: 'green',
@@ -63,6 +69,7 @@ class Message extends React.Component {
       series: [{
         name: 'price',
         data: data,
+        type: "candlestick", // [timestamp, open, high, low, close]
         tooltip: {
           valueDecimals: 2
         }
