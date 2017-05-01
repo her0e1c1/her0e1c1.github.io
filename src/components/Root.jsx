@@ -19,8 +19,7 @@ const Footer = () =>
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props)
+  componentDidMount() {
     let qs = parser.parse(window.location.search)
     if (qs.path) {
       const path = qs.path
