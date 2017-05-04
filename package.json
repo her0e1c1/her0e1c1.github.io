@@ -50,6 +50,7 @@
     "redux": "^3.0.4",
     "scriptjs": "^2.5.8",
     "swipe-js-iso": "^2.0.3",
+    "typings": "^2.1.1",
     "whatwg-fetch": "^2.0.1"
   }
 }
