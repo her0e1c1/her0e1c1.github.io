@@ -66,13 +66,13 @@ size_t round2up(size_t size) {
     // reallocは、古いメモリブロックにあったデータは可能な限り新しいメモリブロックにコピー
     // また、メモリの位置から拡張できるのであれば、そのアドレスから拡張
     // I think if realloc returns aother pinter, it means memcpy is executed so it needs O(n)
-    if (!(a->size + 1 <= a->capacity)) {
+    if (a->size >= a->capacity) { // size == capacityの場合、もう容量がないということ
         a->capacity = round2up(a->size + 1);
         a->data = realloc(a->data, sizeof(data_type) * a->capacity); // copyされてることを前提
     }
     /* You need to move an element one by one from index. */
-    for (int i = a->size; i > index; i--)
-        a->data[i] = a->data[i - 1];
+    for (int i = a->size - 1; i >= index; i--)
+        a->data[i + 1] = a->data[i];
     a->data[index] = value;
     a->size++;
 }
@@ -122,14 +122,41 @@ size_t round2up(size_t size) {
 }
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
 data_type popBack(array_t *a) ,"data_type popBack(array_t *a) {
-    // サイズを減らさない仕様
     if (a->size <= 0)
         exit(1);
-    data_type data = a->data[a->size];
+    data_type data = a->data[a->size-1];
     a->size--;
     return data;
 }
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
+ファイルへの書き込みが競合するコード,"func main() {
+    // 一つのファイルに書き込みをする場合, processとthread safeを考慮する必要がある
+    // process unsafe logging (アドバイザリロック => flockを使う)
+    os.Remove(""/tmp/test.log"")
+	f, err := os.OpenFile(""/tmp/test.log"", os.O_RDWR|os.O_CREATE, 0666)
+	if err != nil {
+		log.Fatal(""error opening file :"", err.Error())
+	}
+    // 競合状態をわざと起こす
+    wg := new(sync.WaitGroup)
+    wg.Add(1000)
+    writer := bufio.NewWriter(f)
+	log.SetOutput(f)
+	for i := 0; i < 1000; i++ {
+		go func(x int) { // 直接iを渡さない!
+			// log.Println(x) // logは排他制御できてるっぽい
+            writer.WriteString(fmt.Sprintf(""%d\n"", i))
+            writer.Flush()
+            wg.Done()
+		}(i)
+	}
+    wg.Wait()
+    // ファイルの中身を確認
+	f, _ = os.OpenFile(""/tmp/test.log"", os.O_RDONLY, 0644)
+    lines, _ := ioutil.ReadAll(f)
+    fmt.Println(string(lines))
+}
+",/Users/mbp/workspace/sandbox/algo/async/file-without-lock.go
 更新処理が競合しないようにするためのコード,"var v1 int32 // 共有メモリ
 var v2 int32 // 共有メモリ(atomicなし)
 func main () {
@@ -365,7 +392,81 @@ fromList = foldl insert Leaf
 insert :: Ord k => Hash k v -> (k, v) -> Hash k v
 insert x (k, v) = turnB $ insert' k v x
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.hs
-深さDのノードで構築されたlinkedリストを作成 (各深さごとのリストが答え),"func F(n *Node) [][]*Node {
+func (n *node) splay() ,"func (n *node) splay() {
+    for n.parent != nil {
+        if n.parent.parent == nil {
+            if n.LeftChild() {
+                n.parent.rotateR()
+            } else {
+                n.parent.rotateL()
+            }
+        } else {
+            if n.parent.LeftChild() {
+                if n.LeftChild() {
+                    n.parent.parent.rotateR()
+                } else {
+                    n.parent.rotateL()
+                }
+                n.parent.rotateR()
+            } else {
+                if n.RightChild() {
+                    n.parent.parent.rotateL()
+                } else {
+                    n.parent.rotateR()
+                }
+                n.parent.rotateL()
+            }
+        }
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/splay.go
+func (r *root) insert(v int) ,"func (r *root) insert(v int) {
+    new := &node{value: v}
+    if r.root == nil {
+        r.root = new
+    } else {
+        var parent *node
+        z := r.root
+        for z != nil {
+            parent = z
+            if v < z.value {
+                z = z.left
+            } else {
+                z = z.right
+            }
+        }
+        new.parent = parent
+        if parent == nil {
+            r.root = new
+        } else if v < parent.value {
+            parent.left = new
+        } else if v > parent.value {
+            parent.right = new
+        }
+        new.splay()
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/splay.go
+"func IsConected(g *Graph, src int, dst int) bool ","func IsConected(g *Graph, src int, dst int) bool {
+	q := []int {src}
+	visited := make([]bool, g.N)
+	for len(q) != 0 {
+		node := q[0]
+		if node == dst {  // srcから始めて、dstに行ければtrue
+			return true
+		}
+		visited[node] = true
+		q = q[1:]
+		for _, next := range g.E[node] {
+			if ! visited[next] {
+				q = append(q, next)
+			}
+		}
+	}
+	return false
+}
+",/Users/mbp/workspace/sandbox/algo/bfs/is_connected.go
+深さDのノードで構築されたlinkedリストを作成 (各深さごとのリストが答え),"func LinkLists(n *Node) [][]*Node {
 	// BFSでもdepth++で降りていく場合がよい例??? (ただしメモリがNode数だけ必要)
 	depth := 0
 	nodes := [][]*Node{{n}}
@@ -387,35 +488,18 @@ insert x (k, v) = turnB $ insert' k v x
 	}
 	return nodes
 }
-",/Users/mbp/workspace/sandbox/algo/bfs/bfs-sum.go
-"func IsConected(g *Graph, src int, dst int) bool ","func IsConected(g *Graph, src int, dst int) bool {
-	q := []int {src}
-	visited := make([]bool, g.N)
-	for len(q) != 0 {
-		node := q[0]
-		if node == dst {  // srcから始めて、dstに行ければtrue
-			return true
-		}
-		visited[node] = true
-		q = q[1:]
-		for _, next := range g.E[node] {
-			if ! visited[next] {
-				q = append(q, next)
-			}
-		}
-	}
-	return false
-}
-",/Users/mbp/workspace/sandbox/algo/bfs/is_connected.go
+",/Users/mbp/workspace/sandbox/algo/bfs/linked-lists.go
 "func (g *Graph) Find(src, dst int) []int ","func (g *Graph) Find(src, dst int) []int {
-	q := []int {src}
+	q := []int{src}
 	visited := make([]bool, g.N)
 	previous := make([]int, g.N)
-	for i := 0; i < g.N; i++ { previous[i] = -1 }  // TODO: how to make values default
+	for i := 0; i < g.N; i++ {
+		previous[i] = -1
+	} // TODO: how to make values default
 	for len(q) != 0 {
 		node := q[0]
 		if node == dst {
-			paths := []int {node}
+			paths := []int{node}
 			for i := previous[node]; i != -1; i = previous[i] {
 				paths = append(paths, i)
 			}
@@ -424,13 +508,13 @@ insert x (k, v) = turnB $ insert' k v x
 		q = q[1:]
 		visited[node] = true
 		for _, next := range g.E[node] {
-			if ! visited[next] {
+			if !visited[next] {
 				q = append(q, next)
 				previous[next] = node
 			}
 		}
 	}
-	return []int {}
+	return []int{}
 }
 ",/Users/mbp/workspace/sandbox/algo/bfs/shortest_path.go
 binary-search-tree structure,"// left <= parent <= right
@@ -574,12 +658,12 @@ void bst_delete(bst_t **bst, data_type data) {
 	return max - min + 1
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-search/count-elem.go
-長さlのソート配列に含まれるNの個数,"countElem xs n = (foldl f 0 bits) - (foldl g (2^32) bits) + 1 where
+長さlのソート配列に含まれるNの個数,"countElem xs n = (foldl f 0 bits) - (foldl g (2^32-1) bits) + 1 where -- 0から11111....を探索
   f acc x = if f2 (acc + x) then acc + x else acc
   g acc x = if g2 (acc - x) then acc - x else acc  -- (head xs) > n なら-1を返すべき. (head xs) < nの場合は(length xs)を返す
   f2 a = (length xs) > a && xs !! a <= n
-  g2 a = (length xs) <= a || a >= 0 && xs !! a >= n  -- 配列のサイズを超える場合は、indexが小さくなる方向へ
-  bits = reverse [2^i | i<-[0..32]]
+  g2 a = (length xs) <= a || xs !! a >= n  -- 配列のサイズを超える場合は、indexが小さくなる方向へ
+  bits = reverse [2^i | i<-[0..31]]
 ",/Users/mbp/workspace/sandbox/algo/binary-search/count-elem.hs
 x^2>=15241578750190521を満たす最小のxを求める,"func findMin(N int) int {
 	g := func(x int) bool {
@@ -606,7 +690,7 @@ findMin n = foldl go (2^32) (reverse [2^i | i<-[0..32]]) where
 ",/Users/mbp/workspace/sandbox/algo/binary-search/find-min-x.hs
 15241578750190521の平方根,"func findSqrt(n int) (int, bool) {
 	f := func(x int) int {
-        return x * x - n
+        return x * x - n // max x st x^2 >= n
 	}
 	lo, hi := 0, 2<<31
 	for lo <= hi {
@@ -646,12 +730,13 @@ Longest Increasing Subsequence O(NlogN),"func lis(a []int) int {
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-search/lis.go
 longest-increasing-subsequence O(n^2),"lis :: [Int] -> [Int]
-lis = g where
- c a b = compare (length a) (length b)
- -- g [] = []
- g (x:xs) = x : maximumBy c (map (h . flip drop xs) [0..(length xs)]) where
-  h [] = []
-  h ys = if head ys > x then g ys else []
+lis = f where
+ f [] = []
+ f (x:xs) = x:(f2 $ map f $ filter f1 $ (scanr (:) []) $ xs) where
+   f1 [] = False
+   f1 (y:_) = (y > x)
+   f2 [] = []
+   f2 yss = maximumBy (\a b -> compare (length a) (length b)) yss
 ",/Users/mbp/workspace/sandbox/algo/binary-search/lis.hs
 ある配列をK個に区分したときの、区分配列のうち最大和の最小値を求める(ただし要素がない配列も１つと数えることが可能),"func f(sum, K int, a []int) bool {
     // 最大和をsumとした時に、実際の和がsumにならない時は、それよりも小さいsumが存在するということ
@@ -733,12 +818,16 @@ hasNode n1@(Node a1 l r) n2@(Node a2 _ _)
 			return InOrderPrev(n.Parent, n)
 		}
 	} else {
-        if n.Right == nil || n.Right == prev {
+        if n.Right == prev {
 			return n
 		} else if n.Left == prev {
 			return InOrderPrev(n.Parent, n)
-		} else {
-			return InOrderPrev(n.Right, n)
+		} else { // n.Parent == prev
+            if n.Left != nil { 
+                return InOrderPrev(n.Right, n)
+            } else {
+                return n
+            }
 		}
 	}
 }
@@ -754,9 +843,7 @@ pathK n k = go n [] where
   go n@(Node p l r) path = a ++ b ++ c where
     a = go l (p:path)
     b = go r (p:path)
-    c = filter ((k==).sum) (f (p:path))
-f :: [a] -> [[a]]
-f = foldr (\x acc -> [[x]] ++ [x:ys | ys <- acc]) []
+    c = filter ((k==).sum) (scanl (flip (:)) [] (p:path))
 ",/Users/mbp/workspace/sandbox/algo/binary-tree/path-k.hs
 Return true If a sub tree is a part of the parent tree,"func subTree(tree, sub *Node) bool {
 	if sub == nil { // 空集合は任意の集合の部分集合
@@ -774,11 +861,11 @@ Return true If a sub tree is a part of the parent tree,"func subTree(tree, sub *
 "func matchTree(a, b *Node) bool ","func matchTree(a, b *Node) bool {
 	if a == nil && b == nil {
 		return true
-	} else if a != nil && b != nil && a.Value == b.Value {
-		return matchTree(a.Left, b.Left) && matchTree(a.Right, b.Right)
-	} else {
-		return false
-	}
+	} else if a == nil || b == nil {
+		return false 
+    }
+    // a, bはnilではない
+	return a.Value == b.Value && matchTree(a.Left, b.Left) && matchTree(a.Right, b.Right)
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-tree/sub-tree.go
 2分木におけるsub treeのnodeの和がK,"func sumK(n *Node, k int) {
@@ -796,6 +883,176 @@ Return true If a sub tree is a part of the parent tree,"func subTree(tree, sub *
 	dfs(n)
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-tree/sum-k.go
+異なるn個のn個以下の組み合わせ,"func allSubsets(A []int) [][]int {
+	var dfs func(int) [][]int
+	dfs = func(i int) [][]int {
+		if i == len(A) {
+			return [][]int{{}}
+		} else {
+			var a [][]int
+			for _, b := range dfs(i + 1) {
+				a = append(a, b)
+				a = append(a, append([]int{A[i]}, b...))
+			}
+			return a
+		}
+	}
+	return dfs(0)
+}
+",/Users/mbp/workspace/sandbox/algo/cases/all-subsets.go
+異なるn個のn個以下の組み合わせ,"comb :: Num a => [a] -> [[a]]
+comb = go where
+  go [] = [[]]  -- WARN: go [] = []
+  go (x:xs) = go xs ++ [x:ys|ys<-go xs]
+",/Users/mbp/workspace/sandbox/algo/cases/all-subsets.hs
+集合直積 (異なる要素を持つ集合から１つずつ選んだ場合の組み合わせ),"func cartesianProduct(A [][]int) [][]int {
+	var dfs func(int) [][]int
+	dfs = func(i int) [][]int {
+		if i == len(A) {
+			return [][]int{{}} // NO [][]int{}
+		} else {
+			var a [][]int
+            for _, b := range A[i] {
+                for _, c := range dfs(i+1) {
+                    // a = append(a, append(c, b))
+                    a = append(a, append([]int{b}, c...))
+                }
+            }
+			return a
+		}
+	}
+	return dfs(0)
+}
+",/Users/mbp/workspace/sandbox/algo/cases/cartesian-product.go
+集合直積 (異なる要素を持つ集合から１つずつ選んだ場合の組み合わせ),"f :: [[Int]] -> [[Int]]
+f = go where
+ go [] = [[]]
+ go (xs:xss) = [x:ys | x<-xs, ys<-go xss] 
+",/Users/mbp/workspace/sandbox/algo/cases/cartesian-product.hs
+異なるn個からr個取り出す組み合わせ(nCr),"func comb(A []int, N int) [][]int {
+	var dfs func(int, int, []int) [][]int
+	dfs = func(i, n int, acc []int) [][]int {
+		if n == 0 {
+			return [][]int{acc}
+		} else if i == len(A) {
+			return [][]int{}
+		} else {
+			var a [][]int // Cと違いheapに作られるので関数が終了しても参照可能
+            // appendは局所的に破壊的な操作にならない
+			a = append(a, dfs(i+1, n-1, append(acc, A[i]))...)
+			a = append(a, dfs(i+1, n, acc)...)
+			return a
+		}
+	}
+	return dfs(0, N, []int{})
+}
+",/Users/mbp/workspace/sandbox/algo/cases/combination.go
+異なるn個からr個取り出す組み合わせ(nCr),"comb :: (Num a) => [a] -> Int -> [[a]]
+comb = go where
+  go _ 0      = [[]]  -- 先頭に記述すること
+  go [] _     = []
+  go (x:xs) n = [x:ys | ys <- go xs (n-1)] ++ go xs n
+",/Users/mbp/workspace/sandbox/algo/cases/combination.hs
+異なるn個からr個取り出す組み合わせ(nCr),"func nCr(N, R int) int {
+    dp := make([]int, N + 1)
+    for n := 0; n <= N; n++ {
+        for r := N; r > 0; r-- {  // 逆順にするとr-1が上書きされない!
+            dp[r] += dp[r-1] // be careful of overflow
+        }
+        dp[0] = 1
+    }
+    return dp[R]
+}
+",/Users/mbp/workspace/sandbox/algo/cases/nCr.go
+nCr,"comb :: (Integral a) => a -> a -> a
+comb n r
+  | r == 0 || n == r = 1
+  | 0 <= r && r <= n = comb (n-1) r + comb (n-1) (r-1)
+",/Users/mbp/workspace/sandbox/algo/cases/nCr.hs
+repeated Combination (nHr),"h = go where
+  go xs 0 = [[]]
+  go [] _ = []  -- fail
+  go (x:xs) n = [x:ys | ys <- go (x:xs) (n-1)]  ++ go xs n
+",/Users/mbp/workspace/sandbox/algo/cases/nHr.hs
+repeated Permutation 重複順列 (nPIr),"p :: (Num a) => [a] -> Int -> [[a]]
+p = go where
+  go xs 0 = [[]]
+  go xs n = [x:ys | x <- xs, ys <- go xs (n-1)]
+",/Users/mbp/workspace/sandbox/algo/cases/nPIr.hs
+異なるn個の中からr個並べる場合の数(nPr),"func nPr(A []int, r int) [][]int {
+	a := [][]int{}
+	var dfs func(n int)
+	dfs = func(n int) {
+		if n == r {
+			b := make([]int, len(A))  // copyではサイズを前もって指定
+			copy(b, A)
+			a = append(a, b)
+		} else {
+			// n=0なら、左端に全ての要素をswap移動. n=1はそれ以外を移動...
+			for i := n; i < len(A); i++ {
+				// swapは破壊的 <=> appendは破壊的でない. ゆえに並列化しづらい???
+				A[i], A[n] = A[n], A[i]
+				dfs(n + 1)
+				A[i], A[n] = A[n], A[i]
+			}
+		}
+	}
+	dfs(0)
+	return a
+}
+",/Users/mbp/workspace/sandbox/algo/cases/nPr.go
+異なるn個の中から、r個並べる場合の数(nPr),"permutation :: (Num a, Eq a) => [a] -> Int -> [[a]]
+permutation = go [] where
+  go acc _ 0  = [acc]
+  go acc [] _ = []  -- fail
+  go acc xs n = concatMap (\(y, ys) -> go (y:acc) ys (n-1)) $ split xs
+-- 何を今までに使用したか判別するのが、多分難しい
+-- [1,2,3] => [(1, [2,3]), (2, [1,3]), (3, [1,2])] のように分割
+split :: [a] -> [(a, [a])]
+split = go [] where
+  go acc []     = []
+  go acc (x:xs) = [(x, acc++xs)] ++ go (x:acc) xs
+",/Users/mbp/workspace/sandbox/algo/cases/nPr.hs
+func (n *Node) String () string ,"func (n *Node) String () string {
+	v := ""("" + fmt.Sprintf(""%d"", n.Value)
+	if n.Left != nil {
+		v += "" "" + n.Left.String()
+	}
+	if n.Right != nil {
+		v += "" "" + n.Right.String()
+	}
+	v += "")""
+	return v
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) LeftChild () bool ,"func (n *Node) LeftChild () bool {
+	if n.Parent == nil {
+		return false
+	}
+	return n == n.Parent.Left
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) RightChild () bool ,"func (n *Node) RightChild () bool {
+	if n.Parent == nil {
+		return false
+	}
+	return n == n.Parent.Right
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func FromSlice(slice []int) *Node ,"func FromSlice(slice []int) *Node {
+	return fromSlice(slice, 0, nil)
+}
+func fromSlice(slice []int, i int, p *Node) *Node {
+	if i >= len(slice) {
+		return nil
+	}
+	n := &Node{Value: slice[i]}
+	n.Parent = p
+	n.Left = fromSlice(slice, i*2+1, n)  // 0(p) -> 1(c)
+	n.Right = fromSlice(slice, i*2+2, n) // 0(p) -> 2(c)
+	return n
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
 type Graph struct ,"type Graph struct {
 	N int
 	E [][]int
@@ -844,6 +1101,10 @@ func (g *MatrixGraph) Neighbor(node int) []int {
 ",/Users/mbp/workspace/sandbox/algo/common/graph.go
 お釣りの問題(最小となる支払い方法),"func changeMoney(coins []int, sum int) int {
 	dp := make([]int, sum+1) // dp[s]は、sまで行くのに必要なコインの最小枚数(各コインのスナップショット)
+    for i := 0; i < sum+1; i++ {
+        dp[i] = math.MaxInt32
+    }
+    dp[0] = 0
 	for i := len(coins) - 1; i >= 0; i-- {
 		for s := sum; s > 0; s-- {
             // knapsackとは異なり、失敗する場合がある(==なので条件が厳しい)
@@ -852,14 +1113,14 @@ func (g *MatrixGraph) Neighbor(node int) []int {
                 if prev < 0 {
                     break
                 }
-                if prev == 0 || dp[prev] != 0 { // 手前のコインから遷移できる条件
-                    if dp[s] > dp[prev] + n || dp[s] == 0 { // s!=0なので
-                        dp[s] = dp[prev] + n
+                if prev >= 0 && dp[prev] != math.MaxInt32 { // 手前のコインから遷移できる条件
+                    if m := dp[prev] + n; dp[s] > m {
+                        dp[s] = m
                     }
                 }
             }
 		}
-        fmt.Println(dp)
+        // fmt.Println(dp)
 	}
     return dp[sum]
 }
@@ -874,25 +1135,20 @@ solve (c:coins) csum = concatMap (g . f) [0 .. (div csum c)]
     f x = map ((take x (repeat c)) ++) (solve coins (csum - c * x))
     g = filter (\a-> sum a == csum)
 ",/Users/mbp/workspace/sandbox/algo/dp/change-money.hs
-circusTowerにおける型,"type Pair struct {
+circusTower (身長、体重) がそれぞれ下にいる人よりも小さくなることを制限として、最も長い人タワーを作る時の組み合わせ,"type Pair struct {
 	height int
 	width  int
 }
-type Pairs []Pair
-func (p Pairs) Len() int      { return len(p) }
-func (p Pairs) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
-func (p Pairs) Less(i, j int) bool {
-	if p[i].height < p[j].height {
-		return true
-	} else if p[i].height == p[j].height {
-		return p[i].width <= p[j].width
-	} else {
-		return false
-	}
-}
-",/Users/mbp/workspace/sandbox/algo/dp/circus-tower.go
-circusTower (身長、体重) がそれぞれ下にいる人よりも小さくなることを制限として、最も長い人タワーを作る時の組み合わせ,"func circusTower(A []Pair) []Pair {
-	sort.Sort(Pairs(A))
+func circusTower(A []Pair) []Pair {
+	sort.Slice(A, func(i, j int) bool {
+        if A[i].height < A[j].height {
+            return true
+        } else if A[i].height == A[j].height {
+            return A[i].width < A[j].width
+        } else {
+            return false
+        }
+    })
 	var dfs func(int) []Pair
 	dfs = func(i int) []Pair {
 		if i == len(A) {
@@ -917,6 +1173,7 @@ circusTower (身長、体重) がそれぞれ下にいる人よりも小さく�
 ",/Users/mbp/workspace/sandbox/algo/dp/circus-tower.go
 "func solve(sizes, prices []int, capacity int) int ","func solve(sizes, prices []int, capacity int) int {
 	dp := make([]int, capacity + 1)
+    // (price, size) = (0, 無限) でどこからでも一つ前から移動できることが前提
 	for s := 0; s < len(sizes); s++ {
 		for c := capacity; c >= sizes[s]; c-- { // 再利用ができるのは、i=>i+1へ単純に値を渡している場合.
             // c-size[s]とcより小さい値を使っているので逆順の必要あり
@@ -1207,20 +1464,26 @@ f x y = uncurry f (x, y)
    (list x y z))
  )
 ",/Users/mbp/workspace/sandbox/algo/fp/amb.scm
-":Q:[1..10]=>[2,4,6,8,10,1,3,5,7,9]","  print $ (uncurry (++) . partition even) [1..10]
+"[1,2,3] => [[1,2,3],[2,3],[3],[]]","  print $ (scanr (:) []) [1..3]
 ",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-":Q:[-5..5]=>[0,1,2,3,4,5,-5,-4,-3,-2,-1]","  print $ (uncurry (flip (++)) . break (>=0)) [-5..5]
+"[1,2,3] => [[1,2,3],[2,3],[3],[]]","  print $ reverse $ (scanl (flip (:)) []) (reverse [1..3])
 ",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-:Q:[1..10]=>偶数だけ取り出す=>1加算=>Sum,"  -- (.)は、引数が一つだけの関数を連結するときに使用できる
+"[1,2,3] => [[1,2,3],[2,3],[3]]","  print $ scanr1 (++) $ map (:[]) [1..3] -- scanr1は各要素と戻り値の型が同一でないと使えない
+",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
+"[1..10]=>[2,4,6,8,10,1,3,5,7,9]","  print $ (uncurry (++) . partition even) [1..10]
+",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
+"[-5..5]=>[0,1,2,3,4,5,-5,-4,-3,-2,-1]","  print $ (uncurry (flip (++)) . break (>=0)) [-5..5]
+",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
+[1..10]=>偶数だけ取り出す=>1加算=>Sum,"  -- (.)は、引数が一つだけの関数を連結するときに使用できる
   print $ (foldl (+) 0 . map (+1) . filter even) [1..10]  -- 35
 ",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-":Q:[Left1,Right2,Left3]=>[1,3]","  print $ [x | (Left x) <- [Left 1, Right 2, Left 3]]
+"[Left1,Right2,Left3]=>[1,3]","  print $ [x | (Left x) <- [Left 1, Right 2, Left 3]]
 ",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-":Q:[1..3]=>[Just1,Just2,Just3]","  print $ map Just [1..3]
+"[1..3]=>[Just1,Just2,Just3]","  print $ map Just [1..3]
 ",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-":Q:[1..5]=>[[1..5],[2..5],[3,4,5],[4,5],[5],[]]","  print $ let xs = [1..5] in map (flip drop xs) [0..length xs]
+"[1..5]=>[[1..5],[2..5],[3,4,5],[4,5],[5],[]]","  print $ let xs = [1..5] in map (flip drop xs) [0..length xs]
 ",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
-:Q:[a]==[a](uncurry使う),"  -- uncurryは、２タプルの１結果を２引数の関数に適用するのに使う
+[a]==[a](uncurry使う),"  -- uncurryは、２タプルの１結果を２引数の関数に適用するのに使う
   print $ uncurry (++) (splitAt 1 [1..5])
 ",/Users/mbp/workspace/sandbox/algo/fp/basic.hs
 :Q:チャーチ数0,"; 0 := λ f x . x
@@ -1382,11 +1645,23 @@ type Point struct {
     return -1
 }
 ",/Users/mbp/workspace/sandbox/algo/graph/a-star.go
+func BellmanFord(start int) ,"func BellmanFord(start int) {
+    N := 10
+    // d[j] = min { d[i] + cost(i,j) | e(i,j) in E}
+    // 負の閉回路があるならば、閉回路を無限に通過することで、最短距離は存在しない.
+    d := make([]int, N)
+    for i := 0; i < N; N++ {
+        d[i] = 1 << 30
+    }
+    d[start] = 0
+    for 
+}
+",/Users/mbp/workspace/sandbox/algo/graph/bellman–ford.go
 dijkstraとは?,"// 全てのエッジのコストが 0 以上であること
 // 現在のnodeから隣接ノードのコストを計算. 最小コストを次の現在のnodeにする
 ",/Users/mbp/workspace/sandbox/algo/graph/dijkstra.go
 "func dijkstra(g *MatrixGraph, start int) []int ","func dijkstra(g *MatrixGraph, start int) []int {
-	pq := &Heap{start}
+	pq := &Heap{&item{index: start, cost: 0}}
 	heap.Init(pq)
 	visited := make([]bool, g.N)
 	costs := make([]int, g.N) // total costs from start to each node
@@ -1395,13 +1670,14 @@ dijkstraとは?,"// 全てのエッジのコストが 0 以上であること
 	}
 	costs[start] = 0
 	for pq.Len() != 0 {
-		n := heap.Remove(pq, 0).(int)
+		itm := heap.Remove(pq, 0).(*item)
+        n := itm.index
 		visited[n] = true
 		for _, next := range g.Neighbor(n) {
 			c := costs[n] + g.W[n][next]
 			if !visited[next] && c < costs[next] {
 				costs[next] = c
-				heap.Push(pq, next) // 存在確認した方が良い?
+				heap.Push(pq, &item{index: next, cost: c}) // 存在確認した方が良い?
 			}
 		}
 	}
@@ -1438,6 +1714,25 @@ dijkstraとは?,"// 全てのエッジのコストが 0 以上であること
 	return a
 }
 ",/Users/mbp/workspace/sandbox/algo/graph/floyd.go
+"func Kruskal(edges []*Edge, N int) int ","func Kruskal(edges []*Edge, N int) int {
+    // グラフのノード数がNなら、全域木の辺の数はN-1本
+    // 最小全域木は、全域木を構成する辺のコストの総和が最小(Treeなので閉回路にならない)
+    // グラフの辺をコストが小さい順に閉路を作らないよう貪欲に選択
+    uf := NewUnionFind(N)
+    sort.Slice(edges, func(i, j int) bool {
+        return edges[i].cost < edges[j].cost
+    })
+    sum := 0
+    for _, e := range edges {
+        if !uf.IsSame(e.from, e.to) {
+            fmt.Println(e.from, "" => "", e.to)
+            sum += e.cost
+            uf.Union(e.from, e.to)
+        }
+    }
+    return sum
+}
+",/Users/mbp/workspace/sandbox/algo/graph/kruskal.go
 "func prim(g *MatrixGraph, start int) int ","func prim(g *MatrixGraph, start int) int {
     // 現在のMST(Minimum spanning tree)に含まれないノードのうち、最小枝を持つものをMSTに加える (貪欲)
 	pq := &Heap{node{parent: start, index: start, cost: 0}}
@@ -1452,10 +1747,10 @@ dijkstraとは?,"// 全てのエッジのコストが 0 以上であること
 		n := heap.Remove(pq, 0).(node)
 		visited[n.index] = true
         sum += n.cost
-        fmt.Println(n.parent, "" => "", n.index)
 		for _, next := range g.Neighbor(n.index) {
 			c := g.W[n.index][next]
 			if !visited[next] && c < costs[next] {
+                fmt.Println(n.index, "" => "", next)
 				costs[next] = c
 				heap.Push(pq, node{parent: n.index, index: next, cost: c}) // 上書きすべき
 			}
@@ -2782,15 +3077,15 @@ split xs = (xs, [])  -- after match
 	}
 	// pivotは左右を含むし、どこでもいいはず、なら左端に決め打つ
 	var k, pivot int
-	k, pivot = left, left
+	k, pivot = left, a[left]
 	for i := left + 1; i <= right; i++ {
-		if a[i] < a[pivot] {
+		if a[i] < pivot {
 			k++ // kは前の最後の保存場所
 			a[i], a[k] = a[k], a[i]
 		}
 	}
 	// pivotを(全体の)k番目にする (覚えておくと組み立てやすい)
-	a[pivot], a[k] = a[k], a[pivot]
+	a[left], a[k] = a[k], a[left]
 	// pivotを境にソートされているので、kを含まなくて良い
 	QuickSort(a, left, k-1)
 	QuickSort(a, k+1, right)
@@ -2800,6 +3095,26 @@ positiveLsdSort :: (Bits a) => [a] -> [a],"positiveLsdSort :: (Bits a) => [a] ->
 positiveLsdSort = flip (foldl f) [0..bitSize (0 :: Int)] where
   f acc x = uncurry (++) $ partition (not . flip testBit x) acc
 ",/Users/mbp/workspace/sandbox/algo/sort/radix-sort.hs
+先頭からpos番目までをソートした配列を返す,"func SortUntil(a []int, left, right, pos int) {
+	if !(left < right) {
+		return
+	}
+    // QuickSortではpivotがk番目にあることを求めることができる.
+    // それを利用して、先頭だけが欲しい場合は、[0, k-1]までをソートすれば済む
+    k, pivot := left, a[left]
+    for i := left + 1; i <= right; i++ {
+        if (a[i] < pivot) {
+            k++
+            a[i], a[k] = a[k], a[i]
+        }
+    }
+    a[left], a[k] = a[k], a[left]
+    SortUntil(a, left, k-1, pos)
+    if pos > k { // posが小さい時は、log(len(a))と高速化
+        SortUntil(a, k+1, right, pos)
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/sort/sort-until.go
 "func hasArrayTwoCandidates(arr []int, sum int) bool ","func hasArrayTwoCandidates(arr []int, sum int) bool {
     // 配列がソートされている場合に限り
     // 2つの要素の和があるsumになる場合を探すのはO(n)
@@ -4973,6 +5288,10 @@ where c2.other_id = 1;
 :Q:最も良い成績を選択(ただし結果は1recordのみ),"-- 重複した値をもたず、結果が1レコードのみで良ければ、order byが使える
 select * from grade order by score desc limit 1;
 ",/Users/mbp/workspace/sandbox/sql/getMaxAgePerson.sql
+insertでの排他制御,"updateとは異なり楽観ロックをかけることができないので、unique制約を使い整合性を保つ
+unique(parent_id default=0, user_id)
+この場合、もし競合状態が発生しても一つしか生成されない
+",/Users/mbp/workspace/sandbox/sql/lock.txt
 ":Q:varchar(5)の時の""abcdef""の挙動","insert into size_test (n1) values (""abcdef"");
 -- strictの場合は、エラーとなる。
 -- 警告の場合は、truncateされる(""abcdef"" => ""abcde"")
