@@ -179,6 +179,47 @@ func main () {
     fmt.Println(v1, v2) // 1000 855
 }
 ",/Users/mbp/workspace/sandbox/algo/async/memory-atomic.go
+AVL Insert,"func Insert(n *Node, v int) *Node {
+    if n == nil {
+        return New(v)
+    } else if v ==  n.Value {
+        return n // DO NOTHING
+    } else if v < n.Value {
+        n.Left = Insert(n.Left, v)
+        if n.Left.Height() - n.Right.Height() >= 2 { // Leftに挿入=>Leftの高さが大きい
+            if v < n.Left.Value {
+                n = n.RotateR()
+            } else {
+                n.Left = n.Left.RotateL()
+                n = n.RotateR()
+            }
+        }
+    } else {
+        n.Right = Insert(n.Right, v)
+        if n.Right.Height() - n.Left.Height() >= 2 {
+            if v > n.Right.Value {
+                n = n.RotateL()
+            } else {
+                n.Right = n.Right.RotateR()
+                n = n.RotateL()
+            }
+        }
+    }
+    n.UpdateHeight()
+    return n
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/avl.go
+AVL IsBalanced,"func IsBalanced(n *Node) bool {
+    if n == nil {
+        return true
+    }
+    if abs(n.Left.Height() - n.Right.Height()) <= 1 {
+        return IsBalanced(n.Left) && IsBalanced(n.Right)
+    } else {
+        return false
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/avl.go
 red-black tree structure,"enum _color {
   BLACK = 1,
   RED = 2,
@@ -193,65 +234,6 @@ struct _rbtree {
 };
 typedef struct _rbtree rbtree_t;
 typedef enum _color color_e;
-",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
-"#define APPEND_L(p, c) {                        \","#define APPEND_L(p, c) {                        \
-    (p)->left  = (c);                           \
-    if ((c) != NULL) (c)->parent = (p);         \
-  }
-",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
-"#define APPEND_R(p, c) {                        \","#define APPEND_R(p, c) {                        \
-    (p)->right = (c);                           \
-    if ((c) != NULL) (c)->parent = (p);         \
-  }
-",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
-"#define APPEND_P(root, tree, c) {                 \","#define APPEND_P(root, tree, c) {                 \
-    if ((tree)->parent == NULL) {                \
-      (*root) = (c);                              \
-      (c)->parent = NULL;                         \
-    } else { _APPEND_P(tree, c); }               \
-  }
-#define _APPEND_P(c1, c2) {                     \
-    if ((c1)->parent->left == (c1))             \
-      { (c1)->parent->left = (c2); }            \
-    else { (c1)->parent->right = (c2); }        \
-    (c2)->parent = (c1)->parent;                \
-    (c1)->parent = NULL;                        \
-  }
-",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
-#define LEFT_CHILD(c) ((c)->parent->left == (c)),"#define LEFT_CHILD(c) ((c)->parent->left == (c))
-",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
-#define RIGHT_CHILD(c) ((c)->parent->right == (c)),"#define RIGHT_CHILD(c) ((c)->parent->right == (c))
-",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
-"void rotateR(rbtree_t **root, rbtree_t *tree) ","void rotateR(rbtree_t **root, rbtree_t *tree) {
-  // a < x < b < y c < z < d
-  // ((a x b) y (c z d)) => ((_ a _) x (b y (c z d)))
-  if (tree == NULL || tree->left == NULL) {
-    printf(""Can't rotate"");
-    exit(1);
-  }
-  rbtree_t *l = tree->left;
-  rbtree_t *lr = l->right;
-  APPEND_P(root, tree, l);
-  APPEND_R(l, tree);
-  APPEND_L(tree, lr);
-  // ((a R2 b) R1 c) => (a R2 (b R1 c)) の場合、黒の経路数変わらず
-  // ((a R b) B c) => (a R (b B c)) の場合、aの経路においてBが一つ減る
-  // => (a B (b R c)) と入れ替えることで、a側1つ増え, c側そのまま, bも変わらず
-}
-",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
-"void rotateL(rbtree_t **root, rbtree_t *tree) ","void rotateL(rbtree_t **root, rbtree_t *tree) {
-  // a < x < b < y c < z < d
-  // ((a x b) y (c z d)) => (((a x b) y c) z (_ d _))
-  if (tree == NULL || tree->right == NULL) {
-    printf(""Can't rotate"");
-    exit(1);
-  }
-  rbtree_t *r = tree->right;
-  rbtree_t *rl = r->left;
-  APPEND_P(root, tree, r);
-  APPEND_L(r, tree);
-  APPEND_R(tree, rl);
-}
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
 "void rbtree_balance(rbtree_t **root, rbtree_t *tree) ","void rbtree_balance(rbtree_t **root, rbtree_t *tree) {
   /*
@@ -306,31 +288,6 @@ typedef enum _color color_e;
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
-"void rbtree_balance(rbtree_t **root, rbtree_t *tree) ","void rbtree_balance(rbtree_t **root, rbtree_t *tree) {
-  // reduce cases from 6 to 4
-  // you need to bottom up a tree to root althoug coloring only a current tree BLACK
-  rbtree_t *p, *u;  // parent, uncle
-  while ((p = tree->parent) && p->color == RED && p->parent) {
-    if (LEFT_CHILD(p)) {
-      if (RIGHT_CHILD(tree)) {
-        tree = p;
-        rotateL(root, tree);
-      }
-      tree->color = BLACK;
-      rotateR(root, tree->parent->parent);
-    } else {
-      if (LEFT_CHILD(tree)) {
-        tree = p;
-        rotateR(root, tree);
-      }
-      tree->color = BLACK;
-      rotateL(root, tree->parent->parent);
-    }
-    tree = tree->parent;
-  }
-}
-*/
-",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
 "void rbtree_insert(rbtree_t **root, rbtree_data_type data) ","void rbtree_insert(rbtree_t **root, rbtree_data_type data) {
   rbtree_t *node = (rbtree_t *)malloc(sizeof(rbtree_t));
   if (node == NULL) {
@@ -370,6 +327,67 @@ typedef enum _color color_e;
   (*root)->color = BLACK;
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
+Red-Black,"func Insert(n *Node, v int) *Node {
+    new := n.Root().Insert(v)
+    Balance(new)
+    new.Root().Color = BLACK
+    return new
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.go
+func Balance(n *Node) ,"func Balance(n *Node) {
+    for n.Parent != nil && n.Parent.Color == RED && n.Parent.Parent != nil {
+        p := n.Parent
+        if p.LeftChild() {
+            if n.RightChild() {
+                n = p
+                n.RotateL()
+            }
+            n.Parent.Parent.RotateR()
+        } else {
+            if p.LeftChild() {
+                n = p
+                n.RotateR()
+            }
+            n.Parent.Parent.RotateL()
+        }
+        n.Color = BLACK
+        n = p // 最終的に2つ上に移動
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.go
+func IsBalanced(n *Node) bool ,"func IsBalanced(n *Node) bool {
+    if n == nil {
+        return true
+    }
+    if n.Color == RED {
+        if n.Left != nil && n.Left.Color == RED {
+            return false
+        }
+        if n.Right != nil && n.Right.Color == RED {
+            return false
+        }
+    }
+    if BlackNumber(n.Left) != BlackNumber(n.Right) {
+        return false
+    }
+    return IsBalanced(n.Left) && IsBalanced(n.Right)
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.go
+func BlackNumber(n *Node) int ,"func BlackNumber(n *Node) int {
+    if n == nil {
+        return 1
+    }
+    c := 0
+    if n.Color == BLACK {
+        c = 1
+    }
+    l, r := BlackNumber(n.Left), BlackNumber(n.Right)
+    if l < r {
+        return c + r
+    }
+    return c + l
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.go
 :Q:赤黒木のdata,"data Color = B | R deriving Show
 data Hash k v = Leaf | Node Color (Hash k v) (k, v) (Hash k v) deriving Show
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.hs
@@ -392,59 +410,63 @@ fromList = foldl insert Leaf
 insert :: Ord k => Hash k v -> (k, v) -> Hash k v
 insert x (k, v) = turnB $ insert' k v x
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.hs
-func (n *node) splay() ,"func (n *node) splay() {
-    for n.parent != nil {
-        if n.parent.parent == nil {
+func Splay(n *Node) ,"func Splay(n *Node) {
+    for n.Parent != nil {
+        if n.Parent.Parent == nil {
             if n.LeftChild() {
-                n.parent.rotateR()
+                n.Parent.RotateR() // zig
             } else {
-                n.parent.rotateL()
+                n.Parent.RotateL()
             }
         } else {
-            if n.parent.LeftChild() {
+            if n.Parent.LeftChild() {
                 if n.LeftChild() {
-                    n.parent.parent.rotateR()
+                    n.Parent.Parent.RotateR() // zig zig (祖父が先)
                 } else {
-                    n.parent.rotateL()
+                    n.Parent.RotateL() // zig zag
                 }
-                n.parent.rotateR()
+                n.Parent.RotateR()
             } else {
                 if n.RightChild() {
-                    n.parent.parent.rotateL()
+                    n.Parent.Parent.RotateL()
                 } else {
-                    n.parent.rotateR()
+                    n.Parent.RotateR()
                 }
-                n.parent.rotateL()
+                n.Parent.RotateL()
             }
         }
     }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/splay.go
-func (r *root) insert(v int) ,"func (r *root) insert(v int) {
-    new := &node{value: v}
-    if r.root == nil {
-        r.root = new
-    } else {
-        var parent *node
-        z := r.root
-        for z != nil {
-            parent = z
-            if v < z.value {
-                z = z.left
-            } else {
-                z = z.right
-            }
-        }
-        new.parent = parent
-        if parent == nil {
-            r.root = new
-        } else if v < parent.value {
-            parent.left = new
-        } else if v > parent.value {
-            parent.right = new
-        }
-        new.splay()
+"func Get(n *Node, v int) *Node ","func Get(n *Node, v int) *Node {
+    leaf := n.Root().Get(v)
+    if leaf != nil {
+        Splay(leaf)
     }
+    return leaf
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/splay.go
+"func Remove(n *Node, v int) ","func Remove(n *Node, v int) {
+    // 左側を同じkeyでsplayする. (rootより左側にしかkeyはbst上こないので)
+    node *z = find( key );
+    if( !z ) return;
+    splay( z );
+    node *s = z->left;
+    node *t = z->right;
+    delete z;
+    node *sMax = NULL;
+    if(s) {
+        s->parent = NULL;
+        sMax = subtree_maximum(s);
+        splay(sMax);
+        root = sMax;
+    }
+    if(t) {
+        if(s)
+        sMax->right = t;
+        else
+        root = t;
+        t->parent = sMax;
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/splay.go
 "func IsConected(g *Graph, src int, dst int) bool ","func IsConected(g *Graph, src int, dst int) bool {
@@ -569,55 +591,6 @@ bst_t *bst_init(data_type data) {
     return bst_search(tree->left, data);
   else
     return bst_search(tree->right, data);
-}
-",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
-Delete BST,"// if tree has 2 children, find the child of the min data at the side of right
-// TODO: how to delete root?
-void bst_delete(bst_t **bst, data_type data) {
-  bst_t *tree = *bst;
-  // which side is connected with parent
-  // left == 1 or right == -1 or root == 0
-  int left = 0;
-  while (1) {
-    if (tree == NULL) {
-      break;  // NOT FOUND
-    } else if (tree->data > data) {
-      left = 1;
-      tree = tree->left;
-    } else if (tree->data < data) { 
-      left = -1;
-      tree = tree->right;
-    } else {
-      // data is found
-      bst_t *next = NULL;
-      if (tree->left == NULL) {
-        next = tree->right;  // it is ok whether right is NULL or not
-      } else if (tree->right == NULL) {
-        next = tree->left;
-      } else {
-        // the current tree has 2 children
-        // so get the succesor tree, which is the min data
-        bst_t *tmp = tree;
-        left = tree->right->left ? 1 : -1;
-        tree = tree->right;
-        while (tree->left)
-          tree = tree->left;
-        tmp->data = tree->data;
-        next = tree->right;
-      }
-      if (left == 1) {
-        tree->parent->left = next;
-      } else if (left == -1) {
-        tree->parent->right = next;
-      } else {
-        *bst = next; // root which doesn't have both of the 2 children
-      }
-      if (next)
-        next->parent = tree->parent;
-      free(tree);
-      break;
-    }
-  }
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
 "void bst_display(bst_t *tree, int depth) ","void bst_display(bst_t *tree, int depth) {
@@ -1013,30 +986,58 @@ split = go [] where
   go acc []     = []
   go acc (x:xs) = [(x, acc++xs)] ++ go (x:acc) xs
 ",/Users/mbp/workspace/sandbox/algo/cases/nPr.hs
-func (n *Node) String () string ,"func (n *Node) String () string {
-	v := ""("" + fmt.Sprintf(""%d"", n.Value)
+func (n *Node) Root() *Node ,"func (n *Node) Root() *Node {
+	if n.Parent == nil {
+		return n
+	}
+	return n.Parent.Root()
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) String() string ,"func (n *Node) String() string {
+	v := ""("" + fmt.Sprintf(""%d[%d]"", n.Value, n.height)
 	if n.Left != nil {
 		v += "" "" + n.Left.String()
-	}
+	} else {
+        v += "" L""
+    }
 	if n.Right != nil {
 		v += "" "" + n.Right.String()
-	}
+	} else {
+        v += "" R""
+    }
 	v += "")""
 	return v
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
-func (n *Node) LeftChild () bool ,"func (n *Node) LeftChild () bool {
-	if n.Parent == nil {
-		return false
-	}
-	return n == n.Parent.Left
+func (n *Node) Height() int { // accept null,"func (n *Node) Height() int { // accept null
+    if n != nil {
+        return n.height
+    }
+    return 0
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
-func (n *Node) RightChild () bool ,"func (n *Node) RightChild () bool {
-	if n.Parent == nil {
-		return false
-	}
-	return n == n.Parent.Right
+func (n *Node) Min() int ,"func (n *Node) Min() int {
+    // n = n.Root()
+    for n.Left != nil {
+        n = n.Left
+    }
+    return n.Value
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) Max() int ,"func (n *Node) Max() int {
+    // n = n.Root()
+    for n.Right != nil {
+        n = n.Right
+    }
+    return n.Value
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) LeftChild() bool ,"func (n *Node) LeftChild() bool {
+	return n.Parent != nil && n == n.Parent.Left
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) RightChild() bool ,"func (n *Node) RightChild() bool {
+	return n.Parent != nil && n == n.Parent.Right
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
 func FromSlice(slice []int) *Node ,"func FromSlice(slice []int) *Node {
@@ -1051,6 +1052,140 @@ func fromSlice(slice []int, i int, p *Node) *Node {
 	n.Left = fromSlice(slice, i*2+1, n)  // 0(p) -> 1(c)
 	n.Right = fromSlice(slice, i*2+2, n) // 0(p) -> 2(c)
 	return n
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) Get(v int) *Node ,"func (n *Node) Get(v int) *Node {
+    if n == nil {
+        return nil
+    } else if v ==  n.Value {
+        return n
+    } else if v < n.Value {
+        return n.Left.Get(v)
+    } else {
+        return n.Right.Get(v)
+    }      
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) Insert(v int) *Node ,"func (n *Node) Insert(v int) *Node {
+    var p *Node
+    for n != nil {
+        p = n
+        if v < n.Value {
+            n = n.Left
+        } else if v > n.Value {
+            n = n.Right
+        } else {
+            return n
+        }
+    }
+    new := New(v)
+    new.Parent = p
+    if p != nil {
+        if v < p.Value {
+            p.Left = new
+        } else {
+            p.Right = new
+        }
+    }
+    return new
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) Remove(v int) ,"func (n *Node) Remove(v int) {
+    n = n.Get(v)
+    if n == nil {
+        return
+    } else if n.Left == nil {
+        if n.Right == nil {
+            if n.Parent == nil {
+                fmt.Println(""hogeeeeeeeeee"")
+            } else if n.LeftChild() {
+                n.Parent.Left = nil
+            } else {
+                n.Parent.Right = nil
+            }
+        } else {
+            n.Swap(n.Right)
+        }
+    } else if n.Right == nil {
+        n.Swap(n.Left)
+    } else {
+        next := n.Right.Min()
+        n.Value = next
+        n.Right.Remove(next)
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) UpdateHeight() ,"func (n *Node) UpdateHeight() {
+	n.height = max(n.Left.Height(), n.Right.Height()) + 1
+}
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) Swap(c *Node) { // child,"func (n *Node) Swap(c *Node) { // child
+    if n.Parent != nil {
+        if n.LeftChild() {
+            n.Parent.Left = c
+        } else {
+            n.Parent.Right = c
+        }
+        c.Parent = n.Parent
+        n.Parent = nil // memory leak???
+    } else {
+        c.Parent = nil
+        n.Parent = c
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) AppendLeft(x *Node) ,"func (n *Node) AppendLeft(x *Node) {
+    n.Left = x
+    if x != nil {
+        x.Parent = n
+    }
+}
+func (n *Node) AppendRight(x *Node) {
+    n.Right = x
+    if x != nil {
+        x.Parent = n
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) RotateR() *Node ,"func (n *Node) RotateR() *Node {
+    // a < x < b < y c < z < d
+    // ((a x b) y (c z d)) => ((_ a _) x (b y (c z d)))
+    // ((a R2 b) R1 c) => (a R2 (b R1 c)) の場合、黒の経路数変わらず
+    // ((a R b) B c) => (a R (b B c)) の場合、aの経路においてBが一つ減る
+    // => (a B (b R c)) と入れ替えることで、a側1つ増え, c側そのまま, bも変わらず
+	if n != nil && n.Left != nil {
+		l := n.Left
+		lr := l.Right
+        n.Swap(l)
+        l.AppendRight(n)
+        n.AppendLeft(lr)
+        n.UpdateHeight()
+        l.UpdateHeight()
+		return l
+	}
+	return nil
+}
+",/Users/mbp/workspace/sandbox/algo/common/btree.go
+func (n *Node) RotateL() *Node ,"func (n *Node) RotateL() *Node {
+    // a < x < b < y c < z < d
+    // ((a x b) y (c z d)) => (((a x b) y c) z (_ d _))
+	if n != nil && n.Right != nil {
+		r := n.Right
+		rl := r.Left
+        n.Swap(r)
+        r.AppendLeft(n)
+        n.AppendRight(rl)
+        n.UpdateHeight()
+        r.UpdateHeight()
+		return r
+	}
+	return nil
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
 type Graph struct ,"type Graph struct {
@@ -4309,6 +4444,11 @@ func TestAppend1(t *testing.T) {
 ",/Users/mbp/workspace/sandbox/lang/sh/run.sh
 :Q:標準出力を閉じる,"ls >&-
 ",/Users/mbp/workspace/sandbox/lang/sh/run.sh
+1 in [1] === false,"// in演算子はpropertyの存在確認
+> 0 in [0,1,2,3]
+true
+> 30 in [0,1,2,30]
+",/Users/mbp/workspace/sandbox/lang/ts/base.ts
 """, 2)","	if len(ss) == 1 {
 ",/Users/mbp/workspace/sandbox/main.go
 """) ","			r := ParseMemo(t)
