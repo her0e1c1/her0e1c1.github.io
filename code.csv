@@ -210,13 +210,48 @@ AVL Insert,"func Insert(n *Node, v int) *Node {
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/avl.go
 AVL IsBalanced,"func IsBalanced(n *Node) bool {
+    return isBalanced(n, n.Height())
+}
+func isBalanced(n *Node, h int) bool {
     if n == nil {
         return true
     }
-    if abs(n.Left.Height() - n.Right.Height()) <= 1 {
-        return IsBalanced(n.Left) && IsBalanced(n.Right)
+    l, r := n.Left.Height(), n.Right.Height()
+    if l < h && r < h && abs(l - r) <= 1 {
+        return isBalanced(n.Left, h-1) && isBalanced(n.Right, h-1)
     } else {
         return false
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/avl.go
+AVL Balance,"func Balance(n *Node) {
+    for n.Parent != nil {
+        p := n.Parent
+        n.UpdateHeight() // 葉に追加するので再帰的に+1する必要ある(回転がなくても)
+        p.UpdateHeight()
+        if p.Parent == nil {
+            p = n // 子供と親を同一視?
+            // return
+        }
+        if abs(p.Parent.Left.Height() - p.Parent.Right.Height()) >= 2 {
+            if p.LeftChild() {
+                if n.LeftChild() {
+                    n = p.Parent.RotateR()
+                } else {
+                    p.RotateL()
+                    n = p.Parent.Parent.RotateR()
+                }
+            } else {
+                if n.RightChild() {
+                    n = p.Parent.RotateL()
+                } else {
+                    p.RotateR()
+                    n = p.Parent.Parent.RotateL()
+                }
+            }
+        } else {
+            n = p.Parent // 2つ上へ移動
+        }
     }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/avl.go
@@ -386,6 +421,13 @@ func BlackNumber(n *Node) int ,"func BlackNumber(n *Node) int {
         return c + r
     }
     return c + l
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/red-black.go
+"func Remove(n *Node, v int) ","func Remove(n *Node, v int) {
+    p := n.Root().Remove(v)
+    if p != nil {
+        Balance(p)
+    }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.go
 :Q:赤黒木のdata,"data Color = B | R deriving Show
@@ -994,7 +1036,7 @@ func (n *Node) Root() *Node ,"func (n *Node) Root() *Node {
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
 func (n *Node) String() string ,"func (n *Node) String() string {
-	v := ""("" + fmt.Sprintf(""%d[%d]"", n.Value, n.height)
+	v := ""("" + fmt.Sprintf(""%d[%d, %d]"", n.Value, n.height, n.Color)
 	if n.Left != nil {
 		v += "" "" + n.Left.String()
 	} else {
@@ -1090,28 +1132,37 @@ func (n *Node) Insert(v int) *Node ,"func (n *Node) Insert(v int) *Node {
     return new
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
-func (n *Node) Remove(v int) ,"func (n *Node) Remove(v int) {
+func (n *Node) Remove(v int) *Node ,"func (n *Node) Remove(v int) *Node {
+    return n.RemoveBalance(v, func(k *Node) {})
+}
+func (n *Node) RemoveBalance(v int, f func(k *Node)) *Node { // 最後に削除するノードの親を返すべき?(根本に一番遠い)
     n = n.Get(v)
     if n == nil {
-        return
+        return nil
     } else if n.Left == nil {
         if n.Right == nil {
             if n.Parent == nil {
                 fmt.Println(""hogeeeeeeeeee"")
+                return nil
             } else if n.LeftChild() {
                 n.Parent.Left = nil
             } else {
                 n.Parent.Right = nil
             }
+            return n.Parent
         } else {
+            p := n.Right
             n.Swap(n.Right)
+            return p
         }
     } else if n.Right == nil {
+        p := n.Left
         n.Swap(n.Left)
+        return p
     } else {
         next := n.Right.Min()
         n.Value = next
-        n.Right.Remove(next)
+        return n.Right.Remove(next)
     }
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
@@ -3989,6 +4040,54 @@ main = do
   print $ solveRPN ""1 2 3 + +""   -- 6.0
   print $ solveRPN ""90 34 12 33 55 66 + * - + -""  -- 4037.0
 ",/Users/mbp/workspace/sandbox/compiler/lang/solveRPN.hs
+\dの含む文字,"# [0-9] + 全角数字(処理系依存)
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+\s,"# [\ \t\r\n\f]
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+\w,"# [0-9a-zA-Z_] + いろいろ
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+肯定的先読み(look ahead),"# (?=pattern)
+# 次の正規表現では直後にbarがあるfoo(barは含まない)に一致します．
+# foo(?=bar)
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+肯定的後読み(look behind),"# (?<=pattern)
+# 次の正規表現では直前に barがあるfoo(barは含まない)に一致します．
+# (?<=bar)foo
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+否定的先読み,"# (?!pattern)
+# 次の正規表現では直後にbarがないfoo(barは含まない)に一致します．
+# foo(?!bar)
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+否定的後読み,"# (?<!pattern)
+# 次の正規表現では直前にbarがないfoo(barは含まない)に一致します．
+# (?<!bar)foo
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+任意の文字,"perl -E 'say ""abc"" =~ /.*/'
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+大小文字を問わず 'yes' にマッチ,"perl -E 'say ""Yes"" =~ /[yY][eE][sS]/'
+# []はいずれかの文字一つにマッチ
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+改行にマッチ,"perl -E 'say ""\n"" =~ /./s'
+# .は改行以外の任意の文字にマッチ(sをつけることで改行にもマッチ)
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+文字列にマッチする正規表現,"echo '""abc""' | perl -nlE 'say $1 if /(""([\\].|[^\\""])*"")/'
+# \と""以外の任意の文字か、\と.で始まる任意の文字(""をエスケープ)
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+(((1)2)3)の各グループの番号とその値,"perl -E '""01234"" =~ /0(((1)2)3)4/; say ""$1 $2 $3 $&""'
+# 123 12 1 01234  # つまり外側の左括弧からグループの順番がつく
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+csvの特定列を抽出する正規表現,"echo '""a"" , ""b"", ""c""' | perl -nlE 'say ""$4"" if /(""(.*?)"")?(\s*,\s*""(.*?)""\s*){3}/'
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+http=>httpsに変更,"curl https://www.yahoo.co.jp | perl -nlE 's#(?<=href=)(""|'\'')http(?!s)#${1}HTTPS#g; say'
+# 元々httpsなリンクを除外するために否定先読みが必要
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+aタグのlinkを抽出,"echo '<a herf=""LINK"">NAME</a>' | perl -nlE '$q=chr 39;/(""|$q).*?\1/ and say $&'
+# 後方参照(backreferences)\1を使って、quoteを一致させる. $&はマッチしたとこだけ. 非貪欲
+# $q => '\'' と置き換えても良い
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
+htmlのjsの読み込みに対して接尾語(?v=1)を加える,"echo '.js""/>' | perl -nlE 's/(?<=\.js)(?="")/?v=1/ and say'
+# sと""の間に文字列を挿入したいから、先/後読みを同時に使う
+",/Users/mbp/workspace/sandbox/compiler/regex/regex.sh
 -->,"### 委譲 子供 => 親
 ```
 # 移譲することで、継承せずに親のメソッドを利用できる
@@ -5368,6 +5467,18 @@ f 1 & f 2 & wait
 # ただし、ロックを取得したプロセスがクラッシュしてデッドロックしないよう
 # ロックを確保できる時間を設定する必要があるのに注意.
 ",/Users/mbp/workspace/sandbox/mid/redis/single_redis_lock.sh
+find by perl,"perl -E 'sub f{$a=shift; for(glob($a.""/*"")){say if -f; f($_) if -d}}; f(shift);' ~/
+",/Users/mbp/workspace/sandbox/oneliner.sh
+Count up when the string perl appears in history,"cat ~/.zsh_history |perl -nle '/perl/ and $p++; END{print $p}'
+",/Users/mbp/workspace/sandbox/oneliner.sh
+port forwad at one time,"perl -E 'system qq#sudo ssh -fN -i ~/path/to/key -L $_:192.168.56.2:$_ root\@192.168.56.2# for @ARGV'
+",/Users/mbp/workspace/sandbox/oneliner.sh
+Change permissions recursively Note write in 8 digit notion,"find . | perl -nlE 'chmod 0701, $_ if -d;'
+",/Users/mbp/workspace/sandbox/oneliner.sh
+permissions for apache about static files,"find . | perl -nlE 'chmod 0755, $_ if -d; chmod 0644, $_ if -f'
+",/Users/mbp/workspace/sandbox/oneliner.sh
+",と改行がデリミタの場合のcsvをソート","perl -ne ""chomp; @_=split(',',\$_);print \$_.',' for sort{\$a <=> \$b} @_; print "" FILE
+",/Users/mbp/workspace/sandbox/oneliner.sh
 -->,"## Materialized view
 - 参照のみ: 更新することはできないが、複雑な定義のビューに利用
 - Mysql5.7の場合、viewにindexを指定することはできない
@@ -5376,19 +5487,7 @@ f 1 & f 2 & wait
 - `slow_query_log_file` をセットして、遅いクエリを検知する
 - eager load (N+1 query)
 ",/Users/mbp/workspace/sandbox/sql/README.md
-insertによるdeadlockの例,"# unique key + bulk insertはdeadlockの可能性がある(解決方法はソート)
-mysql db -e '
-drop table if exists p;
-CREATE TABLE p (`id` bigint(20) unsigned NOT NULL primary key);
-'
-q1=`perl -E '$a=join "", "", map {""($_)""} 1..999 ; say qq#insert into p (id) values $a ;#'`
-q2=`perl -E '$a=join "", "", map {""($_)""} reverse 2..1000 ; say qq#insert into p (id) values $a ;#'`
-echo $q1 | mysql db &
-echo $q2 | mysql db &
-wait
-",/Users/mbp/workspace/sandbox/sql/bulkInsert.sh
--- cascadeとは？,"-- cascadeとは？
-alter table child add foreign key (parent_id) references parent (id)
+cascadeとは,"alter table child add foreign key (parent_id) references parent (id)
 on delete cascade on update cascade;
 -- update: 親の主キーが変更された場合に、子の参照keyを親の値に更新
 -- delete: 親のレコードを削除した場合に、子ののレコードも削除
@@ -5417,37 +5516,189 @@ on delete set null on update set null;
   PRIMARY KEY (parent_id)
 );
 ",/Users/mbp/workspace/sandbox/sql/createTable.sql
-:Q:member_id=1に関する友達の友達,"select m.id from member m
-join contact c1 on c1.user_id = m.id
-join contact c2 on c2.user_id = c1.other_id
--- join contact c3 on c3.user_id = c2.other_id  -- さらに友達
-where c2.other_id = 1;
-",/Users/mbp/workspace/sandbox/sql/friendsFriends.sql
-:Q:最も良い成績を選択,"select * from grade where score = (select max(score) from grade);
-",/Users/mbp/workspace/sandbox/sql/getMaxAgePerson.sql
-:Q:最も良い成績を選択(ただし結果は1recordのみ),"-- 重複した値をもたず、結果が1レコードのみで良ければ、order byが使える
-select * from grade order by score desc limit 1;
-",/Users/mbp/workspace/sandbox/sql/getMaxAgePerson.sql
+外部参照keyが原因でdeadlockを起こす例,"mysql db <<EOS
+drop table if exists child, parent;
+create table child (id int, pid int, primary key (id));
+create table parent (id int, count int, primary key (id));
+insert into parent values (1, 0);
+alter table child add foreign key (pid) references parent (id);
+EOS
+mysql db -e '
+begin;
+select sleep(1);
+insert into child values (1, 1);  -- slock parent(id=1)
+select sleep(2);
+update parent set count = count + 1 where id = 1;  -- xlock(parent(id=1)) -- 他方のslockの解放待ち
+commit;
+' &
+mysql db -e '
+begin;
+select sleep(2);
+insert into child values (2, 1);  -- slock parent(id=1)
+select sleep(2);
+update parent set count = count + 1 where id = 1;  -- xlock(parent(id=1)) -- dead lock
+commit;
+' &
+wait
+mysql db -e 'select * from child;'
+mysql db -e 'select * from parent;'
+# Foreign KeyでのFK参照は、(存在しない親に紐づかないことを保証するため) slockを自動でかける
+# そのため、その親を更新しようとするとslockの解放待ちになりデッドロックが発生 (xlockはslockにブロックされる)
+",/Users/mbp/workspace/sandbox/sql/deadlock/FKInsertLock.sh
+外部参照keyが原因でdeadlockを防ぐ例,"mysql db <<EOS
+drop table if exists child, parent;
+create table child (id int, pid int, primary key (id));
+create table parent (id int, count int, primary key (id));
+insert into parent values (1, 0);
+alter table child add foreign key (pid) references parent (id);
+EOS
+mysql db -e '
+begin;
+select sleep(1);
+select id from parent where id = 1 for update;  -- xlock
+insert into child values (1, 1);
+select sleep(2);
+update parent set count = count + 1 where id = 1;
+commit;
+' &
+mysql db -e '
+begin;
+select sleep(2);
+select id from parent where id = 1 for update;  -- xlock (他方のxlock解放待ち)
+insert into child values (2, 1);
+select sleep(2);
+update parent set count = count + 1 where id = 1;
+commit;
+' &
+wait
+mysql db -e 'select * from child;'
+mysql db -e 'select * from parent;'  # it should be `count == 2`
+# 回避方法: 親テーブルを更新する時は必ずxlockする
+",/Users/mbp/workspace/sandbox/sql/deadlock/FKInsertLockForUpdate.sh
+トランザクションの隔離レベル,"# READ UNCOMMITTED (dirty readも起こる) (別のトランザクションを気にしない)
+# READ COMMITTED (fuzyy, phantom, lost update)
+# REPEATABLE READ (lost updateの可能性) => mysqlのdefaultだがphantomは起こらない
+# SERIALIZABLE (一貫性高い分遅い. 全て垂直実行)
+",/Users/mbp/workspace/sandbox/sql/deadlock/transaction.sh
+DIRTY READ,"# 別のトランザクションでコミットされてないデータが読み取れる現象。
+# トランザクションAでレコードを(1)から(2)にUPDATE（未コミット）
+# トランザクションBでレコードをSELECTする
+# トランザクションAをロールバック
+# トランザクションBで取得したデータは(2)となっている。
+",/Users/mbp/workspace/sandbox/sql/deadlock/transaction.sh
+FUZZY READ,"# 別のトランザクションで更新後データを読むことにより、一貫性がなくなる現象。
+# トランザクションAでレコードをSELECTする。(1)となっている
+# トランザクションBでレコードを①から②にUPDATEし、COMMITする
+# トランザクションAで同じレコードを再度SELECTする。(2)となっている
+",/Users/mbp/workspace/sandbox/sql/deadlock/transaction.sh
+PHANTOM READ,"# 別のトランザクションで挿入されたデータが見えることにより、一貫性がなくなる現象。
+# トランザクションAでレコードをSELECTする。該当レコードがない。
+# トランザクションBでレコードをINSERTし、COMMITする。
+# トランザクションAでレコードをSELECTする。2でINSERTとしたレコードが取得できる。
+# ファジーリードとよく似ているがINSERTとUPDATEという点が違う。
+# また、以下もファントムリードとなる。
+# トランザクションAでレコードをCOUNTする。X件取得できた。
+# トランザクションBでレコードをINSERTし、COMMITする。
+# トランザクションAでレコードをCOUNTする。X+1件取得できた。
+",/Users/mbp/workspace/sandbox/sql/deadlock/transaction.sh
+直積テーブル,"select * from parent, child;
+-- すべてのレコード同士の組み合わせ
+",/Users/mbp/workspace/sandbox/sql/join/join.sql
+joinとは?,"select * from parent p join child c using (parent_id);
+select * from child c join parent p using (parent_id);
+select * from parent p join child c on c.parent_id = p.parent_id;
+-- inner joinの省略 (= cross join)
+-- 親子<=>子親と逆にしても結果は同じ. (カラムの順番は異なるが)
+-- 一方のテーブルが参照していないレコードは結果に含まれない
+",/Users/mbp/workspace/sandbox/sql/join/join.sql
+left joinとは?,"select * from parent p left join child c using (parent_id);
+select * from child c left join parent p using (parent_id);
+select * from child c right join parent p using (parent_id);
+-- left outer joinの略
+-- inner joinの結果に加えて、左側のレコード全部列挙, 右側にNULL許可
+-- 左右を入れ替えたものはright outer joinと同じ
+",/Users/mbp/workspace/sandbox/sql/join/join.sql
+"[親ID], [(子ID, 親ID)]= [A,B,C,D], [(1,A), (2,B), (3,A), (4,C), (5,E)] => inner join","-- A,1
+-- B,2
+-- A,3
+-- C,4
+-- 親Dは子に参照されていない, Eは存在しないので(5,E)は含めない
+",/Users/mbp/workspace/sandbox/sql/join/join.sql
+subqueryの種類,"PRIMARY・・・外部クエリを示す。
+DEPENDENT SUBQUERY・・・相関関係のあるサブクエリ。(外側M * 内側N = M*Nの計算量になる可能性が高い)
+DERIVED・・・FROM句で用いられているサブクエリ。 (この場合だけ内側を先に計算)
+SUBQUERY・・・相関関係のないサブクエリ。 (外側を参照しないので、１度だけサブクエリを評価すればよい)
+UNCACHEABLE SUBQUERY・・・実行する度に結果が変わる可能性のあるサブクエリ。 (キャッシュされず毎回実行されるので遅い)
+",/Users/mbp/workspace/sandbox/sql/join/subquery.sql
 insertでの排他制御,"updateとは異なり楽観ロックをかけることができないので、unique制約を使い整合性を保つ
 unique(parent_id default=0, user_id)
 この場合、もし競合状態が発生しても一つしか生成されない
-",/Users/mbp/workspace/sandbox/sql/lock.txt
+",/Users/mbp/workspace/sandbox/sql/memo/lock.txt
+上位10%を取得するquery (string),"set @numbers = (select count(*) from grade) / 10;
+prepare stmt from 'select * from grade limit ?';
+execute stmt using @numbers;
+-- top 1を取得するのにselectなどの計算結果は渡せない
+-- SELECT * FROM grade limit (select 1);
+",/Users/mbp/workspace/sandbox/sql/query/10percentOfRecords.sql
+上位10%を取得するquery (@var),"SELECT X.* FROM (
+ SELECT grade.*, @counter := @counter +1 AS counter
+ FROM (select @counter:=0) AS init, grade)
+AS X
+where counter <= (@counter / 10);
+",/Users/mbp/workspace/sandbox/sql/query/10percentOfRecords.sql
+:Q:user_id=1に関する友達の友達,"select u.user_id from user u
+join contact c1 on c1.user_id = u.user_id
+join contact c2 on c2.user_id = c1.other_id
+-- join contact c3 on c3.user_id = c2.other_id  -- さらに友達
+where c2.other_id = 1;
+",/Users/mbp/workspace/sandbox/sql/query/friendsFriends.sql
+:Q:最も良い成績を選択 (ただし重複許可),"select * from grade where score = (select max(score) from grade);
+",/Users/mbp/workspace/sandbox/sql/query/getMaxAgePerson.sql
+:Q:最も良い成績を選択 (ただし結果は1recordのみ),"select * from grade order by score desc limit 1;
+-- 重複した値をもたず、結果が1レコードのみで良ければ、order byが使える
+",/Users/mbp/workspace/sandbox/sql/query/getMaxAgePerson.sql
 ":Q:varchar(5)の時の""abcdef""の挙動","insert into size_test (n1) values (""abcdef"");
 -- strictの場合は、エラーとなる。
 -- 警告の場合は、truncateされる(""abcdef"" => ""abcde"")
-",/Users/mbp/workspace/sandbox/sql/size.sql
+",/Users/mbp/workspace/sandbox/sql/query/size.sql
 ":Q:varchar(5)の時の""あabc""の挙動","insert into size_test (n1) values (""あabc"");
 -- 「あ」は、3bytesなので、残り2bytes格納できる(""あabc"" => ""あab"")
 -- 文字数でカウントされない
-",/Users/mbp/workspace/sandbox/sql/size.sql
+",/Users/mbp/workspace/sandbox/sql/query/size.sql
 :Q:tinytextに格納てきる日本語,"-- tinytextは、255 (2^8−1) bytesまで格納できる。utf-8の「あ」は、3byteなので、85文字格納できる。
 insert into size_test (n2) values (repeat(""あ"", 85));
-",/Users/mbp/workspace/sandbox/sql/size.sql
-:Q:成績の平均が上位3までの学生のSQL,"select s.id, AVG(g.score) from student s join grade g
-on s.id = g.student_id group by s.id order by AVG(g.score) desc limit 3;
-",/Users/mbp/workspace/sandbox/sql/top10StudentsAboutScore.sql
--- 異なるデータを一つのリストに混在させる方法,"-- 異なるデータを一つのリストに混在させる方法
--- 1. １つのテーブルにまとめる. (非正規化。余計なカラムが多くなる)
+",/Users/mbp/workspace/sandbox/sql/query/size.sql
+:Q:成績の平均が上位3までの学生のSQLのindex,"ALTER TABLE user ADD INDEX i1 (id);
+ALTER TABLE grade ADD INDEX i2 (user_id);
+-- 平均の算出は実行時にしかわからないので、予め算出できないから、scoreに張るのは無駄
+",/Users/mbp/workspace/sandbox/sql/query/top10StudentsAboutScore.sql
+:Q:成績の平均が上位3までの学生のSQL,"select u.id, AVG(g.score) from user u join grade g
+on u.id = g.user_id group by u.id order by AVG(g.score) desc limit 3;
+",/Users/mbp/workspace/sandbox/sql/query/top10StudentsAboutScore.sql
+:Q:成績の平均が上位3までの学生のSQL (subquery),"explain select u.id, sg.a_score from user u join
+(select user_id, AVG(score) as a_score from grade group by user_id) as sg
+on u.id = sg.user_id order by sg.a_score desc limit 3;
+-- (user_id, 平均)のテーブルを作り、それに対してjoinして順番を決める
+",/Users/mbp/workspace/sandbox/sql/query/top10StudentsAboutScore.sql
+insertによるdeadlockの例,"# unique key + bulk insertはdeadlockの可能性がある(解決方法はソート)
+mysql db -e '
+drop table if exists p;
+CREATE TABLE p (`id` bigint(20) unsigned NOT NULL primary key);
+'
+q1=`perl -E '$a=join "", "", map {""($_)""} 1..9999 ; say qq#insert into p (id) values $a ;#'`
+q2=`perl -E '$a=join "", "", map {""($_)""} reverse 2..10000 ; say qq#insert into p (id) values $a ;#'`
+echo $q1 | mysql db &
+echo $q2 | mysql db &
+wait
+# N - 1 -> N -> N + 1
+# N + 1 -> N -> N - 1
+# q1とq2はそれぞれ上記のようにXLOCKを取得する
+# そのため
+# q1がN-1, NのXLOCK, q2がN+1のXLOCKを取得した時点でdeadlock
+# あるいは
+# q1がN-1のXLOCK, q2がN, N+1のXLOCKを取得した時点でdeadlock
+",/Users/mbp/workspace/sandbox/sql/sh/bulkInsert.sh
+異なるデータを一つのリストに混在させる方法,"-- 1. １つのテーブルにまとめる. (非正規化。余計なカラムが多くなる)
 -- 2. 親に共通部分をまとめる. 子供で別々のカラムを定義 (継承問題)
 -- 3. union. sortするのでoffsetのコストが高い. 予めtableをfilterしておく
 -- 4. マテリアルview. データのためのリソースとindexの再計算処理のコスト
