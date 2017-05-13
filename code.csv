@@ -1,4 +1,7 @@
 vector structure,"#define data_type int
+// 0 <= index <= size - 1
+// 0 <= size <= capacity
+// size == capacityの時はsizeをallocateが必要
 struct _array {
     size_t size;
     size_t capacity;
@@ -100,7 +103,7 @@ size_t round2up(size_t size) {
     size_t size = a1->size + a2->size;
     if (size >= a1->capacity) {
         a1->size = size;
-        a1->capacity = round2up(size);
+        a1->capacity = round2up(size + 1);
         a1->data = realloc(a1->data, sizeof(data_type) * a1->capacity); // copy前提
         if (a1->data == NULL)
             exit(1);
@@ -112,7 +115,7 @@ size_t round2up(size_t size) {
 ",/Users/mbp/workspace/sandbox/algo/array/array.c
 "void pushBack(array_t *a, data_type data) ","void pushBack(array_t *a, data_type data) {
     if (a->size >= a->capacity) {
-        a->capacity = round2up(a->size);
+        a->capacity = round2up(a->size + 1);
         a->data = realloc(a->data, sizeof(data_type) * a->capacity);
         if (a->data == NULL)
             exit(1);
@@ -323,45 +326,6 @@ typedef enum _color color_e;
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
-"void rbtree_insert(rbtree_t **root, rbtree_data_type data) ","void rbtree_insert(rbtree_t **root, rbtree_data_type data) {
-  rbtree_t *node = (rbtree_t *)malloc(sizeof(rbtree_t));
-  if (node == NULL) {
-    printf(""Out of memory"");
-    exit(1);
-  }
-  node->color = RED;  // new data is always RED
-  node->data = data;
-  node->left = node->right = node->parent = NULL;
-  if (*root == NULL) {
-    *root = node;
-  } else {
-    rbtree_t *parent = NULL, *tree = *root;
-    while (1) {
-      if (tree->data >= data) {
-        if (tree->left) {
-          parent = tree->parent; // いらない?
-          tree = tree->left;
-        } else { // 挿入
-          tree->left = node;
-          node->parent = tree;
-          break;
-        }
-      } else {
-        if (tree->right) {
-          parent = tree->parent;
-          tree = tree->right;
-        } else {
-          tree->right = node;
-          node->parent = tree;
-          break;
-        }
-      }
-    }
-    rbtree_balance(root, node);
-  }
-  (*root)->color = BLACK;
-}
-",/Users/mbp/workspace/sandbox/algo/balanced/red-black.c
 Red-Black,"func Insert(n *Node, v int) *Node {
     new := n.Root().Insert(v)
     Balance(new)
@@ -424,10 +388,10 @@ func BlackNumber(n *Node) int ,"func BlackNumber(n *Node) int {
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.go
 "func Remove(n *Node, v int) ","func Remove(n *Node, v int) {
-    p := n.Root().Remove(v)
-    if p != nil {
-        Balance(p)
-    }
+    n.Root().RemoveBalance(v, Balance)
+    // if p != nil {
+    //     Balance(p)
+    // }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/red-black.go
 :Q:赤黒木のdata,"data Color = B | R deriving Show
@@ -480,35 +444,60 @@ func Splay(n *Node) ,"func Splay(n *Node) {
     }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/splay.go
-"func Get(n *Node, v int) *Node ","func Get(n *Node, v int) *Node {
-    leaf := n.Root().Get(v)
+func (r *Root) Insert(v int) *Node ,"func (r *Root) Insert(v int) *Node {
+    if r.root == nil {
+        r.root = New(v)
+        return r.root
+    } else {
+        leaf := r.root.Insert(v)
+        if leaf != nil {
+            Splay(leaf)
+        }
+        r.root = leaf
+        return leaf
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/splay.go
+func (r *Root) Get(v int) *Node ,"func (r *Root) Get(v int) *Node {
+    if r.root == nil {
+        return nil
+    }
+    leaf := r.root.Get(v)
     if leaf != nil {
         Splay(leaf)
     }
+    r.root = leaf
     return leaf
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/splay.go
-"func Remove(n *Node, v int) ","func Remove(n *Node, v int) {
-    // 左側を同じkeyでsplayする. (rootより左側にしかkeyはbst上こないので)
-    node *z = find( key );
-    if( !z ) return;
-    splay( z );
-    node *s = z->left;
-    node *t = z->right;
-    delete z;
-    node *sMax = NULL;
-    if(s) {
-        s->parent = NULL;
-        sMax = subtree_maximum(s);
-        splay(sMax);
-        root = sMax;
+func (r *Root) Remove(v int) ,"func (r *Root) Remove(v int) {
+    if r.root == nil {
+        return
     }
-    if(t) {
-        if(s)
-        sMax->right = t;
-        else
-        root = t;
-        t->parent = sMax;
+    n := r.root.Get(v)
+    if n == nil {
+        return
+    }
+    // 削除したいnodeをrootへ
+    Splay(n)
+    // 一方がnilなら他方をrootにする
+    if n.Right == nil && n.Left == nil {
+        r.root = nil
+    } else if n.Right == nil {
+        r.root = n.Left
+    } else if n.Left == nil {
+        r.root = n.Right
+    } else {
+        // Leftのmaxをrootにする
+        n.Left.Parent = nil
+        max := n.Left.Max()
+        Splay(max) // rootまで到達させない
+        max.AppendRight(n.Right)
+        r.root = max
+    }
+    if r.root != nil {
+        r.root.Parent = nil
+    }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/splay.go
 "func IsConected(g *Graph, src int, dst int) bool ","func IsConected(g *Graph, src int, dst int) bool {
@@ -605,24 +594,6 @@ bst_t *bst_init(data_type data) {
   return tree;
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
-"void bst_insert(bst_t **bst, data_type data, bst_t *parent) ","void bst_insert(bst_t **bst, data_type data, bst_t *parent) {
-  // O(log2n)
-  // you don't need the arparent of parent as previous data
-  // but it makes code more simple
-  // WARN: it takes O(n) to insert a sorted list
-  // if you insert range(0, 10), the height is 10
-  bst_t *tree = *bst;
-  if (tree == NULL) {
-    tree = bst_init(data);
-    tree->parent = parent;
-    *bst = tree;
-  } else if (tree->data >= data) {
-    bst_insert(&(tree->left), data, tree);
-  } else {
-    bst_insert(&(tree->right), data, tree);
-  }
-}
-",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
 "bst_t *bst_search(bst_t *tree, data_type data) ","bst_t *bst_search(bst_t *tree, data_type data) {
   // O(log2n)
   if (tree == NULL)
@@ -633,16 +604,6 @@ bst_t *bst_init(data_type data) {
     return bst_search(tree->left, data);
   else
     return bst_search(tree->right, data);
-}
-",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
-"void bst_display(bst_t *tree, int depth) ","void bst_display(bst_t *tree, int depth) {
-    if (tree) {
-      for(int i = 0; i < depth; i++) printf("" "");
-      // pre order (TODO: in-order)
-      printf(""%d\n"", tree->data);
-      bst_display(tree->left, depth+1);
-      bst_display(tree->right, depth+1);
-    }
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-search/binary-search-tree.c
 長さlのソート配列に含まれるNの個数,"func countElem(A []int, k int) int {
@@ -771,6 +732,29 @@ lis = f where
 	return true
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-search/minimize-sum-sequence.go
+k-Roteated Increasing Order Array,"func search(a []int, target int) int {
+	lo, hi := 0, len(a)-1
+	for lo <= hi {
+		mi := lo + (hi-lo)/2
+		if a[mi] == target {
+			return mi
+		} else if a[lo] < a[mi] {
+			if a[lo] <= target && target <= a[mi] { // 正常系
+				hi = mi - 1
+			} else { // それ以外と考えると楽
+				lo = mi + 1
+			}
+		} else { // lo ~ miの間にローテションがある
+			if a[mi] <= target && target <= a[hi] {
+				lo = mi + 1
+			} else {
+				hi = mi - 1
+			}
+		}
+	}
+	return -1
+}
+",/Users/mbp/workspace/sandbox/algo/binary-search/rotate.go
 0が途中に混ざった場合のbinary search,"func find(a []int, target int) int {
 	lo, hi := 0, len(a)-1 // 区間[low, high]となるため、-1を忘れない
 	for lo <= hi {
@@ -806,6 +790,30 @@ func minDepth(n *Node) int {
 	return 1 + min(maxDepth(n.Left), maxDepth(n.Right))
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-tree/is-balanced.go
+Lowest Common Ancestor (ORDER=O(log(n)^2)),"func lca(n, a, b *Node) *Node {
+    // rootまでのpathを保持して、もう一つのノードと比較
+	paths := []*Node{}
+	for ; a != nil; a = a.Parent {
+		paths = append(paths, a)
+	}
+	for b != nil {
+		if find(b, paths) {
+			return b
+		} else {
+			b = b.Parent
+		}
+	}
+	return nil
+}
+func find(n *Node, items []*Node) bool {
+	for i := 0; i < len(items); i++ {
+		if n == items[i] {
+			return true
+		}
+	}
+	return false
+}
+",/Users/mbp/workspace/sandbox/algo/binary-tree/lca.go
 Lowest Common Ancestor (Without Addtional Memory),"-- rootから順にa,bを持つかどうか調べる
 -- ただしnodeの値はuniqueであることが条件
 lca :: Ord a => Tree a -> Tree a -> Tree a -> Maybe (Tree a)
@@ -847,11 +855,35 @@ hasNode n1@(Node a1 l r) n2@(Node a2 _ _)
 	}
 }
 ",/Users/mbp/workspace/sandbox/algo/binary-tree/order/inOrderPrev.go
-木構造の移動方法,"- PRE:  parent -> left   -> right  (幅優先 上から下へ)
+木構造の移動方法,"- PRE:  parent -> left   -> right  (上から下へ)
 - POST: left   -> right  -> parent (深優先 下から上へ)
-- IN:   left   -> parent -> right  (左優先 左から右へ)
+- IN:   left   -> parent -> right  (左優先 左から右へ BST)
 逆順の時は、矢印の向きが逆になるだけ
 ",/Users/mbp/workspace/sandbox/algo/binary-tree/order/order.md
+"func PostOrderNext (n, prev *Node) *Node ","func PostOrderNext (n, prev *Node) *Node {
+	if n == nil {
+		return nil
+	} else if prev == nil {
+        return PostOrderNext(n.Parent, n)
+	} else if n.Right == prev {
+        return n
+    } else if n.Left == prev {
+        if n.Right != nil {
+            return PostOrderNext(n.Right, n)
+        } else {
+            return n
+        }
+    } else {  // n.Parent = prev
+        if n.Left != nil {
+            return PostOrderNext(n.Left, n)
+        } else if n.Right != nil {
+            return PostOrderNext(n.Right, n)
+        } else {
+            return n
+        }
+	}
+}
+",/Users/mbp/workspace/sandbox/algo/binary-tree/order/postOrderNext.go
 2分木における経路の和がK,"pathK :: (Eq a, Num a) => Tree a -> a -> [[a]]
 pathK n k = go n [] where
   go Leaf _ = []
@@ -1029,7 +1061,9 @@ split = go [] where
   go acc (x:xs) = [(x, acc++xs)] ++ go (x:acc) xs
 ",/Users/mbp/workspace/sandbox/algo/cases/nPr.hs
 func (n *Node) Root() *Node ,"func (n *Node) Root() *Node {
-	if n.Parent == nil {
+    if n == nil {
+        return nil
+    } else if n.Parent == nil {
 		return n
 	}
 	return n.Parent.Root()
@@ -1051,27 +1085,25 @@ func (n *Node) String() string ,"func (n *Node) String() string {
 	return v
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
-func (n *Node) Height() int { // accept null,"func (n *Node) Height() int { // accept null
+func (n *Node) Height() int { // accept null (本来は呼び出し側でチェック???),"func (n *Node) Height() int { // accept null (本来は呼び出し側でチェック???)
     if n != nil {
         return n.height
     }
     return 0
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
-func (n *Node) Min() int ,"func (n *Node) Min() int {
-    // n = n.Root()
+func (n *Node) Min() *Node ,"func (n *Node) Min() *Node {
     for n.Left != nil {
         n = n.Left
     }
-    return n.Value
+    return n
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
-func (n *Node) Max() int ,"func (n *Node) Max() int {
-    // n = n.Root()
+func (n *Node) Max() *Node ,"func (n *Node) Max() *Node {
     for n.Right != nil {
         n = n.Right
     }
-    return n.Value
+    return n
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
 func (n *Node) LeftChild() bool ,"func (n *Node) LeftChild() bool {
@@ -1142,7 +1174,7 @@ func (n *Node) RemoveBalance(v int, f func(k *Node)) *Node { // 最後に削除�
     } else if n.Left == nil {
         if n.Right == nil {
             if n.Parent == nil {
-                fmt.Println(""hogeeeeeeeeee"")
+                // Need to remove a root
                 return nil
             } else if n.LeftChild() {
                 n.Parent.Left = nil
@@ -1161,8 +1193,11 @@ func (n *Node) RemoveBalance(v int, f func(k *Node)) *Node { // 最後に削除�
         return p
     } else {
         next := n.Right.Min()
-        n.Value = next
-        return n.Right.Remove(next)
+        n.Value = next.Value
+        // return n.Right.Remove(next.Value)
+        aa := n.Right.Remove(next.Value)
+        f(aa)
+        return aa
     }
 }
 ",/Users/mbp/workspace/sandbox/algo/common/btree.go
@@ -1562,6 +1597,10 @@ canAttack :: Int -> [Int] -> Bool
 canAttack x queens = go queens 0 where
   go [] _ = False
   go (q:queens) n = q == x + (n + 1) || q == x - (n + 1) || go queens (n + 1)
+-- Queensのデータ構造
+-- '(k-1行目の列, k-2行目,,, 1行目, 0行目)
+-- とする。理由は, k行目を加えるときに(cons k '(k-1までの結果)) が使えるため
+-- なお答えは board-size <= 3の場合は、存在しない
 ",/Users/mbp/workspace/sandbox/algo/famous/queen.hs
 Queen,"# 全ての駒を斜め上(左右両方)に移動させる。枠から出てもよい
 from itertools import permutations
@@ -1779,6 +1818,30 @@ type Node struct {
     cost int // total cost from start to this node (暫定)
     score int // cost[current] + weight(current, next) + h(next, goal) (暫定)
     visited bool // Close (List)
+    isWall bool // can not visit
+}
+func NewGraph(N int, walls []Point) *Graph {
+    g := &Graph{N: N} 
+    g.Nodes = make([][]*Node, N)
+    for i := 0; i < N; i++ {
+        ns := make([]*Node, N)
+        for j := 0; j < N; j++ {
+            n := &Node{
+                graph: g,
+                p: Point{x: i, y: j},
+                score: 1 << 30,
+            }
+            for _, w := range walls {
+                if w == n.p {
+                    n.isWall = true
+                }
+            }
+            ns[j] = n
+        }
+        g.Nodes[i] = ns
+    }
+    return g
+}
 ",/Users/mbp/workspace/sandbox/algo/graph/a-star.go
 Neighbor for a star,"func (n *Node) Neighbor() []*Node {
     N := n.graph.N
@@ -2097,6 +2160,101 @@ typedef struct _hash_table hash_table_t;
   }
 }
 ",/Users/mbp/workspace/sandbox/algo/hash/hash.c
+template <class T>,"    template <class T>
+    size_t commonPrefixSearch(const key_type *key,
+                              T* result,
+                              size_t result_len,
+                              size_t len = 0,
+                              size_t node_pos = 0) const {
+      if (!len) len = length_func_()(key);
+      register array_type_  b   = array_[node_pos].base;
+      register size_t     num = 0;
+      register array_type_  n; // base
+      register array_u_type_ p;
+      for (register size_t i = 0; i < len; ++i) {
+        p = b;  // + 0;
+        n = array_[p].base;
+        if ((array_u_type_) b == array_[p].check && n < 0) { // 終端文字だったら、結果(num)を増加?
+          // result[num] = -n-1;
+          if (num < result_len) set_result(&result[num], -n-1, i);
+          ++num;
+        }
+        p = b +(node_u_type_)(key[i]) + 1; // base + code['key'] + 1 = 次の遷移先
+        if ((array_u_type_) b == array_[p].check) // base[curr] == check[next]を満たせば次
+          b = array_[p].base;
+        else
+          return num;
+      }
+      p = b;
+      n = array_[p].base;
+      if ((array_u_type_)b == array_[p].check && n < 0) {
+        if (num < result_len) set_result(&result[num], -n-1, len);
+        ++num;
+      }
+      return num;
+    }
+",/Users/mbp/workspace/sandbox/algo/lib/darts.h
+size_t insert(const std::vector <node_t> &siblings) ,"    size_t insert(const std::vector <node_t> &siblings) {
+      if (error_ < 0) return 0;
+      size_t begin = 0;
+      size_t pos   = _max((size_t)siblings[0].code + 1, next_check_pos_) - 1;
+      size_t nonzero_num = 0;
+      int    first = 0;
+      if (alloc_size_ <= pos) resize(pos + 1);
+      while (true) {
+      next:
+        ++pos;
+        if (alloc_size_ <= pos) resize(pos + 1);
+        if (array_[pos].check) {
+          ++nonzero_num;
+          continue;
+        } else if (!first) {
+          next_check_pos_ = pos;
+          first = 1;
+        }
+        begin = pos - siblings[0].code;
+        if (alloc_size_ <= (begin + siblings[siblings.size()-1].code))
+          resize(static_cast<size_t>(alloc_size_ *
+                                     _max(1.05, 1.0 * key_size_ / progress_)));
+        if (used_[begin]) continue;
+        for (size_t i = 1; i < siblings.size(); ++i)
+          if (array_[begin + siblings[i].code].check != 0) goto next;
+        break;
+      }
+      // -- Simple heuristics --
+      // if the percentage of non-empty contents in check between the index
+      // 'next_check_pos' and 'check' is greater than some constant
+      // value(e.g. 0.9),
+      // new 'next_check_pos' index is written by 'check'.
+      if (1.0 * nonzero_num/(pos - next_check_pos_ + 1) >= 0.95)
+        next_check_pos_ = pos;
+      used_[begin] = 1;
+      size_ = _max(size_,
+                   begin +
+                   static_cast<size_t>(siblings[siblings.size() - 1].code + 1));
+      for (size_t i = 0; i < siblings.size(); ++i)
+        array_[begin + siblings[i].code].check = begin;
+      for (size_t i = 0; i < siblings.size(); ++i) {
+        std::vector <node_t> new_siblings;
+        if (!fetch(siblings[i], new_siblings)) {
+          array_[begin + siblings[i].code].base =
+            value_ ?
+            static_cast<array_type_>(-value_[siblings[i].left]-1) :
+            static_cast<array_type_>(-siblings[i].left-1);
+          if (value_ && (array_type_)(-value_[siblings[i].left]-1) >= 0) {
+            error_ = -2;
+            return 0;
+          }
+          ++progress_;
+          if (progress_func_)(*progress_func_)(progress_, key_size_); // 進捗報告
+        } else {
+          size_t h = insert(new_siblings);
+          array_[begin + siblings[i].code].base = h;
+        }
+      }
+      return begin;
+    }
+",/Users/mbp/workspace/sandbox/algo/lib/darts.h
 list構造,"struct _list {
   int value;
   struct _list *next;
@@ -3328,14 +3486,14 @@ f a = any id [a!!i + a!!i+1 > a!!i+2 | i<-[0..length a-2]]
     m2 = s[0] * s[1] * s[-1]
     return max(m1, m2)
 ",/Users/mbp/workspace/sandbox/algo/sorted/triple-product.py
-:Q:最小値をO(1)で取得できるstack.push()(ただし重複した値をpushしない),"func (s *Stack) Push(v Node) {
+最小値をO(1)で取得できるstack.push()(ただし重複した値をpushしない),"func (s *Stack) Push(v Node) {
 	s.stack = append(s.stack, v)
 	if len(s.cache) == 0 || s.Min().value > v.value {
 		s.cache = append(s.cache, v)
 	}
 }
 ",/Users/mbp/workspace/sandbox/algo/stack/minium-stack.go
-:Q:最小値をO(1)で取得できるstack.pop()(ただし重複した値をpushしない),"func (s *Stack) Pop() *Node {
+最小値をO(1)で取得できるstack.pop()(ただし重複した値をpushしない),"func (s *Stack) Pop() *Node {
 	if s.Empty() {
 		return nil
 	}
@@ -3409,7 +3567,7 @@ void pop(node_t** head),"void pop(node_t** head){
   free(first);
 }
 ",/Users/mbp/workspace/sandbox/algo/stack/stack.c
-:Q:2つのqueueでstackを実装,"type Queue struct {
+2つのqueueでstackを実装,"type Queue struct {
 	s1 Stack
 	s2 Stack
 }
@@ -3700,10 +3858,6 @@ flatten t = squish t []
               (cons x acc)))
         '()
         tree))
-(define (foldr f last alist)
-  (if (pair? alist)
-      (f (car alist) (foldr f last (cdr alist)))
-      last))
 ",/Users/mbp/workspace/sandbox/algo/tree/flatten.scm
 UnionFindのデータ構造,"type UnionFind struct {
     Data []int  // 親を参照 (自分自身を参照している場合はRoot)
