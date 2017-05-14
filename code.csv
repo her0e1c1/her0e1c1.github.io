@@ -258,6 +258,32 @@ AVL Balance,"func Balance(n *Node) {
     }
 }
 ",/Users/mbp/workspace/sandbox/algo/balanced/avl.go
+AVL Insert,"func (r *Root) Insert(v int) *Node {
+    if r.root == nil {
+        r.root = New(v)
+        return r.root
+    } else {
+        new := r.root.Root().Insert(v)
+        Balance(new)
+        return new
+    }
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/avl.go
+AVL Remove,"func (r *Root) Remove(v int) {
+    if r.root == nil {
+        return
+    }
+    root := r.root.Root()
+    if root.Value == v && root.Left == nil && root.Right == nil { // 特別扱い
+        r.root = nil
+    }
+    n := root.Remove(v)
+    if n == nil {
+        return
+    }
+    Balance(n)
+}
+",/Users/mbp/workspace/sandbox/algo/balanced/avl.go
 red-black tree structure,"enum _color {
   BLACK = 1,
   RED = 2,
@@ -450,9 +476,7 @@ func (r *Root) Insert(v int) *Node ,"func (r *Root) Insert(v int) *Node {
         return r.root
     } else {
         leaf := r.root.Insert(v)
-        if leaf != nil {
-            Splay(leaf)
-        }
+        Splay(leaf)
         r.root = leaf
         return leaf
     }
@@ -463,7 +487,7 @@ func (r *Root) Get(v int) *Node ,"func (r *Root) Get(v int) *Node {
         return nil
     }
     leaf := r.root.Get(v)
-    if leaf != nil {
+    if leaf != nil { // 見つからなかった場合も考慮
         Splay(leaf)
     }
     r.root = leaf
@@ -1174,7 +1198,7 @@ func (n *Node) RemoveBalance(v int, f func(k *Node)) *Node { // 最後に削除�
     } else if n.Left == nil {
         if n.Right == nil {
             if n.Parent == nil {
-                // Need to remove a root
+                // Need to remove a root by coller
                 return nil
             } else if n.LeftChild() {
                 n.Parent.Left = nil
@@ -5592,18 +5616,6 @@ UPDATE時に、
 場合によっては処理が長時間滞ってしまい、アプリケーションのパフォーマンスを著しく低下させる
 MySQL では、LOCK TABLES、SELECT ... LOCK IN SHARE MODE, SELECT ... FOR UPDATE 等によって実現
 ",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/README.md
-:Q:SLOCKが必要となる例(親の名前で子供を作成),"mysql db -e '
-BEGIN;
--- set @pname = (select name from parent where id = 1);  -- SLOCKしないとFK errorとなる
-set @pname = (select name from parent where id = 1 lock in share mode);
-select sleep(2);
-insert into child (name, parent_id) values (@pname, 1);
-COMMIT;
-' &
-sleep 1
-mysql db -e 'delete from parent where id = 1;' &
-wait
-",/Users/mbp/workspace/sandbox/mid/mysql/sql/lock/slock.sh
 # Get a lock for 10 sec,"# Get a lock for 10 sec
 redis-cli flushall > /dev/null
 f() {
@@ -5641,6 +5653,37 @@ permissions for apache about static files,"find . | perl -nlE 'chmod 0755, $_ if
 - `slow_query_log_file` をセットして、遅いクエリを検知する
 - eager load (N+1 query)
 ",/Users/mbp/workspace/sandbox/sql/README.md
+ロックを取る構文,"- UPDATE
+- DELETE
+- SELECT FOR UPDATE
+- INSERT -- 挿入される行に排他ロック
+- SELECT LOCK IN SHARE MODE  -- SLOCK
+- SELECT SERIALIZABLE -- SLOCK
+- FOREIGN KEY の参照先の親 -- SLOCK (子供のINSERT/UPDATE/DELETEの時)
+- INSERT ... ON DUPLICATE KEY UPDATE -- ??? 重複キーエラーが発生したときに、更新される行に共有ロックではなく、排他ネクストキーロックが配置されるという点で、単純な INSERT と異なります
+",/Users/mbp/workspace/sandbox/sql/basic.sql
+insertの書式,"drop table if exists s;
+create table s (
+    i1 int,  -- null
+    i2 int default 0 not null,
+    i3 int default 0 null
+);
+insert into s values (1, 2, 3);  -- 全カラム対象
+insert into s (i1, i2, i3) values (NULL, 2, NULL);  -- カラム指定
+insert into s values();  -- 全て初期値
+select * from s;
+",/Users/mbp/workspace/sandbox/sql/basic.sql
+:Q:parentが持つ属性table,"CREATE TABLE IF NOT EXISTS attribute (
+  -- 1to1となるように、PKまたは、uniqueの指定が必要
+  parent_id int AUTO_INCREMENT,
+  PRIMARY KEY (parent_id)
+);
+",/Users/mbp/workspace/sandbox/sql/basic.sql
+異なるデータを一つのリストに混在させる方法,"-- 1. １つのテーブルにまとめる. (非正規化。余計なカラムが多くなる)
+-- 2. 親に共通部分をまとめる. 子供で別々のカラムを定義 (継承問題)
+-- 3. union. sortするのでoffsetのコストが高い. 予めtableをfilterしておく
+-- 4. マテリアルview. データのためのリソースとindexの再計算処理のコスト
+",/Users/mbp/workspace/sandbox/sql/basic.sql
 cascadeとは,"alter table child add foreign key (parent_id) references parent (id)
 on delete cascade on update cascade;
 -- update: 親の主キーが変更された場合に、子の参照keyを親の値に更新
@@ -5658,18 +5701,6 @@ on delete set null on update set null;
 -- update: 親の主キーが変更された場合に、子の参照keyをNULLにする
 -- delete: 親のレコードを削除した場合に、子の参照keyをNULLにする
 ",/Users/mbp/workspace/sandbox/sql/cascade/setNull.sql
-:Q:テーブルの削除,"DROP TABLE IF EXISTS child, attribute, parent CASCADE;
--- CASCADEはposgresqlのみ(mysqlの時は親を最後に記述)
-",/Users/mbp/workspace/sandbox/sql/createTable.sql
-:Q:childにおける外部参照KEYの定義,"  id int(4) unsigned,
-  FOREIGN KEY (id) REFERENCES parent (id) ON DELETE CASCADE ON UPDATE CASCADE
-",/Users/mbp/workspace/sandbox/sql/createTable.sql
-:Q:parentが持つ属性table,"CREATE TABLE IF NOT EXISTS attribute (
-  -- 1to1となるように、PKまたは、uniqueの指定が必要
-  parent_id int AUTO_INCREMENT,
-  PRIMARY KEY (parent_id)
-);
-",/Users/mbp/workspace/sandbox/sql/createTable.sql
 外部参照keyが原因でdeadlockを起こす例,"mysql db <<EOS
 drop table if exists child, parent;
 create table child (id int, pid int, primary key (id));
@@ -5729,6 +5760,73 @@ mysql db -e 'select * from child;'
 mysql db -e 'select * from parent;'  # it should be `count == 2`
 # 回避方法: 親テーブルを更新する時は必ずxlockする
 ",/Users/mbp/workspace/sandbox/sql/deadlock/FKInsertLockForUpdate.sh
+"id = 10, 20, 30のレコードがあった場合のネクストキーロックのとりうる範囲","# (..., 10], (10, 20], (20, 30], (30, ...) ???
+",/Users/mbp/workspace/sandbox/sql/deadlock/nextKeyLock.sh
+同一レコード参照でDEADLOCKが起こる例,"mysql db -e '
+BEGIN;
+select id from parent where id = 1 lock in share mode; -- 1
+select sleep(2);
+update parent set name = ""HOGE"" where id = 1; -- 2のslockの解放待ち
+COMMIT;
+' &
+mysql db -e '
+BEGIN;
+select sleep(1);
+select id from parent where id = 1 lock in share mode; -- 2
+select sleep(3);
+update parent set name = ""FOO"" where id = 1; -- 1のslockの解放待ち
+COMMIT;
+' &
+wait
+# 結局、同一レコードの更新はxlockを事前に取得する必要がある
+",/Users/mbp/workspace/sandbox/sql/deadlock/read1Row.sh
+2つのプロセスが、別々のレコードにxlockを順次とると発生する可能性がある,"# A 1 => 2
+# B  2 => 1
+mysql db <<EOS
+drop table if exists parent;
+create table parent (id int primary key, name varchar(16));
+insert into parent values (1, ""a""), (2, ""b"");
+EOS
+mysql db -e '
+BEGIN;
+select id from parent where id = 1 for update;
+select sleep(2);
+update parent set name = ""HOGE"" where id = 2;
+COMMIT;
+' &
+mysql db -e '
+BEGIN;
+select sleep(1);
+select id from parent where id = 2 for update;
+select sleep(3);
+update parent set name = ""FOO"" where id = 1;
+COMMIT;
+' &
+wait
+",/Users/mbp/workspace/sandbox/sql/deadlock/readMoreThan2Rows.sh
+2つのプロセスが、別々のレコードにxlockを順次とると発生する可能性がある(回避),"# 参照する必要のある行は全てxlock
+mysql db <<EOS
+drop table if exists parent;
+create table parent (id int primary key, name varchar(16));
+insert into parent values (1, ""a""), (2, ""b"");
+EOS
+mysql db -e '
+BEGIN;
+select id from parent where id = 1 or id = 2 for update;
+select sleep(2);
+update parent set name = ""HOGE"" where id = 2;
+COMMIT;
+' &
+mysql db -e '
+BEGIN;
+select sleep(1);
+select id from parent where id = 2 or id = 1 for update;
+select sleep(3);
+update parent set name = ""FOO"" where id = 1;
+COMMIT;
+' &
+wait
+",/Users/mbp/workspace/sandbox/sql/deadlock/readMoreThan2RowsOK.sh
 トランザクションの隔離レベル,"# READ UNCOMMITTED (dirty readも起こる) (別のトランザクションを気にしない)
 # READ COMMITTED (fuzyy, phantom, lost update)
 # REPEATABLE READ (lost updateの可能性) => mysqlのdefaultだがphantomは起こらない
@@ -5778,12 +5876,30 @@ select * from child c right join parent p using (parent_id);
 -- C,4
 -- 親Dは子に参照されていない, Eは存在しないので(5,E)は含めない
 ",/Users/mbp/workspace/sandbox/sql/join/join.sql
+"[親ID], [(子ID, 親ID)]= [A,B,C,D], [(1,A), (2,B), (3,A), (4,C), (5,E)] => left join","-- A,1
+-- A,3
+-- B,2
+-- C,4
+-- D,NULL
+-- Eは左側に存在しないので含めない
+",/Users/mbp/workspace/sandbox/sql/join/join.sql
 subqueryの種類,"PRIMARY・・・外部クエリを示す。
 DEPENDENT SUBQUERY・・・相関関係のあるサブクエリ。(外側M * 内側N = M*Nの計算量になる可能性が高い)
 DERIVED・・・FROM句で用いられているサブクエリ。 (この場合だけ内側を先に計算)
 SUBQUERY・・・相関関係のないサブクエリ。 (外側を参照しないので、１度だけサブクエリを評価すればよい)
 UNCACHEABLE SUBQUERY・・・実行する度に結果が変わる可能性のあるサブクエリ。 (キャッシュされず毎回実行されるので遅い)
 ",/Users/mbp/workspace/sandbox/sql/join/subquery.sql
+SLOCKが必要となる例,"# 親の名前で子供を作成する(parent id = 1をSLOCKして、insertを確実に成功させる)
+mysql db -e '
+-- set @pname = (select name from parent where id = 1);  -- SLOCKしないとFK errorとなる
+set @pname = (select name from parent where id = 1 lock in share mode);
+select sleep(2);
+insert into child (name, parent_id) values (@pname, 1);
+' &
+sleep 1
+mysql db -e 'delete from parent where id = 1;' &
+wait
+",/Users/mbp/workspace/sandbox/sql/lock/slockParent.sh
 insertでの排他制御,"updateとは異なり楽観ロックをかけることができないので、unique制約を使い整合性を保つ
 unique(parent_id default=0, user_id)
 この場合、もし競合状態が発生しても一つしか生成されない
@@ -5800,6 +5916,27 @@ execute stmt using @numbers;
 AS X
 where counter <= (@counter / 10);
 ",/Users/mbp/workspace/sandbox/sql/query/10percentOfRecords.sql
+"WHERE, GROUP BY, HAVINGの評価順","drop table if exists store;
+create table store (name varchar(255), sales integer);
+insert into store values (""A"", 3);
+insert into store values (""A"", 6);
+insert into store values (""A"", 9);
+insert into store values (""B"", 1);
+insert into store values (""B"", 3);
+insert into store values (""C"", 1);
+insert into store values (""D"", 2);
+SELECT name, AVG(sales) FROM store
+WHERE name != ""D""
+GROUP BY name HAVING AVG(sales) >= 2;
+-- WHERE -> GROUP BY -> HAVINGの順に評価
+/*
+# Dが結果にないので、WHEREで絞り込まれているのがわかる
+$ mysql db < ../query/evalOrder.sql
+name    AVG(sales)
+A       6.0000
+B       2.0000
+*/
+",/Users/mbp/workspace/sandbox/sql/query/evalOrder.sql
 :Q:user_id=1に関する友達の友達,"select u.user_id from user u
 join contact c1 on c1.user_id = u.user_id
 join contact c2 on c2.user_id = c1.other_id
@@ -5834,6 +5971,51 @@ on u.id = g.user_id group by u.id order by AVG(g.score) desc limit 3;
 on u.id = sg.user_id order by sg.a_score desc limit 3;
 -- (user_id, 平均)のテーブルを作り、それに対してjoinして順番を決める
 ",/Users/mbp/workspace/sandbox/sql/query/top10StudentsAboutScore.sql
+BugsProductsとBugsから最新版Top3を取得の適切なindex???,"mysql db -e ""ALTER TABLE Bugs ADD INDEX i1 (bug_id, date_reported);""
+",/Users/mbp/workspace/sandbox/sql/sh/bugReports.sh
+BugsProductsとBugsから最新版のバグIDを取得 O(N^2) +subquery,"# 自分が最大であれば、自分よりも大きいものは存在しない
+mysql db -e ""
+explain select bp1.product_id, b1.date_reported from BugsProducts bp1 join Bugs b1 using (bug_id)
+where not exists (select 1 from BugsProducts bp2 join Bugs b2 using (bug_id)
+where bp2.product_id = bp1.product_id and (b2.date_reported > b1.date_reported
+or (b2.date_reported = b1.date_reported and b2.bug_id > b1.bug_id)))  # これがないと複数の最大候補があった時に全て取得することになる
+""
+",/Users/mbp/workspace/sandbox/sql/sh/bugReports.sh
+BugsProductsとBugsから最新版のバグIDを取得 O(N^2) +join,"# where => on, is nullでの検索
+mysql db -e ""
+explain select bp1.product_id, b1.date_reported from BugsProducts bp1 join Bugs b1 using (bug_id)
+left outer join (BugsProducts bp2 join Bugs b2 using (bug_id))
+on bp2.product_id = bp1.product_id and (b2.date_reported > b1.date_reported
+or (b2.date_reported = b1.date_reported and b2.bug_id > b1.bug_id))
+where bp2.product_id is null
+""
+",/Users/mbp/workspace/sandbox/sql/sh/bugReports.sh
+BugsProductsとBugsから最新版のバグIDを取得 +max,"mysql db -e ""
+select bp1.product_id, b1.date_reported from BugsProducts bp1 join Bugs b1 using (bug_id)
+where b1.date_reported in (select max(b2.date_reported) from BugsProducts bp2 join Bugs b2 using (bug_id)
+where bp1.product_id = bp2.product_id);
+""
+",/Users/mbp/workspace/sandbox/sql/sh/bugReports.sh
+BugsProductsとBugsから最新版のバグIDを取得でのエラー例,"# This version of MySQL doesn't yet support 'LIMIT & IN/ALL/ANY/SOME subquery
+mysql db -e ""
+select bp1.product_id, b1.date_reported from BugsProducts bp1 join Bugs b1 using (bug_id)
+where b1.bug_id in (select b2.bug_id from BugsProducts bp2 join Bugs b2 using (bug_id)
+where bp1.product_id = bp2.product_id order by b2.date_reported limit 1);
+""
+# bug_idを一意に定めることができないためエラー. (あるいはbug_idを排除)
+mysql db -e ""
+SELECT product_id, MAX(date_reported) AS latest, bug_id
+FROM Bugs INNER JOIN BugsProducts USING (bug_id)
+GROUP BY product_id; 
+""
+",/Users/mbp/workspace/sandbox/sql/sh/bugReports.sh
+BugsProductsとBugsから最新版Top3を取得,"# select 1 => count(*)とイコールをつける (ただし3レコード以下とぴったり3ではない)
+mysql db -e ""
+explain select bp1.product_id, b1.date_reported from BugsProducts bp1 join Bugs b1 using (bug_id)
+where (select count(*) from BugsProducts bp2 join Bugs b2 using (bug_id)
+where bp2.product_id = bp1.product_id and (b2.date_reported >= b1.date_reported)) <= 3
+""
+",/Users/mbp/workspace/sandbox/sql/sh/bugReports.sh
 insertによるdeadlockの例,"# unique key + bulk insertはdeadlockの可能性がある(解決方法はソート)
 mysql db -e '
 drop table if exists p;
@@ -5852,11 +6034,6 @@ wait
 # あるいは
 # q1がN-1のXLOCK, q2がN, N+1のXLOCKを取得した時点でdeadlock
 ",/Users/mbp/workspace/sandbox/sql/sh/bulkInsert.sh
-異なるデータを一つのリストに混在させる方法,"-- 1. １つのテーブルにまとめる. (非正規化。余計なカラムが多くなる)
--- 2. 親に共通部分をまとめる. 子供で別々のカラムを定義 (継承問題)
--- 3. union. sortするのでoffsetのコストが高い. 予めtableをfilterしておく
--- 4. マテリアルview. データのためのリソースとindexの再計算処理のコスト
-",/Users/mbp/workspace/sandbox/sql/union.sql
 int main() ,"int main() {
   short int word = 0x0001;  // 2byte
   char *byte = (char *) &word;
