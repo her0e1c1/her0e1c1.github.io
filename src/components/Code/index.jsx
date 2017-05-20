@@ -115,6 +115,7 @@ class Code extends React.Component {
   }
 
   componentDidMount() {
+    document.body.classList.toggle("dark", true)
     this.fetch(true)
   }
 
