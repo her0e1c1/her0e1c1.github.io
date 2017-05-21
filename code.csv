@@ -5684,23 +5684,6 @@ select * from s;
 -- 3. union. sortするのでoffsetのコストが高い. 予めtableをfilterしておく
 -- 4. マテリアルview. データのためのリソースとindexの再計算処理のコスト
 ",/Users/mbp/workspace/sandbox/sql/basic.sql
-cascadeとは,"alter table child add foreign key (parent_id) references parent (id)
-on delete cascade on update cascade;
--- update: 親の主キーが変更された場合に、子の参照keyを親の値に更新
--- delete: 親のレコードを削除した場合に、子ののレコードも削除
-",/Users/mbp/workspace/sandbox/sql/cascade/cascade.sql
-restrictとは？,"alter table child add foreign key (parent_id) references parent (id)
-on delete restrict on update restrict;
--- 子供が参照した状態で、削除更新しようとするとエラー
--- ""SET CONSTRAINTS ALL DEFERRED""というコマンドを使うことで
--- 外部キー制約に限ってトランザクションの終わりまで制約の検査を遅延させることができる
-",/Users/mbp/workspace/sandbox/sql/cascade/restrict.sql
--- set nullとは？(parent/childで説明),"-- set nullとは？(parent/childで説明)
-alter table child add foreign key (parent_id) references parent (id)
-on delete set null on update set null;
--- update: 親の主キーが変更された場合に、子の参照keyをNULLにする
--- delete: 親のレコードを削除した場合に、子の参照keyをNULLにする
-",/Users/mbp/workspace/sandbox/sql/cascade/setNull.sql
 外部参照keyが原因でdeadlockを起こす例,"mysql db <<EOS
 drop table if exists child, parent;
 create table child (id int, pid int, primary key (id));
@@ -5971,6 +5954,12 @@ on u.id = g.user_id group by u.id order by AVG(g.score) desc limit 3;
 on u.id = sg.user_id order by sg.a_score desc limit 3;
 -- (user_id, 平均)のテーブルを作り、それに対してjoinして順番を決める
 ",/Users/mbp/workspace/sandbox/sql/query/top10StudentsAboutScore.sql
+外部参照keyに存在しない値を指定してinsertは不可,"mysql db -e ""
+insert into p values (1);
+insert into c values (1, 1);
+insert into c values (2, 2);
+""
+",/Users/mbp/workspace/sandbox/sql/sh/FK.sh
 BugsProductsとBugsから最新版Top3を取得の適切なindex???,"mysql db -e ""ALTER TABLE Bugs ADD INDEX i1 (bug_id, date_reported);""
 ",/Users/mbp/workspace/sandbox/sql/sh/bugReports.sh
 BugsProductsとBugsから最新版のバグIDを取得 O(N^2) +subquery,"# 自分が最大であれば、自分よりも大きいものは存在しない
@@ -6034,6 +6023,91 @@ wait
 # あるいは
 # q1がN-1のXLOCK, q2がN, N+1のXLOCKを取得した時点でdeadlock
 ",/Users/mbp/workspace/sandbox/sql/sh/bulkInsert.sh
+cascadeとは,"# update: 親の主キーが変更された場合に、子の参照keyを親の値に更新
+# delete: 親のレコードを削除した場合に、子ののレコードも削除
+mysql db -e ""
+alter table c add foreign key (pid) references p (id) on delete cascade on update cascade;
+update p set id = 100 where id = 1;
+delete from p where id = 2;
+select * from c order by name;
+/*
+    update
+    親を更新したら、子供のkeyも更新
+    （親の主キーが変更されたときのみ子も更新される）
+",/Users/mbp/workspace/sandbox/sql/sh/cascade.sh
+set nullとは,"# update: 親の主キーが変更された場合に、子の参照keyをNULLにする
+# delete: 親のレコードを削除した場合に、子の参照keyをNULLにする
+mysql db -e ""
+alter table c add foreign key (pid) references p (id) on delete set null on update set null;
+update p set id = 100 where id = 1;
+delete from p where id = 2;
+select * from c;
+/*
+    update
+    親を更新したら、子供のkeyをnullに設定
+    （親の主キーが変更されたときのみ子も更新される）
+",/Users/mbp/workspace/sandbox/sql/sh/cascade.sh
+restrictとは？,"# update: 子供が参照した状態で、親の主キーを更新しようとするとエラー
+# delete: 子供が参照した状態で、親の主キーを削除しようとするとエラー
+mysql db -e ""
+alter table c add foreign key (pid) references p (id) on delete restrict on update restrict;
+-- 子供がいなければ問題無し
+update parent set id = 100 where id = 4;
+delete from parent where id = 100;
+select * from c;
+""
+mysql db -e ""update p set id = 100 where id = 1;""
+mysql db -e ""delete from p where id = 2;""
+# なお""SET CONSTRAINTS ALL DEFERRED""というコマンドを使うことで
+# 外部キー制約に限ってトランザクションの終わりまで制約の検査を遅延させることができる
+",/Users/mbp/workspace/sandbox/sql/sh/cascade.sh
+no actionとは,"# mysqlではrestrictと同じ
+# 本来の意味としては、子供の外部参照keyをそのまま存在しない親を参照させておくだと思われる???
+mysql db -e ""
+alter table c add foreign key (pid) references p (id) on delete no action on update no action;
+""
+mysql db -e ""update p set id = 100 where id = 1;""
+mysql db -e ""delete from p where id = 2;""
+",/Users/mbp/workspace/sandbox/sql/sh/cascade.sh
+"type==constとなる場合""","# mysql db -e ""explain select * from p where id = 10;""  # : 一致するレコードが1つ かつ primary key (or unique index) を使った場合
+",/Users/mbp/workspace/sandbox/sql/sh/index.sh
+"indexが効く場合""","mysql db -e ""explain select * from p where id = 10;""
+mysql db -e ""explain select * from p where id between 10 and 20;""
+mysql db -e ""explain select * from p where age = 10;""
+mysql db -e ""explain select * from p where age > 50 and name = 'a';""; echo ""range""
+mysql db -e ""explain select * from p where age > 10 and name < 'a';"" # 逆向きOK
+mysql db -e ""explain (select * from p force index (idx) where age < 30 and name = 'a')""  # 明示しないとtype=rangeにならない場合あり
+mysql db -e ""explain select * from p where age is NULL and name = 'n10'""  # is NULLもOK
+",/Users/mbp/workspace/sandbox/sql/sh/index.sh
+"full scan""","mysql db -e ""explain select * from p force index (primary) where age < 10;""
+",/Users/mbp/workspace/sandbox/sql/sh/index.sh
+"without filesort""","mysql db -e ""explain select * from p order by age, name;"" # (k1, k2) の順番
+mysql db -e ""explain select * from p order by age;"" # k1のみ
+mysql db -e ""explain select * from p where age = 10 order by name;"" # =k1 かつ k2のソート
+",/Users/mbp/workspace/sandbox/sql/sh/index.sh
+"using filesort""","mysql db -e ""explain select * from p order by name;""  # 第二keyのみのソート
+mysql db -e ""explain select * from p where age < 10 order by name;""  # 第一keyが絞り込まれていない場合の第二keyのみのソート
+mysql db -e ""explain select * from p order by name, age;""  # keyの順番が逆
+mysql db -e ""explain select * from p order by age asc, name desc;""  # asc, descの混在
+",/Users/mbp/workspace/sandbox/sql/sh/index.sh
+"union using filesort""","# `A union all B`は、Aの次にBを並べるので、order byを付加すると必ずfilesortが必要になる => ただしfilterした場合は、client側でのsortさせるのもありかも
+mysql db -e ""explain select * from ((select * from p force index (idx) where age < 30 order by age) union all (select * from p force index (idx) where age < 30 order by age)) as a order by age""
+mysql db -e ""explain (select * from p force index (idx) where age < 30 and name = 'a') union all (select * from p force index (idx) where age < 30 and name = 'a')""
+# unionの内側のsortに対してはindexを用いてsortができるのでfilesort不要 (typeがrangeとindexが表示されて安定しないけど)
+mysql db -e ""explain select * from ((select * from p force index (idx) where age < 30 order by age) union all (select * from p force index (idx) where age < 30 order by age)) as a""
+",/Users/mbp/workspace/sandbox/sql/sh/index.sh
+"indexを用いたfull scan(ALLと同じくらい遅い)""","mysql db -e ""explain select * from p where name = 'aa';""  # 複合indexの二つ目しか使っていないため
+mysql db -e ""explain select * from p where age = 10 or name = 'aa';""  # 複合indexを使ってはいるがandでないため
+mysql db -e ""explain select * from p where id % 2 = 0;"" # (不)等号以外の演算子を使用
+",/Users/mbp/workspace/sandbox/sql/sh/index.sh
+特定の日の一つ前と一つ後のレコードを同時に取得,"mysql db -e ""
+set @now = (select date from p where id = 100);
+select * from p where date = @now;
+(select * from p where date < @now order by date desc limit 1) -- prev
+union all
+(select * from p where date > @now order by date asc limit 1); -- next
+""
+",/Users/mbp/workspace/sandbox/sql/sh/next.sh
 int main() ,"int main() {
   short int word = 0x0001;  // 2byte
   char *byte = (char *) &word;
