@@ -10,7 +10,7 @@ const DEV_PORT = 10000;
 
 const devConfig = {
   entry: {
-    home: './src/index.js',
+    home: './src/index.tsx',
   },
   output: {
     filename: '[name].js',  // [hash], [id]
@@ -71,6 +71,7 @@ const devConfig = {
    }),
     new webpack.DefinePlugin({
       __HOST__: JSON.stringify(IS_PRODUCTION ? "her0e1c1.github.io" : `localhost:${DEV_PORT}`),
+      __PYSTOCK_HOST__: JSON.stringify(IS_PRODUCTION ? `ws://${process.env.PYSTOCK_HOST}/` :"ws://localhost:10001/"),
       // __WEBSOCKET_URL__: JSON.stringify("ws://localhost:13309/socket")
       __WEBSOCKET_URL__: JSON.stringify("ws://45.76.187.197:13309/socket")
     }),

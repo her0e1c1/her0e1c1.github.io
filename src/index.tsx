@@ -7,10 +7,11 @@ import Root from './components/Root'
 import Reducers from './reducers'
 import 'whatwg-fetch'
 
+// where should this be defined?
+declare global {
+  export const __PYSTOCK_HOST__: string;
+}
+
 let store = createStore(Reducers)
 const Main = () => <Provider store={store}><Root /></Provider>
 ReactDOM.render(<Main /> ,document.getElementById('main'))
-
-// const Head = () => <div/>
-// const head = document.getElementsByTagName("head")[0]
-// head.appendChild(<Head/>)
