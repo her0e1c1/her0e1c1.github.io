@@ -10,6 +10,8 @@
     "build": "NODE_ENV=production /app/node_modules/.bin/webpack -p --config webpack.config.js"
   },
   "devDependencies": {
+    "@types/query-string": "^4.3.1",
+    "@types/react": "^15.0.31",
     "awesome-typescript-loader": "^3.1.3",
     "babel-cli": "^6.23.0",
     "babel-core": "^6.21.0",
@@ -33,8 +35,8 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
-    "@types/query-string": "^4.3.1",
-    "@types/react": "^15.0.31",
+    "@types/react-dom": "^15.5.1",
+    "@types/react-redux": "^4.4.45",
     "highcharts": "^5.0.10",
     "marked": "^0.3.6",
     "papaparse": "^4.2.0",
