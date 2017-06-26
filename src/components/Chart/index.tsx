@@ -1,9 +1,11 @@
 import React = require('react');
 import ReactHighstock = require('react-highcharts/ReactHighstock.src')
 import parser = require('query-string');
-import { Socket } from 'src/phoenix.js'
-import { PhoenixClient } from 'src/components/PhoenixClient';
 
+// import { Socket } from 'src/phoenix.js'
+// import { PhoenixClient } from 'src/components/PhoenixClient';
+
+/*
 class Message extends React.Component {
 
   constructor(props) {
@@ -54,8 +56,8 @@ class Message extends React.Component {
         text: 'Stock Price'
       },
       yAxis: {
-        /* max: Math.max(data.map(e => e[1])),
-         * min: Math.min(data.map(e => e[1])),*/
+        // max: Math.max(data.map(e => e[1])),
+        //* min: Math.min(data.map(e => e[1])),
         plotLines: [{
           value: buy_price || -1,
           color: 'green',
@@ -127,23 +129,52 @@ class Topic extends React.Component {
     </div>
     )}
 }
+    // socket.connect()
+    // socket.onError(e => console.log(e))
+    // socket.onClose(() => console.log("the connection dropped"))
+*/
 
-class Chart extends React.Component {
+interface State {
+  socket: WebSocket;
+  data: number[];
+  errorMsg: string;
+}
+
+class Chart extends React.Component<null, State> {
 
   constructor(props) {
     super(props)
-    const socket = new Socket(__WEBSOCKET_URL__)
-    socket.connect()
-    socket.onError(e => console.log(e))
-    socket.onClose(() => console.log("the connection dropped"))
-    this.state = {socket}
+    let socket = new WebSocket(__PYSTOCK_HOST__)
+    socket.onopen = () => {
+      socket.send('{"quandl_code": "TSE/1301"}')
+    }
+    socket.onmessage = (m) => {
+      this.setState({data: JSON.parse(m.data)})
+    }
+    socket.onerror = (e) => {
+      console.log(e)
+      this.setState({errorMsg: "SOME ERROR HAPPENS"});
+    }
+    this.state = {
+      data: [],
+      errorMsg: "",
+      socket,
+    }
   }
 
   render() {
-    const {socket} = this.state
+    const {errorMsg, socket} = this.state;
+    const config = {
+      series: [{
+        type: "line",
+        data: this.state.data // [[date, price]]
+      }
+        ],
+    };
     return (
       <div>
-        <Topic socket={socket} topic={"chat:client"} events={["test"]} />
+        {errorMsg && <div>{errorMsg}</div>}
+        <ReactHighstock config={config} />
       </div>
     )}
 }

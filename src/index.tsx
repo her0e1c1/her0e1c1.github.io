@@ -1,5 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React = require('react')
+import ReactDOM = require('react-dom')
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 

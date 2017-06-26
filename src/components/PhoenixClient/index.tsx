@@ -2,6 +2,7 @@ import React = require('react')
 import { Socket } from 'src/phoenix.js'
 
 // <Command value="get2 TSE/7203" channel={channel} event="bot">Predict TSE/7203</Command>
+/*
 class Command extends React.Component {
   constructor(props) {
     super(props)
@@ -23,7 +24,6 @@ class Command extends React.Component {
     return <button onClick={this.handleClick} >{children}</button>
   }
 }
-
 
 class Input extends React.Component {
   constructor(props) {
@@ -163,3 +163,4 @@ export = {
   PhoenixClient,
   Topic,
 }
+*/
