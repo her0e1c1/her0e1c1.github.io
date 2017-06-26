@@ -4,6 +4,8 @@ services:
   main:
     container_name: github
     image: github
+    build:
+      context: ./
     tty: true
     stdin_open: true
     entrypoint: /bin/bash
