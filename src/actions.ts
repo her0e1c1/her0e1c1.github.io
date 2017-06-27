@@ -1,4 +1,3 @@
-
 export const changeLanguage = (language: string = "en") => {
-  return {type: "CHANGE_LANGUAGE", language}
-}
+  return { type: "CHANGE_LANGUAGE", language };
+};

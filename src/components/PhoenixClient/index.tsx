@@ -1,5 +1,5 @@
-import React = require('react')
-import { Socket } from 'src/phoenix.js'
+import React = require("react");
+import { Socket } from "src/phoenix.js";
 
 // <Command value="get2 TSE/7203" channel={channel} event="bot">Predict TSE/7203</Command>
 /*
