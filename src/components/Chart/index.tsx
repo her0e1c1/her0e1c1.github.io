@@ -70,11 +70,11 @@ class Chart extends React.Component<null, State> {
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
       const s = data.series;
-      console.log(data)
+      console.log(data);
       if ("volumn" in data) {
         this.showVolumn(data.volume);
       }
-      const CANDLE_KEYS = ["open", "high", "low", "close"]
+      const CANDLE_KEYS = ["open", "high", "low", "close"];
       if (CANDLE_KEYS.map(k => k in data).every(x => x)) {
         this.showOHLC(data);
       } else if (s instanceof Array) {
@@ -92,16 +92,14 @@ class Chart extends React.Component<null, State> {
   }
 
   showVolumn(volume: number[]) {
-    const series = data.open.map((d, i) => [d[0] * 1000, d[1], data.high[i][1], data.low[i][1], data.close[i][1]]]);
-    const d = {"name": "volume", "data": volume, "type": "column", "yAxis": 1},
-    ;
+    const data = volume.map((d, i) => [d[0] * 1000, d[1]]);
+    const d = { name: "volume", data, type: "column", yAxis: 1 };
     this.setState({ series: this.state.series.concat(d) });
-
   }
 
   showOHLC(data: any) {
     // TOOD: refactor with zip
-    const series = data.open.map((d, i) => [d[0] * 1000, d[1], data.high[i][1], data.low[i][1], data.close[i][1]]]);
+    const series = data.open.map((d, i) => [d[0] * 1000, d[1], data.high[i][1], data.low[i][1], data.close[i][1]]);
     const d = {
       type: "candlestick",
       data: series,
@@ -142,11 +140,11 @@ class Chart extends React.Component<null, State> {
       chart: { height: 500 },
       rangeSelector: { selected: 1 },
       yAxis: [
-        {title: {text: 'OHLC'}, height: '60%', plotLines: this.state.yLines},
-        {title: {text: 'Volume'}, height: '10%', top: '60%'},
-        {title: {text: 'RSI'}, height: '10%', top: '80%'},
-        {title: {text: 'MACD'}, height: '10%', top: '90%'},
-        {title: {text: 'stochastic'}, height: '10%', top: '70%'},
+        { title: { text: "OHLC" }, height: "60%", plotLines: this.state.yLines },
+        { title: { text: "Volume" }, height: "10%", top: "60%" },
+        { title: { text: "RSI" }, height: "10%", top: "80%" },
+        { title: { text: "MACD" }, height: "10%", top: "90%" },
+        { title: { text: "stochastic" }, height: "10%", top: "70%" },
       ],
       series: this.state.series,
     };
