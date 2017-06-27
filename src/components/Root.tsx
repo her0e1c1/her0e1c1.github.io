@@ -1,4 +1,4 @@
-import React from 'react'
+import React = require("react");
 import { Router, Route, Redirect, IndexRoute, browserHistory } from 'react-router'
 import parser = require('query-string');
 
