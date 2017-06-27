@@ -5,6 +5,11 @@ start0:
 start:
 	docker exec -it github yarn start
 
+fmt:
+	docker exec -it github yarn fmt
+	git add .
+	git commit -m 'fmt'
+
 build:
 	-docker exec -it github yarn build
 
