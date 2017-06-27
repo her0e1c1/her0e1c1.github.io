@@ -1,41 +1,40 @@
 import React = require("react");
-import { Router, Route, Redirect, IndexRoute, browserHistory } from 'react-router'
-import parser = require('query-string');
+import { Router, Route, Redirect, IndexRoute, browserHistory } from "react-router";
+import parser = require("query-string");
 
-import Header from './Header'
-import Main from './Samples'
-import Schemejs from './Samples/Schemejs'
-import CsvParser from './Samples/CsvParser'
-import PhoenixClient from './PhoenixClient'
-import About from './About'
-import Resume from './Resume'
-import Code from './Code'
-import CSS from './CSS'
-import Chart from './Chart'
+import Header from "./Header";
+import Main from "./Samples";
+import Schemejs from "./Samples/Schemejs";
+import CsvParser from "./Samples/CsvParser";
+import PhoenixClient from "./PhoenixClient";
+import About from "./About";
+import Resume from "./Resume";
+import Code from "./Code";
+import CSS from "./CSS";
+import Chart from "./Chart";
 
-const Footer = () =>
-  <footer />
-  // <footer> &copy; Hiroyuki Ishii 2017. All Rights Reserved </footer>
+const Footer = () => <footer />;
+// <footer> &copy; Hiroyuki Ishii 2017. All Rights Reserved </footer>
 
 class App extends React.Component {
-
   componentDidMount() {
-    let qs = parser.parse(window.location.search)
+    let qs = parser.parse(window.location.search);
     if (qs.path) {
-      const path = qs.path
-      delete qs.path
-      browserHistory.push(`${path}?${parser.stringify(qs)}`)  // can't use window.location.href on github
+      const path = qs.path;
+      delete qs.path;
+      browserHistory.push(`${path}?${parser.stringify(qs)}`); // can't use window.location.href on github
     }
   }
-  
+
   render() {
     return (
       <div>
-        <Header/>
+        <Header />
         {this.props.children}
         <Footer />
       </div>
-    )}
+    );
+  }
 }
 
 const Root = () =>
@@ -55,6 +54,6 @@ const Root = () =>
     </Route>
     <Route path="/css" component={CSS} />
     <Route path="/sample" component={Code} />
-  </Router>
+  </Router>;
 
-export default Root
+export default Root;

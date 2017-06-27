@@ -155,7 +155,6 @@ const map = A => {
 class Chart extends React.Component<null, State> {
   constructor(props) {
     super(props);
-    console.log("Hi")
     let socket = new WebSocket(__PYSTOCK_HOST__);
     socket.onopen = () => {
       const qs = parser.parse(window.location.search);
@@ -163,12 +162,15 @@ class Chart extends React.Component<null, State> {
     };
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
-      let series = this.state.series;
-      series.push({
-        type: "line",
-        data, // [[date, price]]
-      });
-      this.setState({ series });
+      // console.log(data)
+      if (data instanceof Array) {
+        this.showSeries(data);
+      } else if (data instanceof Number) {
+        this.showPriceOnY(data);
+      } else {
+        this.showPriceOnY(data);
+        console.log(data);
+      }
     };
     socket.onerror = e => {
       console.log(e);
@@ -177,14 +179,40 @@ class Chart extends React.Component<null, State> {
 
     this.state = {
       series: [],
+      yLines: [],
       errorMsg: "",
       socket,
     };
   }
 
+  showSeries(data: number[]) {
+    const d = {
+      type: "line",
+      data, // [[date, price]]
+    };
+    this.setState({ series: this.state.series.concat(d) });
+  }
+
+  showPriceOnY(price: number) {
+    let series = this.state.series;
+    this.setState({
+      yLines: this.state.yLines.concat({
+        value: price,
+        color: "#FF00FF",
+        width: 2,
+        label: {
+          text: "price",
+        },
+      }),
+    });
+  }
+
   render() {
     const { errorMsg, socket } = this.state;
     const config = {
+      yAxis: {
+        plotLines: this.state.yLines,
+      },
       series: this.state.series,
     };
     return (
