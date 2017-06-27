@@ -186,6 +186,7 @@ class Chart extends React.Component<null, State> {
   }
 
   showSeries(data: number[]) {
+    data = data.map(d => [d[0] * 1000, d[1]])  // needs to convert millisecond
     const d = {
       type: "line",
       data, // [[date, price]]
