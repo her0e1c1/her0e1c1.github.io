@@ -6,9 +6,9 @@
   "author": "Hiroyuki Ishii",
   "scripts": {
     "start": "/app/node_modules/.bin/webpack-dev-server -d --config webpack.config.js --history-api-fallback",
-      "start0": "/app/node_modules/.bin/webpack-dev-server -d --config webpack.config.js --history-api-fallback --host 0.0.0.0",
-      "fmt": "./node_modules/.bin/prettier --write --semi true --print-width 120 --trailing-comma es5 \"src/**/*.ts*\"",
-      "build": "NODE_ENV=production /app/node_modules/.bin/webpack -p --config webpack.config.js"
+    "start0": "/app/node_modules/.bin/webpack-dev-server -d --config webpack.config.js --history-api-fallback --host 0.0.0.0",
+    "fmt": "./node_modules/.bin/prettier --write --semi true --print-width 120 --trailing-comma es5 \"src/**/*.ts*\"",
+    "build": "NODE_ENV=production /app/node_modules/.bin/webpack -p --config webpack.config.js"
   },
   "devDependencies": {
     "@types/query-string": "^4.3.1",
@@ -25,13 +25,13 @@
     "babel-preset-env": "^1.1.4",
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.18.0",
-    "prettier": "^1.4.4",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "html-loader": "^0.4.5",
     "html-webpack-plugin": "^2.25.0",
     "json-loader": "^0.5.4",
     "markdown-loader": "^2.0.0",
+    "prettier": "^1.4.4",
     "react-highlight": "^0.9.0",
     "react-markdown-loader": "^1.1.10",
     "typescript": "^2.3.2",
@@ -39,6 +39,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "@types/react-router": "^4.0.12",
     "highcharts": "^5.0.10",
     "marked": "^0.3.6",
     "papaparse": "^4.2.0",
