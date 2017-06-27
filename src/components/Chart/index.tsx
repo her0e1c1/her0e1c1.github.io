@@ -101,17 +101,17 @@ class Topic extends React.Component {
 interface Series {
   quandl_code: string;
   series: number[]; // [[date, price]]
- }
+}
 
 interface yLine {
   name: string;
   value: number; // [[date, price]]
- }
+}
 
 interface State {
   socket: WebSocket;
   series: any[];
-  yLines: any[],
+  yLines: any[];
   errorMsg: string;
 }
 
@@ -160,8 +160,8 @@ class Chart extends React.Component<null, State> {
     };
   }
 
-  showSeries({series, quandl_code}: Series) {
-    series = series.map(d => [d[0] * 1000, d[1]])  // needs to convert millisecond
+  showSeries({ series, quandl_code }: Series) {
+    series = series.map(d => [d[0] * 1000, d[1]]); // needs to convert millisecond
     const d = {
       type: "line",
       name: quandl_code,
