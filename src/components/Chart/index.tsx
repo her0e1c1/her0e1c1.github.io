@@ -130,7 +130,17 @@ const map = A => {
 class Chart extends React.Component<null, State> {
   constructor(props) {
     super(props);
-    let socket = new WebSocket(__PYSTOCK_HOST__);
+    this.state = {
+      socket: new WebSocket(__PYSTOCK_HOST__),
+      series: [],
+      yLines: [],
+      errorMsg: "",
+      socket,
+    };
+  }
+
+  componentDidMount() {
+    let socket = this.state.socket;
     socket.onopen = () => {
       const qs = parser.parse(window.location.search);
       socket.send(JSON.stringify(map(qs)));
@@ -150,13 +160,6 @@ class Chart extends React.Component<null, State> {
     socket.onerror = e => {
       console.log(e);
       this.setState({ errorMsg: "SOME ERROR HAPPENS" });
-    };
-
-    this.state = {
-      series: [],
-      yLines: [],
-      errorMsg: "",
-      socket,
     };
   }
 
