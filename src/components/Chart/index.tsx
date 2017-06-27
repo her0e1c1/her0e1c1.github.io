@@ -71,7 +71,7 @@ class Chart extends React.Component<null, State> {
       const data = JSON.parse(m.data);
       const s = data.series;
       console.log(data);
-      if ("volumn" in data) {
+      if ("volume" in data) {
         this.showVolumn(data.volume);
       }
       const CANDLE_KEYS = ["open", "high", "low", "close"];
