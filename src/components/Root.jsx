@@ -53,6 +53,7 @@ const Root = () =>
       <Route path="resume" component={Resume} />
       <Route path="chart" component={Chart} />
     </Route>
+    <Route path="/chart" component={Chart} />
     <Route path="/css" component={CSS} />
     <Route path="/sample" component={Code} />
   </Router>
