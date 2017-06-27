@@ -3,66 +3,6 @@ import ReactHighstock = require("react-highcharts/ReactHighstock.src");
 import parser = require("query-string");
 
 /*
-class Message extends React.Component {
-
-  constructor(props) {
-    super(props)
-    const channel = props.channel
-    this.state = {
-      channel: props.channel,
-      events: props.events || [],
-      children: [],
-      data: [],
-      buy_price: null,
-    }
-  }
-
-  componentDidMount() {
-    const {channel, events} = this.state
-    const qs = parser.parse(window.location.search)
-    let code = ""
-    if (qs.code) {
-      code = qs.code
-    }
-    if (qs.bp) {
-        this.setState({buy_price: qs.bp})
-    }
-    channel.push(events[0], {body: code}, 10000)
-
-    events.map(e => {
-      channel.on(e, (msg) => {
-        console.log(msg)
-        this.setState({data: msg.data})
-      })
-    })
-
-  }
-
-  render() {
-    const {children, channel, events, buy_price} = this.state
-    let data = this.state.data.map(e => {
-      e[0] = new Date(e[0]).getTime();
-      return e
-    })
-    console.log(data)
-    var config = {
-      rangeSelector: {
-        selected: 1
-      },
-      title: {
-        text: 'Stock Price'
-      },
-      yAxis: {
-        // max: Math.max(data.map(e => e[1])),
-        //* min: Math.min(data.map(e => e[1])),
-        plotLines: [{
-          value: buy_price || -1,
-          color: 'green',
-          width: 2,
-          label: {
-            text: 'test'
-          }
-        }]
       },
       series: [{
         name: 'price',
@@ -79,22 +19,6 @@ class Message extends React.Component {
       </div>
     )}
 }
-
-// TODO: JOINボタン
-class Topic extends React.Component {
-  constructor(props) {
-    super(props)
-    if (props.socket == undefined)
-      throw "Undefined socket";
-    this.state = {
-      socket: props.socket,
-      topic: props.topic,
-      events: props.events || [],
-      channel: null,
-    }
-    this.handleClick = this.handleClick.bind(this);
-  }
-
 */
 
 interface Series {
@@ -150,7 +74,7 @@ class Chart extends React.Component<null, State> {
       if (s instanceof Array) {
         this.showSeries(data);
       } else if (typeof s == "number") {
-        this.showPriceOnY({value: s, text: data.name});
+        this.showPriceOnY({ value: s, text: data.name });
       } else {
         console.log(`UNKNOWN: ${s} (${typeof s})`);
       }
@@ -169,15 +93,20 @@ class Chart extends React.Component<null, State> {
       data: series,
     };
     this.setState({ series: this.state.series.concat(d) });
+
+    const min = Math.min(...series.map(e => e[1]));
+    this.showPriceOnY({ value: min, text: "min" });
+    const max = Math.max(...series.map(e => e[1]));
+    this.showPriceOnY({ value: max, text: "man" });
   }
 
-  showPriceOnY({value, text}) {
+  showPriceOnY({ value, text }) {
     let series = this.state.series;
     this.setState({
       yLines: this.state.yLines.concat({
         value,
-        label: { text },
-        dashStyle: 'shortdash',
+        label: { text: `${text} (${value})` },
+        dashStyle: "shortdash",
         color: "#FF00FF",
         width: 2,
       }),
@@ -186,6 +115,8 @@ class Chart extends React.Component<null, State> {
 
   getConfig() {
     return {
+      chart: { height: 1000 },
+      rangeSelector: { selected: 1 },
       yAxis: {
         plotLines: this.state.yLines,
       },
@@ -208,8 +139,6 @@ export default Chart;
 
 /*
 $('#container').highcharts('StockChart', {
-    chart: {height: 1000},
-    rangeSelector: {selected: 1},
     yAxis: [
         {title: {text: 'OHLC'}, height: '60%'},
         {title: {text: 'Volume'}, height: '10%', top: '60%'},
