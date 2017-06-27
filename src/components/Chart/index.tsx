@@ -1,6 +1,6 @@
-import React = require('react');
-import ReactHighstock = require('react-highcharts/ReactHighstock.src')
-import parser = require('query-string');
+import React = require("react");
+import ReactHighstock = require("react-highcharts/ReactHighstock.src");
+import parser = require("query-string");
 
 // import { Socket } from 'src/phoenix.js'
 // import { PhoenixClient } from 'src/components/PhoenixClient';
@@ -136,50 +136,67 @@ class Topic extends React.Component {
 
 interface State {
   socket: WebSocket;
-  data: number[];
+  series: any[];
   errorMsg: string;
 }
 
-class Chart extends React.Component<null, State> {
+const map = A => {
+  const f = (acc, k) => {
+    let a = [];
+    acc.forEach(x => {
+      let ss = A[k] instanceof Array ? A[k] : [A[k]];
+      ss.forEach(s => a.push(Object.assign({}, x, { [k]: s })));
+    });
+    return a;
+  };
+  return Object.keys(A).reduce(f, [[]]);
+};
 
+class Chart extends React.Component<null, State> {
   constructor(props) {
-    super(props)
-    let socket = new WebSocket(__PYSTOCK_HOST__)
+    super(props);
+    let socket = new WebSocket(__PYSTOCK_HOST__);
     socket.onopen = () => {
-      socket.send('{"quandl_code": "TSE/1301"}')
-    }
-    socket.onmessage = (m) => {
-      this.setState({data: JSON.parse(m.data)})
-    }
-    socket.onerror = (e) => {
-      console.log(e)
-      this.setState({errorMsg: "SOME ERROR HAPPENS"});
-    }
+      const qs = parser.parse(window.location.search);
+      socket.send(JSON.stringify(map(qs)));
+    };
+    socket.onmessage = m => {
+      const data = JSON.parse(m.data);
+      // console.log(msg)
+      let series = this.state.series;
+      series.push({
+        type: "line",
+        data, // [[date, price]]
+      });
+      this.setState({ series });
+    };
+    socket.onerror = e => {
+      console.log(e);
+      this.setState({ errorMsg: "SOME ERROR HAPPENS" });
+    };
+
     this.state = {
-      data: [],
+      series: [],
       errorMsg: "",
       socket,
-    }
+    };
   }
 
   render() {
-    const {errorMsg, socket} = this.state;
+    const { errorMsg, socket } = this.state;
     const config = {
-      series: [{
-        type: "line",
-        data: this.state.data // [[date, price]]
-      }
-        ],
+      series: this.state.series,
     };
     return (
       <div>
         {errorMsg && <div>{errorMsg}</div>}
         <ReactHighstock config={config} />
       </div>
-    )}
+    );
+  }
 }
 
-export = Chart
+export = Chart;
 
 /*
 $('#container').highcharts('StockChart', {
