@@ -155,6 +155,7 @@ const map = A => {
 class Chart extends React.Component<null, State> {
   constructor(props) {
     super(props);
+    console.log("Hi")
     let socket = new WebSocket(__PYSTOCK_HOST__);
     socket.onopen = () => {
       const qs = parser.parse(window.location.search);
@@ -162,7 +163,6 @@ class Chart extends React.Component<null, State> {
     };
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
-      // console.log(msg)
       let series = this.state.series;
       series.push({
         type: "line",
@@ -196,7 +196,7 @@ class Chart extends React.Component<null, State> {
   }
 }
 
-export = Chart;
+export default Chart;
 
 /*
 $('#container').highcharts('StockChart', {

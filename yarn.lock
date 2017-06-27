@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@types/history@*":
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.6.0.tgz#093d67ed780d889c9543f6dca24ebee0b6b9fc45"
+"@types/history@^3":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@types/history/-/history-3.2.1.tgz#0039ab0e0be2a0cc22bac171d27a44588103d123"
 
 "@types/query-string@^4.3.1":
   version "4.3.1"
@@ -23,11 +23,11 @@
     "@types/react" "*"
     redux "^3.6.0"
 
-"@types/react-router@^4.0.12":
-  version "4.0.12"
-  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-4.0.12.tgz#7ccf3433741393e22ede149b5cd733abfe594ffc"
+"@types/react-router@^3.0.2":
+  version "3.0.12"
+  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-3.0.12.tgz#afa9ab477440ae9d2efd4d150b043e67ce9ae06e"
   dependencies:
-    "@types/history" "*"
+    "@types/history" "^3"
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^15.0.31":
@@ -4407,11 +4407,7 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.1.4:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.2.tgz#f0f045e196f69a72f06b25fd3bd39d01c3ce9984"
-
-typescript@^2.4.0:
+typescript@^2.1.4, typescript@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.0.tgz#aef5a8d404beba36ad339abf079ddddfffba86dd"
 
