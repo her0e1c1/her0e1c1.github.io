@@ -2,9 +2,6 @@ import React = require("react");
 import ReactHighstock = require("react-highcharts/ReactHighstock.src");
 import parser = require("query-string");
 
-// import { Socket } from 'src/phoenix.js'
-// import { PhoenixClient } from 'src/components/PhoenixClient';
-
 /*
 class Message extends React.Component {
 
@@ -99,44 +96,22 @@ class Topic extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillMount() {
-      this.join(this.state)
-  }
-
-  join({topic}) {
-    if (topic == null) return
-    let channel = this.state.socket.channel(topic)
-    this.setState({channel})
-    channel.join()
-      .receive("ok", (resp) => {
-        console.log("catching up", resp);
-      })
-      .receive("error", ({reason}) => console.log("failed join", reason) )
-      .receive("timeout", () => console.log("Networking issue. Still waiting...") )
-  }
-  
-  handleClick(e) {
-    if (this.state.channel != null) return;
-    this.join(this.state)
-  }
-
-  render() {
-    const {topic, events, channel} = this.state
-    let showMessage = channel != null 
-    return (
-      <div style={{ border: "1px solid black" }}>
-        {showMessage && <Message channel={channel} events={events}/>}
-    </div>
-    )}
-}
-    // socket.connect()
-    // socket.onError(e => console.log(e))
-    // socket.onClose(() => console.log("the connection dropped"))
 */
+
+interface Series {
+  quandl_code: string;
+  series: number[]; // [[date, price]]
+ }
+
+interface yLine {
+  name: string;
+  value: number; // [[date, price]]
+ }
 
 interface State {
   socket: WebSocket;
   series: any[];
+  yLines: any[],
   errorMsg: string;
 }
 
@@ -162,14 +137,14 @@ class Chart extends React.Component<null, State> {
     };
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
+      const s = data.series;
       // console.log(data)
-      if (data instanceof Array) {
+      if (s instanceof Array) {
         this.showSeries(data);
-      } else if (data instanceof Number) {
-        this.showPriceOnY(data);
+      } else if (typeof s == "number") {
+        this.showPriceOnY(s);
       } else {
-        this.showPriceOnY(data);
-        console.log(data);
+        console.log(`UNKNOWN: ${s} (${typeof s})`);
       }
     };
     socket.onerror = e => {
@@ -185,11 +160,12 @@ class Chart extends React.Component<null, State> {
     };
   }
 
-  showSeries(data: number[]) {
-    data = data.map(d => [d[0] * 1000, d[1]])  // needs to convert millisecond
+  showSeries({series, quandl_code}: Series) {
+    series = series.map(d => [d[0] * 1000, d[1]])  // needs to convert millisecond
     const d = {
       type: "line",
-      data, // [[date, price]]
+      name: quandl_code,
+      data: series,
     };
     this.setState({ series: this.state.series.concat(d) });
   }
@@ -208,18 +184,21 @@ class Chart extends React.Component<null, State> {
     });
   }
 
-  render() {
-    const { errorMsg, socket } = this.state;
-    const config = {
+  getConfig() {
+    return {
       yAxis: {
         plotLines: this.state.yLines,
       },
       series: this.state.series,
     };
+  }
+
+  render() {
+    const { errorMsg } = this.state;
     return (
       <div>
         {errorMsg && <div>{errorMsg}</div>}
-        <ReactHighstock config={config} />
+        <ReactHighstock config={this.getConfig()} />
       </div>
     );
   }
