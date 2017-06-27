@@ -1,6 +1,6 @@
 import React from 'react'
 import { Router, Route, Redirect, IndexRoute, browserHistory } from 'react-router'
-const parser = require('query-string');
+import parser = require('query-string');
 
 import Header from './Header'
 import Main from './Samples'
