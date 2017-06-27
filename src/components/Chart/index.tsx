@@ -58,7 +58,6 @@ class Message extends React.Component {
         plotLines: [{
           value: buy_price || -1,
           color: 'green',
-          dashStyle: 'shortdash',
           width: 2,
           label: {
             text: 'test'
@@ -135,7 +134,6 @@ class Chart extends React.Component<null, State> {
       series: [],
       yLines: [],
       errorMsg: "",
-      socket,
     };
   }
 
@@ -152,7 +150,7 @@ class Chart extends React.Component<null, State> {
       if (s instanceof Array) {
         this.showSeries(data);
       } else if (typeof s == "number") {
-        this.showPriceOnY(s);
+        this.showPriceOnY({value: s, text: data.name});
       } else {
         console.log(`UNKNOWN: ${s} (${typeof s})`);
       }
@@ -173,16 +171,15 @@ class Chart extends React.Component<null, State> {
     this.setState({ series: this.state.series.concat(d) });
   }
 
-  showPriceOnY(price: number) {
+  showPriceOnY({value, text}) {
     let series = this.state.series;
     this.setState({
       yLines: this.state.yLines.concat({
-        value: price,
+        value,
+        label: { text },
+        dashStyle: 'shortdash',
         color: "#FF00FF",
         width: 2,
-        label: {
-          text: "price",
-        },
       }),
     });
   }
