@@ -22,7 +22,7 @@ interface State {
 }
 
 const map = A => {
-  if (Object.keys(A).length === 0){
+  if (Object.keys(A).length === 0) {
     return [];
   }
   const f = (acc, k) => {
@@ -54,12 +54,12 @@ class Chart extends React.Component<null, State> {
   componentDidMount() {
     let socket = this.state.socket;
     socket.onopen = () => {
-       socket.send(JSON.stringify(map({...this.state.qs, code: this.state.code})));
+      socket.send(JSON.stringify(map({ ...this.state.qs, code: this.state.code })));
     };
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
       if (data.event == "set_codes") {
-        this.setState({codes: data.codes});
+        this.setState({ codes: data.codes });
         return;
       }
 
@@ -103,7 +103,7 @@ class Chart extends React.Component<null, State> {
     this.setState({ series: this.state.series.concat(d) });
   }
 
-  showSeries({ series, quandl_code, chart_type = ""}: Series) {
+  showSeries({ series, quandl_code, chart_type = "" }: Series) {
     let yAxis = 0;
     let lineWidth = 1;
     let name = quandl_code;
@@ -112,14 +112,14 @@ class Chart extends React.Component<null, State> {
       yAxis = 4;
     } else if (chart_type.startsWith("rsi")) {
       yAxis = 2;
-      name = "RSI"
-   } else if (chart_type.startsWith("macd")) {
+      name = "RSI";
+    } else if (chart_type.startsWith("macd")) {
       yAxis = 3;
-      name = "MACD"
-   } else if (chart_type.startsWith("bollinger_band")) {
-      name = chart_type 
-      color = "black"
-      lineWidth = 0.5
+      name = "MACD";
+    } else if (chart_type.startsWith("bollinger_band")) {
+      name = chart_type;
+      color = "black";
+      lineWidth = 0.5;
     }
     series = series.map(d => [d[0] * 1000, d[1]]); // needs to convert millisecond
     const d = {
@@ -167,9 +167,9 @@ class Chart extends React.Component<null, State> {
   }
 
   selectCode(e) {
-    const code = e.target.value
-    this.setState({code, series: [], yLines: []});
-    this.state.socket.send(JSON.stringify({code}))
+    const code = e.target.value;
+    this.setState({ code, series: [], yLines: [] });
+    this.state.socket.send(JSON.stringify({ code }));
   }
 
   render() {
