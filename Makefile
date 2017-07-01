@@ -14,7 +14,7 @@ fmt:
 	git commit -m 'fmt'
 
 build:
-	-NODE_ENV=production docker exec -it github yarn build
+	-env NODE_ENV=production docker exec -it github yarn build
 
 docker-build:
 	docker build -t github . --no-cache
