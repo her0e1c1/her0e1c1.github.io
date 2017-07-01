@@ -2,25 +2,6 @@ import React = require("react");
 import ReactHighstock = require("react-highcharts/ReactHighstock.src");
 import parser = require("query-string");
 
-/*
-      },
-      series: [{
-        name: 'price',
-        data: data,
-        type: "candlestick", // [timestamp, open, high, low, close]
-        tooltip: {
-          valueDecimals: 2
-        }
-      }]
-    };
-    return (
-      <div>
-        <ReactHighstock config={config} />
-      </div>
-    )}
-}
-*/
-
 interface Series {
   quandl_code: string;
   series: number[]; // [[date, price]]
@@ -35,10 +16,15 @@ interface State {
   socket: WebSocket;
   series: any[];
   yLines: any[];
+  code: string;
+  codes: string[];
   errorMsg: string;
 }
 
 const map = A => {
+  if (Object.keys(A).length === 0){
+    return [];
+  }
   const f = (acc, k) => {
     let a = [];
     acc.forEach(x => {
@@ -53,10 +39,14 @@ const map = A => {
 class Chart extends React.Component<null, State> {
   constructor(props) {
     super(props);
+    const qs = parser.parse(window.location.search);
     this.state = {
+      qs,
       socket: new WebSocket(__PYSTOCK_HOST__),
       series: [],
       yLines: [],
+      code: qs.code || "TSE/1301",
+      codes: [],
       errorMsg: "",
     };
   }
@@ -64,16 +54,21 @@ class Chart extends React.Component<null, State> {
   componentDidMount() {
     let socket = this.state.socket;
     socket.onopen = () => {
-      const qs = parser.parse(window.location.search);
-      socket.send(JSON.stringify(map(qs)));
+       socket.send(JSON.stringify(map({...this.state.qs, code: this.state.code})));
     };
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
+      if (data.event == "set_codes") {
+        this.setState({codes: data.codes});
+        return;
+      }
+
       const s = data.series;
       console.log(data);
       if ("volume" in data) {
         this.showVolumn(data.volume);
       }
+
       const CANDLE_KEYS = ["open", "high", "low", "close"];
       if (CANDLE_KEYS.map(k => k in data).every(x => x)) {
         this.showOHLC(data);
@@ -85,6 +80,7 @@ class Chart extends React.Component<null, State> {
         console.log(`UNKNOWN: ${s} (${typeof s})`);
       }
     };
+
     socket.onerror = e => {
       console.log(e);
       this.setState({ errorMsg: "SOME ERROR HAPPENS" });
@@ -107,19 +103,39 @@ class Chart extends React.Component<null, State> {
     this.setState({ series: this.state.series.concat(d) });
   }
 
-  showSeries({ series, quandl_code }: Series) {
+  showSeries({ series, quandl_code, chart_type = ""}: Series) {
+    let yAxis = 0;
+    let lineWidth = 1;
+    let name = quandl_code;
+    let color = "blue";
+    if (chart_type.startsWith("stochastic")) {
+      yAxis = 4;
+    } else if (chart_type.startsWith("rsi")) {
+      yAxis = 2;
+      name = "RSI"
+   } else if (chart_type.startsWith("macd")) {
+      yAxis = 3;
+      name = "MACD"
+   } else if (chart_type.startsWith("bollinger_band")) {
+      name = chart_type 
+      color = "black"
+      lineWidth = 0.5
+    }
     series = series.map(d => [d[0] * 1000, d[1]]); // needs to convert millisecond
     const d = {
       type: "line",
-      name: quandl_code,
       data: series,
+      lineWidth,
+      yAxis,
+      name,
+      color,
     };
     this.setState({ series: this.state.series.concat(d) });
 
     const min = Math.min(...series.map(e => e[1]));
-    this.showPriceOnY({ value: min, text: "min" });
+    // this.showPriceOnY({ value: min, text: "min" });
     const max = Math.max(...series.map(e => e[1]));
-    this.showPriceOnY({ value: max, text: "man" });
+    // this.showPriceOnY({ value: max, text: "max" });
   }
 
   showPriceOnY({ value, text }) {
@@ -150,11 +166,20 @@ class Chart extends React.Component<null, State> {
     };
   }
 
+  selectCode(e) {
+    const code = e.target.value
+    this.setState({code, series: [], yLines: []});
+    this.state.socket.send(JSON.stringify({code}))
+  }
+
   render() {
     const { errorMsg } = this.state;
     return (
       <div>
         {errorMsg && <div>{errorMsg}</div>}
+        <select value={this.state.code} onChange={e => this.selectCode(e)}>
+          {this.state.codes.map((c, i) => <option key={i}>{c}</option>)}
+        </select>
         <ReactHighstock config={this.getConfig()} />
       </div>
     );
@@ -164,21 +189,10 @@ class Chart extends React.Component<null, State> {
 export default Chart;
 
 /*
-bbands = [{"name": "%dsigma" % s,
-            "data": self.bollinger_band(sigma=s),
-            "color": "black",
-            "yAxis": 0,
-            "lineWidth": 0.5}
-            for s in [3, 2, 1, -1, -2, -3]]
    # tooltip={valueDecimals: 2}
         return bbands + [
-            {"name": "rolling_mean25", "data": self.rolling_mean(period=25)},
-            {"name": "rolling_mean5", "data": self.rolling_mean(period=5)},
             {"name": "RSI", "data": self.RSI(period=14), "yAxis": 2},
             {"name": "macd_line", "data": self.macd_line(), "yAxis": 3},
             {"name": "macd_signal", "data": self.macd_signal(), "yAxis": 3},
-            {"name": "%K", "data": self.stochastic_k(), "yAxis": 4},
-            {"name": "%D", "data": self.stochastic_d(), "yAxis": 4},
-            {"name": "%SD", "data": self.stochastic_sd(), "yAxis": 4},
         ]
 */
