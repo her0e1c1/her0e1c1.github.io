@@ -13,5 +13,8 @@ declare global {
 }
 
 let store = createStore(Reducers);
-const Main = () => <Provider store={store}><Root /></Provider>;
+const Main = () =>
+  <Provider store={store}>
+    <Root />
+  </Provider>;
 ReactDOM.render(<Main />, document.getElementById("main"));

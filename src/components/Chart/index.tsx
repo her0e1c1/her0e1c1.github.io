@@ -1,23 +1,23 @@
 import React = require("react");
 import ReactHighstock = require("react-highcharts/ReactHighstock.src");
 import parser = require("query-string");
-import Cookies = require('universal-cookie');
+import Cookies = require("universal-cookie");
 
 const cookie = new Cookies();
 
 const getFavorites = () => {
   let f = cookie.get("favorites");
   return f || [];
-}
+};
 
 const setFavorites = (code: string) => {
   if (!code) {
     return;
   }
-  let f = getFavorites(); 
-  !f.includes(code) && f.push(code)
+  let f = getFavorites();
+  !f.includes(code) && f.push(code);
   cookie.set("favorites", f);
-}
+};
 
 const delFavorites = (code: string) => {
   if (!code) {
@@ -29,8 +29,7 @@ const delFavorites = (code: string) => {
     f.splice(i, 1);
   }
   cookie.set("favorites", f);
-
-}
+};
 
 class Favorites extends React.Component<null, State> {
   constructor(props) {
@@ -39,35 +38,35 @@ class Favorites extends React.Component<null, State> {
       codes: getFavorites(),
       rows: [],
       socket: new WebSocket(__PYSTOCK_HOST__),
-    }
+    };
   }
   componentDidMount() {
-    let {codes, socket} = this.state;
+    let { codes, socket } = this.state;
     socket.onopen = () => {
       socket.send(JSON.stringify({ event: "favorites", codes: this.state.codes }));
-    }
+    };
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
       if (data.event !== "favorites") {
-          return;
+        return;
       }
       console.log(data);
       const rows = codes.map(c => {
         const d = data[c];
-        console.log(d)
-        const p = d.close
-        const price = d.close
-        const diff = d.close - d.open
-        return {...d, price, diff, code: c}
-      })
-      this.setState({rows})
-    }
+        console.log(d);
+        const p = d.close;
+        const price = d.close;
+        const diff = d.close - d.open;
+        return { ...d, price, diff, code: c };
+      });
+      this.setState({ rows });
+    };
     socket.onerror = e => {
       console.log(e);
       this.setState({ errorMsg: "SOME ERROR HAPPENS" });
     };
   }
-  
+
   addFavorite() {
     setFavorites(this.props.parent.code);
   }
@@ -76,18 +75,26 @@ class Favorites extends React.Component<null, State> {
     return (
       <div>
         <div onClick={() => this.addFavorite()}>ADD TO FAVORITES</div>
-        FAVORITES: {this.state.codes.map((c, i) => <span key={i}>{c}</span>)}
+        FAVORITES:{" "}
+        {this.state.codes.map((c, i) =>
+          <span key={i}>
+            {c}
+          </span>
+        )}
         <ul>
-        {this.state.rows.map((r, i) => <li key={i}>
-        <a href={`/?path=chart&code=${r.code}`}>{r.code} {r.price} {r.diff}</a>
-        <span onClick={() => delFavorites(r.code)}>DEL</span>
-       </li>)}
+          {this.state.rows.map((r, i) =>
+            <li key={i}>
+              <a href={`/?path=chart&code=${r.code}`}>
+                {r.code} {r.price} {r.diff}
+              </a>
+              <span onClick={() => delFavorites(r.code)}>DEL</span>
+            </li>
+          )}
         </ul>
       </div>
-    )
+    );
   }
 }
-
 
 interface Series {
   quandl_code: string;
@@ -193,7 +200,7 @@ class Chart extends React.Component<null, State> {
     const get = i => {
       const s = series[series.length - i];
       return s && s[s.length - 1];
-    }
+    };
     const l1 = get(1);
     const l2 = get(2);
     const lastClose = l1;
@@ -274,14 +281,21 @@ class Chart extends React.Component<null, State> {
     const { errorMsg } = this.state;
     return (
       <div>
-        {errorMsg && <div>{errorMsg}</div>}
+        {errorMsg &&
+          <div>
+            {errorMsg}
+          </div>}
         <select value={this.state.code} onChange={e => this.selectCode(e)}>
-          {this.state.codes.map((c, i) => <option key={i}>{c}</option>)}
+          {this.state.codes.map((c, i) =>
+            <option key={i}>
+              {c}
+            </option>
+          )}
         </select>
-        <Favorites parent={this}/>
+        <Favorites parent={this} />
         <div>
-         {this.state.lastClose && ` CORRENT PRICE: ${this.state.lastClose}` }
-         {this.state.lastCloseDiff && ` RATIO: ${this.state.lastCloseDiff}%`}
+          {this.state.lastClose && ` CORRENT PRICE: ${this.state.lastClose}`}
+          {this.state.lastCloseDiff && ` RATIO: ${this.state.lastCloseDiff}%`}
         </div>
         <ReactHighstock config={this.getConfig()} />
       </div>
