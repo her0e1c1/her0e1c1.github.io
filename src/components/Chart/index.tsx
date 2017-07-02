@@ -1,6 +1,93 @@
 import React = require("react");
 import ReactHighstock = require("react-highcharts/ReactHighstock.src");
 import parser = require("query-string");
+import Cookies = require('universal-cookie');
+
+const cookie = new Cookies();
+
+const getFavorites = () => {
+  let f = cookie.get("favorites");
+  return f || [];
+}
+
+const setFavorites = (code: string) => {
+  if (!code) {
+    return;
+  }
+  let f = getFavorites(); 
+  !f.includes(code) && f.push(code)
+  cookie.set("favorites", f);
+}
+
+const delFavorites = (code: string) => {
+  if (!code) {
+    return;
+  }
+  const f = getFavorites();
+  const i = f.indexOf(code);
+  if (i > -1) {
+    f.splice(i, 1);
+  }
+  cookie.set("favorites", f);
+
+}
+
+class Favorites extends React.Component<null, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      codes: getFavorites(),
+      rows: [],
+      socket: new WebSocket(__PYSTOCK_HOST__),
+    }
+  }
+  componentDidMount() {
+    let {codes, socket} = this.state;
+    socket.onopen = () => {
+      socket.send(JSON.stringify({ event: "favorites", codes: this.state.codes }));
+    }
+    socket.onmessage = m => {
+      const data = JSON.parse(m.data);
+      if (data.event !== "favorites") {
+          return;
+      }
+      console.log(data);
+      const rows = codes.map(c => {
+        const d = data[c];
+        console.log(d)
+        const p = d.close
+        const price = d.close
+        const diff = d.close - d.open
+        return {...d, price, diff, code: c}
+      })
+      this.setState({rows})
+    }
+    socket.onerror = e => {
+      console.log(e);
+      this.setState({ errorMsg: "SOME ERROR HAPPENS" });
+    };
+  }
+  
+  addFavorite() {
+    setFavorites(this.props.parent.code);
+  }
+
+  render() {
+    return (
+      <div>
+        <div onClick={() => this.addFavorite()}>ADD TO FAVORITES</div>
+        FAVORITES: {this.state.codes.map((c, i) => <span key={i}>{c}</span>)}
+        <ul>
+        {this.state.rows.map((r, i) => <li key={i}>
+        <a href={`/?path=chart&code=${r.code}`}>{r.code} {r.price} {r.diff}</a>
+        <span onClick={() => delFavorites(r.code)}>DEL</span>
+       </li>)}
+        </ul>
+      </div>
+    )
+  }
+}
+
 
 interface Series {
   quandl_code: string;
@@ -16,6 +103,8 @@ interface State {
   socket: WebSocket;
   series: any[];
   yLines: any[];
+  lastClose?: number;
+  lastCloseDiff?: number;
   code: string;
   codes: string[];
   errorMsg: string;
@@ -45,6 +134,7 @@ class Chart extends React.Component<null, State> {
       socket: new WebSocket(__PYSTOCK_HOST__),
       series: [],
       yLines: [],
+      lastClose: null,
       code: qs.code || "TSE/1301",
       codes: [],
       errorMsg: "",
@@ -100,7 +190,15 @@ class Chart extends React.Component<null, State> {
       type: "candlestick",
       data: series,
     };
-    this.setState({ series: this.state.series.concat(d) });
+    const get = i => {
+      const s = series[series.length - i];
+      return s && s[s.length - 1];
+    }
+    const l1 = get(1);
+    const l2 = get(2);
+    const lastClose = l1;
+    const lastCloseDiff = l1 && l2 && l1 - l2;
+    this.setState({ series: this.state.series.concat(d), lastClose, lastCloseDiff });
   }
 
   showSeries({ series, quandl_code, chart_type = "" }: Series) {
@@ -180,6 +278,11 @@ class Chart extends React.Component<null, State> {
         <select value={this.state.code} onChange={e => this.selectCode(e)}>
           {this.state.codes.map((c, i) => <option key={i}>{c}</option>)}
         </select>
+        <Favorites parent={this}/>
+        <div>
+         {this.state.lastClose && ` CORRENT PRICE: ${this.state.lastClose}` }
+         {this.state.lastCloseDiff && ` RATIO: ${this.state.lastCloseDiff}%`}
+        </div>
         <ReactHighstock config={this.getConfig()} />
       </div>
     );
@@ -187,12 +290,3 @@ class Chart extends React.Component<null, State> {
 }
 
 export default Chart;
-
-/*
-   # tooltip={valueDecimals: 2}
-        return bbands + [
-            {"name": "RSI", "data": self.RSI(period=14), "yAxis": 2},
-            {"name": "macd_line", "data": self.macd_line(), "yAxis": 3},
-            {"name": "macd_signal", "data": self.macd_signal(), "yAxis": 3},
-        ]
-*/
