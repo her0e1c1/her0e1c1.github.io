@@ -34,6 +34,7 @@ const delFavorites = (code: string) => {
 class Favorites extends React.Component<null, State> {
   constructor(props) {
     super(props);
+    this.parent = props.parent;
     this.state = {
       codes: getFavorites(),
       rows: [],
@@ -43,7 +44,9 @@ class Favorites extends React.Component<null, State> {
   componentDidMount() {
     let { codes, socket } = this.state;
     socket.onopen = () => {
-      socket.send(JSON.stringify({ event: "favorites", codes: this.state.codes }));
+      if (this.state.codes.length > 0) {
+        socket.send(JSON.stringify({ event: "favorites", codes: this.state.codes }));
+      }
     };
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
@@ -68,7 +71,7 @@ class Favorites extends React.Component<null, State> {
   }
 
   addFavorite() {
-    setFavorites(this.props.parent.code);
+    setFavorites(this.parent.state.code);
   }
 
   render() {
