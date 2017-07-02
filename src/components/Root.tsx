@@ -22,7 +22,7 @@ class App extends React.Component {
     if (qs.path) {
       const path = qs.path;
       delete qs.path;
-      browserHistory.push(`${path}?${parser.stringify(qs)}`); // can't use window.location.href on github
+      browserHistory.push(`/${path}?${parser.stringify(qs)}`); // can't use window.location.href on github
     }
   }
 
