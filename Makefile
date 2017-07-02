@@ -6,7 +6,7 @@ start:
 	docker exec -it github yarn start
 
 start-prod:
-	NODE_ENV=production docker exec -it github yarn start0
+	docker exec -it github env NODE_ENV=production yarn start0
 
 fmt:
 	docker exec -it github yarn fmt
@@ -14,7 +14,7 @@ fmt:
 	git commit -m 'fmt'
 
 build:
-	-env NODE_ENV=production docker exec -it github yarn build
+	-docker exec -it github yarn build
 
 docker-build:
 	docker build -t github . --no-cache
