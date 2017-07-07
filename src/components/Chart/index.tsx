@@ -31,6 +31,31 @@ const delFavorites = (code: string) => {
   cookie.set("favorites", f);
 };
 
+const NON_SIGNAL_KEYS = ["created_at", "quandl_code", "updated_at"]
+class Signal extends React.Component<null, State> {
+  constructor(props) {
+    super(props);
+    this.signal = props.signal;
+  }
+
+  render() {
+    const signal = this.signal;
+    const s = Object.keys(signal).filter(x => !NON_SIGNAL_KEYS.includes(x) && signal[x] != null)
+    if (s.length === 0) {
+      return <div/>;
+    }
+    console.log("hi")
+    console.log(signal)
+    console.log(s)
+    return (
+      <div>
+        SIGNALS: {Object.keys(s).map((k, i) => <span key={i}>{k} {s[k]}</span>)}
+      </div>
+    );
+  }
+}
+
+
 class Favorites extends React.Component<null, State> {
   constructor(props) {
     super(props);
@@ -54,7 +79,7 @@ class Favorites extends React.Component<null, State> {
         return;
       }
       console.log(data);
-      const rows = codes.map(c => {
+      const rows = codes.filter(c => data[c] !== undefined).map(c => {
         const d = data[c];
         console.log(d);
         const p = d.close;
@@ -77,7 +102,7 @@ class Favorites extends React.Component<null, State> {
   render() {
     return (
       <div>
-        <div onClick={() => this.addFavorite()}>ADD TO FAVORITES</div>
+        <div onClick={() => this.addFavorite()}>FAVORITE</div>
         FAVORITES:{" "}
         {this.state.codes.map((c, i) =>
           <span key={i}>
@@ -147,6 +172,7 @@ class Chart extends React.Component<null, State> {
       lastClose: null,
       code: qs.code || "TSE/1301",
       codes: [],
+      signal: null,
       errorMsg: "",
     };
   }
@@ -158,6 +184,10 @@ class Chart extends React.Component<null, State> {
     };
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
+      if (data.event == "signal") {
+        this.setState({signal: data.signal})
+        return
+      }
       if (data.event == "set_codes") {
         this.setState({ codes: data.codes });
         return;
@@ -296,6 +326,7 @@ class Chart extends React.Component<null, State> {
           )}
         </select>
         <Favorites parent={this} />
+        {this.state.signal && <Signal signal={this.state.signal}/>}
         <div>
           {this.state.lastClose && ` CORRENT PRICE: ${this.state.lastClose}`}
           {this.state.lastCloseDiff && ` RATIO: ${this.state.lastCloseDiff}%`}
