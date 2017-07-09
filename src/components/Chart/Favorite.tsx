@@ -1,18 +1,14 @@
 import React = require("react");
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button } from "react-bootstrap";
 
-import {
-    getFavorites,
-    setFavorites,
-    delFavorites,
-} from "./Cookie";
+import { getFavorites, setFavorites, delFavorites } from "./Cookie";
 
-interface Props {};
+interface Props {}
 
 interface State {
-    parent: Chart; // ???
-    codes: string[];
-    rows: any[];
+  parent: Chart; // ???
+  codes: string[];
+  rows: any[];
 }
 
 class Favorite extends React.Component<Props, State> {
@@ -25,9 +21,9 @@ class Favorite extends React.Component<Props, State> {
     };
   }
   componentDidMount() {
-    const socket = this.state.parent.state.socket; 
+    const socket = this.state.parent.state.socket;
     socket.addEventListener("open", () => {
-        socket.send(JSON.stringify({ event: "favorites", codes: this.state.codes }));
+      socket.send(JSON.stringify({ event: "favorites", codes: this.state.codes }));
     });
     socket.addEventListener("message", m => {
       const data = JSON.parse(m.data);
@@ -45,35 +41,39 @@ class Favorite extends React.Component<Props, State> {
     });
   }
 
-  addFavorite() {
+  addFavorite() {}
 
-  }
-
-  delFavorite() {
-
-  }
+  delFavorite() {}
 
   render() {
     return (
       <div>
         <Table responsive>
-            <thead>
-                <tr>
-                    <th>CODE</th>
-                    <th>PRICE</th>
-                    <th>DIFF</th>
-                </tr>
-            </thead>
-            <tbody>
-                {this.state.rows.map((r, i) =>
+          <thead>
+            <tr>
+              <th>CODE</th>
+              <th>PRICE</th>
+              <th>DIFF</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.rows.map((r, i) =>
               <tr key={i}>
-              <td><a href={`/?path=chart&code=${r.code}`}> {r.code} </a> </td>
-              <td>{r.price}</td>
-              <td>{r.diff}</td>
-              <td onClick={() => delFavorites(r.code)}><Button bsStyle="primary">DEL</Button></td>
+                <td>
+                  <a href={`/?path=chart&code=${r.code}`}> {r.code} </a>{" "}
+                </td>
+                <td>
+                  {r.price}
+                </td>
+                <td>
+                  {r.diff}
+                </td>
+                <td onClick={() => delFavorites(r.code)}>
+                  <Button bsStyle="primary">DEL</Button>
+                </td>
               </tr>
-          )}
-            </tbody>
+            )}
+          </tbody>
         </Table>
       </div>
     );

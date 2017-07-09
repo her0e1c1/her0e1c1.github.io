@@ -67,8 +67,8 @@ class Chart extends React.Component<null, State> {
     socket.onmessage = m => {
       const data = JSON.parse(m.data);
       if (data.event == "signal") {
-        this.setState({signal: data.signal})
-        return
+        this.setState({ signal: data.signal });
+        return;
       }
       if (data.event == "set_codes") {
         this.setState({ codes: data.codes });
@@ -210,7 +210,7 @@ class Chart extends React.Component<null, State> {
 
         <Favorite parent={this} />
         <List parent={this} />
-        {this.state.signal && <Signal signal={this.state.signal}/>}
+        {this.state.signal && <Signal signal={this.state.signal} />}
 
         <div>
           {this.state.lastClose && ` CORRENT PRICE: ${this.state.lastClose}`}

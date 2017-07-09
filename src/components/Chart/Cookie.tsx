@@ -28,8 +28,4 @@ const delFavorites = (code: string) => {
   cookie.set("favorites", f);
 };
 
-export {
-    getFavorites,
-    setFavorites,
-    delFavorites,
-}
+export { getFavorites, setFavorites, delFavorites };
