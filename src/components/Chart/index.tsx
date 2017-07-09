@@ -3,6 +3,7 @@ import ReactHighstock = require("react-highcharts/ReactHighstock.src");
 import parser = require("query-string");
 
 import Favorite from "./Favorite";
+import List from "./List";
 import Signal from "./Signal";
 
 interface Series {
@@ -75,7 +76,7 @@ class Chart extends React.Component<null, State> {
       }
 
       const s = data.series;
-      console.log(data);
+      // console.log(data);
       if ("volume" in data) {
         this.showVolumn(data.volume);
       }
@@ -206,8 +207,11 @@ class Chart extends React.Component<null, State> {
             </option>
           )}
         </select>
+
         <Favorite parent={this} />
+        <List parent={this} />
         {this.state.signal && <Signal signal={this.state.signal}/>}
+
         <div>
           {this.state.lastClose && ` CORRENT PRICE: ${this.state.lastClose}`}
           {this.state.lastCloseDiff && ` RATIO: ${this.state.lastCloseDiff}%`}

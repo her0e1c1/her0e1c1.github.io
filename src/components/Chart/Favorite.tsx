@@ -10,7 +10,7 @@ import {
 interface Props {};
 
 interface State {
-    parent: any; 
+    parent: Chart; // ???
     codes: string[];
     rows: any[];
 }

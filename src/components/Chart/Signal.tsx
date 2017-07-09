@@ -1,6 +1,6 @@
 import React = require("react");
-
-const NON_SIGNAL_KEYS = ["created_at", "quandl_code", "updated_at"]
+import { ListGroup, ListGroupItem, Label, Table, Button } from 'react-bootstrap'
+import * as C from "./Const";
 
 class Signal extends React.Component<null, State> {
   constructor(props) {
@@ -10,13 +10,19 @@ class Signal extends React.Component<null, State> {
 
   render() {
     const signal = this.signal;
-    const s = Object.keys(signal).filter(x => !NON_SIGNAL_KEYS.includes(x) && signal[x] != null)
+    const s = Object.keys(signal).filter(x => C.SIGNAL_KEYS.includes(x) && signal[x] != null)
     if (s.length === 0) {
       return <div/>;
     }
     return (
       <div>
-        SIGNALS: {Object.keys(s).map((k, i) => <span key={i}>{k} {s[k]}</span>)}
+         <ListGroup className="list-inline"> 
+          {Object.keys(s).map((k, i) => (
+          <ListGroupItem key={i}>
+            <Label bsStyle="success">{`${k}(${s[k]})`}</Label>
+          </ListGroupItem>
+         )}
+         </ListGroup>
       </div>
     );
   }
