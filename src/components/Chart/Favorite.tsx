@@ -1,5 +1,5 @@
 import React = require("react");
-import { MenuItem, DropdownButton, ButtonToolbar } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap'
 
 import {
     getFavorites,
@@ -7,18 +7,25 @@ import {
     delFavorites,
 } from "./Cookie";
 
+interface Props {};
 
-class Favorite extends React.Component<null, State> {
+interface State {
+    parent: any; 
+    codes: string[];
+    rows: any[];
+}
+
+class Favorite extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-    this.parent = props.parent;
     this.state = {
+      parent: props.parent,
       codes: getFavorites(),
       rows: [],
     };
   }
   componentDidMount() {
-    const socket = this.parent.state.socket; 
+    const socket = this.state.parent.state.socket; 
     socket.addEventListener("open", () => {
         socket.send(JSON.stringify({ event: "favorites", codes: this.state.codes }));
     });
@@ -38,23 +45,36 @@ class Favorite extends React.Component<null, State> {
     });
   }
 
+  addFavorite() {
+
+  }
+
+  delFavorite() {
+
+  }
+
   render() {
     return (
       <div>
-            <DropdownButton title={"Favorites"} id="favorite">
-                {this.state.codes.map((c, i) => <MenuItem key={i}>{c}</MenuItem>)}
-            </DropdownButton>
-        <ul>
-          {this.state.rows.map((r, i) =>
-            <li key={i}>
-              <a href={`/?path=chart&code=${r.code}`}>
-                {r.code} {r.price} {r.diff}
-              </a>
-              <div onClick={() => this.addFavorite()}>FAVORITE</div>
-              <span onClick={() => delFavorites(r.code)}>DEL</span>
-            </li>
+        <Table responsive>
+            <thead>
+                <tr>
+                    <th>CODE</th>
+                    <th>PRICE</th>
+                    <th>DIFF</th>
+                </tr>
+            </thead>
+            <tbody>
+                {this.state.rows.map((r, i) =>
+              <tr key={i}>
+              <td><a href={`/?path=chart&code=${r.code}`}> {r.code} </a> </td>
+              <td>{r.price}</td>
+              <td>{r.diff}</td>
+              <td onClick={() => delFavorites(r.code)}><Button bsStyle="primary">DEL</Button></td>
+              </tr>
           )}
-        </ul>
+            </tbody>
+        </Table>
       </div>
     );
   }
