@@ -1,128 +1,9 @@
 import React = require("react");
 import ReactHighstock = require("react-highcharts/ReactHighstock.src");
 import parser = require("query-string");
-import Cookies = require("universal-cookie");
 
-const cookie = new Cookies();
-
-const getFavorites = () => {
-  let f = cookie.get("favorites");
-  return f || [];
-};
-
-const setFavorites = (code: string) => {
-  if (!code) {
-    return;
-  }
-  let f = getFavorites();
-  !f.includes(code) && f.push(code);
-  cookie.set("favorites", f);
-};
-
-const delFavorites = (code: string) => {
-  if (!code) {
-    return;
-  }
-  const f = getFavorites();
-  const i = f.indexOf(code);
-  if (i > -1) {
-    f.splice(i, 1);
-  }
-  cookie.set("favorites", f);
-};
-
-const NON_SIGNAL_KEYS = ["created_at", "quandl_code", "updated_at"]
-class Signal extends React.Component<null, State> {
-  constructor(props) {
-    super(props);
-    this.signal = props.signal;
-  }
-
-  render() {
-    const signal = this.signal;
-    const s = Object.keys(signal).filter(x => !NON_SIGNAL_KEYS.includes(x) && signal[x] != null)
-    if (s.length === 0) {
-      return <div/>;
-    }
-    console.log("hi")
-    console.log(signal)
-    console.log(s)
-    return (
-      <div>
-        SIGNALS: {Object.keys(s).map((k, i) => <span key={i}>{k} {s[k]}</span>)}
-      </div>
-    );
-  }
-}
-
-
-class Favorites extends React.Component<null, State> {
-  constructor(props) {
-    super(props);
-    this.parent = props.parent;
-    this.state = {
-      codes: getFavorites(),
-      rows: [],
-      socket: new WebSocket(__PYSTOCK_HOST__),
-    };
-  }
-  componentDidMount() {
-    let { codes, socket } = this.state;
-    socket.onopen = () => {
-      if (this.state.codes.length > 0) {
-        socket.send(JSON.stringify({ event: "favorites", codes: this.state.codes }));
-      }
-    };
-    socket.onmessage = m => {
-      const data = JSON.parse(m.data);
-      if (data.event !== "favorites") {
-        return;
-      }
-      console.log(data);
-      const rows = codes.filter(c => data[c] !== undefined).map(c => {
-        const d = data[c];
-        console.log(d);
-        const p = d.close;
-        const price = d.close;
-        const diff = d.close - d.open;
-        return { ...d, price, diff, code: c };
-      });
-      this.setState({ rows });
-    };
-    socket.onerror = e => {
-      console.log(e);
-      this.setState({ errorMsg: "SOME ERROR HAPPENS" });
-    };
-  }
-
-  addFavorite() {
-    setFavorites(this.parent.state.code);
-  }
-
-  render() {
-    return (
-      <div>
-        <div onClick={() => this.addFavorite()}>FAVORITE</div>
-        FAVORITES:{" "}
-        {this.state.codes.map((c, i) =>
-          <span key={i}>
-            {c}
-          </span>
-        )}
-        <ul>
-          {this.state.rows.map((r, i) =>
-            <li key={i}>
-              <a href={`/?path=chart&code=${r.code}`}>
-                {r.code} {r.price} {r.diff}
-              </a>
-              <span onClick={() => delFavorites(r.code)}>DEL</span>
-            </li>
-          )}
-        </ul>
-      </div>
-    );
-  }
-}
+import Favorite from "./Favorite";
+import Signal from "./Signal";
 
 interface Series {
   quandl_code: string;
@@ -325,7 +206,7 @@ class Chart extends React.Component<null, State> {
             </option>
           )}
         </select>
-        <Favorites parent={this} />
+        <Favorite parent={this} />
         {this.state.signal && <Signal signal={this.state.signal}/>}
         <div>
           {this.state.lastClose && ` CORRENT PRICE: ${this.state.lastClose}`}
