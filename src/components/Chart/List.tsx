@@ -1,6 +1,7 @@
 import React = require("react");
 import { Table, Button, Checkbox } from "react-bootstrap";
 import Signal from "./Signal";
+import { SammaryRow } from "./Sammary";
 import * as C from "./Const";
 
 interface Props {}
@@ -76,19 +77,7 @@ class List extends React.Component<Props, State> {
           </tr>
         </thead>
         <tbody>
-          {this.state.rows.filter(this.filterRow.bind(this)).map((r, i) =>
-            <tr key={i}>
-              <td>
-                <a href={`/?path=chart&code=${r.code}`}> {r.code} </a>{" "}
-              </td>
-              <td>
-                {r.price && r.price.close}
-              </td>
-              <td>
-                <Signal signal={r.signal} />
-              </td>
-            </tr>
-          )}
+          {this.state.rows.filter(this.filterRow.bind(this)).map((r, i) => <SammaryRow key={i} code={r} />)}
         </tbody>
       </Table>
     );

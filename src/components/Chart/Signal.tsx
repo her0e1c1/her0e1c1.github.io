@@ -10,16 +10,16 @@ class Signal extends React.Component<null, State> {
 
   render() {
     const signal = this.signal;
-    const s = Object.keys(signal).filter(x => C.SIGNAL_KEYS.includes(x) && signal[x] != null);
-    if (s.length === 0) {
+    const keys = C.SIGNAL_KEYS.filter(k => signal[k] != null);
+    if (keys.length === 0) {
       return <div />;
     }
     return (
       <div>
         <ListGroup className="list-inline">
-          {Object.keys(s).map((k, i) =>
+          {keys.map((k, i) =>
             <ListGroupItem key={i}>
-              <Label bsStyle="success">{`${k}(${s[k]})`}</Label>
+              <Label bsStyle="success">{`${k} (${signal[k]})`}</Label>
             </ListGroupItem>
           )}
         </ListGroup>

@@ -4,7 +4,7 @@ import parser = require("query-string");
 
 import Favorite from "./Favorite";
 import List from "./List";
-import Signal from "./Signal";
+import { Sammary } from "./Sammary";
 
 interface Series {
   quandl_code: string;
@@ -196,10 +196,14 @@ class Chart extends React.Component<null, State> {
     const { errorMsg } = this.state;
     return (
       <div>
+        <Favorite parent={this} />
+        <List parent={this} />
+
         {errorMsg &&
           <div>
-            {errorMsg}
+            {" "}{errorMsg}{" "}
           </div>}
+
         <select value={this.state.code} onChange={e => this.selectCode(e)}>
           {this.state.codes.map((c, i) =>
             <option key={i}>
@@ -208,14 +212,6 @@ class Chart extends React.Component<null, State> {
           )}
         </select>
 
-        <Favorite parent={this} />
-        <List parent={this} />
-        {this.state.signal && <Signal signal={this.state.signal} />}
-
-        <div>
-          {this.state.lastClose && ` CORRENT PRICE: ${this.state.lastClose}`}
-          {this.state.lastCloseDiff && ` RATIO: ${this.state.lastCloseDiff}%`}
-        </div>
         <ReactHighstock config={this.getConfig()} />
       </div>
     );
