@@ -8,10 +8,11 @@ start:
 start-prod:
 	docker exec -it github env NODE_ENV=production yarn start0
 
+watch:
+	watchmedo shell-command -p "*.tsx;*.ts" -R -c "make fmt" ./src
+
 fmt:
 	docker exec -it github yarn fmt
-	git add .
-	git commit -m 'fmt'
 
 build:
 	-docker exec -it github yarn build
