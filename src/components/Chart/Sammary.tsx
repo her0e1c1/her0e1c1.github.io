@@ -1,44 +1,53 @@
 import React = require("react");
-import { Table, Button, Checkbox } from "react-bootstrap";
+import { Label } from "react-bootstrap";
 import Signal from "./Signal";
 import * as C from "./Const";
-
-interface Code {
-  code: string;
-  signal: Signal;
-}
+import * as I from "./Interface";
 
 interface Props {
-  code: Code;
+  code: I.Code;
 }
 
 class SammaryRow extends React.Component<Props, undefined> {
-  private code: Code;
-  private key: number;
+  private code: I.Code;
   constructor(props) {
     super(props);
     this.code = props.code;
-    this.key = props.key;
   }
 
   render() {
     const { code } = this;
+    const p = code.signal.price;
+    const diff = p && p.close - p.open;
+    let bs = "";
+    if (diff > 0) {
+      bs = "info";
+    } else if (diff < 0) {
+      bs = "danger";
+    }
     return (
-      <tr key={this.key}>
+      <tr>
         <td>
           <a href={`/?path=chart&code=${code.code}`}> {code.code} </a>{" "}
         </td>
         <td>
-          {code.signal.price && code.signal.price.close}
+          <b>{code.signal.price && code.signal.price.close}</b>
+        </td>
+        <td>
+          {p && <Label bsStyle={bs}>{diff}</Label>}
         </td>
         <td>
           <Signal signal={code.signal} />
+        </td>
+        <td>
+          <b>{code.signal.score}</b>
         </td>
       </tr>
     );
   }
 }
 
+// DEPRECATED
 const Sammary = ({ code }) =>
   <Table responsive>
     <thead>

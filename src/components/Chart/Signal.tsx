@@ -1,8 +1,14 @@
 import React = require("react");
-import { ListGroup, ListGroupItem, Label, Table, Button } from "react-bootstrap";
-import * as C from "./Const";
+import { Label } from "react-bootstrap";
+import * as I from "./Interface";
 
-class Signal extends React.Component<null, State> {
+interface Props {
+  signal: I.Signal;
+}
+
+class Signal extends React.Component<Props, undefined> {
+  private signal: I.Signal;
+
   constructor(props) {
     super(props);
     this.signal = props.signal;
@@ -10,19 +16,22 @@ class Signal extends React.Component<null, State> {
 
   render() {
     const signal = this.signal;
-    const keys = C.SIGNAL_KEYS.filter(k => signal[k] != null);
+    const keys = I.SignalKeys.filter(k => signal[k] != null);
     if (keys.length === 0) {
       return <div />;
     }
     return (
-      <div>
-        <ListGroup className="list-inline">
-          {keys.map((k, i) =>
-            <ListGroupItem key={i}>
-              <Label bsStyle="success">{`${k} (${signal[k]})`}</Label>
-            </ListGroupItem>
-          )}
-        </ListGroup>
+      <div className="list-inline">
+          {keys.map((k, i) => {
+            const s = signal[k];
+            let bs = "";
+            if (s == "BUY") {
+              bs = "success";
+            } else {
+              bs = "warning";
+            }
+            return <Label key={i} bsStyle={bs}>{`${k}`}</Label>;
+          })}
       </div>
     );
   }
