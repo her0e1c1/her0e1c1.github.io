@@ -2,6 +2,9 @@
 start0:
 	docker exec -it github yarn start0
 
+mock:
+	docker exec -it github env SITE=mock yarn start0
+
 start:
 	docker exec -it github yarn start
 
