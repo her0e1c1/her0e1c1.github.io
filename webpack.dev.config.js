@@ -6,7 +6,8 @@ const marked = require("marked");
 const renderer = new marked.Renderer();
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const DEV_PORT = 10000;
+const SITE = process.env.SITE;
+const DEV_PORT = IS_PRODUCTION ? 10001 : 10000;
 
 const devConfig = {
   entry: {
@@ -71,6 +72,7 @@ const devConfig = {
    }),
     new webpack.DefinePlugin({
       __HOST__: JSON.stringify(IS_PRODUCTION ? "her0e1c1.github.io" : `localhost:${DEV_PORT}`),
+      __MOCK__: JSON.stringify(SITE === "mock"),
       __PYSTOCK_HOST__: JSON.stringify(IS_PRODUCTION ? `ws://${process.env.PYSTOCK_HOST}/` :"ws://localhost:10002/"),
       __WEBSOCKET_URL__: JSON.stringify("ws://45.76.187.197:13309/socket")
     }),
