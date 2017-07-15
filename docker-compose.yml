@@ -2,7 +2,6 @@ version: '2'
 
 services:
   main:
-    container_name: github
     image: github
     build:
       context: ./
@@ -11,9 +10,14 @@ services:
     entrypoint: /bin/bash
     # can not work on mac
     # network_mode: host
-    ports:
-      - 10000:10000
     volumes:
       - .:/host
     working_dir: /host
     env_file: .env
+
+  dev:
+    extends: main
+    container_name: github
+    ports:
+      - 10000:10000
+      - 10001:10001
