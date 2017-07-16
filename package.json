@@ -11,6 +11,9 @@
     "build": "NODE_ENV=production /app/node_modules/.bin/webpack -p --config webpack.config.js"
   },
   "devDependencies": {
+    "@types/core-js": "0.9.36",
+    "@types/lodash": "^4.14.69",
+    "@types/react-bootstrap": "^0.0.52",
     "@types/query-string": "^4.3.1",
     "@types/react": "^15.0.31",
     "@types/react-dom": "^15.5.1",
@@ -40,8 +43,6 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.69",
-    "@types/react-bootstrap": "^0.0.52",
     "highcharts": "^5.0.10",
     "lodash": "^4.17.4",
     "marked": "^0.3.6",

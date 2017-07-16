@@ -15,6 +15,10 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "."
+    "types": [
+      "core-js",
+      "node"
+    ]
   },
   "exclude": [
     "node_modules"
