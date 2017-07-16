@@ -63,19 +63,4 @@ class SammaryRow extends React.Component<Props, undefined> {
   }
 }
 
-// DEPRECATED
-const Sammary = ({ code }) =>
-  <Table responsive>
-    <thead>
-      <tr>
-        <th>CODE</th>
-        <th>PRICE</th>
-        <th>DIFF</th>
-      </tr>
-    </thead>
-    <tbody>
-      <SammaryRow code={code} />)
-    </tbody>
-  </Table>;
-
-export { Sammary, SammaryRow };
+export { SammaryRow };

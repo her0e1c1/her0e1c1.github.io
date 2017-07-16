@@ -4,7 +4,6 @@ import parser = require("query-string");
 
 import Favorite from "./Favorite";
 import List from "./List";
-import { Sammary } from "./Sammary";
 
 interface Series {
   quandl_code: string;
