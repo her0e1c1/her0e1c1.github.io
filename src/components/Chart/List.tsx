@@ -125,6 +125,7 @@ class List extends React.Component<Props, State> {
     const end = start + perPage;
     const filtered = rows.filter(r => this.filterRow(r));
     const paging = filtered.slice(start, end);
+    const lastPage = parseInt(filtered.length / perPage);
     return (
       <div>
         <Filter parent={this} />
@@ -134,6 +135,7 @@ class List extends React.Component<Props, State> {
         <Button bsSize="xsmall" onClick={() => this.setState({ page: page + 1 })} disabled={end > filtered.length}>
           NEXT
         </Button>
+        {' '} {page} / {lastPage} [{filtered.length} / {rows.length}]
         <Table striped bordered condensed hover>
           <thead>
             <tr>
