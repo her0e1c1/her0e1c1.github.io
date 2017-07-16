@@ -1,7 +1,7 @@
 import React = require("react");
-import ReactHighstock = require("react-highcharts/ReactHighstock.src");
 import parser = require("query-string");
 import List from "./List";
+import Chart2 from "./Chart";
 
 interface Series {
   quandl_code: string;
@@ -193,6 +193,7 @@ class Chart extends React.Component<null, State> {
     const { errorMsg } = this.state;
     return (
       <div>
+        <Chart2 />
         <List parent={this} />
 
         {errorMsg &&
@@ -207,8 +208,6 @@ class Chart extends React.Component<null, State> {
             </option>
           )}
         </select>
-
-        <ReactHighstock config={this.getConfig()} />
       </div>
     );
   }

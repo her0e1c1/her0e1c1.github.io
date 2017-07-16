@@ -1,14 +1,16 @@
-import * as I from "./Interface";
 import _ = require("lodash");
+import * as I from "./Interface";
+import moment = require("moment");
 
-const create_price = (): I.Price => {
+const create_price = (date?: number): I.Price => {
   return {
     open: _.random(101, 150),
     high: _.random(151, 200),
     low: _.random(1, 50),
     close: _.random(51, 100),
     volume: _.random(10 ** 3, 10 ** 6),
-    date: 100000,
+    date: date || 0,
+    code: c0,
   };
 };
 
@@ -24,6 +26,14 @@ const create_signal = (): I.Signal => {
   };
 };
 
+const c0 = {
+  code: "c0",
+  database_code: "db",
+  signal: {},
+} as I.Code
+
+const prices = _.range(100).map(i => create_price(moment().subtract(i, "days").toDate().getTime()));
+
 const quandl_codes = _.range(1301, 1400).map(i => `TSE/${i}`);
 
 const codes: I.Code[] = quandl_codes.map(code => ({
@@ -32,4 +42,4 @@ const codes: I.Code[] = quandl_codes.map(code => ({
   signal: create_signal(),
 }));
 
-export { codes };
+export { codes, prices };
