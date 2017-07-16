@@ -1,3 +1,4 @@
+
 type SignalType = "BUY" | "SELL";
 const SignalTypes: SignalType[] = ["BUY", "SELL"];
 

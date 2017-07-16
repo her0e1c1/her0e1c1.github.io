@@ -1,8 +1,6 @@
 import React = require("react");
 import ReactHighstock = require("react-highcharts/ReactHighstock.src");
 import parser = require("query-string");
-
-import Favorite from "./Favorite";
 import List from "./List";
 
 interface Series {
