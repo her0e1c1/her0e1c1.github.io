@@ -9,7 +9,7 @@ const getFavorites = (): string[] => {
 
 const setFavorites = (code: string): string[] => {
   if (!code) {
-    return;
+    return [];
   }
   let f = getFavorites();
   !f.includes(code) && f.push(code);
@@ -19,7 +19,7 @@ const setFavorites = (code: string): string[] => {
 
 const delFavorites = (code: string): string[] => {
   if (!code) {
-    return;
+    return [];
   }
   const f = getFavorites();
   const i = f.indexOf(code);
