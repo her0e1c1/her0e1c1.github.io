@@ -135,7 +135,7 @@ class List extends React.Component<Props, State> {
         <Button bsSize="xsmall" onClick={() => this.setState({ page: page + 1 })} disabled={end > filtered.length}>
           NEXT
         </Button>
-        {' '} {page} / {lastPage} [{filtered.length} / {rows.length}]
+        {' '} {page} / {lastPage} [{filtered.length}]
         <Table striped bordered condensed hover>
           <thead>
             <tr>
