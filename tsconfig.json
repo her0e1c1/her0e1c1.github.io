@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "strictNullChecks": true,
     "declaration": false,
     "noResolve": false,
+    "allowJs": false,
     "jsx": "react",
     "module": "commonjs",
     "target": "es5",
@@ -14,6 +16,9 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "."
   },
+  "exclude": [
+    "node_modules"
+  ],
   "include": [
     "./src/**/*"
   ]
