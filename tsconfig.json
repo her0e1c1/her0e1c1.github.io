@@ -14,7 +14,7 @@
     "noImplicitReturns": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "."
+    "outDir": ".",
     "types": [
       "core-js",
       "node"
