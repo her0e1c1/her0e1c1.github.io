@@ -9,11 +9,9 @@ import * as DummyData from "./DummyData";
 type FilterKey = I.SignalKey | I.SignalType;
 const filterKeys = [].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
 
-type Signals = {
-  [k in FilterKey]: boolean;
-}
+type Signals = { [k in FilterKey]: boolean };
 
-class Filter extends React.Component<{parent: List}, Signals> {
+class Filter extends React.Component<{ parent: List }, Signals> {
   private parent: List;
 
   constructor(props) {
@@ -32,7 +30,9 @@ class Filter extends React.Component<{parent: List}, Signals> {
     return (
       <div>
         {filterKeys.map((k, i) =>
-          <Checkbox inline key={i} onClick={e => this.filter(e, k)}>{k}</Checkbox>
+          <Checkbox inline key={i} onClick={e => this.filter(e, k)}>
+            {k}
+          </Checkbox>
         )}
       </div>
     );
@@ -84,10 +84,10 @@ class List extends React.Component<Props, State> {
       const bs = row.signal[k] as I.SignalType;
       if (s.BUY || s.SELL) {
         if (s.BUY && bs === "BUY") {
-         return true;
+          return true;
         }
         if (s.SELL && bs === "SELL") {
-         return true;
+          return true;
         }
         return false;
       } else {
@@ -100,32 +100,36 @@ class List extends React.Component<Props, State> {
   }
 
   render() {
-    const {page, perPage, rows} = this.state;
+    const { page, perPage, rows } = this.state;
     const start = page * perPage;
     const end = start + perPage;
     const checked = filterKeys.some(k => !!this.state.signals[k]);
-    const filtered = !checked ? rows : rows.filter(r => this.filterRow(r))
+    const filtered = !checked ? rows : rows.filter(r => this.filterRow(r));
     const paging = filtered.slice(start, end);
     return (
       <div>
-      <Filter parent={this} />
-      <Button bsSize="xsmall" onClick={() => this.setState({page: page - 1})} disabled={page == 0}>PREV</Button> 
-      <Button bsSize="xsmall" onClick={() => this.setState({page: page + 1})} disabled={end > filtered.length}>NEXT</Button> 
-      <Table striped bordered condensed hover>
-        <thead>
-          <tr>
-            <th>CODE</th>
-            <th>PRICE</th>
-            <th>DIFF (RATIO)</th>
-            <th>SIGNALS</th>
-            <th>SCORE</th>
-            <th>FAVORITES</th>
-          </tr>
-        </thead>
-        <tbody>
-          {paging.map((r) => <SammaryRow key={r.code} code={r} />)}
-        </tbody>
-      </Table>
+        <Filter parent={this} />
+        <Button bsSize="xsmall" onClick={() => this.setState({ page: page - 1 })} disabled={page == 0}>
+          PREV
+        </Button>
+        <Button bsSize="xsmall" onClick={() => this.setState({ page: page + 1 })} disabled={end > filtered.length}>
+          NEXT
+        </Button>
+        <Table striped bordered condensed hover>
+          <thead>
+            <tr>
+              <th>CODE</th>
+              <th>PRICE</th>
+              <th>DIFF (RATIO)</th>
+              <th>SIGNALS</th>
+              <th>SCORE</th>
+              <th>FAVORITES</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paging.map(r => <SammaryRow key={r.code} code={r} parent={this} />)}
+          </tbody>
+        </Table>
       </div>
     );
   }

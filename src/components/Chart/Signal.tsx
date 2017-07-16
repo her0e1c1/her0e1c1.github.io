@@ -22,16 +22,16 @@ class Signal extends React.Component<Props, undefined> {
     }
     return (
       <div className="list-inline">
-          {keys.map((k, i) => {
-            const s = signal[k];
-            let bs = "";
-            if (s == "BUY") {
-              bs = "success";
-            } else {
-              bs = "warning";
-            }
-            return <Label key={i} bsStyle={bs}>{`${k}`}</Label>;
-          })}
+        {keys.map((k, i) => {
+          const s = signal[k];
+          let bs = "";
+          if (s == "BUY") {
+            bs = "success";
+          } else {
+            bs = "warning";
+          }
+          return <Label key={i} bsStyle={bs}>{`${k}`}</Label>;
+        })}
       </div>
     );
   }

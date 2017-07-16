@@ -34,7 +34,9 @@ class SammaryRow extends React.Component<Props, undefined> {
           <a href={`/?path=chart&code=${code.code}`}> {code.code} </a>{" "}
         </td>
         <td>
-          <b>{code.signal.price && code.signal.price.close}</b>
+          <b>
+            {code.signal.price && code.signal.price.close}
+          </b>
         </td>
         <td>
           {p && <Label bsStyle={bs}>{`${diff} (${ratio}%)`}</Label>}
@@ -43,13 +45,18 @@ class SammaryRow extends React.Component<Props, undefined> {
           <Signal signal={code.signal} />
         </td>
         <td>
-          <b>{code.signal.score}</b>
+          <b>
+            {code.signal.score}
+          </b>
         </td>
         <td>
           {this.parent.state.favorites.includes(code.code)
-          ? <Button bsSize="xsmall" bsStyle={"danger"} onClick={() => this.parent.delFavorites(code.code)}>DEL</Button>
-          : <Button bsSize="xsmall" onClick={() => this.parent.setFavorites(code.code)}>ADD</Button>
-          }
+            ? <Button bsSize="xsmall" bsStyle={"danger"} onClick={() => this.parent.delFavorites(code.code)}>
+                DEL
+              </Button>
+            : <Button bsSize="xsmall" onClick={() => this.parent.setFavorites(code.code)}>
+                ADD
+              </Button>}
         </td>
       </tr>
     );
