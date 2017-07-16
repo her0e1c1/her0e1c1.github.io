@@ -99,6 +99,14 @@ class List extends React.Component<Props, State> {
     });
   }
 
+  setFavorites(code: string) {
+    this.setState({favorites: setFavorites(code)})
+  }
+
+  delFavorites(code: string) {
+    this.setState({favorites: delFavorites(code)})
+  }
+
   render() {
     const { page, perPage, rows } = this.state;
     const start = page * perPage;
