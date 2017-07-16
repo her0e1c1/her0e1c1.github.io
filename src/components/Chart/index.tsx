@@ -196,7 +196,6 @@ class Chart extends React.Component<null, State> {
     const { errorMsg } = this.state;
     return (
       <div>
-        <Favorite parent={this} />
         <List parent={this} />
 
         {errorMsg &&

@@ -1,6 +1,7 @@
 import React = require("react");
-import { Label } from "react-bootstrap";
+import { Label, Button } from "react-bootstrap";
 import Signal from "./Signal";
+import { getFavorites, setFavorites, delFavorites } from "./Cookie";
 import * as C from "./Const";
 import * as I from "./Interface";
 
@@ -12,6 +13,7 @@ class SammaryRow extends React.Component<Props, undefined> {
   private code: I.Code;
   constructor(props) {
     super(props);
+    this.parent = props.parent;
     this.code = props.code;
   }
 
@@ -42,6 +44,12 @@ class SammaryRow extends React.Component<Props, undefined> {
         </td>
         <td>
           <b>{code.signal.score}</b>
+        </td>
+        <td>
+          {this.parent.state.favorites.includes(code.code)
+          ? <Button bsSize="xsmall" bsStyle={"danger"} onClick={() => this.parent.delFavorites(code.code)}>DEL</Button>
+          : <Button bsSize="xsmall" onClick={() => this.parent.setFavorites(code.code)}>ADD</Button>
+          }
         </td>
       </tr>
     );

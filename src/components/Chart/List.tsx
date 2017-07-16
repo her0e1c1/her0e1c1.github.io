@@ -2,6 +2,7 @@ import React = require("react");
 import { Table, Button, Checkbox } from "react-bootstrap";
 import Signal from "./Signal";
 import { SammaryRow } from "./Sammary";
+import { getFavorites, setFavorites, delFavorites } from "./Cookie";
 import * as I from "./Interface";
 import * as DummyData from "./DummyData";
 
@@ -43,7 +44,8 @@ interface Props {}
 interface State {
   parent: any;
   rows: I.Code[];
-  signals: Signals; 
+  signals: Signals;
+  favorites: string[];
   page: number;
   perPage: number;
 }
@@ -54,7 +56,8 @@ class List extends React.Component<Props, State> {
     this.state = {
       parent: props.parent,
       rows: __MOCK__ ? DummyData.codes : [],
-      signals: {},
+      signals: {} as Signals,
+      favorites: getFavorites(),
       page: 0,
       perPage: 10,
     };
@@ -116,6 +119,7 @@ class List extends React.Component<Props, State> {
             <th>DIFF (RATIO)</th>
             <th>SIGNALS</th>
             <th>SCORE</th>
+            <th>FAVORITES</th>
           </tr>
         </thead>
         <tbody>
