@@ -14,7 +14,7 @@ class SammaryRow extends React.Component<Props, undefined> {
   private parent: List;
   private code: I.Code;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.parent = props.parent;
     this.code = props.code;
