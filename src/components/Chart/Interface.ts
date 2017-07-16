@@ -30,4 +30,4 @@ interface Code {
   signal?: Signal;
 }
 
-export { SignalType, Price, Signal, Code, SignalKeys, SignalTypes };
+export { SignalType, Price, Signal, Code, SignalKeys, SignalTypes, SignalKey };

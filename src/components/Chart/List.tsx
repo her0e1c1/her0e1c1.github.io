@@ -2,15 +2,25 @@ import React = require("react");
 import { Table, Button, Checkbox } from "react-bootstrap";
 import Signal from "./Signal";
 import { SammaryRow } from "./Sammary";
-import * as C from "./Const";
 import * as I from "./Interface";
 import * as DummyData from "./DummyData";
 
-class Filter extends React.Component<Props, State> {
+type FilterKey = I.SignalKey | I.SignalType;
+const filterKeys = [].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
+
+type Signals = {
+  [k in FilterKey]: boolean;
+}
+
+class Filter extends React.Component<{parent: List}, Signals> {
+  private parent: List;
+
   constructor(props) {
     super(props);
     this.parent = props.parent;
-    this.state = I.SignalKeys.map(k => ({ [k]: false })).reduce((acc, x) => Object.assign(acc, x), {});
+    const keys = [].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
+    this.state = keys.map(k => ({ [k]: false })).reduce(Object.assign, {});
+    // this.state = keys.map(k => ({ [k]: false })).reduce((acc, x) => Object.assign(acc, x));
   }
 
   filter(e, k) {
@@ -20,10 +30,8 @@ class Filter extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        {C.SIGNAL_KEYS.map((k, i) =>
-          <Checkbox inline key={i} onClick={e => this.filter(e, k)}>
-            {k}
-          </Checkbox>
+        {filterKeys.map((k, i) =>
+          <Checkbox inline key={i} onClick={e => this.filter(e, k)}>{k}</Checkbox>
         )}
       </div>
     );
@@ -31,10 +39,6 @@ class Filter extends React.Component<Props, State> {
 }
 
 interface Props {}
-
-type Signals = {
-  [k in I.SignalType]: boolean;
-}
 
 interface State {
   parent: any;
@@ -73,14 +77,30 @@ class List extends React.Component<Props, State> {
 
   filterRow(row: I.Code): boolean {
     const s = this.state.signals;
-    return Object.keys(s).some(k => s[k] && !!row.signal[k]);
+    return I.SignalKeys.some(k => {
+      const bs = row.signal[k] as I.SignalType;
+      if (s.BUY || s.SELL) {
+        if (s.BUY && bs === "BUY") {
+         return true;
+        }
+        if (s.SELL && bs === "SELL") {
+         return true;
+        }
+        return false;
+      } else {
+        if (!s[k]) {
+          return false;
+        }
+        return !!bs;
+      }
+    });
   }
 
   render() {
     const {page, perPage, rows} = this.state;
     const start = page * perPage;
     const end = start + perPage;
-    const checked = Object.keys(this.state.signals).some(k => this.state.signals[k]);
+    const checked = filterKeys.some(k => !!this.state.signals[k]);
     const filtered = !checked ? rows : rows.filter(r => this.filterRow(r))
     const paging = filtered.slice(start, end);
     return (
@@ -93,7 +113,7 @@ class List extends React.Component<Props, State> {
           <tr>
             <th>CODE</th>
             <th>PRICE</th>
-            <th>DIFF</th>
+            <th>DIFF (RATIO)</th>
             <th>SIGNALS</th>
             <th>SCORE</th>
           </tr>
