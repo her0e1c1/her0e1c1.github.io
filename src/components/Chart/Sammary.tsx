@@ -2,7 +2,6 @@ import React = require("react");
 import { Label, Button } from "react-bootstrap";
 import Signal from "./Signal";
 import { getFavorites, setFavorites, delFavorites } from "./Cookie";
-import * as C from "./Const";
 import * as I from "./Interface";
 import List from "./List";
 
