@@ -6,8 +6,8 @@ import { getFavorites, setFavorites, delFavorites } from "./Cookie";
 import * as I from "./Interface";
 import * as DummyData from "./DummyData";
 
-type FilterKey = I.SignalKey | I.SignalType;
-const filterKeys = [].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
+type FilterKey = I.SignalKey | I.SignalType | "favorites";
+const filterKeys = ["favorites"].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
 
 type Signals = { [k in FilterKey]: boolean };
 
@@ -80,6 +80,18 @@ class List extends React.Component<Props, State> {
 
   filterRow(row: I.Code): boolean {
     const s = this.state.signals;
+    if (s.favorites) {
+      if (this.state.favorites.indexOf(row.code) === -1) {
+         return false;
+      }
+      if (!filterKeys.filter(k => k !== "favorites").some(k => this.state.signals[k])){
+          return true;
+      }
+    } else {
+      if (!filterKeys.some(k => this.state.signals[k])){
+       return true;
+      }
+    }
     return I.SignalKeys.some(k => {
       const bs = row.signal[k] as I.SignalType;
       if (s.BUY || s.SELL) {
@@ -111,8 +123,7 @@ class List extends React.Component<Props, State> {
     const { page, perPage, rows } = this.state;
     const start = page * perPage;
     const end = start + perPage;
-    const checked = filterKeys.some(k => !!this.state.signals[k]);
-    const filtered = !checked ? rows : rows.filter(r => this.filterRow(r));
+    const filtered = rows.filter(r => this.filterRow(r));
     const paging = filtered.slice(start, end);
     return (
       <div>
