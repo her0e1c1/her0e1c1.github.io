@@ -4,13 +4,17 @@ import Signal from "./Signal";
 import { getFavorites, setFavorites, delFavorites } from "./Cookie";
 import * as C from "./Const";
 import * as I from "./Interface";
+import List from "./List";
 
 interface Props {
+  parent: List;
   code: I.Code;
 }
 
 class SammaryRow extends React.Component<Props, undefined> {
+  private parent: List;
   private code: I.Code;
+
   constructor(props) {
     super(props);
     this.parent = props.parent;
