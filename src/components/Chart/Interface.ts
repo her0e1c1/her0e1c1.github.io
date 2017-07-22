@@ -1,4 +1,3 @@
-
 type SignalType = "BUY" | "SELL";
 const SignalTypes: SignalType[] = ["BUY", "SELL"];
 
@@ -34,7 +33,8 @@ interface Code {
   signal?: Signal;
 }
 
-type Line = [[timepstamp, price]];
+type Point = [timepstamp, price];
+type Line = Point[];
 type OHLC = Price[];
 
 interface Chart {
@@ -42,21 +42,21 @@ interface Chart {
   ohlc?: OHLC;
   rsi?: {
     line: Line;
-  }
+  };
   stochastic?: {
     k: Line;
     d: Line;
     sd: Line;
-  }
+  };
   macd?: {
     line: Line;
     signal: Line;
-  }
+  };
   rolling_mean?: {
     line25: Line;
     line50: Line;
     line200: Line;
-  }
+  };
   bollinger_band?: {
     sigma1: Line;
     sigma2: Line;
@@ -64,7 +64,7 @@ interface Chart {
     sigma1m: Line; // minus
     sigma2m: Line;
     sigma3m: Line;
-  } 
+  };
 }
 
 // highchart
@@ -77,4 +77,4 @@ interface Series {
   color: string;
 }
 
-export { SignalType, Price, Signal, Code, SignalKeys, SignalTypes, SignalKey, Chart };
+export { SignalType, Price, Signal, Code, SignalKeys, SignalTypes, SignalKey, Chart, Point, Line };

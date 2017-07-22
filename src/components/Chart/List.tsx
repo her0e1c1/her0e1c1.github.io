@@ -82,14 +82,14 @@ class List extends React.Component<Props, State> {
     const s = this.state.signals;
     if (s.favorites) {
       if (this.state.favorites.indexOf(row.code) === -1) {
-         return false;
+        return false;
       }
-      if (!filterKeys.filter(k => k !== "favorites").some(k => this.state.signals[k])){
-          return true;
+      if (!filterKeys.filter(k => k !== "favorites").some(k => this.state.signals[k])) {
+        return true;
       }
     } else {
-      if (!filterKeys.some(k => this.state.signals[k])){
-       return true;
+      if (!filterKeys.some(k => this.state.signals[k])) {
+        return true;
       }
     }
     return I.SignalKeys.some(k => {
@@ -112,11 +112,11 @@ class List extends React.Component<Props, State> {
   }
 
   setFavorites(code: string) {
-    this.setState({favorites: setFavorites(code)})
+    this.setState({ favorites: setFavorites(code) });
   }
 
   delFavorites(code: string) {
-    this.setState({favorites: delFavorites(code)})
+    this.setState({ favorites: delFavorites(code) });
   }
 
   render() {
@@ -134,8 +134,8 @@ class List extends React.Component<Props, State> {
         </Button>
         <Button bsSize="xsmall" onClick={() => this.setState({ page: page + 1 })} disabled={end > filtered.length}>
           NEXT
-        </Button>
-        {' '} {page} / {lastPage} [{filtered.length}]
+        </Button>{" "}
+        {page} / {lastPage} [{filtered.length}]
         <Table striped bordered condensed hover>
           <thead>
             <tr>

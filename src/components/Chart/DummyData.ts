@@ -30,9 +30,13 @@ const c0 = {
   code: "c0",
   database_code: "db",
   signal: {},
-} as I.Code
+} as I.Code;
 
-const prices = _.range(100).map(i => create_price(moment().subtract(i, "days").toDate().getTime()));
+const prices = _.range(1, 100).reverse().map(i => create_price(moment().subtract(i, "days").toDate().getTime()));
+
+const create_line = () => {
+  return prices.map(x => [x.date, x.close! + _.random(-100, 100)] as I.Point);
+};
 
 const quandl_codes = _.range(1301, 1400).map(i => `TSE/${i}`);
 
@@ -42,4 +46,4 @@ const codes: I.Code[] = quandl_codes.map(code => ({
   signal: create_signal(),
 }));
 
-export { codes, prices };
+export { codes, prices, create_line };
