@@ -44,6 +44,9 @@ interface Chart {
   rsi?: {
     line: Line;
   };
+  volume?: {
+    line: Line;
+  };
   stochastic?: {
     k: Line;
     d: Line;

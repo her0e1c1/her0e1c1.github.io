@@ -1,17 +1,7 @@
 import React = require("react");
 import parser = require("query-string");
 import List from "./List";
-import Chart2 from "./Chart";
-
-interface Series {
-  quandl_code: string;
-  series: number[]; // [[date, price]]
-}
-
-interface yLine {
-  name: string;
-  value: number; // [[date, price]]
-}
+import HighStock from "./Chart";
 
 interface State {
   socket: WebSocket;
@@ -71,23 +61,6 @@ class Chart extends React.Component<null, State> {
         this.setState({ codes: data.codes });
         return;
       }
-
-      const s = data.series;
-      // console.log(data);
-      if ("volume" in data) {
-        this.showVolumn(data.volume);
-      }
-
-      const CANDLE_KEYS = ["open", "high", "low", "close"];
-      if (CANDLE_KEYS.map(k => k in data).every(x => x)) {
-        this.showOHLC(data);
-      } else if (s instanceof Array) {
-        this.showSeries(data);
-      } else if (typeof s == "number") {
-        this.showPriceOnY({ value: s, text: data.name });
-      } else {
-        console.log(`UNKNOWN: ${s} (${typeof s})`);
-      }
     };
 
     socket.onerror = e => {
@@ -96,92 +69,8 @@ class Chart extends React.Component<null, State> {
     };
   }
 
-  showVolumn(volume: number[]) {
-    const data = volume.map((d, i) => [d[0] * 1000, d[1]]);
-    const d = { name: "volume", data, type: "column", yAxis: 1 };
-    this.setState({ series: this.state.series.concat(d) });
-  }
-
-  showOHLC(data: any) {
-    // TOOD: refactor with zip
-    const series = data.open.map((d, i) => [d[0] * 1000, d[1], data.high[i][1], data.low[i][1], data.close[i][1]]);
-    const d = {
-      type: "candlestick",
-      data: series,
-    };
-    const get = i => {
-      const s = series[series.length - i];
-      return s && s[s.length - 1];
-    };
-    const l1 = get(1);
-    const l2 = get(2);
-    const lastClose = l1;
-    const lastCloseDiff = l1 && l2 && l1 - l2;
-    this.setState({ series: this.state.series.concat(d), lastClose, lastCloseDiff });
-  }
-
-  showSeries({ series, quandl_code, chart_type = "" }: Series) {
-    let yAxis = 0;
-    let lineWidth = 1;
-    let name = quandl_code;
-    let color = "blue";
-    if (chart_type.startsWith("stochastic")) {
-      yAxis = 4;
-    } else if (chart_type.startsWith("rsi")) {
-      yAxis = 2;
-      name = "RSI";
-    } else if (chart_type.startsWith("macd")) {
-      yAxis = 3;
-      name = "MACD";
-    } else if (chart_type.startsWith("bollinger_band")) {
-      name = chart_type;
-      color = "black";
-      lineWidth = 0.5;
-    }
-    series = series.map(d => [d[0] * 1000, d[1]]); // needs to convert millisecond
-    const d = {
-      type: "line",
-      data: series,
-      lineWidth,
-      yAxis,
-      name,
-      color,
-    };
-    this.setState({ series: this.state.series.concat(d) });
-
-    const min = Math.min(...series.map(e => e[1]));
-    // this.showPriceOnY({ value: min, text: "min" });
-    const max = Math.max(...series.map(e => e[1]));
-    // this.showPriceOnY({ value: max, text: "max" });
-  }
-
-  showPriceOnY({ value, text }) {
-    let series = this.state.series;
-    this.setState({
-      yLines: this.state.yLines.concat({
-        value,
-        label: { text: `${text} (${value})` },
-        dashStyle: "shortdash",
-        color: "#FF00FF",
-        width: 2,
-      }),
-    });
-  }
-
-  getConfig() {
-    return {
-      chart: { height: 500 },
-      rangeSelector: { selected: 1 },
-      yAxis: [
-        { title: { text: "OHLC" }, height: "60%", plotLines: this.state.yLines },
-        { title: { text: "Volume" }, height: "10%", top: "60%" },
-        { title: { text: "RSI" }, height: "10%", top: "80%" },
-        { title: { text: "MACD" }, height: "10%", top: "90%" },
-        { title: { text: "stochastic" }, height: "10%", top: "70%" },
-      ],
-      series: this.state.series,
-    };
-  }
+  // const min = Math.min(...series.map(e => e[1]));
+  // this.showPriceOnY({ value: min, text: "min" });
 
   selectCode(e) {
     const code = e.target.value;
@@ -193,7 +82,7 @@ class Chart extends React.Component<null, State> {
     const { errorMsg } = this.state;
     return (
       <div>
-        <Chart2 />
+        <HighStock />
         <List parent={this} />
 
         {errorMsg &&

@@ -7,16 +7,27 @@ import * as DummyData from "./DummyData";
 const DEFAULT_CODE = "TSE/1301";
 
 interface Series {
-  type: "line" | "candlestick";
-  name: string;
+  type: "line" | "candlestick" | "column";
   data: I.Line | I.OHLC;
   yAxis: number;
+  name: string;
+  lineWidth?: number;
+  color?: string;
+}
+
+interface yLine {
+  value: number;
+  label: { text: string };
+  dashStyle: "shortdash";
+  color: string;
+  width: number;
 }
 
 interface yAxis {
   title?: { text: string };
   height: string;
   top: string;
+  plotLines?: yLine[];
 }
 
 interface Config {
@@ -43,11 +54,13 @@ class HighStock extends React.Component<Props, State> {
   }
 
   getConfig(): any {
-    const { ohlc, rsi, stochastic, bollinger_band, rolling_mean, macd } = this.state.chart;
+    const { ohlc, rsi, stochastic, bollinger_band, rolling_mean, macd, volume } = this.state.chart;
     let top = 0;
     let series = [] as Series[];
     let yAxis = [] as yAxis[];
-    const setLine = (data: I.Line, name: string) => series.push({ data, yAxis: yAxis.length - 1, type: "line", name });
+    const setLine = (data: I.Line, name: string) => {
+      series.push({ data, yAxis: yAxis.length - 1, type: "line", name });
+    };
     const setY = (text: string, height: number) => {
       yAxis.push({ title: { text }, height: `${height}%`, top: `${top}%` });
       top += height;
@@ -73,6 +86,10 @@ class HighStock extends React.Component<Props, State> {
       setLine(bollinger_band.sigma1m, "s-1");
       setLine(bollinger_band.sigma2m, "s-2");
       setLine(bollinger_band.sigma3m, "s-3");
+    }
+    if (volume) {
+      setY("VOLUME", 10);
+      series.push({ name: "VOLUME", yAxis: 1, type: "column", data: volume.line });
     }
     if (rsi) {
       setY("RSI", 10);

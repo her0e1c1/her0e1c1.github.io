@@ -62,6 +62,9 @@ const chart: I.Chart = {
     sigma2m: create_line(),
     sigma3m: create_line(),
   },
+  volume: {
+    line: create_line(),
+  }
   rsi: { line: create_line() },
   macd: {
     line: create_line(),
