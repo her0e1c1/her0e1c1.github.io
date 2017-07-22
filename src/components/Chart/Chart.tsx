@@ -34,7 +34,7 @@ interface State {
   chart: I.Chart;
 }
 
-class Chart2 extends React.Component<Props, State> {
+class HighStock extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -106,4 +106,4 @@ class Chart2 extends React.Component<Props, State> {
   }
 }
 
-export default Chart2;
+export default HighStock;
