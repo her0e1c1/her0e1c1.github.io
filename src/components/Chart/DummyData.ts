@@ -46,4 +46,32 @@ const codes: I.Code[] = quandl_codes.map(code => ({
   signal: create_signal(),
 }));
 
-export { codes, prices, create_line };
+const chart: I.Chart = {
+  code: quandl_codes[0],
+  ohlc: prices,
+  rolling_mean: {
+    line25: create_line(),
+    line50: create_line(),
+    line200: create_line(),
+  },
+  bollinger_band: {
+    sigma1: create_line(),
+    sigma2: create_line(),
+    sigma3: create_line(),
+    sigma1m: create_line(),
+    sigma2m: create_line(),
+    sigma3m: create_line(),
+  },
+  rsi: { line: create_line() },
+  macd: {
+    line: create_line(),
+    signal: create_line(),
+  },
+  stochastic: {
+    k: create_line(),
+    d: create_line(),
+    sd: create_line(),
+  },
+};
+
+export { codes, prices, create_line, chart };

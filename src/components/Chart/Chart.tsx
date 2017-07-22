@@ -26,43 +26,24 @@ interface Config {
   rangeSelector?: { selected: number };
 }
 
-interface State {
-  chart: I.Chart;
-  // config: Config;
+interface Props {
+  code?: string;
 }
 
-class Chart2 extends React.Component<null, State> {
-  constructor(props) {
+interface State {
+  chart: I.Chart;
+}
+
+class Chart2 extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
-      chart: {
-        code: props.code || DEFAULT_CODE,
-        ohlc: DummyData.prices,
-        rolling_mean: {
-          line25: DummyData.create_line(),
-          line50: DummyData.create_line(),
-          line200: DummyData.create_line(),
-        },
-        bollinger_band: {
-          sigma1: DummyData.create_line(),
-          sigma2: DummyData.create_line(),
-          sigma3: DummyData.create_line(),
-          sigma1m: DummyData.create_line(),
-          sigma2m: DummyData.create_line(),
-          sigma3m: DummyData.create_line(),
-        },
-        rsi: { line: DummyData.create_line() },
-        stochastic: {
-          k: DummyData.create_line(),
-          d: DummyData.create_line(),
-          sd: DummyData.create_line(),
-        },
-      },
+      chart: DummyData.chart,
     };
   }
 
   getConfig(): any {
-    const { ohlc, rsi, stochastic, bollinger_band, rolling_mean } = this.state.chart;
+    const { ohlc, rsi, stochastic, bollinger_band, rolling_mean, macd } = this.state.chart;
     let top = 0;
     let series = [] as Series[];
     let yAxis = [] as yAxis[];
@@ -75,8 +56,9 @@ class Chart2 extends React.Component<null, State> {
       setY("OHLC", 50);
       series.push({
         name: "OHLC",
+        yAxis: 0,
         type: "candlestick",
-        data: ohlc.map((x, i) => [x.date, x.open, x.high, x.low, x.close]),
+        data: ohlc.map((x, i) => [x.date, x.open!, x.high!, x.low!, x.close!] as I.OHLCPoint),
       });
     }
     if (rolling_mean) {
@@ -95,6 +77,11 @@ class Chart2 extends React.Component<null, State> {
     if (rsi) {
       setY("RSI", 10);
       setLine(rsi.line, "RSI");
+    }
+    if (macd) {
+      setY("MACD", 10);
+      setLine(macd.line, "line");
+      setLine(macd.signal, "signal");
     }
     if (stochastic) {
       setY("STOCHASTIC", 10);

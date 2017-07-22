@@ -34,12 +34,13 @@ interface Code {
 }
 
 type Point = [timepstamp, price];
+type OHLCPoint = [timepstamp, price, price, price, price];
 type Line = Point[];
-type OHLC = Price[];
+type OHLC = OHLCPoint[];
 
 interface Chart {
   code: string;
-  ohlc?: OHLC;
+  ohlc?: Price[];
   rsi?: {
     line: Line;
   };
@@ -77,4 +78,4 @@ interface Series {
   color: string;
 }
 
-export { SignalType, Price, Signal, Code, SignalKeys, SignalTypes, SignalKey, Chart, Point, Line };
+export { SignalType, Price, Signal, Code, SignalKeys, SignalTypes, SignalKey, Chart, Point, Line, OHLC, OHLCPoint };
