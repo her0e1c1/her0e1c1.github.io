@@ -1,17 +1,13 @@
 import React = require("react");
+import { connect } from "react-redux";
 import parser = require("query-string");
 import List from "./List";
 import HighStock from "./Chart";
+import { setCurrentCode } from "./Action";
+import * as I from "./Interface";
 
 interface State {
-  socket: WebSocket;
-  series: any[];
-  yLines: any[];
-  lastClose?: number;
-  lastCloseDiff?: number;
-  code: string;
   codes: string[];
-  errorMsg: string;
 }
 
 const map = A => {
@@ -29,77 +25,60 @@ const map = A => {
   return Object.keys(A).reduce(f, [[]]);
 };
 
-class Chart extends React.Component<null, State> {
-  constructor(props) {
+// selectCode(e) {
+//   const code = e.target.value;
+//   this.setState({ code, series: [], yLines: [] });
+//   this.state.socket.send(JSON.stringify({ code }));
+// }
+
+const CodeSelectBox = ({ parent }: { parent: Chart }) =>
+  <select value={parent.props.current_code} onChange={e => this.selectCode(e)}>
+    {parent.props.codes.map((c, i) =>
+      <option key={i}>
+        {c.code}
+      </option>
+    )}
+  </select>;
+
+class Chart extends React.Component<I.ChartProps, State> {
+  constructor(props: I.ChartProps) {
     super(props);
-    const qs = parser.parse(window.location.search);
-    this.state = {
-      qs,
-      socket: new WebSocket(__PYSTOCK_HOST__),
-      series: [],
-      yLines: [],
-      lastClose: null,
-      code: qs.code || "TSE/1301",
-      codes: [],
-      signal: null,
-      errorMsg: "",
-    };
   }
 
   componentDidMount() {
-    let socket = this.state.socket;
-    socket.onopen = () => {
-      socket.send(JSON.stringify(map({ ...this.state.qs, code: this.state.code })));
-    };
-    socket.onmessage = m => {
-      const data = JSON.parse(m.data);
-      if (data.event == "signal") {
-        this.setState({ signal: data.signal });
-        return;
-      }
-      if (data.event == "set_codes") {
-        this.setState({ codes: data.codes });
-        return;
-      }
-    };
-
-    socket.onerror = e => {
-      console.log(e);
-      this.setState({ errorMsg: "SOME ERROR HAPPENS" });
-    };
+    this.props.setCurrentCode();
+    // let socket = this.state.socket;
+    // socket.onopen = () => {
+    //   socket.send(JSON.stringify(map({ ...this.state.qs, code: this.state.code })));
+    // };
+    // socket.onmessage = m => {
+    //   const data = JSON.parse(m.data);
+    //   if (data.event == "signal") {
+    //     this.setState({ signal: data.signal });
+    //     return;
+    //   }
   }
 
   // const min = Math.min(...series.map(e => e[1]));
   // this.showPriceOnY({ value: min, text: "min" });
 
-  selectCode(e) {
-    const code = e.target.value;
-    this.setState({ code, series: [], yLines: [] });
-    this.state.socket.send(JSON.stringify({ code }));
-  }
-
   render() {
-    const { errorMsg } = this.state;
     return (
       <div>
-        <HighStock />
+        <CodeSelectBox parent={this} />
+        <HighStock chart={this.props.state.chart.chart} />
         <List parent={this} />
-
-        {errorMsg &&
-          <div>
-            {" "}{errorMsg}{" "}
-          </div>}
-
-        <select value={this.state.code} onChange={e => this.selectCode(e)}>
-          {this.state.codes.map((c, i) =>
-            <option key={i}>
-              {c}
-            </option>
-          )}
-        </select>
       </div>
     );
   }
 }
 
-export default Chart;
+const mapStateToProps = state => ({
+  state: state,
+  current_code: state.chart.current_code,
+  codes: state.chart.codes,
+});
+const mapDispatchToProps = dispatch => ({
+  setCurrentCode: () => dispatch(setCurrentCode()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);

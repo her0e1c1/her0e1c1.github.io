@@ -38,7 +38,7 @@ interface Config {
 }
 
 interface Props {
-  code?: string;
+  chart?: I.Chart;
 }
 
 interface State {
@@ -48,13 +48,12 @@ interface State {
 class HighStock extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      chart: DummyData.chart,
-    };
   }
 
   getConfig(): any {
-    const { ohlc, rsi, stochastic, bollinger_band, rolling_mean, macd, volume } = this.state.chart;
+    const chart = __MOCK__ ? DummyData.chart : this.props.chart;
+    const { ohlc, rsi, stochastic, bollinger_band, rolling_mean, macd, volume } = chart;
+    console.log(ohlc);
     let top = 0;
     let series = [] as Series[];
     let yAxis = [] as yAxis[];

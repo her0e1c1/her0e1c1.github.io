@@ -1,10 +1,12 @@
 import React = require("react");
+import { connect } from "react-redux";
 import { Table, Button, Checkbox } from "react-bootstrap";
 import Signal from "./Signal";
 import { SammaryRow } from "./Sammary";
 import { getFavorites, setFavorites, delFavorites } from "./Cookie";
 import * as I from "./Interface";
 import * as DummyData from "./DummyData";
+import { getList } from "./Action";
 
 type FilterKey = I.SignalKey | I.SignalType | "favorites";
 const filterKeys = ["favorites"].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
@@ -43,7 +45,6 @@ interface Props {}
 
 interface State {
   parent: any;
-  rows: I.Code[];
   signals: Signals;
   favorites: string[];
   page: number;
@@ -55,27 +56,15 @@ class List extends React.Component<Props, State> {
     super(props);
     this.state = {
       parent: props.parent,
-      rows: __MOCK__ ? DummyData.codes : [],
       signals: {} as Signals,
       favorites: getFavorites(),
       page: 0,
-      perPage: 10,
+      perPage: 20,
     };
   }
 
   componentDidMount() {
-    if (__MOCK__) return;
-    const socket = this.state.parent.state.socket;
-    socket.addEventListener("open", () => {
-      socket.send(JSON.stringify({ event: "list" }));
-    });
-    socket.addEventListener("message", m => {
-      const data = JSON.parse(m.data);
-      if (data.event !== "list") {
-        return;
-      }
-      this.setState({ rows: data.codes });
-    });
+    !__MOCK__ && this.props.getList();
   }
 
   filterRow(row: I.Code): boolean {
@@ -120,7 +109,8 @@ class List extends React.Component<Props, State> {
   }
 
   render() {
-    const { page, perPage, rows } = this.state;
+    const rows = __MOCK__ ? DummyData.codes : this.props.rows;
+    const { page, perPage } = this.state;
     const start = page * perPage;
     const end = start + perPage;
     const filtered = rows.filter(r => this.filterRow(r));
@@ -156,4 +146,10 @@ class List extends React.Component<Props, State> {
   }
 }
 
-export default List;
+const mapStateToProps = state => ({
+  rows: state.chart.codes,
+});
+const mapDispatchToProps = dispatch => ({
+  getList: () => dispatch(getList()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(List);

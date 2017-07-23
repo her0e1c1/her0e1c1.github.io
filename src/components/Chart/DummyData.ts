@@ -64,7 +64,7 @@ const chart: I.Chart = {
   },
   volume: {
     line: create_line(),
-  }
+  },
   rsi: { line: create_line() },
   macd: {
     line: create_line(),

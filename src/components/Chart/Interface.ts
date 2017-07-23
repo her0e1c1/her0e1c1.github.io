@@ -81,4 +81,23 @@ interface Series {
   color: string;
 }
 
-export { SignalType, Price, Signal, Code, SignalKeys, SignalTypes, SignalKey, Chart, Point, Line, OHLC, OHLCPoint };
+interface ChartProps {
+  current_code?: string;
+  codes: Code[];
+}
+
+export {
+  ChartProps,
+  SignalType,
+  Price,
+  Signal,
+  Code,
+  SignalKeys,
+  SignalTypes,
+  SignalKey,
+  Chart,
+  Point,
+  Line,
+  OHLC,
+  OHLCPoint,
+};

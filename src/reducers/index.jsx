@@ -12,9 +12,6 @@ const initialState = {
 }
 
 const languages = (state = initialState, action) => {
-  /* console.log("languages=>")
-   * console.log(state)
-   * console.log(action)*/
   switch (action.type) {
     case "CHANGE_LANGUAGE": {
       return {...state, language: action.language, translation: translations[action.language]}
@@ -24,8 +21,23 @@ const languages = (state = initialState, action) => {
   }
 }
 
+// FIXME: fix socket init
+const chart = (state = {chart: {}, current_code: "", codes: [], socket: new WebSocket(__PYSTOCK_HOST__)}, action) => {
+  switch (action.type) {
+    case "CODE": {
+      return {...state, codes: action.codes}
+    }
+    case "SET_CURRENT_CODE": {
+      return {...state, current_code: action.code, chart: action.chart}
+    }
+    default:
+      return state
+    }
+}
+
 const Reducers = combineReducers({
   languages,
+  chart,
 })
 
 export default Reducers
