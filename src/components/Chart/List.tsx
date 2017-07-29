@@ -6,7 +6,7 @@ import { SammaryRow } from "./Sammary";
 import { getFavorites, setFavorites, delFavorites } from "./Cookie";
 import * as I from "./Interface";
 import * as DummyData from "./DummyData";
-import { getList } from "./Action";
+import { setList, sortListByRatio } from "./Action";
 
 type FilterKey = I.SignalKey | I.SignalType | "favorites";
 const filterKeys = ["favorites"].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
@@ -64,7 +64,7 @@ class List extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    !__MOCK__ && this.props.getList();
+    !__MOCK__ && this.props.setList();
   }
 
   filterRow(row: I.Code): boolean {
@@ -109,7 +109,7 @@ class List extends React.Component<Props, State> {
   }
 
   render() {
-    const rows = __MOCK__ ? DummyData.codes : this.props.rows;
+    const rows = __MOCK__ ? DummyData.codes : this.props.codes;
     const { page, perPage } = this.state;
     const start = page * perPage;
     const end = start + perPage;
@@ -131,7 +131,7 @@ class List extends React.Component<Props, State> {
             <tr>
               <th>CODE</th>
               <th>PRICE</th>
-              <th>DIFF (RATIO)</th>
+              <th onClick={this.props.sort.bind(this)}>DIFF (RATIO)</th>
               <th>SIGNALS</th>
               <th>SCORE</th>
               <th>FAVORITES</th>
@@ -147,9 +147,10 @@ class List extends React.Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
-  rows: state.chart.codes,
+  codes: state.chart.codes,
 });
 const mapDispatchToProps = dispatch => ({
-  getList: () => dispatch(getList()),
+  setList: () => dispatch(setList()),
+  sort: () => dispatch(sortListByRatio()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(List);

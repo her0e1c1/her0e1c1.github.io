@@ -58,8 +58,9 @@ interface Chart {
   };
   rolling_mean?: {
     line25: Line;
-    line50: Line;
-    line200: Line;
+    line50?: Line;
+    line100?: Line;
+    line200?: Line;
   };
   bollinger_band?: {
     sigma1: Line;
@@ -71,19 +72,41 @@ interface Chart {
   };
 }
 
-// highchart
-interface Series {
-  type: "line";
-  data: Line;
-  lineWidth: number;
-  yAxis: number;
-  name: string;
-  color: string;
-}
-
 interface ChartProps {
   current_code?: string;
   codes: Code[];
+}
+
+// highchart
+interface Series {
+  type: "line" | "candlestick" | "column";
+  data: Line | OHLC;
+  yAxis: number;
+  name: string;
+  lineWidth?: number;
+  color?: string;
+}
+
+interface yLine {
+  value: number;
+  label: { text: string };
+  dashStyle: "shortdash";
+  color: string;
+  width: number;
+}
+
+interface yAxis {
+  title?: { text: string };
+  height: string;
+  top: string;
+  plotLines?: yLine[];
+}
+
+interface Config {
+  series: Series[];
+  yAxis: yAxis[];
+  chart: { height: number };
+  rangeSelector?: { selected: number };
 }
 
 export {
@@ -100,4 +123,7 @@ export {
   Line,
   OHLC,
   OHLCPoint,
+  yLine,
+  Series,
+  yAxis,
 };

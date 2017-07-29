@@ -6,39 +6,8 @@ import * as DummyData from "./DummyData";
 
 const DEFAULT_CODE = "TSE/1301";
 
-interface Series {
-  type: "line" | "candlestick" | "column";
-  data: I.Line | I.OHLC;
-  yAxis: number;
-  name: string;
-  lineWidth?: number;
-  color?: string;
-}
-
-interface yLine {
-  value: number;
-  label: { text: string };
-  dashStyle: "shortdash";
-  color: string;
-  width: number;
-}
-
-interface yAxis {
-  title?: { text: string };
-  height: string;
-  top: string;
-  plotLines?: yLine[];
-}
-
-interface Config {
-  series: Series[];
-  yAxis: yAxis[];
-  chart: { height: number };
-  rangeSelector?: { selected: number };
-}
-
 interface Props {
-  chart?: I.Chart;
+  chart: I.Chart;
 }
 
 interface State {
@@ -53,12 +22,30 @@ class HighStock extends React.Component<Props, State> {
   getConfig(): any {
     const chart = __MOCK__ ? DummyData.chart : this.props.chart;
     const { ohlc, rsi, stochastic, bollinger_band, rolling_mean, macd, volume } = chart;
-    console.log(ohlc);
     let top = 0;
-    let series = [] as Series[];
-    let yAxis = [] as yAxis[];
-    const setLine = (data: I.Line, name: string) => {
-      series.push({ data, yAxis: yAxis.length - 1, type: "line", name });
+    let series = [] as I.Series[];
+    let yAxis = [] as I.yAxis[];
+    const setLine = ({
+      data,
+      name,
+      lineWidth,
+      color,
+    }: {
+      data: I.Line;
+      name: string;
+      lineWidth?: number;
+      color?: string;
+    }) => {
+      lineWidth = lineWidth || 0.5;
+      color = color || "black";
+      series.push({
+        data: data.map(x => [x[0] * 1000, x[1]] as I.Point),
+        yAxis: yAxis.length - 1,
+        type: "line",
+        name,
+        lineWidth,
+        color,
+      });
     };
     const setY = (text: string, height: number) => {
       yAxis.push({ title: { text }, height: `${height}%`, top: `${top}%` });
@@ -70,21 +57,22 @@ class HighStock extends React.Component<Props, State> {
         name: "OHLC",
         yAxis: 0,
         type: "candlestick",
-        data: ohlc.map((x, i) => [x.date, x.open!, x.high!, x.low!, x.close!] as I.OHLCPoint),
+        data: ohlc.map((x, i) => [x.date * 1000, x.open!, x.high!, x.low!, x.close!] as I.OHLCPoint),
       });
     }
     if (rolling_mean) {
-      setLine(rolling_mean.line25, "RL25");
-      setLine(rolling_mean.line50, "RL50");
-      setLine(rolling_mean.line200, "RL200");
+      setLine({ data: rolling_mean.line25, name: "RL25", color: "blue" });
+      rolling_mean.line50 && setLine({ data: rolling_mean.line50, name: "RL50", color: "green" });
+      rolling_mean.line100 && setLine({ data: rolling_mean.line100, name: "RL100", color: "red" });
+      rolling_mean.line200 && setLine({ data: rolling_mean.line200, name: "RL200", color: "red" });
     }
     if (bollinger_band) {
-      setLine(bollinger_band.sigma1, "s1");
-      setLine(bollinger_band.sigma2, "s2");
-      setLine(bollinger_band.sigma3, "s3");
-      setLine(bollinger_band.sigma1m, "s-1");
-      setLine(bollinger_band.sigma2m, "s-2");
-      setLine(bollinger_band.sigma3m, "s-3");
+      setLine({ data: bollinger_band.sigma1, name: "s1", lineWidth: 0.1 });
+      setLine({ data: bollinger_band.sigma2, name: "s2", lineWidth: 0.1 });
+      setLine({ data: bollinger_band.sigma3, name: "s3", lineWidth: 0.1 });
+      setLine({ data: bollinger_band.sigma1m, name: "s-1", lineWidth: 0.1 });
+      setLine({ data: bollinger_band.sigma2m, name: "s-2", lineWidth: 0.1 });
+      setLine({ data: bollinger_band.sigma3m, name: "s-3", lineWidth: 0.1 });
     }
     if (volume) {
       setY("VOLUME", 10);
@@ -92,18 +80,18 @@ class HighStock extends React.Component<Props, State> {
     }
     if (rsi) {
       setY("RSI", 10);
-      setLine(rsi.line, "RSI");
+      setLine({ data: rsi.line, name: "RSI" });
     }
     if (macd) {
       setY("MACD", 10);
-      setLine(macd.line, "line");
-      setLine(macd.signal, "signal");
+      setLine({ data: macd.line, name: "line", color: "blue" });
+      setLine({ data: macd.signal, name: "signal", color: "red" });
     }
     if (stochastic) {
       setY("STOCHASTIC", 10);
-      setLine(stochastic.k, "k");
-      setLine(stochastic.d, "d");
-      setLine(stochastic.sd, "sd");
+      setLine({ data: stochastic.k, name: "k", color: "blue" });
+      setLine({ data: stochastic.d, name: "d", color: "green" });
+      setLine({ data: stochastic.sd, name: "sd", color: "red" });
     }
     return {
       chart: { height: 500 },
