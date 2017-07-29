@@ -29,6 +29,6 @@ add:
 	docker commit github github	
 
 commit: build
-	git add index.html home.js styles.css
+	git add index.html chart.html index.js styles.css
 	git commit -m 'update'
 	git push
