@@ -38,6 +38,8 @@ class HighStock extends React.Component<Props, State> {
     }) => {
       lineWidth = lineWidth || 0.5;
       color = color || "black";
+      if (!(data instanceof Array))
+        return;
       series.push({
         data: data.map(x => [x[0] * 1000, x[1]] as I.Point),
         yAxis: yAxis.length - 1,

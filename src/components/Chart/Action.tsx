@@ -2,11 +2,14 @@ import parser = require("query-string");
 import * as I from "./Interface";
 
 export const setList = () => {
+  const q = parser.parse(window.location.search);
+  const page = q.page || 0;
+  const per_page = q.per_page || 20;
   return (dispatch, getState) => {
     const chart = getState().chart;
     const socket = chart.socket;
     socket.addEventListener("open", m => {
-      socket.send(JSON.stringify({ event: "list" }));
+      socket.send(JSON.stringify({ event: "list", page, per_page }));
     });
     socket.addEventListener("message", m => {
       const data = JSON.parse(m.data);
@@ -34,13 +37,14 @@ export const sortListByRatio = () => {
   };
 };
 
-export const setCurrentCode = (code?: string) => {
+export const setCurrentCode = (code?: string, line?: string) => {
   code = code || parser.parse(window.location.search).code;
+  line = parser.parse(window.location.search).line;
   return (dispatch, getState) => {
     const state = getState().chart;
     const socket = state.socket;
     socket.addEventListener("open", m => {
-      socket.send(JSON.stringify({ event: "code", code }));
+      socket.send(JSON.stringify({ event: "code", code, line }));
     });
     socket.addEventListener("message", m => {
       const data = JSON.parse(m.data);
@@ -77,6 +81,7 @@ export const setCurrentCode = (code?: string) => {
             sd: data["stochastic_sd"],
           },
         };
+        console.log(chart)
         dispatch({ type: "SET_CURRENT_CODE", code, chart });
       }
     });
