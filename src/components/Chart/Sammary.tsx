@@ -10,6 +10,8 @@ interface Props {
   code: I.Code;
 }
 
+const fix = (a?: number) => a && a.toFixed(2);
+
 class SammaryRow extends React.Component<Props, undefined> {
   private parent: List;
   private code: I.Code;
@@ -50,7 +52,9 @@ class SammaryRow extends React.Component<Props, undefined> {
         </td>
         <td>
           <b>
-            {code.signal.score}
+            {`${fix(s.buying_price)}(${fix(s.buying_price_percent)}%)`}
+            {" "}
+            {`${fix(s.buying_price_2)}(${fix(s.buying_price_2_percent)}%)`}
           </b>
         </td>
         <td>

@@ -147,7 +147,7 @@ class List extends React.Component<Props, State> {
               <th>PRICE</th>
               <th onClick={this.props.sort.bind(this)}>CHANGE(%)</th>
               <th>SIGNALS</th>
-              <th>SCORE</th>
+              <th>PREDICTION</th>
               <th>FAVORITES</th>
             </tr>
           </thead>
