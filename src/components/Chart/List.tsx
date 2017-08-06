@@ -1,3 +1,4 @@
+import parser = require("query-string");
 import React = require("react");
 import { connect } from "react-redux";
 import { Table, Button, Checkbox } from "react-bootstrap";
@@ -48,23 +49,28 @@ interface State {
   signals: Signals;
   favorites: string[];
   page: number;
-  perPage: number;
+  per_page: number;
+  order_by?: string;
+  desc: boolean;
 }
 
 class List extends React.Component<Props, State> {
   constructor(props) {
+    const qs = parser.parse(window.location.search);
     super(props);
     this.state = {
       parent: props.parent,
       signals: {} as Signals,
       favorites: getFavorites(),
-      page: 0,
-      perPage: 20,
+      page: Number(qs.page) || 0,
+      per_page: Number(qs.per_page) || 20,
+      order_by: qs.order_by,
+      desc: qs.desc !== undefined,
     };
   }
 
   componentDidMount() {
-    !__MOCK__ && this.props.setList();
+    !__MOCK__ && this.props.setList({wait: true, ...this.state});
   }
 
   filterRow(row: I.Code): boolean {
@@ -100,6 +106,14 @@ class List extends React.Component<Props, State> {
     });
   }
 
+  handlePaging(page: number) {
+    const { per_page } = this.state;
+    this.setState({ page }, () => {
+      if (page * per_page >= this.props.codes.length)
+        this.props.setList({...this.state});
+    }
+  }
+
   setFavorites(code: string) {
     this.setState({ favorites: setFavorites(code) });
   }
@@ -110,19 +124,19 @@ class List extends React.Component<Props, State> {
 
   render() {
     const rows = __MOCK__ ? DummyData.codes : this.props.codes;
-    const { page, perPage } = this.state;
-    const start = page * perPage;
-    const end = start + perPage;
+    const { page, per_page } = this.state;
+    const start = page * per_page;
+    const end = start + per_page;
     const filtered = rows.filter(r => this.filterRow(r));
     const paging = filtered.slice(start, end);
-    const lastPage = parseInt(filtered.length / perPage);
+    const lastPage = parseInt(filtered.length / per_page);
     return (
       <div>
         <Filter parent={this} />
-        <Button bsSize="xsmall" onClick={() => this.setState({ page: page - 1 })} disabled={page == 0}>
+        <Button bsSize="xsmall" onClick={() => this.handlePaging(page - 1)} disabled={page == 0}>
           PREV
         </Button>
-        <Button bsSize="xsmall" onClick={() => this.setState({ page: page + 1 })} disabled={end > filtered.length}>
+        <Button bsSize="xsmall" onClick={() => this.handlePaging(page + 1)} disabled={end > filtered.length}>
           NEXT
         </Button>{" "}
         {page} / {lastPage} [{filtered.length}]
@@ -131,7 +145,7 @@ class List extends React.Component<Props, State> {
             <tr>
               <th>CODE</th>
               <th>PRICE</th>
-              <th onClick={this.props.sort.bind(this)}>DIFF (RATIO)</th>
+              <th onClick={this.props.sort.bind(this)}>CHANGE(%)</th>
               <th>SIGNALS</th>
               <th>SCORE</th>
               <th>FAVORITES</th>
@@ -150,7 +164,7 @@ const mapStateToProps = state => ({
   codes: state.chart.codes,
 });
 const mapDispatchToProps = dispatch => ({
-  setList: () => dispatch(setList()),
+  setList: (p) => dispatch(setList(p)),
   sort: () => dispatch(sortListByRatio()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(List);

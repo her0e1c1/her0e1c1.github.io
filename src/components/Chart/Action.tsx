@@ -1,20 +1,22 @@
 import parser = require("query-string");
 import * as I from "./Interface";
 
-export const setList = () => {
-  const q = parser.parse(window.location.search);
-  const page = q.page || 0;
-  const per_page = q.per_page || 20;
+export const setList = (params: {page?: number, per_page?: number, wait?: boolean, desc?: boolean, order_by?: string} = {wait: false}) => {
+  const {page, per_page, wait, desc, order_by} = params;
   return (dispatch, getState) => {
     const chart = getState().chart;
     const socket = chart.socket;
-    socket.addEventListener("open", m => {
-      socket.send(JSON.stringify({ event: "list", page, per_page }));
-    });
+    if (wait) {
+      socket.addEventListener("open", m => {
+        socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by }));
+      });
+    } else {
+      socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by }));
+    }
     socket.addEventListener("message", m => {
       const data = JSON.parse(m.data);
       if (data.event === "list") {
-        dispatch({ type: "CODE", codes: data.codes });
+        dispatch({ type: "CODE", codes: new Array(...chart.codes.concat(data.codes)) });
       }
     });
   };

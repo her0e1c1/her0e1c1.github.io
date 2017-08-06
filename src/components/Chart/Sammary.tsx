@@ -22,10 +22,10 @@ class SammaryRow extends React.Component<Props, undefined> {
 
   render() {
     const { code } = this;
-    const p = code.signal.price;
-    const diff = p && p.close - p.open;
-    const ratio = p && (diff / p.open * 100).toFixed(2);
-    let bs = "";
+    const s = code.signal;
+    const diff = s.change;
+    const ratio = s.change_percent;
+    let bs = "default";
     if (diff > 0) {
       bs = "info";
     } else if (diff < 0) {
@@ -42,7 +42,8 @@ class SammaryRow extends React.Component<Props, undefined> {
           </b>
         </td>
         <td>
-          {p && <Label bsStyle={bs}>{`${diff} (${ratio}%)`}</Label>}
+          {diff && ratio && <Label bsStyle={bs}>{`${diff} (${ratio}%)`}</Label>}
+          {diff && <Label bsStyle={bs}>{`${diff}`}</Label>}
         </td>
         <td>
           <Signal signal={code.signal} />
