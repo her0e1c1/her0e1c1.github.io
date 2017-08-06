@@ -1,8 +1,10 @@
 import parser = require("query-string");
 import * as I from "./Interface";
 
-export const setList = (params: {page?: number, per_page?: number, wait?: boolean, desc?: boolean, order_by?: string} = {wait: false}) => {
-  const {page, per_page, wait, desc, order_by} = params;
+export const setList = (
+  params: { page?: number; per_page?: number; wait?: boolean; desc?: boolean; order_by?: string } = { wait: false }
+) => {
+  const { page, per_page, wait, desc, order_by } = params;
   return (dispatch, getState) => {
     const chart = getState().chart;
     const socket = chart.socket;
@@ -83,7 +85,7 @@ export const setCurrentCode = (code?: string, line?: string) => {
             sd: data["stochastic_sd"],
           },
         };
-        console.log(chart)
+        console.log(chart);
         dispatch({ type: "SET_CURRENT_CODE", code, chart });
       }
     });
