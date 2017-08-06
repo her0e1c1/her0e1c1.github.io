@@ -33,6 +33,8 @@ class SammaryRow extends React.Component<Props, undefined> {
     } else if (diff < 0) {
       bs = "danger";
     }
+    // HOTFIX
+    const a = s && (2 * s.buying_price - s.buying_price_2);
     return (
       <tr>
         <td>
@@ -52,6 +54,8 @@ class SammaryRow extends React.Component<Props, undefined> {
         </td>
         <td>
           <b>
+            {`${fix(a)}`}
+            {" "}
             {`${fix(s.buying_price)}(${fix(s.buying_price_percent)}%)`}
             {" "}
             {`${fix(s.buying_price_2)}(${fix(s.buying_price_2_percent)}%)`}
