@@ -34,7 +34,7 @@ class SammaryRow extends React.Component<Props, undefined> {
       bs = "danger";
     }
     // HOTFIX
-    const a = s && (2 * s.buying_price - s.buying_price_2);
+    const a = s && 2 * s.buying_price - s.buying_price_2;
     return (
       <tr>
         <td>
@@ -70,8 +70,7 @@ class SammaryRow extends React.Component<Props, undefined> {
                 ADD
               </Button>}
         </td>
-</tr>
-
+      </tr>
     );
   }
 }
