@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Table, Button, Checkbox } from "react-bootstrap";
 import Signal from "./Signal";
 import { SammaryRow } from "./Sammary";
+import HighStock from "./Chart";
 import { getFavorites, setFavorites, delFavorites } from "./Cookie";
 import * as I from "./Interface";
 import * as DummyData from "./DummyData";
@@ -152,7 +153,14 @@ class List extends React.Component<Props, State> {
             </tr>
           </thead>
           <tbody>
-            {paging.map(r => <SammaryRow key={r.code} code={r} parent={this} />)}
+            {paging.map(r => 
+            [
+            <SammaryRow key={r.code} code={r} parent={this} />,
+            <tr><td colSpan={6}>
+              <HighStock chart={{ohlc: r.prices, code: r.code}} />
+            </td></tr>
+            ]
+            )}
           </tbody>
         </Table>
       </div>
@@ -160,8 +168,11 @@ class List extends React.Component<Props, State> {
   }
 }
 
+
+
 const mapStateToProps = state => ({
   codes: state.chart.codes,
+  state: state,
 });
 const mapDispatchToProps = dispatch => ({
   setList: (p) => dispatch(setList(p)),

@@ -85,7 +85,6 @@ export const setCurrentCode = (code?: string, line?: string) => {
             sd: data["stochastic_sd"],
           },
         };
-        console.log(chart);
         dispatch({ type: "SET_CURRENT_CODE", code, chart });
       }
     });

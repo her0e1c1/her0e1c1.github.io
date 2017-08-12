@@ -70,7 +70,8 @@ class SammaryRow extends React.Component<Props, undefined> {
                 ADD
               </Button>}
         </td>
-      </tr>
+</tr>
+
     );
   }
 }

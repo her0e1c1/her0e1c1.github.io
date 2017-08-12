@@ -25,12 +25,6 @@ const map = A => {
   return Object.keys(A).reduce(f, [[]]);
 };
 
-// selectCode(e) {
-//   const code = e.target.value;
-//   this.setState({ code, series: [], yLines: [] });
-//   this.state.socket.send(JSON.stringify({ code }));
-// }
-
 const CodeSelectBox = ({ parent }: { parent: Chart }) =>
   <select value={parent.props.current_code} onChange={e => this.selectCode(e)}>
     {parent.props.codes.map((c, i) =>
@@ -47,26 +41,12 @@ class Chart extends React.Component<I.ChartProps, State> {
 
   componentDidMount() {
     this.props.setCurrentCode();
-    // let socket = this.state.socket;
-    // socket.onopen = () => {
-    //   socket.send(JSON.stringify(map({ ...this.state.qs, code: this.state.code })));
-    // };
-    // socket.onmessage = m => {
-    //   const data = JSON.parse(m.data);
-    //   if (data.event == "signal") {
-    //     this.setState({ signal: data.signal });
-    //     return;
-    //   }
   }
-
-  // const min = Math.min(...series.map(e => e[1]));
-  // this.showPriceOnY({ value: min, text: "min" });
 
   render() {
     return (
       <div>
         <CodeSelectBox parent={this} />
-        <HighStock chart={this.props.state.chart.chart} />
         <List parent={this} />
       </div>
     );
