@@ -22,10 +22,10 @@ const languages = (state = initialState, action) => {
 }
 
 // FIXME: fix socket init
-const chart = (state = {chart: {}, current_code: "", codes: [], socket: new WebSocket(__PYSTOCK_HOST__)}, action) => {
+const chart = (state = {chart: {}, current_code: "", codes: [], count: null, socket: new WebSocket(__PYSTOCK_HOST__)}, action) => {
   switch (action.type) {
     case "CODE": {
-      return {...state, codes: action.codes}
+      return {...state, codes: action.codes, count: action.count}
     }
     case "SET_CURRENT_CODE": {
       return {...state, current_code: action.code, chart: action.chart}

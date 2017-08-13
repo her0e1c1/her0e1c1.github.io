@@ -25,15 +25,6 @@ const map = A => {
   return Object.keys(A).reduce(f, [[]]);
 };
 
-const CodeSelectBox = ({ parent }: { parent: Chart }) =>
-  <select value={parent.props.current_code} onChange={e => this.selectCode(e)}>
-    {parent.props.codes.map((c, i) =>
-      <option key={i}>
-        {c.code}
-      </option>
-    )}
-  </select>;
-
 class Chart extends React.Component<I.ChartProps, State> {
   constructor(props: I.ChartProps) {
     super(props);
@@ -46,7 +37,6 @@ class Chart extends React.Component<I.ChartProps, State> {
   render() {
     return (
       <div>
-        <CodeSelectBox parent={this} />
         <List parent={this} />
       </div>
     );

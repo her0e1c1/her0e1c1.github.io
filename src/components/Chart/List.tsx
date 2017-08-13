@@ -144,19 +144,17 @@ class List extends React.Component<Props, State> {
     const { page, per_page } = this.state;
     const start = page * per_page;
     const end = start + per_page;
-    const filtered = rows.filter(r => this.filterRow(r));
-    const paging = filtered.slice(start, end);
-    const lastPage = parseInt(filtered.length / per_page);
+    const lastPage = parseInt(this.props.state.chart.count / per_page);
     return (
       <div>
         <Filter parent={this} />
         <Button bsSize="xsmall" onClick={() => this.handlePaging(page - 1)} disabled={page == 0}>
           PREV
         </Button>
-        <Button bsSize="xsmall" onClick={() => this.handlePaging(page + 1)} disabled={end > filtered.length}>
+        <Button bsSize="xsmall" onClick={() => this.handlePaging(page + 1)} disabled={false}>
           NEXT
         </Button>{" "}
-        {page} / {lastPage} [{filtered.length}]
+        {page} {lastPage > 0 && `/ ${lastPage}`}
         <Table striped bordered condensed hover>
           <thead>
             <tr>
@@ -169,7 +167,7 @@ class List extends React.Component<Props, State> {
             </tr>
           </thead>
           <tbody>
-            {paging.map(r => this.showRow(r))}
+            {rows.map(r => this.showRow(r))}
           </tbody>
         </Table>
       </div>

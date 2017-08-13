@@ -6,19 +6,20 @@ export const setList = (
 ) => {
   const { page, per_page, wait, desc, order_by, chart, from } = params;
   return (dispatch, getState) => {
-    const chart = getState().chart;
-    const socket = chart.socket;
+    const state = getState().chart;
+    const socket = state.socket;
     if (wait) {
       socket.addEventListener("open", m => {
-        socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, chart, from }));
+        socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, state, from }));
       });
     } else {
-      socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, chart, from }));
+      socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, state, from }));
     }
     socket.addEventListener("message", m => {
       const data = JSON.parse(m.data);
       if (data.event === "list") {
-        dispatch({ type: "CODE", codes: new Array(...chart.codes.concat(data.codes)) });
+        // dispatch({ type: "CODE", codes: new Array(...state.codes.concat(data.codes)) });
+        dispatch({ type: "CODE", codes: new Array(...data.codes), count: data.count });
       }
     });
   };
