@@ -2,23 +2,22 @@ import parser = require("query-string");
 import * as I from "./Interface";
 
 export const setList = (
-  params: { page?: number; per_page?: number; wait?: boolean; desc?: boolean; order_by?: string; chart?: boolean; from?: string } = { wait: false }
+  params: { codes?: string[]; favorites?: string[]; page?: number; per_page?: number; wait?: boolean; desc?: boolean; order_by?: string; chart?: boolean; from?: string } = { wait: false }
 ) => {
-  const { page, per_page, wait, desc, order_by, chart, from } = params;
+  const { page, per_page, wait, desc, order_by, chart, from, favorites=[], codes=[] } = params;
   return (dispatch, getState) => {
     const state = getState().chart;
     const socket = state.socket;
     if (wait) {
       socket.addEventListener("open", m => {
-        socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, state, from }));
+        socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, from, favorites, codes, chart }));
       });
     } else {
-      socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, state, from }));
+      socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, from, favorites, codes, chart }));
     }
     socket.addEventListener("message", m => {
       const data = JSON.parse(m.data);
       if (data.event === "list") {
-        // dispatch({ type: "CODE", codes: new Array(...state.codes.concat(data.codes)) });
         dispatch({ type: "CODE", codes: new Array(...data.codes), count: data.count });
       }
     });

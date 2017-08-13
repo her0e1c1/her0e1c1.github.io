@@ -11,7 +11,7 @@ import * as DummyData from "./DummyData";
 import { setList, sortListByRatio } from "./Action";
 
 type FilterKey = I.SignalKey | I.SignalType | "favorites";
-const filterKeys = ["favorites"].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
+const filterKeys = [].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
 
 type Signals = { [k in FilterKey]: boolean };
 
@@ -27,7 +27,9 @@ class Filter extends React.Component<{ parent: List }, Signals> {
   }
 
   filter(e, k) {
-    this.setState({ [k]: e.target.checked }, () => this.parent.setState({ signals: this.state, page: 0 }));
+    this.setState({ [k]: e.target.checked }, () => {
+      this.parent.setState({ signals: this.state, page: 0 });
+    });
   }
 
   render() {
@@ -55,6 +57,7 @@ interface State {
   desc: boolean;
   chart: boolean;
   from: string;
+  favorite: boolean;
 }
 
 class List extends React.Component<Props, State> {
@@ -71,11 +74,13 @@ class List extends React.Component<Props, State> {
       desc: qs.desc !== undefined,
       chart: qs.chart !== undefined,
       from: qs.from || undefined,
+      favorite: qs.favorite !== undefined,
     };
   }
 
   componentDidMount() {
-    !__MOCK__ && this.props.setList({wait: true, ...this.state});
+    const codes = this.state.favorite ? getFavorites() : [];
+    !__MOCK__ && this.props.setList({wait: true, ...this.state, codes});
   }
 
   filterRow(row: I.Code): boolean {
@@ -114,9 +119,11 @@ class List extends React.Component<Props, State> {
   handlePaging(page: number) {
     const { per_page } = this.state;
     this.setState({ page }, () => {
-      if (page * per_page >= this.props.codes.length)
-        this.props.setList({...this.state});
-    }
+      if (page * per_page >= this.props.codes.length) {
+        const codes = this.state.favorite ? getFavorites() : [];
+        this.props.setList({...this.state, codes});
+      }
+    });
   }
 
   setFavorites(code: string) {
