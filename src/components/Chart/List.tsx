@@ -53,6 +53,7 @@ interface State {
   per_page: number;
   order_by?: string;
   desc: boolean;
+  chart: boolean;
 }
 
 class List extends React.Component<Props, State> {
@@ -67,6 +68,7 @@ class List extends React.Component<Props, State> {
       per_page: Number(qs.per_page) || 20,
       order_by: qs.order_by,
       desc: qs.desc !== undefined,
+      chart: qs.chart !== undefined,
     };
   }
 
@@ -123,6 +125,18 @@ class List extends React.Component<Props, State> {
     this.setState({ favorites: delFavorites(code) });
   }
 
+  showRow(r) {
+    const html = [<SammaryRow key={r.code} code={r} parent={this} />];
+    if (this.state.chart) {
+        html.push(
+            <tr><td colSpan={6}>
+              <HighStock chart={{ohlc: r.prices, code: r.code}} lazy={true} />
+            </td></tr>
+        );
+    }
+    return html;
+  }
+
   render() {
     const rows = __MOCK__ ? DummyData.codes : this.props.codes;
     const { page, per_page } = this.state;
@@ -153,14 +167,7 @@ class List extends React.Component<Props, State> {
             </tr>
           </thead>
           <tbody>
-            {paging.map(r => 
-            [
-            <SammaryRow key={r.code} code={r} parent={this} />,
-            <tr><td colSpan={6}>
-              <HighStock chart={{ohlc: r.prices, code: r.code}} />
-            </td></tr>
-            ]
-            )}
+            {paging.map(r => this.showRow(r))}
           </tbody>
         </Table>
       </div>
