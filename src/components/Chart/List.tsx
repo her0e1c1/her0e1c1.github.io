@@ -54,6 +54,7 @@ interface State {
   order_by?: string;
   desc: boolean;
   chart: boolean;
+  from: string;
 }
 
 class List extends React.Component<Props, State> {
@@ -69,6 +70,7 @@ class List extends React.Component<Props, State> {
       order_by: qs.order_by,
       desc: qs.desc !== undefined,
       chart: qs.chart !== undefined,
+      from: qs.from || undefined,
     };
   }
 

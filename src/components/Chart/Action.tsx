@@ -2,18 +2,18 @@ import parser = require("query-string");
 import * as I from "./Interface";
 
 export const setList = (
-  params: { page?: number; per_page?: number; wait?: boolean; desc?: boolean; order_by?: string; chart?: boolean } = { wait: false }
+  params: { page?: number; per_page?: number; wait?: boolean; desc?: boolean; order_by?: string; chart?: boolean; from?: string } = { wait: false }
 ) => {
-  const { page, per_page, wait, desc, order_by, chart } = params;
+  const { page, per_page, wait, desc, order_by, chart, from } = params;
   return (dispatch, getState) => {
     const chart = getState().chart;
     const socket = chart.socket;
     if (wait) {
       socket.addEventListener("open", m => {
-        socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, chart }));
+        socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, chart, from }));
       });
     } else {
-      socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, chart }));
+      socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, chart, from }));
     }
     socket.addEventListener("message", m => {
       const data = JSON.parse(m.data);
