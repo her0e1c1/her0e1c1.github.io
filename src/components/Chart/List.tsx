@@ -58,6 +58,7 @@ interface State {
   chart: boolean;
   from: string;
   favorite: boolean;
+  codes: string[];
 }
 
 class List extends React.Component<Props, State> {
@@ -75,12 +76,16 @@ class List extends React.Component<Props, State> {
       chart: qs.chart !== undefined,
       from: qs.from || undefined,
       favorite: qs.favorite !== undefined,
+      codes: qs.codes === undefined ? [] : typeof(qs.codes) === "string" ? [qs.codes] : qs.codes,
     };
   }
 
+  getCodes() {
+    return this.state.favorite ? getFavorites() : this.state.codes;
+  }
+
   componentDidMount() {
-    const codes = this.state.favorite ? getFavorites() : [];
-    !__MOCK__ && this.props.setList({wait: true, ...this.state, codes});
+    !__MOCK__ && this.props.setList({wait: true, ...this.state, codes: this.getCodes()});
   }
 
   filterRow(row: I.Code): boolean {
@@ -120,8 +125,7 @@ class List extends React.Component<Props, State> {
     const { per_page } = this.state;
     this.setState({ page }, () => {
       if (page * per_page >= this.props.codes.length) {
-        const codes = this.state.favorite ? getFavorites() : [];
-        this.props.setList({...this.state, codes});
+        this.props.setList({...this.state, codes: this.getCodes()});
       }
     });
   }
