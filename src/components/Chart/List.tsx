@@ -80,12 +80,16 @@ class List extends React.Component<Props, State> {
     };
   }
 
+  updateCodes() {
+    !__MOCK__ && this.props.setList({wait: true, ...this.state, codes: this.getCodes()});
+  }
+
   getCodes() {
     return this.state.favorite ? getFavorites() : this.state.codes;
   }
 
   componentDidMount() {
-    !__MOCK__ && this.props.setList({wait: true, ...this.state, codes: this.getCodes()});
+    this.updateCodes()
   }
 
   filterRow(row: I.Code): boolean {
@@ -124,9 +128,7 @@ class List extends React.Component<Props, State> {
   handlePaging(page: number) {
     const { per_page } = this.state;
     this.setState({ page }, () => {
-      if (page * per_page >= this.props.codes.length) {
-        this.props.setList({...this.state, codes: this.getCodes()});
-      }
+      this.props.setList({...this.state, codes: this.getCodes()});
     });
   }
 
@@ -166,6 +168,7 @@ class List extends React.Component<Props, State> {
           NEXT
         </Button>{" "}
         {page} {lastPage > 0 && `/ ${lastPage}`}
+        <Button  bsSize="xsmall" onClick={() => this.setState({favorite: !this.state.favorite}, () => this.handlePaging(0))}>FAVORITES</Button>
         <Table striped bordered condensed hover>
           <thead>
             <tr>
