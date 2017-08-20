@@ -36,7 +36,7 @@ class SammaryRow extends React.Component<Props, undefined> {
     return (
       <tr>
         <td>
-          <a href={`/?path=chart&codes=${code.code}`}>{code.code}</a>
+          <a href={`/?path=chart&detail&chart&codes=${code.code}`}>{code.code}</a>
         </td>
         <td>
           <b>
