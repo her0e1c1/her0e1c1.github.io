@@ -77,19 +77,27 @@ class List extends React.Component<Props, State> {
       chart: qs.chart !== undefined,
       from: qs.from || moment().subtract(1, "months").format("YYYYMMDD"),
       favorite: qs.favorite !== undefined,
-      codes: qs.codes === undefined ? [] : typeof(qs.codes) === "string" ? [qs.codes] : qs.codes,
+      codes: qs.codes === undefined ? [] : typeof qs.codes === "string" ? [qs.codes] : qs.codes,
     };
   }
 
   componentDidUpdate() {
-    const {page, per_page, chart, order_by, from, favorite, codes} = this.state;
-    const f = (x: any) => !!x ? null : undefined;
-    const p = parser.stringify({page, per_page, chart: f(chart) , favorite: f(favorite), from, order_by: order_by, codes});
+    const { page, per_page, chart, order_by, from, favorite, codes } = this.state;
+    const f = (x: any) => (!!x ? null : undefined);
+    const p = parser.stringify({
+      page,
+      per_page,
+      chart: f(chart),
+      favorite: f(favorite),
+      from,
+      order_by: order_by,
+      codes,
+    });
     window.history.pushState({}, "title", "/chart?" + p);
   }
 
   updateCodes() {
-    !__MOCK__ && this.props.setList({wait: true, ...this.state, codes: this.getCodes()});
+    !__MOCK__ && this.props.setList({ wait: true, ...this.state, codes: this.getCodes() });
   }
 
   getCodes() {
@@ -97,13 +105,13 @@ class List extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.updateCodes()
+    this.updateCodes();
   }
 
   handlePaging(page: number) {
     const { per_page } = this.state;
     this.setState({ page }, () => {
-      this.props.setList({...this.state, codes: this.getCodes()});
+      this.props.setList({ ...this.state, codes: this.getCodes() });
     });
   }
 
@@ -118,11 +126,13 @@ class List extends React.Component<Props, State> {
   showRow(r) {
     const html = [<SammaryRow key={r.code} code={r} parent={this} />];
     if (this.state.chart) {
-        html.push(
-            <tr><td colSpan={6}>
-              <HighStock chart={{ohlc: r.prices, code: r.code}} lazy={true} />
-            </td></tr>
-        );
+      html.push(
+        <tr>
+          <td colSpan={6}>
+            <HighStock chart={{ ohlc: r.prices, code: r.code }} lazy={true} />
+          </td>
+        </tr>
+      );
     }
     return html;
   }
@@ -143,8 +153,20 @@ class List extends React.Component<Props, State> {
           NEXT
         </Button>{" "}
         {page} {lastPage > 0 && `/ ${lastPage}`}
-        <Button bsSize="xsmall" bsStyle={this.state.favorite ? "info" : "default"} onClick={() => this.setState({favorite: !this.state.favorite}, () => this.handlePaging(0))}>FAVORITES</Button>
-        <Button bsSize="xsmall" bsStyle={this.state.chart ? "info" : "default"} onClick={() => this.setState({chart: !this.state.chart}, () => this.handlePaging(this.state.page))}>CHART</Button>
+        <Button
+          bsSize="xsmall"
+          bsStyle={this.state.favorite ? "info" : "default"}
+          onClick={() => this.setState({ favorite: !this.state.favorite }, () => this.handlePaging(0))}
+        >
+          FAVORITES
+        </Button>
+        <Button
+          bsSize="xsmall"
+          bsStyle={this.state.chart ? "info" : "default"}
+          onClick={() => this.setState({ chart: !this.state.chart }, () => this.handlePaging(this.state.page))}
+        >
+          CHART
+        </Button>
         <Table striped bordered condensed hover>
           <thead>
             <tr>
@@ -165,14 +187,12 @@ class List extends React.Component<Props, State> {
   }
 }
 
-
-
 const mapStateToProps = state => ({
   codes: state.chart.codes,
   state: state,
 });
 const mapDispatchToProps = dispatch => ({
-  setList: (p) => dispatch(setList(p)),
+  setList: p => dispatch(setList(p)),
   sort: () => dispatch(sortListByRatio()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(List);

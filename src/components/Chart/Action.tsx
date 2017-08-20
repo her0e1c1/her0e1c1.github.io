@@ -2,9 +2,19 @@ import parser = require("query-string");
 import * as I from "./Interface";
 
 export const setList = (
-  params: { codes?: string[]; favorites?: string[]; page?: number; per_page?: number; wait?: boolean; desc?: boolean; order_by?: string; chart?: boolean; from?: string } = { wait: false }
+  params: {
+    codes?: string[];
+    favorites?: string[];
+    page?: number;
+    per_page?: number;
+    wait?: boolean;
+    desc?: boolean;
+    order_by?: string;
+    chart?: boolean;
+    from?: string;
+  } = { wait: false }
 ) => {
-  const { page, per_page, wait, desc, order_by, chart, from, favorites=[], codes=[] } = params;
+  const { page, per_page, wait, desc, order_by, chart, from, favorites = [], codes = [] } = params;
   return (dispatch, getState) => {
     const state = getState().chart;
     const socket = state.socket;

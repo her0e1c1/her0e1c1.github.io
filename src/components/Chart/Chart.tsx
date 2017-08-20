@@ -18,12 +18,12 @@ interface State {
 class HighStock extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {show: props.lazy ? false : true}
+    this.state = { show: props.lazy ? false : true };
   }
 
   componentDidMount() {
     if (this.props.lazy) {
-      setTimeout(() => this.setState({show: true}), 0.1 * 1000);
+      setTimeout(() => this.setState({ show: true }), 0.1 * 1000);
     }
   }
 
@@ -112,7 +112,7 @@ class HighStock extends React.Component<Props, State> {
 
   render() {
     if (!this.state.show) {
-        return <div/>;
+      return <div />;
     }
     return (
       <div>
