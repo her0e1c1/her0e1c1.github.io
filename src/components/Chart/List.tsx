@@ -1,4 +1,5 @@
 import parser = require("query-string");
+import moment = require("moment");
 import React = require("react");
 import { connect } from "react-redux";
 import { Table, Button, Checkbox } from "react-bootstrap";
@@ -10,7 +11,7 @@ import * as I from "./Interface";
 import * as DummyData from "./DummyData";
 import { setList, sortListByRatio } from "./Action";
 
-type FilterKey = I.SignalKey | I.SignalType | "favorites";
+type FilterKey = I.SignalKey | I.SignalType;
 const filterKeys = [].concat(I.SignalKeys).concat(I.SignalTypes) as FilterKey[];
 
 type Signals = { [k in FilterKey]: boolean };
@@ -74,10 +75,17 @@ class List extends React.Component<Props, State> {
       order_by: qs.order_by,
       desc: qs.desc !== undefined,
       chart: qs.chart !== undefined,
-      from: qs.from || undefined,
+      from: qs.from || moment().subtract(1, "months").format("YYYYMMDD"),
       favorite: qs.favorite !== undefined,
       codes: qs.codes === undefined ? [] : typeof(qs.codes) === "string" ? [qs.codes] : qs.codes,
     };
+  }
+
+  componentDidUpdate() {
+    const {page, per_page, chart, order_by, from, favorite, codes} = this.state;
+    const f = (x: any) => !!x ? null : undefined;
+    const p = parser.stringify({page, per_page, chart: f(chart) , favorite: f(favorite), from, order_by: order_by, codes});
+    window.history.pushState({}, "title", "/chart?" + p);
   }
 
   updateCodes() {
@@ -90,39 +98,6 @@ class List extends React.Component<Props, State> {
 
   componentDidMount() {
     this.updateCodes()
-  }
-
-  filterRow(row: I.Code): boolean {
-    const s = this.state.signals;
-    if (s.favorites) {
-      if (this.state.favorites.indexOf(row.code) === -1) {
-        return false;
-      }
-      if (!filterKeys.filter(k => k !== "favorites").some(k => this.state.signals[k])) {
-        return true;
-      }
-    } else {
-      if (!filterKeys.some(k => this.state.signals[k])) {
-        return true;
-      }
-    }
-    return I.SignalKeys.some(k => {
-      const bs = row.signal[k] as I.SignalType;
-      if (s.BUY || s.SELL) {
-        if (s.BUY && bs === "BUY") {
-          return true;
-        }
-        if (s.SELL && bs === "SELL") {
-          return true;
-        }
-        return false;
-      } else {
-        if (!s[k]) {
-          return false;
-        }
-        return !!bs;
-      }
-    });
   }
 
   handlePaging(page: number) {
@@ -168,7 +143,8 @@ class List extends React.Component<Props, State> {
           NEXT
         </Button>{" "}
         {page} {lastPage > 0 && `/ ${lastPage}`}
-        <Button  bsSize="xsmall" onClick={() => this.setState({favorite: !this.state.favorite}, () => this.handlePaging(0))}>FAVORITES</Button>
+        <Button bsSize="xsmall" bsStyle={this.state.favorite ? "info" : "default"} onClick={() => this.setState({favorite: !this.state.favorite}, () => this.handlePaging(0))}>FAVORITES</Button>
+        <Button bsSize="xsmall" bsStyle={this.state.chart ? "info" : "default"} onClick={() => this.setState({chart: !this.state.chart}, () => this.handlePaging(this.state.page))}>CHART</Button>
         <Table striped bordered condensed hover>
           <thead>
             <tr>
