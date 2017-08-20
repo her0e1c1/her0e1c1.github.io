@@ -59,6 +59,7 @@ interface State {
   chart: boolean;
   from: string;
   favorite: boolean;
+  detail: boolean;
   codes: string[];
 }
 
@@ -77,18 +78,20 @@ class List extends React.Component<Props, State> {
       chart: qs.chart !== undefined,
       from: qs.from || moment().subtract(1, "months").format("YYYYMMDD"),
       favorite: qs.favorite !== undefined,
+      detail: qs.detail !== undefined,
       codes: qs.codes === undefined ? [] : typeof qs.codes === "string" ? [qs.codes] : qs.codes,
     };
   }
 
   componentDidUpdate() {
-    const { page, per_page, chart, order_by, from, favorite, codes } = this.state;
+    const { page, per_page, chart, order_by, from, favorite, codes, detail } = this.state;
     const f = (x: any) => (!!x ? null : undefined);
     const p = parser.stringify({
       page,
       per_page,
       chart: f(chart),
       favorite: f(favorite),
+      detail: f(detail),
       from,
       order_by: order_by,
       codes,
@@ -129,7 +132,7 @@ class List extends React.Component<Props, State> {
       html.push(
         <tr>
           <td colSpan={6}>
-            <HighStock chart={{ ohlc: r.prices, code: r.code }} lazy={true} />
+            <HighStock chart={{ ...r.chart, ohlc: r.prices, code: r.code }} lazy={true} />
           </td>
         </tr>
       );

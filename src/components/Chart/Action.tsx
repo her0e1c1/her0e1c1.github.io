@@ -1,6 +1,44 @@
 import parser = require("query-string");
 import * as I from "./Interface";
 
+const toChart = (data): I.Chart => {
+  if (data == null) {
+     return {} as I.Chart;
+  }
+        return {
+          code: data.quandle_code,
+          ohlc: data.ohlc,
+          volume: {
+            line: data.ohlc.map(x => [x.date * 1000, x.volume]),
+          },
+          rolling_mean: {
+            line25: data["rolling_mean_25"],
+            line50: data["rolling_mean_50"],
+            line100: data["rolling_mean_100"],
+          },
+          bollinger_band: {
+            sigma1: data["bollinger_band_25_1"],
+            sigma2: data["bollinger_band_25_2"],
+            sigma3: data["bollinger_band_25_3"],
+            sigma1m: data["bollinger_band_25_-1"],
+            sigma2m: data["bollinger_band_25_-2"],
+            sigma3m: data["bollinger_band_25_-3"],
+          },
+          rsi: {
+            line: data["rsi"],
+          },
+          macd: {
+            line: data["macd_line"],
+            signal: data["macd_signal"],
+          },
+          stochastic: {
+            k: data["stochastic_k"],
+            d: data["stochastic_d"],
+            sd: data["stochastic_sd"],
+          },
+        };
+      }
+
 export const setList = (
   params: {
     codes?: string[];
@@ -12,23 +50,25 @@ export const setList = (
     order_by?: string;
     chart?: boolean;
     from?: string;
+    detail?: boolean;
   } = { wait: false }
 ) => {
-  const { page, per_page, wait, desc, order_by, chart, from, favorites = [], codes = [] } = params;
+  const { page, per_page, detail, wait, desc, order_by, chart, from, favorites = [], codes = [] } = params;
   return (dispatch, getState) => {
     const state = getState().chart;
     const socket = state.socket;
     if (wait) {
       socket.addEventListener("open", m => {
-        socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, from, favorites, codes, chart }));
+        socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, from, favorites, codes, chart, detail }));
       });
     } else {
-      socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, from, favorites, codes, chart }));
+      socket.send(JSON.stringify({ event: "list", page, per_page, desc, order_by, from, favorites, codes, chart, detail }));
     }
     socket.addEventListener("message", m => {
       const data = JSON.parse(m.data);
       if (data.event === "list") {
-        dispatch({ type: "CODE", codes: new Array(...data.codes), count: data.count });
+        const codes = new Array(...data.codes).map(c => ({...c, chart: toChart(c.chart)}));
+        dispatch({ type: "CODE", codes, count: data.count });
       }
     });
   };
