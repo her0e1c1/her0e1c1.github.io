@@ -26,7 +26,6 @@ class About extends React.Component {
               <a href={href}><i className={`fa ${icon}`} style={{fontSize: "50px"}}></i></a>
             </ListGroupItem>
            )}
-          <ListGroupItem><Link to="/resume">{this.props.translation.resume}</Link></ListGroupItem>
         </ListGroup>
       </div>
     )
