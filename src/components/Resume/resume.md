@@ -19,7 +19,7 @@ Mainly I have implemented backend code, but also worked on any others like front
 - Backend Engineer - April 2016 to now
 - Developed backend system for a BtoB platform 
 - The best employee 2016
-- Python/JavaScript/Eralng/MySQL/Redis/Elasticsearch/React/ejabberd/AWS/Docker
+- Python/TypeScript/Eralng/MySQL/Redis/Elasticsearch/React/ejabberd/AWS/Docker
 
 ### Triax, Tokyo Japan
 
