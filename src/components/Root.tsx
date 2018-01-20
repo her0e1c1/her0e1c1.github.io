@@ -10,7 +10,6 @@ import PhoenixClient from "./PhoenixClient";
 import About from "./About";
 import Resume from "./Resume";
 import Code from "./Code";
-import CSS from "./CSS";
 import Chart from "./Chart";
 
 const Footer = () => <footer />;
@@ -52,7 +51,6 @@ const Root = () =>
       <Route path="resume" component={Resume} />
       <Route path="chart" component={Chart} />
     </Route>
-    <Route path="/css" component={CSS} />
     <Route path="/sample" component={Code} />
   </Router>;
 
