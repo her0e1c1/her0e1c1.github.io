@@ -9,7 +9,6 @@ import CsvParser from "./Samples/CsvParser";
 import PhoenixClient from "./PhoenixClient";
 import About from "./About";
 import Resume from "./Resume";
-import Code from "./Code";
 import Chart from "./Chart";
 
 const Footer = () => <footer />;
@@ -51,7 +50,6 @@ const Root = () =>
       <Route path="resume" component={Resume} />
       <Route path="chart" component={Chart} />
     </Route>
-    <Route path="/sample" component={Code} />
   </Router>;
 
 export default Root;
