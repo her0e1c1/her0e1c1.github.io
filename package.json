@@ -5,7 +5,7 @@
   "repository": "http://her0e1c1.github.io/",
   "author": "Hiroyuki Ishii",
   "scripts": {
-    "start": "/app/node_modules/.bin/webpack-dev-server -d --config webpack.config.js --history-api-fallback",
+    "start": "./node_modules/.bin/webpack-dev-server -d --config webpack.config.js --history-api-fallback",
     "start0": "/app/node_modules/.bin/webpack-dev-server -d --config webpack.config.js --history-api-fallback --host 0.0.0.0",
     "fmt": "/app/node_modules/.bin/prettier --write --semi true --print-width 120 --trailing-comma es5 \"src/**/*.ts*\"",
     "build": "NODE_ENV=production /app/node_modules/.bin/webpack -p --config webpack.config.js"
