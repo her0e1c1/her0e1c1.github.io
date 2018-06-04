@@ -1,6 +1,6 @@
 .env
-dist
 .DS_Store
 node_modules
 assets/img/opt/*
+dist
 !.gitkeep
