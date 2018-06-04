@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": ["es2017", "dom", "es7"],
+    "strictNullChecks": true,
+    "declaration": false,
+    "noResolve": false,
+    "allowJs": false,
+    "jsx": "react",
+    "module": "commonjs",
+    "target": "es5",
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "src:*": ["./src/*"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": ["./src/**/*"]
+}

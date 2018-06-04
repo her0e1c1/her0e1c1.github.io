@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  main:
+    image: her0e1c1/github
+    build:
+      context: ./
+    tty: true
+    stdin_open: true
+    entrypoint: /bin/bash
+    volumes:
+      - .:/working
+    working_dir: /working
+    # can not work on mac
+    # network_mode: host
+    # env_file: .env
+
+    # dev:
+    #   extends: main
+    #   container_name: github
+    #   ports:
+    #     - 10000:10000
+    #     - 10001:10001

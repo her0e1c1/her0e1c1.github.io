@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+/* const HtmlWebpackPlugin = require('html-webpack-plugin');
+ * const ExtractTextPlugin = require('extract-text-webpack-plugin'); */
 const marked = require("marked");
 const renderer = new marked.Renderer();
 
@@ -30,14 +30,10 @@ const devConfig = {
         }
       }]
     }, {
-      test: /\.css$/,
-      loader:  ExtractTextPlugin.extract({
-        loader: 'css-loader?importLoaders=1',
-      })
-    }, {
       test: /\.tsx?$/,
       use: [{
-        loader: "awesome-typescript-loader?configFileName=tsconfig.json"
+        loader: "ts-loader"
+        // loader: "awesome-typescript-loader"
       }]
     }, {
       test: /\.jsx?$/,
@@ -61,32 +57,13 @@ const devConfig = {
     port: DEV_PORT
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',  // build時に、この名前のファイル生成
-      template: './src/index.html',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true
-      }
-    }),
     // for github
-    new HtmlWebpackPlugin({
-      filename: 'chart.html',
-      template: './src/index.html',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true
-      }
-    }),
     new webpack.DefinePlugin({
       __HOST__: JSON.stringify(IS_PRODUCTION ? "her0e1c1.github.io" : `localhost:${DEV_PORT}`),
       __MOCK__: JSON.stringify(SITE === "mock"),
       __PYSTOCK_HOST__: JSON.stringify(IS_PRODUCTION ? `ws://${process.env.PYSTOCK_HOST}/` :"ws://localhost:10002/"),
       __WEBSOCKET_URL__: JSON.stringify("ws://45.76.187.197:13309/socket")
     }),
-   new ExtractTextPlugin("styles.css")
   ]
 }
 

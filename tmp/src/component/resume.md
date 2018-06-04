@@ -1,9 +1,9 @@
 
 # Hiroyuki Ishii
- 
+
 - hiroyuki.ishii.42@gmail.com
 - https://github.com/her0e1c1
-- http://her0e1c1.github.io
+- https://her0e1c1.github.io
 
 ## Summary
 
@@ -16,14 +16,14 @@ Mainly I have implemented backend code, but also worked on any others like front
 ### SourceSage, Singapore
 
 - https://sourcesage.co
-- Backend Engineer - April 2016 to now
-- Developed backend system for a BtoB platform 
+- Full Stack Engineer - April 2016 to now
+- Developed backend / frontend system for a BtoB platform
 - The best employee 2016
-- Python/TypeScript/Eralng/MySQL/Redis/Elasticsearch/React/ejabberd/AWS/Docker
+- Python/TypeScript/Eralng/MySQL/Redis/Elasticsearch/React/ejabberd/AWS/Docker/Ansible
 
 ### Triax, Tokyo Japan
 
-- http://triax.jp
+- ~~http://triax.jp~~
 - Web Application Engineer - June 2013 to July 2015
 - Devloped CMS with a Ployns based framework
 - Python/JavaScript/MySQL/Pylons/jQuery/Apache/Mercurial
