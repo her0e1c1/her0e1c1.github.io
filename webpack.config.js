@@ -7,9 +7,7 @@ module.exports = {
     index: './src/index.tsx',
   },
   output: {
-    // filename: 'bundle.js',
-    filename: '[name].js',  // [hash], [id]
-    // path: path.resolve(__dirname, './'),
+    filename: 'bundle.js',
     path: path.resolve('./'),
   },
   devServer: {
