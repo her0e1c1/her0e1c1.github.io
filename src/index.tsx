@@ -1,37 +1,25 @@
-import 'reset-css';
-import './style.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import * as serviceWorker from "./serviceWorker";
 
-import React = require('react');
-import ReactDOM = require('react-dom');
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/lib/integration/react';
-import { connect } from 'react-redux';
-import { IntlProvider, FormattedMessage, addLocaleData } from 'react-intl';
-import Root from './component';
-import { store, persistor } from './store';
+// @ts-ignore
+import raw from "raw.macro";
+import ReactMarkdown from "react-markdown";
 
-// You can not import like this
-// import { en } from 'react-intl/locale-data/en';
-const en = require('react-intl/locale-data/en');
-const ja = require('react-intl/locale-data/ja');
-addLocaleData([...en, ...ja]);
+const README = raw("../README.md");
+const RESUME_URL =
+  "https://raw.githubusercontent.com/her0e1c1/her0e1c1.github.io/master/README.md";
 
-const ReduxConnectedIntlProvider = connect((state: RootState) => ({
-  locale: state.locale.lang,
-  key: state.locale.lang,
-  messages: state.locale.messages,
-}))(IntlProvider);
+const App = () => {
+  return (
+    <div>
+      <a className={`fa fa-download`} href={RESUME_URL}>
+        DOWNLOAD
+      </a>
+      <ReactMarkdown source={README} />
+    </div>
+  );
+};
 
-class Main extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <ReduxConnectedIntlProvider>
-          <Root />
-        </ReduxConnectedIntlProvider>
-      </Provider>
-    );
-  }
-}
-
-ReactDOM.render(<Main />, document.getElementById('main'));
+ReactDOM.render(<App />, document.getElementById("root"));
+serviceWorker.unregister();
