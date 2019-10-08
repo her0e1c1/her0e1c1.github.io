@@ -9,7 +9,7 @@ I have about 6 years professional experiences as web software engineer.
 
 ### [SourceSage, Singapore](https://sourcesage.co)
 
-- Full Stack Engineer - April 2016 to now
+- Senior Software Engineer - April 2016 to now
 - Developed backend / frontend system for a BtoB platform
 - The best employee 2016
 - Python/TypeScript/Eralng/Java/Bash/MySQL/Redis/Elasticsearch/React/ejabberd/Flask/Docker/Drone CI/AWS
@@ -29,17 +29,19 @@ Computer Science, B.S.
 
 ## Portfolio
 
-- [Schemejs](http://her0e1c1.github.io/schemejs) ([source](https://github.com/her0e1c1/schemejs))
+- [Schemejs](http://her0e1c1.github.io/schemejs)
   - Scheme written in JavaScript
-- [Tango](https://expo.io/@her0e1c1/tango) ([source](https://github.com/her0e1c1/tango))
+  - [source](https://github.com/her0e1c1/schemejs)
+- [Tango](https://expo.io/@her0e1c1/tango)
   - Flashcards For Programmers
   - Release soon in Google Play
+  - [source](https://github.com/her0e1c1/tango)
 
 ## Competitive Programming
 
 - [AtCoder](https://atcoder.jp/users/her0)
   - Green coder
-- [LeetCode](https://leetcode.com/her0e1c1/)
+- [LeetCode](https://leetcode.com/her0e1c1)
   - Top 7% in global ranking
   - Solved more than 600 questions
 
