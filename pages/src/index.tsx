@@ -6,7 +6,7 @@ import * as serviceWorker from "./serviceWorker";
 import raw from "raw.macro";
 import ReactMarkdown from "react-markdown";
 
-const README = raw("../README.md");
+const README = raw("../../README.md");
 const RESUME_URL =
   "https://raw.githubusercontent.com/her0e1c1/her0e1c1.github.io/master/README.md";
 
