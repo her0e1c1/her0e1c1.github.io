@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/react-dom": "^16.9.1",
+    "markdown-pdf": "^10.0.0",
     "marked": "^0.7.0",
     "raw.macro": "^0.3.0",
     "react": "^16.10.2",
@@ -17,6 +18,7 @@
     "build": "react-scripts build && mv ./build/* ../",
     "clean": "rm -fr ../static ../*.js ../*.json ../*.txt ../*.html",
     "test": "react-scripts test",
+    "pdf": "markdown-pdf ../README.md && mv ../README.pdf ../resume.pdf",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
