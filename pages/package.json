@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && mv ./build/* ../",
+    "clean": "rm -fr ../static ../*.js ../*.json ../*.txt ../*.html",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

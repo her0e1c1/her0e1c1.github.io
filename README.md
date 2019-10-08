@@ -45,7 +45,7 @@ Computer Science, B.S.
 
 ## Contact
 
-- [Email](hiroyuki.ishii.42@gmail.com)
+- hiroyuki.ishii.42@gmail.com
 - [GitHub](https://github.com/her0e1c1)
 - [LinkedIn](https://jp.linkedin.com/in/ishii-hiroyuki-04052893)
 - [Twitter](https://twitter.com/hiroyukiishi1)
