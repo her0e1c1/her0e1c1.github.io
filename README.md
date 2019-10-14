@@ -32,9 +32,9 @@ Computer Science, B.S.
 - [Schemejs](http://her0e1c1.github.io/schemejs)
   - Scheme written in JavaScript
   - [source](https://github.com/her0e1c1/schemejs)
-- [Tango](https://expo.io/@her0e1c1/tango)
+- [Tango](https://play.google.com/store/apps/details?id=com.her0e1c1.tango)
   - Flashcards For Programmers
-  - Release soon in Google Play
+  - Released in Google Play
   - [source](https://github.com/her0e1c1/tango)
 
 ## Competitive Programming
