@@ -5,7 +5,7 @@
   "dependencies": {
     "@types/react-dom": "^16.9.1",
     "markdown-pdf": "^10.0.0",
-    "marked": "^0.7.0",
+    "marked": "^4.0.10",
     "raw.macro": "^0.3.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
